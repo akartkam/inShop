@@ -1,16 +1,26 @@
 package com.akartkam.inShop.domain;
 
+import java.util.Date;
 import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
+import org.hibernate.Hibernate;
+
+@SuppressWarnings("serial")
+@MappedSuperclass
 public abstract class AbstractDomainObjectHibernateUUID implements DomainObject<UUID> {
 	
     private UUID id = GeneratorId.createId();
     private Integer version=0;
     private boolean isActive=true;
+    private Date Created = new Date();
+    private Date Modified = new Date();
 
 	@Override
 	@Id
@@ -46,11 +56,34 @@ public abstract class AbstractDomainObjectHibernateUUID implements DomainObject<
 		this.isActive = isActive;
 	}	
 	
+	@Column(name="Created", updatable=false, nullable=false)
+	@Temporal( TemporalType.TIMESTAMP)
+	public Date getCreated() {
+		return Created;
+	}
+
+	public void setCreated(Date created) {
+		Created = created;
+	}
+	
+	@Column(name="Modified", nullable=false)
+	@Temporal( TemporalType.TIMESTAMP)
+	public Date getModified() {
+		return Modified;
+	}
+
+	public void setModified(Date modified) {
+		Modified = modified;
+	}
+	
+	
 	@Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null ||
-            !(o instanceof DomainObject)) {
+            !(o instanceof DomainObject) 
+            // looks into the target class of a proxy if necessary
+        	|| ! (Hibernate.getClass(o).equals(Hibernate.getClass(this)))){
             return false;
         }
         
