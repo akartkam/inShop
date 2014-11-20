@@ -1,6 +1,5 @@
 package com.akartkam.inShop.domain;
 
-import java.util.Date;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -11,6 +10,11 @@ import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
 import org.hibernate.Hibernate;
+import org.joda.time.DateTime;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
 
 @SuppressWarnings("serial")
 @MappedSuperclass
@@ -19,8 +23,13 @@ public abstract class AbstractDomainObjectHibernateUUID implements DomainObject<
     private UUID id = GeneratorId.createId();
     private Integer version=0;
     private boolean isActive=true;
-    private Date Created = new Date();
-    private Date Modified = new Date();
+    private DateTime createdDate;  
+    //@CreatedBy  
+    //private  createdBy;  
+      
+    private DateTime updatedDate;  
+    //@LastModifiedBy  
+    //private  updatedBy;      
 
 	@Override
 	@Id
@@ -56,24 +65,22 @@ public abstract class AbstractDomainObjectHibernateUUID implements DomainObject<
 		this.isActive = isActive;
 	}	
 	
-	@Column(name="Created", updatable=false, nullable=false)
-	@Temporal( TemporalType.TIMESTAMP)
-	public Date getCreated() {
-		return Created;
+    @CreatedDate 
+	public DateTime getCreatedDate() {
+		return createdDate;
 	}
 
-	public void setCreated(Date created) {
-		Created = created;
-	}
-	
-	@Column(name="Modified", nullable=false)
-	@Temporal( TemporalType.TIMESTAMP)
-	public Date getModified() {
-		return Modified;
+	public void setCreatedDate(DateTime createdDate) {
+		this.createdDate = createdDate;
 	}
 
-	public void setModified(Date modified) {
-		Modified = modified;
+	@LastModifiedDate
+	public DateTime getUpdatedDate() {
+		return updatedDate;
+	}
+
+	public void setUpdatedDate(DateTime updatedDate) {
+		this.updatedDate = updatedDate;
 	}
 	
 	
