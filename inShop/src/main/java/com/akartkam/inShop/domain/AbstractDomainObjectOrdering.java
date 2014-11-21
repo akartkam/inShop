@@ -3,7 +3,7 @@ package com.akartkam.inShop.domain;
 import javax.persistence.Column;
 
 
-public abstract class AbstractDomainObjectOrdering  extends AbstractDomainObjectHibernateUUID 
+public abstract class AbstractDomainObjectOrdering  extends AbstractDomainObject 
                                                     implements Comparable<AbstractDomainObjectOrdering>  {
 	private int ordering;
 
