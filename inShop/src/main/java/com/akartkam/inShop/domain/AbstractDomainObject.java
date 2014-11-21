@@ -5,8 +5,6 @@ import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
 import org.hibernate.Hibernate;
@@ -18,11 +16,11 @@ import org.springframework.data.annotation.LastModifiedDate;
 
 @SuppressWarnings("serial")
 @MappedSuperclass
-public abstract class AbstractDomainObjectHibernateUUID implements DomainObject<UUID> {
+public abstract class AbstractDomainObject implements DomainObject<UUID> {
 	
     private UUID id = GeneratorId.createId();
     private Integer version=0;
-    private boolean isActive=true;
+    private boolean enabled=true;
     private DateTime createdDate;  
     //@CreatedBy  
     //private  createdBy;  
@@ -33,7 +31,7 @@ public abstract class AbstractDomainObjectHibernateUUID implements DomainObject<
 
 	@Override
 	@Id
-	@Column(name="Id")
+	@Column(name="id")
 	@org.hibernate.annotations.Type(type="pg-uuid")
 	public UUID getId() {
 		return id;
@@ -46,7 +44,7 @@ public abstract class AbstractDomainObjectHibernateUUID implements DomainObject<
 
 	@Override
 	@Version	
-    @Column(name="Version")
+    @Column(name="version")
 	public Integer getVersion() {
 		return version;
 	}
@@ -56,16 +54,17 @@ public abstract class AbstractDomainObjectHibernateUUID implements DomainObject<
 		this.version = version;
 	}
 	
-	@Column(name="IsActive")
+	@Column(name="enabled")
 	public boolean isActive() {
-		return isActive;
+		return enabled;
 	}
 
 	public void setActive(boolean isActive) {
-		this.isActive = isActive;
+		this.enabled = isActive;
 	}	
 	
     @CreatedDate 
+    @Column(name="createdDate")
 	public DateTime getCreatedDate() {
 		return createdDate;
 	}
@@ -75,6 +74,7 @@ public abstract class AbstractDomainObjectHibernateUUID implements DomainObject<
 	}
 
 	@LastModifiedDate
+	 @Column(name="updatedDate")
 	public DateTime getUpdatedDate() {
 		return updatedDate;
 	}
