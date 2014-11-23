@@ -3,31 +3,34 @@ package com.akartkam.inShop.domain;
 import java.util.UUID;
 
 import javax.persistence.Column;
+import javax.persistence.EntityListeners;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Version;
 
 import org.hibernate.Hibernate;
+import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @SuppressWarnings("serial")
 @MappedSuperclass
+//@EntityListeners(AuditingEntityListener.class)
 public abstract class AbstractDomainObject implements DomainObject<UUID> {
 	
     private UUID id = GeneratorId.createId();
     private Integer version=0;
     private boolean enabled=true;
     private DateTime createdDate;  
-    //@CreatedBy  
-    //private  createdBy;  
-      
-    private DateTime updatedDate;  
-    //@LastModifiedBy  
-    //private  updatedBy;      
+    private Account createdBy;  
+	private DateTime updatedDate;  
+    private Account  updatedBy;      
 
 	@Override
 	@Id
@@ -54,15 +57,6 @@ public abstract class AbstractDomainObject implements DomainObject<UUID> {
 		this.version = version;
 	}
 	
-	@Column(name="enabled")
-	public boolean isActive() {
-		return enabled;
-	}
-
-	public void setActive(boolean isActive) {
-		this.enabled = isActive;
-	}	
-	
     @CreatedDate 
     @Column(name="createdDate")
 	public DateTime getCreatedDate() {
@@ -74,7 +68,7 @@ public abstract class AbstractDomainObject implements DomainObject<UUID> {
 	}
 
 	@LastModifiedDate
-	 @Column(name="updatedDate")
+	@Column(name="updatedDate")
 	public DateTime getUpdatedDate() {
 		return updatedDate;
 	}
@@ -82,6 +76,37 @@ public abstract class AbstractDomainObject implements DomainObject<UUID> {
 	public void setUpdatedDate(DateTime updatedDate) {
 		this.updatedDate = updatedDate;
 	}
+	
+	@CreatedBy  
+	@ManyToOne
+	@JoinColumn(name = "createBy")
+	public Account getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(Account createdBy) {
+		this.createdBy = createdBy;
+	}
+
+	@LastModifiedBy  
+	@ManyToOne
+	@JoinColumn(name = "updatedBy")
+	public Account getUpdatedBy() {
+		return updatedBy;
+	}
+
+	public void setUpdatedBy(Account updatedBy) {
+		this.updatedBy = updatedBy;
+	}
+	
+	@Column(name="enabled")
+    public boolean isEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}	
 	
 	
 	@Override

@@ -7,6 +7,9 @@ import com.akartkam.inShop.domain.DomainObject;
 
 public interface GenericDao<T extends DomainObject<ID>, ID extends Serializable> {
 	public T findById(ID id, boolean lock);
-	public T makePersistent(T object);
-	public void makeTransient(T object);
+	public T get(ID id);
+	public T create(T object);
+	public void update(T object);
+	public void deleteById(ID id);
+	public void delete(T object);
 }

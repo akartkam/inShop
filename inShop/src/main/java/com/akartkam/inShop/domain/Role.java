@@ -7,11 +7,12 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
-@Entity
-@Table(name="Role" ,
-	   uniqueConstraints = {@UniqueConstraint(columnNames = {"role", "name"})})
 @NamedQuery(name = "findRoleByName", query = "from Role where name= :name")
+@Entity
+@Table(name="Role" , 
+	   uniqueConstraints = {@UniqueConstraint(columnNames = {"role", "name"})})
 public class Role extends AbstractDomainObject {
 	
 	/**
@@ -34,6 +35,7 @@ public class Role extends AbstractDomainObject {
 	
 	@Column(name="name")
 	@NotNull
+	@Size(min = 1, max = 50)
 	public String getName() {
 		return name;
 	}

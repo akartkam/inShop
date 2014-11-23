@@ -10,6 +10,6 @@ public interface DomainObject <ID extends Serializable> extends Serializable {
     public Integer getVersion();
     public void setVersion(Integer version);
     
-    public boolean isActive();
-    public void setActive(boolean isActive);
+    public boolean isEnabled();
+    public void setEnabled(boolean enabled);
 }
