@@ -21,7 +21,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @SuppressWarnings("serial")
 @MappedSuperclass
-//@EntityListeners(AuditingEntityListener.class)
+@EntityListeners(AuditingEntityListener.class)
 public abstract class AbstractDomainObject implements DomainObject<UUID> {
 	
     private UUID id = GeneratorId.createId();

@@ -5,7 +5,7 @@ import java.io.Serializable;
 
 import com.akartkam.inShop.domain.DomainObject;
 
-public interface GenericDao<T extends DomainObject<ID>, ID extends Serializable> {
+public interface GenericDAO<T extends DomainObject<ID>, ID extends Serializable> {
 	public T findById(ID id, boolean lock);
 	public T get(ID id);
 	public T create(T object);

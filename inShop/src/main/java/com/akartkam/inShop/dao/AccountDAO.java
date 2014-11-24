@@ -4,7 +4,7 @@ import java.util.UUID;
 
 import com.akartkam.inShop.domain.Account;
 
-public interface AccountDAO extends GenericDao<Account, UUID> {
+public interface AccountDAO extends GenericDAO<Account, UUID> {
 	void create(Account account, String password);
 	Account findByUsername(String username);
 }
