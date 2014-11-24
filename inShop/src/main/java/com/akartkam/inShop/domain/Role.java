@@ -11,8 +11,6 @@ import javax.validation.constraints.Size;
 
 @NamedQuery(name = "findRoleByName", query = "from Role where name= :name")
 @Entity
-@Table(name="Role" , 
-	   uniqueConstraints = {@UniqueConstraint(columnNames = {"role", "name"})})
 public class Role extends AbstractDomainObject {
 	
 	/**
@@ -24,7 +22,7 @@ public class Role extends AbstractDomainObject {
 	private String name;
 	
 	@Enumerated
-	@Column(name="role")
+	@Column(name="role", unique=true)
 	@NotNull
 	public Roletype getRole() {
 		return role;
@@ -33,7 +31,7 @@ public class Role extends AbstractDomainObject {
 		this.role = role;
 	}
 	
-	@Column(name="name")
+	@Column(name="name", unique=true)
 	@NotNull
 	@Size(min = 1, max = 50)
 	public String getName() {

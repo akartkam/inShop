@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import org.hibernate.LockOptions;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -16,7 +17,7 @@ public abstract class AbstractGenericDAO<T extends DomainObject<UUID>> implement
     private Class<T> domainClass;
 
     @Autowired
-	private Session session;
+	private SessionFactory sessionFactory;
     
 
 
@@ -30,7 +31,7 @@ public abstract class AbstractGenericDAO<T extends DomainObject<UUID>> implement
 	}
     
      protected Session currentSession() {
-        return session;
+        return sessionFactory.getCurrentSession();
     }
     
 	@Override

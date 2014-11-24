@@ -2,11 +2,11 @@ package com.akartkam.inShop.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.AuditorAware;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import com.akartkam.inShop.domain.Account;
 
-@Service("accountAuditorAwareImpl")
+@Component("accountAuditorAwareImpl")
 public class AccountAuditorAwareImpl implements AuditorAware<Account> {
 
     @Autowired 
