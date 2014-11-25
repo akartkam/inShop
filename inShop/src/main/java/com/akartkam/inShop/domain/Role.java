@@ -9,7 +9,7 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-@NamedQuery(name = "findRoleByName", query = "from Role where name= :name")
+@NamedQuery(name = "findRoleByName", query = "from Role where name= :name or role= :role")
 @Entity
 public class Role extends AbstractDomainObject {
 	
