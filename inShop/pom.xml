@@ -158,7 +158,11 @@
 			<version>4.11</version>
 			<scope>test</scope>
 		</dependency>
-
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>${org.springframework-version}</version>
+		</dependency>
 		<!-- Other tools -->
 		<dependency>
 			<groupId>c3p0</groupId>
@@ -220,7 +224,7 @@
 		    <groupId>commons-digester</groupId>
 		    <artifactId>commons-digester</artifactId>
 		    <version>2.1</version>
-		</dependency>	  	
+		</dependency>
   </dependencies> 
   <build>
         <plugins>
