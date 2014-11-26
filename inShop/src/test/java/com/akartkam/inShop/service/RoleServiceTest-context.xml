@@ -12,7 +12,6 @@
 
 	<context:annotation-config />
 	<context:component-scan base-package="com.akartkam.inShop.dao;com.akartkam.inShop.service" />
-	<jpa:auditing auditor-aware-ref="mockAccountAuditorAwareImpl" />
 	<tx:annotation-driven transaction-manager="transactionManager" />
 	
 	<bean id="propertyConfigurer"
@@ -49,7 +48,9 @@
 				<prop key="hibernate.connection.charSet">UTF-8</prop>
   				<prop key="show_sql">true</prop> 
   				<prop key="format_sql">true</prop>
-  				<prop key="jadira.usertype.autoRegisterUserTypes">true</prop>		
+  				<prop key="jadira.usertype.autoRegisterUserTypes">true</prop>	
+  				<prop key="jadira.usertype.javaZone">UTC</prop>
+				<prop key="jadira.usertype.databaseZone">UTC</prop>		
  			</props>
 		</property>
 	</bean>
@@ -58,5 +59,8 @@
 	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
 		<constructor-arg ref="dataSource" />
 	</bean>		
+
+	<jpa:auditing auditor-aware-ref="mockAccountAuditorAwareImpl" />
+
 	
 </beans>

@@ -11,7 +11,7 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.Version;
 
 import org.hibernate.Hibernate;
-import org.hibernate.annotations.Type;
+import org.hibernate.envers.Audited;
 import org.joda.time.DateTime;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
@@ -21,15 +21,14 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @SuppressWarnings("serial")
 @MappedSuperclass
-@EntityListeners(AuditingEntityListener.class)
 public abstract class AbstractDomainObject implements DomainObject<UUID> {
 	
     private UUID id = GeneratorId.createId();
     private Integer version=0;
     private boolean enabled=true;
-    private DateTime createdDate;  
+    private DateTime createdDate; //= DateTime.now();  
     private Account createdBy;  
-	private DateTime updatedDate;  
+	private DateTime updatedDate; //= DateTime.now();  
     private Account  updatedBy;      
 
 	@Override

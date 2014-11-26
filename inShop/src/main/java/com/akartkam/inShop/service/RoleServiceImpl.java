@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.akartkam.inShop.dao.RoleDAO;
 import com.akartkam.inShop.domain.Role;
+import com.akartkam.inShop.domain.Roletype;
 
 @Service("roleServiceImpl")
 @Transactional(readOnly = true)
@@ -25,12 +26,12 @@ public class RoleServiceImpl implements RoleService {
 	}
 
 	@Override
-	public Role getRoleByName(String name, String role) {
+	public Role getRoleByName(String name, Roletype role) {
 		return roleDao.findRoleByName(name, role);
 	}
 	
 	private boolean validateRole(Role role) {
-		return (roleDao.findRoleByName(role.getName(), role.getRole().name()) == null);
+		return (roleDao.findRoleByName(role.getName(), role.getRole()) == null);
 		
 	}	
 
