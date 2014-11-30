@@ -33,13 +33,6 @@
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
 		p:location="/WEB-INF/jdbc.properties" />
 
-	<!-- Непосредственно бин dataSource 
-	<bean id="dataSource"
-		class="org.springframework.jdbc.datasource.DriverManagerDataSource"
-		p:driverClassName="${jdbc.driverClassName}" 
-		p:url="${jdbc.databaseurl}"
-		p:username="${jdbc.username}" 
-		p:password="${jdbc.password}" />-->
 		
 	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
 		<!--
@@ -72,7 +65,9 @@
   				<prop key="hibernate.hbm2ddl.auto">create</prop> 
   				<prop key="show_sql">true</prop> 
   				<prop key="format_sql">true</prop>
-  				<prop key="jadira.usertype.autoRegisterUserTypes">true</prop>	
+  				<prop key="jadira.usertype.autoRegisterUserTypes">true</prop>
+				<prop key="jadira.usertype.javaZone">UTC</prop>
+				<prop key="jadira.usertype.databaseZone">UTC</prop>  					
   				<prop key="hibernate.hbm2ddl.import_files_sql_extractor">org.hibernate.tool.hbm2ddl.MultipleLinesSqlCommandExtractor</prop> 	
   				<prop key="hibernate.hbm2ddl.import_files">import.sql</prop>		
 			</props>

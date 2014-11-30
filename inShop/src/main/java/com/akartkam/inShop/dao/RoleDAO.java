@@ -6,6 +6,7 @@ import com.akartkam.inShop.domain.Role;
 import com.akartkam.inShop.domain.Roletype;
 
 public interface RoleDAO extends GenericDAO<Role, UUID> {
-	Role findRoleByName(String name, Roletype role);
+	Role findRoleByName(String name);
+	Role findRoleByRoletype(Roletype role);
 
 }

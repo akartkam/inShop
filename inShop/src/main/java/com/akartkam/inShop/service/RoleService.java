@@ -5,5 +5,7 @@ import com.akartkam.inShop.domain.Roletype;
 
 public interface RoleService {
 	boolean createRole(Role role);
-	Role getRoleByName(String name, Roletype role);
+	Role getRoleByRoletype(Roletype role);
+	Role getRoleByName(String name);
+	
 }

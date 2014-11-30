@@ -3,21 +3,16 @@ package com.akartkam.inShop.domain;
 import java.util.UUID;
 
 import javax.persistence.Column;
-import javax.persistence.EntityListeners;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
+
 import javax.persistence.Version;
 
 import org.hibernate.Hibernate;
-import org.hibernate.envers.Audited;
 import org.joda.time.DateTime;
-import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedBy;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 
 @SuppressWarnings("serial")
 @MappedSuperclass
@@ -56,7 +51,7 @@ public abstract class AbstractDomainObject implements DomainObject<UUID> {
 		this.version = version;
 	}
 	
-    @CreatedDate 
+	
     @Column(name="createdDate")
 	public DateTime getCreatedDate() {
 		return createdDate;
@@ -66,7 +61,7 @@ public abstract class AbstractDomainObject implements DomainObject<UUID> {
 		this.createdDate = createdDate;
 	}
 
-	@LastModifiedDate
+
 	@Column(name="updatedDate")
 	public DateTime getUpdatedDate() {
 		return updatedDate;
@@ -76,7 +71,7 @@ public abstract class AbstractDomainObject implements DomainObject<UUID> {
 		this.updatedDate = updatedDate;
 	}
 	
-	@CreatedBy  
+	  
 	@ManyToOne
 	@JoinColumn(name = "createBy")
 	public Account getCreatedBy() {
@@ -87,7 +82,7 @@ public abstract class AbstractDomainObject implements DomainObject<UUID> {
 		this.createdBy = createdBy;
 	}
 
-	@LastModifiedBy  
+ 
 	@ManyToOne
 	@JoinColumn(name = "updatedBy")
 	public Account getUpdatedBy() {
@@ -106,10 +101,11 @@ public abstract class AbstractDomainObject implements DomainObject<UUID> {
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 	}	
-	
+    
 	
 	@Override
-    public boolean equals(Object o) {
+    @SuppressWarnings("unchecked")
+	public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null ||
             !(o instanceof DomainObject) 
@@ -117,8 +113,6 @@ public abstract class AbstractDomainObject implements DomainObject<UUID> {
         	|| ! (Hibernate.getClass(o).equals(Hibernate.getClass(this)))){
             return false;
         }
-        
-        @SuppressWarnings("unchecked")
         DomainObject<UUID> other = (DomainObject<UUID>)o;
         // if the id is missing, return false
         if (id == null) return false;

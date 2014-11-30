@@ -26,12 +26,17 @@ public class RoleServiceImpl implements RoleService {
 	}
 
 	@Override
-	public Role getRoleByName(String name, Roletype role) {
-		return roleDao.findRoleByName(name, role);
+	public Role getRoleByName(String name) {
+		return roleDao.findRoleByName(name);
 	}
 	
+	@Override
+	public Role getRoleByRoletype(Roletype role) {
+		return roleDao.findRoleByRoletype(role);
+	}	
+	
 	private boolean validateRole(Role role) {
-		return (roleDao.findRoleByName(role.getName(), role.getRole()) == null);
+		return (roleDao.findRoleByName(role.getName()) == null);
 		
 	}	
 

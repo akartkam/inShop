@@ -3,8 +3,6 @@ package com.akartkam.inShop.app;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.SortedSet;
-import java.util.TreeSet;
 import java.util.UUID;
 
 import com.akartkam.inShop.domain.GeneratorId;

@@ -4,10 +4,11 @@ public enum Roletype {
 	
 	ADMIN("ADMIN"),
 	USER("USER"), 
-    MANAGER("MANAGER");
+    MANAGER("MANAGER"),
+    TEST("TEST");
     
     
-    public static final Roletype[] ALL = { ADMIN, USER, MANAGER};
+    public static final Roletype[] ALL = { ADMIN, USER, MANAGER, TEST};
     
     
     private final String name;
@@ -23,7 +24,9 @@ public enum Roletype {
             return USER;
         } else if (name.toUpperCase().equals("MANAGER")) {
             return MANAGER;
-        }
+	    } else if (name.toUpperCase().equals("TEST")) {
+	        return TEST;
+	    }
         throw new IllegalArgumentException("Name \"" + name + "\" does not correspond to any Roletype");
     }
     

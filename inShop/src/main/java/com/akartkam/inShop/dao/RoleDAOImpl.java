@@ -14,11 +14,18 @@ import com.akartkam.inShop.domain.Roletype;
 public class RoleDAOImpl extends AbstractGenericDAO<Role> implements RoleDAO {
 
 	@Override
-	public Role findRoleByName(String name, Roletype role) {
+	public Role findRoleByName(String name) {
 		Query q = currentSession().getNamedQuery("findRoleByName");
 		q.setParameter("name", name);
+		return (Role) q.uniqueResult();
+	}
+	
+	@Override
+	public Role findRoleByRoletype(Roletype role) {
+		Query q = currentSession().getNamedQuery("findRoleByRoletype");
 		q.setParameter("role", role);
 		return (Role) q.uniqueResult();
 	}
+
 
 }
