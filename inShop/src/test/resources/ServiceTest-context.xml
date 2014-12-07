@@ -47,7 +47,7 @@
   				<prop key="show_sql">true</prop> 
   				<prop key="format_sql">true</prop>
   				<prop key="jadira.usertype.autoRegisterUserTypes">true</prop>	
-  				<prop key="jadira.usertype.javaZone">UTC</prop>
+  				<prop key="jadira.usertype.javaZone">jvm</prop>
 				<prop key="jadira.usertype.databaseZone">UTC</prop>	
  			</props>
 		</property>

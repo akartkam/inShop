@@ -20,4 +20,4 @@ WHERE NOT EXISTS (SELECT id FROM role a WHERE a.id='a45ef259-3880-45de-a052-4007
 
 INSERT INTO account_role (account_id, role_id) SELECT '0b90130d-2c19-4001-b61a-ef100d7b950e', '53a5c8ce-4f56-4c79-acb3-e47d76e580df'
 WHERE NOT EXISTS(SELECT account_id, role_id FROM account_role ar WHERE ar.account_id = '0b90130d-2c19-4001-b61a-ef100d7b950e' AND
-role_id = '53a5c8ce-4f56-4c79-acb3-e47d76e580df')
+role_id = '53a5c8ce-4f56-4c79-acb3-e47d76e580df');

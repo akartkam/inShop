@@ -11,7 +11,6 @@ import org.joda.time.DateTimeZone;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import com.akartkam.inShop.domain.Account;
 import com.akartkam.inShop.domain.DomainObject;
 import com.akartkam.inShop.domain.UserDetailsAdapter;
 

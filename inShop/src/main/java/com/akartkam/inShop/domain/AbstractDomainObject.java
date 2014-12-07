@@ -52,7 +52,7 @@ public abstract class AbstractDomainObject implements DomainObject<UUID> {
 	}
 	
 	
-    @Column(name="createdDate")
+    @Column(name="createdDate", columnDefinition = "timestamp with time zone")
 	public DateTime getCreatedDate() {
 		return createdDate;
 	}
@@ -62,7 +62,7 @@ public abstract class AbstractDomainObject implements DomainObject<UUID> {
 	}
 
 
-	@Column(name="updatedDate")
+	@Column(name="updatedDate", columnDefinition = "timestamp with time zone")
 	public DateTime getUpdatedDate() {
 		return updatedDate;
 	}

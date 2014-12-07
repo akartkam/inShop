@@ -2,14 +2,10 @@ package com.akartkam.inShop.service;
 
 import static org.junit.Assert.*;
 
-import java.util.UUID;
 
-import org.junit.Before;
+import org.junit.After;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
-import org.springframework.test.context.transaction.BeforeTransaction;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 
 import com.akartkam.inShop.domain.Role;
@@ -22,19 +18,34 @@ public class RoleServiceTest extends AbstractServiceTest {
 	@Autowired
 	protected RoleService roleService;
 	
-
 	
 	@Test
-	public void addTestRoleServiceTest(){
+	public void insert_updateTestRoleServiceTest(){
+	  jdbcTemplate.execute("delete from Role where name like 'Test%'");
 	  Role role = new Role();
-	  UUID id = role.getId(); 
-	  role.setName("Test");
-	  role.setRole(Roletype.TEST);
-	  boolean isCreated = roleService.createRole(role);
+	  boolean isCreated = createTestRole(role);
 	  assertTrue(isCreated);
-	  Role roleReaded = roleService.getRoleByName("Test");
-	  assertEquals(id, roleReaded.getId());
-	  
+	  role.setName("Test1");
+	}
+	
+	@After
+	@Test
+	public void checkAuditTest() {
+	  Role role = roleService.getRoleByName("Test1");	
+	  assertNotNull(role);
+	  assertNotNull(role.getCreatedBy());
+	  assertNotNull(role.getCreatedDate());
+	  assertNotNull(role.getUpdatedBy());
+	  assertNotNull(role.getUpdatedDate());
+	  System.out.println("Create date: " + role.getCreatedDate());
+	}
+	
+
+	private boolean createTestRole(Role role) {
+		  role.setName("Test");
+		  role.setRole(Roletype.TEST);
+		  role.setEnabled(false);
+		  return roleService.createRole(role);
 	}
 	
 

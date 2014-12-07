@@ -18,6 +18,7 @@ public class ListenersIntegrator implements Integrator {
 			
 		final EventListenerRegistry registry = serviceRegistry.getService(EventListenerRegistry.class);
 		registry.appendListeners(EventType.PRE_INSERT, PreInsertAuditEventListener.class);
+		registry.appendListeners(EventType.PRE_UPDATE, PreUpdateAuditEventListener.class);
 
 	}
 

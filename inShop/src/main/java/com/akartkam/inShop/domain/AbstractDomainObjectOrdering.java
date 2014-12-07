@@ -1,10 +1,15 @@
 package com.akartkam.inShop.domain;
 
 import javax.persistence.Column;
+import javax.persistence.MappedSuperclass;
 
-
+@MappedSuperclass
 public abstract class AbstractDomainObjectOrdering  extends AbstractDomainObject 
                                                     implements Comparable<AbstractDomainObjectOrdering>  {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4923961082547539283L;
 	private int ordering;
 
 	@Column(name="Ordering")
