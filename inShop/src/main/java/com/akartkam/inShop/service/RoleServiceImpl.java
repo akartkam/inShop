@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.akartkam.inShop.dao.RoleDAO;
 import com.akartkam.inShop.domain.Role;
-import com.akartkam.inShop.domain.Roletype;
+import com.akartkam.inShop.domain.RoleType;
 
 @Service("roleServiceImpl")
 @Transactional(readOnly = true)
@@ -37,7 +37,7 @@ public class RoleServiceImpl implements RoleService {
 	}
 	
 	@Override
-	public Role getRoleByRoletype(Roletype role) {
+	public Role getRoleByRoletype(RoleType role) {
 		return roleDao.findRoleByRoletype(role);
 	}	
 	

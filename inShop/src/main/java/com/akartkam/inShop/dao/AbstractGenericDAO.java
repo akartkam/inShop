@@ -9,7 +9,7 @@ import org.hibernate.LockOptions;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
+
 
 @SuppressWarnings("unchecked")
 public abstract class AbstractGenericDAO<T extends DomainObject<UUID>> implements GenericDAO<T, UUID> {

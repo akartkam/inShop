@@ -3,6 +3,7 @@ package com.akartkam.inShop.domain;
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 
+
 @MappedSuperclass
 public abstract class AbstractDomainObjectOrdering  extends AbstractDomainObject 
                                                     implements Comparable<AbstractDomainObjectOrdering>  {

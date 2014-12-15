@@ -17,7 +17,7 @@ import org.springframework.test.context.transaction.BeforeTransaction;
 
 import com.akartkam.inShop.domain.Account;
 import com.akartkam.inShop.domain.Role;
-import com.akartkam.inShop.domain.Roletype;
+import com.akartkam.inShop.domain.RoleType;
 import com.akartkam.inShop.domain.UserDetailsAdapter;
 
 @ContextConfiguration("classpath:ServiceTest-context.xml")
@@ -35,7 +35,7 @@ public abstract class AbstractServiceTest extends AbstractTransactionalJUnit4Spr
     	account.setEnabled(true);
     	Role role = new Role();
     	role.setId(UUID.fromString("53a5c8ce-4f56-4c79-acb3-e47d76e580df"));
-    	role.setRole(Roletype.ADMIN);
+    	role.setRole(RoleType.ADMIN);
     	role.setName("Admin");
     	role.setEnabled(true);
     	Set<Role> roles = new HashSet<Role>(); 

@@ -21,16 +21,16 @@ public class Role extends AbstractDomainObject {
 	 */
 	private static final long serialVersionUID = -6220380899227195583L;
 	
-	private Roletype role;
+	private RoleType role;
 	private String name;
 	
 	@Enumerated(EnumType.STRING)
 	@Column(name="role", unique=true)
 	@NotNull
-	public Roletype getRole() {
+	public RoleType getRole() {
 		return role;
 	}
-	public void setRole(Roletype role) {
+	public void setRole(RoleType role) {
 		this.role = role;
 	}
 	

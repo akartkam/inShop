@@ -1,4 +1,4 @@
-package com.akartkam.inShop.domain.goods.attribute;
+package com.akartkam.inShop.domain.product.attribute;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,8 +9,8 @@ import javax.validation.constraints.Size;
 import com.akartkam.inShop.domain.AbstractDomainObjectOrdering;
 
 @Entity
-@Table(name = "Attribute_Categories")
-public class AttributeCategories extends AbstractDomainObjectOrdering {
+@Table(name = "Attribute_Category")
+public class AttributeCategory extends AbstractDomainObjectOrdering {
 
 	/**
 	 * 

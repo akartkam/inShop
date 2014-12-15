@@ -1,6 +1,6 @@
 package com.akartkam.inShop.domain;
 
-public enum Roletype {
+public enum RoleType {
 	
 	ADMIN("ADMIN"),
 	USER("USER"), 
@@ -8,13 +8,13 @@ public enum Roletype {
     TEST("TEST");
     
     
-    public static final Roletype[] ALL = { ADMIN, USER, MANAGER, TEST};
+    public static final RoleType[] ALL = { ADMIN, USER, MANAGER, TEST};
     
     
     private final String name;
 
     
-    public static Roletype forName(final String name) {
+    public static RoleType forName(final String name) {
         if (name == null) {
             throw new IllegalArgumentException("Name cannot be null for type");
         }
@@ -31,7 +31,7 @@ public enum Roletype {
     }
     
     
-    private Roletype(final String name) {
+    private RoleType(final String name) {
         this.name = name;
     }
     

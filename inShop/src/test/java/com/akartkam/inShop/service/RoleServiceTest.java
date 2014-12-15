@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 
 import com.akartkam.inShop.domain.Role;
-import com.akartkam.inShop.domain.Roletype;
+import com.akartkam.inShop.domain.RoleType;
 
 @TransactionConfiguration(defaultRollback=false)
 public class RoleServiceTest extends AbstractServiceTest {
@@ -23,6 +23,7 @@ public class RoleServiceTest extends AbstractServiceTest {
 	public void insert_updateTestRoleServiceTest(){
 	  jdbcTemplate.execute("delete from Role where name like 'Test%'");
 	  Role role = new Role();
+	  role.setName("Test");
 	  boolean isCreated = createTestRole(role);
 	  assertTrue(isCreated);
 	  role.setName("Test1");
@@ -43,7 +44,7 @@ public class RoleServiceTest extends AbstractServiceTest {
 
 	private boolean createTestRole(Role role) {
 		  role.setName("Test");
-		  role.setRole(Roletype.TEST);
+		  role.setRole(RoleType.TEST);
 		  role.setEnabled(false);
 		  return roleService.createRole(role);
 	}
