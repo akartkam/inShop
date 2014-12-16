@@ -19,7 +19,6 @@ public class AttributeCategory extends AbstractDomainObjectOrdering {
 	private String name;
 	
 	@NotNull
-	@Size(min = 1, max = 50)
 	@Column(name = "name", unique=true)
 	public String getName() {
 		return name;

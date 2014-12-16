@@ -104,16 +104,16 @@ public abstract class AbstractDomainObject implements DomainObject<UUID> {
     
 	
 	@Override
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("rawtypes")
 	public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null ||
             !(o instanceof DomainObject) 
             // looks into the target class of a proxy if necessary
-        	|| ! (Hibernate.getClass(o).equals(Hibernate.getClass(this)))){
+        	|| !(Hibernate.getClass(o).equals(Hibernate.getClass(this)))){
             return false;
         }
-        DomainObject<UUID> other = (DomainObject<UUID>)o;
+        DomainObject other = (DomainObject)o;
         // if the id is missing, return false
         if (id == null) return false;
         // equivalence by id
