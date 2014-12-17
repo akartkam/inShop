@@ -1,9 +1,12 @@
 package com.akartkam.inShop.domain.product;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -21,6 +24,7 @@ public class Category extends AbstractDomainObjectOrdering {
 	
 	private String name;
 	private Category parent;
+	private List<Product> products;
 	
 
 	@NotNull
@@ -40,6 +44,14 @@ public class Category extends AbstractDomainObjectOrdering {
 	}
 	public void setParent(Category parent) {
 		this.parent = parent;
+	}
+	
+	@OneToMany(mappedBy = "category")
+	public List<Product> getProducts() {
+		return products;
+	}
+	public void setProducts(List<Product> products) {
+		this.products = products;
 	}	
 
 }

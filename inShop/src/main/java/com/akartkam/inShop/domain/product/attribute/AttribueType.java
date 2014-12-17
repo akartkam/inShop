@@ -25,7 +25,7 @@ public enum AttribueType {
         } else if (name.toUpperCase().equals("SLIST")) {
             return SLIST;
 	    }
-        throw new IllegalArgumentException("Name \"" + name + "\" does not correspond to any Roletype");
+        throw new IllegalArgumentException("Name \"" + name + "\" does not correspond to any AttribueType");
     }
     
     

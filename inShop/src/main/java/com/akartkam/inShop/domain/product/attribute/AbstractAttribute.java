@@ -17,7 +17,7 @@ import com.akartkam.inShop.domain.product.Category;
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public abstract class Attribute<T extends AttributeValue> extends AbstractDomainObjectOrdering {
+public abstract class AbstractAttribute extends AbstractDomainObjectOrdering {
 
 	/**
 	 * 
@@ -26,6 +26,7 @@ public abstract class Attribute<T extends AttributeValue> extends AbstractDomain
 	private String name;
 	private AttributeCategory attributeCategory;
 	private Category category;
+
 	
 
 	@NotNull
@@ -42,7 +43,7 @@ public abstract class Attribute<T extends AttributeValue> extends AbstractDomain
 	@Column(name = "attribueType", nullable=false)
 	public abstract AttribueType getAttribueType();
 	
-	public abstract List<T> getAttributeValue();
+	public abstract List<AttributeValue> getAttributeValue();
 	
 	@ManyToOne
 	@JoinColumn
