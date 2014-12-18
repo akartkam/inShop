@@ -3,6 +3,8 @@ package com.akartkam.inShop.domain.product.attribute;
 import java.util.List;
 
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -10,13 +12,19 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 import com.akartkam.inShop.domain.AbstractDomainObjectOrdering;
 import com.akartkam.inShop.domain.product.Category;
 
 @Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(
+						name = "discriminator",
+						discriminatorType = DiscriminatorType.STRING
+)
 public abstract class AbstractAttribute extends AbstractDomainObjectOrdering {
 
 	/**
@@ -26,7 +34,7 @@ public abstract class AbstractAttribute extends AbstractDomainObjectOrdering {
 	private String name;
 	private AttributeCategory attributeCategory;
 	private Category category;
-
+	protected List<AttributeValue> attributeValues;
 	
 
 	@NotNull
@@ -38,12 +46,11 @@ public abstract class AbstractAttribute extends AbstractDomainObjectOrdering {
 		this.name = name;
 	}
 	
-	@NotNull
-	@Enumerated(EnumType.STRING)
-	@Column(name = "attribueType", nullable=false)
+	@Transient
 	public abstract AttribueType getAttribueType();
-	
-	public abstract List<AttributeValue> getAttributeValue();
+
+	@Transient
+	public abstract List<AttributeValue> getAttributeValues();
 	
 	@ManyToOne
 	@JoinColumn

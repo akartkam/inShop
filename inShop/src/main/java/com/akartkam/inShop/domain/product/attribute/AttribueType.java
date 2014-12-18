@@ -2,7 +2,7 @@ package com.akartkam.inShop.domain.product.attribute;
 
 
 public enum AttribueType {
-	DECIMAL("DECIMAL","class for DECIMAL"),
+	DECIMAL("DECIMAL","com.akartkam.inShop.domain.product.attribute.AttributeDecimal"),
 	STRING("STRING","class for STRING"), 
     SLIST("SLIST","class for SLIST");
     
