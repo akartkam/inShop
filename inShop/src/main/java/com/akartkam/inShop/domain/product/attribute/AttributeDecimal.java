@@ -11,24 +11,25 @@ import javax.persistence.Transient;
 
 @Entity
 @Table(name = "Attribute_Decimal")
-@DiscriminatorValue("DECIMAL")
 public class AttributeDecimal extends AbstractAttribute {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 5596242771906778351L;
-
+	private List<AttributeDecimalValue> attributeValues;
+	
 	@Override
 	@Transient
 	public AttribueType getAttribueType() {
 		return AttribueType.DECIMAL;
 	}
 
-	@Override
+	//@Override
 	@OneToMany(mappedBy="attributeDecimal", targetEntity=AttributeDecimalValue.class)
-	public List<AttributeValue> getAttributeValues() {
+	public List<AttributeDecimalValue> getAttributeValues() {
 		return attributeValues;
 	}
+	
 
 }

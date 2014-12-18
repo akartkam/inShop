@@ -30,7 +30,7 @@ public class AttributeDecimalValue extends AbstractDomainObject implements Attri
 		this.attributeValue = attributeValue;
 	}
 
-	@ManyToOne(targetEntity=AttributeDecimal.class)
+	@ManyToOne
 	@JoinColumn
 	public AbstractAttribute getAttributeDecimal() {
 		return attributeDecimal;
