@@ -13,6 +13,7 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
@@ -21,6 +22,7 @@ import com.akartkam.inShop.domain.product.Category;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
+@Table(name = "Attribute")
 public abstract class AbstractAttribute extends AbstractDomainObjectOrdering {
 
 	/**
@@ -45,8 +47,8 @@ public abstract class AbstractAttribute extends AbstractDomainObjectOrdering {
 	@Transient
 	public abstract AttribueType getAttribueType();
 
-	/*@OneToMany(targetEntity=AttributeDecimalValue.class)
-	public abstract List<AttributeValue> getAttributeValues();*/
+	@Transient
+	public abstract List<AttributeValue> getAttributeValues();
 	
 		
 	@ManyToOne
