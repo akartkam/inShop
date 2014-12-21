@@ -2,12 +2,14 @@ package com.akartkam.inShop.domain.product.attribute;
 
 import java.util.List;
 
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
 @Entity
+@DiscriminatorValue("DECIMAL")
 @Table(name = "Attribute_Decimal")
 public class AttributeDecimal extends AbstractAttribute {
 
@@ -15,7 +17,7 @@ public class AttributeDecimal extends AbstractAttribute {
 	 * 
 	 */
 	private static final long serialVersionUID = 5596242771906778351L;
-	private List<AttributeValue> attributeValues;
+	
 	
 	@Override
 	@Transient
@@ -24,13 +26,11 @@ public class AttributeDecimal extends AbstractAttribute {
 	}
 
 	@Override
-	@OneToMany(mappedBy="attributeDecimal", targetEntity=AttributeDecimalValue.class)
-	public List<AttributeValue> getAttributeValues() {
+	@OneToMany(mappedBy="attribute", targetEntity=AttributeDecimalValue.class)
+	public List<AbstractAttributeValue> getAttributeValues() {
 		return attributeValues;
 	}
 
-	public void setAttributeValues(List<AttributeValue> attributeValues) {
-		this.attributeValues = attributeValues;
-	}	
+	
 
 }

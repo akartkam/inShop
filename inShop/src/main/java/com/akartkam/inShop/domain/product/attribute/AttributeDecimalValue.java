@@ -11,14 +11,14 @@ import com.akartkam.inShop.domain.AbstractDomainObject;
 
 @Entity
 @Table(name = "Attribute_Decimal_Value")
-public class AttributeDecimalValue extends AbstractDomainObject implements AttributeValue {
+public class AttributeDecimalValue extends AbstractAttributeValue {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 354124918834557753L;
 	private Double attributeValue;
-	private AbstractAttribute attributeDecimal;
+
 
 	@Override
 	@Column(name="attributeValue")
@@ -30,15 +30,14 @@ public class AttributeDecimalValue extends AbstractDomainObject implements Attri
 		this.attributeValue = attributeValue;
 	}
 
+	@Override
 	@ManyToOne(targetEntity=AttributeDecimal.class)
 	@JoinColumn
-	public AbstractAttribute getAttributeDecimal() {
-		return attributeDecimal;
+	public AbstractAttribute getAttribute() {
+		return attribute;
 	}
 
-	public void setAttributeDecimal(AbstractAttribute attributeDecimal) {
-		this.attributeDecimal = attributeDecimal;
-	}
+
 	
 	
 	

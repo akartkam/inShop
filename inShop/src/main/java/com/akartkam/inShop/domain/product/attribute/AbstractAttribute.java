@@ -21,7 +21,11 @@ import com.akartkam.inShop.domain.AbstractDomainObjectOrdering;
 import com.akartkam.inShop.domain.product.Category;
 
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(
+						name = "DISCRIMINATOR",
+						discriminatorType = DiscriminatorType.STRING
+)
 @Table(name = "Attribute")
 public abstract class AbstractAttribute extends AbstractDomainObjectOrdering {
 
@@ -32,7 +36,7 @@ public abstract class AbstractAttribute extends AbstractDomainObjectOrdering {
 	private String name;
 	private AttributeCategory attributeCategory;
 	private Category category;
-
+	protected List<AbstractAttributeValue> attributeValues;
 	
 
 	@NotNull
@@ -44,11 +48,16 @@ public abstract class AbstractAttribute extends AbstractDomainObjectOrdering {
 		this.name = name;
 	}
 	
+	@NotNull
 	@Transient
 	public abstract AttribueType getAttribueType();
 
 	@Transient
-	public abstract List<AttributeValue> getAttributeValues();
+	public abstract List<AbstractAttributeValue> getAttributeValues();
+	
+	public void setAttributeValues(List<AbstractAttributeValue> attributeValues) {
+		this.attributeValues = attributeValues;
+	}
 	
 		
 	@ManyToOne
