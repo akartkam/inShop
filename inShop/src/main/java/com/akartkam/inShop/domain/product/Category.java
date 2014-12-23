@@ -21,13 +21,10 @@ import com.akartkam.inShop.domain.AbstractDomainObjectOrdering;
 @NamedQueries({
 @NamedQuery(
 		name = "readAllCategories",
-		query = "FROM Category ORDER BY ordering")//,
-//@NamedQuery(
-		//name = "readAllSubCategories",
-		//query = "FROM Category ct
-        //       LEFT JOIN ct.allParentCategoryXrefs xref
-        //       WHERE category.defaultParentCategory.id IN :parentCategoryId OR xref.category.id IN :parentCategoryId
-        //       ORDER BY xref.displayOrder, category.id")
+		query = "FROM Category ORDER BY ordering"),
+@NamedQuery(
+		name = "readSubCategories",
+		query = "FROM Category ct WHERE ct.parent.id = :parentCategory ORDER BY ct.ordering")
 })
 @Entity
 @Table(name = "Category")
@@ -47,7 +44,7 @@ public class Category extends AbstractDomainObjectOrdering {
 
 	@NotNull
 	@Size(min = 1, max = 50)
-	@Column(name = "name", unique=true)
+	@Column(name = "name")
 	public String getName() {
 		return name;
 	}
