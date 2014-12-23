@@ -21,10 +21,10 @@ import com.akartkam.inShop.domain.AbstractDomainObjectOrdering;
 @NamedQueries({
 @NamedQuery(
 		name = "readAllCategories",
-		query = "FROM Category ORDER BY ordering"),
+		query = "FROM Category WHERE enabled = true ORDER BY ordering"),
 @NamedQuery(
 		name = "readSubCategories",
-		query = "FROM Category ct WHERE ct.parent.id = :parentCategory ORDER BY ct.ordering")
+		query = "FROM Category ct WHERE ct.parent.id = :parentCategory AND enabled = true ORDER BY ct.ordering")
 })
 @Entity
 @Table(name = "Category")
@@ -83,10 +83,14 @@ public class Category extends AbstractDomainObjectOrdering {
 	public String getLongDescription() {
 		return longDescription;
 	}
+    
 	public void setLongDescription(String longDescription) {
 		this.longDescription = longDescription;
 	}	
 	
+	public List<Product> getAllProducts() {
+		return null;
+	}
 	
 
 }

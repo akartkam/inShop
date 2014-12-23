@@ -20,7 +20,7 @@ import org.hibernate.validator.constraints.Email;
 
 @NamedQuery(
 		name = "findAccountByUsername",
-		query = "from Account where username = :username")
+		query = "from Account where username = :username and enabled = true")
 @Entity
 @Table(name = "Account")
 public class Account extends AbstractDomainObject {

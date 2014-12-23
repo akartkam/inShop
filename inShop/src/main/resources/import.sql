@@ -23,41 +23,46 @@ WHERE NOT EXISTS(SELECT account_id, role_id FROM account_role ar WHERE ar.accoun
 role_id = '53a5c8ce-4f56-4c79-acb3-e47d76e580df');
 
 
-CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
-DELETE FROM category WHERE name LIKE 'Test_%';
-DO $$
-	DECLARE uuid_root1 uuid;
-	DECLARE uuid_root2 uuid;
-	DECLARE uuid_root3 uuid;
-BEGIN
-	uuid_root1 := uuid_generate_v4();
-	uuid_root2 := uuid_generate_v4();
-	uuid_root3 := uuid_generate_v4();
+--CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+--DELETE FROM category WHERE name LIKE 'Test_%';
+--DO $$
+--	DECLARE uuid_root1 uuid;
+--	DECLARE uuid_root2 uuid;
+--	DECLARE uuid_root3 uuid;
+--BEGIN
+--	uuid_root1 := uuid_generate_v4();
+--	uuid_root2 := uuid_generate_v4();
+--	uuid_root3 := uuid_generate_v4();
 	
 	INSERT INTO category(
 		    id, createddate, enabled, updateddate, version, ordering, description, 
 		    long_description, name, createby, updatedby, parent_id)
-	    VALUES (uuid_root1, current_timestamp, true, null, 0, 1, 'Test description 1', 
-		    'Test long description 1', 'Test_Root_Category1', '0b90130d-2c19-4001-b61a-ef100d7b950e', null, null);
+	    SELECT '786a9240-aa8a-4ff0-9684-ed55963d1a89', current_timestamp, true, null, 0, 1, 'Test description 1', 
+		    'Test long description 1', 'Test_Root_Category1', '0b90130d-2c19-4001-b61a-ef100d7b950e', null, null
+		WHERE NOT EXISTS (SELECT id FROM category WHERE id = '786a9240-aa8a-4ff0-9684-ed55963d1a89');		    
 	INSERT INTO category(
 		    id, createddate, enabled, updateddate, version, ordering, description, 
 		    long_description, name, createby, updatedby, parent_id)
-	    VALUES (uuid_root2, current_timestamp, true, null, 0, 2, 'Test description 2', 
-		    'Test long description 2', 'Test_Root_Category2', '0b90130d-2c19-4001-b61a-ef100d7b950e', null, null);
+	    SELECT '425c4eb6-f2bb-4b0d-a5a6-c4bc46c523cf', current_timestamp, true, null, 0, 2, 'Test description 2', 
+		    'Test long description 2', 'Test_Root_Category2', '0b90130d-2c19-4001-b61a-ef100d7b950e', null, null
+		WHERE NOT EXISTS (SELECT id FROM category WHERE id = '425c4eb6-f2bb-4b0d-a5a6-c4bc46c523cf');		    
 	INSERT INTO category(
 		    id, createddate, enabled, updateddate, version, ordering, description, 
 		    long_description, name, createby, updatedby, parent_id)
-	    VALUES (uuid_root3, current_timestamp, true, null, 0, 3, 'Test description 3', 
-		    'Test long description 3', 'Test_Root_Category3', '0b90130d-2c19-4001-b61a-ef100d7b950e', null, uuid_root1);
+	    SELECT '5d5d723c-8202-4c69-b67c-b6b8587e7228', current_timestamp, true, null, 0, 3, 'Test description 3', 
+		    'Test long description 3', 'Test_Root_Category3', '0b90130d-2c19-4001-b61a-ef100d7b950e', null, '786a9240-aa8a-4ff0-9684-ed55963d1a89'
+		WHERE NOT EXISTS (SELECT id FROM category WHERE id = '5d5d723c-8202-4c69-b67c-b6b8587e7228');		    
 	INSERT INTO category(
 		    id, createddate, enabled, updateddate, version, ordering, description, 
 		    long_description, name, createby, updatedby, parent_id)
-	    VALUES (uuid_generate_v4(), current_timestamp, true, null, 0, 4, 'Test description 4', 
-		    'Test long description 4', 'Test_Category4', '0b90130d-2c19-4001-b61a-ef100d7b950e', null, uuid_root3);
+	    SELECT 'a6d26eb4-5f63-4482-8293-cb1de9ab4d7a', current_timestamp, true, null, 0, 4, 'Test description 4', 
+		    'Test long description 4', 'Test_Category4', '0b90130d-2c19-4001-b61a-ef100d7b950e', null, '5d5d723c-8202-4c69-b67c-b6b8587e7228'
+		WHERE NOT EXISTS (SELECT id FROM category WHERE id = 'a6d26eb4-5f63-4482-8293-cb1de9ab4d7a');		    
 	INSERT INTO category(
 		    id, createddate, enabled, updateddate, version, ordering, description, 
 		    long_description, name, createby, updatedby, parent_id)
-	    VALUES (uuid_generate_v4(), current_timestamp, true, null, 0, 5, 'Test description 5', 
-		    'Test long description 5', 'Test_Category5', '0b90130d-2c19-4001-b61a-ef100d7b950e', null, uuid_root2);
+	    SELECT 'ed752562-3c39-4a74-9cf6-679c8689a5e9', current_timestamp, true, null, 0, 5, 'Test description 5', 
+		    'Test long description 5', 'Test_Category5', '0b90130d-2c19-4001-b61a-ef100d7b950e', null, '425c4eb6-f2bb-4b0d-a5a6-c4bc46c523cf'
+		WHERE NOT EXISTS (SELECT id FROM category WHERE id = 'ed752562-3c39-4a74-9cf6-679c8689a5e9');		    
 		    
-END $$;
+--END $$;
