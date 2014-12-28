@@ -1,7 +1,9 @@
 package com.akartkam.inShop.domain.product;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -11,6 +13,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -23,8 +26,9 @@ import com.akartkam.inShop.domain.AbstractDomainObjectOrdering;
 		name = "readAllCategories",
 		query = "FROM Category WHERE enabled = true ORDER BY ordering"),
 @NamedQuery(
-		name = "readSubCategories",
-		query = "FROM Category ct WHERE ct.parent.id = :parentCategory AND enabled = true ORDER BY ct.ordering")
+		name = "readAllParentCategories",
+		query = "FROM Category ct WHERE ct.parent IS NULL AND enabled = true ORDER BY ct.ordering")
+
 })
 @Entity
 @Table(name = "Category")
@@ -37,6 +41,7 @@ public class Category extends AbstractDomainObjectOrdering {
 	
 	private String name;
 	private Category parent;
+	private List<Category> subCategory;
 	private List<Product> products;
 	private String description;
 	private String longDescription; 
@@ -60,6 +65,14 @@ public class Category extends AbstractDomainObjectOrdering {
 	public void setParent(Category parent) {
 		this.parent = parent;
 	}
+	
+	@OneToMany(mappedBy="parent", cascade = CascadeType.ALL)	
+	public List<Category> getSubCategory() {
+		return subCategory;
+	}
+	public void setSubCategory(List<Category> subCategory) {
+		this.subCategory = subCategory;
+	}	
 	
 	@OneToMany(mappedBy = "category")
 	public List<Product> getProducts() {
@@ -86,10 +99,36 @@ public class Category extends AbstractDomainObjectOrdering {
     
 	public void setLongDescription(String longDescription) {
 		this.longDescription = longDescription;
-	}	
+	}
 	
-	public List<Product> getAllProducts() {
-		return null;
+	
+	@Transient
+	public List<Category> buildCategoryHierarchy(List<Category> currentHierarchy) {
+        if (currentHierarchy == null) {
+            currentHierarchy = new ArrayList<Category>();
+            currentHierarchy.add(this);
+        }
+        if (getParent() != null && ! currentHierarchy.contains(getParent())) {
+            currentHierarchy.add(getParent());
+            getParent().buildCategoryHierarchy(currentHierarchy);
+        }
+        return currentHierarchy;		
+	}
+	
+	
+	@Transient
+	public List<Product> getAllProducts(List<Product> currentHierarchy) {
+        if (currentHierarchy == null) {
+            currentHierarchy = new ArrayList<Product>();
+            currentHierarchy.addAll(getProducts());
+        }		
+		for(Category category : getSubCategory()) {
+			if (category.isEnabled()) {
+				currentHierarchy.addAll(category.getProducts());
+				category.getAllProducts(currentHierarchy);
+			}
+		}
+		return currentHierarchy;
 	}
 	
 

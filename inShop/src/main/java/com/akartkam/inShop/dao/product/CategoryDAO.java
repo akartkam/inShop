@@ -11,7 +11,5 @@ import com.akartkam.inShop.domain.product.Product;
 
 public interface CategoryDAO extends GenericDAO<Category, UUID> {
 	List<Category> readAllCategories();
-	List<Category> readAllSubCategories(@NotNull Category category);
-	List<Product> readAllProductsByCategory(@NotNull Category category); 
-
+	List<Category> readAllParentCategories();
 }
