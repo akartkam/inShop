@@ -14,6 +14,7 @@ public class CategoryDAOImpl extends AbstractGenericDAO<Category> implements
 		CategoryDAO {
 
 
+	/* Добавил метон list в abstractdao 
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Category> readAllCategories() {
@@ -22,13 +23,15 @@ public class CategoryDAOImpl extends AbstractGenericDAO<Category> implements
 		criteria.setCacheable(true);
 		criteria.setCacheRegion("query.Catalog");
         return (List<Category>) criteria.list();
-	}
+	}*/
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Category> readAllParentCategories() {
-		Criteria criteria = currentSession().createCriteria(Category.class).
-				  add(Restrictions.isNull("parent")).addOrder(Order.asc("ordering"));
+		Criteria criteria = currentSession().createCriteria(Category.class)
+				.add(Restrictions.isNull("parent"))
+				.add(Restrictions.eq("enabled", true))
+				.addOrder(Order.asc("ordering"));
 		criteria.setCacheable(true);
 		criteria.setCacheRegion("query.Catalog");
         return (List<Category>) criteria.list();
