@@ -3,6 +3,7 @@ package com.akartkam.inShop.dao;
 import com.akartkam.inShop.domain.DomainObject;
 
 import java.lang.reflect.ParameterizedType;
+import java.util.List;
 import java.util.UUID;
 
 import org.hibernate.LockOptions;
@@ -65,13 +66,18 @@ public abstract class AbstractGenericDAO<T extends DomainObject<UUID>> implement
 
 	@Override
 	public void update(T object) {
-		currentSession().update(object);
+		currentSession().saveOrUpdate(object);
 	}
 
 
 	@Override
 	public void deleteById(UUID id) {
 		delete(findById(id, false));
+	}
+	
+	@Override
+	public List<T> list(){
+		return currentSession().createCriteria(domainClass).list();
 	}
 	
 }

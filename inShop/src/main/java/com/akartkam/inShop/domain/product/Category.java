@@ -26,8 +26,12 @@ import com.akartkam.inShop.domain.AbstractDomainObjectOrdering;
 		name = "readAllCategories",
 		query = "FROM Category WHERE enabled = true ORDER BY ordering"),
 @NamedQuery(
-		name = "readAllParentCategories",
-		query = "FROM Category ct WHERE ct.parent IS NULL AND enabled = true ORDER BY ct.ordering")
+		name = "readRootCategories",
+		query = "FROM Category ct WHERE ct.parent IS NULL AND enabled = true ORDER BY ct.ordering"),
+
+@NamedQuery(
+		name = "findCategoryByName",
+		query = "FROM Category ct WHERE ct.name = :name AND enabled = true ORDER BY ct.ordering")
 
 })
 @Entity
@@ -70,9 +74,25 @@ public class Category extends AbstractDomainObjectOrdering {
 	public List<Category> getSubCategory() {
 		return subCategory;
 	}
+
 	public void setSubCategory(List<Category> subCategory) {
 		this.subCategory = subCategory;
-	}	
+	}
+	
+	public void addSubCategory (Category subCategory) {
+		if (subCategory == null) throw new IllegalArgumentException("Null child category!");
+		if (subCategory.getParent() != null) 
+			subCategory.getParent().removeSubCategory(subCategory);
+		subCategory.setParent(this);
+		this.subCategory.add(subCategory);
+	}
+	
+	public void removeSubCategory (Category subCategory) {
+		if (subCategory == null) throw new IllegalArgumentException("Null child category!");
+		subCategory.setParent(null);
+		this.subCategory.remove(subCategory);
+	}
+	
 	
 	@OneToMany(mappedBy = "category")
 	public List<Product> getProducts() {
@@ -91,7 +111,7 @@ public class Category extends AbstractDomainObjectOrdering {
 	}
 	
     @Lob
-    @Type(type = "org.hibernate.type.MaterializedClobType")
+    @Type(type = "org.hibernate.type.TextType")
     @Column(name = "long_description", length = Integer.MAX_VALUE - 1)
 	public String getLongDescription() {
 		return longDescription;

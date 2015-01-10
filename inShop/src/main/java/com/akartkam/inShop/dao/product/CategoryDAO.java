@@ -12,5 +12,6 @@ public interface CategoryDAO extends GenericDAO<Category, UUID> {
 	/* Добавил метон list в abstractdao 
 	 * List<Category> readAllCategories();
 	 */
-	List<Category> readAllParentCategories();
+	List<Category> readRootCategories();
+	List<Category> findCategoryByName(String name);
 }

@@ -7,15 +7,16 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
-
 import javax.persistence.Version;
 
 import org.hibernate.Hibernate;
+import org.hibernate.annotations.DynamicUpdate;
 import org.joda.time.DateTime;
 
 
 @SuppressWarnings("serial")
 @MappedSuperclass
+@DynamicUpdate
 public abstract class AbstractDomainObject implements DomainObject<UUID> {
 	
     private UUID id = GeneratorId.createId();

@@ -1,6 +1,7 @@
 package com.akartkam.inShop.dao.product;
 
 import java.util.List;
+
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
@@ -14,7 +15,7 @@ public class CategoryDAOImpl extends AbstractGenericDAO<Category> implements
 		CategoryDAO {
 
 
-	/* Добавил метон list в abstractdao 
+	/* Добавил метод list в abstractdao 
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Category> readAllCategories() {
@@ -27,9 +28,21 @@ public class CategoryDAOImpl extends AbstractGenericDAO<Category> implements
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Category> readAllParentCategories() {
+	public List<Category> readRootCategories() {
 		Criteria criteria = currentSession().createCriteria(Category.class)
 				.add(Restrictions.isNull("parent"))
+				.add(Restrictions.eq("enabled", true))
+				.addOrder(Order.asc("ordering"));
+		criteria.setCacheable(true);
+		criteria.setCacheRegion("query.Catalog");
+        return (List<Category>) criteria.list();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Category> findCategoryByName(String name) {
+		Criteria criteria = currentSession().createCriteria(Category.class)
+				.add(Restrictions.eq("name", name))
 				.add(Restrictions.eq("enabled", true))
 				.addOrder(Order.asc("ordering"));
 		criteria.setCacheable(true);

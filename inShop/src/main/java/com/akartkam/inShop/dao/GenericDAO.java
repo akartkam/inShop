@@ -1,7 +1,7 @@
 package com.akartkam.inShop.dao;
 
 import java.io.Serializable;
-
+import java.util.List;
 
 import com.akartkam.inShop.domain.DomainObject;
 
@@ -12,4 +12,5 @@ public interface GenericDAO<T extends DomainObject<ID>, ID extends Serializable>
 	public void update(T object);
 	public void deleteById(ID id);
 	public void delete(T object);
+	public List<T> list();
 }

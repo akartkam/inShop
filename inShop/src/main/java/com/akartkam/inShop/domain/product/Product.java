@@ -20,7 +20,10 @@ public class Product extends AbstractDomainObjectOrdering {
 	private static final long serialVersionUID = -583044339566068826L;
 	private String name;
 	private Category category;
+	private String manufacturer;
+	private String model;
 	
+
 	@NotNull
 	@Column(name = "name")
 	public String getName() {
@@ -39,5 +42,21 @@ public class Product extends AbstractDomainObjectOrdering {
 	public void setCategory(Category category) {
 		this.category = category;
 	}
+	
+	@Column(name = "manuf")
+	public String getManufacturer() {
+		return manufacturer;
+	}
+	public void setManufacturer(String manufacturer) {
+		this.manufacturer = manufacturer;
+	}
+	
+	@Column(name = "model")
+	public String getModel() {
+		return model;
+	}
+	public void setModel(String model) {
+		this.model = model;
+	}	
 
 }

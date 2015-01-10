@@ -8,5 +8,7 @@ public interface CategoryService {
 	/*
 	 * List<Category> getAllCategories();
 	 */
-	List<Category> getAllParentCategories();
+	Category createCategory(Category category);
+	List<Category> getRootCategories();
+	List<Category> getCategoryByName(String name);
 }

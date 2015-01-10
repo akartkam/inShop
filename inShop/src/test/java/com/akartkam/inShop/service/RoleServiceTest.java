@@ -27,6 +27,7 @@ public class RoleServiceTest extends AbstractServiceTest {
 	  boolean isCreated = createTestRole(role);
 	  assertTrue(isCreated);
 	  role.setName("Test1");
+	  roleService.updateRole(role);
 	}
 	
 	@After
@@ -43,7 +44,6 @@ public class RoleServiceTest extends AbstractServiceTest {
 	
 
 	private boolean createTestRole(Role role) {
-		  role.setName("Test");
 		  role.setRole(RoleType.TEST);
 		  role.setEnabled(false);
 		  return roleService.createRole(role);

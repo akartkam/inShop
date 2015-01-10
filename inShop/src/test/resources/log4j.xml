@@ -5,41 +5,78 @@
 	<!-- Appenders -->
 	<appender name="console" class="org.apache.log4j.ConsoleAppender">
 		<param name="Target" value="System.out" />
+		<param name="threshold" value="info" />
 		<layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern" value="%-5p: %c - %m%n" />
 		</layout>
 	</appender>
 	
+	<appender name="file" class="org.apache.log4j.FileAppender">
+	    <param name="file" value="logs/testCases.log" />
+	    <layout class="org.apache.log4j.PatternLayout">
+	        <param name="ConversionPattern" value="%-5p %t [%-40.40c] %x - %m%n" />
+	    </layout>
+	</appender>	
+	
 	<!-- Application Loggers -->
 	<logger name="com.akartkam.inShop">
-		<level value="debug" />
+		<level value="info" />
+		<appender-ref ref="console" />
 	</logger>
 	
 	<!-- 3rdparty Loggers -->
 	<logger name="org.springframework.core">
-		<level value="debug" />
+		<level value="info" />
+		<appender-ref ref="console" />
 	</logger>
 	
 	<logger name="org.springframework.beans">
-		<level value="debug" />
+		<level value="info" />
+		<appender-ref ref="console" />
 	</logger>
 	
 	<logger name="org.springframework.context">
-		<level value="debug" />
+		<level value="info" />
+		<appender-ref ref="console" />
 	</logger>
 
 	<logger name="org.springframework.web">
-		<level value="debug" />
+		<level value="info" />
+		<appender-ref ref="console" />
 	</logger>
 	
 	<logger name="org.hibernate">
-		<level value="debug" />
+		<level value="info" />
+		<appender-ref ref="console" />
 	</logger>
+	
+	<logger name="org.hibernate.SQL" >
+		<level value="debug" />
+		<appender-ref ref="file" />
+	</logger>	
 
+<!--
+	<logger name="org.hibernate.type" >
+		<level value="trace" />
+		<appender-ref ref="file" />
+	</logger>
+	
+	
+	<logger name="org.hibernate.hql" >
+		<level value="debug" />
+		<appender-ref ref="file" />
+	</logger>	
+	
+	<logger name="org.hibernate.jdbc " >
+		<level value="debug" />
+		<appender-ref ref="file" />
+	</logger>	-->
+	
 	<!-- Root Logger -->
 	<root>
-		<priority value="warn" />
-		<appender-ref ref="console" />
+		<priority value="info" />
+		<!--<appender-ref ref="console" />
+		<appender-ref ref="file" />-->
 	</root>
 	
 </log4j:configuration>
