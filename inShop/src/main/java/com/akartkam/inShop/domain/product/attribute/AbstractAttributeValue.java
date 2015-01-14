@@ -7,6 +7,7 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
 
 import com.akartkam.inShop.domain.AbstractDomainObject;
+import com.akartkam.inShop.domain.product.Product;
 
 @MappedSuperclass
 public abstract class AbstractAttributeValue extends AbstractDomainObject {
@@ -15,6 +16,7 @@ public abstract class AbstractAttributeValue extends AbstractDomainObject {
 	 */
 	private static final long serialVersionUID = -6088345502855127691L;
 	protected AbstractAttribute attribute;
+
 	
 	@Transient
 	public abstract Serializable getAttributeValue();
@@ -28,5 +30,6 @@ public abstract class AbstractAttributeValue extends AbstractDomainObject {
 		this.attribute = attribute;
 	}
 	
+
 
 }

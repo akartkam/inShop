@@ -7,6 +7,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.akartkam.inShop.domain.AbstractDomainObject;
+import com.akartkam.inShop.domain.product.Product;
 
 @Entity
 @Table(name = "Attribute_Decimal_Value")
@@ -17,6 +18,7 @@ public class AttributeDecimalValue extends AbstractAttributeValue {
 	 */
 	private static final long serialVersionUID = 354124918834557753L;
 	private Double attributeValue;
+	private Product product;
 
 
 	@Override
@@ -36,7 +38,15 @@ public class AttributeDecimalValue extends AbstractAttributeValue {
 		return attribute;
 	}
 
+	@ManyToOne
+	@JoinColumn
+	public Product getProduct() {
+		return product;
+	}
 
+	public void setProduct(Product product) {
+		this.product = product;
+	}
 	
 	
 	

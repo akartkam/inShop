@@ -16,6 +16,7 @@ public class AttributeSList extends AbstractAttribute {
 	 * 
 	 */
 	private static final long serialVersionUID = 3284620229615890714L;
+	private List<SList> sList;
 
 	@Override
 	public AttribueType getAttribueType() {
@@ -28,5 +29,13 @@ public class AttributeSList extends AbstractAttribute {
 		return attributeValues;
 	}
 
+	@OneToMany(mappedBy="attributeSList")
+	public List<SList> getSList() {
+		return sList;
+	}
+
+	public void setSList(List<SList> sList) {
+		this.sList = sList;
+	}	
 
 }

@@ -7,6 +7,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.akartkam.inShop.domain.product.Product;
+
 @Entity
 @Table(name = "Attribute_String_Value")
 public class AttributeStringValue extends AbstractAttributeValue {
@@ -16,6 +18,7 @@ public class AttributeStringValue extends AbstractAttributeValue {
 	 */
 	private static final long serialVersionUID = -6264533059253592563L;
 	private String attributeValue;
+	private Product product;
 
 
 	@Override
@@ -33,6 +36,16 @@ public class AttributeStringValue extends AbstractAttributeValue {
 	@JoinColumn
 	public AbstractAttribute getAttribute() {
 		return attribute;
+	}
+	
+	@ManyToOne
+	@JoinColumn
+	public Product getProduct() {
+		return product;
+	}
+
+	public void setProduct(Product product) {
+		this.product = product;
 	}	
 	
 }
