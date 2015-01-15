@@ -1,9 +1,12 @@
 package com.akartkam.inShop.domain.product.attribute;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -20,6 +23,7 @@ public class SList extends AbstractDomainObjectOrdering {
 	private static final long serialVersionUID = 4644108764012656056L;
 	private String value;
 	private AttributeSList attributeSList;
+	private List<AttributeSListValue> attributeSListValue;
 	
 
 	@NotNull
@@ -33,12 +37,20 @@ public class SList extends AbstractDomainObjectOrdering {
 	}
 
 	@ManyToOne
-	@JoinColumn
+	@JoinColumn(name="attribute_id")
 	public AttributeSList getAttributeSList() {
 		return attributeSList;
 	}
 	public void setAttributeSList(AttributeSList attributeSList) {
 		this.attributeSList = attributeSList;
+	}
+	
+	@OneToMany(mappedBy="attributeValue")
+	public List<AttributeSListValue> getAttributeSListValue() {
+		return attributeSListValue;
+	}
+	public void setAttributeSListValue(List<AttributeSListValue> attributeSListValue) {
+		this.attributeSListValue = attributeSListValue;
 	}	
 	
 }

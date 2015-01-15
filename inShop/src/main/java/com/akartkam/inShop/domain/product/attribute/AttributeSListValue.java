@@ -20,6 +20,13 @@ public class AttributeSListValue extends AbstractAttributeValue {
 	private static final long serialVersionUID = -953260131910566356L;
 	private SList attributeValue;
 	private Product product;
+	
+	@Override
+	@ManyToOne(targetEntity=AttributeSList.class)
+	@JoinColumn
+	public AbstractAttribute getAttribute() {
+		return attribute;
+	}
 
 	@Override
 	@ManyToOne

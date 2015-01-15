@@ -6,6 +6,7 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @DiscriminatorValue("SLIST")
@@ -19,12 +20,13 @@ public class AttributeSList extends AbstractAttribute {
 	private List<SList> sList;
 
 	@Override
+	@Transient
 	public AttribueType getAttribueType() {
 		return AttribueType.SLIST;
 	}
 
 	@Override
-	@OneToMany(mappedBy="attribute", targetEntity=AttributeDecimalValue.class)
+	@OneToMany(mappedBy="attribute", targetEntity=AttributeSListValue.class)
 	public List<AbstractAttributeValue> getAttributeValues() {
 		return attributeValues;
 	}
