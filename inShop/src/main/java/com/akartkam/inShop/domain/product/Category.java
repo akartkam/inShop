@@ -20,6 +20,7 @@ import javax.validation.constraints.Size;
 import org.hibernate.annotations.Type;
 
 import com.akartkam.inShop.domain.AbstractDomainObjectOrdering;
+import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
 
 @NamedQueries({
 @NamedQuery(
@@ -49,7 +50,9 @@ public class Category extends AbstractDomainObjectOrdering {
 	private List<Product> products;
 	private String description;
 	private String longDescription; 
+	private List<AbstractAttribute> attributes; 
 	
+
 
 	@NotNull
 	@Size(min = 1, max = 50)
@@ -121,6 +124,14 @@ public class Category extends AbstractDomainObjectOrdering {
 		this.longDescription = longDescription;
 	}
 	
+	@OneToMany(mappedBy = "category")
+	public List<AbstractAttribute> getAttributes() {
+		return attributes;
+	}
+	
+	public void setAttributes(List<AbstractAttribute> attributes) {
+		this.attributes = attributes;
+	}	
 	
 	@Transient
 	public List<Category> buildCategoryHierarchy(List<Category> currentHierarchy) {
@@ -151,5 +162,19 @@ public class Category extends AbstractDomainObjectOrdering {
 		return currentHierarchy;
 	}
 	
-
+	@Transient
+	public List<AbstractAttribute> getAllAttributes (List<AbstractAttribute> currentHierarchy) {
+        if (currentHierarchy == null) {
+            currentHierarchy = new ArrayList<AbstractAttribute>();
+            currentHierarchy.addAll(getAttributes());
+        }		
+		for(Category category : getSubCategory()) {
+			if (category.isEnabled()) {
+				currentHierarchy.addAll(category.getAttributes());
+				category.getAllAttributes(currentHierarchy);
+			}
+		}
+		return currentHierarchy;
+	}
+	
 }

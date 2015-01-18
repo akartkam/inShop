@@ -25,11 +25,11 @@ public class AttributeSList extends AbstractAttribute {
 		return AttribueType.SLIST;
 	}
 
-	@Override
+/*	@Override
 	@OneToMany(mappedBy="attribute", targetEntity=AttributeSListValue.class)
 	public List<AbstractAttributeValue> getAttributeValues() {
 		return attributeValues;
-	}
+	}*/
 
 	@OneToMany(mappedBy="attributeSList")
 	public List<SList> getSList() {

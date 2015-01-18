@@ -1,14 +1,18 @@
 package com.akartkam.inShop.domain.product;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 import com.akartkam.inShop.domain.AbstractDomainObjectOrdering;
+import com.akartkam.inShop.domain.product.attribute.AbstractAttributeValue;
 
 @Entity
 @Table(name = "Product")
@@ -22,6 +26,7 @@ public class Product extends AbstractDomainObjectOrdering {
 	private Category category;
 	private String manufacturer;
 	private String model;
+	private List<AbstractAttributeValue> attributeValues;
 	
 
 	@NotNull
@@ -57,6 +62,14 @@ public class Product extends AbstractDomainObjectOrdering {
 	}
 	public void setModel(String model) {
 		this.model = model;
+	}	
+	
+	@OneToMany(mappedBy="product", cascade = CascadeType.ALL)
+	public List<AbstractAttributeValue> getAttributeValues() {
+		return attributeValues;
+	}
+	public void setAttributeValues(List<AbstractAttributeValue> attributeValues) {
+		this.attributeValues = attributeValues;
 	}	
 
 }

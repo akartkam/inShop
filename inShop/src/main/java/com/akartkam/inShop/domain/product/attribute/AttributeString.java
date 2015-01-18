@@ -24,10 +24,10 @@ public class AttributeString extends AbstractAttribute {
 		return AttribueType.STRING;
 	}
 
-	@Override
+/*	@Override
 	@OneToMany(mappedBy="attribute", targetEntity=AttributeStringValue.class)
 	public List<AbstractAttributeValue> getAttributeValues() {
 		return attributeValues;
-	}
+	}*/
 
 }

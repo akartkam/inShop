@@ -6,8 +6,6 @@ import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
@@ -52,8 +50,13 @@ public abstract class AbstractAttribute extends AbstractDomainObjectOrdering {
 	@Transient
 	public abstract AttribueType getAttribueType();
 
-	@Transient
+	/*@Transient
 	public abstract List<AbstractAttributeValue> getAttributeValues();
+	*/
+	@OneToMany(mappedBy="attribute")
+	public List<AbstractAttributeValue> getAttributeValues() {
+		return attributeValues;
+	}	
 	
 	public void setAttributeValues(List<AbstractAttributeValue> attributeValues) {
 		this.attributeValues = attributeValues;
