@@ -23,7 +23,7 @@ import com.akartkam.inShop.domain.product.Product;
 						discriminatorType = DiscriminatorType.STRING
 )
 @Table(name = "Attribute_Value")
-public abstract class AbstractAttributeValue extends AbstractDomainObject {
+public abstract class AbstractAttributeValue extends AbstractDomainObject implements AttributeValue {
 	/**
 	 * 
 	 */
