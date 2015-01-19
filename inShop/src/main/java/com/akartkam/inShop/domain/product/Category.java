@@ -105,6 +105,12 @@ public class Category extends AbstractDomainObjectOrdering {
 		this.products = products;
 	}
 	
+	public void addProduct (Product product) {
+		if (product == null) throw new IllegalArgumentException("Null product!");
+		products.add(product);
+		product.setCategory(this);
+	}
+	
 	@Column(name = "description")
 	public String getDescription() {
 		return description;
@@ -132,6 +138,12 @@ public class Category extends AbstractDomainObjectOrdering {
 	public void setAttributes(List<AbstractAttribute> attributes) {
 		this.attributes = attributes;
 	}	
+	
+	public void addAttribute (AbstractAttribute attribute) {
+		if (attribute == null) throw new IllegalArgumentException("Null attribute!");
+		attributes.add(attribute);
+		attribute.setCategory(this);
+	}
 	
 	@Transient
 	public List<Category> buildCategoryHierarchy(List<Category> currentHierarchy) {

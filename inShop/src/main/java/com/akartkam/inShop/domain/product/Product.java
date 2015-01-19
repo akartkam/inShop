@@ -71,5 +71,11 @@ public class Product extends AbstractDomainObjectOrdering {
 	public void setAttributeValues(List<AbstractAttributeValue> attributeValues) {
 		this.attributeValues = attributeValues;
 	}	
+	
+	public void addAttributeValue (AbstractAttributeValue attributeValue) {
+		if (attributeValue == null) throw new IllegalArgumentException("Null attributeValue!");
+		attributeValues.add(attributeValue);
+		attributeValue.setProduct(this);
+	}
 
 }
