@@ -48,7 +48,7 @@ public abstract class AbstractAttribute extends AbstractDomainObjectOrdering {
 	
 	@NotNull
 	@Transient
-	public abstract AttribueType getAttribueType();
+	public abstract AttributeType getAttribueType();
 
 	/*@Transient
 	public abstract List<AbstractAttributeValue> getAttributeValues();

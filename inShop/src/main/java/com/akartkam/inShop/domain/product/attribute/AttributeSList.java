@@ -21,8 +21,8 @@ public class AttributeSList extends AbstractAttribute {
 
 	@Override
 	@Transient
-	public AttribueType getAttribueType() {
-		return AttribueType.SLIST;
+	public AttributeType getAttribueType() {
+		return AttributeType.SLIST;
 	}
 
 /*	@Override

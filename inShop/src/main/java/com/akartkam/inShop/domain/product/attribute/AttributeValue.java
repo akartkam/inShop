@@ -1,9 +1,9 @@
 package com.akartkam.inShop.domain.product.attribute;
 
-import java.io.Serializable;
 
 
-public interface AttributeValue {
-	Serializable getAttributeValue();
+public interface AttributeValue<T> {
+	T getAttributeValue();
+	void setAttributeValue(T value);
 	AbstractAttribute getAttribute();
 }

@@ -3,24 +3,20 @@ package com.akartkam.inShop.domain.product.attribute;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.SecondaryTable;
-import javax.persistence.Table;
+import javax.persistence.Transient;
 
-import com.akartkam.inShop.domain.AbstractDomainObject;
-import com.akartkam.inShop.domain.product.Product;
+
 
 @Entity
 @DiscriminatorValue("DECIMAL")
 @SecondaryTable(name = "Attribute_Decimal_Value")
-public class AttributeDecimalValue extends AbstractAttributeValue {
+public class AttributeDecimalValue extends AbstractAttributeValue<Double> {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 354124918834557753L;
-	private Double attributeValue;
 
 
 
@@ -30,18 +26,13 @@ public class AttributeDecimalValue extends AbstractAttributeValue {
 		return attributeValue;
 	}
 
-	public void setAttributeValue(Double attributeValue) {
-		this.attributeValue = attributeValue;
+
+
+	@Override
+	@Transient
+	public AttributeType getAttribueValueType() {
+		return AttributeType.DECIMAL;
 	}
 
-/*	@Override
-	@ManyToOne(targetEntity=AttributeDecimal.class)
-	@JoinColumn(table = "Attribute_Decimal_Value", nullable = false)
-	public AbstractAttribute getAttribute() {
-		return attribute;
-	}*/
-
-	
-	
 	
 }

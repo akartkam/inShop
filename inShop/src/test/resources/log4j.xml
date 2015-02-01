@@ -55,7 +55,7 @@
 		<appender-ref ref="file" />
 	</logger>	
 
-<!--
+
 	<logger name="org.hibernate.type" >
 		<level value="trace" />
 		<appender-ref ref="file" />
@@ -67,7 +67,7 @@
 		<appender-ref ref="file" />
 	</logger>	
 	
-	<logger name="org.hibernate.jdbc " >
+<!--	<logger name="org.hibernate.jdbc " >
 		<level value="debug" />
 		<appender-ref ref="file" />
 	</logger>	-->

@@ -7,13 +7,18 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.akartkam.inShop.dao.product.CategoryDAO;
+import com.akartkam.inShop.dao.product.ProductDAO;
 import com.akartkam.inShop.domain.product.Category;
+import com.akartkam.inShop.domain.product.Product;
 
 @Service("CategoryService")
 public class CategoryServiceImpl implements CategoryService {
 	
 	@Autowired
 	private CategoryDAO categoryDAO;
+	
+	@Autowired
+	private ProductDAO productDAO;
 
 	@Override
 	@Transactional(readOnly = false)
@@ -29,6 +34,11 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public List<Category> getCategoryByName(String name) {
 		return categoryDAO.findCategoryByName(name);
+	}
+
+	@Override
+	public List<Product> getProductByName(String name) {
+		return productDAO.findProductByName(name);
 	}
 
 }

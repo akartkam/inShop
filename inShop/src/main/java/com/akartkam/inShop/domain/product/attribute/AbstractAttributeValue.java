@@ -12,6 +12,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.annotations.ForeignKey;
 
 import com.akartkam.inShop.domain.AbstractDomainObject;
 import com.akartkam.inShop.domain.product.Product;
@@ -23,19 +26,31 @@ import com.akartkam.inShop.domain.product.Product;
 						discriminatorType = DiscriminatorType.STRING
 )
 @Table(name = "Attribute_Value")
-public abstract class AbstractAttributeValue extends AbstractDomainObject implements AttributeValue {
+public abstract class AbstractAttributeValue<T extends Serializable> extends AbstractDomainObject implements AttributeValue<T> {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -6088345502855127691L;
 	protected AbstractAttribute attribute;
 	protected Product product;
+	protected T attributeValue;
 	
 	@Transient
-	public abstract Serializable getAttributeValue();
+	@Override
+	public abstract T getAttributeValue();
+	
+	@Override
+	public void setAttributeValue(T value) {
+		attributeValue = value;
+	}
+	
+	@NotNull
+	@Transient
+	public abstract AttributeType getAttribueValueType();
 	
 	@ManyToOne
 	@JoinColumn(nullable = false)
+	@ForeignKey(name = "fk_attribute_id")
 	public AbstractAttribute getAttribute() {
 		return attribute;
 	}
@@ -45,7 +60,8 @@ public abstract class AbstractAttributeValue extends AbstractDomainObject implem
 	}
 	
 	@ManyToOne
-	@JoinColumn(name="product_id", nullable=false)
+	@JoinColumn(nullable=false)
+	@ForeignKey(name = "fk_product_id")
 	public Product getProduct() {
 		return product;
 	}

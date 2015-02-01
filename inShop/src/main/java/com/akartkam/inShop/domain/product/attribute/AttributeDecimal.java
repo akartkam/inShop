@@ -21,8 +21,8 @@ public class AttributeDecimal extends AbstractAttribute {
 	
 	@Override
 	@Transient
-	public AttribueType getAttribueType() {
-		return AttribueType.DECIMAL;
+	public AttributeType getAttribueType() {
+		return AttributeType.DECIMAL;
 	}
 
 	/*@Override

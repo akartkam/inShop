@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SecondaryTable;
+import javax.persistence.Transient;
 
 
 
@@ -13,13 +14,13 @@ import javax.persistence.SecondaryTable;
 @Entity
 @DiscriminatorValue("SLIST")
 @SecondaryTable(name = "Attribute_SList_Value")
-public class AttributeSListValue extends AbstractAttributeValue {
+public class AttributeSListValue extends AbstractAttributeValue<SList> {
 	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -953260131910566356L;
-	private SList attributeValue;
+	
 	
 	@Override
 	@ManyToOne
@@ -27,16 +28,12 @@ public class AttributeSListValue extends AbstractAttributeValue {
 	public SList getAttributeValue() {
 		return attributeValue;
 	}
-	
-	public void setAttributeValue(SList attributeValue) {
-		this.attributeValue = attributeValue;
+
+
+	@Override
+	@Transient
+	public AttributeType getAttribueValueType() {
+		return AttributeType.SLIST;
 	}
-
-/*	@Override
-	@ManyToOne(targetEntity=AttributeSList.class)
-	@JoinColumn(table = "Attribute_SList_Value", nullable = false)
-	public AbstractAttribute getAttribute() {
-		return attribute;
-	}*/
-
+	
 }

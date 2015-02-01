@@ -17,6 +17,7 @@ import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.Type;
 
 import com.akartkam.inShop.domain.AbstractDomainObjectOrdering;
@@ -73,7 +74,8 @@ public class Category extends AbstractDomainObjectOrdering {
 		this.parent = parent;
 	}
 	
-	@OneToMany(mappedBy="parent", cascade = CascadeType.ALL)	
+	@OneToMany(mappedBy="parent", cascade = CascadeType.ALL)
+	@Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
 	public List<Category> getSubCategory() {
 		return subCategory;
 	}
@@ -97,7 +99,8 @@ public class Category extends AbstractDomainObjectOrdering {
 	}
 	
 	
-	@OneToMany(mappedBy = "category")
+	@OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+	@Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
 	public List<Product> getProducts() {
 		return products;
 	}
@@ -130,7 +133,8 @@ public class Category extends AbstractDomainObjectOrdering {
 		this.longDescription = longDescription;
 	}
 	
-	@OneToMany(mappedBy = "category")
+	@OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+	@Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
 	public List<AbstractAttribute> getAttributes() {
 		return attributes;
 	}

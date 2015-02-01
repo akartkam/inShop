@@ -7,19 +7,20 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SecondaryTable;
+import javax.persistence.Transient;
 
 
 
 @Entity
 @DiscriminatorValue("STRING")
 @SecondaryTable(name = "Attribute_String_Value")
-public class AttributeStringValue extends AbstractAttributeValue {
+public class AttributeStringValue extends AbstractAttributeValue<String> {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -6264533059253592563L;
-	private String attributeValue;
+	
 
 	@Override
 	@Column(table = "Attribute_String_Value", name="attributeValue", nullable = false)
@@ -27,17 +28,11 @@ public class AttributeStringValue extends AbstractAttributeValue {
 		return attributeValue;
 	}
 
-	public void setAttributeValue(String attributeValue) {
-		this.attributeValue = attributeValue;
-	}
 
-/*	@Override
-	@ManyToOne(targetEntity=AttributeString.class)
-	@JoinColumn(table = "Attribute_String_Value", nullable = false)
-	public AbstractAttribute getAttribute() {
-		return attribute;
-	}*/
-	
-	
+	@Override
+	@Transient
+	public AttributeType getAttribueValueType() {
+		return AttributeType.STRING;
+	}
 	
 }

@@ -20,8 +20,8 @@ public class AttributeString extends AbstractAttribute {
 
 	@Override
 	@Transient
-	public AttribueType getAttribueType() {
-		return AttribueType.STRING;
+	public AttributeType getAttribueType() {
+		return AttributeType.STRING;
 	}
 
 /*	@Override

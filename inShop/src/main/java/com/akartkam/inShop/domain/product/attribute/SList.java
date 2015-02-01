@@ -37,7 +37,7 @@ public class SList extends AbstractDomainObjectOrdering {
 	}
 
 	@ManyToOne
-	@JoinColumn(name="attribute_id")
+	@JoinColumn(name="attribute_id", nullable = false)
 	public AttributeSList getAttributeSList() {
 		return attributeSList;
 	}
