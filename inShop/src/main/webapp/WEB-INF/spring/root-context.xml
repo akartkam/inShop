@@ -27,7 +27,7 @@
 	<import resource="data.xml" />	
 
 	
-	<!-- <import resource="inshop-security.xml" />	-->
+	<import resource="inshop-security.xml" />
 	
 
 		

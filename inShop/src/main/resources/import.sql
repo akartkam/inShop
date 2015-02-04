@@ -1,5 +1,59 @@
 ALTER TABLE account ADD COLUMN password CHARACTER VARYING(255) NOT NULL;
 
+-- Function: del_attribute(character varying)
+
+--DROP FUNCTION del_attribute(character varying);
+
+CREATE OR REPLACE FUNCTION del_attribute(attribute_name character varying)
+  RETURNS void AS
+$BODY$
+DECLARE attribute_rec RECORD;
+DECLARE attribute_value_rec RECORD;
+BEGIN
+  FOR attribute_rec IN SELECT * FROM attribute WHERE name ~* attribute_name LOOP
+	FOR attribute_value_rec IN SELECT * FROM attribute_value WHERE attribute_id = attribute_rec.id LOOP
+		delete from attribute_decimal_value where id = attribute_value_rec.id;
+		delete from attribute_string_value where id = attribute_value_rec.id;
+		delete from attribute_decimal_value where id = attribute_value_rec.id;
+	END LOOP;
+	delete from attribute_value WHERE attribute_id = attribute_rec.id;
+  END LOOP;
+  delete from attribute WHERE name ~* attribute_name;
+END
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION del_attribute(character varying)
+  OWNER TO postgres;
+
+  
+-- Function: del_product(character varying)
+
+-- DROP FUNCTION del_product(character varying);
+
+CREATE OR REPLACE FUNCTION del_product(product_name character varying)
+  RETURNS void AS
+$BODY$
+DECLARE product_rec RECORD;
+DECLARE attribute_value_rec RECORD;
+BEGIN
+  FOR product_rec IN SELECT * FROM product WHERE name ~* product_name LOOP
+	FOR attribute_value_rec IN SELECT * FROM attribute_value WHERE product_id = product_rec.id LOOP
+		delete from attribute_decimal_value where id = attribute_value_rec.id;
+		delete from attribute_string_value where id = attribute_value_rec.id;
+		delete from attribute_decimal_value where id = attribute_value_rec.id;
+	END LOOP;
+	delete from attribute_value WHERE product_id = product_rec.id;
+  END LOOP;
+  delete from product WHERE name ~* product_name;
+END
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION del_product(character varying)
+  OWNER TO postgres;
+  
+
 INSERT INTO account (id, username, first_name, last_name, middle_name, password, email, enabled, createby, createddate, version) 
 SELECT '0b90130d-2c19-4001-b61a-ef100d7b950e', 'akartkam','Artur','Akchurin', 'Kamilevich',
 '$2a$10$0D.1i9QByybz6LOSjFysgubhX0fIMsFL86iyDYTaS63n.Fpn7Gu.W', 'akartkam@gmail.com', true,
@@ -95,4 +149,7 @@ INSERT INTO product(
     SELECT '2520f69e-6679-480b-b145-a1e9701ccdec', current_timestamp, true, null, 0, 0, 'Test_manuf4', 
             'Test_model4', 'Test_product4', '0b90130d-2c19-4001-b61a-ef100d7b950e',
             null, 'ed752562-3c39-4a74-9cf6-679c8689a5e9'
-    WHERE NOT EXISTS (SELECT id FROM product WHERE id = '2520f69e-6679-480b-b145-a1e9701ccdec'); 		
+    WHERE NOT EXISTS (SELECT id FROM product WHERE id = '2520f69e-6679-480b-b145-a1e9701ccdec'); 
+    
+    
+    
