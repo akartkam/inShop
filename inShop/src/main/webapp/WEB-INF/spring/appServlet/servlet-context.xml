@@ -12,26 +12,47 @@
 	
 	<annotation-driven />
  	<default-servlet-handler/>
-    <!-- <view-controller path="/" view-name="index" /> 
+ 	<view-controller path="/admin" view-name="admin/admin" />
+ 	<view-controller path="/login" view-name="authentication/login" />
+    <view-controller path="/" view-name="redirect:/index.html" />
+    <view-controller path="/index.html" view-name="index" />
+   <!--  
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"
 		p:viewClass="org.springframework.web.servlet.view.JstlView"
-		p:prefix="/WEB-INF/views/" p:suffix=".html" />  -->
+		p:prefix="/WEB-INF/templates/" p:suffix=".html" /> -->  
 		
-	
+    <beans:bean id="templateResolver"
+        class="org.thymeleaf.templateresolver.ServletContextTemplateResolver">
+      <beans:property name="prefix" value="/WEB-INF/templates/" />
+      <beans:property name="suffix" value=".html" />
+      <beans:property name="templateMode" value="HTML5" />
+      <!-- Template cache is true by default. Set to false if you want -->
+      <!-- templates to be automatically updated when modified.        -->
+      <beans:property name="cacheable" value="true" />
+    </beans:bean>
+    
+    <beans:bean id="templateEngine"
+          class="org.thymeleaf.spring3.SpringTemplateEngine">
+      <beans:property name="templateResolver" ref="templateResolver" />
+    </beans:bean>
+   
+    <beans:bean class="org.thymeleaf.spring3.view.ThymeleafViewResolver">
+      <beans:property name="templateEngine" ref="templateEngine" />
+    </beans:bean> 	
 
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/resources/**" location="/resources/" />
 
   	  
-<!-- 	<beans:bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
-	    <beans:property name="defaultEncoding" value="windows-1251" />
+ 	<beans:bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+	    <beans:property name="defaultEncoding" value="utf-8" />
 	    <beans:property name="basenames">
 	        <beans:list>
 	            <beans:value>classpath:messages</beans:value>
 	            <beans:value>classpath:ValidationMessages</beans:value>
 	        </beans:list>
 	    </beans:property>
-	</beans:bean> -->
+	</beans:bean>
 	
 	<!-- Файл с настройками контроллеров -->
 	<beans:import resource="controllers.xml" />
