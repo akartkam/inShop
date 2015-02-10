@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+ 
+<head>
+   <title>Wellcome to inShop</title>
+   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+   <link rel="stylesheet" type="text/css" media="all" href="../resources/css/style.css" th:href="@{/resources/css/style.css}"/>
+</head>
+<body>
+<div th:raplace="fragments/header :: header">
+    Header
+</div>
+<div th:replace="${view} :: content">
+    Content
+</div>
+<div th:replace="fragments/footer :: footer">
+    Footer
+</div>
+</body>
+</html>
