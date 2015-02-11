@@ -55,6 +55,10 @@
 	    </beans:property>
 	</beans:bean>
 	
+	<interceptors>
+		<beans:bean class="org.thymeleaf.spring.support.ThymeleafLayoutInterceptor" />
+	</interceptors>	
+	
 	<!-- Файл с настройками контроллеров -->
 	<beans:import resource="controllers.xml" />
 	

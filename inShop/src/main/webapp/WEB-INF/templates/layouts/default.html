@@ -7,7 +7,7 @@
    <link rel="stylesheet" type="text/css" media="all" href="../resources/css/style.css" th:href="@{/resources/css/style.css}"/>
 </head>
 <body>
-<div th:raplace="fragments/header :: header">
+<div th:replace="fragments/header :: header">
     Header
 </div>
 <div th:replace="${view} :: content">

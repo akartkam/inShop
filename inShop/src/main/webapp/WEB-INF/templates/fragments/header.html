@@ -1,0 +1,14 @@
+<header>
+    <div th:fragment="header">
+
+
+        <div id="logo"><h1><a th:href="@{/}">The inShop web shop</a></h1></div>
+        
+        <div id="search">
+            <form th:action="@{/search}" method="GET">
+            <input type="search" class="search" name="q" th:value="${originalQuery}" />
+            <input type="submit" id="search_button" value="go" />
+            </form>
+        </div>
+    </div>
+</header>
