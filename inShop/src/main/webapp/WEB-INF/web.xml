@@ -62,5 +62,8 @@
 			<param-value>true</param-value>
 		</init-param>
 	</filter> 	
-
+    <filter-mapping>
+        <filter-name>charsetFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
 </web-app>

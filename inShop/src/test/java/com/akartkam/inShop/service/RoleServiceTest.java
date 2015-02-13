@@ -2,12 +2,12 @@ package com.akartkam.inShop.service;
 
 import static org.junit.Assert.*;
 
-
 import org.junit.After;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 
+import com.akartkam.inShop.domain.Account;
 import com.akartkam.inShop.domain.Role;
 import com.akartkam.inShop.domain.RoleType;
 
@@ -18,6 +18,16 @@ public class RoleServiceTest extends AbstractServiceTest {
 	@Autowired
 	protected RoleService roleService;
 	
+	@Autowired
+	protected AccountService accountService;
+	
+	
+	@Test
+	public void FindById_AccountServiceTest(){
+		Account account = accountService.getAccountByUsername("akartkam@gmail.com");
+		assertNotNull(account);
+		assertEquals("akartkam@gmail.com", account.getUsername());
+	}
 	
 	@Test
 	public void insert_updateTestRoleServiceTest(){

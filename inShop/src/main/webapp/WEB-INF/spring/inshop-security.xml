@@ -1,14 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans:beans xmlns:beans="http://www.springframework.org/schema/beans"
-	xmlns="http://www.springframework.org/schema/security" 
+	xmlns="http://www.springframework.org/schema/security"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
-						http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
-						http://www.springframework.org/schema/security
-						http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
 	<!-- Здесь располагаются элементы без префикса security: " -->
+
+    <http pattern="/css/**" security="none" />
+    <http pattern="/fonts/**" security="none" />
+    <http pattern="/img/**" security="none" />
+    <http pattern="/js/**" security="none" />
+    <http pattern="/favicon.ico" security="none" />
+
 	
-	<beans:bean id="encoder" 
+	<beans:bean id="passwordEncoder" 
 		class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
 		<beans:constructor-arg name="strength" value="11" />
     </beans:bean>
@@ -19,18 +25,33 @@
 		<!--   <remember-me /> --> 
 		<form-login login-processing-url="/login_post.htm"
 			login-page="/login" authentication-failure-url="/login?error=t"/> 
-		<logout logout-url="/logout"/>
+		<logout logout-url="/logout" logout-success-url="/home.html"/>
 	 <!--  	<csrf />  -->
 	</http>	
 	
+<!--  
 	<authentication-manager>
 		<authentication-provider>
 	    <jdbc-user-service id="userService"  data-source-ref="dataSource"
             users-by-username-query=
-                "select username, password, true from spitter where username=?"
+                "select username, password, true from account where username=?"
             authorities-by-username-query=
-                "select username,'ROLE_SPITTER' from spitter where username=?" />
+                "select username,r.role from account a, account_role ar, role r where username=? and ar.account_id=a.id and ar.role_id=r.id" />
 	    <password-encoder ref="encoder" />
+		</authentication-provider>
+	</authentication-manager>	
+
+
+	
+	<beans:bean id="saltSource"
+		class="org.springframework.security.authentication.dao.ReflectionSaltSource"
+		p:userPropertyToUse="id" />
+-->		
+	<authentication-manager alias="authenticationManager">
+		<authentication-provider user-service-ref="userDetailsService">
+			<password-encoder ref="passwordEncoder">
+				<!-- <salt-source ref="saltSource" /> -->
+			</password-encoder>
 		</authentication-provider>
 	</authentication-manager>	
 

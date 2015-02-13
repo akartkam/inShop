@@ -28,7 +28,7 @@ public class UserDetailsAdapter implements UserDetails {
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		Set<GrantedAuthority> authorities = new HashSet<GrantedAuthority>();
 		for (Role role : account.getRoles()) {
-			authorities.add(new SimpleGrantedAuthority (role.getName()));
+			authorities.add(new SimpleGrantedAuthority (role.getRole().getName()));
 		}
 		return authorities;
 	}

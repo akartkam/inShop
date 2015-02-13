@@ -1,5 +1,5 @@
-<div id="account">  
-    <div style="display:none;" th:fragment="title" th:inline="text">Вход - inShop</div>
+<div id="account" th:fragment="content">  
+    <div style="display:none;" th:fragment="title" th:inline="text">пїЅпїЅпїЅпїЅ - inShop</div>
     
     <div id="login">
         <h3><span th:text="#{login.loginToAccount}">Login to Your Account</span></h3>
@@ -10,7 +10,7 @@
         </span>
 
         <div class="clearfix">
-            <blc:form th:action="@{/login_post.htm}" method="post">
+            <form th:action="@{/login_post.htm}" method="post">
                 <input type="hidden" name="successUrl" th:if="${successUrl}" th:value="${successUrl}"/>
                 
                 <div class="form50">
@@ -32,7 +32,7 @@
                     <br/>
                     <a class="account" th:href="@{/login/forgotPassword}"><span th:text="#{login.forgotPassword}">Forgot Password</span></a>
                 </div>
-            </blc:form>
+            </form>
         </div>
     </div>
 </div>
