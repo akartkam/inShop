@@ -12,7 +12,7 @@
 	
 	<annotation-driven />
  	<default-servlet-handler/>
- 	<view-controller path="/admin" view-name="admin/admin" />
+ 	<!--<view-controller path="/admin" view-name="admin/admin" />-->
  	<view-controller path="/login" view-name="authentication/login" />
     <view-controller path="/" view-name="redirect:/home.html" />
     <view-controller path="/index.html"/>

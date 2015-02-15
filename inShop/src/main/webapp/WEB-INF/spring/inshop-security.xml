@@ -22,35 +22,25 @@
 	<http auto-config="true" use-expressions="true">
 		<intercept-url pattern="/admin/**" access="isAuthenticated() and hasAnyRole('ADMIN','MANAGER')" /> 
 		<intercept-url pattern="/login" access="isAnonymous()" /> <!--   requires-channel="https" /> --> 
-		<!--   <remember-me /> --> 
+		<remember-me key="inShopKey"/> 
 		<form-login login-processing-url="/login_post.htm"
 			login-page="/login" authentication-failure-url="/login?error=t"/> 
-		<logout logout-url="/logout" logout-success-url="/home.html"/>
+		<logout logout-url="/logout" logout-success-url="/logout/success" invalidate-session="false"/>
 	 <!--  	<csrf />  -->
 	</http>	
 	
 <!--  
-	<authentication-manager>
-		<authentication-provider>
-	    <jdbc-user-service id="userService"  data-source-ref="dataSource"
-            users-by-username-query=
-                "select username, password, true from account where username=?"
-            authorities-by-username-query=
-                "select username,r.role from account a, account_role ar, role r where username=? and ar.account_id=a.id and ar.role_id=r.id" />
-	    <password-encoder ref="encoder" />
-		</authentication-provider>
-	</authentication-manager>	
 
-
-	
 	<beans:bean id="saltSource"
 		class="org.springframework.security.authentication.dao.ReflectionSaltSource"
 		p:userPropertyToUse="id" />
--->		
+	
+-->
+
 	<authentication-manager alias="authenticationManager">
 		<authentication-provider user-service-ref="userDetailsService">
 			<password-encoder ref="passwordEncoder">
-				<!-- <salt-source ref="saltSource" /> -->
+				<!--  <salt-source ref="saltSource" />  -->
 			</password-encoder>
 		</authentication-provider>
 	</authentication-manager>	
