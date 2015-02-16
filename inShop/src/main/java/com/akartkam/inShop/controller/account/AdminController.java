@@ -8,11 +8,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 //import org.springframework.web.bind.annotation.SessionAttributes;
-//import org.thymeleaf.spring.support.Layout;
+import org.thymeleaf.spring.support.Layout;
 
 @Controller
 @RequestMapping("/admin")
-//@Layout("authentication/login")
+@Layout("layouts/admin-default")
 //@SessionAttributes("isadmin")
 public class AdminController {
 	  @RequestMapping(method=GET)
