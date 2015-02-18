@@ -38,7 +38,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html">InShop v1.0</a>
+                <a class="navbar-brand" href="index.html">Admin InShop v1.0</a>
             </div>
             <!-- /.navbar-header -->
             <ul class="nav navbar-top-links navbar-right">
@@ -56,7 +56,7 @@
                         </li>
                         <li class="divider"></li>
                         <li>
-                          <a th:href="@{/logout}" th:text="#{login.logout}"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                          <a th:href="@{/logout}" ><i class="fa fa-sign-out fa-fw"></i><span th:text="#{login.logout}">Logout</span></a>
                         </li>
                     </ul>
                     <!-- /.dropdown-user -->
@@ -79,7 +79,12 @@
                             <!-- /input-group -->
                         </li>
                         <li>
-                            <a href="index.html"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                            <a href="#" ><i class="fa fa-list-alt fa-fw"></i> <span th:text= "#{admin.catalog}" >Catalog</span><span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="#" th:href="@{/admin/catalog/category}"><i class="fa fa-folder fa-fw"></i> <span th:text= "#{admin.catalog.category}" >Categories</span></a>
+                                </li>
+                            </ul>
                         </li>
                         <li>
                             <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Charts<span class="fa arrow"></span></a>
