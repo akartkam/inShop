@@ -1,4 +1,4 @@
-package com.akartkam.inShop.controller.account;
+package com.akartkam.inShop.controller.admin;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
@@ -20,4 +20,8 @@ public class AdminController {
 		  session.setAttribute("isadmin", new Boolean(true));
 		  return "admin/admin"; 
 		  }
+	  @RequestMapping("/catalog/category")
+	  public String category() {
+		  return "/admin/category"; 
+		  }	  
 }
