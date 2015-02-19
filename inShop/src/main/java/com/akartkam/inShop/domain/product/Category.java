@@ -153,9 +153,9 @@ public class Category extends AbstractDomainObjectOrdering {
 	public List<Category> buildCategoryHierarchy(List<Category> currentHierarchy) {
         if (currentHierarchy == null) {
             currentHierarchy = new ArrayList<Category>();
-            currentHierarchy.add(this);
+            if (this.isEnabled()) currentHierarchy.add(this);
         }
-        if (getParent() != null && ! currentHierarchy.contains(getParent())) {
+        if (getParent() != null && ! currentHierarchy.contains(getParent()) && getParent().isEnabled()) {
             currentHierarchy.add(getParent());
             getParent().buildCategoryHierarchy(currentHierarchy);
         }
