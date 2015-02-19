@@ -12,6 +12,7 @@ import com.akartkam.inShop.domain.product.Category;
 import com.akartkam.inShop.domain.product.Product;
 
 @Service("CategoryService")
+@Transactional(readOnly = true)
 public class CategoryServiceImpl implements CategoryService {
 	
 	@Autowired

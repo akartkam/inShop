@@ -23,7 +23,7 @@ public class AdminController {
 	  @Autowired
 	  CategoryService categoryService;
 	
-	  @ModelAttribute("allCategories")
+	  @ModelAttribute("allRootCategories")
 	  public List<Category> allCategories() {
 	      return this.categoryService.getRootCategories();
 	  }

@@ -19,33 +19,39 @@
 <title>inShop Admin site</title>
 <body>
 	<div class="clearfix" th:fragment="content">
-      <table class="tree">
+      <table class="table tree-2 table-bordered table-striped table-condensed">
         <thead>
 	      <tr>
-	        <th>Col1</th>
-	        <th>Col2</th>
- 	      </tr>
+            <th th:text="#{admin.catalog.category.name}">Name</th>
+            <th th:text="#{admin.catalog.category.description}">Description</th>
+  	      </tr>
  	    </thead>
- 	    <tbody>      
-	        <tr class="treegrid-1">
-	          <td>Root node1</td><td>Additional info</td>
+ 	    <tbody th:each="rct : ${allRootCategories}">      
+	        <tr th:class="'treegrid-'+${rct.id}">
+				<td th:text="${rct.name}">Root category 1</td>
+            	<td th:text="${rct.description}">Root category description 1</td>
 	        </tr>
-	        <tr class="treegrid-11 treegrid-parent-1">
+	        <tr th:each="ct : ${rct.buildCategoryHierarchy()}" th:class="'treegrid-'+${ct.id}+' treegrid-parent-'+${rct.id}" th:unless="${#lists.isEmpty(rct.buildCategoryHierarchy())}">
+				<td th:text="${ct.name}">category 1</td>
+            	<td th:text="${ct.description}">category description 1</td>
+	        </tr>	        
+	        
+	        <tr class="treegrid-11 treegrid-parent-1" th:remove="all">
 	          <td>Node 1-1</td><td>Additional info</td>
 	        </tr>
-	        <tr class="treegrid-12 treegrid-parent-1">
+	        <tr class="treegrid-12 treegrid-parent-1" th:remove="all">
 	          <td>Node 1-2</td><td>Additional info</td>
 	        </tr>
-	        <tr class="treegrid-121 treegrid-parent-12">
+	        <tr class="treegrid-121 treegrid-parent-12" th:remove="all">
 	          <td>Node 1-2-1</td><td>Additional info</td>
 	        </tr>
-	        <tr class="treegrid-2">
+	        <tr class="treegrid-2" th:remove="all">
 	          <td>Root node21</td><td>Additional info</td>
 	        </tr>
-	        <tr class="treegrid-21 treegrid-parent-2">
+	        <tr class="treegrid-21 treegrid-parent-2" th:remove="all">
 	          <td>Node 2-1</td><td>Additional info</td>
 	        </tr>
-	        <tr class="treegrid-22 treegrid-parent-2">
+	        <tr class="treegrid-22 treegrid-parent-2" th:remove="all">
 	          <td>Node 2-2</td><td>Additional info</td>
 	        </tr>
         </tbody>
