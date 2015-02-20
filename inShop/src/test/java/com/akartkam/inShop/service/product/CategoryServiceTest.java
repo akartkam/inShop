@@ -74,6 +74,13 @@ public class CategoryServiceTest extends AbstractServiceTest {
 		logger.info("*********End AutoTestFinde*********");
 	}
 	
+	@Test
+	public void getRootCategoryHierarchyTest(){
+		logger.info("*********Begin getRootCategoryHierarchyTest*********");
+		List<Category> rootCategory = categoryService.getRootCategories();
+		logger.info(rootCategory);
+		logger.info("*********End getRootCategoryHierarchyTest*********");		
+	}
 	
 	@Test
 	public void buildCategoryHierarchyTest(){
@@ -92,6 +99,18 @@ public class CategoryServiceTest extends AbstractServiceTest {
 		assertTrue(hCategory.contains(c1));
 		logger.info("*********End buildCategoryHierarchyTest*********");
 	}
+	
+	@Test
+	public void buildSubCategoryHierarchyTest(){
+		logger.info("*********Begin buildSubCategoryHierarchyTest*********");
+		Category found = categoryService.getCategoryByName("Test_Root_Category1").get(0);
+		List<Category> hCategory = null;
+		hCategory  = found.buildSubCategoryHierarchy(hCategory);
+		assertEquals(3, hCategory.size());
+		assertTrue(hCategory.contains(found));
+		logger.info(hCategory);
+		logger.info("*********End buildSubCategoryHierarchyTest*********");
+	}	
 
 	@Test
 	public void subCategoryTest(){

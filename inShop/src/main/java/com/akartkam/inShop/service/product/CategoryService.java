@@ -13,4 +13,5 @@ public interface CategoryService {
 	List<Category> getRootCategories();
 	List<Category> getCategoryByName(String name);
 	List<Product> getProductByName(String name);
+	List<Category> getAllCategoryHierarchy();
 }

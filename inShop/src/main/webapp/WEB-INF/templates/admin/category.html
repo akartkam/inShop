@@ -19,41 +19,34 @@
 <title>inShop Admin site</title>
 <body>
 	<div class="clearfix" th:fragment="content">
-      <table class="table tree-2 table-bordered table-striped table-condensed">
+      <table class="tree">
         <thead>
 	      <tr>
             <th th:text="#{admin.catalog.category.name}">Name</th>
             <th th:text="#{admin.catalog.category.description}">Description</th>
+            <th th:text="#{admin.catalog.category.enabled}">Enabled?</th>
   	      </tr>
  	    </thead>
- 	    <tbody th:each="rct : ${allRootCategories}">      
-	        <tr th:class="'treegrid-'+${rct.id}">
-				<td th:text="${rct.name}">Root category 1</td>
-            	<td th:text="${rct.description}">Root category description 1</td>
+ 	    <tbody>      
+	          <tr th:each="ct : ${allCategories}" th:class="${'treegrid-'+{ct.id}+{{ct.parent != null} ? ' treegrid-parent-'+{ct.parent.id} : ''}}"> 
+            <!-- table tree-2 table-bordered table-striped table-condensed
+                <tr th:each="ct : ${allCategories}" th:class="${'treegrid-'+{ct.id}}"> -->
+				<td th:text="${ct.name}">Root category 1</td>
+            	<td th:text="${ct.description}">Root category description 1</td>
+            	<td th:text="${ct.enabled}? #{bool.true} : #{bool.false}">Yes</td>
 	        </tr>
-	        <tr th:each="ct : ${rct.buildCategoryHierarchy()}" th:class="'treegrid-'+${ct.id}+' treegrid-parent-'+${rct.id}" th:unless="${#lists.isEmpty(rct.buildCategoryHierarchy())}">
-				<td th:text="${ct.name}">category 1</td>
-            	<td th:text="${ct.description}">category description 1</td>
-	        </tr>	        
-	        
-	        <tr class="treegrid-11 treegrid-parent-1" th:remove="all">
-	          <td>Node 1-1</td><td>Additional info</td>
-	        </tr>
-	        <tr class="treegrid-12 treegrid-parent-1" th:remove="all">
-	          <td>Node 1-2</td><td>Additional info</td>
-	        </tr>
-	        <tr class="treegrid-121 treegrid-parent-12" th:remove="all">
-	          <td>Node 1-2-1</td><td>Additional info</td>
-	        </tr>
-	        <tr class="treegrid-2" th:remove="all">
-	          <td>Root node21</td><td>Additional info</td>
-	        </tr>
-	        <tr class="treegrid-21 treegrid-parent-2" th:remove="all">
-	          <td>Node 2-1</td><td>Additional info</td>
-	        </tr>
-	        <tr class="treegrid-22 treegrid-parent-2" th:remove="all">
-	          <td>Node 2-2</td><td>Additional info</td>
-	        </tr>
+			<tr class="treegrid-1" th:remove="all">
+				<td>Root node</td><td>Additional info</td>
+			</tr>
+			<tr class="treegrid-2 treegrid-parent-1" th:remove="all">
+				<td>Node 1-1</td><td>Additional info</td>
+			</tr>
+			<tr class="treegrid-3 treegrid-parent-1" th:remove="all">
+				<td>Node 1-2</td><td>Additional info</td>
+			</tr>
+			<tr class="treegrid-4 treegrid-parent-3" th:remove="all">
+				<td>Node 1-2-1</td><td>Additional info</td>
+			</tr>
         </tbody>
       </table>	
 	</div>
@@ -66,10 +59,11 @@
 	<script src="../../../resources/bower_components/jquery/dist/jquery.treegrid.bootstrap3.js" th:src="@{/resources/bower_components/jquery/dist/jquery.treegrid.bootstrap3.js}"></script>
     <script type="text/javascript">
       $(document).ready(function() {
-        $(".tree").treegrid({
+    	  $('.tree').treegrid('getRootNodes').treegrid('expand'); 
+        /*$(".tree").treegrid({
             expanderExpandedClass: 'fa fa-minus',
             expanderCollapsedClass: 'fa fa-plus'
-        });
+        });*/
       });
     </script>	
 </body>

@@ -153,13 +153,35 @@ public class Category extends AbstractDomainObjectOrdering {
 	public List<Category> buildCategoryHierarchy(List<Category> currentHierarchy) {
         if (currentHierarchy == null) {
             currentHierarchy = new ArrayList<Category>();
-            if (this.isEnabled()) currentHierarchy.add(this);
+            currentHierarchy.add(this);
         }
-        if (getParent() != null && ! currentHierarchy.contains(getParent()) && getParent().isEnabled()) {
+        if (getParent() != null && ! currentHierarchy.contains(getParent())) {
             currentHierarchy.add(getParent());
             getParent().buildCategoryHierarchy(currentHierarchy);
         }
         return currentHierarchy;		
+	}
+	
+	@Transient
+	public List<Category> buildSubCategoryHierarchy(List<Category> currentHierarchy) {
+        if (currentHierarchy == null) {
+            currentHierarchy = new ArrayList<Category>();
+        }
+        if (!currentHierarchy.contains(this)) currentHierarchy.add(this);
+        if (hasSubCategory()) {
+            for(Category sc: getSubCategory()){
+            	if (!currentHierarchy.contains(sc)) {
+            		currentHierarchy.add(sc);	
+            		sc.buildSubCategoryHierarchy(currentHierarchy);
+            	}
+            }
+        }
+        return currentHierarchy;		
+	}	
+	
+	@Transient
+	public boolean hasSubCategory() {
+		return !subCategory.isEmpty(); 
 	}
 	
 	

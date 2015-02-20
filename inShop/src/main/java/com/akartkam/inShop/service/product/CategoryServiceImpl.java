@@ -1,5 +1,6 @@
 package com.akartkam.inShop.service.product;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +41,16 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public List<Product> getProductByName(String name) {
 		return productDAO.findProductByName(name);
+	}
+
+	@Override
+	public List<Category> getAllCategoryHierarchy() {
+		List<Category> allCategoryHierarchy = new ArrayList<Category>();
+		//List<Category> subCategries = new ArrayList<Category>();
+		for(Category rct: getRootCategories()) {
+			rct.buildSubCategoryHierarchy(allCategoryHierarchy);
+		}
+		return allCategoryHierarchy;
 	}
 
 }

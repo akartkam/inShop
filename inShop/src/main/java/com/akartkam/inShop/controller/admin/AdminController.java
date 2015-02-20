@@ -23,9 +23,9 @@ public class AdminController {
 	  @Autowired
 	  CategoryService categoryService;
 	
-	  @ModelAttribute("allRootCategories")
+	  @ModelAttribute("allCategories")
 	  public List<Category> allCategories() {
-	      return this.categoryService.getRootCategories();
+	      return this.categoryService.getAllCategoryHierarchy();
 	  }
 	
 	  @RequestMapping(method=GET)
