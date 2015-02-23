@@ -8,6 +8,8 @@
             <form th:action="@{/search}" method="GET">
             <input type="search" class="search" name="q" th:value="${originalQuery}" />
             <input type="submit" id="search_button" value="go" />
+
+            <a th:href="@{/admin}">admin</a>
             </form>
         </div>
     </div>

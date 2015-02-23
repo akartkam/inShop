@@ -18,37 +18,89 @@
 	</head>
 <title>inShop Admin site</title>
 <body>
-	<div class="clearfix" th:fragment="content">
-      <table class="tree">
-        <thead>
-	      <tr>
-            <th th:text="#{admin.catalog.category.name}">Name</th>
-            <th th:text="#{admin.catalog.category.description}">Description</th>
-            <th th:text="#{admin.catalog.category.enabled}">Enabled?</th>
-  	      </tr>
- 	    </thead>
- 	    <tbody>      
-	          <tr th:each="ct : ${allCategories}" th:class="${'treegrid-'+{ct.id}+{{ct.parent != null} ? ' treegrid-parent-'+{ct.parent.id} : ''}}"> 
-            <!-- table tree-2 table-bordered table-striped table-condensed
-                <tr th:each="ct : ${allCategories}" th:class="${'treegrid-'+{ct.id}}"> -->
-				<td th:text="${ct.name}">Root category 1</td>
-            	<td th:text="${ct.description}">Root category description 1</td>
-            	<td th:text="${ct.enabled}? #{bool.true} : #{bool.false}">Yes</td>
-	        </tr>
-			<tr class="treegrid-1" th:remove="all">
-				<td>Root node</td><td>Additional info</td>
-			</tr>
-			<tr class="treegrid-2 treegrid-parent-1" th:remove="all">
-				<td>Node 1-1</td><td>Additional info</td>
-			</tr>
-			<tr class="treegrid-3 treegrid-parent-1" th:remove="all">
-				<td>Node 1-2</td><td>Additional info</td>
-			</tr>
-			<tr class="treegrid-4 treegrid-parent-3" th:remove="all">
-				<td>Node 1-2-1</td><td>Additional info</td>
-			</tr>
-        </tbody>
-      </table>	
+	<div class="row" th:fragment="content">
+	  <div class="col-lg-12">
+	    <div class="panel panel-default">
+           <div class="panel-heading">
+               <span th:text="#{admin.catalog.category}" >Categories</span>
+           </div>	 
+           <div class="panel-body">   
+           	  <div class="dataTable_wrapper">
+			      <table class="tree table table-bordered table-striped table-condensed table-hover">
+			        <thead >
+				      <tr >
+			            <th  th:text="#{admin.catalog.category.name}">Name</th>
+			            <th  th:text="#{admin.catalog.category.description}">Description</th>
+			            <th  th:text="#{admin.catalog.category.order}">Order</th>
+			            <th class="text-center" th:text="#{admin.catalog.category.enabled}">Enabled?</th>
+			            <th></th>
+			  	      </tr>
+			 	    </thead>
+			 	    <tbody>      
+				          <tr th:each="ct : ${allCategories}" th:class="${'treegrid-'+{ct.id}+{{ct.parent != null} ? ' treegrid-parent-'+{ct.parent.id} : ''}}"> 
+							<td th:text="${ct.name}">Root category 1</td>
+			            	<td th:text="${ct.description}">Root category description 1</td>
+			            	<td th:text="${ct.ordering}">1</td>
+			            	<td class="text-center"><i th:class="${{ct.enabled} ? 'fa fa-check-circle' : ''}"></i></td>
+			            	<td class="text-center">
+                              <button type="button" class="open-CategoryEditDialog btn btn-outline btn-default" 
+                                      data-toggle="modal" data-target="#CategoryEdit" th:attr="data-id=${ct.id}">
+                                <i class="fa fa-pencil"></i>
+                              </button>		
+                              	            	
+			            	</td>
+				        </tr>
+						<tr class="treegrid-1" th:remove="all">
+							<td>Root node</td><td>Additional info</td>
+							<td align="center">Yes</td>
+						</tr>
+						<tr class="treegrid-2 treegrid-parent-1" th:remove="all">
+							<td>Node 1-1</td><td>Additional info</td>
+						</tr>
+						<tr class="treegrid-3 treegrid-parent-1" th:remove="all">
+							<td>Node 1-2</td><td>Additional info</td>
+						</tr>
+						<tr class="treegrid-4 treegrid-parent-3" th:remove="all">
+							<td>Node 1-2-1</td><td>Additional info</td>
+						</tr>
+			        </tbody>
+			      </table>
+                  <!-- Modal -->
+                  <div class="modal fade" id="CategoryEdit" tabindex="-1" role="dialog" aria-labelledby="CategoryEditLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                         <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                               <h4 class="modal-title" id="CategoryEditLabel">Modal title</h4>
+                         </div>
+                         <div class="modal-body">
+                           <div class="row">
+	                           <div class="panel-body">
+	                             <form role="form">
+	                               <fieldset>
+	                                 <legend th:text="#{admin.catalog.category.edit.description}">Description</legend>
+	                                 <div class="form-group"> 
+	                                   <label th:text="#{admin.catalog.category.edit.name}">Name</label>  
+	                                   <input class="form-control" type="text" name="name" id="categoryId" value=""/>
+	                                 </div>
+	                               </fieldset>
+	                             </form>
+	                           </div> 
+	                           </div> 
+                         </div>
+                         <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Save changes</button>
+                         </div>
+                      </div>
+                      <!-- /.modal-content -->
+                    </div>
+                   <!-- /.modal-dialog -->
+                   </div>
+				</div>   
+		    </div>   
+		 </div>      
+      </div>
 	</div>
     <!-- jQuery -->
     <script src="../../../resources/bower_components/jquery/dist/jquery.min.js" th:src="@{/resources/bower_components/jquery/dist/jquery.min.js}"></script>
@@ -57,14 +109,6 @@
 	<!-- Treegrid -->
     <script src="../../../resources/bower_components/jquery/dist/jquery.treegrid.min.js" th:src="@{/resources/bower_components/jquery/dist/jquery.treegrid.min.js}"></script>
 	<script src="../../../resources/bower_components/jquery/dist/jquery.treegrid.bootstrap3.js" th:src="@{/resources/bower_components/jquery/dist/jquery.treegrid.bootstrap3.js}"></script>
-    <script type="text/javascript">
-      $(document).ready(function() {
-    	  $('.tree').treegrid('getRootNodes').treegrid('expand'); 
-        /*$(".tree").treegrid({
-            expanderExpandedClass: 'fa fa-minus',
-            expanderCollapsedClass: 'fa fa-plus'
-        });*/
-      });
-    </script>	
+	<script src="../../../resources/js/inShop.js" th:src="@{/resources/js/inShop.js}"></script>	
 </body>
 </html>
