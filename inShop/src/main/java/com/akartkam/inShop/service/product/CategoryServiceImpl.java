@@ -2,6 +2,7 @@ package com.akartkam.inShop.service.product;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -50,6 +51,11 @@ public class CategoryServiceImpl implements CategoryService {
 			rct.buildSubCategoryHierarchy(allCategoryHierarchy);
 		}
 		return allCategoryHierarchy;
+	}
+
+	@Override
+	public Category getCategoryById(String id) {
+		return categoryDAO.get(UUID.fromString(id));
 	}
 
 }

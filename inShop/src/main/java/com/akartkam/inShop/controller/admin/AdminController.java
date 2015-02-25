@@ -8,7 +8,9 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.thymeleaf.spring.support.Layout;
 
@@ -38,4 +40,13 @@ public class AdminController {
 	  public String category() {
 		  return "/admin/category"; 
 		  }	  
+	  
+	  @Layout("disable")
+	  @RequestMapping("/catalog/category/edit/{id}")
+	  public String category(@PathVariable("id") String id, Model model) {
+		  Category category = categoryService.getCategoryById(id);
+		  model.addAttribute("category", category);
+		  return "/admin/categoryEdit"; 
+		  }	  
+	  
 }

@@ -42,6 +42,7 @@ public class ThymeleafLayoutInterceptor extends HandlerInterceptorAdapter {
         } else {
            layoutName = getLayoutName(handler);
         }
+        if ("disable".equals(layoutName)) return;
         modelAndView.setViewName(layoutName);
         modelAndView.addObject(this.viewAttributeName, originalViewName);
     }
