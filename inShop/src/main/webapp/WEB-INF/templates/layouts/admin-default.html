@@ -21,7 +21,12 @@
     <!-- Custom Fonts -->
     <link href="../../../resources/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/font-awesome/css/font-awesome.min.css}"/>
 	<!-- Treegrid --> 
-	<link href="../../../resources/css/jquery.treegrid.css" rel="stylesheet" th:href="@{/resources/css/jquery.treegrid.css}"/> 
+	<link href="../../../resources/css/jquery.treegrid.css" rel="stylesheet" th:href="@{/resources/css/jquery.treegrid.css}"/>
+   	<!-- DataTables CSS -->
+   	<link href="../../../resources/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css" rel="stylesheet" th:href="@{/resources/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css}"/>
+   	<!-- DataTables Responsive CSS -->
+   	<link href="../../../resources/bower_components/datatables-responsive/css/dataTables.responsive.css" rel="stylesheet" th:href="@{/resources/bower_components/datatables-responsive/css/dataTables.responsive.css}"/>
+	 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -195,9 +200,6 @@
     </div>
     <!-- /#wrapper -->
     
-    <!-- Custom Theme JavaScript -->
-    <script src="../dist/js/sb-admin-2.js"></script>    
-    
     <!-- jQuery -->
     <script src="../../../resources/bower_components/jquery/dist/jquery.min.js" th:src="@{/resources/bower_components/jquery/dist/jquery.min.js}"></script>
     <!-- Bootstrap Core JavaScript -->
@@ -209,7 +211,23 @@
     <!-- Treegrid--> 
     <script src="../../../resources/bower_components/jquery/dist/jquery.treegrid.min.js" th:src="@{/resources/bower_components/jquery/dist/jquery.treegrid.min.js}"></script>
 	<script src="../../../resources/bower_components/jquery/dist/jquery.treegrid.bootstrap3.js" th:src="@{/resources/bower_components/jquery/dist/jquery.treegrid.bootstrap3.js}"></script>
-	<script src="../../../resources/js/inShop.js" th:src="@{/resources/js/inShop.js}"></script>	
+	<!--<script src="../../../resources/js/inShop.js" th:src="@{/resources/js/inShop.js}"></script>-->	
+     <!-- DataTables JavaScript -->
+    <script src="../../../resources/bower_components/datatables/media/js/jquery.dataTables.min.js" th:src="@{/resources/bower_components/datatables/media/js/jquery.dataTables.min.js}"></script>
+    <script src="../../../resources/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js" th:src="@{/resources/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js}"></script>
+    <script type="text/javascript">
+	      $(document).ready(function() {
+	    		$(".tree").treegrid({
+	    			initialState : 'collapsed',
+	    			expanderExpandedClass : 'fa fa-minus-circle',
+	    			expanderCollapsedClass : 'fa fa-plus-circle'
+	    		});
+	            $('#categoryDataTable').DataTable({
+	                responsive: true
+	        	});	    		
+	    	});  
+    </script>
+
 </body>
 
 </html>

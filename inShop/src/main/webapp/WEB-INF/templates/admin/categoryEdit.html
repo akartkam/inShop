@@ -15,35 +15,36 @@
     	<link href="../../../resources/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/font-awesome/css/font-awesome.min.css}"/>
 	</head>
 <body>
-   <div class="container"> 
-      <div class="row">
 		   <form class="form-horizontal" role="form" action="#" th:object="${category}">
-		     <div class="form-group">
 				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal"
+	  		      <div class="clearfix">
+   					<button type="button" class="close" data-dismiss="modal"
 						aria-hidden="true">&times;</button>
 					<h4 class="modal-title" th:text="#{admin.catalog.category.edit.title.edit}">Edit Category</h4>
-				</div>
-		 	 </div>
+				  </div>
+		 	   </div>
 			 <!-- /modal-header -->
-			 <div class="form-group">
 			    <div class="modal-body">
-					<label >
+				  <div class="clearfix">
+				  	<label >
 					  <span th:text="#{admin.catalog.category.edit.name}">Category1</span>
 					</label>
-   					<input type="text" class="form-control" th:field="*{name}"> </input>
-			    </div>
+   					<input type="text" class="form-control" th:field="*{name}"/> 
+			      </div>
 			 </div>   
 			 <!-- /modal-body -->
-			 <div class="form-group">
 			   <div class="modal-footer">
+ 			    <div class="clearfix">
 		 		  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 				  <button type="submit" class="btn btn-primary">Save changes</button>
-			   </div>
+			    </div>
 			 </div>  
 			 <!-- /modal-footer -->
 		   </form>
-      </div>
-   </div>   		   
+		   <script>
+		   $('body').on('hidden.bs.modal', '.modal', function () {
+			   $(this).removeData('bs.modal');
+			 });
+		   </script> 
 </body>
 </html>
