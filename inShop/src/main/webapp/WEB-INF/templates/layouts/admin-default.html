@@ -33,8 +33,20 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <style media="screen" type="text/css">
+		.modal-open .modal {
+		  overflow-x: hidden;
+		  overflow-y: auto;
+		}    
+    </style>
 </head>
 <body>
+   <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	     </div> <!-- /.modal-content -->
+	    </div> <!-- /.modal-dialog -->
+    </div> <!-- /.modal -->  
     <div id="wrapper">
         <!-- Navigation -->
         <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
@@ -222,10 +234,14 @@
 	    			expanderExpandedClass : 'fa fa-minus-circle',
 	    			expanderCollapsedClass : 'fa fa-plus-circle'
 	    		});
-	            $('#categoryDataTable').DataTable({
+	    		/*$('#categoryDataTable').DataTable({
 	                responsive: true
-	        	});	    		
-	    	});  
+	        	});*/	    		
+    	   $('.modal').on('hidden.bs.modal', function (e) {
+    		    $('body').addClass('modal-open');
+    	    });
+
+	      })	      
     </script>
 
 </body>

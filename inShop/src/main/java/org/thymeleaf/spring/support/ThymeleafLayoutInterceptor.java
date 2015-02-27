@@ -37,11 +37,7 @@ public class ThymeleafLayoutInterceptor extends HandlerInterceptorAdapter {
         if (isRedirectOrForward(originalViewName)) {
             return;
         }
-        if (!(handler instanceof HandlerMethod)) {
-        	layoutName = this.defaultLayout;
-        } else {
-           layoutName = getLayoutName(handler);
-        }
+        layoutName = getLayoutName(handler);
         if ("disable".equals(layoutName)) return;
         modelAndView.setViewName(layoutName);
         modelAndView.addObject(this.viewAttributeName, originalViewName);
@@ -52,6 +48,9 @@ public class ThymeleafLayoutInterceptor extends HandlerInterceptorAdapter {
     }
 
     private String getLayoutName(Object handler) {
+    	if (!(handler instanceof HandlerMethod)) {
+    		return this.defaultLayout;
+    	}
         HandlerMethod handlerMethod = (HandlerMethod) handler;
         Layout layout = getMethodOrTypeAnnotation(handlerMethod);
         if (layout == null) {

@@ -12,39 +12,45 @@
 	    <!-- Bootstrap Core CSS -->
 	    <link href="../../../resources/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" th:href="@{/resources/bower_components/bootstrap/dist/css/bootstrap.min.css}"/>
 	    <!-- Custom Fonts -->
-    	<link href="../../../resources/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/font-awesome/css/font-awesome.min.css}"/>
+    	<link href="../../../resources/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/font-awesome/css/font-awesome.min.css}"/>    	
 	</head>
 <body>
-		   <form class="form-horizontal" role="form" action="#" th:object="${category}">
-				<div class="modal-header">
-	  		      <div class="clearfix">
-   					<button type="button" class="close" data-dismiss="modal"
-						aria-hidden="true">&times;</button>
-					<h4 class="modal-title" th:text="#{admin.catalog.category.edit.title.edit}">Edit Category</h4>
-				  </div>
-		 	   </div>
-			 <!-- /modal-header -->
-			    <div class="modal-body">
-				  <div class="clearfix">
-				  	<label >
-					  <span th:text="#{admin.catalog.category.edit.name}">Category1</span>
-					</label>
-   					<input type="text" class="form-control" th:field="*{name}"/> 
-			      </div>
-			 </div>   
-			 <!-- /modal-body -->
-			   <div class="modal-footer">
- 			    <div class="clearfix">
-		 		  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-				  <button type="submit" class="btn btn-primary">Save changes</button>
-			    </div>
-			 </div>  
-			 <!-- /modal-footer -->
-		   </form>
-		   <script>
-		   $('body').on('hidden.bs.modal', '.modal', function () {
-			   $(this).removeData('bs.modal');
-			 });
-		   </script> 
+	  <div class="modal-header">
+ 					<button type="button" class="close" data-dismiss="modal"
+				aria-hidden="true">&times;</button>
+			<h4 class="modal-title" th:text="#{admin.catalog.category.edit.title.edit}">Edit Category</h4>
+ 	   </div>
+	 <!-- /modal-header -->
+	    <div class="modal-body">
+	      <form class="form-horizontal" role="form" action="#" th:object="${category}">
+	        <div class="clearfix">
+		    	<label >
+			    <span th:text="#{admin.catalog.category.edit.name}">Category1</span>
+			    </label>
+ 					   <input type="text" class="form-control" th:field="*{name}"/>
+ 					</div>   
+ 		   </form>	    
+	    </div>
+	 <!-- /modal-body -->
+	   <div class="modal-footer">
+ 		  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		  <button type="submit" class="btn btn-primary">Save changes</button>
+	 </div>  
+	 <!-- /modal-footer -->
+   <script>
+   $('body').on('hidden.bs.modal', '.modal', function () {
+	   $(this).removeData('bs.modal');
+	   $(this).removeClass('modal-open-noscroll');
+	 }); 
+   $('body').on('show.bs.modal', '.modal', function () {
+       /*if ($(document).height() > $(window).height()) { */
+           // no-scroll
+           $('body').addClass("modal-open-noscroll");
+      /* }
+       else {
+           $('body').removeClass("modal-open-noscroll");
+       }*/
+   })
+   </script> 
 </body>
 </html>
