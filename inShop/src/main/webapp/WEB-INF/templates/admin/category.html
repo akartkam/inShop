@@ -23,6 +23,19 @@
    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
 	  <div class="modal-dialog">
 	    <div class="modal-content">
+	      <th:block th:remove="all">
+            <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&amp;times;</button>
+            <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+            </div>
+            <div class="modal-body">
+                <h3>Modal Body</h3>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>	      
+	        </div> 
+	      </th:block>
 	     </div> <!-- /.modal-content -->
 	    </div> <!-- /.modal-dialog -->
     </div> <!-- /.modal -->  
@@ -51,32 +64,33 @@
 			            	<td th:text="${ct.ordering}">1</td>
 			            	<td class="text-center"><i th:class="${{ct.enabled} ? 'fa fa-check-circle' : ''}"></i></td>
 			            	<td class="text-center">
-                              <button type="button" class="open-CategoryEditDialog btn btn-outline btn-default" 
-                                      data-toggle="modal" data-target="#editModal" data-backdrop="false"
-                                      th:href="${'category/edit/'+ct.id}">
+                              <button type="button" class="open-editDialog btn btn-outline btn-default btn-xs" 
+                                      data-toggle="modal" data-target="#editModal" 
+                                      th:attr="data-id=${ct.id}"> 
                                 <i class="fa fa-pencil"></i>
                               </button>		
-                              	            	
+                              <!--  th:href="${'category/edit/'+ct.id}"> -->	            	
 			            	</td>
 				        </tr>
-						<tr class="treegrid-1" th:remove="all">
-							<td>Root node</td><td>Additional info</td>
-							<td align="center">Yes</td>
-						</tr>
-						<tr class="treegrid-2 treegrid-parent-1" th:remove="all">
-							<td>Node 1-1</td><td>Additional info</td>
-						</tr>
-						<tr class="treegrid-3 treegrid-parent-1" th:remove="all">
-							<td>Node 1-2</td><td>Additional info</td>
-						</tr>
-						<tr class="treegrid-4 treegrid-parent-3" th:remove="all">
-							<td>Node 1-2-1</td><td>Additional info</td>
-						</tr>
+				        <th:block th:remove="all">
+							<tr class="treegrid-1" th:remove="all">
+								<td>Root node</td><td>Additional info</td>
+								<td align="center">Yes</td>
+							</tr>
+							<tr class="treegrid-2 treegrid-parent-1" th:remove="all">
+								<td>Node 1-1</td><td>Additional info</td>
+							</tr>
+							<tr class="treegrid-3 treegrid-parent-1" th:remove="all">
+								<td>Node 1-2</td><td>Additional info</td>
+							</tr>
+							<tr class="treegrid-4 treegrid-parent-3" th:remove="all">
+								<td>Node 1-2-1</td><td>Additional info</td>
+							</tr>
+						</th:block>
 			        </tbody>
 			      </table>
 				 </div>   
 		    </div>   
- 		    <!-- Modal -->
 		 </div>   
        </div>
      </div> 
@@ -91,17 +105,58 @@
      <!-- DataTables JavaScript -->
     <script src="../../../resources/bower_components/datatables/media/js/jquery.dataTables.min.js" th:src="@{/resources/bower_components/datatables/media/js/jquery.dataTables.min.js}"></script>
     <script src="../../../resources/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js" th:src="@{/resources/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js}"></script>
-     <script type="text/javascript">
+     <script type="text/javascript" th:fragment="script">
 	      $(document).ready(function() {
 	    		$(".tree").treegrid({
-	    			initialState : 'collapsed',
-	    			expanderExpandedClass : 'fa fa-minus-circle',
-	    			expanderCollapsedClass : 'fa fa-plus-circle'
+	    			initialState : "collapsed",
+	    			expanderExpandedClass : "fa fa-minus-circle",
+	    			expanderCollapsedClass : "fa fa-plus-circle"
 	    		});
-	            /*$('#categoryDataTable').DataTable({
-	                responsive: true
-	        	});*/	    		
-	    	});  
+                $("#editModal").on("show.bs.modal", function (e) {
+	                    $("#editModalContent").text("");
+	                    $.ajax({
+	                        url: "category/edit/"+ $("#editModal").data("id"),
+	                        cache: false
+	                    })
+	                            .done(function (html) {
+	                                $("#editModalContent").append(html);
+	                            });
+	                })   
+	   			$("#editModal").on('hidden.bs.modal', '#editModal', function () {
+		   				$(this).removeData('bs.modal');
+		 		}); 	                
+		        $(".open-editDialog").on("click", function () {
+		    	  var Id = $(this).data("id");
+		    	  $("#editModal").data("id",Id); 
+		    	});	                
+	            $('#categoryDataTable').DataTable({
+	            	"language": {
+	                   	"processing": "Подождите...",
+	                   	  "search": "Поиск:",
+	                   	  "lengthMenu": "Показать _MENU_ записей",
+	                   	  "info": "Записи с _START_ до _END_ из _TOTAL_ записей",
+	                   	  "infoEmpty": "Записи с 0 до 0 из 0 записей",
+	                   	  "infoFiltered": "(отфильтровано из _MAX_ записей)",
+	                   	  "infoPostFix": "",
+	                   	  "loadingRecords": "Загрузка записей...",
+	                   	  "zeroRecords": "Записи отсутствуют.",
+	                   	  "emptyTable:": "В таблице отсутствуют данные",
+	                   	  "paginate": {
+	                   	    "first": "Первая",
+	                   	    "previous": "Предыдущая",
+	                   	    "next": "Следующая",
+	                   	    "last": "Последняя"
+	                   	  },
+	                   	  "aria": {
+	                   	    "sortAscending": ": активировать для сортировки столбца по возрастанию",
+	                   	    "sortDescending": ": активировать для сортировки столбца по убыванию"
+	                   	  }
+	                  },
+	                responsive: true,
+	                ordering:  false
+	       
+	        	});	    		        	
+	    	}); 
      </script>
 </body>
 </html>

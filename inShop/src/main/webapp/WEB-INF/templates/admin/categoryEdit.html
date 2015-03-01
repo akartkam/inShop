@@ -1,56 +1,63 @@
 <!DOCTYPE html>
 <html lang="ru" xmlns:th="http://www.thymeleaf.org" >
 	<head>
-		<title>Admin inShop</title>
+		<title>inShop Admin Category</title>
 	    <meta charset="utf-8"/>
 	    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 	    <meta name="viewport" content="width=device-width, initial-scale=1"/>
 	    <meta name="description" content=""/>
 	    <meta name="author" content=""/>
 	
-	    <title>inShop Admin Category Edit</title>
 	    <!-- Bootstrap Core CSS -->
 	    <link href="../../../resources/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" th:href="@{/resources/bower_components/bootstrap/dist/css/bootstrap.min.css}"/>
+		<!-- Treegrid -->
+	 	<link href="../../../resources/css/jquery.treegrid.css" rel="stylesheet" th:href="@{/resources/css/jquery.treegrid.css}"/>
 	    <!-- Custom Fonts -->
-    	<link href="../../../resources/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/font-awesome/css/font-awesome.min.css}"/>    	
+    	<link href="../../../resources/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/font-awesome/css/font-awesome.min.css}"/>
 	</head>
 <body>
-	  <div class="modal-header">
+   <form class="form-horizontal" role="form" action="#" th:object="${category}" th:fragment="editCategoryForm">
+	   <div class="modal-header">
  					<button type="button" class="close" data-dismiss="modal"
 				aria-hidden="true">&times;</button>
 			<h4 class="modal-title" th:text="#{admin.catalog.category.edit.title.edit}">Edit Category</h4>
  	   </div>
 	 <!-- /modal-header -->
 	    <div class="modal-body">
-	      <form class="form-horizontal" role="form" action="#" th:object="${category}">
 	        <div class="clearfix">
-		    	<label >
-			    <span th:text="#{admin.catalog.category.edit.name}">Category1</span>
-			    </label>
- 					   <input type="text" class="form-control" th:field="*{name}"/>
- 					</div>   
- 		   </form>	    
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#main" data-toggle="tab">Основные</a>
+                    </li>
+                    <li><a href="#additional" data-toggle="tab">Дополнительно</a>
+                    </li>
+                </ul>
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div class="tab-pane fade in active" id="main">
+			    		<label>
+				    		<span th:text="#{admin.catalog.category.edit.name}">Category1</span>
+				   		</label>
+ 						<input type="text" class="form-control" th:field="*{name}"/> 
+ 						                   
+ 					</div>
+                    <div class="tab-pane fade" id="additional">
+                        <h4>Profile Tab</h4>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                    </div>
+                </div>
+ 			</div>   
 	    </div>
 	 <!-- /modal-body -->
 	   <div class="modal-footer">
- 		  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-		  <button type="submit" class="btn btn-primary">Save changes</button>
-	 </div>  
+ 		  <button type="button" class="btn btn-default" data-dismiss="modal" th:text="#{admin.catalog.category.edit.button.close}">Close</button>
+		  <button type="submit" class="btn btn-primary" th:text="#{admin.catalog.category.edit.button.save}">Save changes</button>
+	   </div>  
 	 <!-- /modal-footer -->
-   <script>
-   $('body').on('hidden.bs.modal', '.modal', function () {
-	   $(this).removeData('bs.modal');
-	   $(this).removeClass('modal-open-noscroll');
-	 }); 
-   $('body').on('show.bs.modal', '.modal', function () {
-       /*if ($(document).height() > $(window).height()) { */
-           // no-scroll
-           $('body').addClass("modal-open-noscroll");
-      /* }
-       else {
-           $('body').removeClass("modal-open-noscroll");
-       }*/
-   })
-   </script> 
+   </form>	 
+   <!-- jQuery -->
+   <script src="../../../resources/bower_components/jquery/dist/jquery.min.js" th:src="@{/resources/bower_components/jquery/dist/jquery.min.js}"></script>
+   <!-- Bootstrap Core JavaScript -->
+   <script src="../../../resources/bower_components/bootstrap/dist/js/bootstrap.min.js" th:src="@{/resources/bower_components/bootstrap/dist/js/bootstrap.min.js}"></script> 
 </body>
 </html>
+
