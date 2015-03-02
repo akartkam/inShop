@@ -7,7 +7,6 @@
 	    <meta name="viewport" content="width=device-width, initial-scale=1"/>
 	    <meta name="description" content=""/>
 	    <meta name="author" content=""/>
-	
 	    <!-- Bootstrap Core CSS -->
 	    <link href="../../../resources/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" th:href="@{/resources/bower_components/bootstrap/dist/css/bootstrap.min.css}"/>
 		<!-- Treegrid -->
@@ -105,7 +104,9 @@
      <!-- DataTables JavaScript -->
     <script src="../../../resources/bower_components/datatables/media/js/jquery.dataTables.min.js" th:src="@{/resources/bower_components/datatables/media/js/jquery.dataTables.min.js}"></script>
     <script src="../../../resources/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js" th:src="@{/resources/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js}"></script>
-     <script type="text/javascript" th:fragment="script">
+    <!-- Bootstrap bootstrap-wysiwyg.js -->
+    <script src="../../../resources/js/bootstrap-wysiwyg.js" th:src="@{/resources/js/bootstrap-wysiwyg.js}" th:fragment="script"></script> 
+    <script type="text/javascript" th:fragment="script">
 	      $(document).ready(function() {
 	    		$(".tree").treegrid({
 	    			initialState : "collapsed",
@@ -117,14 +118,10 @@
 	                    $.ajax({
 	                        url: "category/edit/"+ $("#editModal").data("id"),
 	                        cache: false
-	                    })
-	                            .done(function (html) {
+	                    }).done(function (html) {
 	                                $("#editModalContent").append(html);
-	                            });
-	                })   
-	   			$("#editModal").on('hidden.bs.modal', '#editModal', function () {
-		   				$(this).removeData('bs.modal');
-		 		}); 	                
+	                       });
+	                });    	                
 		        $(".open-editDialog").on("click", function () {
 		    	  var Id = $(this).data("id");
 		    	  $("#editModal").data("id",Id); 
@@ -155,7 +152,8 @@
 	                responsive: true,
 	                ordering:  false
 	       
-	        	});	    		        	
+	        	});
+	            $("#editor").wysiwyg(); 
 	    	}); 
      </script>
 </body>
