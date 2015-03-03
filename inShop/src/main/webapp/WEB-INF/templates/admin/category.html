@@ -17,6 +17,9 @@
     	<link href="../../../resources/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css" rel="stylesheet" th:href="@{/resources/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css}"/>
     	<!-- DataTables Responsive CSS -->
     	<link href="../../../resources/bower_components/datatables-responsive/css/dataTables.responsive.css" rel="stylesheet" th:href="@{/resources/bower_components/datatables-responsive/css/dataTables.responsive.css}"/>   	
+    	<link href="../../../resources/bower_components/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/bootstrap/dist/css/bootstrap-theme.min.css"></link>    	
+		<link href="../../../resources/css/bootstrap3-wysihtml5.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/bootstrap3-wysihtml5.min.css"></link>
+    	<link href="../../../resources/css/sb-admin-2.css" rel="stylesheet" th:href="@{/resources/css/sb-admin-2.css}"/>
 	</head>
 <body >
    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
@@ -105,7 +108,7 @@
     <script src="../../../resources/bower_components/datatables/media/js/jquery.dataTables.min.js" th:src="@{/resources/bower_components/datatables/media/js/jquery.dataTables.min.js}"></script>
     <script src="../../../resources/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js" th:src="@{/resources/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js}"></script>
     <!-- Bootstrap bootstrap-wysiwyg.js -->
-    <script src="../../../resources/js/bootstrap-wysiwyg.js" th:src="@{/resources/js/bootstrap-wysiwyg.js}" th:fragment="script"></script> 
+    <script src="../../../resources/js/bootstrap3-wysihtml5.all.min.js" th:src="@{/resources/js/bootstrap3-wysihtml5.all.min.js}" th:fragment="script"></script> 
     <script type="text/javascript" th:fragment="script">
 	      $(document).ready(function() {
 	    		$(".tree").treegrid({
@@ -113,14 +116,20 @@
 	    			expanderExpandedClass : "fa fa-minus-circle",
 	    			expanderCollapsedClass : "fa fa-plus-circle"
 	    		});
-                $("#editModal").on("show.bs.modal", function (e) {
+	    		$("#editModal").on("show.bs.modal", function (e) {
 	                    $("#editModalContent").text("");
 	                    $.ajax({
 	                        url: "category/edit/"+ $("#editModal").data("id"),
 	                        cache: false
 	                    }).done(function (html) {
 	                                $("#editModalContent").append(html);
+	        	    	       	    $('.textarea').wysihtml5({
+	        		   	     		     toolbar: {
+	        		   	     		      fa: true
+	        		   	     		     }
+	        		   	     		   });	                                
 	                       });
+
 	                });    	                
 		        $(".open-editDialog").on("click", function () {
 		    	  var Id = $(this).data("id");
@@ -153,8 +162,7 @@
 	                ordering:  false
 	       
 	        	});
-	            $("#editor").wysiwyg(); 
-	    	}); 
+	    	});
      </script>
 </body>
 </html>

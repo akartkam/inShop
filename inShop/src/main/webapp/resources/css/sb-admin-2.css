@@ -8,6 +8,14 @@ body {
     background-color: #f8f8f8;
 }
 
+div.field-box {
+	margin-bottom: 20px;
+}
+
+fieldset div.field-box:last-child {
+	margin-bottom: 0;
+}
+
 #wrapper {
     width: 100%;
 }

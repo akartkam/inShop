@@ -14,9 +14,12 @@
 	 	<link href="../../../resources/css/jquery.treegrid.css" rel="stylesheet" th:href="@{/resources/css/jquery.treegrid.css}"/>
 	    <!-- Custom Fonts -->
     	<link href="../../../resources/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/font-awesome/css/font-awesome.min.css}"/>
+		<link href="../../../resources/bower_components/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/bootstrap/dist/css/bootstrap-theme.min.css}"></link>    	
+		<link href="../../../resources/css/bootstrap3-wysihtml5.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/bootstrap3-wysihtml5.min.css}"></link>
+    	<link href="../../../resources/css/sb-admin-2.css" rel="stylesheet" th:href="@{/resources/css/sb-admin-2.css}"/>
 	</head>
 <body>
-   <form class="form-horizontal" role="form" action="#" th:object="${category}" th:fragment="editCategoryForm">
+   <form method="post" class="form-horizontal" role="form" action="#" th:object="${category}" th:fragment="editCategoryForm">
 	   <div class="modal-header">
  					<button type="button" class="close" data-dismiss="modal"
 				aria-hidden="true">&times;</button>
@@ -24,8 +27,7 @@
  	   </div>
 	 <!-- /modal-header -->
 	    <div class="modal-body">
-	        <div class="clearfix">
-                <ul class="nav nav-tabs">
+               <ul class="nav nav-tabs">
                     <li class="active"><a href="#main" data-toggle="tab" th:text="#{admin.catalog.category.edit.tab.main}">Основные</a>
                     </li>
                     <li><a href="#additional" data-toggle="tab" th:text="#{admin.catalog.category.edit.tab.additional}">Дополнительно</a>
@@ -36,70 +38,24 @@
                     <div class="tab-pane fade in active" id="main">
                       <fieldset>
                         <legend>Описание</legend>
-			    		  <label>
-				    	  	<span th:text="#{admin.catalog.category.edit.name}">Category1</span>
-				   		   </label>
-				   		   <input type="text" class="form-control" th:field="*{name}"/> 
-			    		  <label>
-				    	  	<span th:text="#{admin.catalog.category.edit.description}">Description Category1</span>
-				   		   </label>
-				   		   <input type="text" class="form-control" th:field="*{description}"/> 
-						   <div class="btn-toolbar" data-role="editor-toolbar" data-target="#editor">
-						      <div class="btn-group">
-						        <a class="btn dropdown-toggle" data-toggle="dropdown" title="Font"><i class="fa fa-font"></i><b class="caret"></b></a>
-						          <ul class="dropdown-menu">
-						          </ul>
-						        </div>
-						      <div class="btn-group">
-						        <a class="btn dropdown-toggle" data-toggle="dropdown" title="Font Size"><i class="fa fa-text-height"></i>&nbsp;<b class="caret"></b></a>
-						          <ul class="dropdown-menu">
-						          <li><a data-edit="fontSize 5"><font size="5">Huge</font></a></li>
-						          <li><a data-edit="fontSize 3"><font size="3">Normal</font></a></li>
-						          <li><a data-edit="fontSize 1"><font size="1">Small</font></a></li>
-						          </ul>
-						      </div>
-						      <div class="btn-group">
-						        <a class="btn btn-default" data-edit="bold" title="Bold (Ctrl/Cmd+B)"><i class="fa fa-bold"></i></a>
-						        <a class="btn btn-default" data-edit="italic" title="Italic (Ctrl/Cmd+I)"><i class="fa fa-italic"></i></a>
-						        <a class="btn btn-default" data-edit="strikethrough" title="Strikethrough"><i class="fa fa-strikethrough"></i></a>
-						        <a class="btn btn-default" data-edit="underline" title="Underline (Ctrl/Cmd+U)"><i class="fa fa-underline"></i></a>
-						      </div>
-						      <div class="btn-group">
-						        <a class="btn btn-default" data-edit="insertunorderedlist" title="Bullet list"><i class="fa fa-list-ul"></i></a>
-						        <a class="btn btn-default" data-edit="insertorderedlist" title="Number list"><i class="fa fa-list-ol"></i></a>
-						        <a class="btn btn-default" data-edit="outdent" title="Reduce indent (Shift+Tab)"><i class="fa fa-indent-left"></i></a>
-						        <a class="btn btn-default" data-edit="indent" title="Indent (Tab)"><i class="fa fa-indent-right"></i></a>
-						      </div>
-						      <div class="btn-group">
-						        <a class="btn btn-default" data-edit="justifyleft" title="Align Left (Ctrl/Cmd+L)"><i class="fa fa-align-left"></i></a>
-						        <a class="btn btn-default" data-edit="justifycenter" title="Center (Ctrl/Cmd+E)"><i class="fa fa-align-center"></i></a>
-						        <a class="btn btn-default" data-edit="justifyright" title="Align Right (Ctrl/Cmd+R)"><i class="fa fa-align-right"></i></a>
-						        <a class="btn btn-default" data-edit="justifyfull" title="Justify (Ctrl/Cmd+J)"><i class="fa fa-align-justify"></i></a>
-						      </div>
-						      <div class="btn-group">
-								  <a class="btn dropdown-toggle" data-toggle="dropdown" title="Hyperlink"><i class="fa fa-link"></i></a>
-								    <div class="dropdown-menu input-append">
-									    <input class="span2" placeholder="URL" type="text" data-edit="createLink"/>
-									    <button class="btn btn-default" type="button">Add</button>
-						        </div>
-						        <a class="btn btn-default" data-edit="unlink" title="Remove Hyperlink"><i class="fa fa-cut"></i></a>
-						
-						      </div>
-						      
-						      <div class="btn-group">
-						        <a class="btn btn-default" title="Insert picture (or just drag &amp; drop)" id="pictureBtn"><i class="fa fa-picture"></i></a>
-						        <input type="file" data-role="magic-overlay" data-target="#pictureBtn" data-edit="insertImage" />
-						      </div>
-						      <div class="btn-group">
-						        <a class="btn btn-default" data-edit="undo" title="Undo (Ctrl/Cmd+Z)"><i class="fa fa-undo"></i></a>
-						        <a class="btn btn-default" data-edit="redo" title="Redo (Ctrl/Cmd+Y)"><i class="fa fa-repeat"></i></a>
-						      </div>
-						      <input type="text" data-edit="inserttext" id="voiceBtn" x-webkit-speech=""/>
-						    </div>
-						
-						    <div id="editor" th:field="*{longDescription}">
-						      Go ahead&hellip;
-						    </div>				   		
+                              <div class="field-box">
+				    		  <label>
+					    	  	<span th:text="#{admin.catalog.category.edit.name}">Category1</span>
+					   		   </label>
+					   		   <input type="text" class="form-control" th:field="*{name}"/>
+					   		   </div>
+					   		   <div class="field-box">
+	 			    		  <label>
+					    	  	<span th:text="#{admin.catalog.category.edit.description}">Description Category1</span>
+					   		   </label>
+					   		   <input type="text" class="form-control" th:field="*{description}"/>
+					   		   </div>
+					   		   <div class="field-box">
+	 			    		  <label>
+					    	  	<span th:text="#{admin.catalog.category.edit.longDescription}">Description Category1</span>
+					   		   </label>
+	  						   <textarea class="textarea" placeholder="Enter text ..." style="width: 100%; height: 200px; font-size: 14px; line-height: 18px;" th:field="*{longDescription}"></textarea>
+	  						   </div>
  					  </fieldset>	                   
  					</div>
                     <div class="tab-pane fade" id="additional">
@@ -107,7 +63,6 @@
                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
                     </div>
                 </div>
- 			</div>   
 	    </div>
 	 <!-- /modal-body -->
 	   <div class="modal-footer">
@@ -121,46 +76,13 @@
    <!-- Bootstrap Core JavaScript -->
    <script src="../../../resources/bower_components/bootstrap/dist/js/bootstrap.min.js" th:src="@{/resources/bower_components/bootstrap/dist/js/bootstrap.min.js}"></script>
    <!-- Bootstrap bootstrap-wysiwyg.js -->
-   <script src="../../../resources/js/bootstrap-wysiwyg.js" th:src="@{/resources/js/bootstrap-wysiwyg.js}"></script> 
+   <script src="../../../resources/js/bootstrap3-wysihtml5.all.min.js" th:src="@{/resources/js/bootstrap3-wysihtml5.all.min.js}"></script> 
    <script type="text/javascript">
-		   $(function(){
-		     function initToolbarBootstrapBindings() {
-		       var fonts = ['Serif', 'Sans', 'Arial', 'Arial Black', 'Courier', 
-		             'Courier New', 'Comic Sans MS', 'Helvetica', 'Impact', 'Lucida Grande', 'Lucida Sans', 'Tahoma', 'Times',
-		             'Times New Roman', 'Verdana'],
-		             fontTarget = $('[title=Font]').siblings('.dropdown-menu');
-		       $.each(fonts, function (idx, fontName) {
-		           fontTarget.append($('<li><a data-edit="fontName ' + fontName +'" style="font-family:\''+ fontName +'\'">'+fontName + '</a></li>'));
-		       });
-		       $('a[title]').tooltip({container:'body'});
-		     	$('.dropdown-menu input').click(function() {return false;})
-		 		    .change(function () {$(this).parent('.dropdown-menu').siblings('.dropdown-toggle').dropdown('toggle');})
-		         .keydown('esc', function () {this.value='';$(this).change();});
-
-		       $('[data-role=magic-overlay]').each(function () { 
-		         var overlay = $(this), target = $(overlay.data('target')); 
-		         overlay.css('opacity', 0).css('position', 'absolute').offset(target.offset()).width(target.outerWidth()).height(target.outerHeight());
-		       });
-		       if ("onwebkitspeechchange"  in document.createElement("input")) {
-		         var editorOffset = $('#editor').offset();
-		         $('#voiceBtn').css('position','absolute').offset({top: editorOffset.top, left: editorOffset.left+$('#editor').innerWidth()-35});
-		       } else {
-		         $('#voiceBtn').hide();
-		       }
-		 	};
-		 	function showErrorAlert (reason, detail) {
-		 		var msg='';
-		 		if (reason==='unsupported-file-type') { msg = "Unsupported format " +detail; }
-		 		else {
-		 			console.log("error uploading file", reason, detail);
-		 		}
-		 		$('<div class="alert"> <button type="button" class="close" data-dismiss="alert">&times;</button>'+ 
-		 		 '<strong>File upload error</strong> '+msg+' </div>').prependTo('#alerts');
-		 	};
-		    // initToolbarBootstrapBindings();  
-		 	$('#editor').wysiwyg();
-		     //window.prettyPrint && prettyPrint();
-		   });
+	   $('.textarea').wysihtml5({
+		    toolbar: {
+		      fa: true
+		    }
+		  });   
    </script>
 </body>
 </html>
