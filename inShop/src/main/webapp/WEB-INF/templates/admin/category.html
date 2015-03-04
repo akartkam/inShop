@@ -18,7 +18,7 @@
     	<!-- DataTables Responsive CSS -->
     	<link href="../../../resources/bower_components/datatables-responsive/css/dataTables.responsive.css" rel="stylesheet" th:href="@{/resources/bower_components/datatables-responsive/css/dataTables.responsive.css}"/>   	
     	<link href="../../../resources/bower_components/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/bootstrap/dist/css/bootstrap-theme.min.css"></link>    	
-		<link href="../../../resources/css/bootstrap3-wysihtml5.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/bootstrap3-wysihtml5.min.css"></link>
+		<link href="../../../resources/css/summernote.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/summernote.css}"></link>
     	<link href="../../../resources/css/sb-admin-2.css" rel="stylesheet" th:href="@{/resources/css/sb-admin-2.css}"/>
 	</head>
 <body >
@@ -107,8 +107,9 @@
      <!-- DataTables JavaScript -->
     <script src="../../../resources/bower_components/datatables/media/js/jquery.dataTables.min.js" th:src="@{/resources/bower_components/datatables/media/js/jquery.dataTables.min.js}"></script>
     <script src="../../../resources/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js" th:src="@{/resources/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js}"></script>
-    <!-- Bootstrap bootstrap-wysiwyg.js -->
-    <script src="../../../resources/js/bootstrap3-wysihtml5.all.min.js" th:src="@{/resources/js/bootstrap3-wysihtml5.all.min.js}" th:fragment="script"></script> 
+    <!-- summernote -->
+    <script src="../../../resources/js/summernote.js" th:src="@{/resources/js/summernote.js}"></script>
+    <script src="../../../resources/js/summernote-ru-RU.js" th:src="@{/resources/js/summernote-ru-RU.js}"></script> 
     <script type="text/javascript" th:fragment="script">
 	      $(document).ready(function() {
 	    		$(".tree").treegrid({
@@ -117,23 +118,24 @@
 	    			expanderCollapsedClass : "fa fa-plus-circle"
 	    		});
 	    		$("#editModal").on("show.bs.modal", function (e) {
-	                    $("#editModalContent").text("");
-	                    $.ajax({
-	                        url: "category/edit/"+ $("#editModal").data("id"),
-	                        cache: false
-	                    }).done(function (html) {
-	                                $("#editModalContent").append(html);
-	        	    	       	    $('#longDescrTextArea').wysihtml5({
-	        		   	     		     toolbar: {
-	        		   	     		      fa: true
-	        		   	     		     }
-	        		   	     		   });	                                
-	                       });
-
+						if ($("#editModal").data("allowed") == "true") {    			
+		    		        $("#editModalContent").text("");
+		                    $.ajax({
+		                        url: "category/edit/"+ $("#editModal").data("id"),
+		                        cache: false
+		                    }).done(function (html) {
+		                                $("#editModalContent").append(html);
+		                                $('#summernote').summernote({
+		            					    lang: "ru-RU"
+		              				     });
+		                                $("#editModal").data("allowed","false")
+		                       });
+						}  
 	                });    	                
 		        $(".open-editDialog").on("click", function () {
 		    	  var Id = $(this).data("id");
-		    	  $("#editModal").data("id",Id); 
+		    	  $("#editModal").data("id",Id);
+		    	  $("#editModal").data("allowed","true");
 		    	});	                
 	            $('#categoryDataTable').DataTable({
 	            	"language": {

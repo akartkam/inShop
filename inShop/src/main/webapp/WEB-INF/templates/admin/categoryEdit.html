@@ -15,7 +15,7 @@
 	    <!-- Custom Fonts -->
     	<link href="../../../resources/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/font-awesome/css/font-awesome.min.css}"/>
 		<link href="../../../resources/bower_components/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/bootstrap/dist/css/bootstrap-theme.min.css}"></link>    	
-		<link href="../../../resources/css/bootstrap3-wysihtml5.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/bootstrap3-wysihtml5.min.css}"></link>
+		<link href="../../../resources/css/summernote.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/summernote.css}"></link>
     	<link href="../../../resources/css/sb-admin-2.css" rel="stylesheet" th:href="@{/resources/css/sb-admin-2.css}"/>
 	</head>
 <body>
@@ -54,7 +54,8 @@
 	 			    		  <label>
 					    	  	<span th:text="#{admin.catalog.category.edit.longDescription}">Description Category1</span>
 					   		   </label>
-	  						   <textarea id="longDescrTextArea" class="textarea" placeholder="Enter text ..." style="width: 100%; height: 200px; font-size: 14px; line-height: 18px;" th:field="*{longDescription}"></textarea>
+	  						   <div id="summernote" lang="ru-RU" th:field="*{longDescription}">Long Description 1</div>
+	  						   <!--  <textarea id="longDescrTextArea" class="textarea" placeholder="Enter text ..." style="width: 100%; height: 200px; font-size: 14px; line-height: 18px;" th:field="*{longDescription}"></textarea> -->
 	  						   </div>
  					  </fieldset>	                   
  					</div>
@@ -76,13 +77,26 @@
    <!-- Bootstrap Core JavaScript -->
    <script src="../../../resources/bower_components/bootstrap/dist/js/bootstrap.min.js" th:src="@{/resources/bower_components/bootstrap/dist/js/bootstrap.min.js}"></script>
    <!-- Bootstrap bootstrap-wysiwyg.js -->
-   <script src="../../../resources/js/bootstrap3-wysihtml5.all.min.js" th:src="@{/resources/js/bootstrap3-wysihtml5.all.min.js}"></script> 
+   <script src="../../../resources/js/summernote.js" th:src="@{/resources/js/summernote.js}"></script>
+   <script src="../../../resources/js/summernote-ru-RU.js" th:src="@{/resources/js/summernote-ru-RU.js}"></script> 
    <script type="text/javascript">
-	   $('.textarea').wysihtml5({
-		    toolbar: {
-		      fa: true
-		    }
-		  });   
+	   /*var myCustomTemplates = {
+			   html : function(context) {
+			     var locale = context.locale;
+			     var options = context.options;
+			     return "<li>" +
+			            "<div class='btn-group'>" +
+			            "<a class='btn' data-wysihtml5-action='change_view' title='" + locale.html.edit + "'>HTML</a>" +
+			            "</div>" +
+			            "</li>";
+			   }
+			 }*/   
+	     $(document).ready(function() {
+				  $('#summernote').summernote({
+					    lang: 'ru-RU'
+				  });
+				});
+		  
    </script>
 </body>
 </html>
