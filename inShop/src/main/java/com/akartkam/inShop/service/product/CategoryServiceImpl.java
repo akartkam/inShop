@@ -58,4 +58,10 @@ public class CategoryServiceImpl implements CategoryService {
 		return categoryDAO.get(UUID.fromString(id));
 	}
 
+	@Override
+	@Transactional(readOnly = false)
+	public void updateCategory(Category category) {
+		categoryDAO.update(category);
+	}
+
 }

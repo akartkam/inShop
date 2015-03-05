@@ -16,7 +16,6 @@ import org.joda.time.DateTime;
 
 @SuppressWarnings("serial")
 @MappedSuperclass
-@DynamicUpdate
 public abstract class AbstractDomainObject implements DomainObject<UUID> {
 	
     private UUID id = GeneratorId.createId();

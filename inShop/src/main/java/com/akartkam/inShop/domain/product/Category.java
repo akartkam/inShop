@@ -18,6 +18,9 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.SelectBeforeUpdate;
 import org.hibernate.annotations.Type;
 
 import com.akartkam.inShop.domain.AbstractDomainObjectOrdering;
@@ -36,8 +39,10 @@ import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
 		query = "FROM Category ct WHERE ct.name = :name AND enabled = true ORDER BY ct.ordering")
 
 })
-@Entity
+@Entity()
 @Table(name = "Category")
+@DynamicInsert
+@DynamicUpdate
 public class Category extends AbstractDomainObjectOrdering {
 
 	/**

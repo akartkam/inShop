@@ -9,17 +9,21 @@
 	    <meta name="author" content=""/>
 	    <!-- Bootstrap Core CSS -->
 	    <link href="../../../resources/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" th:href="@{/resources/bower_components/bootstrap/dist/css/bootstrap.min.css}"/>
-		<!-- Treegrid -->
-	 	<link href="../../../resources/css/jquery.treegrid.css" rel="stylesheet" th:href="@{/resources/css/jquery.treegrid.css}"/>
+		<!-- Custom css -->	    
+    	<link href="../../../resources/css/sb-admin-2.css" rel="stylesheet" th:href="@{/resources/css/sb-admin-2.css}"/>
 	    <!-- Custom Fonts -->
     	<link href="../../../resources/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/font-awesome/css/font-awesome.min.css}"/>
-    	<!-- DataTables CSS -->
-    	<link href="../../../resources/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css" rel="stylesheet" th:href="@{/resources/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css}"/>
-    	<!-- DataTables Responsive CSS -->
-    	<link href="../../../resources/bower_components/datatables-responsive/css/dataTables.responsive.css" rel="stylesheet" th:href="@{/resources/bower_components/datatables-responsive/css/dataTables.responsive.css}"/>   	
-    	<link href="../../../resources/bower_components/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/bootstrap/dist/css/bootstrap-theme.min.css"></link>    	
-		<link href="../../../resources/css/summernote.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/summernote.css}"></link>
-    	<link href="../../../resources/css/sb-admin-2.css" rel="stylesheet" th:href="@{/resources/css/sb-admin-2.css}"/>
+   		<th:block th:fragment="css">
+			<!-- Treegrid -->
+		 	<link href="../../../resources/css/jquery.treegrid.css" rel="stylesheet" th:href="@{/resources/css/jquery.treegrid.css}"/>
+	    	<!-- DataTables CSS -->
+	    	<link href="../../../resources/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css" rel="stylesheet" th:href="@{/resources/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css}"/>
+	    	<!-- DataTables Responsive CSS -->
+	    	<link href="../../../resources/bower_components/datatables-responsive/css/dataTables.responsive.css" rel="stylesheet" th:href="@{/resources/bower_components/datatables-responsive/css/dataTables.responsive.css}"/>   	
+	    	<link href="../../../resources/bower_components/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/bootstrap/dist/css/bootstrap-theme.min.css}"/>    	
+	    	<!-- summernote -->
+			<link href="../../../resources/css/summernote.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/summernote.css}"/>
+		</th:block> 
 	</head>
 <body >
    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
@@ -100,71 +104,73 @@
     <script src="../../../resources/bower_components/jquery/dist/jquery.min.js" th:src="@{/resources/bower_components/jquery/dist/jquery.min.js}"></script>
     <!-- Bootstrap Core JavaScript -->
     <script src="../../../resources/bower_components/bootstrap/dist/js/bootstrap.min.js" th:src="@{/resources/bower_components/bootstrap/dist/js/bootstrap.min.js}"></script>
-	<!-- Treegrid -->
-    <script src="../../../resources/bower_components/jquery/dist/jquery.treegrid.min.js" th:src="@{/resources/bower_components/jquery/dist/jquery.treegrid.min.js}"></script>
-	<script src="../../../resources/bower_components/jquery/dist/jquery.treegrid.bootstrap3.js" th:src="@{/resources/bower_components/jquery/dist/jquery.treegrid.bootstrap3.js}"></script>
-	<!--<script src="../../../resources/js/inShop.js" th:src="@{/resources/js/inShop.js}"></script>-->
-     <!-- DataTables JavaScript -->
-    <script src="../../../resources/bower_components/datatables/media/js/jquery.dataTables.min.js" th:src="@{/resources/bower_components/datatables/media/js/jquery.dataTables.min.js}"></script>
-    <script src="../../../resources/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js" th:src="@{/resources/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js}"></script>
-    <!-- summernote -->
-    <script src="../../../resources/js/summernote.js" th:src="@{/resources/js/summernote.js}"></script>
-    <script src="../../../resources/js/summernote-ru-RU.js" th:src="@{/resources/js/summernote-ru-RU.js}"></script> 
-    <script type="text/javascript" th:fragment="script">
-	      $(document).ready(function() {
-	    		$(".tree").treegrid({
-	    			initialState : "collapsed",
-	    			expanderExpandedClass : "fa fa-minus-circle",
-	    			expanderCollapsedClass : "fa fa-plus-circle"
-	    		});
-	    		$("#editModal").on("show.bs.modal", function (e) {
-						if ($("#editModal").data("allowed") == "true") {    			
-		    		        $("#editModalContent").text("");
-		                    $.ajax({
-		                        url: "category/edit/"+ $("#editModal").data("id"),
-		                        cache: false
-		                    }).done(function (html) {
-		                                $("#editModalContent").append(html);
-		                                $('#summernote').summernote({
-		            					    lang: "ru-RU"
-		              				     });
-		                                $("#editModal").data("allowed","false")
-		                       });
-						}  
-	                });    	                
-		        $(".open-editDialog").on("click", function () {
-		    	  var Id = $(this).data("id");
-		    	  $("#editModal").data("id",Id);
-		    	  $("#editModal").data("allowed","true");
-		    	});	                
-	            $('#categoryDataTable').DataTable({
-	            	"language": {
-	                   	"processing": "Подождите...",
-	                   	  "search": "Поиск:",
-	                   	  "lengthMenu": "Показать _MENU_ записей",
-	                   	  "info": "Записи с _START_ до _END_ из _TOTAL_ записей",
-	                   	  "infoEmpty": "Записи с 0 до 0 из 0 записей",
-	                   	  "infoFiltered": "(отфильтровано из _MAX_ записей)",
-	                   	  "infoPostFix": "",
-	                   	  "loadingRecords": "Загрузка записей...",
-	                   	  "zeroRecords": "Записи отсутствуют.",
-	                   	  "emptyTable:": "В таблице отсутствуют данные",
-	                   	  "paginate": {
-	                   	    "first": "Первая",
-	                   	    "previous": "Предыдущая",
-	                   	    "next": "Следующая",
-	                   	    "last": "Последняя"
-	                   	  },
-	                   	  "aria": {
-	                   	    "sortAscending": ": активировать для сортировки столбца по возрастанию",
-	                   	    "sortDescending": ": активировать для сортировки столбца по убыванию"
-	                   	  }
-	                  },
-	                responsive: true,
-	                ordering:  false
-	       
-	        	});
-	    	});
-     </script>
+    <th:block th:fragment="script">
+		<!-- Treegrid -->
+	    <script src="../../../resources/bower_components/jquery/dist/jquery.treegrid.min.js" th:src="@{/resources/bower_components/jquery/dist/jquery.treegrid.min.js}"></script>
+		<script src="../../../resources/bower_components/jquery/dist/jquery.treegrid.bootstrap3.js" th:src="@{/resources/bower_components/jquery/dist/jquery.treegrid.bootstrap3.js}"></script>
+		<!--<script src="../../../resources/js/inShop.js" th:src="@{/resources/js/inShop.js}"></script>-->
+	     <!-- DataTables JavaScript -->
+	    <script src="../../../resources/bower_components/datatables/media/js/jquery.dataTables.min.js" th:src="@{/resources/bower_components/datatables/media/js/jquery.dataTables.min.js}"></script>
+	    <script src="../../../resources/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js" th:src="@{/resources/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js}"></script>
+	    <!-- summernote -->
+	    <script src="../../../resources/js/summernote.js" th:src="@{/resources/js/summernote.js}"></script>
+	    <script src="../../../resources/js/summernote-ru-RU.js" th:src="@{/resources/js/summernote-ru-RU.js}"></script> 
+	    <script type="text/javascript">
+		      $(document).ready(function() {
+		    		$(".tree").treegrid({
+		    			initialState: "collapsed",
+		    			expanderExpandedClass : "fa fa-minus-circle",
+		    			expanderCollapsedClass : "fa fa-plus-circle"
+		    		});
+		    		$("#editModal").on("show.bs.modal", function (e) {
+							if ($("#editModal").data("allowed") == "true") {    			
+			    		        $("#editModalContent").text("");
+			                    $.ajax({
+			                        url: "category/edit/"+ $("#editModal").data("id"),
+			                        cache: false
+			                    }).done(function (html) {
+			                                $("#editModalContent").append(html);
+			                                $('#summernote').summernote({
+			            					    lang: "ru-RU"
+			              				     });
+			                                $("#editModal").data("allowed","false")
+			                       });
+							}  
+		                });    	                
+			        $(".open-editDialog").on("click", function () {
+			    	  var Id = $(this).data("id");
+			    	  $("#editModal").data("id",Id);
+			    	  $("#editModal").data("allowed","true");
+			    	});	                
+		            $('#categoryDataTable').DataTable({
+		            	"language": {
+		                   	"processing": "Подождите...",
+		                   	  "search": "Поиск:",
+		                   	  "lengthMenu": "Показать _MENU_ записей",
+		                   	  "info": "Записи с _START_ до _END_ из _TOTAL_ записей",
+		                   	  "infoEmpty": "Записи с 0 до 0 из 0 записей",
+		                   	  "infoFiltered": "(отфильтровано из _MAX_ записей)",
+		                   	  "infoPostFix": "",
+		                   	  "loadingRecords": "Загрузка записей...",
+		                   	  "zeroRecords": "Записи отсутствуют.",
+		                   	  "emptyTable:": "В таблице отсутствуют данные",
+		                   	  "paginate": {
+		                   	    "first": "Первая",
+		                   	    "previous": "Предыдущая",
+		                   	    "next": "Следующая",
+		                   	    "last": "Последняя"
+		                   	  },
+		                   	  "aria": {
+		                   	    "sortAscending": ": активировать для сортировки столбца по возрастанию",
+		                   	    "sortDescending": ": активировать для сортировки столбца по убыванию"
+		                   	  }
+		                  },
+		                responsive: true,
+		                ordering:  false
+		       
+		        	});
+		    	});
+	     </script>
+     </th:block>
 </body>
 </html>

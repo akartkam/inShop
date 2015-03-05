@@ -10,30 +10,24 @@
     <title>inShop Admin</title>
     <!-- Bootstrap Core CSS -->
     <link href="../../../resources/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" th:href="@{/resources/bower_components/bootstrap/dist/css/bootstrap.min.css}"/>
-    <!-- MetisMenu CSS -->
-    <link href="../../../resources/bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet" th:href="@{/resources/bower_components/metisMenu/dist/metisMenu.min.css}"/>
-    <!-- Timeline CSS -->
-    <link href="../../../resources/css/timeline.css" rel="stylesheet" th:href="@{/resources/css/timeline.css}"/>
+    <!-- MetisMenu CSS  
+    <link href="../../../resources/bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet" th:href="@{/resources/bower_components/metisMenu/dist/metisMenu.min.css}"/> --> 
+    <!-- Timeline CSS  
+    <link href="../../../resources/css/timeline.css" rel="stylesheet" th:href="@{/resources/css/timeline.css}"/> --> 
     <!-- Custom CSS -->
     <link href="../../../resources/css/sb-admin-2.css" rel="stylesheet" th:href="@{/resources/css/sb-admin-2.css}"/>
-    <!-- Morris Charts CSS -->
-    <link href="../../../resources/bower_components/morrisjs/morris.css" rel="stylesheet" th:href="@{/resources/bower_components/morrisjs/morris.css}"/>
+    <!-- Morris Charts CSS  
+    <link href="../../../resources/bower_components/morrisjs/morris.css" rel="stylesheet" th:href="@{/resources/bower_components/morrisjs/morris.css}"/> --> 
     <!-- Custom Fonts -->
     <link href="../../../resources/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/font-awesome/css/font-awesome.min.css}"/>
-	<!-- Treegrid --> 
-	<link href="../../../resources/css/jquery.treegrid.css" rel="stylesheet" th:href="@{/resources/css/jquery.treegrid.css}"/>
-   	<!-- DataTables CSS -->
-   	<link href="../../../resources/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css" rel="stylesheet" th:href="@{/resources/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css}"/>
-   	<!-- DataTables Responsive CSS -->
-   	<link href="../../../resources/bower_components/datatables-responsive/css/dataTables.responsive.css" rel="stylesheet" th:href="@{/resources/bower_components/datatables-responsive/css/dataTables.responsive.css}"/>
-  	<link href="../../../resources/bower_components/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/bootstrap/dist/css/bootstrap-theme.min.css}"/>   	
-	<link href="../../../resources/css/summernote.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/summernote.css}"></link>    	
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <th:block th:include="${view} :: css"> 
+    </th:block>
 </head>
 <body>
    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
@@ -143,20 +137,8 @@
     <script src="../../../resources/bower_components/metisMenu/dist/metisMenu.min.js" th:src="@{/resources/bower_components/metisMenu/dist/metisMenu.min.js}"></script>
     <!-- Custom Theme JavaScript -->
     <script src="../../../resources/js/sb-admin-2.js" th:src="@{/resources/js/sb-admin-2.js}"></script>
-    <!-- Treegrid--> 
-    <script src="../../../resources/bower_components/jquery/dist/jquery.treegrid.min.js" th:src="@{/resources/bower_components/jquery/dist/jquery.treegrid.min.js}"></script>
-	<script src="../../../resources/bower_components/jquery/dist/jquery.treegrid.bootstrap3.js" th:src="@{/resources/bower_components/jquery/dist/jquery.treegrid.bootstrap3.js}"></script>
-	<!--<script src="../../../resources/js/inShop.js" th:src="@{/resources/js/inShop.js}"></script>-->	
-     <!-- DataTables JavaScript -->
-    <script src="../../../resources/bower_components/datatables/media/js/jquery.dataTables.min.js" th:src="@{/resources/bower_components/datatables/media/js/jquery.dataTables.min.js}"></script>
-    <script src="../../../resources/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js" th:src="@{/resources/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js}"></script>
-    <!-- summernote -->
-    <script src="../../../resources/js/summernote.js" th:src="@{/resources/js/summernote.js}"></script>
-    <script src="../../../resources/js/summernote-ru-RU.js" th:src="@{/resources/js/summernote-ru-RU.js}"></script> 
-    <script type="text/javascript" th:include="${view} :: script">
-	      
-    </script>
-
+    <th:block th:include="${view} :: script"> 
+    </th:block>
 </body>
 
 </html>

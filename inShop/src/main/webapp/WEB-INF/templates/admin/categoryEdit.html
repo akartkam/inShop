@@ -19,7 +19,7 @@
     	<link href="../../../resources/css/sb-admin-2.css" rel="stylesheet" th:href="@{/resources/css/sb-admin-2.css}"/>
 	</head>
 <body>
-   <form method="post" class="form-horizontal" role="form" action="#" th:object="${category}" th:fragment="editCategoryForm">
+   <form method="post" class="form-horizontal" role="form" action="#" th:action="@{'/admin/catalog/category/edit/'+${category.id}}" th:object="${category}" th:fragment="editCategoryForm">
 	   <div class="modal-header">
  					<button type="button" class="close" data-dismiss="modal"
 				aria-hidden="true">&times;</button>
@@ -80,17 +80,6 @@
    <script src="../../../resources/js/summernote.js" th:src="@{/resources/js/summernote.js}"></script>
    <script src="../../../resources/js/summernote-ru-RU.js" th:src="@{/resources/js/summernote-ru-RU.js}"></script> 
    <script type="text/javascript">
-	   /*var myCustomTemplates = {
-			   html : function(context) {
-			     var locale = context.locale;
-			     var options = context.options;
-			     return "<li>" +
-			            "<div class='btn-group'>" +
-			            "<a class='btn' data-wysihtml5-action='change_view' title='" + locale.html.edit + "'>HTML</a>" +
-			            "</div>" +
-			            "</li>";
-			   }
-			 }*/   
 	     $(document).ready(function() {
 				  $('#summernote').summernote({
 					    lang: 'ru-RU'

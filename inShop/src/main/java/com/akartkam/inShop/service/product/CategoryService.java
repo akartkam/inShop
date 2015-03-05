@@ -15,4 +15,5 @@ public interface CategoryService {
 	List<Product> getProductByName(String name);
 	List<Category> getAllCategoryHierarchy();
 	Category getCategoryById(String id);
+	void updateCategory(Category category);
 }
