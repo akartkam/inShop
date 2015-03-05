@@ -48,6 +48,7 @@ public class AdminController {
 	  public String category(@PathVariable("id") String id, Model model, @RequestHeader(value = "X-Requested-With", required = false) String requestedWith) {
 		  Category category = categoryService.getCategoryById(id);
 		  model.addAttribute("category", category);
+		  model.addAttribute("allCategories", categoryService.getAllCategoryHierarchy());
           if ("XMLHttpRequest".equals(requestedWith)) {
             return "/admin/categoryEdit :: editCategoryForm";
           }
@@ -57,7 +58,7 @@ public class AdminController {
 	   
 	   @Layout("disable")
 	   @RequestMapping(value="/catalog/category/edit/{id}", method= RequestMethod.POST )
-	   public String saveSeedstarter(@PathVariable("id") String id, final Category category, final BindingResult bindingResult) {
+	   public String saveSeedstarter(@PathVariable("id") String id, @ModelAttribute("category") Category category, final BindingResult bindingResult) {
 	        if (bindingResult.hasErrors()) {
 	            return "/catalog/category/edit/"+id;
 	        }
