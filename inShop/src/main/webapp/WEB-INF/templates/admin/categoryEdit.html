@@ -19,7 +19,7 @@
     	<link href="../../../resources/css/sb-admin-2.css" rel="stylesheet" th:href="@{/resources/css/sb-admin-2.css}"/>
 	</head>
 <body>
-   <form method="post" class="form-horizontal" role="form" action="#" th:action="@{'/admin/catalog/category/edit/'+${category.id}}" th:object="${category}" th:fragment="editCategoryForm">
+   <form method="post" class="form-horizontal" role="form" action="#" th:action="@{/admin/catalog/category/edit}" th:object="${category}" th:fragment="editCategoryForm">
 	   <div class="modal-header">
  					<button type="button" class="close" data-dismiss="modal"
 				aria-hidden="true">&times;</button>

@@ -2,22 +2,24 @@ package com.akartkam.inShop.controller.admin;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
-import java.util.List;
+import java.beans.PropertyEditorSupport;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.thymeleaf.spring.support.Layout;
-
 
 import com.akartkam.inShop.domain.product.Category;
 import com.akartkam.inShop.service.product.CategoryService;
@@ -29,6 +31,19 @@ public class AdminController {
 	
 	  @Autowired
 	  CategoryService categoryService;
+	  
+	  @InitBinder
+	  public void initBinder(WebDataBinder binder) {
+			binder.setAllowedFields(new String[] { "name", "parent",
+					"description", "longDescription", "enabled"});
+			binder.registerCustomEditor(Category.class, "parent", new PropertyEditorSupport() {
+			    @Override
+			    public void setAsText(String text) {
+			    	Category ch = categoryService.getCategoryById(text);
+			        setValue(ch);
+			    }
+			    });
+	  }
 
 	
 	  @RequestMapping(method=GET)
@@ -46,8 +61,10 @@ public class AdminController {
 	  @Layout("disable")
 	  @RequestMapping("/catalog/category/edit/{id}")
 	  public String category(@PathVariable("id") String id, Model model, @RequestHeader(value = "X-Requested-With", required = false) String requestedWith) {
-		  Category category = categoryService.getCategoryById(id);
-		  model.addAttribute("category", category);
+		  if(! model.containsAttribute("category")) {
+			 Category category = categoryService.getCategoryById(id);
+		     model.addAttribute("category", category);
+		  }
 		  model.addAttribute("allCategories", categoryService.getAllCategoryHierarchy());
           if ("XMLHttpRequest".equals(requestedWith)) {
             return "/admin/categoryEdit :: editCategoryForm";
@@ -57,10 +74,15 @@ public class AdminController {
 		  }	  
 	   
 	   @Layout("disable")
-	   @RequestMapping(value="/catalog/category/edit/{id}", method= RequestMethod.POST )
-	   public String saveSeedstarter(@PathVariable("id") String id, @ModelAttribute("category") Category category, final BindingResult bindingResult) {
+	   @RequestMapping(value="/catalog/category/edit", method = RequestMethod.POST )
+	   public String saveCategory(
+			                         @Valid @ModelAttribute("category") Category category,
+			                         final BindingResult bindingResult,
+			                         final RedirectAttributes ra) {
 	        if (bindingResult.hasErrors()) {
-	            return "/catalog/category/edit/"+id;
+	        	ra.addFlashAttribute("errorId", category.getId().toString());
+	        	ra.addFlashAttribute("category", category);
+	            return "redirect:/admin/catalog/category";
 	        }
 	        categoryService.updateCategory(category);
 	        return "redirect:/admin/catalog/category";
