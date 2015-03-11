@@ -1,16 +1,17 @@
-<header>
-    <div th:fragment="header">
-
-
-        <div id="logo"><h1><a th:href="@{/}">The inShop web shop</a></h1></div>
-        
-        <div id="search">
-            <form th:action="@{/search}" method="GET">
-            <input type="search" class="search" name="q" th:value="${originalQuery}" />
-            <input type="submit" id="search_button" value="go" />
-
-            <a th:href="@{/admin}">admin</a>
-            </form>
-        </div>
-    </div>
-</header>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  xmlns:th="http://www.thymeleaf.org">
+	<header layout:fragment="header">
+	    <div>
+	        <div id="logo"><h1><a th:href="@{/}">The inShop web shop</a></h1></div>
+	        <div id="search">
+	            <form th:action="@{/search}" method="GET">
+	            <input type="search" class="search" name="q" th:value="${originalQuery}" />
+	            <input type="submit" id="search_button" value="go" />
+	            <a th:href="@{/admin}">admin</a>
+	            </form>
+	        </div>
+	    </div>
+	</header>
+</html>

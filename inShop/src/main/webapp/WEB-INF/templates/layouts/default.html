@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
  
 <head>
    <title>Wellcome to inShop</title>
@@ -7,14 +8,20 @@
    <link rel="stylesheet" type="text/css" media="all" href="../resources/css/style.css" th:href="@{/resources/css/style.css}"/>
 </head>
 <body>
-<div th:replace="fragments/header :: header">
-    Header
-</div>
-<div th:replace="${view} :: content">
-    Content
-</div>
-<div th:replace="fragments/footer :: footer">
-    Footer
-</div>
+    <header layout:replace="fragments/header :: header">
+    <!--  
+		<div th:replace="fragments/header :: header">
+		    Header
+		</div>
+	-->	
+    </header>>	
+	<div layout:fragment="content">
+	    Content
+	</div>
+	<footer>
+		<div layout:include="fragments/footer :: footer" th:remove="tag">
+		    Footer
+		</div>
+	</footer>
 </body>
 </html>

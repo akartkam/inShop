@@ -36,6 +36,12 @@
     <beans:bean id="templateEngine"
           class="org.thymeleaf.spring3.SpringTemplateEngine">
       <beans:property name="templateResolver" ref="templateResolver" />
+		 <!-- These lines add the dialect to Thymeleaf -->
+		  <beans:property name="additionalDialects">
+		    <beans:set>
+		      <beans:bean class="nz.net.ultraq.thymeleaf.LayoutDialect"/>
+		    </beans:set>
+		  </beans:property>      
     </beans:bean>
    
     <beans:bean class="org.thymeleaf.spring3.view.ThymeleafViewResolver">
@@ -58,9 +64,11 @@
 	    </beans:property>
 	</beans:bean>
 	
+	<!--
 	<interceptors>
 		<beans:bean class="org.thymeleaf.spring.support.ThymeleafLayoutInterceptor" />
 	</interceptors>	
+	-->
 	
 	<!-- Файл с настройками контроллеров -->
 	<beans:import resource="controllers.xml" />

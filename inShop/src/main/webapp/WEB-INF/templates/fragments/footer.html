@@ -1,18 +1,14 @@
 <!DOCTYPE html>
-
 <html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:th="http://www.thymeleaf.org">
-<head>
-   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-   <link rel="stylesheet" type="text/css" media="all" href="../../resources/css/style.css" th:href="@{/resources/css/style.css}"/>
-</head>      
-
-  <body>
-  
-    <div th:fragment="footer">
-      &copy; 2015 The inShop web shop
-    </div>
-  
-  </body>
-  
+	<head>
+	   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	   <link rel="stylesheet" type="text/css" media="all" href="../../resources/css/style.css" th:href="@{/resources/css/style.css}"/>
+	</head>      
+    <body>
+      <div layout:fragment="footer">
+        &copy; 2015 The inShop web shop
+      </div>
+    </body>
 </html>
