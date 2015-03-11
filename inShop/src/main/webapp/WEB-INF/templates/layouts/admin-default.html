@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="ru" xmlns:th="http://www.thymeleaf.org"
+				xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
@@ -26,8 +27,8 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-    <th:block th:include="${view} :: css"> 
-    </th:block>
+    <!--<th:block th:include="${view} :: css"> 
+    </th:block>-->
 </head>
 <body>
    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
@@ -112,17 +113,17 @@
             </div>
             <!-- /.navbar-static-side -->
         </nav>
-        <!-- Page Content -->
+        <!-- Page Content  -->
         <div id="page-wrapper">
             <div class="container-fluid">
                 <div class="row">
-					<div class="col-lg-12" th:replace="${view} :: content">
+					<div layout:fragment="content" >
 					    <h1 class="page-header">Admin</h1>
 					</div>                    
                     <!-- /.col-lg-12 -->
-                </div>
-                <!-- /.row -->
             </div>
+                <!-- /.row -->
+           </div>
             <!-- /.container-fluid -->
         </div>
         <!-- /#page-wrapper -->
@@ -137,8 +138,8 @@
     <script src="../../../resources/bower_components/metisMenu/dist/metisMenu.min.js" th:src="@{/resources/bower_components/metisMenu/dist/metisMenu.min.js}"></script>
     <!-- Custom Theme JavaScript -->
     <script src="../../../resources/js/sb-admin-2.js" th:src="@{/resources/js/sb-admin-2.js}"></script>
-    <th:block th:include="${view} :: script"> 
-    </th:block>
+    <!-- <th:block th:include="${view} :: script"> 
+    </th:block> -->
 </body>
 
 </html>

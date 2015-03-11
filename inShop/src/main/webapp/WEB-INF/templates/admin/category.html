@@ -1,19 +1,23 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" >
+<html xmlns:th="http://www.thymeleaf.org" 
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorator="layouts/admin-default">
 	<head>
-		<title>inShop Admin Category</title>
-	    <meta charset="utf-8"/>
-	    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-	    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-	    <meta name="description" content=""/>
-	    <meta name="author" content=""/>
-	    <!-- Bootstrap Core CSS -->
-	    <link href="../../../resources/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" th:href="@{/resources/bower_components/bootstrap/dist/css/bootstrap.min.css}"/>
-		<!-- Custom css -->	    
-    	<link href="../../../resources/css/sb-admin-2.css" rel="stylesheet" th:href="@{/resources/css/sb-admin-2.css}"/>
-	    <!-- Custom Fonts -->
-    	<link href="../../../resources/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/font-awesome/css/font-awesome.min.css}"/>
-   		<th:block th:fragment="css">
+	    <th:block th:remove="all">
+			<title>inShop Admin Category</title>
+		    <meta charset="utf-8"/>
+		    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+		    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+		    <meta name="description" content=""/>
+		    <meta name="author" content=""/>
+		    <!-- Bootstrap Core CSS -->
+		    <link href="../../../resources/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" th:href="@{/resources/bower_components/bootstrap/dist/css/bootstrap.min.css}"/>
+			<!-- Custom css -->	    
+	    	<link href="../../../resources/css/sb-admin-2.css" rel="stylesheet" th:href="@{/resources/css/sb-admin-2.css}"/>
+		    <!-- Custom Fonts -->
+	    	<link href="../../../resources/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/font-awesome/css/font-awesome.min.css}"/>
+    	</th:block>
+   		<!--  <th:block th:fragment="css"> -->
 			<!-- Treegrid -->
 		 	<link href="../../../resources/css/jquery.treegrid.css" rel="stylesheet" th:href="@{/resources/css/jquery.treegrid.css}"/>
 	    	<!-- DataTables CSS -->
@@ -23,7 +27,7 @@
 	    	<link href="../../../resources/bower_components/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/bootstrap/dist/css/bootstrap-theme.min.css}"/>    	
 	    	<!-- summernote -->
 			<link href="../../../resources/css/summernote.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/summernote.css}"/>
-		</th:block> 
+		<!--  </th:block>  --> 
 	</head>
 <body >
    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
@@ -54,7 +58,7 @@
 	           </div> -->	 
 	    <!--   <div class="panel-body">   
 	             <div class="dataTable_wrapper"> -->
-				      <table class="tree table table-striped table-bordered table-hover table-condensed table-responsive" id="categoryDataTable" th:fragment="content">
+				      <table class="tree table table-striped table-bordered table-hover table-condensed table-responsive" id="categoryDataTable" layout:fragment="content">
 				        <thead >
 					      <tr >
 				              <th  th:text="#{admin.catalog.category.name}">Name</th>
@@ -107,7 +111,7 @@
     <script src="../../../resources/bower_components/jquery/dist/jquery.min.js" th:src="@{/resources/bower_components/jquery/dist/jquery.min.js}"></script>
     <!-- Bootstrap Core JavaScript -->
     <script src="../../../resources/bower_components/bootstrap/dist/js/bootstrap.min.js" th:src="@{/resources/bower_components/bootstrap/dist/js/bootstrap.min.js}"></script>
-    <th:block th:fragment="script">
+   <!--   <th:block th:fragment="script">  -->
 		<!-- Treegrid -->
 	    <script src="../../../resources/bower_components/jquery/dist/jquery.treegrid.min.js" th:src="@{/resources/bower_components/jquery/dist/jquery.treegrid.min.js}"></script>
 		<script src="../../../resources/bower_components/jquery/dist/jquery.treegrid.bootstrap3.js" th:src="@{/resources/bower_components/jquery/dist/jquery.treegrid.bootstrap3.js}"></script>
@@ -174,6 +178,6 @@
 		        	});
 		    	});
 	     </script>
-     </th:block>
+    <!--   </th:block>  -->
 </body>
 </html>

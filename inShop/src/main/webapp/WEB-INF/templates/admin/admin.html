@@ -1,15 +1,19 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorator="layouts/admin-default">
 <head>
+<th:block th:remove="all">
 <title>Admin inShop</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link rel="stylesheet" type="text/css" media="all"
 	href="../../resources/css/style.css"
 	th:href="@{/resources/css/style.css}" />
+</th:block>>	
 </head>
 <title>inShop Admin site</title>
 <body>
-	<div class="clearfix" th:fragment="content">
+	<div class="clearfix" layout:fragment="content">
 	  Admin Content
 	  <a th:href="@{/logout}">
                     <span th:text="#{home.logout}">Logout</span>
