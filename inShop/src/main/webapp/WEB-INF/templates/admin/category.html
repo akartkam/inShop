@@ -163,7 +163,7 @@
 			                        url: "category/edit/"+ $("#editModal").data("id"),
 			                        cache: false
 			                    }).done(function (html) {
-			                                $("#editModalContent").append(html);
+			                                $("#editModalContent").html(html);
 			                                $('#summernote').summernote({
 			            					    lang: "ru-RU"
 			              				     });

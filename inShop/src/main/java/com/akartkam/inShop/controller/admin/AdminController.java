@@ -54,7 +54,7 @@ public class AdminController {
 	  
 	  @RequestMapping("/catalog/category")
 	  public String category(Model model) {
-		  model.addAttribute("allCategories", categoryService.getAllCategoryHierarchy());  
+		  model.addAttribute("allCategories", categoryService.getAllCategoryHierarchy()); 
 		  return "/admin/category"; 
 		  }	  
 	  
