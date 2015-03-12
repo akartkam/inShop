@@ -31,7 +31,7 @@ public class AdminController {
 	
 	  @Autowired
 	  CategoryService categoryService;
-	  
+ 
 	  @InitBinder
 	  public void initBinder(WebDataBinder binder) {
 			binder.setAllowedFields(new String[] { "name", "parent",
@@ -61,7 +61,7 @@ public class AdminController {
 	  @Layout("disable")
 	  @RequestMapping("/catalog/category/edit/{id}")
 	  public String category(@PathVariable("id") String id, Model model, @RequestHeader(value = "X-Requested-With", required = false) String requestedWith) {
-		  if(! model.containsAttribute("category")) {
+		  if(!model.containsAttribute("category")) {
 			 Category category = categoryService.getCategoryById(id);
 		     model.addAttribute("category", category);
 		  }
@@ -69,7 +69,7 @@ public class AdminController {
           if ("XMLHttpRequest".equals(requestedWith)) {
             return "/admin/categoryEdit :: editCategoryForm";
           }
-          return "/admin/categoryEdit";		  
+          return "/admin/category";		  
 		    
 		  }	  
 	   
@@ -82,7 +82,8 @@ public class AdminController {
 	        if (bindingResult.hasErrors()) {
 	        	ra.addFlashAttribute("errorId", category.getId().toString());
 	        	ra.addFlashAttribute("category", category);
-	            return "redirect:/admin/catalog/category";
+	        	ra.addFlashAttribute("org.springframework.validation.BindingResult.category", bindingResult);
+	            return "redirect:/admin/catalog/category/edit/"+category.getId().toString();
 	        }
 	        categoryService.updateCategory(category);
 	        return "redirect:/admin/catalog/category";

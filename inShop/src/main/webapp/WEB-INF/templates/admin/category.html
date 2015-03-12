@@ -27,12 +27,12 @@
 	    	<link href="../../../resources/bower_components/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/bootstrap/dist/css/bootstrap-theme.min.css}"/>    	
 	    	<!-- summernote -->
 			<link href="../../../resources/css/summernote.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/summernote.css}"/>
-		<!--  </th:block>  --> 
+		<!--  </th:block>  layout:include="admin/categoryEdit :: editCategoryForm"--> 
 	</head>
 <body >
    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
 	  <div class="modal-dialog">
-	    <div class="modal-content">
+	    <div class="modal-content" id="editModalContent" layout:fragment="editModalContent">
 	      <th:block th:remove="all">
             <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&amp;times;</button>
@@ -47,7 +47,7 @@
 	        </div> 
 	      </th:block>
 	     </div> <!-- /.modal-content -->
-	    </div> <!-- /.modal-dialog -->
+	  </div> <!-- /.modal-dialog -->
     </div> <!-- /.modal -->  
     <div class="container">
 		<div class="row" >
@@ -111,7 +111,7 @@
     <script src="../../../resources/bower_components/jquery/dist/jquery.min.js" th:src="@{/resources/bower_components/jquery/dist/jquery.min.js}"></script>
     <!-- Bootstrap Core JavaScript -->
     <script src="../../../resources/bower_components/bootstrap/dist/js/bootstrap.min.js" th:src="@{/resources/bower_components/bootstrap/dist/js/bootstrap.min.js}"></script>
-   <!--   <th:block th:fragment="script">  -->
+    <th:block layout:fragment="script"> 
 		<!-- Treegrid -->
 	    <script src="../../../resources/bower_components/jquery/dist/jquery.treegrid.min.js" th:src="@{/resources/bower_components/jquery/dist/jquery.treegrid.min.js}"></script>
 		<script src="../../../resources/bower_components/jquery/dist/jquery.treegrid.bootstrap3.js" th:src="@{/resources/bower_components/jquery/dist/jquery.treegrid.bootstrap3.js}"></script>
@@ -129,27 +129,8 @@
 		    			expanderExpandedClass : "fa fa-minus-circle",
 		    			expanderCollapsedClass : "fa fa-plus-circle"
 		    		});
-		    		$("#editModal").on("show.bs.modal", function (e) {
-							if ($("#editModal").data("allowed") == "true") {    			
-			    		        $("#editModalContent").text("");
-			                    $.ajax({
-			                        url: "category/edit/"+ $("#editModal").data("id"),
-			                        cache: false
-			                    }).done(function (html) {
-			                                $("#editModalContent").append(html);
-			                                $('#summernote').summernote({
-			            					    lang: "ru-RU"
-			              				     });
-			                                $("#editModal").data("allowed","false")
-			                       });
-							}  
-		                });    	                
-			        $(".open-editDialog").on("click", function () {
-			    	  var Id = $(this).data("id");
-			    	  $("#editModal").data("id",Id);
-			    	  $("#editModal").data("allowed","true");
-			    	});	                
-		            $('#categoryDataTable').DataTable({
+
+		    		$('#categoryDataTable').DataTable({
 		            	"language": {
 		                   	"processing": "Подождите...",
 		                   	  "search": "Поиск:",
@@ -174,10 +155,41 @@
 		                  },
 		                responsive: true,
 		                ordering:  false
-		       
 		        	});
+		    		$("#editModal").on("show.bs.modal", function (e) {
+							if ($("#editModal").data("allowed") == "true") {    			
+			    		        $("#editModalContent").text("");
+			                    $.ajax({
+			                        url: "category/edit/"+ $("#editModal").data("id"),
+			                        cache: false
+			                    }).done(function (html) {
+			                                $("#editModalContent").append(html);
+			                                $('#summernote').summernote({
+			            					    lang: "ru-RU"
+			              				     });
+			                                $("#editModal").data("allowed","false")
+			                       });
+							}  
+		                });    	                
+			        $(".open-editDialog").on("click", function () {
+			    	  var Id = $(this).data("id");
+			    	  $("#editModal").data("id",Id);
+			    	  $("#editModal").data("allowed","true");
+			    	});
+			        $.urlParam = function(name){
+			            var results = new RegExp('[\?&amp;]' + name + '=([^&amp;#]*)').exec(window.location.href);
+			            if (results==null){
+			               return null;
+			            }
+			            else{
+			               return results[1] || 0;
+			            }
+			        }
+			        if ($.urlParam('errorId')){
+			        	$('#editModal').modal('show');
+			        }
 		    	});
 	     </script>
-    <!--   </th:block>  -->
+    </th:block>
 </body>
 </html>
