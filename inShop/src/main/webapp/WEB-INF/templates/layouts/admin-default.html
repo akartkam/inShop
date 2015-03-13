@@ -31,12 +31,17 @@
     </th:block>-->
 </head>
 <body>
+   <!--  
    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
 	  <div class="modal-dialog">
 	    <div class="modal-content" id="editModalContent" layout:fragment="editModalContent">
-	     </div> <!-- /.modal-content -->
-	    </div> <!-- /.modal-dialog -->
-    </div> <!-- /.modal -->  
+	     </div> 
+	    </div> 
+    </div> 
+    -->
+    <div layout:fragment="editForm" th:remove="tag">
+    	
+    </div>
     <div id="wrapper">
         <!-- Navigation -->
         <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">

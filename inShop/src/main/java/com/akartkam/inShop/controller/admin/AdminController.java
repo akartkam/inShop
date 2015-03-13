@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.thymeleaf.spring.support.Layout;
 
@@ -44,7 +45,6 @@ public class AdminController {
 			    }
 			    });
 	  }
-
 	
 	  @RequestMapping(method=GET)
 	  public String admin(HttpSession  session) {
@@ -73,7 +73,18 @@ public class AdminController {
 		    
 		  }	  
 	   
-	   @Layout("disable")
+	  @RequestMapping("/catalog/category/edit")
+	  public String categoryEdit(@RequestParam("categoryID") String categoryID, Model model) {
+		  if(!model.containsAttribute("category")) {
+			 Category category = categoryService.getCategoryById(categoryID);
+		     model.addAttribute("category", category);
+		  }
+		  model.addAttribute("allCategories", categoryService.getAllCategoryHierarchy());
+          return "/admin/categoryEdit";		  
+		  }	  
+
+	  
+	  @Layout("disable")
 	   @RequestMapping(value="/catalog/category/edit", method = RequestMethod.POST )
 	   public String saveCategory(
 			                         @Valid @ModelAttribute("category") Category category,

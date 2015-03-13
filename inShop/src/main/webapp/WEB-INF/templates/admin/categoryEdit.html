@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ru" xmlns:th="http://www.thymeleaf.org" 
-                xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+                xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+                layout:decorator="admin/category">
 	<head>
 		<title>inShop Admin Category</title>
 	    <meta charset="utf-8"/>
@@ -20,72 +21,78 @@
     	<link href="../../../resources/css/sb-admin-2.css" rel="stylesheet" th:href="@{/resources/css/sb-admin-2.css}"/>
 	</head>
 <body>
-   <form method="post" class="form-horizontal" role="form" action="#" th:action="@{/admin/catalog/category/edit}" th:object="${category}" th:fragment="editCategoryForm" layout:fragment="editCategoryForm">
-	   <div class="modal-header">
- 					<button type="button" class="close" data-dismiss="modal"
-				aria-hidden="true">&times;</button>
-			<h4 class="modal-title" th:text="#{admin.catalog.category.edit.title.edit}">Edit Category</h4>
- 	   </div>
-	 <!-- /modal-header -->
-	    <div class="modal-body">
-               <ul class="nav nav-tabs">
-                    <li class="active"><a href="#main" data-toggle="tab" th:text="#{admin.catalog.category.edit.tab.description}">Описание</a>
-                    </li>
-                    <li><a href="#additional" data-toggle="tab" th:text="#{admin.catalog.category.edit.tab.params}">Параметры</a>
-                    </li>
-                </ul>
-                <!-- Tab panes -->
-                <div class="tab-content">
-                    <div class="tab-pane fade in active" id="main">
-                              <div class="field-box">
-					    		  <label>
-						    	  	<span th:text="#{admin.catalog.category.edit.name}">Category1</span>
-						   		   </label>
-						   		   <input type="text" class="form-control" th:field="*{name}"/>
-						   		   <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Incorrect name</p>
-					   		   </div>
-					   		   <div class="field-box">
-		 			    		  <label>
-						    	  	<span th:text="#{admin.catalog.category.edit.description}">Description Category1</span>
-						   		   </label>
-						   		   <input type="text" class="form-control" th:field="*{description}"/>
-					   		   </div>
-					   		   <div class="field-box">
-		 			    		   <label>
-						    	  	<span th:text="#{admin.catalog.category.edit.longDescription}">Description Category1</span>
-						   		   </label>
-		  						   <!--<div id="summernote" class="form-control" th:field="*{longDescription}">Long Description 1</div>-->
-		  						   <!--<textarea id="longDescrTextArea" class="textarea" placeholder="Enter text ..." style="width: 100%; height: 200px; font-size: 14px; line-height: 18px;" th:field="*{longDescription}"></textarea>-->
-								   <textarea id="summernote" class="textarea form-control" placeholder="Введите текст..." th:field="*{longDescription}"></textarea>	  						   
-	  						   </div>
-             		</div>
-                    <div class="tab-pane fade" id="additional">
-                        <label>
-					  	  	<span th:text="#{admin.catalog.category.edit.parent}">Parent category</span>
-					    </label>
-						 <select class="form-control" th:field="*{parent.id}">
-						    <option value="">&nbsp;</option>
-							<option th:if="${scategory.id != category.id}" 
-							        th:each="scategory : ${allCategories}" 
-							        th:value="${scategory.id}"
-								    th:text="${scategory.name}"
-								    >option 1</option>
-						 </select>
-						 <hr/>
-                         <label>
- 					    	<input type="checkbox" th:field="*{enabled}"/>
-						  	<span th:text="#{admin.catalog.category.enabled}">Active?</span>
-						 </label>
-                    </div>
-                </div>
-	    </div>
-	 <!-- /modal-body -->
-	   <div class="modal-footer">
- 		  <button type="button" class="btn btn-default" data-dismiss="modal" th:text="#{admin.catalog.category.edit.button.close}">Close</button>
-		  <button type="submit" class="btn btn-primary" th:text="#{admin.catalog.category.edit.button.save}">Save changes</button>
-	   </div>  
-	 <!-- /modal-footer -->
-   </form>	 
+  <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true" layout:fragment="editForm">
+    <div class="modal-dialog">
+	   <div class="modal-content" id="editModalContent">
+	   <form method="post" class="form-horizontal" role="form" action="#" th:action="@{/admin/catalog/category/edit}" th:object="${category}">
+		   <div class="modal-header">
+	 					<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<h4 class="modal-title" th:text="#{admin.catalog.category.edit.title.edit}">Edit Category</h4>
+	 	   </div>
+		 <!-- /modal-header -->
+		    <div class="modal-body">
+	               <ul class="nav nav-tabs">
+	                    <li class="active"><a href="#main" data-toggle="tab" th:text="#{admin.catalog.category.edit.tab.description}">Описание</a>
+	                    </li>
+	                    <li><a href="#additional" data-toggle="tab" th:text="#{admin.catalog.category.edit.tab.params}">Параметры</a>
+	                    </li>
+	                </ul>
+	                <!-- Tab panes -->
+	                <div class="tab-content">
+	                    <div class="tab-pane fade in active" id="main">
+	                              <div class="field-box">
+						    		  <label>
+							    	  	<span th:text="#{admin.catalog.category.edit.name}">Category1</span>
+							   		   </label>
+							   		   <input type="text" class="form-control" th:field="*{name}"/>
+							   		   <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Incorrect name</p>
+						   		   </div>
+						   		   <div class="field-box">
+			 			    		  <label>
+							    	  	<span th:text="#{admin.catalog.category.edit.description}">Description Category1</span>
+							   		   </label>
+							   		   <input type="text" class="form-control" th:field="*{description}"/>
+						   		   </div>
+						   		   <div class="field-box">
+			 			    		   <label>
+							    	  	<span th:text="#{admin.catalog.category.edit.longDescription}">Description Category1</span>
+							   		   </label>
+			  						   <!--<div id="summernote" class="form-control" th:field="*{longDescription}">Long Description 1</div>-->
+			  						   <!--<textarea id="longDescrTextArea" class="textarea" placeholder="Enter text ..." style="width: 100%; height: 200px; font-size: 14px; line-height: 18px;" th:field="*{longDescription}"></textarea>-->
+									   <textarea id="summernote" class="textarea form-control" placeholder="Введите текст..." th:field="*{longDescription}"></textarea>	  						   
+		  						   </div>
+	             		</div>
+	                    <div class="tab-pane fade" id="additional">
+	                        <label>
+						  	  	<span th:text="#{admin.catalog.category.edit.parent}">Parent category</span>
+						    </label>
+							 <select class="form-control" th:field="*{parent.id}">
+							    <option value="">&nbsp;</option>
+								<option th:if="${scategory.id != category.id}" 
+								        th:each="scategory : ${allCategories}" 
+								        th:value="${scategory.id}"
+									    th:text="${scategory.name}"
+									    >option 1</option>
+							 </select>
+							 <hr/>
+	                         <label>
+	 					    	<input type="checkbox" th:field="*{enabled}"/>
+							  	<span th:text="#{admin.catalog.category.enabled}">Active?</span>
+							 </label>
+	                    </div>
+	                </div>
+		    </div>
+		 <!-- /modal-body -->
+	 	    <div class="modal-footer">
+	 		  <button type="button" class="btn btn-default" data-dismiss="modal" th:text="#{admin.catalog.category.edit.button.close}">Close</button>
+			  <button type="submit" class="btn btn-primary" th:text="#{admin.catalog.category.edit.button.save}">Save changes</button>
+		    </div>  
+		 <!-- /modal-footer -->
+	     </form>	
+      </div> 
+    </div> 
+  </div>	    
    <!-- jQuery -->
    <script src="../../../resources/bower_components/jquery/dist/jquery.min.js" th:src="@{/resources/bower_components/jquery/dist/jquery.min.js}"></script>
    <!-- Bootstrap Core JavaScript -->
@@ -95,10 +102,13 @@
    <script src="../../../resources/js/summernote-ru-RU.js" th:src="@{/resources/js/summernote-ru-RU.js}"></script> 
    <script type="text/javascript">
 	     $(document).ready(function() {
-				  $('#summernote').summernote({
-					    lang: 'ru-RU'
-				  });
-				});
+	    	 $("#editModal").on("show.bs.modal", function (e) {
+	                                $('#summernote').summernote({
+	            					    lang: "ru-RU"
+	              				     });
+             });
+	    	 $("#editModal").modal("show");	 
+		});
 		  
    </script>
 </body>
