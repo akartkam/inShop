@@ -11,14 +11,10 @@
     <title>inShop Admin</title>
     <!-- Bootstrap Core CSS -->
     <link href="../../../resources/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" th:href="@{/resources/bower_components/bootstrap/dist/css/bootstrap.min.css}"/>
-    <!-- MetisMenu CSS  
-    <link href="../../../resources/bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet" th:href="@{/resources/bower_components/metisMenu/dist/metisMenu.min.css}"/> --> 
-    <!-- Timeline CSS  
-    <link href="../../../resources/css/timeline.css" rel="stylesheet" th:href="@{/resources/css/timeline.css}"/> --> 
+    <!-- MetisMenu CSS --> 
+    <link href="../../../resources/bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet" th:href="@{/resources/bower_components/metisMenu/dist/metisMenu.min.cssё	}"/>
     <!-- Custom CSS -->
     <link href="../../../resources/css/sb-admin-2.css" rel="stylesheet" th:href="@{/resources/css/sb-admin-2.css}"/>
-    <!-- Morris Charts CSS  
-    <link href="../../../resources/bower_components/morrisjs/morris.css" rel="stylesheet" th:href="@{/resources/bower_components/morrisjs/morris.css}"/> --> 
     <!-- Custom Fonts -->
     <link href="../../../resources/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/font-awesome/css/font-awesome.min.css}"/>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -27,19 +23,9 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-    <!--<th:block th:include="${view} :: css"> 
-    </th:block>-->
 </head>
 <body>
-   <!--  
-   <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
-	  <div class="modal-dialog">
-	    <div class="modal-content" id="editModalContent" layout:fragment="editModalContent">
-	     </div> 
-	    </div> 
-    </div> 
-    -->
-    <div layout:fragment="editForm" th:remove="tag">
+    <div layout:fragment="editForm" >
     	
     </div>
     <div id="wrapper">
@@ -56,9 +42,6 @@
             </div>
             <!-- /.navbar-header -->
             <ul class="nav navbar-top-links navbar-right">
-                <!-- /.dropdown -->
-                <!-- /.dropdown -->
-                <!-- /.dropdown -->
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                         <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>

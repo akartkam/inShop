@@ -74,7 +74,7 @@ public class AdminController {
 		  }	  
 	   
 	  @RequestMapping("/catalog/category/edit")
-	  public String categoryEdit(@RequestParam("categoryID") String categoryID, Model model) {
+	  public String categoryEdit(@RequestParam(value = "categoryID", required = false) String categoryID, Model model) {
 		  if(!model.containsAttribute("category")) {
 			 Category category = categoryService.getCategoryById(categoryID);
 		     model.addAttribute("category", category);
@@ -91,10 +91,9 @@ public class AdminController {
 			                         final BindingResult bindingResult,
 			                         final RedirectAttributes ra) {
 	        if (bindingResult.hasErrors()) {
-	        	ra.addFlashAttribute("errorId", category.getId().toString());
 	        	ra.addFlashAttribute("category", category);
 	        	ra.addFlashAttribute("org.springframework.validation.BindingResult.category", bindingResult);
-	            return "redirect:/admin/catalog/category/edit/"+category.getId().toString();
+	            return "redirect:/admin/catalog/category/edit"; //?categoryID="+category.getId().toString();
 	        }
 	        categoryService.updateCategory(category);
 	        return "redirect:/admin/catalog/category";

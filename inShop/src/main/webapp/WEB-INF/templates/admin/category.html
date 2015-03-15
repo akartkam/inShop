@@ -17,20 +17,18 @@
 		    <!-- Custom Fonts -->
 	    	<link href="../../../resources/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/font-awesome/css/font-awesome.min.css}"/>
     	</th:block>
-   		<!--  <th:block th:fragment="css"> -->
-			<!-- Treegrid -->
-		 	<link href="../../../resources/css/jquery.treegrid.css" rel="stylesheet" th:href="@{/resources/css/jquery.treegrid.css}"/>
 	    	<!-- DataTables CSS -->
 	    	<link href="../../../resources/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css" rel="stylesheet" th:href="@{/resources/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css}"/>
 	    	<!-- DataTables Responsive CSS -->
 	    	<link href="../../../resources/bower_components/datatables-responsive/css/dataTables.responsive.css" rel="stylesheet" th:href="@{/resources/bower_components/datatables-responsive/css/dataTables.responsive.css}"/>   	
 	    	<link href="../../../resources/bower_components/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/bootstrap/dist/css/bootstrap-theme.min.css}"/>    	
+			<!-- Treegrid -->
+		 	<link href="../../../resources/css/jquery.treegrid.css" rel="stylesheet" th:href="@{/resources/css/jquery.treegrid.css}"/>
 	    	<!-- summernote -->
 			<link href="../../../resources/css/summernote.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/summernote.css}"/>
-		<!--  </th:block>  layout:include="admin/categoryEdit :: editCategoryForm"--> 
 	</head>
 <body >
-    <div layout:fragment="editForm" th:remove="tag">
+    <div layout:fragment="editForm" >
     	
     </div>
     <th:block th:remove="all">
@@ -82,7 +80,7 @@
 				            	<td class="col-md-1 text-center">
 								  <!--  data-toggle="modal" data-target="#editModal" -->
 	                              <button type="submit" class="open-editDialog btn btn-outline btn-default btn-xs" 
-	                                      th:attr="data-id=${ct.id}" name="categoryID" th:value="${ct.id}"> 
+	                                      name="categoryID" th:value="${ct.id}"> 
 	                                <i class="fa fa-pencil"></i>
 	                              </button>		
 	                              <!--  th:href="${'category/edit/'+ct.id}"> -->	 
@@ -119,8 +117,8 @@
     <th:block layout:fragment="script"> 
 		<!-- Treegrid -->
 	    <script src="../../../resources/bower_components/jquery/dist/jquery.treegrid.min.js" th:src="@{/resources/bower_components/jquery/dist/jquery.treegrid.min.js}"></script>
+	    <script src="../../../resources/bower_components/jquery/dist/jquery.cookie.js" th:src="@{/resources/bower_components/jquery/dist/jquery.cookie.js}"></script>
 		<script src="../../../resources/bower_components/jquery/dist/jquery.treegrid.bootstrap3.js" th:src="@{/resources/bower_components/jquery/dist/jquery.treegrid.bootstrap3.js}"></script>
-		<!--<script src="../../../resources/js/inShop.js" th:src="@{/resources/js/inShop.js}"></script>-->
 	     <!-- DataTables JavaScript -->
 	    <script src="../../../resources/bower_components/datatables/media/js/jquery.dataTables.min.js" th:src="@{/resources/bower_components/datatables/media/js/jquery.dataTables.min.js}"></script>
 	    <script src="../../../resources/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js" th:src="@{/resources/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js}"></script>
@@ -129,12 +127,6 @@
 	    <script src="../../../resources/js/summernote-ru-RU.js" th:src="@{/resources/js/summernote-ru-RU.js}"></script> 
 	    <script type="text/javascript">
 		      $(document).ready(function() {
-		    		$(".tree").treegrid({
-		    			initialState: "collapsed",
-		    			expanderExpandedClass : "fa fa-minus-circle",
-		    			expanderCollapsedClass : "fa fa-plus-circle"
-		    		});
-
 		    		$('#categoryDataTable').DataTable({
 		            	"language": {
 		                   	"processing": "Подождите...",
@@ -161,7 +153,18 @@
 		                responsive: true,
 		                ordering:  false
 		        	});
+		    		$(".tree").treegrid({
+		    			initialState : "collapsed",
+		    			saveState: true,
+		    		});
+		    		
 		    		/*
+		    		,
+		    			'saveState' : true,
+		    				    			expanderExpandedClass : "fa fa-minus-circle",
+		    			expanderCollapsedClass : "fa fa-plus-circle",
+
+		    		
 		    		$("#editModal").on("show.bs.modal", function (e) {
 							if ($("#editModal").data("allowed") == "true") {    			
 			    		        $("#editModalContent").text("");
@@ -196,6 +199,8 @@
 			        }*/
 		    	});
 	     </script>
+	     <th:block layout:include="admin/categoryEdit :: scriptEditModal">
+	     </th:block>
     </th:block>
 </body>
 </html>
