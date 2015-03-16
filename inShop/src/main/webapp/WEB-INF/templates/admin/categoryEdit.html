@@ -28,7 +28,7 @@
 	   <div class="modal-content" id="editModalContent" >
 	   <form method="post" class="form-horizontal" role="form" action="#" th:action="@{/admin/catalog/category/edit}" th:object="${category}">
 		   <div class="modal-header">
-	 					<button type="button" class="close" data-dismiss="modal"
+	 					<button type="button" class="close" th:onclick="'window.location=\''+@{/admin/catalog/category}+'\''"
 					aria-hidden="true">&times;</button>
 				<h4 class="modal-title" th:text="#{admin.catalog.category.edit.title.edit}">Edit Category</h4>
 	 	   </div>
