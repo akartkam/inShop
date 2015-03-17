@@ -59,9 +59,30 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
+	public Category getCategoryById(UUID id) {
+		return categoryDAO.get(id);
+	}	
+	
+	@Override
 	@Transactional(readOnly = false)
 	public void updateCategory(Category category) {
 		categoryDAO.update(category);
 	}
+	
+	@Override
+	@Transactional(readOnly = false)
+	public void mergeWithExistingAndUpdate(final Category categoryFromPost) {
+
+        UUID id = categoryFromPost.getId();
+		final Category existingCategory = getCategoryById(id);
+
+        // set here explicitly what must/can be overwritten by the html form POST
+        existingCategory.setName(categoryFromPost.getName());
+        existingCategory.setParent(categoryFromPost.getParent());
+        existingCategory.setDescription(categoryFromPost.getDescription());
+        existingCategory.setLongDescription(categoryFromPost.getLongDescription());
+        existingCategory.setEnabled(categoryFromPost.isEnabled());
+        updateCategory(existingCategory);
+    }
 
 }

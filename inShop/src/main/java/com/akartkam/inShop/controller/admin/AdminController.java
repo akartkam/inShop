@@ -27,7 +27,6 @@ import com.akartkam.inShop.service.product.CategoryService;
 
 @Controller
 @RequestMapping("/admin")
-@Layout("layouts/admin-default")
 public class AdminController {
 	
 	  @Autowired
@@ -58,8 +57,7 @@ public class AdminController {
 		  return "/admin/category"; 
 		  }	  
 	  
-	  @Layout("disable")
-	  @RequestMapping("/catalog/category/edit/{id}")
+	  /*@RequestMapping("/catalog/category/edit/{id}")
 	  public String category(@PathVariable("id") String id, Model model, @RequestHeader(value = "X-Requested-With", required = false) String requestedWith) {
 		  if(!model.containsAttribute("category")) {
 			 Category category = categoryService.getCategoryById(id);
@@ -71,7 +69,8 @@ public class AdminController {
           }
           return "/admin/category";		  
 		    
-		  }	  
+		  }	
+	   */
 	   
 	  @RequestMapping("/catalog/category/edit")
 	  public String categoryEdit(@RequestParam(value = "categoryID", required = false) String categoryID, Model model) {
@@ -84,7 +83,7 @@ public class AdminController {
 		  }	  
 
 	  
-	  @Layout("disable")
+
 	   @RequestMapping(value="/catalog/category/edit", method = RequestMethod.POST )
 	   public String saveCategory(
 			                         @Valid @ModelAttribute("category") Category category,
@@ -93,9 +92,9 @@ public class AdminController {
 	        if (bindingResult.hasErrors()) {
 	        	ra.addFlashAttribute("category", category);
 	        	ra.addFlashAttribute("org.springframework.validation.BindingResult.category", bindingResult);
-	            return "redirect:/admin/catalog/category/edit"; //?categoryID="+category.getId().toString();
+	            return "redirect:/admin/catalog/category/edit";
 	        }
-	        categoryService.updateCategory(category);
+	        categoryService.mergeWithExistingAndUpdate(category);
 	        return "redirect:/admin/catalog/category";
 	    }
 	  
