@@ -3,6 +3,7 @@ package com.akartkam.inShop.controller.admin;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 import java.beans.PropertyEditorSupport;
+import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -10,6 +11,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -34,7 +36,7 @@ public class AdminController {
  
 	  @InitBinder
 	  public void initBinder(WebDataBinder binder) {
-			binder.setAllowedFields(new String[] { "name", "parent",
+			binder.setAllowedFields(new String[] { "id", "name", "parent.id",
 					"description", "longDescription", "enabled"});
 			binder.registerCustomEditor(Category.class, "parent", new PropertyEditorSupport() {
 			    @Override
@@ -43,6 +45,13 @@ public class AdminController {
 			        setValue(ch);
 			    }
 			    });
+			binder.registerCustomEditor(UUID.class, "id", new PropertyEditorSupport() {
+			    @Override
+			    public void setAsText(String text) {
+			    	 setValue(UUID.fromString(text));
+			    }
+			    });
+			
 	  }
 	
 	  @RequestMapping(method=GET)
@@ -86,9 +95,10 @@ public class AdminController {
 
 	   @RequestMapping(value="/catalog/category/edit", method = RequestMethod.POST )
 	   public String saveCategory(
-			                         @Valid @ModelAttribute("category") Category category,
+			                         @ModelAttribute @Valid Category category,
 			                         final BindingResult bindingResult,
-			                         final RedirectAttributes ra) {
+			                         final RedirectAttributes ra
+			                         ) {
 	        if (bindingResult.hasErrors()) {
 	        	ra.addFlashAttribute("category", category);
 	        	ra.addFlashAttribute("org.springframework.validation.BindingResult.category", bindingResult);
