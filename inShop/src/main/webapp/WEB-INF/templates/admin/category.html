@@ -36,12 +36,14 @@
 	              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 	              <h4 class="modal-title" id="deleteModalLabel">Удаление</h4>
 	            </div>
-	            <div class="modal-body">
-	                <span>Вы действительно хотите удалить категорию ?</span>
+	            <div class="modal-body" id = "delete-modal-body">
+	                <span>Вы действительно хотите удалить категорию </span>
+	                <span style="font-weight:bold" id = "ctgName"> Категория </span>
+	                <span>?</span>
 	            </div>
-	            <div class="modal-footer">
+	            <div class="modal-footer" id = "delete-modal-footer">
 	                <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
-	                <button type="submit" class="btn btn-primary">Удалить</button>
+	                <button type="submit" id="categoryID" name="categoryID" value="" class="btn btn-primary">Удалить</button>
 		        </div> 
             </form>  	      
 	     </div> 
@@ -102,7 +104,9 @@
 	                                      name="categoryID" th:value="${ct.id}"> 
 	                                <i class="fa fa-pencil"></i>
 	                              </button>		
-	                              <button type="button" data-toggle="modal" data-target="#deleteModal" class="open-deleteDialog btn btn-outline btn-default btn-xs"> 
+	                              <button th:disabled="${!ct.enabled}" type="button" data-toggle="modal" data-target="#deleteModal" 
+	                                      class="open-deleteDialog btn btn-outline btn-default btn-xs"
+	                                      th:attr="data-id=${ct.id}, data-name=${ct.name}"> 
 	                                <i class="fa fa-trash-o"></i>
 	                              </button>		
 	                              <!--  th:href="${'category/edit/'+ct.id}"> -->	 
@@ -182,11 +186,6 @@
 		    		
 		    		/*
 		    		,
-		    			'saveState' : true,
-		    				    			expanderExpandedClass : "fa fa-minus-circle",
-		    			expanderCollapsedClass : "fa fa-plus-circle",
-
-		    		
 		    		$("#editModal").on("show.bs.modal", function (e) {
 							if ($("#editModal").data("allowed") == "true") {    			
 			    		        $("#editModalContent").text("");
@@ -219,6 +218,12 @@
 			        if ($.urlParam('errorId')){
 			        	$('#editModal').modal('show');
 			        }*/
+		    	});
+		        $(document).on("click", ".open-deleteDialog", function () {
+		    	     var ctgId = $(this).data("id");
+		    	     var ctgName = $(this).data("name");
+		    	     $("#delete-modal-footer #categoryID").val(ctgId);
+		    	     $("#delete-modal-body #ctgName").html(ctgName);
 		    	});
 	     </script>
 	     <th:block layout:include="admin/categoryEdit :: scriptEditModal">
