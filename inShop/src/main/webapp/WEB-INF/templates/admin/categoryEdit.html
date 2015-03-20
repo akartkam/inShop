@@ -50,7 +50,8 @@
 	                <!-- Tab panes -->
 	                <div class="tab-content">
 	                    <div class="tab-pane fade in active" id="main">
-									  <input type="hidden" th:field="*{id}"/>	                              <div class="field-box" th:class="${#fields.hasErrors('name')}? has-error: field-box">
+								   <div class="field-box" th:class="${#fields.hasErrors('name')}? has-error: field-box">
+									  <input type="hidden" th:field="*{id}"/>	                              
 						    		  <label>
 							    	  	 <span th:text="#{admin.catalog.category.edit.name}">Category1</span>
 							   		  </label>
@@ -73,6 +74,7 @@
 		  						   </div>
 	             		</div>
 	                    <div class="tab-pane fade" id="additional">
+	                      <div class="field-box">
 	                        <label>
 						  	  	<span th:text="#{admin.catalog.category.edit.parent}">Parent category</span>
 						    </label>
@@ -84,11 +86,19 @@
 									    th:text="${scategory.name}"
 									    >option 1</option>
 							 </select>
-							 <hr/>
+						   </div>	 
+   			   		       <div class="field-box">
+	 			    		  <label>
+					    	  	<span th:text="#{admin.catalog.category.edit.ordering}">Orderig</span>
+					   		  </label>
+					   		  <input type="text" class="form-control" th:field="*{ordering}"/>
+						   </div>
+						   <div class="field-box">
 	                         <label>
 	 					    	<input type="checkbox" th:field="*{enabled}"/>
 							  	<span th:text="#{admin.catalog.category.enabled}">Active?</span>
 							 </label>
+						   </div>	 
 	                    </div>
 	                </div>
 		    </div>

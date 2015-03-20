@@ -34,12 +34,11 @@
  	        <form th:action="@{/admin/catalog/category/delete}">
 	            <div class="modal-header">
 	              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-	              <h4 class="modal-title" id="deleteModalLabel">Удаление</h4>
+	              <h4 class="modal-title" id="deleteModalLabel"><span th:text="#{admin.catalog.category.delete.modalcaption}">Удаление</span></h4>
 	            </div>
 	            <div class="modal-body" id = "delete-modal-body">
-	                <span>Вы действительно хотите удалить категорию </span>
+	                <span th:text="#{admin.catalog.category.delete.modalmessage}">Подтвердите удаление категории: </span>
 	                <span style="font-weight:bold" id = "ctgName"> Категория </span>
-	                <span>?</span>
 	            </div>
 	            <div class="modal-footer" id = "delete-modal-footer">
 	                <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
@@ -72,14 +71,14 @@
     </th:block>
     <div class="container">
 		<div class="row" >
-		  <div class="col-lg-12" >
-	   <!-- <div class="panel panel-default" th:fragment="content">
+		 <!--  <div class="col-lg-12" > 
+	       <div class="panel panel-default" >
 	           <div class="panel-heading">
 	               <span th:text="#{admin.catalog.category}" >Categories</span>
-	           </div> -->	 
-	    <!--   <div class="panel-body">   
-	             <div class="dataTable_wrapper"> -->
-	             <form th:action="@{/admin/catalog/category/edit}" layout:fragment="content">
+	           </div> 	 
+	             <div class="panel-body"> -->   
+	              <div class="dataTable_wrapper" layout:fragment="content"> 
+	             <form th:action="@{/admin/catalog/category/edit}">
 				      <table class="tree table table-striped table-bordered table-hover table-condensed table-responsive" id="categoryDataTable">
 				        <thead >
 					      <tr >
@@ -130,9 +129,17 @@
 				        </tbody>
 				      </table>
 				   </form>   
-				  <!--  </div> -->   
-		 <!--  </div> -->   
-		<!-- </div> -->   
+				   <form th:action="@{/admin/catalog/category/add}">
+				      <button type="submit" class="btn btn-primary btn-sm">
+				          <i class="fa fa-plus-circle"></i>
+				          <span> </span>
+				          <span th:text="#{admin.catalog.category.add.buttoncaption}"></span> 
+				      </button>
+				   </form>
+				   <p><hr/></p>
+			<!-- </div>   
+		       </div>   
+		    </div> -->   
 	       </div>
 	    </div>
     </div> 

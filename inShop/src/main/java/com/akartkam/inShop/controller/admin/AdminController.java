@@ -3,6 +3,7 @@ package com.akartkam.inShop.controller.admin;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 import java.beans.PropertyEditorSupport;
+import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
@@ -29,11 +30,16 @@ public class AdminController {
 	
 	  @Autowired
 	  CategoryService categoryService;
+	  
+	  @ModelAttribute("allCategories")
+	  public List<Category> getAllCategories() {
+	      return categoryService.getAllCategoryHierarchy();
+	  }	  
  
 	  @InitBinder
 	  public void initBinder(WebDataBinder binder) {
 			binder.setAllowedFields(new String[] { "id", "name", "parent.id",
-					"description", "longDescription", "enabled"});
+					"description", "longDescription", "ordering", "enabled"});
 			binder.registerCustomEditor(Category.class, "parent", new PropertyEditorSupport() {
 			    @Override
 			    public void setAsText(String text) {
@@ -58,7 +64,6 @@ public class AdminController {
 	  
 	  @RequestMapping("/catalog/category")
 	  public String category(Model model) {
-		  model.addAttribute("allCategories", categoryService.getAllCategoryHierarchy()); 
 		  return "/admin/category"; 
 		  }	  
 	  
@@ -83,14 +88,20 @@ public class AdminController {
 			 Category category = categoryService.getCategoryById(categoryID);
 		     model.addAttribute("category", category);
 		  }
-		  model.addAttribute("allCategories", categoryService.getAllCategoryHierarchy());
           return "/admin/categoryEdit";		  
 		  }	  
 
+	  @RequestMapping("/catalog/category/add")
+	  public String categoryAdd(Model model) {
+		  Category category = new Category();
+ 	      model.addAttribute("category", category);
+          return "/admin/categoryEdit";		  
+		  }	  
+
+	  
 	  @RequestMapping("/catalog/category/delete")
 	  public String categoryDelete(@RequestParam(value = "categoryID", required = false) String categoryID, Model model) {
-		  categoryService.deleteCategory(UUID.fromString(categoryID));
-		  model.addAttribute("allCategories", categoryService.getAllCategoryHierarchy());
+		  categoryService.softDeleteCategoryById(UUID.fromString(categoryID));
           return "redirect:/admin/catalog/category";		  
 		  }	  
 	  
@@ -106,7 +117,7 @@ public class AdminController {
 	        	ra.addFlashAttribute("org.springframework.validation.BindingResult.category", bindingResult);
 	            return "redirect:/admin/catalog/category/edit";
 	        }
-	        categoryService.mergeWithExistingAndUpdate(category);
+	        categoryService.mergeWithExistingAndUpdateOrCreate(category);
 	        return "redirect:/admin/catalog/category";
 	    }
 	  

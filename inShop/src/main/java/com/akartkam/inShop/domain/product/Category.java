@@ -18,10 +18,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.DynamicUpdate;
-import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.SelectBeforeUpdate;
 import org.hibernate.annotations.Type;
 
 import com.akartkam.inShop.domain.AbstractDomainObjectOrdering;
@@ -42,7 +38,7 @@ import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
 })
 @Entity
 @Table(name = "Category")
-@SQLDelete(sql="UPDATE category SET enabled = FALSE WHERE id = ? AND version = ?")
+//@SQLDelete(sql="UPDATE category SET enabled = FALSE WHERE id = ? AND version = ?")
 public class Category extends AbstractDomainObjectOrdering {
 
 	/**

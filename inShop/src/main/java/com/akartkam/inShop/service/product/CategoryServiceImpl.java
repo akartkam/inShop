@@ -71,18 +71,32 @@ public class CategoryServiceImpl implements CategoryService {
 	
 	@Override
 	@Transactional(readOnly = false)
-	public void mergeWithExistingAndUpdate(final Category categoryFromPost) {
-
-        UUID id = categoryFromPost.getId();
-		final Category existingCategory = getCategoryById(id);
-
-        // set here explicitly what must/can be overwritten by the html form POST
-        existingCategory.setName(categoryFromPost.getName());
-        existingCategory.setParent(categoryFromPost.getParent());
-        existingCategory.setDescription(categoryFromPost.getDescription());
-        existingCategory.setLongDescription(categoryFromPost.getLongDescription());
-        existingCategory.setEnabled(categoryFromPost.isEnabled());
-        updateCategory(existingCategory);
+	public void mergeWithExistingAndUpdateOrCreate(final Category categoryFromPost) {
+		if (categoryFromPost == null) return;
+		final Category existingCategory = getCategoryById(categoryFromPost.getId());
+		if (existingCategory != null) {
+	        // set here explicitly what must/can be overwritten by the html form POST
+	        existingCategory.setName(categoryFromPost.getName());
+	        existingCategory.setParent(categoryFromPost.getParent());
+	        existingCategory.setDescription(categoryFromPost.getDescription());
+	        existingCategory.setLongDescription(categoryFromPost.getLongDescription());
+	        existingCategory.setOrdering(categoryFromPost.getOrdering());
+	        existingCategory.setEnabled(categoryFromPost.isEnabled());
+	        updateCategory(existingCategory);
+		} else {
+			createCategory(categoryFromPost);
+		}
     }
+
+	@Override
+	@Transactional(readOnly = false)
+	public void softDeleteCategoryById(UUID id) {
+		Category category = getCategoryById(id);
+		if (category != null) {
+			category.setEnabled(false);
+			updateCategory(category);
+		}
+		
+	}
 
 }

@@ -18,5 +18,6 @@ public interface CategoryService {
 	Category getCategoryById(String id);
 	Category getCategoryById(UUID id);
 	void updateCategory(Category category);
-	public void mergeWithExistingAndUpdate(final Category categoryFromPost);
+	void softDeleteCategoryById(UUID id);
+	public void mergeWithExistingAndUpdateOrCreate(final Category categoryFromPost);
 }

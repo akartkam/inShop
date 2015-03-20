@@ -6,6 +6,7 @@ import org.hibernate.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.akartkam.inShop.domain.Account;
 
@@ -21,7 +22,9 @@ public class AccountDAOImpl extends AbstractGenericDAO<Account> implements Accou
 	@Override
 	public void create(Account account, String password) {
 		create(account);
-		jdbcTemplate.update(UPDATE_PASSWORD_SQL, password, account.getUsername());
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		String hashedPassword = passwordEncoder.encode(password);
+		jdbcTemplate.update(UPDATE_PASSWORD_SQL, hashedPassword, account.getUsername());
 	}
 
 	@Override
