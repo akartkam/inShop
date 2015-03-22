@@ -26,7 +26,7 @@ import com.akartkam.inShop.service.product.CategoryService;
 
 @Controller
 @RequestMapping("/admin")
-public class AdminController {
+public class AdminCategoryController {
 	
 	  @Autowired
 	  CategoryService categoryService;
@@ -38,13 +38,15 @@ public class AdminController {
  
 	  @InitBinder
 	  public void initBinder(WebDataBinder binder) {
-			binder.setAllowedFields(new String[] { "id", "name", "parent.id",
+			binder.setAllowedFields(new String[] { "id", "name", "parent",
 					"description", "longDescription", "ordering", "enabled"});
 			binder.registerCustomEditor(Category.class, "parent", new PropertyEditorSupport() {
 			    @Override
 			    public void setAsText(String text) {
-			    	Category ch = categoryService.getCategoryById(text);
-			        setValue(ch);
+			    	if (!"".equals(text)) {
+			    		Category ch = categoryService.loadCategoryById(UUID.fromString(text), false);
+			            setValue(ch);
+			    	}    
 			    }
 			    });
 			binder.registerCustomEditor(UUID.class, "id", new PropertyEditorSupport() {
@@ -85,7 +87,7 @@ public class AdminController {
 	  @RequestMapping("/catalog/category/edit")
 	  public String categoryEdit(@RequestParam(value = "categoryID", required = false) String categoryID, Model model) {
 		  if(!model.containsAttribute("category")) {
-			 Category category = categoryService.getCategoryById(categoryID);
+			 Category category = categoryService.getCategoryById(UUID.fromString(categoryID));
 		     model.addAttribute("category", category);
 		  }
           return "/admin/categoryEdit";		  

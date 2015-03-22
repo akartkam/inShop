@@ -18,6 +18,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.Proxy;
 import org.hibernate.annotations.Type;
 
 import com.akartkam.inShop.domain.AbstractDomainObjectOrdering;
@@ -39,6 +40,7 @@ import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
 @Entity
 @Table(name = "Category")
 //@SQLDelete(sql="UPDATE category SET enabled = FALSE WHERE id = ? AND version = ?")
+@Proxy(lazy=false)
 public class Category extends AbstractDomainObjectOrdering {
 
 	/**

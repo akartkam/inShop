@@ -30,8 +30,8 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public List<Category> getRootCategories() {
-		return categoryDAO.readRootCategories();
+	public List<Category> getRootCategories(Boolean useDisabled) {
+		return categoryDAO.readRootCategories(useDisabled);
 	}
 
 	@Override
@@ -47,16 +47,12 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public List<Category> getAllCategoryHierarchy() {
 		List<Category> allCategoryHierarchy = new ArrayList<Category>();
-		for(Category rct: getRootCategories()) {
+		for(Category rct: getRootCategories(true)) {
 			rct.buildSubCategoryHierarchy(allCategoryHierarchy);
 		}
 		return allCategoryHierarchy;
 	}
 
-	@Override
-	public Category getCategoryById(String id) {
-		return categoryDAO.get(UUID.fromString(id));
-	}
 
 	@Override
 	public Category getCategoryById(UUID id) {
@@ -77,7 +73,12 @@ public class CategoryServiceImpl implements CategoryService {
 		if (existingCategory != null) {
 	        // set here explicitly what must/can be overwritten by the html form POST
 	        existingCategory.setName(categoryFromPost.getName());
-	        existingCategory.setParent(categoryFromPost.getParent());
+	        Category parentCategory = categoryFromPost.getParent();
+	        if (parentCategory != null){
+	        	parentCategory.addSubCategory(existingCategory);
+	        } else { 
+	        	if (existingCategory.getParent() != null)  existingCategory.getParent().removeSubCategory(existingCategory);
+	        }
 	        existingCategory.setDescription(categoryFromPost.getDescription());
 	        existingCategory.setLongDescription(categoryFromPost.getLongDescription());
 	        existingCategory.setOrdering(categoryFromPost.getOrdering());
@@ -97,6 +98,11 @@ public class CategoryServiceImpl implements CategoryService {
 			updateCategory(category);
 		}
 		
+	}
+
+	@Override
+	public Category loadCategoryById(UUID id, Boolean lock) {
+		return categoryDAO.findById(id, lock);
 	}
 
 }

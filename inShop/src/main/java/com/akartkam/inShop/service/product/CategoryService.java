@@ -11,11 +11,11 @@ public interface CategoryService {
 	 * List<Category> getAllCategories();
 	 */
 	Category createCategory(Category category);
-	List<Category> getRootCategories();
+	List<Category> getRootCategories(Boolean useDisabled);
 	List<Category> getCategoryByName(String name);
 	List<Product> getProductByName(String name);
 	List<Category> getAllCategoryHierarchy();
-	Category getCategoryById(String id);
+	Category loadCategoryById(UUID id, Boolean lock);
 	Category getCategoryById(UUID id);
 	void updateCategory(Category category);
 	void softDeleteCategoryById(UUID id);

@@ -78,7 +78,7 @@
 	                        <label>
 						  	  	<span th:text="#{admin.catalog.category.edit.parent}">Parent category</span>
 						    </label>
-							 <select class="form-control" th:field="*{parent.id}">
+							 <select class="form-control" th:field="*{parent}">
 							    <option value="">&nbsp;</option>
 								<option th:if="${scategory.id != category.id}" 
 								        th:each="scategory : ${allCategories}" 

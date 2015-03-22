@@ -128,14 +128,16 @@
 							</th:block>
 				        </tbody>
 				      </table>
-				   </form>   
-				   <form th:action="@{/admin/catalog/category/add}">
-				      <button type="submit" class="btn btn-primary btn-sm">
-				          <i class="fa fa-plus-circle"></i>
-				          <span> </span>
-				          <span th:text="#{admin.catalog.category.add.buttoncaption}"></span> 
-				      </button>
-				   </form>
+				   </form>  
+				   <div class="btn-group" role="group" aria-label="..."> 
+					   <form th:action="@{/admin/catalog/category/add}">
+					      <button type="submit" class="btn btn-primary btn-sm">
+					          <i class="fa fa-plus-circle"></i>
+					          <span> </span>
+					          <span th:text="#{admin.catalog.category.add.buttoncaption}"></span> 
+					      </button>
+					   </form>
+				   </div>
 				   <p><hr/></p>
 			<!-- </div>   
 		       </div>   
