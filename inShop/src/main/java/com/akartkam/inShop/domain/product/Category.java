@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
@@ -17,6 +18,7 @@ import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.Proxy;
 import org.hibernate.annotations.Type;
@@ -50,11 +52,11 @@ public class Category extends AbstractDomainObjectOrdering {
 	
 	private String name;
 	private Category parent;
-	private List<Category> subCategory;
-	private List<Product> products;
+	private List<Category> subCategory = new ArrayList<Category>();
+	private List<Product> products = new ArrayList<Product>();
 	private String description;
 	private String longDescription; 
-	private List<AbstractAttribute> attributes; 
+	private List<AbstractAttribute> attributes = new ArrayList<AbstractAttribute>();
 	
 
 
@@ -77,8 +79,9 @@ public class Category extends AbstractDomainObjectOrdering {
 		this.parent = parent;
 	}
 	
-	@OneToMany(mappedBy="parent", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy="parent", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
+	@BatchSize(size = 10)
 	public List<Category> getSubCategory() {
 		return subCategory;
 	}
@@ -92,7 +95,7 @@ public class Category extends AbstractDomainObjectOrdering {
 		if (subCategory.getParent() != null) 
 			subCategory.getParent().removeSubCategory(subCategory);
 		subCategory.setParent(this);
-		this.subCategory.add(subCategory);
+		this.getSubCategory().add(subCategory);
 	}
 	
 	public void removeSubCategory (Category subCategory) {
