@@ -28,6 +28,9 @@
 			<link href="../../../resources/css/summernote.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/summernote.css}"/>
 	</head>
 <body>
+   <th:block layout:fragment="breadcrumb">
+   	 <li class="active" th:text="#{admin.catalog.category}"></li>
+   </th:block>
    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true" layout:fragment="deleteForm">
 	  <div class="modal-dialog">
 	    <div class="modal-content" id="deleteModalContent">
@@ -55,7 +58,7 @@
 		  <div class="modal-dialog">
 		    <div class="modal-content" id="editModalContent">
 	            <div class="modal-header">
-	              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&amp;times;</button>
+	              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 	              <h4 class="modal-title" id="myModalLabel">Modal title</h4>
 	            </div>
 	            <div class="modal-body">
