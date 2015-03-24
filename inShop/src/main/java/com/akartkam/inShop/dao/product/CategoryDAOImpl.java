@@ -28,11 +28,11 @@ public class CategoryDAOImpl extends AbstractGenericDAO<Category> implements
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Category> readRootCategories() {
+	public List<Category> readRootCategories(Boolean useDisabled) {
 		Criteria criteria = currentSession().createCriteria(Category.class)
-				.add(Restrictions.isNull("parent"))
-				.add(Restrictions.eq("enabled", true))
-				.addOrder(Order.asc("ordering"));
+				.add(Restrictions.isNull("parent"));
+		if (!useDisabled) criteria.add(Restrictions.eq("enabled", true));
+		criteria.addOrder(Order.asc("ordering"));
 		criteria.setCacheable(true);
 		criteria.setCacheRegion("query.Catalog");
         return (List<Category>) criteria.list();

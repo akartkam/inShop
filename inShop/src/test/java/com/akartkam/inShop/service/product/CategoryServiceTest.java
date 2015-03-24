@@ -77,7 +77,7 @@ public class CategoryServiceTest extends AbstractServiceTest {
 	@Test
 	public void getRootCategoryHierarchyTest(){
 		logger.info("*********Begin getRootCategoryHierarchyTest*********");
-		List<Category> rootCategory = categoryService.getRootCategories();
+		List<Category> rootCategory = categoryService.getRootCategories(true);
 		logger.info(rootCategory);
 		logger.info("*********End getRootCategoryHierarchyTest*********");		
 	}

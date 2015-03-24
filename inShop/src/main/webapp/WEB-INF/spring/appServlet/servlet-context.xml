@@ -70,6 +70,15 @@
 	</interceptors>	
 	-->
 	
+	<interceptors>
+	    <beans:bean class="org.springframework.orm.hibernate4.support.OpenSessionInViewInterceptor">
+	        <beans:property name="sessionFactory">
+	            <beans:ref local="sessionFactory" />
+	        </beans:property>
+	    </beans:bean>
+	</interceptors>
+
+	
 	<!-- Файл с настройками контроллеров -->
 	<beans:import resource="controllers.xml" />
 	

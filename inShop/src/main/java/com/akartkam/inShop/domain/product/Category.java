@@ -42,7 +42,7 @@ import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
 @Entity
 @Table(name = "Category")
 //@SQLDelete(sql="UPDATE category SET enabled = FALSE WHERE id = ? AND version = ?")
-@Proxy(lazy=false)
+//@Proxy(lazy=false)
 public class Category extends AbstractDomainObjectOrdering {
 
 	/**
@@ -79,7 +79,7 @@ public class Category extends AbstractDomainObjectOrdering {
 		this.parent = parent;
 	}
 	
-	@OneToMany(mappedBy="parent", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy="parent", cascade = CascadeType.ALL)
 	@Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
 	@BatchSize(size = 10)
 	public List<Category> getSubCategory() {
