@@ -30,7 +30,7 @@
 		   <div class="modal-header">
 	 					<button type="button" class="close" th:onclick="'window.location=\''+@{/admin/catalog/category}+'\''"
 					aria-hidden="true">&times;</button>
-				<h4 class="modal-title" th:text="#{admin.catalog.category.edit.title.edit}">Edit Category</h4>
+				<h4 class="modal-title"  th:text="${category.createdDate != null}? #{admin.catalog.category.edit.title.edit}: #{admin.catalog.category.edit.title.add}">Edit Category</h4>
 	 	   </div>
 		 <!-- /modal-header -->
 		    <div class="modal-body" style ="height:420px; overflow:auto">
