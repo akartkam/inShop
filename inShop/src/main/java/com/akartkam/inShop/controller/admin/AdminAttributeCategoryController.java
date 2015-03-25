@@ -26,7 +26,7 @@ import com.akartkam.inShop.service.product.AttributeCategoryService;
 
 
 @Controller
-@RequestMapping("/admin")
+@RequestMapping("/admin/catalog/attributecategory")
 public class AdminAttributeCategoryController {
 	
 	  @Autowired
@@ -45,23 +45,17 @@ public class AdminAttributeCategoryController {
 			    public void setAsText(String text) {
 			    	 setValue(UUID.fromString(text));
 			    }
-			    });
-			
+			    });			
 	  }
 	
-/*	  @RequestMapping(method=GET)
-	  public String admin(HttpSession  session) {
-		  session.setAttribute("isadmin", new Boolean(true));
-		  return "admin/admin"; 
-		  }*/
 	  
-	  @RequestMapping("/catalog/attributecategory")
+	  @RequestMapping(method=GET)
 	  public String category(Model model) {
 		  return "/admin/attributeCategory"; 
 		  }	  
 	  
    
-	  @RequestMapping("/catalog/attributecategory/edit")
+	  @RequestMapping("/edit")
 	  public String categoryEdit(@RequestParam(value = "categoryID", required = false) String categoryID, Model model) {
 		  if(!model.containsAttribute("category")) {
 			 AttributeCategory category = attributeCategoryService.getAttributeCategoryById(UUID.fromString(categoryID));
@@ -70,7 +64,7 @@ public class AdminAttributeCategoryController {
           return "/admin/attributeCategoryEdit";		  
 		  }	  
 
-	  @RequestMapping("/catalog/attributecategory/add")
+	  @RequestMapping("/add")
 	  public String categoryAdd(Model model) {
 		  AttributeCategory category = new AttributeCategory();
  	      model.addAttribute("attributeCategory", category);
@@ -78,14 +72,14 @@ public class AdminAttributeCategoryController {
 		  }	  
 
 	  
-	  @RequestMapping("/catalog/attributecategory/delete")
+	  @RequestMapping("/delete")
 	  public String categoryDelete(@RequestParam(value = "categoryID", required = false) String categoryID, Model model) {
 		  attributeCategoryService.softDeleteAttributeCategoryById(UUID.fromString(categoryID));
           return "redirect:/admin/attributeCategory/category";		  
 		  }	  
 	  
 
-	   @RequestMapping(value="/catalog/attributecategory/edit", method = RequestMethod.POST )
+	   @RequestMapping(value="/edit", method = RequestMethod.POST )
 	   public String saveCategory(
 			                         @ModelAttribute @Valid AttributeCategory category,
 			                         final BindingResult bindingResult,

@@ -25,7 +25,7 @@ import com.akartkam.inShop.domain.product.Category;
 import com.akartkam.inShop.service.product.CategoryService;
 
 @Controller
-@RequestMapping("/admin")
+@RequestMapping("/admin/catalog/category")
 public class AdminCategoryController {
 	
 	  @Autowired
@@ -58,13 +58,8 @@ public class AdminCategoryController {
 			
 	  }
 	
-	  @RequestMapping(method=GET)
-	  public String admin(HttpSession  session) {
-		  session.setAttribute("isadmin", new Boolean(true));
-		  return "admin/admin"; 
-		  }
 	  
-	  @RequestMapping("/catalog/category")
+	  @RequestMapping(method=GET)
 	  public String category(Model model) {
 		  return "/admin/category"; 
 		  }	  
@@ -84,7 +79,7 @@ public class AdminCategoryController {
 		  }	
 	   */
 	   
-	  @RequestMapping("/catalog/category/edit")
+	  @RequestMapping("/edit")
 	  public String categoryEdit(@RequestParam(value = "categoryID", required = false) String categoryID, Model model) {
 		  if(!model.containsAttribute("category")) {
 			 Category category = categoryService.getCategoryById(UUID.fromString(categoryID));
@@ -93,7 +88,7 @@ public class AdminCategoryController {
           return "/admin/categoryEdit";		  
 		  }	  
 
-	  @RequestMapping("/catalog/category/add")
+	  @RequestMapping("/add")
 	  public String categoryAdd(Model model) {
 		  Category category = new Category();
  	      model.addAttribute("category", category);
@@ -101,14 +96,14 @@ public class AdminCategoryController {
 		  }	  
 
 	  
-	  @RequestMapping("/catalog/category/delete")
+	  @RequestMapping("/delete")
 	  public String categoryDelete(@RequestParam(value = "categoryID", required = false) String categoryID, Model model) {
 		  categoryService.softDeleteCategoryById(UUID.fromString(categoryID));
           return "redirect:/admin/catalog/category";		  
 		  }	  
 	  
 
-	   @RequestMapping(value="/catalog/category/edit", method = RequestMethod.POST )
+	   @RequestMapping(value="/edit", method = RequestMethod.POST )
 	   public String saveCategory(
 			                         @ModelAttribute @Valid Category category,
 			                         final BindingResult bindingResult,
