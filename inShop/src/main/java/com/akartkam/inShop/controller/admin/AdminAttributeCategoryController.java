@@ -57,9 +57,9 @@ public class AdminAttributeCategoryController {
    
 	  @RequestMapping("/edit")
 	  public String categoryEdit(@RequestParam(value = "categoryID", required = false) String categoryID, Model model) {
-		  if(!model.containsAttribute("category")) {
+		  if(!model.containsAttribute("attributeCategory")) {
 			 AttributeCategory category = attributeCategoryService.getAttributeCategoryById(UUID.fromString(categoryID));
-		     model.addAttribute("category", category);
+		     model.addAttribute("attributeCategory", category);
 		  }
           return "/admin/attributeCategoryEdit";		  
 		  }	  
@@ -75,7 +75,7 @@ public class AdminAttributeCategoryController {
 	  @RequestMapping("/delete")
 	  public String categoryDelete(@RequestParam(value = "categoryID", required = false) String categoryID, Model model) {
 		  attributeCategoryService.softDeleteAttributeCategoryById(UUID.fromString(categoryID));
-          return "redirect:/admin/attributeCategory/category";		  
+          return "redirect:/admin/catalog/attributecategory";		  
 		  }	  
 	  
 
@@ -86,12 +86,12 @@ public class AdminAttributeCategoryController {
 			                         final RedirectAttributes ra
 			                         ) {
 	        if (bindingResult.hasErrors()) {
-	        	ra.addFlashAttribute("category", category);
-	        	ra.addFlashAttribute("org.springframework.validation.BindingResult.category", bindingResult);
-	            return "redirect:/admin/catalog/attributeCategory/edit";
+	        	ra.addFlashAttribute("attributeCategory", category);
+	        	ra.addFlashAttribute("org.springframework.validation.BindingResult.attributeCategory", bindingResult);
+	            return "redirect:/admin/catalog/attributecategory/edit";
 	        }
 	        attributeCategoryService.mergeWithExistingAndUpdateOrCreate(category);
-	        return "redirect:/admin/catalog/attributeCategory";
+	        return "redirect:/admin/catalog/attributecategory";
 	    }
 	  
 }
