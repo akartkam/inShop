@@ -1,4 +1,4 @@
-package com.akartkam.inShop.controller.admin;
+package com.akartkam.inShop.controller.admin.product.attribute;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
@@ -39,7 +39,7 @@ public class AdminAttributeCategoryController {
  
 	  @InitBinder
 	  public void initBinder(WebDataBinder binder) {
-			binder.setAllowedFields(new String[] { "id", "name", "enabled"});
+			binder.setAllowedFields(new String[] { "id", "name", "ordering", "enabled"});
 			binder.registerCustomEditor(UUID.class, "id", new PropertyEditorSupport() {
 			    @Override
 			    public void setAsText(String text) {

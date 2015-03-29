@@ -81,7 +81,6 @@
 	           </div> 	 
 	             <div class="panel-body"> -->   
 	              <div class="dataTable_wrapper" layout:fragment="content"> 
-	             <form th:action="@{/admin/catalog/category/edit}">
 				      <table class="tree table table-striped table-bordered table-hover table-condensed table-responsive" id="categoryDataTable">
 				        <thead >
 					      <tr >
@@ -89,28 +88,54 @@
 				              <th  th:text="#{admin.catalog.category.description}">Description</th>
 				             <!--   <th  th:text="#{admin.catalog.category.order}">Order</th> -->
 				              <th class="text-center" th:text="#{admin.catalog.category.enabled}">Enabled?</th>
-				            <th></th>
-
+				              <th th:text="#{admin.catalog.category.actions}">Actions</th>
 				  	      </tr>
 				 	    </thead>
 				 	    <tbody>      
 					          <tr th:each="ct : ${allCategories}" 
 					              th:class="${'treegrid-'+{ct.id}+{{ct.parent != null} ? ' treegrid-parent-'+{ct.parent.id} : ''}+' '+{{!ct.enabled} ? 'text-muted' : ''}}">
-								<td class="col-md-5" th:text="${ct.name}">Root category 1</td>
+								<!--<td class="col-md-5" th:text="${ct.name}">Root category 1</td>-->
+								<td class="col-md-5">
+								  <div class="btn-group">
+									<button type="button"  class="btn btn-link dropdown-toggle" data-toggle="dropdown">
+									   <span th:text="${ct.name}">Root category 1</span>
+									   <span class="caret"></span>
+									</button>
+									<ul class="dropdown-menu pull-right" role="menu">
+                                        <li><a href="#">Action</a>
+                                        </li>
+                                        <li><a href="#">Another action</a>
+                                        </li>
+                                        <li><a href="#">Something else here</a>
+                                        </li>
+                                        <li class="divider"></li>
+                                        <li><a href="#">Separated link</a>
+                                        </li>
+                                     </ul>
+                                   </div>  								
+								</td>
 				            	<td class="col-md-5" th:text="${ct.description}">Root category description 1</td>
 				            	<!--  <td th:text="${ct.ordering}">1</td> -->
 				            	<td class="col-md-1 text-center"><i th:class="${{ct.enabled} ? 'fa fa-check-circle' : ''}"></i></td>
 				            	<td class="col-md-1 text-center">
+				            	  <form role="form">
 								  <!--  data-toggle="modal" data-target="#editModal" -->
-	                              <button type="submit" class="open-editDialog btn btn-outline btn-default btn-xs" 
-	                                      name="categoryID" th:value="${ct.id}"> 
-	                                <i class="fa fa-pencil"></i>
-	                              </button>		
-	                              <button th:disabled="${!ct.enabled}" type="button" data-toggle="modal" data-target="#deleteModal" 
-	                                      class="open-deleteDialog btn btn-outline btn-default btn-xs"
-	                                      th:attr="data-id=${ct.id}, data-name=${ct.name}"> 
-	                                <i class="fa fa-trash-o"></i>
-	                              </button>		
+	                                  <button type="submit" class="open-editDialog btn btn-outline btn-default btn-xs" 
+	                                          name="categoryID" th:value="${ct.id}"
+	                                          th:formaction="@{/admin/catalog/category/edit}"> 
+	                                    <i class="fa fa-pencil"></i>
+	                                  </button>	
+	                                  <button type="submit" class="open-editDialog btn btn-outline btn-default btn-xs" 
+	                                          name="copyCategoryID" th:value="${ct.id}"
+	                                          th:formaction="@{/admin/catalog/category/add}"> 
+	                                    <i class="fa fa-copy"></i>
+	                                  </button>
+		                              <button th:disabled="${!ct.enabled}" type="button" data-toggle="modal" data-target="#deleteModal" 
+		                                      class="open-deleteDialog btn btn-outline btn-default btn-xs"
+		                                      th:attr="data-id=${ct.id}, data-name=${ct.name}"> 
+		                                <i class="fa fa-trash-o"></i>
+		                              </button>	
+	                              </form>
 	                              <!--  th:href="${'category/edit/'+ct.id}"> -->	 
 				            	</td>
 					        </tr>
@@ -130,8 +155,7 @@
 								</tr>
 							</th:block>
 				        </tbody>
-				      </table>
-				   </form>  
+				      </table>  
 				   <div class="btn-group" role="group" aria-label="..."> 
 					   <form th:action="@{/admin/catalog/category/add}">
 					      <button type="submit" class="btn btn-primary btn-sm">

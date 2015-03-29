@@ -51,6 +51,7 @@ public class AttributeCategoryServiceImpl implements AttributeCategoryService {
 		if (existingCategory != null) {
 	        // set here explicitly what must/can be overwritten by the html form POST
 	        existingCategory.setName(categoryFromPost.getName());
+	        existingCategory.setOrdering(categoryFromPost.getOrdering());
 	        existingCategory.setEnabled(categoryFromPost.isEnabled());
 	        updateAttributeCategory(existingCategory);
 		} else {

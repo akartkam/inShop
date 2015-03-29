@@ -105,4 +105,12 @@ public class CategoryServiceImpl implements CategoryService {
 		return categoryDAO.findById(id, lock);
 	}
 
+	@Override
+	public Category cloneCategoryById(UUID id) throws CloneNotSupportedException {
+		Category clonedCategory = getCategoryById(id);
+		if (clonedCategory == null) return null;
+		return clonedCategory.clone();
+		
+	}
+
 }

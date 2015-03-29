@@ -19,5 +19,6 @@ public interface CategoryService {
 	Category getCategoryById(UUID id);
 	void updateCategory(Category category);
 	void softDeleteCategoryById(UUID id);
-	public void mergeWithExistingAndUpdateOrCreate(final Category categoryFromPost);
+	void mergeWithExistingAndUpdateOrCreate(final Category categoryFromPost);
+	Category cloneCategoryById(UUID id) throws CloneNotSupportedException;
 }

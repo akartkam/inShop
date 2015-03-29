@@ -2,6 +2,7 @@ package com.akartkam.inShop.domain.product;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -220,5 +221,24 @@ public class Category extends AbstractDomainObjectOrdering {
 		}
 		return currentHierarchy;
 	}
+	
+	@Override
+	@Transient
+	public Category clone() throws CloneNotSupportedException {
+		Category category = (Category) super.clone();
+		category.setId(UUID.randomUUID());
+		category.setName(new String(getName()));
+		category.setCreatedBy(null);
+		category.setCreatedDate(null);
+		category.setUpdatedBy(null);
+		category.setUpdatedDate(null);
+		category.setAttributes(new ArrayList<AbstractAttribute>());
+		category.setDescription(new String(getDescription()));
+		category.setLongDescription(new String(getLongDescription()));
+		category.setProducts(new ArrayList<Product>());
+		category.setSubCategory(new ArrayList<Category>());
+		return category;
+	}
+	
 	
 }

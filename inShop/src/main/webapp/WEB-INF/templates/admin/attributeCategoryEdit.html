@@ -57,6 +57,12 @@
 						   		   </div>
 	             		</div>
 	                    <div class="tab-pane fade" id="additional">
+	                       <div class="field-box">
+	 			    		  <label>
+					    	  	<span th:text="#{admin.catalog.attributecategory.edit.ordering}">Orderig</span>
+					   		  </label>
+					   		  <input type="text" class="form-control" th:field="*{ordering}"/>
+						   </div>
 						   <div class="field-box">
 	                         <label>
 	 					    	<input type="checkbox" th:field="*{enabled}"/>

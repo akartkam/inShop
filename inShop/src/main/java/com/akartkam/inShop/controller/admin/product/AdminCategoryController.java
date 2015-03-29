@@ -1,4 +1,4 @@
-package com.akartkam.inShop.controller.admin;
+package com.akartkam.inShop.controller.admin.product;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
@@ -89,8 +89,10 @@ public class AdminCategoryController {
 		  }	  
 
 	  @RequestMapping("/add")
-	  public String categoryAdd(Model model) {
-		  Category category = new Category();
+	  public String categoryAdd(@RequestParam(value = "copyCategoryID", required = false) String copyCategoryID, Model model) throws CloneNotSupportedException {
+		  Category category;
+		  if (copyCategoryID != null && !"".equals(copyCategoryID)) category = categoryService.cloneCategoryById(UUID.fromString(copyCategoryID)); 
+		  else category = new Category();
  	      model.addAttribute("category", category);
           return "/admin/categoryEdit";		  
 		  }	  

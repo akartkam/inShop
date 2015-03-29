@@ -82,13 +82,16 @@
 				        <thead >
 					      <tr >
 				              <th  th:text="#{admin.catalog.attributecategory.name}">Name</th>
+				              <th  th:text="#{admin.catalog.attributecategory.order}">Order</th>
 				              <th class="text-center" th:text="#{admin.catalog.attributecategory.enabled}">Enabled?</th>
 				            <th></th>
 				  	      </tr>
 				 	    </thead>
 				 	    <tbody>      
-					          <tr th:each="ct : ${allAttributeCategories}">
-								<td class="col-md-5" th:text="${ct.name}">category 1</td>
+					          <tr th:each="ct : ${allAttributeCategories}"
+					              th:class ="${!ct.enabled ? 'text-muted' : ''}">
+								<td class="col-md-7" th:text="${ct.name}">category 1</td>
+								<td class="col-md-1" th:text="${ct.ordering}">1</td>
 				            	<td class="col-md-1 text-center"><i th:class="${{ct.enabled} ? 'fa fa-check-circle' : ''}"></i></td>
 				            	<td class="col-md-1 text-center">
 	                              <button type="submit" class="open-editDialog btn btn-outline btn-default btn-xs" 
