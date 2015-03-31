@@ -14,6 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
@@ -82,6 +83,7 @@ public class Category extends AbstractDomainObjectOrdering {
 	
 	@OneToMany(mappedBy="parent", cascade = CascadeType.ALL)
 	@Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
+	@OrderBy("ordering")
 	@BatchSize(size = 10)
 	public List<Category> getSubCategory() {
 		return subCategory;

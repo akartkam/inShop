@@ -6,7 +6,6 @@ import java.beans.PropertyEditorSupport;
 import java.util.List;
 import java.util.UUID;
 
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
