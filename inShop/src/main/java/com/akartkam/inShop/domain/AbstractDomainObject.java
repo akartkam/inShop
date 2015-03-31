@@ -10,13 +10,12 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.Version;
 
 import org.hibernate.Hibernate;
-import org.hibernate.annotations.DynamicUpdate;
 import org.joda.time.DateTime;
 
 
 @SuppressWarnings("serial")
 @MappedSuperclass
-public abstract class AbstractDomainObject implements DomainObject<UUID> {
+public abstract class AbstractDomainObject implements DomainObject<UUID>, Cloneable {
 	
     private UUID id = GeneratorId.createId();
     private Integer version=0;
@@ -110,7 +109,8 @@ public abstract class AbstractDomainObject implements DomainObject<UUID> {
         if (o == null ||
             !(o instanceof DomainObject) 
             // looks into the target class of a proxy if necessary
-        	|| !(Hibernate.getClass(o).equals(Hibernate.getClass(this)))){
+        	|| !(Hibernate.getClass(o).equals(Hibernate.getClass(this))))
+        {
             return false;
         }
         DomainObject other = (DomainObject)o;
