@@ -17,15 +17,20 @@
 		    <!-- Custom Fonts -->
 	    	<link href="../../../resources/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/font-awesome/css/font-awesome.min.css}"/>
     	</th:block>
-	    	<!-- DataTables CSS -->
-	    	<link href="../../../resources/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css" rel="stylesheet" th:href="@{/resources/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css}"/>
-	    	<!-- DataTables Responsive CSS -->
-	    	<link href="../../../resources/bower_components/datatables-responsive/css/dataTables.responsive.css" rel="stylesheet" th:href="@{/resources/bower_components/datatables-responsive/css/dataTables.responsive.css}"/>   	
 	    	<link href="../../../resources/bower_components/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/bootstrap/dist/css/bootstrap-theme.min.css}"/>    	
 			<!-- Treegrid -->
 		 	<link href="../../../resources/css/jquery.treegrid.css" rel="stylesheet" th:href="@{/resources/css/jquery.treegrid.css}"/>
 	    	<!-- summernote -->
 			<link href="../../../resources/css/summernote.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/summernote.css}"/>
+			<style type="text/css">
+				td.domain-col {
+				    overflow: hidden;
+				    text-overflow: ellipsis;
+				    white-space: nowrap;
+				    display: inline-block;
+				    max-width: 90px;
+				 }
+			</style>
 	</head>
 <body>
    <th:block layout:fragment="breadcrumb">
@@ -81,7 +86,7 @@
 	           </div> 	 
 	             <div class="panel-body"> -->   
 	              <div class="dataTable_wrapper" layout:fragment="content"> 
-				      <table class="tree table table-striped table-bordered table-hover table-condensed table-responsive" id="categoryDataTable">
+				      <table class="tree table-striped table-bordered table-hover table-condensed table-responsive" id="categoryDataTable">
 				        <thead >
 					      <tr >
 				              <th  th:text="#{admin.catalog.category.name}">Name</th>
@@ -95,66 +100,82 @@
 					          <tr th:each="ct : ${allCategories}" 
 					              th:class="${'treegrid-'+{ct.id}+{{ct.parent != null} ? ' treegrid-parent-'+{ct.parent.id} : ''}+' '+{{!ct.enabled} ? 'text-muted' : ''}}">
 								<!--<td class="col-md-5" th:text="${ct.name}">Root category 1</td>-->
-								<td class="col-md-5" th:text="${ct.name}">Root category 1</td>
-				            	<td class="col-md-5" th:text="${ct.description}">Root category description 1</td>
+								<td class="mightOverflow domain-col col-md-5" th:text="${ct.name}">Root category 1</td>
+				            	<td class="mightOverflow domain-col col-md-5" th:text="${ct.description}">Root category description 1</td>
 				            	<!--  <td th:text="${ct.ordering}">1</td> -->
 				            	<td class="col-md-1 text-center"><i th:class="${{ct.enabled} ? 'fa fa-check-circle' : ''}"></i></td>
 				            	<td class="col-md-1 text-center">
-				            	  <form role="form">
-								  <!--  data-toggle="modal" data-target="#editModal" -->
-	                                  <button type="submit" class="open-editDialog btn btn-outline btn-default btn-xs" 
-	                                          name="categoryID" th:value="${ct.id}"
-	                                          th:formaction="@{/admin/catalog/category/edit}"> 
-	                                    <i class="fa fa-pencil"></i>
-	                                  </button>	
-	                                  <button type="submit" class="open-editDialog btn btn-outline btn-default btn-xs" 
-	                                          name="copyCategoryID" th:value="${ct.id}"
-	                                          th:formaction="@{/admin/catalog/category/add}"> 
-	                                    <i class="fa fa-copy"></i>
-	                                  </button>
-		                              <button th:disabled="${!ct.enabled}" type="button" data-toggle="modal" data-target="#deleteModal" 
-		                                      class="open-deleteDialog btn btn-outline btn-default btn-xs"
-		                                      th:attr="data-id=${ct.id}, data-name=${ct.name}"> 
-		                                <i class="fa fa-trash-o"></i>
-		                              </button>	
-	                              </form>
+					            	  <form role="form">
+									  <!--  data-toggle="modal" data-target="#editModal" -->
+  				            	  		 <div class="btn-group" role="group" > 
+			                                  <button type="submit" class="open-editDialog btn btn-outline btn-default btn-xs" 
+			                                          name="categoryID" th:value="${ct.id}"
+			                                          th:formaction="@{/admin/catalog/category/edit}"> 
+			                                    <i class="fa fa-pencil"></i>
+			                                  </button>	
+			                                  <button type="submit" class="open-editDialog btn btn-outline btn-default btn-xs" 
+			                                          name="copyCategoryID" th:value="${ct.id}"
+			                                          th:formaction="@{/admin/catalog/category/add}"> 
+			                                    <i class="fa fa-copy"></i>
+			                                  </button>
+				                              <button th:disabled="${!ct.enabled}" type="button" data-toggle="modal" data-target="#deleteModal" 
+				                                      class="open-deleteDialog btn btn-outline btn-default btn-xs"
+				                                      th:attr="data-id=${ct.id}, data-name=${ct.name}"> 
+				                                <i class="fa fa-trash-o"></i>
+				                              </button>	
+		                            	 </div>  
+		                              </form>
 	                              <!--  th:href="${'category/edit/'+ct.id}"> -->	 
 				            	</td>
 					        </tr>
 					        <th:block th:remove="all">
 								<tr class="treegrid-1" th:remove="all">
-									<td>Root node</td><td>Additional info</td>
-									<td align="center">Yes</td>
-									<td> </td>
-									<td> </td>
+									<td class="mightOverflow domain-col col-md-5">Root node kdjfgjkdfngjkfngkj dfgnjfngjkfdngkjdnf dkgnkjfngkjfdngjkndfgn jkdfngkjfdnkjg</td>
+									<td class="mightOverflow col-md-5">Additional info</td>
+									<td class="col-md-1 text-center">Yes</td>
+									<td class="col-md-1 text-center"> </td>
 								</tr>
 								<tr class="treegrid-2 treegrid-parent-1" th:remove="all">
-									<td>Node 1-1</td><td>Additional info</td>
+									<td>Node 1-1</td>
+									<td>Additional info</td>
 									<td> </td>
 									<td> </td>
 								</tr>
 								<tr class="treegrid-3 treegrid-parent-1" th:remove="all">
-									<td>Node 1-2</td><td>Additional info</td>
+									<td>Node 1-2</td>
+									<td>Additional info</td>
 									<td> </td>
 									<td> </td>
 								</tr>
 								<tr class="treegrid-4 treegrid-parent-3" th:remove="all">
-									<td>Node 1-2-1</td><td>Additional info</td>
+									<td>Node 1-2-1</td>
+									<td>Additional info</td>
 									<td> </td>
 									<td> </td>
 								</tr>
 							</th:block>
 				        </tbody>
-				      </table>  
-				   <div class="btn-group" role="group" aria-label="..."> 
-					   <form th:action="@{/admin/catalog/category/add}">
-					      <button type="submit" class="btn btn-primary btn-sm">
-					          <i class="fa fa-plus-circle"></i>
-					          <span> </span>
-					          <span th:text="#{admin.catalog.category.add.buttoncaption}"></span> 
-					      </button>
-					   </form>
-				   </div>
+				      </table> 
+				      <p/> 
+				      <div class="btn-toolbar" role="toolbar" aria-label="...">
+	 			   		  <div class="btn-group" role="group" aria-label="..."> 
+					        <button type="button" class="btn btn-primary btn-sm" onclick="$('#categoryDataTable').treegrid('expandAll');">
+					          <i class="fa fa-expand"></i>
+					        </button>
+					        <button type="button" class="btn btn-primary btn-sm" onclick="$('#categoryDataTable').treegrid('collapseAll');">
+					          <i class="fa fa-compress"></i>
+					        </button>
+					      </div>
+						  <form th:action="@{/admin/catalog/category/add}">
+					   		 <div class="btn-group" role="group" aria-label="..."> 
+						        <button type="submit" class="btn btn-primary btn-sm">
+						          <i class="fa fa-plus-circle"></i>
+						          <span> </span>
+						          <span th:text="#{admin.catalog.category.add.buttoncaption}"></span> 
+						        </button>
+						     </div>
+						  </form>
+					  </div>
 				   <p><hr/></p>
 			<!-- </div>   
 		       </div>   
@@ -171,65 +192,31 @@
 	    <script src="../../../resources/bower_components/jquery/dist/jquery.treegrid.min.js" th:src="@{/resources/bower_components/jquery/dist/jquery.treegrid.min.js}"></script>
 	    <script src="../../../resources/bower_components/jquery/dist/jquery.cookie.js" th:src="@{/resources/bower_components/jquery/dist/jquery.cookie.js}"></script>
 		<script src="../../../resources/bower_components/jquery/dist/jquery.treegrid.bootstrap3.js" th:src="@{/resources/bower_components/jquery/dist/jquery.treegrid.bootstrap3.js}"></script>
-	     <!-- DataTables JavaScript -->
-	    <script src="../../../resources/bower_components/datatables/media/js/jquery.dataTables.min.js" th:src="@{/resources/bower_components/datatables/media/js/jquery.dataTables.min.js}"></script>
-	    <script src="../../../resources/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js" th:src="@{/resources/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js}"></script>
 	    <!-- summernote -->
 	    <script src="../../../resources/js/summernote.js" th:src="@{/resources/js/summernote.js}"></script>
 	    <script src="../../../resources/js/summernote-ru-RU.js" th:src="@{/resources/js/summernote-ru-RU.js}"></script> 
 	    <script type="text/javascript">
-		      $(document).ready(function() {
-		    		$('#categoryDataTable').dataTable({
-		            	"language": {
-		                   	"processing": "Подождите...",
-		                   	  "search": "Поиск:",
-		                   	  "lengthMenu": "Показать _MENU_ записей",
-		                   	  "info": "Записи с _START_ до _END_ из _TOTAL_ записей",
-		                   	  "infoEmpty": "Записи с 0 до 0 из 0 записей",
-		                   	  "infoFiltered": "(отфильтровано из _MAX_ записей)",
-		                   	  "infoPostFix": "",
-		                   	  "loadingRecords": "Загрузка записей...",
-		                   	  "zeroRecords": "Записи отсутствуют.",
-		                   	  "emptyTable:": "В таблице отсутствуют данные",
-		                   	  "paginate": {
-		                   	    "first": "Первая",
-		                   	    "previous": "Предыдущая",
-		                   	    "next": "Следующая",
-		                   	    "last": "Последняя"
-		                   	  },
-		                   	  "aria": {
-		                   	    "sortAscending": ": активировать для сортировки столбца по возрастанию",
-		                   	    "sortDescending": ": активировать для сортировки столбца по убыванию"
-		                   	  }
-		                  },
-		                responsive: true,
-		                ordering:  false,
-		                stateSave: true
-		        	});
-	  		        $(document).on("search.dt","#categoryDataTable", function () {
- 					  if (!$("#categoryDataTable").DataTable().search()) {
- 				    		$("#categoryDataTable").treegrid({
- 				    			saveState: true,
- 				    		}); 
- 				    		return false;
- 					  }  
- 	  		          $("#categoryDataTable").treegrid("getAllNodes").each(function() {
-		  		            if ($(this).treegrid("isCollapsed")) {
-		  		            	  $(this).treegrid("expand");
-		  		                }
-		  		            });
-	  		        });
-		    		$("#categoryDataTable").treegrid({
+	      //<![CDATA[
+	           $(document).ready(function() {
+    		    $("#categoryDataTable").treegrid({
 		    			saveState: true,
 		    		});
-		    	});
+  		        $(document).on("mouseenter", ".mightOverflow", function() { 
+  		        	var $t = $(this); 
+          		    if ((this.offsetWidth)<(this.scrollWidth)) $t.attr("title", $t.text()); 
+  		        	    else  if ((this.offsetWidth)>=(this.scrollWidth)&&(title == $t.text())) $t.removeAttr("title"); 
+  		            }
+  		        	);
+	           
+	           });
   		        $(document).on("click", ".open-deleteDialog", function () {
 		    	     var ctgId = $(this).data("id");
 		    	     var ctgName = $(this).data("name");
 		    	     $("#delete-modal-footer #categoryID").val(ctgId);
 		    	     $("#delete-modal-body #ctgName").html(ctgName);
 		    	});
-  		        
+
+  		     // ]]>     
 	     </script>
 	     <th:block layout:include="admin/categoryEdit :: scriptEditModal">
 	     </th:block>
