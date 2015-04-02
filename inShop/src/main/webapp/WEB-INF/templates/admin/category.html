@@ -12,6 +12,8 @@
 		    <meta name="author" content=""/>
 		    <!-- Bootstrap Core CSS -->
 		    <link href="../../../resources/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" th:href="@{/resources/bower_components/bootstrap/dist/css/bootstrap.min.css}"/>
+		    <!-- MetisMenu CSS --> 
+		    <link href="../../../resources/bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet" th:href="@{/resources/bower_components/metisMenu/dist/metisMenu.min.css}"/>
 			<!-- Custom css -->	    
 	    	<link href="../../../resources/css/sb-admin-2.css" rel="stylesheet" th:href="@{/resources/css/sb-admin-2.css}"/>
 		    <!-- Custom Fonts -->
@@ -79,33 +81,37 @@
     </th:block>
     <div class="container">
 		<div class="row" >
-		 <!--  <div class="col-lg-12" > --> 
+		  <div class="col-lg-12" >  
 	       <div class="panel panel-default" layout:fragment="content"> 
 	           <div class="panel-heading">
 	               <span th:text="#{admin.catalog.category}" >Categories</span>
 	           </div> 	 
-	           <div class="panel-body">    
-	              <div class="dataTable_wrapper" > 
-				      <table class="tree table table-striped table-bordered table-hover table-condensed table-responsive" id="categoryDataTable">
+	           <div class="panel-body" style="height:100%">    
+				      <table class="tree table table-striped table-bordered table-hover table-condensed table-responsive" id="categoryDataTable" style ="max-height:50%; overflow:auto;">
 				        <thead >
 					      <tr >
-				              <th  th:text="#{admin.catalog.category.name}">Name</th>
-				              <th  th:text="#{admin.catalog.category.description}">Description</th>
+					         <th class="col-md-1"></th>
+				             <th class="col-md-5" th:text="#{admin.catalog.category.name}">Name</th>
+				             <th class="col-md-4" th:text="#{admin.catalog.category.description}">Description</th>
 				             <!--   <th  th:text="#{admin.catalog.category.order}">Order</th> -->
-				              <th class="text-center" th:text="#{admin.catalog.category.enabled}">Enabled?</th>
-				              <th th:text="#{admin.catalog.category.actions}">Actions</th>
+				             <th class="col-md-1 text-center" th:text="#{admin.catalog.category.enabled}">Enabled?</th>
+				             <th class="col-md-1" th:text="#{admin.catalog.category.actions}">Actions</th>
 				  	      </tr>
 				 	    </thead>
 				 	    <tbody>      
-					          <tr th:each="ct : ${allCategories}" 
+					       <tr th:each="ct : ${allCategories}" 
 					              th:class="${'treegrid-'+{ct.id}+{{ct.parent != null} ? ' treegrid-parent-'+{ct.parent.id} : ''}+' '+{{!ct.enabled} ? 'text-muted' : ''}}">
-								<!--<td class="col-md-5" th:text="${ct.name}">Root category 1</td>-->
-								<td class="mightOverflow domain-col col-md-5" th:text="${ct.name}">Root category 1</td>
-				            	<td class="mightOverflow domain-col col-md-5" th:text="${ct.description}">Root category description 1</td>
-				            	<!--  <td th:text="${ct.ordering}">1</td> -->
-				            	<td class="col-md-1 text-center"><i th:class="${{ct.enabled} ? 'fa fa-check-circle' : ''}"></i></td>
-				            	<td class="col-md-1 text-center">
-					            	  <form role="form">
+							  <!--<td class="col-md-5" th:text="${ct.name}">Root category 1</td>-->
+							  <td class="col-md-1 text-center">						
+								    <input type="checkbox" th:value="${ct.id}" onclick="if(this.checked){alert(this.value);}"/>
+							  </td>					         
+							  <td class="mightOverflow domain-col col-md-5" th:text="${ct.name}">Root category 1</td>
+				              <td class="mightOverflow domain-col col-md-4" th:text="${ct.description}">Root category description 1</td>
+				              <!--  <td th:text="${ct.ordering}">1</td> -->
+				              <td class="col-md-1 text-center"><i th:class="${{ct.enabled} ? 'fa fa-check-circle' : ''}"></i></td>
+				              <td class="col-md-1 text-center">
+				                <div class="row">
+					          	  <form role="form">
 									  <!--  data-toggle="modal" data-target="#editModal" -->
   				            	  		 <div class="btn-group" role="group" > 
 			                                  <button type="submit" class="open-editDialog btn btn-outline btn-default btn-xs" 
@@ -125,38 +131,63 @@
 				                              </button>	
 		                            	 </div>  
 		                              </form>
+		                            </div>  
 	                              <!--  th:href="${'category/edit/'+ct.id}"> -->	 
-				            	</td>
+				               </td>
 					        </tr>
 					        <th:block th:remove="all">
 								<tr class="treegrid-1" th:remove="all">
+									<td class="col-md-1 text-center">						
+									       <input type="checkbox"/>
+								    </td>					         
 									<td class="mightOverflow domain-col col-md-5">Root node kdjfgjkdfngjkfngkj dfgnjfngjkfdngkjdnf dkgnkjfngkjfdngjkndfgn jkdfngkjfdnkjg</td>
 									<td class="mightOverflow col-md-5">Additional info</td>
 									<td class="col-md-1 text-center">Yes</td>
-									<td class="col-md-1 text-center"> </td>
+									<td class="text-center"></td>
 								</tr>
 								<tr class="treegrid-2 treegrid-parent-1" th:remove="all">
-									<td>Node 1-1</td>
-									<td>Additional info</td>
-									<td> </td>
-									<td> </td>
+									<td class="col-md-1 text-center">						
+									       <input type="checkbox"/>
+								    </td>					         
+									<td class="col-md-5">Node 1-1</td>
+									<td class="col-md-4">Additional info</td>
+									<td class="col-md-1" ></td>
+									<td > </td>
 								</tr>
 								<tr class="treegrid-3 treegrid-parent-1" th:remove="all">
-									<td>Node 1-2</td>
-									<td>Additional info</td>
-									<td> </td>
-									<td> </td>
+									<td class="col-md-1 text-center">						
+									       <input type="checkbox"/>
+								    </td>					         
+									<td class="col-md-5">Node 1-2</td>
+									<td class="col-md-4">Additional info</td>
+									<td class="col-md-1"></td>
+									<td > </td>
 								</tr>
 								<tr class="treegrid-4 treegrid-parent-3" th:remove="all">
-									<td>Node 1-2-1</td>
-									<td>Additional info</td>
-									<td> </td>
-									<td> </td>
+									<td class="col-md-1 text-center">						
+									       <input type="checkbox"/>
+								    </td>					         
+									<td class="col-md-5">Node 1-2-1</td>
+									<td class="col-md-4">Additional info</td>
+									<td class="col-md-1"></td>
+									<td > </td>
 								</tr>
+								<tr class="treegrid-5 treegrid-parent-3" th:remove="all">
+									<td class="col-md-1 text-center">						
+									       <input type="checkbox"/>
+								    </td>					         
+									<td class="col-md-5">Node 1-2-1</td>
+									<td class="col-md-4">Additional info</td>
+									<td class="col-md-1"></td>
+									<td > </td>
+								</tr>
+
 							</th:block>
 				        </tbody>
 				      </table> 
 				      <p/> 
+			         </div> 
+			         <div class="panel-footer">
 				      <div class="btn-toolbar" role="toolbar" aria-label="...">
 	 			   		  <div class="btn-group" role="group" aria-label="..."> 
 					        <button type="button" class="btn btn-outline btn-default btn-sm" onclick="$('#categoryDataTable').treegrid('expandAll');">
@@ -178,16 +209,17 @@
 							  </form>
 					      </div> 
 					  </div>
-				   <p><hr/></p>
-			      </div>   
+				   </div>	  
+			    </div>   
 		       </div>   
 		    </div>    
-	       </div>
-    </div> 
+	      </div>
     <!-- jQuery -->
     <script src="../../../resources/bower_components/jquery/dist/jquery.min.js" th:src="@{/resources/bower_components/jquery/dist/jquery.min.js}"></script>
     <!-- Bootstrap Core JavaScript -->
     <script src="../../../resources/bower_components/bootstrap/dist/js/bootstrap.min.js" th:src="@{/resources/bower_components/bootstrap/dist/js/bootstrap.min.js}"></script>
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="../../../resources/bower_components/metisMenu/dist/metisMenu.min.js" th:src="@{/resources/bower_components/metisMenu/dist/metisMenu.min.js}"></script>
     <th:block layout:fragment="script"> 
 		<!-- Treegrid -->
 	    <script src="../../../resources/bower_components/jquery/dist/jquery.treegrid.min.js" th:src="@{/resources/bower_components/jquery/dist/jquery.treegrid.min.js}"></script>
@@ -200,6 +232,7 @@
 	      //<![CDATA[
 	           $(document).ready(function() {
     		    $("#categoryDataTable").treegrid({
+    		    		treeColumn: 1, 
 		    			saveState: true,
 		    		});
 	           });
