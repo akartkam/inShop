@@ -25,12 +25,12 @@
 	    	<!-- summernote -->
 			<link href="../../../resources/css/summernote.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/summernote.css}"/>
 			<style type="text/css">
+			 	table { table-layout: fixed; }
+ 				table th, table td { overflow: hidden; }
 				td.domain-col {
 				    overflow: hidden;
 				    text-overflow: ellipsis;
 				    white-space: nowrap;
-				    display: inline-block;
-				    max-width: 90px;
 				 }
 			</style>
 	</head>
@@ -86,14 +86,13 @@
 	           <div class="panel-heading">
 	               <span th:text="#{admin.catalog.category}" >Categories</span>
 	           </div> 	 
-	           <div class="panel-body" style="height:100%">    
-				      <table class="tree table table-striped table-bordered table-hover table-condensed table-responsive" id="categoryDataTable" style ="max-height:50%; overflow:auto;">
+	           <div class="panel-body">    
+				      <table class="tree table table-striped table-bordered table-hover table-condensed table-responsive" id="categoryDataTable">
 				        <thead >
 					      <tr >
-					         <th class="col-md-1"></th>
+					         <th class="col-md-1"> </th>
 				             <th class="col-md-5" th:text="#{admin.catalog.category.name}">Name</th>
 				             <th class="col-md-4" th:text="#{admin.catalog.category.description}">Description</th>
-				             <!--   <th  th:text="#{admin.catalog.category.order}">Order</th> -->
 				             <th class="col-md-1 text-center" th:text="#{admin.catalog.category.enabled}">Enabled?</th>
 				             <th class="col-md-1" th:text="#{admin.catalog.category.actions}">Actions</th>
 				  	      </tr>
@@ -102,14 +101,14 @@
 					       <tr th:each="ct : ${allCategories}" 
 					              th:class="${'treegrid-'+{ct.id}+{{ct.parent != null} ? ' treegrid-parent-'+{ct.parent.id} : ''}+' '+{{!ct.enabled} ? 'text-muted' : ''}}">
 							  <!--<td class="col-md-5" th:text="${ct.name}">Root category 1</td>-->
-							  <td class="col-md-1 text-center">						
+							  <td class="text-center">						
 								    <input type="checkbox" th:value="${ct.id}" onclick="if(this.checked){alert(this.value);}"/>
 							  </td>					         
-							  <td class="mightOverflow domain-col col-md-5" th:text="${ct.name}">Root category 1</td>
-				              <td class="mightOverflow domain-col col-md-4" th:text="${ct.description}">Root category description 1</td>
+							  <td class="mightOverflow domain-col" th:text="${ct.name}">Root category 1</td>
+				              <td class="mightOverflow domain-col" th:text="${ct.description}">Root category description 1</td>
 				              <!--  <td th:text="${ct.ordering}">1</td> -->
-				              <td class="col-md-1 text-center"><i th:class="${{ct.enabled} ? 'fa fa-check-circle' : ''}"></i></td>
-				              <td class="col-md-1 text-center">
+				              <td class="text-center"><i th:class="${{ct.enabled} ? 'fa fa-check-circle' : ''}"></i></td>
+				              <td class="text-center">
 				                <div class="row">
 					          	  <form role="form">
 									  <!--  data-toggle="modal" data-target="#editModal" -->
@@ -137,48 +136,48 @@
 					        </tr>
 					        <th:block th:remove="all">
 								<tr class="treegrid-1" th:remove="all">
-									<td class="col-md-1 text-center">						
+									<td class="text-center">						
 									       <input type="checkbox"/>
 								    </td>					         
-									<td class="mightOverflow domain-col col-md-5">Root node kdjfgjkdfngjkfngkj dfgnjfngjkfdngkjdnf dkgnkjfngkjfdngjkndfgn jkdfngkjfdnkjg</td>
-									<td class="mightOverflow col-md-5">Additional info</td>
-									<td class="col-md-1 text-center">Yes</td>
+									<td class="mightOverflow domain-col">Root node kdjfgjkdfngjkfngkj dfgnjfngjkfdngkjdnf dkgnkjfngkjfdngjkndfgn jkdfngkjfdnkjg</td>
+									<td class="mightOverflow domain-col">Additional info</td>
+									<td class="text-center">Yes</td>
 									<td class="text-center"></td>
 								</tr>
 								<tr class="treegrid-2 treegrid-parent-1" th:remove="all">
-									<td class="col-md-1 text-center">						
+									<td class="text-center">						
 									       <input type="checkbox"/>
 								    </td>					         
-									<td class="col-md-5">Node 1-1</td>
-									<td class="col-md-4">Additional info</td>
-									<td class="col-md-1" ></td>
-									<td > </td>
+									<td>Node 1-1</td>
+									<td>Additional info</td>
+									<td> </td>
+									<td> </td>
 								</tr>
 								<tr class="treegrid-3 treegrid-parent-1" th:remove="all">
-									<td class="col-md-1 text-center">						
+									<td class="text-center">						
 									       <input type="checkbox"/>
 								    </td>					         
-									<td class="col-md-5">Node 1-2</td>
-									<td class="col-md-4">Additional info</td>
-									<td class="col-md-1"></td>
+									<td>Node 1-2</td>
+									<td>Additional info</td>
+									<td></td>
 									<td > </td>
 								</tr>
 								<tr class="treegrid-4 treegrid-parent-3" th:remove="all">
-									<td class="col-md-1 text-center">						
+									<td class="text-center">						
 									       <input type="checkbox"/>
 								    </td>					         
-									<td class="col-md-5">Node 1-2-1</td>
-									<td class="col-md-4">Additional info</td>
-									<td class="col-md-1"></td>
+									<td>Node 1-2-1</td>
+									<td>Additional info</td>
+									<td></td>
 									<td > </td>
 								</tr>
 								<tr class="treegrid-5 treegrid-parent-3" th:remove="all">
-									<td class="col-md-1 text-center">						
+									<td class="text-center">						
 									       <input type="checkbox"/>
 								    </td>					         
-									<td class="col-md-5">Node 1-2-1</td>
-									<td class="col-md-4">Additional info</td>
-									<td class="col-md-1"></td>
+									<td>Node 1-2-1</td>
+									<td>Additional info</td>
+									<td></td>
 									<td > </td>
 								</tr>
 
