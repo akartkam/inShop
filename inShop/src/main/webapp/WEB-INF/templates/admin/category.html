@@ -25,6 +25,8 @@
 	    	<!-- summernote -->
 			<link href="../../../resources/css/summernote.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/summernote.css}"/>
 			<style type="text/css">
+			    html, body {height: 100%;}
+			    #main-panel{max-height: 40%;  overflow: auto;}
 			 	table { table-layout: fixed; }
  				table th, table td { overflow: hidden; }
 				td.domain-col {
@@ -79,14 +81,14 @@
 		  </div> 
 	    </div>
     </th:block>
-    <div class="container">
-		<div class="row" >
-		  <div class="col-lg-12" >  
-	       <div class="panel panel-default" layout:fragment="content"> 
+      <div class="container-fluid" style="height: inherit;">
+		<div class="row" style="height: inherit;">
+		  <div class="col-lg-12" style="height: inherit;">
+	       <div class="panel panel-default" style="height: inherit;" id="main-panel-wrapper" layout:fragment="content"> 
 	           <div class="panel-heading">
 	               <span th:text="#{admin.catalog.category}" >Categories</span>
 	           </div> 	 
-	           <div class="panel-body">    
+ 	           <div class="panel-body" id="main-panel">    
 				      <table class="tree table table-striped table-bordered table-hover table-condensed table-responsive" id="categoryDataTable">
 				        <thead >
 					      <tr >
@@ -180,7 +182,34 @@
 									<td></td>
 									<td > </td>
 								</tr>
-
+								<tr class="treegrid-6 treegrid-parent-3" th:remove="all">
+									<td class="text-center">						
+									       <input type="checkbox"/>
+								    </td>					         
+									<td>Node 1-2-1</td>
+									<td>Additional info</td>
+									<td></td>
+									<td > </td>
+								</tr>
+								<tr class="treegrid-7 treegrid-parent-3" th:remove="all">
+									<td class="text-center">						
+									       <input type="checkbox"/>
+								    </td>					         
+									<td>Node 1-2-1</td>
+									<td>Additional info</td>
+									<td></td>
+									<td > </td>
+								</tr>
+								<tr class="treegrid-8 treegrid-parent-3" th:remove="all">
+									<td class="text-center">						
+									       <input type="checkbox"/>
+								    </td>					         
+									<td>Node 1-2-1</td>
+									<td>Additional info</td>
+									<td></td>
+									<td > </td>
+								</tr>
+								
 							</th:block>
 				        </tbody>
 				      </table> 
@@ -209,10 +238,10 @@
 					      </div> 
 					  </div>
 				   </div>	  
-			    </div>   
+			     </div>   
 		       </div>   
-		    </div>    
-	      </div>
+		    </div>
+		  </div> 
     <!-- jQuery -->
     <script src="../../../resources/bower_components/jquery/dist/jquery.min.js" th:src="@{/resources/bower_components/jquery/dist/jquery.min.js}"></script>
     <!-- Bootstrap Core JavaScript -->
