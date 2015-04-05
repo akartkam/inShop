@@ -25,8 +25,11 @@
 	    	<!-- summernote -->
 			<link href="../../../resources/css/summernote.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/summernote.css}"/>
 			<style type="text/css">
-			    html, body {height: 100%;}
-			    #main-panel{max-height: 40%;  overflow: auto;}
+				body {
+				    margin:0;     /* This is used to reset any browser-default margins */
+				    height:100vh; /* This is needed to overcome a Chrome bug. */
+				    width:100vw;  /* As above. */
+				}
 			 	table { table-layout: fixed; }
  				table th, table td { overflow: hidden; }
 				td.domain-col {
@@ -81,15 +84,15 @@
 		  </div> 
 	    </div>
     </th:block>
-      <div class="container-fluid" style="height: inherit;">
-		<div class="row" style="height: inherit;">
-		  <div class="col-lg-12" style="height: inherit;">
-	       <div class="panel panel-default" style="height: inherit;" id="main-panel-wrapper" layout:fragment="content"> 
+      <div class="container-fluid" >
+		<div class="row">
+		  <div class="col-lg-12">
+	       <div class="panel panel-default" layout:fragment="content"> 
 	           <div class="panel-heading">
 	               <span th:text="#{admin.catalog.category}" >Categories</span>
 	           </div> 	 
  	           <div class="panel-body" id="main-panel">    
-				      <table class="tree table table-striped table-bordered table-hover table-condensed table-responsive" id="categoryDataTable">
+				      <table class="tree table table-striped table-bordered table-hover table-condensed table-responsive" id="categoryDataTable" data-checkid="">
 				        <thead >
 					      <tr >
 					         <th class="col-md-1"> </th>
@@ -104,7 +107,7 @@
 					              th:class="${'treegrid-'+{ct.id}+{{ct.parent != null} ? ' treegrid-parent-'+{ct.parent.id} : ''}+' '+{{!ct.enabled} ? 'text-muted' : ''}}">
 							  <!--<td class="col-md-5" th:text="${ct.name}">Root category 1</td>-->
 							  <td class="text-center">						
-								    <input type="checkbox" th:value="${ct.id}" onclick="if(this.checked){alert(this.value);}"/>
+								    <input class="checkCategory" type="checkbox" th:id="${'check-'+ct.id}" th:value="${ct.id}"/>
 							  </td>					         
 							  <td class="mightOverflow domain-col" th:text="${ct.name}">Root category 1</td>
 				              <td class="mightOverflow domain-col" th:text="${ct.description}">Root category description 1</td>
@@ -139,7 +142,7 @@
 					        <th:block th:remove="all">
 								<tr class="treegrid-1" th:remove="all">
 									<td class="text-center">						
-									       <input type="checkbox"/>
+									       <input class="checkCategory" type="checkbox" id='check-1' value="1"/>
 								    </td>					         
 									<td class="mightOverflow domain-col">Root node kdjfgjkdfngjkfngkj dfgnjfngjkfdngkjdnf dkgnkjfngkjfdngjkndfgn jkdfngkjfdnkjg</td>
 									<td class="mightOverflow domain-col">Additional info</td>
@@ -148,7 +151,7 @@
 								</tr>
 								<tr class="treegrid-2 treegrid-parent-1" th:remove="all">
 									<td class="text-center">						
-									       <input type="checkbox"/>
+									       <input class="checkCategory" type="checkbox" id='check-2' value="2"/>
 								    </td>					         
 									<td>Node 1-1</td>
 									<td>Additional info</td>
@@ -157,7 +160,7 @@
 								</tr>
 								<tr class="treegrid-3 treegrid-parent-1" th:remove="all">
 									<td class="text-center">						
-									       <input type="checkbox"/>
+									       <input class="checkCategory" type="checkbox" id='check-3' value="3"/>
 								    </td>					         
 									<td>Node 1-2</td>
 									<td>Additional info</td>
@@ -208,8 +211,7 @@
 									<td>Additional info</td>
 									<td></td>
 									<td > </td>
-								</tr>
-								
+								</tr>								
 							</th:block>
 				        </tbody>
 				      </table> 
@@ -236,9 +238,9 @@
 							     </div>
 							  </form>
 					      </div> 
-					  </div>
-				   </div>	  
-			     </div>   
+					  </div>	  
+			        </div>
+ 				</div> 
 		       </div>   
 		    </div>
 		  </div> 
@@ -275,6 +277,25 @@
   		        	var title = $t.attr("title");
   		        	if (!title){ if (this.offsetWidth < this.scrollWidth) $t.attr("title", $t.text()) } 
   		        	else { if (this.offsetWidth >= this.scrollWidth && title == $t.text()) $t.removeAttr("title")}});
+
+  		        $(document).on("click", ".checkCategory", function() {
+					var checkId = $("#categoryDataTable").data("checkid");
+					var thisId = $(this).attr("value");
+					var isChecked = $(this).prop("checked"); 
+					if (thisId==checkId) {
+						$("#categoryDataTable").data("checkid","");
+						$("#main-panel").css("max-height","");
+						$("#main-panel").css("overflow","");
+						$(".treegrid-"+thisId).removeClass("info");
+						return;
+					}
+					$("#check-"+checkId).prop("checked", false);
+					$(".treegrid-"+checkId).removeClass("info");
+					$("#categoryDataTable").data("checkid",thisId);
+					$("#main-panel").css("max-height","35vh");
+					$("#main-panel").css("overflow","auto");
+					$(".treegrid-"+thisId).addClass("info");
+  		        });
   		     // ]]>     
 	     </script>
 	     <th:block layout:include="admin/categoryEdit :: scriptEditModal">

@@ -17,11 +17,10 @@
 		    <!-- Custom Fonts -->
 	    	<link href="../../../resources/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/font-awesome/css/font-awesome.min.css}"/>
     	</th:block>
-	    	<!-- DataTables CSS -->
-	    	<link href="../../../resources/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css" rel="stylesheet" th:href="@{/resources/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css}"/>
-	    	<!-- DataTables Responsive CSS -->
-	    	<link href="../../../resources/bower_components/datatables-responsive/css/dataTables.responsive.css" rel="stylesheet" th:href="@{/resources/bower_components/datatables-responsive/css/dataTables.responsive.css}"/>   	
-	    	<link href="../../../resources/bower_components/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/bootstrap/dist/css/bootstrap-theme.min.css}"/>    	
+	    	<link href="../../../resources/bower_components/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/bootstrap/dist/css/bootstrap-theme.min.css}"/>
+			<!-- Treegrid -->
+		 	<link href="../../../resources/css/jquery.treegrid.css" rel="stylesheet" th:href="@{/resources/css/jquery.treegrid.css}"/>
+	    	    	
 	</head>
 <body>
    <th:block layout:fragment="breadcrumb">
@@ -68,41 +67,57 @@
 		  </div> 
 	    </div>
     </th:block>
-    <div class="container">
+    <div class="container-fluid">
 		<div class="row" >
-		 <!--  <div class="col-lg-12" > 
-	       <div class="panel panel-default" >
+		  <div class="col-lg-12" > 
+	       <div class="panel panel-default" layout:fragment="content">
 	           <div class="panel-heading">
-	               <span th:text="#{admin.catalog.category}" >Categories</span>
+	               <span th:text="#{admin.catalog.attributecategory}" >Categories</span>
 	           </div> 	 
-	             <div class="panel-body"> -->   
-	              <div class="dataTable_wrapper" layout:fragment="content"> 
-	             <form th:action="@{/admin/catalog/attributecategory/edit}">
-				      <table class="table table-striped table-bordered table-hover table-condensed table-responsive" id="categoryDataTable">
+	             <div class="panel-body">  
+				      <table class="tree table table-striped table-bordered table-hover table-condensed table-responsive" id="categoryDataTable" data-checkid="">
 				        <thead >
 					      <tr >
-				              <th  th:text="#{admin.catalog.attributecategory.name}">Name</th>
-				              <th  th:text="#{admin.catalog.attributecategory.order}">Order</th>
-				              <th class="text-center" th:text="#{admin.catalog.attributecategory.enabled}">Enabled?</th>
-				            <th></th>
+					          <th class="col-md-1"></th>
+				              <th class="col-md-8" th:text="#{admin.catalog.attributecategory.name}">Name</th>
+				              <th class="col-md-1" th:text="#{admin.catalog.attributecategory.order}">Order</th>
+				              <th class="col-md-1 text-center" th:text="#{admin.catalog.attributecategory.enabled}">Enabled?</th>
+				              <th class="col-md-1"></th>
 				  	      </tr>
 				 	    </thead>
 				 	    <tbody>      
 					          <tr th:each="ct : ${allAttributeCategories}"
 					              th:class ="${!ct.enabled ? 'text-muted' : ''}">
-								<td class="col-md-7" th:text="${ct.name}">category 1</td>
-								<td class="col-md-1" th:text="${ct.ordering}">1</td>
-				            	<td class="col-md-1 text-center"><i th:class="${{ct.enabled} ? 'fa fa-check-circle' : ''}"></i></td>
-				            	<td class="col-md-1 text-center">
-	                              <button type="submit" class="open-editDialog btn btn-outline btn-default btn-xs" 
-	                                      name="categoryID" th:value="${ct.id}"> 
-	                                <i class="fa fa-pencil"></i>
-	                              </button>		
-	                              <button th:disabled="${!ct.enabled}" type="button" data-toggle="modal" data-target="#deleteModal" 
-	                                      class="open-deleteDialog btn btn-outline btn-default btn-xs"
-	                                      th:attr="data-id=${ct.id}, data-name=${ct.name}"> 
-	                                <i class="fa fa-trash-o"></i>
-	                              </button>		 
+					            <td class="text-center">						
+								    <input class="checkCategory" type="checkbox" th:id="${'check-'+ct.id}" th:value="${ct.id}"/>
+							    </td>
+								<td th:text="${ct.name}">category 1</td>
+								<td th:text="${ct.ordering}">1</td>
+				            	<td class="text-center"><i th:class="${{ct.enabled} ? 'fa fa-check-circle' : ''}"></i></td>
+				            	<td class="text-center">
+				                <div class="row">
+					          	  <form role="form">
+									  <!--  data-toggle="modal" data-target="#editModal" -->
+  				            	  		 <div class="btn-group" role="group" > 
+			                                  <button type="submit" class="open-editDialog btn btn-outline btn-default btn-xs" 
+			                                          name="categoryID" th:value="${ct.id}"
+			                                          th:formaction="@{/admin/catalog/attributecategory/edit}"> 
+			                                    <i class="fa fa-pencil"></i>
+			                                  </button>	
+			                                  <button type="submit" class="open-editDialog btn btn-outline btn-default btn-xs" 
+			                                          name="copyCategoryID" th:value="${ct.id}"
+			                                          th:formaction="@{/admin/catalog/attributecategory/add}"> 
+			                                    <i class="fa fa-copy"></i>
+			                                  </button>
+				                              <button th:disabled="${!ct.enabled}" type="button" data-toggle="modal" data-target="#deleteModal" 
+				                                      class="open-deleteDialog btn btn-outline btn-default btn-xs"
+				                                      th:attr="data-id=${ct.id}, data-name=${ct.name}"> 
+				                                <i class="fa fa-trash-o"></i>
+				                              </button>	
+		                            	 </div>  
+		                              </form>
+		                            </div>  
+	                              	 
 				            	</td>
 					        </tr>
 					        <th:block th:remove="all">
@@ -121,20 +136,34 @@
 								</tr>
 							</th:block>
 				        </tbody>
-				      </table>
-				   </form>  
-				   <div class="btn-group" role="group" aria-label="..."> 
-					   <form th:action="@{/admin/catalog/attributecategory/add}">
-					      <button type="submit" class="btn btn-primary btn-sm">
-					          <i class="fa fa-plus-circle"></i>
-					          <span> </span>
-					          <span th:text="#{admin.catalog.category.add.buttoncaption}"></span> 
-					      </button>
-					   </form>
-				   </div>
-				   <p>
-				     <hr/>
-				   </p>   
+				      </table> 
+				     </div> 
+			         <div class="panel-footer">
+				      <div class="btn-toolbar" role="toolbar" aria-label="...">
+	 			   		  <div class="btn-group" role="group" aria-label="..."> 
+					        <button type="button" class="btn btn-outline btn-default btn-sm" onclick="$('#categoryDataTable').treegrid('expandAll');">
+					          <i class="fa fa-expand"></i>
+					        </button>
+					        <button type="button" class="btn btn-outline btn-default btn-sm" onclick="$('#categoryDataTable').treegrid('collapseAll');">
+					          <i class="fa fa-compress"></i>
+					        </button>
+					      </div>
+					      <div class="btn-group" role="group" aria-label="...">
+							  <form th:action="@{/admin/catalog/attributecategory/add}">
+						   		 <div class="btn-group" role="group" aria-label="..."> 
+							        <button type="submit" class="btn btn-outline btn-default btn-sm">
+							          <i class="fa fa-plus-circle"></i>
+							          <span> </span>
+							          <span th:text="#{admin.catalog.category.add.buttoncaption}">Добавить</span> 
+							        </button>
+							     </div>
+							  </form>
+					      </div> 
+					  </div>	  
+			        </div>
+
+
+              </div>    
 	       </div>
 	    </div>
     </div> 
@@ -147,32 +176,12 @@
 	    <script src="../../../resources/bower_components/datatables/media/js/jquery.dataTables.min.js" th:src="@{/resources/bower_components/datatables/media/js/jquery.dataTables.min.js}"></script>
 	    <script src="../../../resources/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js" th:src="@{/resources/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js}"></script>
 	    <script type="text/javascript">
+	      //<![CDATA[
 		      $(document).ready(function() {
-		    		$('#categoryDataTable').DataTable({
-		            	"language": {
-		                   	"processing": "Подождите...",
-		                   	  "search": "Поиск:",
-		                   	  "lengthMenu": "Показать _MENU_ записей",
-		                   	  "info": "Записи с _START_ до _END_ из _TOTAL_ записей",
-		                   	  "infoEmpty": "Записи с 0 до 0 из 0 записей",
-		                   	  "infoFiltered": "(отфильтровано из _MAX_ записей)",
-		                   	  "infoPostFix": "",
-		                   	  "loadingRecords": "Загрузка записей...",
-		                   	  "zeroRecords": "Записи отсутствуют.",
-		                   	  "emptyTable:": "В таблице отсутствуют данные",
-		                   	  "paginate": {
-		                   	    "first": "Первая",
-		                   	    "previous": "Предыдущая",
-		                   	    "next": "Следующая",
-		                   	    "last": "Последняя"
-		                   	  },
-		                   	  "aria": {
-		                   	    "sortAscending": ": активировать для сортировки столбца по возрастанию",
-		                   	    "sortDescending": ": активировать для сортировки столбца по убыванию"
-		                   	  }
-		                  },
-		                responsive: true
-		        	});
+		    	  $("#categoryDataTable").treegrid({
+  		    		  treeColumn: 1, 
+		    		  saveState: true,
+		    		});
 		    	});
 		        $(document).on("click", ".open-deleteDialog", function () {
 		    	     var ctgId = $(this).data("id");
@@ -180,6 +189,7 @@
 		    	     $("#delete-modal-footer #categoryID").val(ctgId);
 		    	     $("#delete-modal-body #ctgName").html(ctgName);
 		    	});
+		   // ]]>
 	     </script>
 	     <th:block layout:include="admin/attributeCategoryEdit :: scriptEditModal">
 	     </th:block>
