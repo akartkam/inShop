@@ -1,7 +1,9 @@
 package com.akartkam.inShop.domain.product;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import javax.persistence.CascadeType;
@@ -10,6 +12,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -43,8 +46,6 @@ import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
 })
 @Entity
 @Table(name = "Category")
-//@SQLDelete(sql="UPDATE category SET enabled = FALSE WHERE id = ? AND version = ?")
-//@Proxy(lazy=false)
 public class Category extends AbstractDomainObjectOrdering {
 
 	/**
@@ -58,7 +59,7 @@ public class Category extends AbstractDomainObjectOrdering {
 	private List<Product> products = new ArrayList<Product>();
 	private String description;
 	private String longDescription; 
-	private List<AbstractAttribute> attributes = new ArrayList<AbstractAttribute>();
+	private Set<AbstractAttribute> attributes = new HashSet<AbstractAttribute>(0);
 	
 
 
@@ -142,22 +143,28 @@ public class Category extends AbstractDomainObjectOrdering {
 		this.longDescription = longDescription;
 	}
 	
-	@OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+	@ManyToMany(mappedBy = "category", cascade = CascadeType.ALL)
 	@Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
-	public List<AbstractAttribute> getAttributes() {
+	public Set<AbstractAttribute> getAttributes() {
 		return attributes;
 	}
 	
-	public void setAttributes(List<AbstractAttribute> attributes) {
+	public void setAttributes(Set<AbstractAttribute> attributes) {
 		this.attributes = attributes;
 	}	
 	
 	public void addAttribute (AbstractAttribute attribute) {
 		if (attribute == null) throw new IllegalArgumentException("Null attribute!");
 		attributes.add(attribute);
-		attribute.setCategory(this);
+		attribute.getCategory().add(this);
 	}
 	
+	public void removeAttribute (AbstractAttribute attribute) {
+		if (attribute == null) throw new IllegalArgumentException("Null attribute!");
+		attributes.remove(attribute);
+		attribute.getCategory().remove(this);
+	}
+
 	@Transient
 	public List<Category> buildCategoryHierarchy(List<Category> currentHierarchy) {
         if (currentHierarchy == null) {
@@ -234,7 +241,7 @@ public class Category extends AbstractDomainObjectOrdering {
 		category.setCreatedDate(null);
 		category.setUpdatedBy(null);
 		category.setUpdatedDate(null);
-		category.setAttributes(new ArrayList<AbstractAttribute>());
+		category.setAttributes(new HashSet<AbstractAttribute>());
 		category.setDescription(new String(getDescription()));
 		category.setLongDescription(new String(getLongDescription()));
 		category.setProducts(new ArrayList<Product>());

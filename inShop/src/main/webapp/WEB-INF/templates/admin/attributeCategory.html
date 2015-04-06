@@ -95,30 +95,29 @@
 								<td th:text="${ct.ordering}">1</td>
 				            	<td class="text-center"><i th:class="${{ct.enabled} ? 'fa fa-check-circle' : ''}"></i></td>
 				            	<td class="text-center">
-				                <div class="row">
-					          	  <form role="form">
-									  <!--  data-toggle="modal" data-target="#editModal" -->
-  				            	  		 <div class="btn-group" role="group" > 
-			                                  <button type="submit" class="open-editDialog btn btn-outline btn-default btn-xs" 
-			                                          name="categoryID" th:value="${ct.id}"
-			                                          th:formaction="@{/admin/catalog/attributecategory/edit}"> 
-			                                    <i class="fa fa-pencil"></i>
-			                                  </button>	
-			                                  <button type="submit" class="open-editDialog btn btn-outline btn-default btn-xs" 
-			                                          name="copyCategoryID" th:value="${ct.id}"
-			                                          th:formaction="@{/admin/catalog/attributecategory/add}"> 
-			                                    <i class="fa fa-copy"></i>
-			                                  </button>
-				                              <button th:disabled="${!ct.enabled}" type="button" data-toggle="modal" data-target="#deleteModal" 
-				                                      class="open-deleteDialog btn btn-outline btn-default btn-xs"
-				                                      th:attr="data-id=${ct.id}, data-name=${ct.name}"> 
-				                                <i class="fa fa-trash-o"></i>
-				                              </button>	
-		                            	 </div>  
-		                              </form>
-		                            </div>  
-	                              	 
-				            	</td>
+					                <div class="row">
+						          	   <form role="form">
+										  <!--  data-toggle="modal" data-target="#editModal" -->
+	  				            	  		 <div class="btn-group" role="group" > 
+				                                  <button type="submit" class="open-editDialog btn btn-outline btn-default btn-xs" 
+				                                          name="categoryID" th:value="${ct.id}"
+				                                          th:formaction="@{/admin/catalog/attributecategory/edit}"> 
+				                                    <i class="fa fa-pencil"></i>
+				                                  </button>	
+				                                  <button type="submit" class="open-editDialog btn btn-outline btn-default btn-xs" 
+				                                          name="copyCategoryID" th:value="${ct.id}"
+				                                          th:formaction="@{/admin/catalog/attributecategory/add}"> 
+				                                    <i class="fa fa-copy"></i>
+				                                  </button>
+					                              <button th:disabled="${!ct.enabled}" type="button" data-toggle="modal" data-target="#deleteModal" 
+					                                      class="open-deleteDialog btn btn-outline btn-default btn-xs"
+					                                      th:attr="data-id=${ct.id}, data-name=${ct.name}"> 
+					                                <i class="fa fa-trash-o"></i>
+					                              </button>	
+			                            	 </div>  
+			                           </form>
+			                         </div>  
+	                             </td>
 					        </tr>
 					        <th:block th:remove="all">
 								<tr th:remove="all">
@@ -161,9 +160,7 @@
 					      </div> 
 					  </div>	  
 			        </div>
-
-
-              </div>    
+               </div>    
 	       </div>
 	    </div>
     </div> 

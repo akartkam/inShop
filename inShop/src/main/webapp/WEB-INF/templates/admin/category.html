@@ -105,18 +105,15 @@
 				 	    <tbody>      
 					       <tr th:each="ct : ${allCategories}" 
 					              th:class="${'treegrid-'+{ct.id}+{{ct.parent != null} ? ' treegrid-parent-'+{ct.parent.id} : ''}+' '+{{!ct.enabled} ? 'text-muted' : ''}}">
-							  <!--<td class="col-md-5" th:text="${ct.name}">Root category 1</td>-->
 							  <td class="text-center">						
 								    <input class="checkCategory" type="checkbox" th:id="${'check-'+ct.id}" th:value="${ct.id}"/>
 							  </td>					         
 							  <td class="mightOverflow domain-col" th:text="${ct.name}">Root category 1</td>
 				              <td class="mightOverflow domain-col" th:text="${ct.description}">Root category description 1</td>
-				              <!--  <td th:text="${ct.ordering}">1</td> -->
 				              <td class="text-center"><i th:class="${{ct.enabled} ? 'fa fa-check-circle' : ''}"></i></td>
 				              <td class="text-center">
 				                <div class="row">
 					          	  <form role="form">
-									  <!--  data-toggle="modal" data-target="#editModal" -->
   				            	  		 <div class="btn-group" role="group" > 
 			                                  <button type="submit" class="open-editDialog btn btn-outline btn-default btn-xs" 
 			                                          name="categoryID" th:value="${ct.id}"
@@ -144,7 +141,7 @@
 									<td class="text-center">						
 									       <input class="checkCategory" type="checkbox" id='check-1' value="1"/>
 								    </td>					         
-									<td class="mightOverflow domain-col">Root node kdjfgjkdfngjkfngkj dfgnjfngjkfdngkjdnf dkgnkjfngkjfdngjkndfgn jkdfngkjfdnkjg</td>
+									<td class="mightOverflow domain-col">Root node about rebit than eat the wolf then eat the bear then eat the elefant</td>
 									<td class="mightOverflow domain-col">Additional info</td>
 									<td class="text-center">Yes</td>
 									<td class="text-center"></td>
