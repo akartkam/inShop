@@ -8,12 +8,14 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.Cascade;
 
 import com.akartkam.inShop.domain.AbstractDomainObjectOrdering;
+import com.akartkam.inShop.domain.product.Category;
 import com.akartkam.inShop.domain.product.Product;
 
 @Entity
@@ -39,11 +41,11 @@ public class AttributeCategory extends AbstractDomainObjectOrdering {
 
 	@OneToMany(mappedBy = "attributeCategory", cascade = CascadeType.ALL)
 	@Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
-	public List<AbstractAttribute> getAbstractAttributes() {
+	public List<AbstractAttribute> getAttributes() {
 		return attributes;
 	}
-	public void setAbstractAttributes(List<AbstractAttribute> abstractAttributes) {
-		this.attributes = abstractAttributes;
+	public void setAttributes(List<AbstractAttribute> attributes) {
+		this.attributes = attributes;
 	}	
 	
 	public void addAttribute (AbstractAttribute attribute) {
@@ -57,5 +59,11 @@ public class AttributeCategory extends AbstractDomainObjectOrdering {
 		attributes.remove(attribute);
 		attribute.setAttributeCategory(null);
 	}
+	
+	@Transient
+	public boolean hasAttributes() {
+		return !attributes.isEmpty(); 
+	}	
+	
 	
 }
