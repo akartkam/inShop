@@ -20,6 +20,8 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.Cascade;
+
 import com.akartkam.inShop.domain.AbstractDomainObjectOrdering;
 import com.akartkam.inShop.domain.product.Category;
 
@@ -78,6 +80,7 @@ public abstract class AbstractAttribute extends AbstractDomainObjectOrdering {
 	}	
 
 	@ManyToMany(cascade = CascadeType.ALL)
+	@Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
 	@JoinTable(name = "lnk_category_attribute", joinColumns = { 
 			@JoinColumn(name = "ATTRIBUTE_ID", nullable = false, updatable = false) }, 
 			inverseJoinColumns = { @JoinColumn(name = "CATEGORY_ID", 

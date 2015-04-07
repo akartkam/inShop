@@ -47,34 +47,47 @@
 	                <!-- Tab panes -->
 	                <div class="tab-content">
 	                    <div class="tab-pane fade in active" id="main">
-								   <div class="field-box" th:class="${#fields.hasErrors('name')}? has-error: field-box">
-									  <input type="hidden" th:field="*{id}"/>	                              
-						    		  <label>
-							    	  	 <span th:text="#{admin.catalog.attribute.edit.name}">Attribute1</span>
-							   		  </label>
-							   		  <input type="text" class="form-control" th:field="*{name}"/>
-							   		  <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Incorrect name</p>
-						   		   </div>
-								   <div class="field-box" th:class="${#fields.hasErrors('name')}? has-error: field-box">
-									  <input type="hidden" th:field="*{id}"/>	                              
-						    		  <label>
-							    	  	 <span th:text="#{admin.catalog.attribute.edit.name}">Type1</span>
-							   		  </label>
-							   		  <input type="text" class="form-control" th:field="*{name}"/>
-							   		  <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Incorrect name</p>
-						   		   </div>
+						    <div class="field-box" th:class="${#fields.hasErrors('name')}? has-error: field-box">
+							  <input type="hidden" th:field="*{id}"/>	                              
+				    		  <label>
+					    	  	 <span th:text="#{admin.catalog.attribute.edit.name}">Attribute1</span>
+					   		  </label>
+					   		  <input type="text" class="form-control" th:field="*{name}"/>
+					   		  <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Incorrect name</p>
+				   		    </div>
+	                        <div class="field-box">
+	                          <label>
+						  	    	<span th:text="#{admin.catalog.attribute.edit.type}">Type</span>
+						      </label>
+							  <select class="form-control" th:field="*{attribueType}">
+								<option th:each="type : ${allTypes}" 
+								        th:value="${type}"
+									    th:text="#{${'attribute.type.' + type}}">Decimal</option>
+							  </select>
+						    </div>	 
 	             		</div>
 	                    <div class="tab-pane fade" id="additional">
 	                       <div class="field-box">
+	                          <label>
+						  	    	<span th:text="#{admin.catalog.attribute.edit.attributeCategory}">Attribute category</span>
+						      </label>
+							  <select class="form-control" th:field="*{attribueType}">
+								<option 
+								        th:each="scategory : ${allAttributeCategories}" 
+								        th:value="${scategory.id}"
+									    th:text="${scategory.name}">Attribute category</option>
+							  </select>
+						   </div>	 
+	                       <div class="field-box">
 	 			    		  <label>
-					    	  	<span th:text="#{admin.catalog.attributecategory.edit.ordering}">Orderig</span>
+					    	  	<span th:text="#{admin.catalog.attribute.edit.ordering}">Orderig</span>
 					   		  </label>
 					   		  <input type="text" class="form-control" th:field="*{ordering}"/>
 						   </div>
 						   <div class="field-box">
 	                         <label>
 	 					    	<input type="checkbox" th:field="*{enabled}"/>
-							  	<span th:text="#{admin.catalog.attributecategory.enabled}">Active?</span>
+							  	<span th:text="#{admin.catalog.attribute.enabled}">Active?</span>
 							 </label>
 						   </div>	 
 	                    </div>
@@ -83,9 +96,9 @@
 		 <!-- /modal-body -->
 	 	    <div class="modal-footer">
 	 		  <button type="button" class="btn btn-default"  
-	 		          th:text="#{admin.catalog.category.edit.button.close}"
-	 		          th:onclick="'window.location=\''+@{/admin/catalog/attributecategory}+'\''">Close</button>
-			  <button type="submit" class="btn btn-primary" th:text="#{admin.catalog.category.edit.button.save}">Save changes</button>
+	 		          th:text="#{admin.catalog.attribute.edit.button.close}"
+	 		          th:onclick="'window.location=\''+@{/admin/catalog/attributecategory/}+'\''">Close</button>
+			  <button type="submit" class="btn btn-primary" th:text="#{admin.catalog.attribute.edit.button.save}">Save changes</button>
 		    </div>  
 		 <!-- /modal-footer -->
 	     </form>	
