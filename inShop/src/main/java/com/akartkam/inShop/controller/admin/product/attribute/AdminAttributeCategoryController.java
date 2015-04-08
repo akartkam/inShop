@@ -53,13 +53,23 @@ public class AdminAttributeCategoryController {
 	  
 	  @InitBinder
 	  public void initBinder(WebDataBinder binder) {
-			binder.setAllowedFields(new String[] { "id", "name", "ordering", "enabled"});
+			binder.setAllowedFields(new String[] { "id", "name", "ordering", "enabled", 
+					                               "attribueType", "attributeCategory"});
 			binder.registerCustomEditor(UUID.class, "id", new PropertyEditorSupport() {
 			    @Override
 			    public void setAsText(String text) {
 			    	 setValue(UUID.fromString(text));
 			    }
-			    });			
+			    });
+			binder.registerCustomEditor(AttributeCategory.class, "attributeCategory", new PropertyEditorSupport() {
+			    @Override
+			    public void setAsText(String text) {
+			    	if (!"".equals(text)) {
+			    		AttributeCategory ch = attributeCategoryService.loadAttributeCategoryById(UUID.fromString(text), false);
+			            setValue(ch);
+			    	}
+			    }
+			    });						
 	  }
 	
 	  
@@ -102,10 +112,20 @@ public class AdminAttributeCategoryController {
 			  						}
 			  						
 		  };
- 	      model.addAttribute("attribute", attribute);
+          model.addAttribute("attribute", attribute);
+          return "/admin/attributeEdit";		  
+	  }	  
+
+	  
+	  @RequestMapping("/attribute/edit")
+	  public String attributeEdit(@RequestParam(value = "attributeID", required = false) String attributeID,Model model) {
+		  if(!model.containsAttribute("attribute")) {
+	//		 AbstractAttribute attribute = 
+	//	     model.addAttribute("attributeCategory", attribute);
+		  }
+ 	//      model.addAttribute("attribute", attribute);
           return "/admin/attributeEdit";		  
 		  }	  
-
 	  
 	  @RequestMapping("/delete")
 	  public String categoryDelete(@RequestParam(value = "categoryID", required = false) String categoryID, Model model) {

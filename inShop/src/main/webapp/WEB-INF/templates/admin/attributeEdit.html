@@ -71,7 +71,8 @@
 	                          <label>
 						  	    	<span th:text="#{admin.catalog.attribute.edit.attributeCategory}">Attribute category</span>
 						      </label>
-							  <select class="form-control" th:field="*{attribueType}">
+							  <select class="form-control" th:field="*{attributeCategory}">
+							    <option value="">&nbsp;</option>
 								<option 
 								        th:each="scategory : ${allAttributeCategories}" 
 								        th:value="${scategory.id}"
