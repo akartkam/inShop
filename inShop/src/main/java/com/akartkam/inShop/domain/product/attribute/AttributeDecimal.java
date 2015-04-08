@@ -24,6 +24,8 @@ public class AttributeDecimal extends AbstractAttribute {
 	public AttributeType getAttribueType() {
 		return AttributeType.DECIMAL;
 	}
+	
+	public void setAttribueType(AttributeType attributeType){};
 
 	/*@Override
 	@OneToMany(mappedBy="attribute", targetEntity=AttributeDecimalValue.class)

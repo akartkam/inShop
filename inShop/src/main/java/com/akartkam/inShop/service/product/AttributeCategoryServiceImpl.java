@@ -1,5 +1,7 @@
 package com.akartkam.inShop.service.product;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -8,6 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.akartkam.inShop.dao.product.AttributeCategoryDAO;
+import com.akartkam.inShop.domain.product.Category;
+import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
 import com.akartkam.inShop.domain.product.attribute.AttributeCategory;
 
 
@@ -67,7 +71,6 @@ public class AttributeCategoryServiceImpl implements AttributeCategoryService {
 			category.setEnabled(false);
 			updateAttributeCategory(category);
 		}
-		
 	}
 
 	@Override
@@ -75,10 +78,27 @@ public class AttributeCategoryServiceImpl implements AttributeCategoryService {
 		return attributeCategoryDAO.findById(id, lock);
 	}
 
-
 	@Override
 	public List<AttributeCategory> getAllAttributeCategory() {
 		return attributeCategoryDAO.list();
+	}
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public List buildAttributeCategoryHierarchy() {
+        List currentHierarchy = new ArrayList();
+        List<AttributeCategory> attributeCateries = getAllAttributeCategory();
+        List<AbstractAttribute> attributes;
+        Collections.sort(attributeCateries);
+        for (AttributeCategory ctg : attributeCateries) {
+        	currentHierarchy.add(ctg);
+        	attributes = ctg.getAttributes();
+        	Collections.sort(attributes);
+        	for (AbstractAttribute attr : attributes) {
+        		currentHierarchy.add(attr);
+        	}
+        }
+		return currentHierarchy;
+		
 	}
 
 }

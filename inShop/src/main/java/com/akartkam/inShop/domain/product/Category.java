@@ -60,8 +60,6 @@ public class Category extends AbstractDomainObjectOrdering {
 	private String description;
 	private String longDescription; 
 	private Set<AbstractAttribute> attributes = new HashSet<AbstractAttribute>(0);
-	
-
 
 	@NotNull
 	@Size(min = 1, max = 50)
@@ -199,7 +197,6 @@ public class Category extends AbstractDomainObjectOrdering {
 	public boolean hasSubCategory() {
 		return !subCategory.isEmpty(); 
 	}
-	
 	
 	@Transient
 	public List<Product> getAllProducts(List<Product> currentHierarchy) {

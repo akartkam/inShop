@@ -56,6 +56,8 @@ public abstract class AbstractAttribute extends AbstractDomainObjectOrdering {
 	@NotNull
 	@Transient
 	public abstract AttributeType getAttribueType();
+	
+	public abstract void setAttribueType(AttributeType attributeType);   
 
 	/*@Transient
 	public abstract List<AbstractAttributeValue> getAttributeValues();
@@ -68,7 +70,6 @@ public abstract class AbstractAttribute extends AbstractDomainObjectOrdering {
 	public void setAttributeValues(List<AbstractAttributeValue> attributeValues) {
 		this.attributeValues = attributeValues;
 	}
-	
 		
 	@ManyToOne
 	@JoinColumn

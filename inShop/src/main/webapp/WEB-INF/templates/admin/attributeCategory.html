@@ -87,7 +87,7 @@
 				 	    </thead>
 				 	    <tbody>      
 					          <tr th:each="ct : ${allAttributeCategories}"
-					              th:class ="${!ct.enabled ? 'text-muted' : ''}">
+					              th:class="${'treegrid-'+{ct.id}+{{!#strings.containsIgnoreCase(ct.class.name,'AttributeCategory')} ? ' treegrid-parent-'+{ct.attributeCategory.id} : ''}+' '+{{!ct.enabled} ? 'text-muted' : ''}}">
 					            <td class="text-center">						
 								    <input class="checkCategory" type="checkbox" th:id="${'check-'+ct.id}" th:value="${ct.id}"/>
 							    </td>
@@ -120,19 +120,70 @@
 	                             </td>
 					        </tr>
 					        <th:block th:remove="all">
-								<tr th:remove="all">
-									<td>Root node</td><td>Additional info</td>
-									<td align="center">Yes</td>
+								<tr class="treegrid-1" th:remove="all">
+									<td class="text-center">						
+									       <input class="checkCategory" type="checkbox" id='check-1' value="1"/>
+								    </td>					         
+									<td class="mightOverflow domain-col">Root node about rebit than eat the wolf then eat the bear then eat the elefant</td>
+									<td class="text-center">Yes</td>
+									<td class="text-center"></td>
 								</tr>
-								<tr th:remove="all">
-									<td>Node 1-1</td><td>Additional info</td>
+								<tr class="treegrid-2 treegrid-parent-1" th:remove="all">
+									<td class="text-center">						
+									       <input class="checkCategory" type="checkbox" id='check-2' value="2"/>
+								    </td>					         
+									<td>Node 1-1</td>
+									<td> </td>
+									<td> </td>
 								</tr>
-								<tr th:remove="all">
-									<td>Node 1-2</td><td>Additional info</td>
+								<tr class="treegrid-3 treegrid-parent-1" th:remove="all">
+									<td class="text-center">						
+									       <input class="checkCategory" type="checkbox" id='check-3' value="3"/>
+								    </td>					         
+									<td>Node 1-2</td>
+									<td></td>
+									<td > </td>
 								</tr>
-								<tr th:remove="all">
-									<td>Node 1-2-1</td><td>Additional info</td>
+								<tr class="treegrid-4 treegrid-parent-3" th:remove="all">
+									<td class="text-center">						
+									       <input type="checkbox"/>
+								    </td>					         
+									<td>Node 1-2-1</td>
+									<td></td>
+									<td > </td>
 								</tr>
+								<tr class="treegrid-5 treegrid-parent-3" th:remove="all">
+									<td class="text-center">						
+									       <input type="checkbox"/>
+								    </td>					         
+									<td>Node 1-2-1</td>
+									<td></td>
+									<td > </td>
+								</tr>
+								<tr class="treegrid-6 treegrid-parent-3" th:remove="all">
+									<td class="text-center">						
+									       <input type="checkbox"/>
+								    </td>					         
+									<td>Node 1-2-1</td>
+									<td></td>
+									<td > </td>
+								</tr>
+								<tr class="treegrid-7 treegrid-parent-3" th:remove="all">
+									<td class="text-center">						
+									       <input type="checkbox"/>
+								    </td>					         
+									<td>Node 1-2-1</td>
+									<td></td>
+									<td > </td>
+								</tr>
+								<tr class="treegrid-8 treegrid-parent-3" th:remove="all">
+									<td class="text-center">						
+									       <input type="checkbox"/>
+								    </td>					         
+									<td>Node 1-2-1</td>
+									<td></td>
+									<td > </td>
+								</tr>								
 							</th:block>
 				        </tbody>
 				      </table> 
@@ -148,12 +199,21 @@
 					        </button>
 					      </div>
 					      <div class="btn-group" role="group" aria-label="...">
-							  <form th:action="@{/admin/catalog/attributecategory/add}">
+							  <form role="form">
 						   		 <div class="btn-group" role="group" aria-label="..."> 
-							        <button type="submit" class="btn btn-outline btn-default btn-sm">
+							        <button type="submit" class="btn btn-outline btn-default btn-sm"
+							                th:formaction="@{/admin/catalog/attributecategory/add}">
 							          <i class="fa fa-plus-circle"></i>
 							          <span> </span>
-							          <span th:text="#{admin.catalog.category.add.buttoncaption}">Добавить</span> 
+							          <span th:text="#{admin.catalog.attributecategory.addcategory.buttoncaption}">Add category</span> 
+							        </button>
+							     </div>
+						   		 <div class="btn-group" role="group" aria-label="..."> 
+							        <button type="submit" class="btn btn-outline btn-default btn-sm"
+							                th:formaction="@{/admin/catalog/attributecategory/attribute/add}">
+							          <i class="fa fa-plus-circle"></i>
+							          <span> </span>
+							          <span th:text="#{admin.catalog.attributecategory.addattribute.buttoncaption}">Add attribute</span> 
 							        </button>
 							     </div>
 							  </form>
@@ -169,17 +229,18 @@
     <!-- Bootstrap Core JavaScript -->
     <script src="../../../resources/bower_components/bootstrap/dist/js/bootstrap.min.js" th:src="@{/resources/bower_components/bootstrap/dist/js/bootstrap.min.js}"></script>
     <th:block layout:fragment="script"> 
-	     <!-- DataTables JavaScript -->
-	    <script src="../../../resources/bower_components/datatables/media/js/jquery.dataTables.min.js" th:src="@{/resources/bower_components/datatables/media/js/jquery.dataTables.min.js}"></script>
-	    <script src="../../../resources/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js" th:src="@{/resources/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js}"></script>
+		<!-- Treegrid -->
+	    <script src="../../../resources/bower_components/jquery/dist/jquery.treegrid.min.js" th:src="@{/resources/bower_components/jquery/dist/jquery.treegrid.min.js}"></script>
+	    <script src="../../../resources/bower_components/jquery/dist/jquery.cookie.js" th:src="@{/resources/bower_components/jquery/dist/jquery.cookie.js}"></script>
+		<script src="../../../resources/bower_components/jquery/dist/jquery.treegrid.bootstrap3.js" th:src="@{/resources/bower_components/jquery/dist/jquery.treegrid.bootstrap3.js}"></script>
 	    <script type="text/javascript">
 	      //<![CDATA[
-		      $(document).ready(function() {
-		    	  $("#categoryDataTable").treegrid({
-  		    		  treeColumn: 1, 
-		    		  saveState: true,
+	           $(document).ready(function() {
+    		    $("#categoryDataTable").treegrid({
+    		    		treeColumn: 1, 
+		    			saveState: true,
 		    		});
-		    	});
+	            });
 		        $(document).on("click", ".open-deleteDialog", function () {
 		    	     var ctgId = $(this).data("id");
 		    	     var ctgName = $(this).data("name");

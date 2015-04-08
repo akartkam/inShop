@@ -16,5 +16,7 @@ public interface AttributeCategoryService {
 	AttributeCategory getAttributeCategoryById(UUID id);
 	void updateAttributeCategory(AttributeCategory category);
 	void softDeleteAttributeCategoryById(UUID id);
-	public void mergeWithExistingAndUpdateOrCreate(final AttributeCategory categoryFromPost);
+	void mergeWithExistingAndUpdateOrCreate(final AttributeCategory categoryFromPost);
+	@SuppressWarnings("rawtypes")
+	List buildAttributeCategoryHierarchy();	
 }

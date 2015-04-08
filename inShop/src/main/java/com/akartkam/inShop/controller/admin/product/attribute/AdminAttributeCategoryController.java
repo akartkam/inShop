@@ -3,6 +3,7 @@ package com.akartkam.inShop.controller.admin.product.attribute;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 import java.beans.PropertyEditorSupport;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -21,7 +22,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
+
+
+
+
+
+import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
 import com.akartkam.inShop.domain.product.attribute.AttributeCategory;
+import com.akartkam.inShop.domain.product.attribute.AttributeType;
 import com.akartkam.inShop.service.product.AttributeCategoryService;
 
 
@@ -32,11 +40,17 @@ public class AdminAttributeCategoryController {
 	  @Autowired
 	  AttributeCategoryService attributeCategoryService;
 	  
+	  @SuppressWarnings("rawtypes")
 	  @ModelAttribute("allAttributeCategories")
-	  public List<AttributeCategory> getAllAttributeCategories() {
-	      return attributeCategoryService.getAllAttributeCategory();
+	  public List getAllAttributeCategories() {
+	      return attributeCategoryService.buildAttributeCategoryHierarchy();
 	  }	  
  
+	  @ModelAttribute("allTypes")
+	  public List<AttributeType> getAllTypes() {
+	      return Arrays.asList(AttributeType.ALL);
+	  }	  
+	  
 	  @InitBinder
 	  public void initBinder(WebDataBinder binder) {
 			binder.setAllowedFields(new String[] { "id", "name", "ordering", "enabled"});
@@ -53,7 +67,7 @@ public class AdminAttributeCategoryController {
 	  public String category(Model model) {
 		  return "/admin/attributeCategory"; 
 		  }	  
-	  
+  
    
 	  @RequestMapping("/edit")
 	  public String categoryEdit(@RequestParam(value = "categoryID", required = false) String categoryID, Model model) {
@@ -69,6 +83,27 @@ public class AdminAttributeCategoryController {
 		  AttributeCategory category = new AttributeCategory();
  	      model.addAttribute("attributeCategory", category);
           return "/admin/attributeCategoryEdit";		  
+		  }	  
+
+	  @SuppressWarnings("serial")
+	  @RequestMapping("/attribute/add")
+	  public String attributeAdd(Model model) {
+		  AbstractAttribute attribute = new AbstractAttribute(){
+			  						private AttributeType attributeType;
+
+			  						@Override
+									public AttributeType getAttribueType() {
+										return attributeType;
+									}
+			  						
+			  						@Override
+			  						public void setAttribueType(AttributeType attributeType) {
+			  							this.attributeType = attributeType;
+			  						}
+			  						
+		  };
+ 	      model.addAttribute("attribute", attribute);
+          return "/admin/attributeEdit";		  
 		  }	  
 
 	  

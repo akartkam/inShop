@@ -25,6 +25,7 @@ public class AttributeSList extends AbstractAttribute {
 		return AttributeType.SLIST;
 	}
 
+	public void setAttribueType(AttributeType attributeType){};	
 /*	@Override
 	@OneToMany(mappedBy="attribute", targetEntity=AttributeSListValue.class)
 	public List<AbstractAttributeValue> getAttributeValues() {
