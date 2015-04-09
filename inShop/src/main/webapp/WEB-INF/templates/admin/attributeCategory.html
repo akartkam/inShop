@@ -86,7 +86,7 @@
 				  	      </tr>
 				 	    </thead>
 				 	    <tbody>      
-					        <tr th:each="ct : ${allAttributeCategories}"
+					        <tr th:each="ct : ${allAttributeCategoriesHierarchy}"
 					              th:class="${'treegrid-'+{ct.id}+{{!#strings.containsIgnoreCase(ct.class.name,'AttributeCategory')} ? ' treegrid-parent-'+{ct.attributeCategory.id} : ''}}" 
 					              th:classappend="${!ct.enabled} ? 'text-muted'">
 					            <td class="text-center">						

@@ -159,14 +159,14 @@ public class CategoryServiceTest extends AbstractServiceTest {
 		jdbcTemplate.execute("delete from Attribute where name like 'AutoTestAddAttribute%'");
 */		
 		jdbcTemplate.execute("select del_attribute('AutoTestAddAttribute')");
-		Category found = categoryService.getCategoryByName("Test_Category4_update").get(0);
+		Category found = categoryService.getCategoryByName("Test_Category5.1").get(0);
 		AttributeCategory attributeCategory = attributeCategoryService.getAttributeCategoryByName("Категория атрибутов 1").get(0);
 		AbstractAttribute attribute = SimpleAttributeFactory.createAttribute(AttributeType.DECIMAL);
 		attribute.setName("AutoTestAddAttributeDecimal1");
 		attribute.setAttributeCategory(attributeCategory);
 		found.addAttribute(attribute);
 		categoryDAO.update(found);
-		Category found1 = categoryService.getCategoryByName("Test_Category4_update").get(0);
+		Category found1 = categoryService.getCategoryByName("Test_Category5.1").get(0);
 		Set<AbstractAttribute> foundAttributes = found1.getAttributes();
 		Iterator<AbstractAttribute> foundAttributeIter = foundAttributes.iterator();
 		while (foundAttributeIter.hasNext()) 

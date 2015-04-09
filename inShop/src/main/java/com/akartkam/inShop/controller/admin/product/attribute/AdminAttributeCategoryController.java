@@ -41,11 +41,17 @@ public class AdminAttributeCategoryController {
 	  AttributeCategoryService attributeCategoryService;
 	  
 	  @SuppressWarnings("rawtypes")
-	  @ModelAttribute("allAttributeCategories")
+	  @ModelAttribute("allAttributeCategoriesHierarchy")
 	  public List getAllAttributeCategories() {
 	      return attributeCategoryService.buildAttributeCategoryHierarchy();
 	  }	  
  
+	  @SuppressWarnings("rawtypes")
+	  @ModelAttribute("allAttributeCategories")
+	  public List getAllAttributeCategoriesHierarchy() {
+	      return attributeCategoryService.getAllAttributeCategory();
+	  }
+	  
 	  @ModelAttribute("allTypes")
 	  public List<AttributeType> getAllTypes() {
 	      return Arrays.asList(AttributeType.ALL);
