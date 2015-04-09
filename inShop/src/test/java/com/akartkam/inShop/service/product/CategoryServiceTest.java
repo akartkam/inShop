@@ -2,7 +2,9 @@ package com.akartkam.inShop.service.product;
 
 import static org.junit.Assert.*;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import org.apache.commons.logging.LogFactory;
@@ -21,6 +23,7 @@ import com.akartkam.inShop.domain.product.Category;
 import com.akartkam.inShop.domain.product.Product;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttributeValue;
+import com.akartkam.inShop.domain.product.attribute.AttributeCategory;
 import com.akartkam.inShop.domain.product.attribute.AttributeDecimalValue;
 import com.akartkam.inShop.domain.product.attribute.AttributeType;
 import com.akartkam.inShop.domain.product.attribute.SList;
@@ -38,6 +41,10 @@ public class CategoryServiceTest extends AbstractServiceTest {
 	private CategoryDAO categoryDAO;
 	@Autowired
 	private SListDAO sListDAO;
+	@Autowired
+	private AttributeCategoryService attributeCategoryService;
+	
+	
 	
 	
 
@@ -152,14 +159,18 @@ public class CategoryServiceTest extends AbstractServiceTest {
 		jdbcTemplate.execute("delete from Attribute where name like 'AutoTestAddAttribute%'");
 */		
 		jdbcTemplate.execute("select del_attribute('AutoTestAddAttribute')");
-		Category found = categoryService.getCategoryByName("Test_Category4").get(0);
+		Category found = categoryService.getCategoryByName("Test_Category4_update").get(0);
+		AttributeCategory attributeCategory = attributeCategoryService.getAttributeCategoryByName("Категория атрибутов 1").get(0);
 		AbstractAttribute attribute = SimpleAttributeFactory.createAttribute(AttributeType.DECIMAL);
 		attribute.setName("AutoTestAddAttributeDecimal1");
-		//found.addAttribute(attribute);
+		attribute.setAttributeCategory(attributeCategory);
+		found.addAttribute(attribute);
 		categoryDAO.update(found);
-		Category found1 = categoryService.getCategoryByName("Test_Category4").get(0);
-		//List<AbstractAttribute> foundAttribute = found1.getAttributes();
-		//assertEquals("AutoTestAddAttributeDecimal1", ((AbstractAttribute) foundAttribute.get(0)).getName());
+		Category found1 = categoryService.getCategoryByName("Test_Category4_update").get(0);
+		Set<AbstractAttribute> foundAttributes = found1.getAttributes();
+		Iterator<AbstractAttribute> foundAttributeIter = foundAttributes.iterator();
+		while (foundAttributeIter.hasNext()) 
+		  assertEquals("AutoTestAddAttributeDecimal1", foundAttributeIter.next().getName());
 		logger.info("*********End addAttributeTes*********");
 	}
 	

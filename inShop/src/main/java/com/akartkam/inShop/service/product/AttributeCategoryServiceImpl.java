@@ -9,7 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.akartkam.inShop.dao.product.AttributeCategoryDAO;
+import com.akartkam.inShop.dao.product.attribute.AttributeCategoryDAO;
+import com.akartkam.inShop.dao.product.attribute.AttributeDAO;
 import com.akartkam.inShop.domain.product.Category;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
 import com.akartkam.inShop.domain.product.attribute.AttributeCategory;
@@ -22,6 +23,8 @@ public class AttributeCategoryServiceImpl implements AttributeCategoryService {
 	@Autowired
 	private AttributeCategoryDAO attributeCategoryDAO;
 
+	@Autowired
+	private AttributeDAO attributeDAO;
 
 	@Override
 	@Transactional(readOnly = false)
@@ -29,12 +32,10 @@ public class AttributeCategoryServiceImpl implements AttributeCategoryService {
 		return	attributeCategoryDAO.create(category);
 	}
 
-
 	@Override
 	public List<AttributeCategory> getAttributeCategoryByName(String name) {
 		return attributeCategoryDAO.findAttributeCategoryByName(name);
 	}
-
 
 	@Override
 	public AttributeCategory getAttributeCategoryById(UUID id) {
@@ -99,6 +100,11 @@ public class AttributeCategoryServiceImpl implements AttributeCategoryService {
         }
 		return currentHierarchy;
 		
+	}
+	
+	@Override
+	public AbstractAttribute getAttributeById(UUID id) {
+		return attributeDAO.get(id);
 	}
 
 }

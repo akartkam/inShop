@@ -1,6 +1,8 @@
 package com.akartkam.inShop.domain.product.attribute;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -32,6 +34,7 @@ import com.akartkam.inShop.domain.product.Category;
 						discriminatorType = DiscriminatorType.STRING
 )
 @Table(name = "Attribute")
+@SuppressWarnings("rawtypes")
 public abstract class AbstractAttribute extends AbstractDomainObjectOrdering {
 
 	/**
@@ -40,8 +43,8 @@ public abstract class AbstractAttribute extends AbstractDomainObjectOrdering {
 	private static final long serialVersionUID = -1978623223082601133L;
 	private String name;
 	private AttributeCategory attributeCategory;
-	private Set<Category> category;
-	protected List<AbstractAttributeValue> attributeValues;
+	private Set<Category> category = new HashSet<Category>(0);
+	protected List<AbstractAttributeValue> attributeValues = new ArrayList<AbstractAttributeValue>(0);
 	
 
 	@NotNull
@@ -70,9 +73,10 @@ public abstract class AbstractAttribute extends AbstractDomainObjectOrdering {
 	public void setAttributeValues(List<AbstractAttributeValue> attributeValues) {
 		this.attributeValues = attributeValues;
 	}
-		
+	
+	@NotNull
 	@ManyToOne
-	@JoinColumn
+	@JoinColumn(nullable = false)
 	public AttributeCategory getAttributeCategory() {
 		return attributeCategory;
 	}
@@ -87,7 +91,7 @@ public abstract class AbstractAttribute extends AbstractDomainObjectOrdering {
 			inverseJoinColumns = { @JoinColumn(name = "CATEGORY_ID", 
 					nullable = false, updatable = false) })
 	public Set<Category> getCategory() {
-		return Collections.unmodifiableSet(category);
+		return category;
 	}
 	public void setCategory(Set<Category> category) {
 		this.category = category;

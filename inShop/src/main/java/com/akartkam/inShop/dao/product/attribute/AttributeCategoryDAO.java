@@ -1,4 +1,4 @@
-package com.akartkam.inShop.dao.product;
+package com.akartkam.inShop.dao.product.attribute;
 
 import java.util.List;
 import java.util.UUID;

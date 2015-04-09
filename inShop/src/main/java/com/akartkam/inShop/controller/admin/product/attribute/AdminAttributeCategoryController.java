@@ -80,7 +80,7 @@ public class AdminAttributeCategoryController {
   
    
 	  @RequestMapping("/edit")
-	  public String categoryEdit(@RequestParam(value = "categoryID", required = false) String categoryID, Model model) {
+	  public String categoryEdit(@RequestParam(value = "ID", required = false) String categoryID, Model model) {
 		  if(!model.containsAttribute("attributeCategory")) {
 			 AttributeCategory category = attributeCategoryService.getAttributeCategoryById(UUID.fromString(categoryID));
 		     model.addAttribute("attributeCategory", category);
@@ -118,12 +118,11 @@ public class AdminAttributeCategoryController {
 
 	  
 	  @RequestMapping("/attribute/edit")
-	  public String attributeEdit(@RequestParam(value = "attributeID", required = false) String attributeID,Model model) {
+	  public String attributeEdit(@RequestParam(value = "ID", required = false) String ID, Model model) {
 		  if(!model.containsAttribute("attribute")) {
-	//		 AbstractAttribute attribute = 
-	//	     model.addAttribute("attributeCategory", attribute);
+			 AbstractAttribute attribute = attributeCategoryService.getAttributeById(UUID.fromString(ID)); 
+			 model.addAttribute("attribute", attribute);
 		  }
- 	//      model.addAttribute("attribute", attribute);
           return "/admin/attributeEdit";		  
 		  }	  
 	  

@@ -3,6 +3,7 @@ package com.akartkam.inShop.service.product;
 import java.util.List;
 import java.util.UUID;
 
+import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
 import com.akartkam.inShop.domain.product.attribute.AttributeCategory;
 
 public interface AttributeCategoryService {
@@ -19,4 +20,5 @@ public interface AttributeCategoryService {
 	void mergeWithExistingAndUpdateOrCreate(final AttributeCategory categoryFromPost);
 	@SuppressWarnings("rawtypes")
 	List buildAttributeCategoryHierarchy();	
+	public AbstractAttribute getAttributeById(UUID id);
 }

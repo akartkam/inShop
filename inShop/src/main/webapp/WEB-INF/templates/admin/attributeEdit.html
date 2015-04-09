@@ -73,8 +73,7 @@
 						      </label>
 							  <select class="form-control" th:field="*{attributeCategory}">
 							    <option value="">&nbsp;</option>
-								<option 
-								        th:each="scategory : ${allAttributeCategories}" 
+								<option th:each="scategory : ${allAttributeCategories}" 
 								        th:value="${scategory.id}"
 									    th:text="${scategory.name}">Attribute category</option>
 							  </select>
