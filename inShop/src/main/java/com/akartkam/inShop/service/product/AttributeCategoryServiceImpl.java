@@ -14,6 +14,7 @@ import com.akartkam.inShop.dao.product.attribute.AttributeDAO;
 import com.akartkam.inShop.domain.product.Category;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
 import com.akartkam.inShop.domain.product.attribute.AttributeCategory;
+import com.akartkam.inShop.domain.product.attribute.SimpleAttributeFactory;
 
 
 @Service("AttributeCategoryService")
@@ -32,6 +33,13 @@ public class AttributeCategoryServiceImpl implements AttributeCategoryService {
 		return	attributeCategoryDAO.create(category);
 	}
 
+	@Transactional(readOnly = false)
+	public AbstractAttribute createAttribute(AbstractAttribute attribute){
+		attributeDAO.create(attribute);
+		return	attribute;
+	}
+
+	
 	@Override
 	public List<AttributeCategory> getAttributeCategoryByName(String name) {
 		return attributeCategoryDAO.findAttributeCategoryByName(name);
@@ -64,6 +72,34 @@ public class AttributeCategoryServiceImpl implements AttributeCategoryService {
 		}
     }
 
+	@Transactional(readOnly = false)
+	public void mergeWithExistingAndUpdateOrCreate(final AbstractAttribute attributeFromPost) 
+			   throws ClassNotFoundException, InstantiationException, IllegalAccessException {
+		if (attributeFromPost == null) return;
+		final AbstractAttribute existingAttribute = getAttributeById(attributeFromPost.getId());
+		if (existingAttribute != null) {
+	        // set here explicitly what must/can be overwritten by the html form POST
+			existingAttribute.setName(attributeFromPost.getName());
+			existingAttribute.setOrdering(attributeFromPost.getOrdering());
+			existingAttribute.setEnabled(attributeFromPost.isEnabled());
+			AttributeCategory attributeCategoryFromPost = attributeFromPost.getAttributeCategory();
+	        if (attributeCategoryFromPost == null) throw new IllegalArgumentException("Attribute Category can not be null!");
+	        attributeCategoryFromPost.addAttribute(existingAttribute);
+	        updateAttributeCategory(attributeCategoryFromPost);
+		} else {
+			AbstractAttribute attributeNew = SimpleAttributeFactory.createAttribute(attributeFromPost.getAttribueType());
+			attributeNew.setName(attributeFromPost.getName());
+			attributeNew.setOrdering(attributeFromPost.getOrdering());
+			attributeNew.setEnabled(attributeFromPost.isEnabled());
+			AttributeCategory attributeCategoryFromPost = attributeFromPost.getAttributeCategory();
+	        if (attributeCategoryFromPost == null) throw new IllegalArgumentException("Attribute Category can not be null!");
+	        attributeCategoryFromPost.addAttribute(attributeNew);
+	        updateAttributeCategory(attributeCategoryFromPost);
+	        //createAttribute(attributeNew);
+		}
+    }
+
+	
 	@Override
 	@Transactional(readOnly = false)
 	public void softDeleteAttributeCategoryById(UUID id) {

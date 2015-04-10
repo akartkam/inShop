@@ -27,6 +27,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
 
+
 import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
 import com.akartkam.inShop.domain.product.attribute.AttributeCategory;
 import com.akartkam.inShop.domain.product.attribute.AttributeType;
@@ -153,5 +154,21 @@ public class AdminAttributeCategoryController {
 	        attributeCategoryService.mergeWithExistingAndUpdateOrCreate(category);
 	        return "redirect:/admin/catalog/attributecategory";
 	    }
-	  
+
+	   @RequestMapping(value="/attribute/edit", method = RequestMethod.POST )
+	   public String saveAttribute(
+			                         @ModelAttribute @Valid AbstractAttribute attribute,
+			                         final BindingResult bindingResult,
+			                         final RedirectAttributes ra
+			                         ) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
+	        if (bindingResult.hasErrors()) {
+	        	ra.addFlashAttribute("attribute", attribute);
+	        	ra.addFlashAttribute("org.springframework.validation.BindingResult.attribute", bindingResult);
+	            return "redirect:/admin/catalog/attributecategory/attribute/edit";
+	        }
+	        attributeCategoryService.mergeWithExistingAndUpdateOrCreate(attribute);
+	        return "redirect:/admin/catalog/attributecategory";
+	    }
+	   
+	   
 }
