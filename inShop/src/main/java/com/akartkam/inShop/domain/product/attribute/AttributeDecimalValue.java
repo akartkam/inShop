@@ -30,7 +30,7 @@ public class AttributeDecimalValue extends AbstractAttributeValue<Double> {
 
 	@Override
 	@Transient
-	public AttributeType getAttribueValueType() {
+	public AttributeType getAttributeValueType() {
 		return AttributeType.DECIMAL;
 	}
 

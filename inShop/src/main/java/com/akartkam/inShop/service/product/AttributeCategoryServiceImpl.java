@@ -15,6 +15,7 @@ import com.akartkam.inShop.domain.product.Category;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
 import com.akartkam.inShop.domain.product.attribute.AttributeCategory;
 import com.akartkam.inShop.domain.product.attribute.SimpleAttributeFactory;
+import com.akartkam.inShop.formbean.AttributeForm;
 
 
 @Service("AttributeCategoryService")
@@ -73,7 +74,7 @@ public class AttributeCategoryServiceImpl implements AttributeCategoryService {
     }
 
 	@Transactional(readOnly = false)
-	public void mergeWithExistingAndUpdateOrCreate(final AbstractAttribute attributeFromPost) 
+	public void mergeWithExistingAndUpdateOrCreate(AttributeForm attributeFromPost) 
 			   throws ClassNotFoundException, InstantiationException, IllegalAccessException {
 		if (attributeFromPost == null) return;
 		final AbstractAttribute existingAttribute = getAttributeById(attributeFromPost.getId());
@@ -87,7 +88,7 @@ public class AttributeCategoryServiceImpl implements AttributeCategoryService {
 	        attributeCategoryFromPost.addAttribute(existingAttribute);
 	        updateAttributeCategory(attributeCategoryFromPost);
 		} else {
-			AbstractAttribute attributeNew = SimpleAttributeFactory.createAttribute(attributeFromPost.getAttribueType());
+			AbstractAttribute attributeNew = SimpleAttributeFactory.createAttribute(attributeFromPost.getAttributeType());
 			attributeNew.setName(attributeFromPost.getName());
 			attributeNew.setOrdering(attributeFromPost.getOrdering());
 			attributeNew.setEnabled(attributeFromPost.isEnabled());

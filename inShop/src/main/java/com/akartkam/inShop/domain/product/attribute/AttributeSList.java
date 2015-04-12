@@ -21,11 +21,11 @@ public class AttributeSList extends AbstractAttribute {
 
 	@Override
 	@Transient
-	public AttributeType getAttribueType() {
+	public AttributeType getAttributeType() {
 		return AttributeType.SLIST;
 	}
 
-	public void setAttribueType(AttributeType attributeType){};	
+		
 /*	@Override
 	@OneToMany(mappedBy="attribute", targetEntity=AttributeSListValue.class)
 	public List<AbstractAttributeValue> getAttributeValues() {

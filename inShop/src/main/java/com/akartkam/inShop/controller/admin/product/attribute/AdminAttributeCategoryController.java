@@ -12,6 +12,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -21,16 +22,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-
-
-
-
-
-
-
 import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
 import com.akartkam.inShop.domain.product.attribute.AttributeCategory;
 import com.akartkam.inShop.domain.product.attribute.AttributeType;
+import com.akartkam.inShop.formbean.AttributeForm;
 import com.akartkam.inShop.service.product.AttributeCategoryService;
 
 
@@ -56,12 +51,13 @@ public class AdminAttributeCategoryController {
 	  @ModelAttribute("allTypes")
 	  public List<AttributeType> getAllTypes() {
 	      return Arrays.asList(AttributeType.ALL);
-	  }	  
+	  }
+	  	  
 	  
 	  @InitBinder
 	  public void initBinder(WebDataBinder binder) {
 			binder.setAllowedFields(new String[] { "id", "name", "ordering", "enabled", 
-					                               "attribueType", "attributeCategory"});
+					                               "attributeType", "attributeCategory"});
 			binder.registerCustomEditor(UUID.class, "id", new PropertyEditorSupport() {
 			    @Override
 			    public void setAsText(String text) {
@@ -76,7 +72,14 @@ public class AdminAttributeCategoryController {
 			            setValue(ch);
 			    	}
 			    }
-			    });						
+			    });
+			binder.registerCustomEditor(UUID.class, "attributeType", new PropertyEditorSupport() {
+			    @Override
+			    public void setAsText(String text) {
+			    	 setValue(AttributeType.valueOf(text));
+			    }
+			    });			
+			
 	  }
 	
 	  
@@ -102,24 +105,10 @@ public class AdminAttributeCategoryController {
           return "/admin/attributeCategoryEdit";		  
 		  }	  
 
-	  @SuppressWarnings("serial")
 	  @RequestMapping("/attribute/add")
 	  public String attributeAdd(Model model) {
-		  AbstractAttribute attribute = new AbstractAttribute(){
-			  						private AttributeType attributeType;
-
-			  						@Override
-									public AttributeType getAttribueType() {
-										return attributeType;
-									}
-			  						
-			  						@Override
-			  						public void setAttribueType(AttributeType attributeType) {
-			  							this.attributeType = attributeType;
-			  						}
-			  						
-		  };
-          model.addAttribute("attribute", attribute);
+		  AttributeForm attribute = new AttributeForm();
+		  model.addAttribute("attribute",attribute);		  
           return "/admin/attributeEdit";		  
 	  }	  
 
@@ -127,7 +116,7 @@ public class AdminAttributeCategoryController {
 	  @RequestMapping("/attribute/edit")
 	  public String attributeEdit(@RequestParam(value = "ID", required = false) String ID, Model model) {
 		  if(!model.containsAttribute("attribute")) {
-			 AbstractAttribute attribute = attributeCategoryService.getAttributeById(UUID.fromString(ID)); 
+			 AttributeForm attribute = new AttributeForm(attributeCategoryService.getAttributeById(UUID.fromString(ID))); 			 
 			 model.addAttribute("attribute", attribute);
 		  }
           return "/admin/attributeEdit";		  
@@ -157,7 +146,7 @@ public class AdminAttributeCategoryController {
 
 	   @RequestMapping(value="/attribute/edit", method = RequestMethod.POST )
 	   public String saveAttribute(
-			                         @ModelAttribute @Valid AbstractAttribute attribute,
+			                         @ModelAttribute("attribute") @Valid AttributeForm attribute, 
 			                         final BindingResult bindingResult,
 			                         final RedirectAttributes ra
 			                         ) throws ClassNotFoundException, InstantiationException, IllegalAccessException {

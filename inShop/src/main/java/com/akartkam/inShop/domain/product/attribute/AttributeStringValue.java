@@ -31,7 +31,7 @@ public class AttributeStringValue extends AbstractAttributeValue<String> {
 
 	@Override
 	@Transient
-	public AttributeType getAttribueValueType() {
+	public AttributeType getAttributeValueType() {
 		return AttributeType.STRING;
 	}
 	

@@ -26,4 +26,6 @@ public interface DomainObject <ID extends Serializable> extends Serializable {
     
     public Account getUpdatedBy();
     public void setUpdatedBy(Account updatedBy);
+    
+    public boolean isNew();
 }

@@ -7,6 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Transient;
 import javax.persistence.Version;
 
 import org.hibernate.Hibernate;
@@ -25,7 +26,7 @@ public abstract class AbstractDomainObject implements DomainObject<UUID>, Clonea
 	private DateTime updatedDate; //= DateTime.now();  
     private Account  updatedBy;      
 
-	@Override
+
 	@Id
 	@Column(name="id")
 	@org.hibernate.annotations.Type(type="pg-uuid")
@@ -119,6 +120,12 @@ public abstract class AbstractDomainObject implements DomainObject<UUID>, Clonea
         // equivalence by id
         return id.equals(other.getId());
     }
+	
+	@Override
+	@Transient
+	public boolean isNew() {
+		return (getCreatedDate() == null);
+	}
 
 	@Override
     public int hashCode() {

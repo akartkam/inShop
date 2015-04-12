@@ -32,7 +32,7 @@ public class AttributeSListValue extends AbstractAttributeValue<SList> {
 
 	@Override
 	@Transient
-	public AttributeType getAttribueValueType() {
+	public AttributeType getAttributeValueType() {
 		return AttributeType.SLIST;
 	}
 	

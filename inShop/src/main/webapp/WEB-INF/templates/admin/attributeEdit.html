@@ -27,7 +27,7 @@
 		   <div class="modal-header">
 	 			<button type="button" class="close" th:onclick="'window.location=\''+@{/admin/catalog/attributecategory/}+'\''"
 					aria-hidden="true">&times;</button>
-				<h4 class="modal-title"  th:text="${attribute.createdDate != null}? #{admin.catalog.attribute.edit.title.edit}: #{admin.catalog.attribute.edit.title.add}">Edit Category</h4>
+				<h4 class="modal-title"  th:text="${!attribute.new}? #{admin.catalog.attribute.edit.title.edit}: #{admin.catalog.attribute.edit.title.add}">Edit Category</h4>
 	 	   </div>
 		 <!-- /modal-header -->
 		    <div class="modal-body" style ="height:420px; overflow:auto">
@@ -59,11 +59,15 @@
 	                          <label>
 						  	    	<span th:text="#{admin.catalog.attribute.edit.type}">Type</span>
 						      </label>
-							  <select class="form-control" th:field="*{attribueType}">
+							  <select class="form-control" th:field="*{attributeType}" th:if="${attribute.new}">
 								<option th:each="type : ${allTypes}" 
 								        th:value="${type}"
 									    th:text="#{${'attribute.type.' + type}}">Decimal</option>
 							  </select>
+							  <div th:unless="${attribute.new}" th:remove="tag"> 
+							     <input type="hidden" th:field="*{attributeType}"/>
+							     <p class="form-control-static"><span th:text="#{${'attribute.type.' + attribute.attributeType.toString()}}">Decimal</span></p>
+                              </div>							     
 						    </div>	 
 	             		</div>
 	                    <div class="tab-pane fade" id="additional">
@@ -72,7 +76,6 @@
 						  	    	<span th:text="#{admin.catalog.attribute.edit.attributeCategory}">Attribute category</span>
 						      </label>
 							  <select class="form-control" th:field="*{attributeCategory}">
-							    <option value="">&nbsp;</option>
 								<option th:each="scategory : ${allAttributeCategories}" 
 								        th:value="${scategory.id}"
 									    th:text="${scategory.name}">Attribute category</option>

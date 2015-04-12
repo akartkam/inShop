@@ -46,7 +46,7 @@ public abstract class AbstractAttributeValue<T extends Serializable> extends Abs
 	
 	@NotNull
 	@Transient
-	public abstract AttributeType getAttribueValueType();
+	public abstract AttributeType getAttributeValueType();
 	
 	@ManyToOne
 	@JoinColumn(nullable = false)

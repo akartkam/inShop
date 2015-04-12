@@ -20,11 +20,10 @@ public class AttributeString extends AbstractAttribute {
 
 	@Override
 	@Transient
-	public AttributeType getAttribueType() {
+	public AttributeType getAttributeType() {
 		return AttributeType.STRING;
 	}
-
-	public void setAttribueType(AttributeType attributeType){};	
+	
 	
 /*	@Override
 	@OneToMany(mappedBy="attribute", targetEntity=AttributeStringValue.class)

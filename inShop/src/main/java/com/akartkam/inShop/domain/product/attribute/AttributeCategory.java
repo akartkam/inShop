@@ -51,7 +51,8 @@ public class AttributeCategory extends AbstractDomainObjectOrdering {
 	public void addAttribute (AbstractAttribute attribute) {
 		if (attribute == null) throw new IllegalArgumentException("Null attribute!");
 		if (attributes.contains(attribute)) return;
-		attribute.getAttributeCategory().getAttributes().remove(attribute);
+		AttributeCategory attributeCategory = attribute.getAttributeCategory();
+		if (attributeCategory != null) attributeCategory.getAttributes().remove(attribute);
 		attributes.add(attribute);
 		attribute.setAttributeCategory(this);
 	}

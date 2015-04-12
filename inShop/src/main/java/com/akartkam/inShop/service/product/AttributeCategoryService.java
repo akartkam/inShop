@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
 import com.akartkam.inShop.domain.product.attribute.AttributeCategory;
+import com.akartkam.inShop.formbean.AttributeForm;
 
 public interface AttributeCategoryService {
 	/*
@@ -18,7 +19,7 @@ public interface AttributeCategoryService {
 	void updateAttributeCategory(AttributeCategory category);
 	void softDeleteAttributeCategoryById(UUID id);
 	void mergeWithExistingAndUpdateOrCreate(final AttributeCategory categoryFromPost) ;
-	void mergeWithExistingAndUpdateOrCreate(final AbstractAttribute attributeFromPost) throws ClassNotFoundException, InstantiationException, IllegalAccessException;
+	void mergeWithExistingAndUpdateOrCreate(final AttributeForm attributeFromPost) throws ClassNotFoundException, InstantiationException, IllegalAccessException; 
 	@SuppressWarnings("rawtypes")
 	List buildAttributeCategoryHierarchy();	
 	public AbstractAttribute getAttributeById(UUID id);

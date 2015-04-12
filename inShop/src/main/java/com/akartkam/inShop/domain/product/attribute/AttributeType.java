@@ -29,7 +29,7 @@ public enum AttributeType {
         } else if (name.toUpperCase().equals("SLIST")) {
             return SLIST;
 	    }
-        throw new IllegalArgumentException("Name \"" + name + "\" does not correspond to any AttribueType");
+        throw new IllegalArgumentException("Name \"" + name + "\" does not correspond to any AttributeType");
     }
     
     

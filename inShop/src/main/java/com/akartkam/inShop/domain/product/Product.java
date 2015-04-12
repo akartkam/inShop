@@ -80,7 +80,7 @@ public class Product extends AbstractDomainObjectOrdering {
 	public void addAttributeValue (AbstractAttributeValue attributeValue, AbstractAttribute attribute) {
 		if (attributeValue == null) throw new IllegalArgumentException("Null attributeValue!");
 		if (attribute == null) throw new IllegalArgumentException("Null attribute!");
-		if (attribute.getAttribueType() != attributeValue.getAttribueValueType()) throw new IllegalArgumentException("The type of attribute and attributeValue is different!"); 
+		if (attribute.getAttributeType() != attributeValue.getAttributeValueType()) throw new IllegalArgumentException("The type of attribute and attributeValue is different!"); 
 		attributeValue.setAttribute(attribute);
 		attributeValue.setProduct(this);
 		attributeValues.add(attributeValue);

@@ -21,6 +21,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.Cascade;
 
@@ -48,6 +49,7 @@ public abstract class AbstractAttribute extends AbstractDomainObjectOrdering {
 	
 
 	@NotNull
+	@Size(min = 1, max = 50)
 	@Column(name = "name", unique=true, nullable=false)
 	public String getName() {
 		return name;
@@ -58,9 +60,8 @@ public abstract class AbstractAttribute extends AbstractDomainObjectOrdering {
 	
 	@NotNull
 	@Transient
-	public abstract AttributeType getAttribueType();
-	
-	public abstract void setAttribueType(AttributeType attributeType);   
+	public abstract AttributeType getAttributeType();
+	   
 
 	/*@Transient
 	public abstract List<AbstractAttributeValue> getAttributeValues();

@@ -19,11 +19,10 @@ public class AttributeDecimal extends AbstractAttribute {
 	
 	@Override
 	@Transient
-	public AttributeType getAttribueType() {
+	public AttributeType getAttributeType() {
 		return AttributeType.DECIMAL;
 	}
 	
-	public void setAttribueType(AttributeType attributeType){};
 
 	/*@Override
 	@OneToMany(mappedBy="attribute", targetEntity=AttributeDecimalValue.class)
