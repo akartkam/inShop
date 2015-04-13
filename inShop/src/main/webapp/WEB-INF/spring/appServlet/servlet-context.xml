@@ -40,6 +40,7 @@
 		  <beans:property name="additionalDialects">
 		    <beans:set>
 		      <beans:bean class="nz.net.ultraq.thymeleaf.LayoutDialect"/>
+		      <beans:bean class="org.thymeleaf.extras.springsecurity3.dialect.SpringSecurityDialect"/>
 		    </beans:set>
 		  </beans:property>      
     </beans:bean>

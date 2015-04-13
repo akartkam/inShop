@@ -22,6 +22,7 @@ public class AttributeForm extends AbstractAttribute {
 			this.setOrdering(attributeSource.getOrdering());
 			this.setAttributeCategory(attributeSource.getAttributeCategory());
 			this.setCreatedDate(attributeSource.getCreatedDate());
+			this.setEnabled(attributeSource.isEnabled());
 		}
 	}
 	

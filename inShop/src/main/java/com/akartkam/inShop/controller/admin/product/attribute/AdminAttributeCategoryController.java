@@ -5,11 +5,18 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import java.beans.PropertyEditorSupport;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import javax.validation.Valid;
 
+import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -122,9 +129,29 @@ public class AdminAttributeCategoryController {
           return "/admin/attributeEdit";		  
 		  }	  
 	  
-	  @RequestMapping("/delete")
-	  public String categoryDelete(@RequestParam(value = "categoryID", required = false) String categoryID, Model model) {
-		  attributeCategoryService.softDeleteAttributeCategoryById(UUID.fromString(categoryID));
+	  @RequestMapping(value="/delete", method = RequestMethod.POST)
+	  public String categoryDelete(@RequestParam(value = "ID", required = false) String ID,
+			  					   @RequestParam(value = "phisycalDelete", required = false) Boolean phisycalDelete,
+			                       Model model) {
+		  Collection<? extends GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+		  if (phisycalDelete) {
+			  if(authorities.contains("ADMIN")) attributeCategoryService.deleteAttributeCategoryById(UUID.fromString(ID));   
+		  } else {
+			  attributeCategoryService.softDeleteAttributeCategoryById(UUID.fromString(ID));
+		  }
+          return "redirect:/admin/catalog/attributecategory";		  
+		  }	  
+
+	  @RequestMapping(value="/attribute/delete", method = RequestMethod.POST)
+	  public String attributeDelete(@RequestParam(value = "ID", required = false) String ID, 
+			  						@RequestParam(value = "phisycalDelete", required = false) Boolean phisycalDelete,
+			  						Model model) {
+		  Collection<? extends GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+		  if (phisycalDelete)  { 
+			  if (authorities.contains(new SimpleGrantedAuthority("ADMIN"))) attributeCategoryService.deleteAttributeById(UUID.fromString(ID)); 
+		  } else {
+			  attributeCategoryService.softDeleteAttributeById(UUID.fromString(ID));
+		  }
           return "redirect:/admin/catalog/attributecategory";		  
 		  }	  
 	  

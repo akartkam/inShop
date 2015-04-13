@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" 
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
 	  layout:decorator="layouts/admin-default">
 	<head>
 	    <th:block th:remove="all">
@@ -29,18 +30,24 @@
    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true" layout:fragment="deleteForm">
 	  <div class="modal-dialog">
 	    <div class="modal-content" id="deleteModalContent">
- 	        <form th:action="@{/admin/catalog/attributecategory/delete}">
+ 	        <form method="post" action="#" id="deleteForm">
 	            <div class="modal-header">
 	              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 	              <h4 class="modal-title" id="deleteModalLabel"><span th:text="#{admin.catalog.category.delete.modalcaption}">Удаление</span></h4>
 	            </div>
 	            <div class="modal-body" id = "delete-modal-body">
 	                <span th:text="#{admin.catalog.category.delete.modalmessage}">Подтвердите удаление категории: </span>
-	                <span style="font-weight:bold" id = "ctgName"> Категория </span>
+	                <span style="font-weight:bold" id="ctgName"> Категория </span>
+	                <div sec:authorize="hasRole('ADMIN')" th:remove="tag">
+                      <label>
+					   	<input type="checkbox" name="phisycalDelete"/>
+					  	<span th:text="#{admin.catalog.category.delete.phisycalDelete}">Phisycal delete</span>
+					  </label>
+					</div>	 
 	            </div>
 	            <div class="modal-footer" id = "delete-modal-footer">
 	                <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
-	                <button type="submit" id="categoryID" name="categoryID" value="" class="btn btn-primary">Удалить</button>
+	                <button type="submit" id="ID" name="ID" value="" class="btn btn-primary">Удалить</button>
 		        </div> 
             </form>  	      
 	     </div> 
@@ -79,11 +86,11 @@
 				        <thead >
 					      <tr >
 					          <th class="col-md-1"></th>
-				              <th class="col-md-7" th:text="#{admin.catalog.attributecategory.name}">Name</th>
-				              <th class="col-md-1" th:text="#{admin.catalog.attributecategory.type}">Type</th>
-				              <th class="col-md-1" th:text="#{admin.catalog.attributecategory.order}">Order</th>
+				              <th class="col-md-7 text-center" th:text="#{admin.catalog.attributecategory.name}">Name</th>
+				              <th class="col-md-1 text-center" th:text="#{admin.catalog.attributecategory.type}">Type</th>
+				              <th class="col-md-1 text-center" th:text="#{admin.catalog.attributecategory.order}">Order</th>
 				              <th class="col-md-1 text-center" th:text="#{admin.catalog.attributecategory.enabled}">Enabled?</th>
-				              <th class="col-md-1"></th>
+				              <th class="col-md-1 text-center"></th>
 				  	      </tr>
 				 	    </thead>
 				 	    <tbody>      
@@ -108,13 +115,13 @@
 				                                    <i class="fa fa-pencil"></i>
 				                                  </button>	
 				                                  <button type="submit" class="open-editDialog btn btn-outline btn-default btn-xs" 
-				                                          name="copyCategoryID" th:value="${ct.id}"
+				                                          name="copyID" th:value="${ct.id}"
 				                                          th:formaction="@{${{#strings.containsIgnoreCase(ct.class.name,'AttributeCategory')} ? '/admin/catalog/attributecategory/add': '/admin/catalog/attributecategory/attribute/add'}}">
 				                                    <i class="fa fa-copy"></i>
 				                                  </button>
 					                              <button th:disabled="${!ct.enabled}" type="button" data-toggle="modal" data-target="#deleteModal" 
 					                                      class="open-deleteDialog btn btn-outline btn-default btn-xs"
-					                                      th:attr="data-id=${ct.id}, data-name=${ct.name}"> 
+					                                      th:attr="data-id=${ct.id}, data-name=${ct.name}, data-class-name=${ct.class.name}"> 
 					                                <i class="fa fa-trash-o"></i>
 					                              </button>	
 			                            	 </div>  
@@ -255,12 +262,22 @@
 		        $(document).on("click", ".open-deleteDialog", function () {
 		    	     var ctgId = $(this).data("id");
 		    	     var ctgName = $(this).data("name");
-		    	     $("#delete-modal-footer #categoryID").val(ctgId);
+		    	     var className = $(this).data("class-name");
+		    	     var action;
+		    	     $("#delete-modal-footer #ID").val(ctgId);
 		    	     $("#delete-modal-body #ctgName").html(ctgName);
+		    	     if (className.indexOf("AttributeCategory") >= 0) {
+		    	    	 action = window.location.pathname+"/delete"; 
+		    	     } else {
+		    	    	 action = window.location.pathname+"/attribute/delete";
+		    	     }
+	    	    	 $("#deleteModalContent #deleteForm").attr("action", action);
+
 		    	});
 		   // ]]>
 	     </script>
-	     <th:block layout:include="admin/attributeCategoryEdit :: scriptEditModal">
+	     <!-- <th:block layout:include="admin/attributeCategoryEdit :: scriptEditModal"> -->
+	     <th:block layout:fragment="scriptEditModal">
 	     </th:block>
     </th:block>
 </body>

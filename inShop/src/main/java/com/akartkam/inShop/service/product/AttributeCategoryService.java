@@ -17,10 +17,16 @@ public interface AttributeCategoryService {
 	AttributeCategory loadAttributeCategoryById(UUID id, Boolean lock);
 	AttributeCategory getAttributeCategoryById(UUID id);
 	void updateAttributeCategory(AttributeCategory category);
+	void updateAttribute(AbstractAttribute attribute);
+	void deleteAttributeCategoryById(UUID id);
+	void deleteAttributeById(UUID id);
+	void deleteAttribute(AbstractAttribute attribute);
+	void deleteAttributeCategory(AttributeCategory category);
 	void softDeleteAttributeCategoryById(UUID id);
+	void softDeleteAttributeById(UUID id);
 	void mergeWithExistingAndUpdateOrCreate(final AttributeCategory categoryFromPost) ;
 	void mergeWithExistingAndUpdateOrCreate(final AttributeForm attributeFromPost) throws ClassNotFoundException, InstantiationException, IllegalAccessException; 
 	@SuppressWarnings("rawtypes")
 	List buildAttributeCategoryHierarchy();	
-	public AbstractAttribute getAttributeById(UUID id);
+	AbstractAttribute getAttributeById(UUID id);
 }

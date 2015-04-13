@@ -59,6 +59,12 @@ public class AttributeCategoryServiceImpl implements AttributeCategoryService {
 	
 	@Override
 	@Transactional(readOnly = false)
+	public void updateAttribute(AbstractAttribute attribute) {
+		attributeDAO.update(attribute);
+	}
+
+	@Override
+	@Transactional(readOnly = false)
 	public void mergeWithExistingAndUpdateOrCreate(final AttributeCategory categoryFromPost) {
 		if (categoryFromPost == null) return;
 		final AttributeCategory existingCategory = getAttributeCategoryById(categoryFromPost.getId());
@@ -112,6 +118,17 @@ public class AttributeCategoryServiceImpl implements AttributeCategoryService {
 	}
 
 	@Override
+	@Transactional(readOnly = false)
+	public void softDeleteAttributeById(UUID id) {
+		AbstractAttribute attribute = getAttributeById(id);
+		if (attribute != null) {
+			attribute.setEnabled(false);
+			updateAttribute(attribute);
+		}
+	}
+
+	
+	@Override
 	public AttributeCategory loadAttributeCategoryById(UUID id, Boolean lock) {
 		return attributeCategoryDAO.findById(id, lock);
 	}
@@ -139,9 +156,35 @@ public class AttributeCategoryServiceImpl implements AttributeCategoryService {
 		
 	}
 	
+	
 	@Override
 	public AbstractAttribute getAttributeById(UUID id) {
 		return attributeDAO.get(id);
+	}
+
+	@Override
+	@Transactional(readOnly = false)
+	public void deleteAttributeCategoryById(UUID id) {
+		attributeCategoryDAO.deleteById(id);
+	}
+	
+	@Override
+	@Transactional(readOnly = false)
+	public void deleteAttributeById(UUID id) {
+		attributeDAO.deleteById(id);
+	}
+
+	@Override
+	@Transactional(readOnly = false)
+	public void deleteAttribute(AbstractAttribute attribute) {
+		attributeDAO.delete(attribute);
+		
+	}
+
+	@Override
+	@Transactional(readOnly = false)
+	public void deleteAttributeCategory(AttributeCategory category) {
+		attributeCategoryDAO.delete(category);
 	}
 
 }
