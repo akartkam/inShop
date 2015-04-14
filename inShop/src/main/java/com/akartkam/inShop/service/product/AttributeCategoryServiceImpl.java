@@ -132,6 +132,11 @@ public class AttributeCategoryServiceImpl implements AttributeCategoryService {
 	public AttributeCategory loadAttributeCategoryById(UUID id, Boolean lock) {
 		return attributeCategoryDAO.findById(id, lock);
 	}
+	
+	@Override
+	public AbstractAttribute loadAttributeById(UUID id, Boolean lock) {
+		return attributeDAO.findById(id, lock);
+	}	
 
 	@Override
 	public List<AttributeCategory> getAllAttributeCategory() {
@@ -177,7 +182,8 @@ public class AttributeCategoryServiceImpl implements AttributeCategoryService {
 	@Override
 	@Transactional(readOnly = false)
 	public void deleteAttribute(AbstractAttribute attribute) {
-		attributeDAO.delete(attribute);
+		attribute.getAttributeCategory().getAttributes().remove(attribute);
+		attributeCategoryDAO.update(attribute.getAttributeCategory());
 		
 	}
 

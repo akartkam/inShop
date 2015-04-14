@@ -36,15 +36,17 @@
 	              <h4 class="modal-title" id="deleteModalLabel"><span th:text="#{admin.catalog.category.delete.modalcaption}">Удаление</span></h4>
 	            </div>
 	            <div class="modal-body" id = "delete-modal-body">
+	              <div class="field-box">
 	                <span th:text="#{admin.catalog.category.delete.modalmessage}">Подтвердите удаление категории: </span>
 	                <span style="font-weight:bold" id="ctgName"> Категория </span>
-	                <div sec:authorize="hasRole('ADMIN')" th:remove="tag">
+				  </div>	                
+	              <div class="field-box" sec:authorize="hasRole('ADMIN')">
                       <label>
 					   	<input type="checkbox" name="phisycalDelete"/>
 					  	<span th:text="#{admin.catalog.category.delete.phisycalDelete}">Phisycal delete</span>
 					  </label>
-					</div>	 
-	            </div>
+	              </div>
+	            </div> 
 	            <div class="modal-footer" id = "delete-modal-footer">
 	                <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
 	                <button type="submit" id="ID" name="ID" value="" class="btn btn-primary">Удалить</button>

@@ -148,7 +148,8 @@ public class AdminAttributeCategoryController {
 			  						Model model) {
 		  Collection<? extends GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
 		  if (phisycalDelete)  { 
-			  if (authorities.contains(new SimpleGrantedAuthority("ADMIN"))) attributeCategoryService.deleteAttributeById(UUID.fromString(ID)); 
+			  AbstractAttribute attribute = attributeCategoryService.loadAttributeById(UUID.fromString(ID), false);
+			  if (attribute.canRemove() && authorities.contains(new SimpleGrantedAuthority("ADMIN"))) attributeCategoryService.deleteAttribute(attribute); 
 		  } else {
 			  attributeCategoryService.softDeleteAttributeById(UUID.fromString(ID));
 		  }

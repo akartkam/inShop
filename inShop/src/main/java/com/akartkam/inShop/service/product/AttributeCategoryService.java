@@ -15,6 +15,7 @@ public interface AttributeCategoryService {
 	List<AttributeCategory> getAllAttributeCategory();
 	List<AttributeCategory> getAttributeCategoryByName(String name);
 	AttributeCategory loadAttributeCategoryById(UUID id, Boolean lock);
+	AbstractAttribute loadAttributeById(UUID id, Boolean lock);
 	AttributeCategory getAttributeCategoryById(UUID id);
 	void updateAttributeCategory(AttributeCategory category);
 	void updateAttribute(AbstractAttribute attribute);
