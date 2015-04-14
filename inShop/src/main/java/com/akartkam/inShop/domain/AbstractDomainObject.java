@@ -140,6 +140,12 @@ public abstract class AbstractDomainObject implements DomainObject<UUID>, Clonea
     public String toString() {
         return this.getClass().getName()
             + "[id=" + id + "]";
-    }	
-
+    }
+	
+	@Override
+	@Transient
+	public boolean canRemove(){
+		return true;
+		
+	}
 }

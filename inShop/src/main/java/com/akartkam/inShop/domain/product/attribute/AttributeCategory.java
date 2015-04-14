@@ -39,8 +39,8 @@ public class AttributeCategory extends AbstractDomainObjectOrdering {
 		this.name = name;
 	}
 
-	@OneToMany(mappedBy = "attributeCategory", cascade = CascadeType.ALL)
-	@Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
+	@OneToMany(mappedBy = "attributeCategory", cascade = CascadeType.ALL, orphanRemoval=true)
+	@Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE, org.hibernate.annotations.CascadeType.DELETE})
 	public List<AbstractAttribute> getAttributes() {
 		return attributes;
 	}
@@ -63,5 +63,10 @@ public class AttributeCategory extends AbstractDomainObjectOrdering {
 		return !attributes.isEmpty(); 
 	}	
 	
+	@Override
+	@Transient
+	public boolean canRemove() {
+		return attributes.isEmpty();
+	}
 	
 }

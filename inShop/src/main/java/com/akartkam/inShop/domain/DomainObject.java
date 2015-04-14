@@ -6,26 +6,28 @@ import org.joda.time.DateTime;
 
 
 public interface DomainObject <ID extends Serializable> extends Serializable {
-    public ID getId();
-    public void setId(ID id);
+    ID getId();
+    void setId(ID id);
 
-    public Integer getVersion();
-    public void setVersion(Integer version);
+    Integer getVersion();
+    void setVersion(Integer version);
     
-    public boolean isEnabled();
-    public void setEnabled(boolean enabled);
+    boolean isEnabled();
+    void setEnabled(boolean enabled);
     
-    public DateTime getCreatedDate();
-    public void setCreatedDate(DateTime createdDate);
+    DateTime getCreatedDate();
+    void setCreatedDate(DateTime createdDate);
     
-    public DateTime getUpdatedDate();
-    public void setUpdatedDate(DateTime updatedDate);
+    DateTime getUpdatedDate();
+    void setUpdatedDate(DateTime updatedDate);
     
-    public Account getCreatedBy();
-    public void setCreatedBy(Account createdBy);
+    Account getCreatedBy();
+    void setCreatedBy(Account createdBy);
     
-    public Account getUpdatedBy();
-    public void setUpdatedBy(Account updatedBy);
+    Account getUpdatedBy();
+    void setUpdatedBy(Account updatedBy);
     
-    public boolean isNew();
+    boolean isNew();
+    
+    boolean canRemove();
 }

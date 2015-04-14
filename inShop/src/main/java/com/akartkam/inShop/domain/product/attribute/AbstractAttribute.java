@@ -1,7 +1,6 @@
 package com.akartkam.inShop.domain.product.attribute;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -96,6 +95,13 @@ public abstract class AbstractAttribute extends AbstractDomainObjectOrdering {
 	}
 	public void setCategory(Set<Category> category) {
 		this.category = category;
-	}	
+	}
+	
+	@Override
+	@Transient
+	public boolean canRemove() {
+		return (attributeValues.isEmpty() && category.isEmpty());
+		
+	}
 
 }

@@ -9,7 +9,6 @@ import java.util.UUID;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
@@ -25,7 +24,6 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.Proxy;
 import org.hibernate.annotations.Type;
 
 import com.akartkam.inShop.domain.AbstractDomainObjectOrdering;
