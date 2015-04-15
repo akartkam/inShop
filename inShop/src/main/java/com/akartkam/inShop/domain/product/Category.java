@@ -244,5 +244,9 @@ public class Category extends AbstractDomainObjectOrdering {
 		return category;
 	}
 	
+	@Override
+	public boolean canRemove() {
+		return (!hasSubCategory() && attributes.isEmpty() && products.isEmpty());
+	}
 	
 }

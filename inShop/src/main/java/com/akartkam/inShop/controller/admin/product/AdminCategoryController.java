@@ -3,12 +3,16 @@ package com.akartkam.inShop.controller.admin.product;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 import java.beans.PropertyEditorSupport;
+import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -21,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.akartkam.inShop.domain.product.Category;
+import com.akartkam.inShop.domain.product.attribute.AttributeCategory;
 import com.akartkam.inShop.service.product.CategoryService;
 
 @Controller
@@ -97,9 +102,23 @@ public class AdminCategoryController {
 		  }	  
 
 	  
-	  @RequestMapping("/delete")
-	  public String categoryDelete(@RequestParam(value = "categoryID", required = false) String categoryID, Model model) {
-		  categoryService.softDeleteCategoryById(UUID.fromString(categoryID));
+	  @RequestMapping(value="/delete", method = RequestMethod.POST)
+	  public String categoryDelete(@RequestParam(value = "categoryID", required = false) String categoryID, 
+			                       @RequestParam(value = "phisycalDelete", required = false) Boolean phisycalDelete,
+				                   final RedirectAttributes ra) {
+		  Collection<? extends GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+		  if (phisycalDelete != null && phisycalDelete)  {
+			  Category category = categoryService.loadCategoryById(UUID.fromString(categoryID), false);
+			  if(category.canRemove() && authorities.contains(new SimpleGrantedAuthority("ADMIN"))) {
+				 // categoryService.deleteAttributeCategory(category);   
+			  } else {
+				  ra.addFlashAttribute("errormessage", "Нельзя удалить категорию. Имеются ссылки на другие сущности, либо недостаточно прав.");
+				  ra.addAttribute("error", true);
+			  }
+
+		  } else {
+		      categoryService.softDeleteCategoryById(UUID.fromString(categoryID));
+		  }
           return "redirect:/admin/catalog/category";		  
 		  }	  
 	  

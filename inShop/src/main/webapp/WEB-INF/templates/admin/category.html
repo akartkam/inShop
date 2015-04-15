@@ -46,14 +46,22 @@
    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true" layout:fragment="deleteForm">
 	  <div class="modal-dialog">
 	    <div class="modal-content" id="deleteModalContent">
- 	        <form th:action="@{/admin/catalog/category/delete}">
+ 	        <form method="post" th:action="@{/admin/catalog/category/delete}">
 	            <div class="modal-header">
 	              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 	              <h4 class="modal-title" id="deleteModalLabel"><span th:text="#{admin.catalog.category.delete.modalcaption}">Удаление</span></h4>
 	            </div>
 	            <div class="modal-body" id = "delete-modal-body">
+                  <div class="field-box">
 	                <span th:text="#{admin.catalog.category.delete.modalmessage}">Подтвердите удаление категории: </span>
-	                <span style="font-weight:bold" id = "ctgName"> Категория </span>
+	                <span style="font-weight:bold" id="ctgName"> Категория </span>
+				  </div>	                
+	              <div class="field-box" sec:authorize="hasRole('ADMIN')">
+                      <label>
+					   	<input type="checkbox" name="phisycalDelete"/>
+					  	<span th:text="#{admin.catalog.category.delete.phisycalDelete}">Phisycal delete</span>
+					  </label>
+	              </div>
 	            </div>
 	            <div class="modal-footer" id = "delete-modal-footer">
 	                <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
