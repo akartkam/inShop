@@ -132,10 +132,16 @@ public class AdminAttributeCategoryController {
 	  @RequestMapping(value="/delete", method = RequestMethod.POST)
 	  public String categoryDelete(@RequestParam(value = "ID", required = false) String ID,
 			  					   @RequestParam(value = "phisycalDelete", required = false) Boolean phisycalDelete,
-			                       Model model) {
+			  					 final RedirectAttributes ra) {
 		  Collection<? extends GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
-		  if (phisycalDelete) {
-			  if(authorities.contains("ADMIN")) attributeCategoryService.deleteAttributeCategoryById(UUID.fromString(ID));   
+		  if (phisycalDelete != null && phisycalDelete)  {
+			  AttributeCategory category = attributeCategoryService.loadAttributeCategoryById(UUID.fromString(ID), false);
+			  if(category.canRemove() && authorities.contains(new SimpleGrantedAuthority("ADMIN"))) {
+				  attributeCategoryService.deleteAttributeCategory(category);   
+			  } else {
+				  ra.addFlashAttribute("errormessage", "Нельзя удалить категорию. Имеются ссылки на другие сущности, либо недостаточно прав.");
+				  ra.addAttribute("error", true);
+			  }
 		  } else {
 			  attributeCategoryService.softDeleteAttributeCategoryById(UUID.fromString(ID));
 		  }
@@ -145,11 +151,16 @@ public class AdminAttributeCategoryController {
 	  @RequestMapping(value="/attribute/delete", method = RequestMethod.POST)
 	  public String attributeDelete(@RequestParam(value = "ID", required = false) String ID, 
 			  						@RequestParam(value = "phisycalDelete", required = false) Boolean phisycalDelete,
-			  						Model model) {
+			  						final RedirectAttributes ra) {
 		  Collection<? extends GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
-		  if (phisycalDelete)  { 
+		  if (phisycalDelete != null && phisycalDelete)  { 
 			  AbstractAttribute attribute = attributeCategoryService.loadAttributeById(UUID.fromString(ID), false);
-			  if (attribute.canRemove() && authorities.contains(new SimpleGrantedAuthority("ADMIN"))) attributeCategoryService.deleteAttribute(attribute); 
+			  if (attribute.canRemove() && authorities.contains(new SimpleGrantedAuthority("ADMIN"))){
+				  attributeCategoryService.deleteAttribute(attribute); 
+			  } else {
+				  ra.addFlashAttribute("errormessage", "Нельзя удалить атрибут. Имеются ссылки на другие сущности, либо недостаточно прав.");
+				  ra.addAttribute("error", true);
+			  }
 		  } else {
 			  attributeCategoryService.softDeleteAttributeById(UUID.fromString(ID));
 		  }

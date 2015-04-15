@@ -29,6 +29,24 @@
     </div>
     <div layout:fragment="editForm" >
     </div>
+    <div class="modal fade" id="errorMessageModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+           <div class="modal-header">
+             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+             <h4 class="modal-title"><span th:text="#{admin.errormessagemodal.modalcaption}">Ошибка</span></h4>
+           </div>
+           <div class="modal-body" id = "delete-modal-body">
+			 <div class="alert alert-danger">
+               <span th:text="${errormessage}">Ошибки при выполнении операции</span>
+             </div> 
+           </div> 
+           <div class="modal-footer">
+               <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+           </div> 
+	     </div> 
+	  </div> 
+	</div>
     <!-- Navigation -->
     <nav class="navbar navbar-default navbar-static-top" style="margin-bottom: 0" role="navigation">
 <!--           <div class="container"> -->
@@ -121,6 +139,24 @@
     <script src="../../../resources/bower_components/metisMenu/dist/metisMenu.min.js" th:src="@{/resources/bower_components/metisMenu/dist/metisMenu.min.js}"></script>
     <!-- Custom Theme JavaScript -->
     <script src="../../../resources/js/sb-admin-2.js" th:src="@{/resources/js/sb-admin-2.js}"></script>
+    <script type="text/javascript">
+       //<![CDATA[
+				$.urlParam = function(name){
+				    var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+				    if (results==null){
+				       return null;
+				    }
+				    else{
+				       return results[1] || 0;
+				    }
+				}
+                $(document).ready(function() {
+        	  		if($.urlParam("error")) {
+        	  			$("#errorMessageModal").modal("show");
+        	  		}
+          		});
+       // ]]>
+	</script>
     <th:block layout:fragment="script"> 
     </th:block>
 </body>

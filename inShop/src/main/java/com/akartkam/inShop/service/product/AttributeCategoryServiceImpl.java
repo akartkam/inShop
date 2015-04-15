@@ -140,7 +140,9 @@ public class AttributeCategoryServiceImpl implements AttributeCategoryService {
 
 	@Override
 	public List<AttributeCategory> getAllAttributeCategory() {
-		return attributeCategoryDAO.list();
+		List<AttributeCategory> ctg = attributeCategoryDAO.list();
+		Collections.sort(ctg);
+		return ctg;
 	}
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })

@@ -1,6 +1,7 @@
 package com.akartkam.inShop.service.product;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -50,6 +51,7 @@ public class CategoryServiceImpl implements CategoryService {
 		for(Category rct: getRootCategories(true)) {
 			rct.buildSubCategoryHierarchy(allCategoryHierarchy);
 		}
+		Collections.sort(allCategoryHierarchy);
 		return allCategoryHierarchy;
 	}
 
