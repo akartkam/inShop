@@ -1,17 +1,21 @@
 package com.akartkam.inShop.domain.product.attribute;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.UUID;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Cascade;
 
 import com.akartkam.inShop.domain.AbstractDomainObjectOrdering;
@@ -41,6 +45,8 @@ public class AttributeCategory extends AbstractDomainObjectOrdering {
 
 	@OneToMany(mappedBy = "attributeCategory", cascade = CascadeType.ALL, orphanRemoval=true)
 	@Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE, org.hibernate.annotations.CascadeType.DELETE})
+	@OrderBy("ordering")
+	@BatchSize(size = 10)
 	public List<AbstractAttribute> getAttributes() {
 		return attributes;
 	}
@@ -61,6 +67,20 @@ public class AttributeCategory extends AbstractDomainObjectOrdering {
 	@Transient
 	public boolean hasAttributes() {
 		return !attributes.isEmpty(); 
+	}	
+	
+	@Override
+	@Transient
+	public AttributeCategory clone() throws CloneNotSupportedException {
+		AttributeCategory category = (AttributeCategory) super.clone();
+		category.setId(UUID.randomUUID());
+		category.setName(new String(getName()));
+		category.setCreatedBy(null);
+		category.setCreatedDate(null);
+		category.setUpdatedBy(null);
+		category.setUpdatedDate(null);
+		category.setAttributes(new ArrayList<AbstractAttribute>());
+		return category;
 	}	
 	
 	@Override

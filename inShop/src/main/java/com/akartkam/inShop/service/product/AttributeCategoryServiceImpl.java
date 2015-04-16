@@ -150,11 +150,9 @@ public class AttributeCategoryServiceImpl implements AttributeCategoryService {
         List currentHierarchy = new ArrayList();
         List<AttributeCategory> attributeCateries = getAllAttributeCategory();
         List<AbstractAttribute> attributes;
-        Collections.sort(attributeCateries);
         for (AttributeCategory ctg : attributeCateries) {
         	currentHierarchy.add(ctg);
         	attributes = ctg.getAttributes();
-        	Collections.sort(attributes);
         	for (AbstractAttribute attr : attributes) {
         		currentHierarchy.add(attr);
         	}
@@ -193,6 +191,20 @@ public class AttributeCategoryServiceImpl implements AttributeCategoryService {
 	@Transactional(readOnly = false)
 	public void deleteAttributeCategory(AttributeCategory category) {
 		attributeCategoryDAO.delete(category);
+	}
+	
+	@Override
+	public AttributeCategory cloneAttributeCategoryById(UUID id) throws CloneNotSupportedException {
+		AttributeCategory clonedCategory = getAttributeCategoryById(id);
+		if (clonedCategory == null) return null;
+		return clonedCategory.clone();
+	}
+	
+	@Override
+	public AbstractAttribute cloneAttributeById(UUID id) throws CloneNotSupportedException {
+		AbstractAttribute clonedAttribute = getAttributeById(id);
+		if (clonedAttribute == null) return null;
+		return clonedAttribute.clone();
 	}
 
 }

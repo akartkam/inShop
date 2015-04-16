@@ -25,7 +25,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.akartkam.inShop.domain.product.Category;
-import com.akartkam.inShop.domain.product.attribute.AttributeCategory;
 import com.akartkam.inShop.service.product.CategoryService;
 
 @Controller
@@ -110,7 +109,7 @@ public class AdminCategoryController {
 		  if (phisycalDelete != null && phisycalDelete)  {
 			  Category category = categoryService.loadCategoryById(UUID.fromString(categoryID), false);
 			  if(category.canRemove() && authorities.contains(new SimpleGrantedAuthority("ADMIN"))) {
-				 // categoryService.deleteAttributeCategory(category);   
+				  categoryService.deleteCategory(category);   
 			  } else {
 				  ra.addFlashAttribute("errormessage", "Нельзя удалить категорию. Имеются ссылки на другие сущности, либо недостаточно прав.");
 				  ra.addAttribute("error", true);

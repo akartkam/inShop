@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.akartkam.inShop.domain.product.Category;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
 import com.akartkam.inShop.domain.product.attribute.AttributeCategory;
 import com.akartkam.inShop.domain.product.attribute.AttributeType;
@@ -106,16 +107,24 @@ public class AdminAttributeCategoryController {
 		  }	  
 
 	  @RequestMapping("/add")
-	  public String categoryAdd(Model model) {
-		  AttributeCategory category = new AttributeCategory();
+	  public String categoryAdd(@RequestParam(value = "copyID", required = false) String copyID, Model model) throws CloneNotSupportedException {
+		  AttributeCategory category;
+		  if (copyID != null && !"".equals(copyID)) category = attributeCategoryService.cloneAttributeCategoryById(UUID.fromString(copyID)); 
+		  else category = new AttributeCategory();
  	      model.addAttribute("attributeCategory", category);
           return "/admin/attributeCategoryEdit";		  
 		  }	  
 
 	  @RequestMapping("/attribute/add")
-	  public String attributeAdd(Model model) {
-		  AttributeForm attribute = new AttributeForm();
-		  model.addAttribute("attribute",attribute);		  
+	  public String attributeAdd(@RequestParam(value = "copyID", required = false) String copyID, Model model) throws CloneNotSupportedException {
+		  AttributeForm attributeForm = null;
+		  AbstractAttribute attribute = null;
+		  if (copyID != null && !"".equals(copyID)) {
+			  attribute = attributeCategoryService.cloneAttributeById(UUID.fromString(copyID));
+			  if (attribute != null) attributeForm = new AttributeForm(attribute);  
+		  }  
+		  if(attributeForm == null) attributeForm = new AttributeForm();
+		  model.addAttribute("attribute",attributeForm);		  
           return "/admin/attributeEdit";		  
 	  }	  
 

@@ -32,7 +32,9 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Override
 	public List<Category> getRootCategories(Boolean useDisabled) {
-		return categoryDAO.readRootCategories(useDisabled);
+		List<Category> rcategories = categoryDAO.readRootCategories(useDisabled);
+		Collections.sort(rcategories);
+		return rcategories;
 	}
 
 	@Override
@@ -51,7 +53,6 @@ public class CategoryServiceImpl implements CategoryService {
 		for(Category rct: getRootCategories(true)) {
 			rct.buildSubCategoryHierarchy(allCategoryHierarchy);
 		}
-		Collections.sort(allCategoryHierarchy);
 		return allCategoryHierarchy;
 	}
 
@@ -113,6 +114,18 @@ public class CategoryServiceImpl implements CategoryService {
 		if (clonedCategory == null) return null;
 		return clonedCategory.clone();
 		
+	}
+	
+	@Override
+	@Transactional(readOnly = false)
+	public void deleteCategory(Category category) {
+		Category pcategory = category.getParent();
+		if (pcategory != null) {
+			pcategory.getSubCategory().remove(category);
+			categoryDAO.update(pcategory);
+		} else {
+			categoryDAO.delete(category);
+		}
 	}
 
 }

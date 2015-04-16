@@ -1,6 +1,7 @@
 package com.akartkam.inShop.domain.product;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -78,8 +79,9 @@ public class Category extends AbstractDomainObjectOrdering {
 		this.parent = parent;
 	}
 	
-	@OneToMany(mappedBy="parent", cascade = CascadeType.ALL)
-	@Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
+	@OneToMany(mappedBy="parent", cascade = CascadeType.ALL, orphanRemoval=true)
+	@Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE,
+			  org.hibernate.annotations.CascadeType.DELETE})
 	@OrderBy("ordering")
 	@BatchSize(size = 10)
 	public List<Category> getSubCategory() {
@@ -183,7 +185,7 @@ public class Category extends AbstractDomainObjectOrdering {
         if (hasSubCategory()) {
             for(Category sc: getSubCategory()){
             	if (!currentHierarchy.contains(sc)) {
-            		currentHierarchy.add(sc);	
+            		currentHierarchy.add(sc);
             		sc.buildSubCategoryHierarchy(currentHierarchy);
             	}
             }

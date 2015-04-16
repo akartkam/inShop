@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -26,6 +27,7 @@ import org.hibernate.annotations.Cascade;
 
 import com.akartkam.inShop.domain.AbstractDomainObjectOrdering;
 import com.akartkam.inShop.domain.product.Category;
+import com.akartkam.inShop.domain.product.Product;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -36,7 +38,6 @@ import com.akartkam.inShop.domain.product.Category;
 @Table(name = "Attribute")
 @SuppressWarnings("rawtypes")
 public abstract class AbstractAttribute extends AbstractDomainObjectOrdering {
-
 	/**
 	 * 
 	 */
@@ -99,9 +100,23 @@ public abstract class AbstractAttribute extends AbstractDomainObjectOrdering {
 	
 	@Override
 	@Transient
+	public AbstractAttribute clone() throws CloneNotSupportedException {
+		AbstractAttribute attribute = (AbstractAttribute) super.clone();
+		attribute.setId(UUID.randomUUID());
+		attribute.setName(new String(getName()));
+		attribute.setCreatedBy(null);
+		attribute.setCreatedDate(null);
+		attribute.setUpdatedBy(null);
+		attribute.setUpdatedDate(null);
+		attribute.setCategory(new HashSet<Category>());
+		attribute.setAttributeValues(new ArrayList<AbstractAttributeValue>());
+		return attribute;
+	}	
+	
+	@Override
+	@Transient
 	public boolean canRemove() {
 		return (attributeValues.isEmpty() && category.isEmpty());
-		
 	}
 
 }

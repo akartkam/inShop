@@ -29,24 +29,6 @@
     </div>
     <div layout:fragment="editForm" >
     </div>
-    <div class="modal fade" id="errorMessageModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
-	  <div class="modal-dialog">
-	    <div class="modal-content">
-           <div class="modal-header">
-             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-             <h4 class="modal-title"><span th:text="#{admin.errormessagemodal.modalcaption}">Ошибка</span></h4>
-           </div>
-           <div class="modal-body" id = "delete-modal-body">
-			 <div class="alert alert-danger">
-               <span th:text="${errormessage}">Ошибки при выполнении операции</span>
-             </div> 
-           </div> 
-           <div class="modal-footer">
-               <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
-           </div> 
-	     </div> 
-	  </div> 
-	</div>
     <!-- Navigation -->
     <nav class="navbar navbar-default navbar-static-top" style="margin-bottom: 0" role="navigation">
 <!--           <div class="container"> -->
@@ -88,20 +70,29 @@
 			         </div>
 			       </form> 
                 <ul class="nav navbar-top-links navbar-right">
-              <li class="dropdown">
-                  <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                      <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
-                  </a>
-                  <ul class="dropdown-menu dropdown-user">
-                      <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
-                      </li>
-                      <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
-                      </li>
-                      <li class="divider"></li>
-                      <li>
-                            <a th:href="@{/logout}" ><i class="fa fa-sign-out fa-fw"></i><span th:text="#{login.logout}">Logout</span></a>
-                         </li>
-                        </ul>
+	               <li class="dropdown">
+	                  <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="messages-panel">
+	                     <i class="fa fa-bell fa-fw"></i>  <i class="fa fa-caret-down"></i>
+	                  </a>
+					  <div th:if="${errormessage != null}" class="alert alert-danger alert-dismissable dropdown-menu dropdown-alerts">
+	                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+						 <span th:text="${errormessage}">Ошибки при выполнении операции</span>
+					  </div>
+				   </li>
+                   <li class="dropdown">
+	                  <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+	                      <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
+	                  </a>
+	                  <ul class="dropdown-menu dropdown-user">
+	                      <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
+	                      </li>
+	                      <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+	                      </li>
+	                      <li class="divider"></li>
+	                      <li>
+	                         <a th:href="@{/logout}" ><i class="fa fa-sign-out fa-fw"></i><span th:text="#{login.logout}">Logout</span></a>
+	                      </li>
+	                  </ul>
                 <!-- /.dropdown-user -->
                     </li>
             <!-- /.dropdown -->
@@ -152,7 +143,7 @@
 				}
                 $(document).ready(function() {
         	  		if($.urlParam("error")) {
-        	  			$("#errorMessageModal").modal("show");
+        	  			 $("#messages-panel").dropdown("toggle");
         	  		}
           		});
        // ]]>
