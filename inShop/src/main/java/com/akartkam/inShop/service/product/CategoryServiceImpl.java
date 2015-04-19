@@ -11,8 +11,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.akartkam.inShop.dao.product.CategoryDAO;
 import com.akartkam.inShop.dao.product.ProductDAO;
+import com.akartkam.inShop.dao.product.attribute.AttributeDAO;
 import com.akartkam.inShop.domain.product.Category;
 import com.akartkam.inShop.domain.product.Product;
+import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
 
 @Service("CategoryService")
 @Transactional(readOnly = true)
@@ -23,6 +25,9 @@ public class CategoryServiceImpl implements CategoryService {
 	
 	@Autowired
 	private ProductDAO productDAO;
+	
+	@Autowired
+	private AttributeDAO attributeDAO;
 
 	@Override
 	@Transactional(readOnly = false)
@@ -70,7 +75,7 @@ public class CategoryServiceImpl implements CategoryService {
 	
 	@Override
 	@Transactional(readOnly = false)
-	public void mergeWithExistingAndUpdateOrCreate(final Category categoryFromPost) {
+	public void mergeWithExistingAndUpdateOrCreate(final Category categoryFromPost, final List<String> attributes) {
 		if (categoryFromPost == null) return;
 		final Category existingCategory = getCategoryById(categoryFromPost.getId());
 		if (existingCategory != null) {
@@ -81,6 +86,18 @@ public class CategoryServiceImpl implements CategoryService {
 	        	parentCategory.addSubCategory(existingCategory);
 	        } else { 
 	        	if (existingCategory.getParent() != null)  existingCategory.getParent().removeSubCategory(existingCategory);
+	        }
+	        for (AbstractAttribute attribute : existingCategory.getAttributes()) {
+	        	if (attributes.contains(attribute.getId().toString())) {
+	        		attributes.remove(attribute.getId().toString());
+	        	} else {
+	        	   existingCategory.removeAttribute(attribute);
+	        	}
+	        }
+	        AbstractAttribute attr;
+	        for (String attrId : attributes) {
+	        	attr = attributeDAO.findById(UUID.fromString(attrId), false);
+	        	existingCategory.addAttribute(attr);
 	        }
 	        existingCategory.setDescription(categoryFromPost.getDescription());
 	        existingCategory.setLongDescription(categoryFromPost.getLongDescription());

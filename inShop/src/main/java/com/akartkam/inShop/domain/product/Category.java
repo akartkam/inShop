@@ -142,7 +142,8 @@ public class Category extends AbstractDomainObjectOrdering {
 	}
 	
 	@ManyToMany(mappedBy = "category", cascade = CascadeType.ALL)
-	@Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
+	@Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE,
+		      org.hibernate.annotations.CascadeType.DELETE})
 	public Set<AbstractAttribute> getAttributes() {
 		return attributes;
 	}

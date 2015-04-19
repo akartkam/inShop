@@ -24,6 +24,8 @@
 		 	<link href="../../../resources/css/jquery.treegrid.css" rel="stylesheet" th:href="@{/resources/css/jquery.treegrid.css}"/>
 	    	<!-- summernote -->
 			<link href="../../../resources/css/summernote.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/summernote.css}"/>
+			<!-- bootstrap-select -->
+			<link href="../../../resources/css/bootstrap-select.min.css" rel="stylesheet" th:href="@{/resources/css/bootstrap-select.min.css}"/>
 			<style type="text/css">
 				body {
 				    margin:0;     /* This is used to reset any browser-default margins */
@@ -163,7 +165,7 @@
 									<td> </td>
 									<td> </td>
 								</tr>
-								<tr class="treegrid-3 treegrid-parent-1" th:remove="all">
+								<tr id="Node-1-2" class="treegrid-3 treegrid-parent-1" th:remove="all">
 									<td class="text-center">						
 									       <input class="checkCategory" type="checkbox" id='check-3' value="3"/>
 								    </td>					         
@@ -185,7 +187,7 @@
 									<td class="text-center">						
 									       <input type="checkbox"/>
 								    </td>					         
-									<td>Node 1-2-1</td>
+									<td>Node 1-2-2</td>
 									<td>Additional info</td>
 									<td></td>
 									<td > </td>
@@ -194,7 +196,7 @@
 									<td class="text-center">						
 									       <input type="checkbox"/>
 								    </td>					         
-									<td>Node 1-2-1</td>
+									<td>Node 1-2-3</td>
 									<td>Additional info</td>
 									<td></td>
 									<td > </td>
@@ -203,7 +205,7 @@
 									<td class="text-center">						
 									       <input type="checkbox"/>
 								    </td>					         
-									<td>Node 1-2-1</td>
+									<td>Node 1-2-4</td>
 									<td>Additional info</td>
 									<td></td>
 									<td > </td>
@@ -212,7 +214,7 @@
 									<td class="text-center">						
 									       <input type="checkbox"/>
 								    </td>					         
-									<td>Node 1-2-1</td>
+									<td>Node 1-2-5</td>
 									<td>Additional info</td>
 									<td></td>
 									<td > </td>
@@ -242,6 +244,12 @@
 							        </button>
 							     </div>
 							  </form>
+					        <button id="testbtn" th:remove="all" type="button" class="btn btn-outline btn-default btn-sm">
+					          Test
+					        </button>
+					        <button id="testbtn1" th:remove="all" type="button" class="btn btn-outline btn-default btn-sm">
+					          Test1
+					        </button>							  
 					      </div> 
 					  </div>	  
 			        </div>
@@ -263,6 +271,9 @@
 	    <!-- summernote -->
 	    <script src="../../../resources/js/summernote.js" th:src="@{/resources/js/summernote.js}"></script>
 	    <script src="../../../resources/js/summernote-ru-RU.js" th:src="@{/resources/js/summernote-ru-RU.js}"></script> 
+	    <!-- bootstrap-select -->
+        <script src="../../../resources/js/bootstrap-select.min.js" th:src="@{/resources/js/bootstrap-select.min.js}"></script>
+        <script src="../../../resources/js/defaults-ru_RU.js" th:src="@{/resources/js/defaults-ru_RU.js}"></script>    
 	    <script type="text/javascript">
 	      //<![CDATA[
 	           $(document).ready(function() {
@@ -301,6 +312,21 @@
 					$("#main-panel").css("overflow","auto");
 					$(".treegrid-"+thisId).addClass("info");
   		        });
+  		      $(document).on("click", "#testbtn", function() { 
+  		        	$('#categoryDataTable').find('tr').each(function(){
+  		        	  if ($(this).treegrid('isNode')){
+  		        		$(this).hide();
+  		        	  }
+  		        	});
+  		        });
+  		      $(document).on("click", "#testbtn1", function() { 
+		        	$('#categoryDataTable').find('tr').each(function(){
+		        		if ($(this).treegrid('isNode')){
+	  		        		$(this).treegrid('render');
+	  		        	  }
+		        	});
+		        });
+  		      
   		     // ]]>     
 	     </script>
 	     <!-- <th:block layout:include="admin/categoryEdit :: scriptEditModal"> -->

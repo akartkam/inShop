@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.akartkam.inShop.domain.product.Category;
+import com.akartkam.inShop.service.product.AttributeCategoryService;
 import com.akartkam.inShop.service.product.CategoryService;
 
 @Controller
@@ -34,10 +35,19 @@ public class AdminCategoryController {
 	  @Autowired
 	  CategoryService categoryService;
 	  
+	  @Autowired
+	  AttributeCategoryService attributeCategoryService;
+	  
 	  @ModelAttribute("allCategories")
 	  public List<Category> getAllCategories() {
 	      return categoryService.getAllCategoryHierarchy();
 	  }	  
+	  
+	  @SuppressWarnings("rawtypes")
+	  @ModelAttribute("allAttributeCategories")
+	  public List getAllAttributeCategoriesHierarchy() {
+	      return attributeCategoryService.getAllAttributeCategory();
+	  }
  
 	  @InitBinder
 	  public void initBinder(WebDataBinder binder) {
@@ -123,7 +133,7 @@ public class AdminCategoryController {
 	  
 
 	   @RequestMapping(value="/edit", method = RequestMethod.POST )
-	   public String saveCategory(
+	   public String saveCategory(   @RequestParam(value="attributesSelected", required=false) List<String> attributes,
 			                         @ModelAttribute @Valid Category category,
 			                         final BindingResult bindingResult,
 			                         final RedirectAttributes ra
@@ -133,7 +143,7 @@ public class AdminCategoryController {
 	        	ra.addFlashAttribute("org.springframework.validation.BindingResult.category", bindingResult);
 	            return "redirect:/admin/catalog/category/edit";
 	        }
-	        categoryService.mergeWithExistingAndUpdateOrCreate(category);
+	        categoryService.mergeWithExistingAndUpdateOrCreate(category, attributes);
 	        return "redirect:/admin/catalog/category";
 	    }
 	  

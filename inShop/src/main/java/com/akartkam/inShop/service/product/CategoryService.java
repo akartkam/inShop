@@ -20,6 +20,6 @@ public interface CategoryService {
 	void updateCategory(Category category);
 	void deleteCategory(Category category);
 	void softDeleteCategoryById(UUID id);
-	void mergeWithExistingAndUpdateOrCreate(final Category categoryFromPost);
+	void mergeWithExistingAndUpdateOrCreate(final Category categoryFromPost, final List<String> attributes);
 	Category cloneCategoryById(UUID id) throws CloneNotSupportedException;
 }
