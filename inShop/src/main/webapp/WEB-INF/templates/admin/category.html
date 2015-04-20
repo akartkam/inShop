@@ -39,6 +39,9 @@
 				    text-overflow: ellipsis;
 				    white-space: nowrap;
 				 }
+			     mark {
+			        background: #ffec82;
+			     }
 			</style>
 	</head>
 <body>
@@ -205,7 +208,7 @@
 									<td class="text-center">						
 									       <input type="checkbox"/>
 								    </td>					         
-									<td>Node 1-2-4</td>
+									<td><span>Node 1-2-4</span></td>
 									<td>Additional info</td>
 									<td></td>
 									<td > </td>
@@ -249,7 +252,8 @@
 					        </button>
 					        <button id="testbtn1" th:remove="all" type="button" class="btn btn-outline btn-default btn-sm">
 					          Test1
-					        </button>							  
+					        </button>	
+					        <input type="text" id="searchTerm" onkeyup="searchOn(this)" />						  
 					      </div> 
 					  </div>	  
 			        </div>
@@ -312,13 +316,29 @@
 					$("#main-panel").css("overflow","auto");
 					$(".treegrid-"+thisId).addClass("info");
   		        });
-  		      $(document).on("click", "#testbtn", function() { 
+  		       function searchOn (input) {
+  		    	var searchText = input.value;
+  		    	   console.log(searchText);
   		        	$('#categoryDataTable').find('tr').each(function(){
-  		        	  if ($(this).treegrid('isNode')){
-  		        		$(this).hide();
+  		              var found = false
+  		              var row = $(this)[0];
+  		              var index = row.rowIndex;
+  		              if (index < 2) return true;
+  		        	  for (var i=0; i < row.cells.length; i++) {
+  		        		$(row.cells[i]).html($(row.cells[i]).html().replace('<mark>','').replace('</mark>','')); 
   		        	  }
+  		              for (var i=0; i < row.cells.length; i++) {
+  		        		var ctext = $(row.cells[i]).html();
+  		        		  if (ctext.indexOf(searchText)>0 && ctext.indexOf('<mark>')<0) {
+  		        			  console.log(ctext);
+  		        			$(row.cells[i]).html(ctext.replace(searchText,'<mark>'+searchText+'</mark>')); 
+  		        		  } 
+  		        	  }
+		        		//if (found) {
+		        		//	checkNode(row);	
+		        		//} else $(this).hide();
   		        	});
-  		        });
+  		        };
   		      $(document).on("click", "#testbtn1", function() { 
 		        	$('#categoryDataTable').find('tr').each(function(){
 		        		if ($(this).treegrid('isNode')){
@@ -326,6 +346,12 @@
 	  		        	  }
 		        	});
 		        });
+  		      function checkNode(node) {
+  		    	  $(node).treegrid('expand');
+  		    	  $(node).show();
+  		    	  var parent = $(node).treegrid('getParentNode');
+  		    	  if (parent != null) checkNode(parent);
+  		      }
   		      
   		     // ]]>     
 	     </script>
