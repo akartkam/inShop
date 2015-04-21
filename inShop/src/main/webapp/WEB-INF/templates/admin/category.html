@@ -39,7 +39,7 @@
 				    text-overflow: ellipsis;
 				    white-space: nowrap;
 				 }
-				.found{
+				mark {
 					border: 1px dashed black; !important;
 				 }
 			</style>
@@ -139,7 +139,7 @@
 									    <input class="checkCategory" type="checkbox" th:id="${'check-'+ct.id}" th:value="${ct.id}"/>
 								  </td>					         
 								  <td class="mightOverflow domain-col"><span class="for-border" th:text="${ct.name}">Root category 1</span></td>
-					              <td class="mightOverflow domain-col"><span class="for-border" th:text="${ct.description}">Root category description 1</span>></td>
+					              <td class="mightOverflow domain-col"><span class="for-border" th:text="${ct.description}">Root category description 1</span></td>
 					              <td class="text-center"><i th:class="${{ct.enabled} ? 'fa fa-check-circle' : ''}"></i></td>
 					              <td class="text-center">
 					                <div class="row">
@@ -343,7 +343,12 @@
   		            if (row.rowIndex < 2) return true;
   		        	for (var i=0; i < row.cells.length; i++) {
     		        		$(this).css("background", ""); 
-    		        		$(row.cells[i]).find("span").removeClass("found");
+		        			$(row.cells[i]).find("span").each(function(){ 
+  		        				if ($(this).hasClass("for-border")) { 
+  		        					$(this).html($(this).html().replace("<mark>", ""));
+  		        					$(this).html($(this).html().replace("</mark>", ""));
+  		        				}
+  		        			   });
     		        	  } 		              
   		    	   });
   		       });
@@ -359,15 +364,21 @@
   		              if (row.rowIndex < 2) return true;
   		        	  for (var i=0; i < row.cells.length; i++) {
   		        		$(this).css("background", "");
-  		        		$(row.cells[i]).find("span").removeClass("found");
+		        			$(row.cells[i]).find("span").each(function(){ 
+  		        				if ($(this).hasClass("for-border")) { 
+  		        					$(this).html($(this).html().replace("<mark>", ""));
+  		        					$(this).html($(this).html().replace("</mark>", ""));
+  		        				}
+  		        			   });
   		        	  }
   		              for (var i=0; i < row.cells.length; i++) {
   		        		  if ($(row.cells[i]).text().indexOf(searchText)>=0) {
   		        			$(this).css("background", "#ffec82");
   		        			$(row.cells[i]).find("span").each(function(){ 
-  		        				if ($(this).hasClass("for-border")) $(this).addClass("found");
-  		        			   }	
-  		        			)
+  		        				if ($(this).hasClass("for-border")) { 
+  		        					 $(this).html($(this).html().replace(searchText, "<mark>"+searchText+"</mark>"));
+  		        				}
+  		        			   });
   		        			var parent = $(this).treegrid("getParentNode");
   		        			if (parent != null) checkNode(parent);
   		        		  } 
