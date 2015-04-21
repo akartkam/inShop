@@ -39,9 +39,9 @@
 				    text-overflow: ellipsis;
 				    white-space: nowrap;
 				 }
-			     mark {
-			        background: #ffec82;
-			     }
+				.found{
+					border: 1px dashed black; !important;
+				 }
 			</style>
 	</head>
 <body>
@@ -104,127 +104,146 @@
 	           <div class="panel-heading">
 	               <span th:text="#{admin.catalog.category}" >Categories</span>
 	           </div> 	 
- 	           <div class="panel-body" id="main-panel">    
-				      <table class="tree table table-striped table-bordered table-hover table-condensed table-responsive" id="categoryDataTable" data-checkid="">
-				        <thead >
-					      <tr >
-					         <th class="col-md-1"> </th>
-				             <th class="col-md-5" th:text="#{admin.catalog.category.name}">Name</th>
-				             <th class="col-md-4" th:text="#{admin.catalog.category.description}">Description</th>
-				             <th class="col-md-1 text-center" th:text="#{admin.catalog.category.enabled}">Enabled?</th>
-				             <th class="col-md-1" th:text="#{admin.catalog.category.actions}">Actions</th>
-				  	      </tr>
-				 	    </thead>
-				 	    <tbody>      
-					       <tr th:each="ct : ${allCategories}" 
-					              th:class="${'treegrid-'+{ct.id}+{{ct.parent != null} ? ' treegrid-parent-'+{ct.parent.id} : ''}+' '+{{!ct.enabled} ? 'text-muted' : ''}}">
-							  <td class="text-center">						
-								    <input class="checkCategory" type="checkbox" th:id="${'check-'+ct.id}" th:value="${ct.id}"/>
-							  </td>					         
-							  <td class="mightOverflow domain-col" th:text="${ct.name}">Root category 1</td>
-				              <td class="mightOverflow domain-col" th:text="${ct.description}">Root category description 1</td>
-				              <td class="text-center"><i th:class="${{ct.enabled} ? 'fa fa-check-circle' : ''}"></i></td>
-				              <td class="text-center">
-				                <div class="row">
-					          	  <form role="form">
-  				            	  		 <div class="btn-group" role="group" > 
-			                                  <button type="submit" class="open-editDialog btn btn-outline btn-default btn-xs" 
-			                                          name="categoryID" th:value="${ct.id}"
-			                                          th:formaction="@{/admin/catalog/category/edit}"> 
-			                                    <i class="fa fa-pencil"></i>
-			                                  </button>	
-			                                  <button type="submit" class="open-editDialog btn btn-outline btn-default btn-xs" 
-			                                          name="copyCategoryID" th:value="${ct.id}"
-			                                          th:formaction="@{/admin/catalog/category/add}"> 
-			                                    <i class="fa fa-copy"></i>
-			                                  </button>
-				                              <button th:disabled="${!ct.enabled}" type="button" data-toggle="modal" data-target="#deleteModal" 
-				                                      class="open-deleteDialog btn btn-outline btn-default btn-xs"
-				                                      th:attr="data-id=${ct.id}, data-name=${ct.name}"> 
-				                                <i class="fa fa-trash-o"></i>
-				                              </button>	
-		                            	 </div>  
-		                              </form>
-		                            </div>  
-	                              <!--  th:href="${'category/edit/'+ct.id}"> -->	 
-				               </td>
-					        </tr>
-					        <th:block th:remove="all">
-								<tr class="treegrid-1" th:remove="all">
-									<td class="text-center">						
-									       <input class="checkCategory" type="checkbox" id='check-1' value="1"/>
-								    </td>					         
-									<td class="mightOverflow domain-col">Root node about rebit than eat the wolf then eat the bear then eat the elefant</td>
-									<td class="mightOverflow domain-col">Additional info</td>
-									<td class="text-center">Yes</td>
-									<td class="text-center"></td>
-								</tr>
-								<tr class="treegrid-2 treegrid-parent-1" th:remove="all">
-									<td class="text-center">						
-									       <input class="checkCategory" type="checkbox" id='check-2' value="2"/>
-								    </td>					         
-									<td>Node 1-1</td>
-									<td>Additional info</td>
-									<td> </td>
-									<td> </td>
-								</tr>
-								<tr id="Node-1-2" class="treegrid-3 treegrid-parent-1" th:remove="all">
-									<td class="text-center">						
-									       <input class="checkCategory" type="checkbox" id='check-3' value="3"/>
-								    </td>					         
-									<td>Node 1-2</td>
-									<td>Additional info</td>
-									<td></td>
-									<td > </td>
-								</tr>
-								<tr class="treegrid-4 treegrid-parent-3" th:remove="all">
-									<td class="text-center">						
-									       <input type="checkbox"/>
-								    </td>					         
-									<td>Node 1-2-1</td>
-									<td>Additional info</td>
-									<td></td>
-									<td > </td>
-								</tr>
-								<tr class="treegrid-5 treegrid-parent-3" th:remove="all">
-									<td class="text-center">						
-									       <input type="checkbox"/>
-								    </td>					         
-									<td>Node 1-2-2</td>
-									<td>Additional info</td>
-									<td></td>
-									<td > </td>
-								</tr>
-								<tr class="treegrid-6 treegrid-parent-3" th:remove="all">
-									<td class="text-center">						
-									       <input type="checkbox"/>
-								    </td>					         
-									<td>Node 1-2-3</td>
-									<td>Additional info</td>
-									<td></td>
-									<td > </td>
-								</tr>
-								<tr class="treegrid-7 treegrid-parent-3" th:remove="all">
-									<td class="text-center">						
-									       <input type="checkbox"/>
-								    </td>					         
-									<td><span>Node 1-2-4</span></td>
-									<td>Additional info</td>
-									<td></td>
-									<td > </td>
-								</tr>
-								<tr class="treegrid-8 treegrid-parent-3" th:remove="all">
-									<td class="text-center">						
-									       <input type="checkbox"/>
-								    </td>					         
-									<td>Node 1-2-5</td>
-									<td>Additional info</td>
-									<td></td>
-									<td > </td>
-								</tr>								
-							</th:block>
-				        </tbody>
-				      </table> 
+ 	           <div class="panel-body" id="main-panel">  
+ 	                  <div class="row" style="margin-bottom:10px;">
+ 	                      <div class="col-md-4">
+							<div class="input-group">
+							  <input type="text" id="searchTerm" class="form-control" aria-label="..."/>
+							  <div class="input-group-btn">
+								<button id="doSearch" type="button" class="btn btn-default">
+									<i class="fa fa-search"></i>
+								</button>
+								<button id="clearSearch" type="button" class="btn btn-default" >
+									<i class="fa fa-times"></i>
+								</button>
+							  </div>
+							</div>
+ 	                      </div>
+ 	                  </div>  
+ 	                  <div class="row">
+ 	                    <div class="col-md-12">
+					      <table class="tree table table-striped table-bordered table-hover table-condensed table-responsive" id="categoryDataTable" data-checkid="">
+					        <thead >
+						      <tr >
+						         <th class="col-md-1"> </th>
+					             <th class="col-md-5" th:text="#{admin.catalog.category.name}">Name</th>
+					             <th class="col-md-4" th:text="#{admin.catalog.category.description}">Description</th>
+					             <th class="col-md-1 text-center" th:text="#{admin.catalog.category.enabled}">Enabled?</th>
+					             <th class="col-md-1" th:text="#{admin.catalog.category.actions}">Actions</th>
+					  	      </tr>
+					 	    </thead>
+					 	    <tbody>      
+						       <tr th:each="ct : ${allCategories}" 
+						              th:class="${'treegrid-'+{ct.id}+{{ct.parent != null} ? ' treegrid-parent-'+{ct.parent.id} : ''}+' '+{{!ct.enabled} ? 'text-muted' : ''}}">
+								  <td class="text-center">						
+									    <input class="checkCategory" type="checkbox" th:id="${'check-'+ct.id}" th:value="${ct.id}"/>
+								  </td>					         
+								  <td class="mightOverflow domain-col"><span class="for-border" th:text="${ct.name}">Root category 1</span></td>
+					              <td class="mightOverflow domain-col"><span class="for-border" th:text="${ct.description}">Root category description 1</span>></td>
+					              <td class="text-center"><i th:class="${{ct.enabled} ? 'fa fa-check-circle' : ''}"></i></td>
+					              <td class="text-center">
+					                <div class="row">
+						          	  <form role="form">
+	  				            	  		 <div class="btn-group" role="group" > 
+				                                  <button type="submit" class="open-editDialog btn btn-outline btn-default btn-xs" 
+				                                          name="categoryID" th:value="${ct.id}"
+				                                          th:formaction="@{/admin/catalog/category/edit}"> 
+				                                    <i class="fa fa-pencil"></i>
+				                                  </button>	
+				                                  <button type="submit" class="open-editDialog btn btn-outline btn-default btn-xs" 
+				                                          name="copyCategoryID" th:value="${ct.id}"
+				                                          th:formaction="@{/admin/catalog/category/add}"> 
+				                                    <i class="fa fa-copy"></i>
+				                                  </button>
+					                              <button th:disabled="${!ct.enabled}" type="button" data-toggle="modal" data-target="#deleteModal" 
+					                                      class="open-deleteDialog btn btn-outline btn-default btn-xs"
+					                                      th:attr="data-id=${ct.id}, data-name=${ct.name}"> 
+					                                <i class="fa fa-trash-o"></i>
+					                              </button>	
+			                            	 </div>  
+			                              </form>
+			                            </div>  
+		                              <!--  th:href="${'category/edit/'+ct.id}"> -->	 
+					               </td>
+						        </tr>
+						        <th:block th:remove="all">
+									<tr class="treegrid-1" th:remove="all">
+										<td class="text-center">						
+										       <input class="checkCategory" type="checkbox" id='check-1' value="1"/>
+									    </td>					         
+										<td class="mightOverflow domain-col">Root node about rebit than eat the wolf then eat the bear then eat the elefant</td>
+										<td class="mightOverflow domain-col">Additional info</td>
+										<td class="text-center">Yes</td>
+										<td class="text-center"></td>
+									</tr>
+									<tr class="treegrid-2 treegrid-parent-1" th:remove="all">
+										<td class="text-center">						
+										       <input class="checkCategory" type="checkbox" id='check-2' value="2"/>
+									    </td>					         
+										<td>Node 1-1</td>
+										<td>Additional info</td>
+										<td> </td>
+										<td> </td>
+									</tr>
+									<tr id="Node-1-2" class="treegrid-3 treegrid-parent-1" th:remove="all">
+										<td class="text-center">						
+										       <input class="checkCategory" type="checkbox" id='check-3' value="3"/>
+									    </td>					         
+										<td>Node 1-2</td>
+										<td>Additional info</td>
+										<td></td>
+										<td > </td>
+									</tr>
+									<tr class="treegrid-4 treegrid-parent-3" th:remove="all">
+										<td class="text-center">						
+										       <input type="checkbox"/>
+									    </td>					         
+										<td>Node 1-2-1</td>
+										<td>Additional info</td>
+										<td></td>
+										<td > </td>
+									</tr>
+									<tr class="treegrid-5 treegrid-parent-3" th:remove="all">
+										<td class="text-center">						
+										       <input type="checkbox"/>
+									    </td>					         
+										<td>Node 1-2-2</td>
+										<td>Additional info</td>
+										<td></td>
+										<td > </td>
+									</tr>
+									<tr class="treegrid-6 treegrid-parent-3" th:remove="all">
+										<td class="text-center">						
+										       <input type="checkbox"/>
+									    </td>					         
+										<td><span class="for-border">Node 1-2-3</span></td>
+										<td>Additional info</td>
+										<td></td>
+										<td > </td>
+									</tr>
+									<tr class="treegrid-7 treegrid-parent-3" th:remove="all">
+										<td class="text-center">						
+										       <input type="checkbox"/>
+									    </td>					         
+										<td><span>Node 1-2-4</span></td>
+										<td>Additional info</td>
+										<td></td>
+										<td > </td>
+									</tr>
+									<tr class="treegrid-8 treegrid-parent-3" th:remove="all">
+										<td class="text-center">						
+										       <input type="checkbox"/>
+									    </td>					         
+										<td>Node 1-2-5</td>
+										<td>Additional info</td>
+										<td></td>
+										<td > </td>
+									</tr>								
+								</th:block>
+					         </tbody>
+					       </table> 
+					     </div> 
+					    </div>  
 				      <p/> 
 			         </div> 
 			         <div class="panel-footer">
@@ -247,13 +266,12 @@
 							        </button>
 							     </div>
 							  </form>
-					        <button id="testbtn"  type="button" class="btn btn-outline btn-default btn-sm" onclick="searchOn()">
+					        <button id="testbtn"  th:remove="all" type="button" class="btn btn-outline btn-default btn-sm" onclick="searchOn()">
 					          Test
 					        </button>
 					        <button id="testbtn1" th:remove="all" type="button" class="btn btn-outline btn-default btn-sm">
 					          Test1
 					        </button>	
-					        <input type="text" id="searchTerm"  />						  
 					      </div> 
 					  </div>	  
 			        </div>
@@ -316,35 +334,48 @@
 					$("#main-panel").css("overflow","auto");
 					$(".treegrid-"+thisId).addClass("info");
   		        });
-  		       function searchOn () {
-  		    	var searchText = $("#searchTerm").val();
+  		        
+  		      $(document).on("click", "#clearSearch", function() {
+	    		    $("#searchTerm").val("");
+  		   		    $("#searchTerm").attr("placeholder","");
+  		    	    $('#categoryDataTable').find('tr').each(function(){
+ 		            var row = $(this)[0];
+  		            if (row.rowIndex < 2) return true;
+  		        	for (var i=0; i < row.cells.length; i++) {
+    		        		$(this).css("background", ""); 
+    		        		$(row.cells[i]).find("span").removeClass("found");
+    		        	  } 		              
+  		    	   });
+  		       });
+		      $(document).on("keyup", "#searchTerm", function(event) {
+	  		    	if (event.which == 13){
+	  		          $("#doSearch").trigger("click");
+	  		       }  
+	  		      });
+  		      $(document).on("click", "#doSearch", function() {
+  		    	    var searchText = $("#searchTerm").val();
   		        	$('#categoryDataTable').find('tr').each(function(){
-  		              var found = false
   		              var row = $(this)[0];
-  		              var index = row.rowIndex;
-  		              if (index < 2) return true;
+  		              if (row.rowIndex < 2) return true;
   		        	  for (var i=0; i < row.cells.length; i++) {
-  		        		$(this).css("background", ""); 
+  		        		$(this).css("background", "");
+  		        		$(row.cells[i]).find("span").removeClass("found");
   		        	  }
   		              for (var i=0; i < row.cells.length; i++) {
   		        		  if ($(row.cells[i]).text().indexOf(searchText)>=0) {
   		        			$(this).css("background", "#ffec82");
+  		        			$(row.cells[i]).find("span").each(function(){ 
+  		        				if ($(this).hasClass("for-border")) $(this).addClass("found");
+  		        			   }	
+  		        			)
   		        			var parent = $(this).treegrid("getParentNode");
   		        			if (parent != null) checkNode(parent);
   		        		  } 
   		        	  }
-		        		//if (found) {
-		        		//	checkNode(row);	
-		        		//} else $(this).hide();
   		        	});
-  		        };
-  		      $(document).on("click", "#testbtn1", function() { 
-		        	$('#categoryDataTable').find('tr').each(function(){
-		        		if ($(this).treegrid('isNode')){
-	  		        		$(this).treegrid('render');
-	  		        	  }
-		        	});
-		        });
+  		        	$("#searchTerm").attr("placeholder",searchText);
+  		        });
+  		      
   		      function checkNode(node) {
   		    	  $(node).treegrid('expand');
   		    	  var parent = $(node).treegrid('getParentNode');
