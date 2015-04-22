@@ -76,8 +76,14 @@
 	     </div> 
 	  </div> 
 	</div>
-    <div layout:fragment="editForm" >
-    </div>
+    <!-- <div layout:fragment="editForm" >
+    </div>-->
+    <div layout:fragment="editForm" class="modal fade" id="editForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	        </div> <!-- /.modal-content -->
+	    </div> <!-- /.modal-dialog -->
+	</div> <!-- /.modal -->
     <th:block th:remove="all">
 	   <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
 		  <div class="modal-dialog">
@@ -145,11 +151,17 @@
 					                <div class="row">
 						          	  <form role="form">
 	  				            	  		 <div class="btn-group" role="group" > 
-				                                  <button type="submit" class="open-editDialog btn btn-outline btn-default btn-xs" 
+<!-- 				                                  <button type="submit" class="open-editDialog btn btn-outline btn-default btn-xs" 
 				                                          name="categoryID" th:value="${ct.id}"
 				                                          th:formaction="@{/admin/catalog/category/edit}"> 
 				                                    <i class="fa fa-pencil"></i>
-				                                  </button>	
+				                                  </button> -->	
+				                                  <button type="button" class="open-editDialog btn btn-outline btn-default btn-xs"
+				                                  		  data-toggle="modal"
+				                                          data-target="#editForm" 
+				                                          th:href="@{/admin/catalog/category/edit}+'?categoryID='+${ct.id}"> 
+				                                    <i class="fa fa-pencil"></i>
+				                                  </button>				                                  
 				                                  <button type="submit" class="open-editDialog btn btn-outline btn-default btn-xs" 
 				                                          name="copyCategoryID" th:value="${ct.id}"
 				                                          th:formaction="@{/admin/catalog/category/add}"> 

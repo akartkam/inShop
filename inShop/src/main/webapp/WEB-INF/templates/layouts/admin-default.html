@@ -23,8 +23,26 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <style type="text/css">
+    #mydiv{
+	    display: none;
+	    width:64px;
+	    height: 64px;
+	    position: fixed;
+	    top: 60%;
+	    left: 50%;
+	    text-align:center;
+	    margin-left: -50px;
+	    margin-top: -100px;
+	    z-index:2;
+    	overflow: auto;
+    	}
+    </style>
 </head>
 <body>
+	<div id="mydiv">
+	  <img src="../../../resources/img/ajax/ajax-loader.gif"/>
+	</div>
     <div layout:fragment="deleteForm" >
     </div>
     <div layout:fragment="editForm" >
@@ -132,7 +150,7 @@
     <script src="../../../resources/js/sb-admin-2.js" th:src="@{/resources/js/sb-admin-2.js}"></script>
     <script type="text/javascript">
        //<![CDATA[
-				$.urlParam = function(name){
+                  $.urlParam = function(name){
 				    var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
 				    if (results==null){
 				       return null;
@@ -146,6 +164,8 @@
         	  			 $("#messages-panel").dropdown("toggle");
         	  		}
           		});
+                
+                
        // ]]>
 	</script>
     <th:block layout:fragment="script"> 
