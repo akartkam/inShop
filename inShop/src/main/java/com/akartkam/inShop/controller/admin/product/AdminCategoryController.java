@@ -3,6 +3,7 @@ package com.akartkam.inShop.controller.admin.product;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 import java.beans.PropertyEditorSupport;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
@@ -19,6 +20,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -93,11 +95,15 @@ public class AdminCategoryController {
 	   */
 	   
 	  @RequestMapping("/edit")
-	  public String categoryEdit(@RequestParam(value = "categoryID", required = false) String categoryID, Model model) {
+	  public String categoryEdit(@RequestParam(value = "categoryID", required = false) String categoryID, Model model,
+			   					 @RequestHeader(value = "X-Requested-With", required = false) String requestedWith) {
 		  if(!model.containsAttribute("category")) {
 			 Category category = categoryService.getCategoryById(UUID.fromString(categoryID));
 		     model.addAttribute("category", category);
 		  }
+          if ("XMLHttpRequest".equals(requestedWith)) {
+              return "/admin/categoryEdit :: editCategoryForm";
+            }		  
           return "/admin/categoryEdit";		  
 		  }	  
 
@@ -143,6 +149,7 @@ public class AdminCategoryController {
 	        	ra.addFlashAttribute("org.springframework.validation.BindingResult.category", bindingResult);
 	            return "redirect:/admin/catalog/category/edit";
 	        }
+	        if (attributes == null) attributes = new ArrayList<String>(0); 
 	        categoryService.mergeWithExistingAndUpdateOrCreate(category, attributes);
 	        return "redirect:/admin/catalog/category";
 	    }

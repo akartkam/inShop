@@ -3,32 +3,34 @@
                 xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 	<head>
 	<!-- layout:decorator="admin/category" -->
-	  <th:block th:remove="all">
-		<title>inShop Admin Category</title>
-	    <meta charset="utf-8"/>
-	    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-	    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-	    <meta name="description" content=""/>
-	    <meta name="author" content=""/>
-	
-	    <!-- Bootstrap Core CSS -->
-	    <link href="../../../resources/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" th:href="@{/resources/bower_components/bootstrap/dist/css/bootstrap.min.css}"/>
-		<!-- Treegrid -->
-	 	<link href="../../../resources/css/jquery.treegrid.css" rel="stylesheet" th:href="@{/resources/css/jquery.treegrid.css}"/>
-	    <!-- Custom Fonts -->
-    	<link href="../../../resources/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/font-awesome/css/font-awesome.min.css}"/>
-		<link href="../../../resources/bower_components/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/bootstrap/dist/css/bootstrap-theme.min.css}"></link>    	
-		<link href="../../../resources/css/summernote.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/summernote.css}"></link>
-    	<link href="../../../resources/css/sb-admin-2.css" rel="stylesheet" th:href="@{/resources/css/sb-admin-2.css}"/>
-    	<!-- bootstrap-select -->
-		<link href="../../../resources/css/bootstrap-select.min.css" rel="stylesheet" th:href="@{/resources/css/bootstrap-select.min.css}"/>
-      </th:block>	
+	    <th:block th:remove="all">
+			<title>inShop Admin Category</title>
+		    <meta charset="utf-8"/>
+		    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+		    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+		    <meta name="description" content=""/>
+		    <meta name="author" content=""/>
+		
+		    <!-- Bootstrap Core CSS -->
+		    <link href="../../../resources/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" th:href="@{/resources/bower_components/bootstrap/dist/css/bootstrap.min.css}"/>
+			<!-- Treegrid -->
+		 	<link href="../../../resources/css/jquery.treegrid.css" rel="stylesheet" th:href="@{/resources/css/jquery.treegrid.css}"/>
+		    <!-- Custom Fonts -->
+	    	<link href="../../../resources/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/font-awesome/css/font-awesome.min.css}"/>
+			<link href="../../../resources/bower_components/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/bootstrap/dist/css/bootstrap-theme.min.css}"></link>    	
+	    </th:block>
+        <th:block th:fragment="linkEditModal">
+			<link href="../../../resources/css/summernote.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/summernote.css}"></link>
+	    	<link href="../../../resources/css/sb-admin-2.css" rel="stylesheet" th:href="@{/resources/css/sb-admin-2.css}"/>
+	    	<!-- bootstrap-select -->
+			<link href="../../../resources/css/bootstrap-select.min.css" rel="stylesheet" th:href="@{/resources/css/bootstrap-select.min.css}"/>
+		</th:block>
 	</head>
 <body>
   <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true" layout:fragment="editForm">
     <div class="modal-dialog">
-	   <div class="modal-content" id="editModalContent" >
-	   <form method="post" class="form-horizontal" role="form" action="#" th:action="@{/admin/catalog/category/edit}" th:object="${category}">
+	   <div class="modal-content" id="editModalContent">
+	   <form method="post" class="form-horizontal" role="form" action="#" th:action="@{/admin/catalog/category/edit}" th:object="${category}" th:fragment="editCategoryForm">
 		   <div class="modal-header">
 	 					<button type="button" class="close" th:onclick="'window.location=\''+@{/admin/catalog/category}+'\''"
 					aria-hidden="true">&times;</button>
@@ -74,7 +76,7 @@
 							   		   </label>
 			  						   <!--<div id="summernote" class="form-control" th:field="*{longDescription}">Long Description 1</div>-->
 			  						   <!--<textarea id="longDescrTextArea" class="textarea" placeholder="Enter text ..." style="width: 100%; height: 200px; font-size: 14px; line-height: 18px;" th:field="*{longDescription}"></textarea>-->
-									   <textarea id="summernote" class="textarea form-control" placeholder="Введите текст..." th:field="*{longDescription}"></textarea>	  						   
+								       <textarea id="summernote" class="textarea form-control" placeholder="Введите текст..." th:field="*{longDescription}"></textarea>
 		  						   </div>
 	             		</div>
 	                    <div class="tab-pane fade" id="additional">
@@ -126,9 +128,10 @@
 		    </div>
 		 <!-- /modal-body -->
 	 	    <div class="modal-footer">
-	 		  <button type="button" class="btn btn-default"  
+	 		  <!-- <button type="button" class="btn btn-default"  
 	 		          th:text="#{admin.catalog.category.edit.button.close}"
-	 		          th:onclick="'window.location=\''+@{/admin/catalog/category}+'\''">Close</button>
+	 		          th:onclick="'window.location=\''+@{/admin/catalog/category}+'\''">Close</button> -->
+	 		  <button type="button" class="btn btn-default" data-dismiss="modal" th:text="#{admin.catalog.category.edit.button.close}">Close</button>        
 			  <button type="submit" class="btn btn-primary" th:text="#{admin.catalog.category.edit.button.save}">Save changes</button>
 		    </div>  
 		 <!-- /modal-footer -->
@@ -140,26 +143,25 @@
    <script src="../../../resources/bower_components/jquery/dist/jquery.min.js" th:src="@{/resources/bower_components/jquery/dist/jquery.min.js}"></script>
    <!-- Bootstrap Core JavaScript -->
    <script src="../../../resources/bower_components/bootstrap/dist/js/bootstrap.min.js" th:src="@{/resources/bower_components/bootstrap/dist/js/bootstrap.min.js}"></script>
-   <!-- Bootstrap bootstrap-wysiwyg.js -->
-   <script src="../../../resources/js/summernote.js" th:src="@{/resources/js/summernote.js}"></script>
-   <script src="../../../resources/js/summernote-ru-RU.js" th:src="@{/resources/js/summernote-ru-RU.js}"></script> 
-    <!-- bootstrap-select -->
-   <script src="../../../resources/js/bootstrap-select.min.js" th:src="@{/resources/js/bootstrap-select.min.js}"></script>
-   <script src="../../../resources/js/defaults-ru_RU.js" th:src="@{/resources/js/defaults-ru_RU.js}"></script>       
-   <th:block layout:fragment="scriptEditModal"> 
-	   <script type="text/javascript">
-		     $(document).ready(function() {
-		    	 $("#editModal").on("show.bs.modal", function (e) {
-		                                $("#summernote").summernote({
-		            					    lang: "ru-RU"
-		              				     });
-		                                $("#name").focus();
-	             });
-		    	 //$("#editModal11111").modal("show");
-			});
-			  
-	   </script>
+   <th:block th:fragment="scriptEditModal">
+	   <!-- Bootstrap bootstrap-wysiwyg.js -->
+	   <script src="../../../resources/js/summernote.js" th:src="@{/resources/js/summernote.js}"></script>
+	   <script src="../../../resources/js/summernote-ru-RU.js" th:src="@{/resources/js/summernote-ru-RU.js}"></script> 
+	    <!-- bootstrap-select -->
+	   <script src="../../../resources/js/bootstrap-select.min.js" th:src="@{/resources/js/bootstrap-select.min.js}"></script>
+	   <script src="../../../resources/js/defaults-ru_RU.js" th:src="@{/resources/js/defaults-ru_RU.js}"></script>
    </th:block>
+   	   <script type="text/javascript">
+	     $(document).ready(function() {
+	    	 $("#editModal").modal("show");
+		});
+ 		$("#editModal").on("show.bs.modal", function (e) {
+                            $('#summernote').summernote({
+        					    lang: "ru-RU"
+          				     });
+                            //$(".selectpicker").selectpicker();
+                   });
+	   </script>
 </body>
 </html>
 

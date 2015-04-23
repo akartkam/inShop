@@ -24,8 +24,7 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
     <style type="text/css">
-    #mydiv{
-	    display: none;
+    #ajaxlogo{
 	    width:64px;
 	    height: 64px;
 	    position: fixed;
@@ -40,8 +39,8 @@
     </style>
 </head>
 <body>
-	<div id="mydiv">
-	  <img src="../../../resources/img/ajax/ajax-loader.gif"/>
+	<div id="ajaxlogo">
+	  <img src="../../../resources/img/ajax/ajax-loader.gif" th:src="@{/resources/img/ajax/ajax-loader.gif}"/>
 	</div>
     <div layout:fragment="deleteForm" >
     </div>
@@ -164,6 +163,14 @@
         	  			 $("#messages-panel").dropdown("toggle");
         	  		}
           		});
+                var $loading = $("#ajaxlogo").hide();
+                $(document)
+                  .ajaxStart(function () {
+                    $loading.show();
+                  })
+                  .ajaxStop(function () {
+                    $loading.hide();
+                  });                
                 
                 
        // ]]>

@@ -5915,8 +5915,9 @@
         toolbarHTML += '</div>';
       }
 
-      toolbarHTML = '<div class="note-toolbar btn-toolbar">' + toolbarHTML + '</div>';
-
+      //toolbarHTML = '<div class="note-toolbar btn-toolbar">' + toolbarHTML + '</div>';
+      //Убрал btn-toolbar, т.к. при загрузке через ajax тулбар сдвигается на -5px 
+      toolbarHTML = '<div class="note-toolbar">' + toolbarHTML + '</div>';
       var $toolbar = $(toolbarHTML).prependTo($editor);
       var keyMap = options.keyMap[agent.isMac ? 'mac' : 'pc'];
       createPalette($toolbar, options);
