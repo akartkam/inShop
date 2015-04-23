@@ -108,11 +108,15 @@ public class AdminCategoryController {
 		  }	  
 
 	  @RequestMapping("/add")
-	  public String categoryAdd(@RequestParam(value = "copyCategoryID", required = false) String copyCategoryID, Model model) throws CloneNotSupportedException {
+	  public String categoryAdd(@RequestParam(value = "categoryID", required = false) String copyCategoryID, Model model,
+				                @RequestHeader(value = "X-Requested-With", required = false) String requestedWith) throws CloneNotSupportedException {
 		  Category category;
 		  if (copyCategoryID != null && !"".equals(copyCategoryID)) category = categoryService.cloneCategoryById(UUID.fromString(copyCategoryID)); 
 		  else category = new Category();
  	      model.addAttribute("category", category);
+          if ("XMLHttpRequest".equals(requestedWith)) {
+              return "/admin/categoryEdit :: editCategoryForm";
+            } 	      
           return "/admin/categoryEdit";		  
 		  }	  
 
