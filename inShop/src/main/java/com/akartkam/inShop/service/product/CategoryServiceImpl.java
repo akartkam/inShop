@@ -94,9 +94,8 @@ public class CategoryServiceImpl implements CategoryService {
 	        	   existingCategory.removeAttribute(attribute);
 	        	}
 	        }
-	        AbstractAttribute attr;
 	        for (String attrId : attributes) {
-	        	attr = attributeDAO.findById(UUID.fromString(attrId), false);
+	        	AbstractAttribute attr = attributeDAO.findById(UUID.fromString(attrId), false);
 	        	existingCategory.addAttribute(attr);
 	        }
 	        existingCategory.setDescription(categoryFromPost.getDescription());
@@ -105,6 +104,10 @@ public class CategoryServiceImpl implements CategoryService {
 	        existingCategory.setEnabled(categoryFromPost.isEnabled());
 	        updateCategory(existingCategory);
 		} else {
+	        for (String attrId : attributes) {
+	        	AbstractAttribute attr = attributeDAO.findById(UUID.fromString(attrId), false);
+	        	categoryFromPost.addAttribute(attr);
+	        }
 			createCategory(categoryFromPost);
 		}
     }

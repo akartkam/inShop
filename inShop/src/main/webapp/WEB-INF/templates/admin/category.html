@@ -23,6 +23,11 @@
 	    	<link href="../../../resources/bower_components/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/bootstrap/dist/css/bootstrap-theme.min.css}"/>    	
 			<!-- Treegrid -->
 		 	<link href="../../../resources/css/jquery.treegrid.css" rel="stylesheet" th:href="@{/resources/css/jquery.treegrid.css}"/>
+			<!-- summernote -->
+			<link href="../../../resources/css/summernote.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/summernote.css}"></link>
+	    	<!-- bootstrap-select -->
+			<link href="../../../resources/css/bootstrap-select.min.css" rel="stylesheet" th:href="@{/resources/css/bootstrap-select.min.css}"/>
+		 	
 			<style type="text/css">
 				body {
 				    margin:0;     /* This is used to reset any browser-default margins */
@@ -40,9 +45,6 @@
 					border: 1px dashed black; !important;
 				 }
 			</style>
-			<th:block th:include="admin/categoryEdit :: linkEditModal">
-			
-			</th:block>
 	</head>
 <body>
    <th:block layout:fragment="breadcrumb">
@@ -78,7 +80,7 @@
 	</div>
     <!-- <div layout:fragment="editForm" >
     </div>-->
-    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true" layout:fragment="editForm">
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true" th:attr="data-path=@{/admin/catalog/category}" layout:fragment="editForm">
 	  <div class="modal-dialog">
 	    <div class="modal-content" id="editModalContent">
             <div class="modal-header">
@@ -283,6 +285,8 @@
 	    <script src="../../../resources/bower_components/jquery/dist/jquery.treegrid.min.js" th:src="@{/resources/bower_components/jquery/dist/jquery.treegrid.min.js}"></script>
 	    <script src="../../../resources/bower_components/jquery/dist/jquery.cookie.js" th:src="@{/resources/bower_components/jquery/dist/jquery.cookie.js}"></script>
 		<script src="../../../resources/bower_components/jquery/dist/jquery.treegrid.bootstrap3.js" th:src="@{/resources/bower_components/jquery/dist/jquery.treegrid.bootstrap3.js}"></script>
+        <!-- Tree grid search -->
+        <script src="../../../resources/js/inShop-treegrid-search.js" th:src="@{/resources/js/inShop-treegrid-search.js}"></script>		
 	    <!-- <th:block layout:fragment="scriptEditModal"> -->
 	    <th:block th:include="admin/categoryEdit :: scriptEditModal">
         </th:block>
@@ -307,7 +311,7 @@
 					if ($("#editModal").data("allowed") == "true") {    			
 	    		        $("#editModalContent").text("");
 	                    $.ajax({
-	                        url: "category/"+$("#editModal").data("operation")+((id != null)?"?categoryID="+id:"") ,
+	                        url: $("#editModal").data("path")+"/"+$("#editModal").data("operation")+((id != null)?"?categoryID="+id:"") ,
 	                        cache: false
 	                    }).done(function (html) {
 	                                $("#editModalContent").append(html);
@@ -356,65 +360,10 @@
 					$("#main-panel").css("overflow","auto");
 					$(".treegrid-"+thisId).addClass("info");
   		        });
-  		        
-  		      $(document).on("click", "#clearSearch", function() {
-	    		    $("#searchTerm").val("");
-  		   		    $("#searchTerm").attr("placeholder","");
-  		    	    $('#categoryDataTable').find('tr').each(function(){
- 		            var row = $(this)[0];
-  		            if (row.rowIndex < 2) return true;
-  		        	for (var i=0; i < row.cells.length; i++) {
-    		        		$(this).css("background", ""); 
-		        			$(row.cells[i]).find("span").each(function(){ 
-  		        				if ($(this).hasClass("for-border")) { 
-  		        					$(this).html($(this).html().replace("<mark>", ""));
-  		        					$(this).html($(this).html().replace("</mark>", ""));
-  		        				}
-  		        			   });
-    		        	  } 		              
-  		    	   });
-  		       });
-		      $(document).on("keyup", "#searchTerm", function(event) {
-	  		    	if (event.which == 13){
-	  		          $("#doSearch").trigger("click");
-	  		       }  
-	  		      });
-  		      $(document).on("click", "#doSearch", function() {
-  		    	    var searchText = $("#searchTerm").val();
-  		        	$('#categoryDataTable').find('tr').each(function(){
-  		              var row = $(this)[0];
-  		              if (row.rowIndex < 2) return true;
-  		        	  for (var i=0; i < row.cells.length; i++) {
-  		        		$(this).css("background", "");
-		        			$(row.cells[i]).find("span").each(function(){ 
-  		        				if ($(this).hasClass("for-border")) { 
-  		        					$(this).html($(this).html().replace("<mark>", ""));
-  		        					$(this).html($(this).html().replace("</mark>", ""));
-  		        				}
-  		        			   });
-  		        	  }
-  		              for (var i=0; i < row.cells.length; i++) {
-  		        		  if ($(row.cells[i]).text().indexOf(searchText)>=0) {
-  		        			$(this).css("background", "#ffec82");
-  		        			$(row.cells[i]).find("span").each(function(){ 
-  		        				if ($(this).hasClass("for-border")) { 
-  		        					 $(this).html($(this).html().replace(searchText, "<mark>"+searchText+"</mark>"));
-  		        				}
-  		        			   });
-  		        			var parent = $(this).treegrid("getParentNode");
-  		        			if (parent != null) checkNode(parent);
-  		        		  } 
-  		        	  }
-  		        	});
-  		        	$("#searchTerm").attr("placeholder",searchText);
-  		        }); 		      
-  		      function checkNode(node) {
-  		    	  $(node).treegrid('expand');
-  		    	  var parent = $(node).treegrid('getParentNode');
-  		    	  if (parent != null) checkNode(parent);
-  		      }  		      
   		     // ]]>     
 	     </script>
+	     <th:block layout:fragment="scriptEditModal">
+	     </th:block>
     </th:block>
 </body>
 </html>

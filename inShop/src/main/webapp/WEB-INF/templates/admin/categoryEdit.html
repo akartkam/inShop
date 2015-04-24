@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ru" xmlns:th="http://www.thymeleaf.org" 
-                xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+                xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+                layout:decorator="admin/category">
 	<head>
 	<!-- layout:decorator="admin/category" -->
 	    <th:block th:remove="all">
@@ -18,16 +19,11 @@
 		    <!-- Custom Fonts -->
 	    	<link href="../../../resources/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/font-awesome/css/font-awesome.min.css}"/>
 			<link href="../../../resources/bower_components/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/bootstrap/dist/css/bootstrap-theme.min.css}"></link>    	
-	    </th:block>
-        <th:block th:fragment="linkEditModal">
-			<link href="../../../resources/css/summernote.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/summernote.css}"></link>
 	    	<link href="../../../resources/css/sb-admin-2.css" rel="stylesheet" th:href="@{/resources/css/sb-admin-2.css}"/>
-	    	<!-- bootstrap-select -->
-			<link href="../../../resources/css/bootstrap-select.min.css" rel="stylesheet" th:href="@{/resources/css/bootstrap-select.min.css}"/>
-		</th:block>
+	    </th:block>
 	</head>
 <body>
-  <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true" layout:fragment="editForm">
+  <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true" th:attr="data-path=@{/admin/catalog/category}" layout:fragment="editForm">
     <div class="modal-dialog">
 	   <div class="modal-content" id="editModalContent">
 	   <form method="post" class="form-horizontal" role="form" action="#" th:action="@{/admin/catalog/category/edit}" th:object="${category}" th:fragment="editCategoryForm">
@@ -143,25 +139,28 @@
    <script src="../../../resources/bower_components/jquery/dist/jquery.min.js" th:src="@{/resources/bower_components/jquery/dist/jquery.min.js}"></script>
    <!-- Bootstrap Core JavaScript -->
    <script src="../../../resources/bower_components/bootstrap/dist/js/bootstrap.min.js" th:src="@{/resources/bower_components/bootstrap/dist/js/bootstrap.min.js}"></script>
-   <th:block th:fragment="scriptEditModal">
-	   <!-- Bootstrap bootstrap-wysiwyg.js -->
-	   <script src="../../../resources/js/summernote.js" th:src="@{/resources/js/summernote.js}"></script>
-	   <script src="../../../resources/js/summernote-ru-RU.js" th:src="@{/resources/js/summernote-ru-RU.js}"></script> 
-	    <!-- bootstrap-select -->
-	   <script src="../../../resources/js/bootstrap-select.min.js" th:src="@{/resources/js/bootstrap-select.min.js}"></script>
-	   <script src="../../../resources/js/defaults-ru_RU.js" th:src="@{/resources/js/defaults-ru_RU.js}"></script>
-   </th:block>
-   	   <script type="text/javascript">
-	     $(document).ready(function() {
-	    	 $("#editModal").modal("show");
-		});
- 		$("#editModal").on("show.bs.modal", function (e) {
-                            $('#summernote').summernote({
-        					    lang: "ru-RU"
-          				     });
-                            //$(".selectpicker").selectpicker();
-                   });
-	   </script>
+ 
+	   <th:block th:fragment="scriptEditModal">
+		   <!-- Bootstrap bootstrap-wysiwyg.js -->
+		   <script src="../../../resources/js/summernote.js" th:src="@{/resources/js/summernote.js}"></script>
+		   <script src="../../../resources/js/summernote-ru-RU.js" th:src="@{/resources/js/summernote-ru-RU.js}"></script> 
+		    <!-- bootstrap-select -->
+		   <script src="../../../resources/js/bootstrap-select.min.js" th:src="@{/resources/js/bootstrap-select.min.js}"></script>
+		   <script src="../../../resources/js/defaults-ru_RU.js" th:src="@{/resources/js/defaults-ru_RU.js}"></script>
+	   </th:block>
+   		<th:block layout:fragment="scriptEditModal"> 
+	   	   <script type="text/javascript">
+		     $(document).ready(function() {
+		    	 $("#editModal").modal("show");
+			 });
+	 		 $("#editModal").on("show.bs.modal", function (e) {
+	                            $('#summernote').summernote({
+	        					    lang: "ru-RU"
+	          				     });
+	                            $(".selectpicker").selectpicker();
+	                   });
+		   </script>
+		 </th:block>  
 </body>
 </html>
 
