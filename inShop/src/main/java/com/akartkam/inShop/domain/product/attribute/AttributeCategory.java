@@ -32,6 +32,7 @@ public class AttributeCategory extends AbstractDomainObjectOrdering {
 	private static final long serialVersionUID = 2881965657241346353L;
 	private String name;
 	private List<AbstractAttribute> attributes = new ArrayList<AbstractAttribute>();
+	
 
 	@NotNull
 	@Size(min = 1, max = 50)
@@ -88,5 +89,14 @@ public class AttributeCategory extends AbstractDomainObjectOrdering {
 	public boolean canRemove() {
 		return attributes.isEmpty();
 	}
+	
+	@Transient
+	public boolean hasActiveAttributes() {
+		for (AbstractAttribute attribute: getAttributes()){
+			if (attribute.isEnabled()) return true;
+		}
+		return false;
+	}
+	
 	
 }

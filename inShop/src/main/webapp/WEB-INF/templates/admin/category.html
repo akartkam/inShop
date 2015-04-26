@@ -26,8 +26,7 @@
 			<!-- summernote -->
 			<link href="../../../resources/css/summernote.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/summernote.css}"></link>
 	    	<!-- bootstrap-select -->
-			<link href="../../../resources/css/bootstrap-select.min.css" rel="stylesheet" th:href="@{/resources/css/bootstrap-select.min.css}"/>
-		 	
+			<link href="../../../resources/css/bootstrap-select.min.css" rel="stylesheet" th:href="@{/resources/css/bootstrap-select.min.css}"/>		 	
 			<style type="text/css">
 				body {
 				    margin:0;     /* This is used to reset any browser-default margins */
@@ -143,24 +142,24 @@
 					              <td class="text-center"><i th:class="${{ct.enabled} ? 'fa fa-check-circle' : ''}"></i></td>
 					              <td class="text-center">
 					                <div class="row">
-	  				            	  		 <div class="btn-group" role="group" > 	
-					                              <button type="button" class="open-editDialog btn btn-outline btn-default btn-xs" 
-					                                      data-toggle="modal" data-target="#editModal" data-operation="edit" 
-					                                      th:attr="data-id=${ct.id}"> 
-					                                <i class="fa fa-pencil"></i>
-					                              </button>
-					                              <button type="button" class="open-editDialog btn btn-outline btn-default btn-xs" 
-					                                      data-toggle="modal" data-target="#editModal" data-operation="add" 
-					                                      th:attr="data-id=${ct.id}"> 
-					                                <i class="fa fa-copy"></i>
-					                              </button>					                              
-					                              <button th:disabled="${!ct.enabled}" type="button" data-toggle="modal" data-target="#deleteModal" 
-					                                      class="open-deleteDialog btn btn-outline btn-default btn-xs"
-					                                      th:attr="data-id=${ct.id}, data-name=${ct.name}"> 
-					                                <i class="fa fa-trash-o"></i>
-					                              </button>	
-			                            	 </div>  
-			                            </div>  
+  				            	  		 <div class="btn-group" role="group" > 	
+				                              <button type="button" class="open-editDialog btn btn-outline btn-default btn-xs" 
+				                                      data-toggle="modal" data-target="#editModal" data-operation="edit" 
+				                                      th:attr="data-id=${ct.id}"> 
+				                                <i class="fa fa-pencil"></i>
+				                              </button>
+				                              <button type="button" class="open-editDialog btn btn-outline btn-default btn-xs" 
+				                                      data-toggle="modal" data-target="#editModal" data-operation="add" 
+				                                      th:attr="data-id=${ct.id}"> 
+				                                <i class="fa fa-copy"></i>
+				                              </button>					                              
+				                              <button th:disabled="${!ct.enabled}" type="button" data-toggle="modal" data-target="#deleteModal" 
+				                                      class="open-deleteDialog btn btn-outline btn-default btn-xs"
+				                                      th:attr="data-id=${ct.id}, data-name=${ct.name}"> 
+				                                <i class="fa fa-trash-o"></i>
+				                              </button>	
+		                            	 </div>  
+			                         </div>  
 		                              <!--  th:href="${'category/edit/'+ct.id}"> -->	 
 					               </td>
 						        </tr>
@@ -298,7 +297,7 @@
 		    			saveState: true,
 		    		});    		    
 	           });
-	            //Открытии окна удаления
+	            //Открытие окна удаления
   		        $(document).on("click", ".open-deleteDialog", function () {
 		    	     var ctgId = $(this).data("id");
 		    	     var ctgName = $(this).data("name");

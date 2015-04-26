@@ -28,8 +28,7 @@
 	   <div class="modal-content" id="editModalContent">
 	   <form method="post" class="form-horizontal" role="form" action="#" th:action="@{/admin/catalog/category/edit}" th:object="${category}" th:fragment="editCategoryForm">
 		   <div class="modal-header">
-	 					<button type="button" class="close" th:onclick="'window.location=\''+@{/admin/catalog/category}+'\''"
-					aria-hidden="true">&times;</button>
+	 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 				<h4 class="modal-title"  th:text="${!category.new}? #{admin.catalog.category.edit.title.edit}: #{admin.catalog.category.edit.title.add}">Edit Category</h4>
 	 	   </div>
 		 <!-- /modal-header -->
@@ -82,7 +81,7 @@
 						    </label>
 							 <select class="form-control" th:field="*{parent}">
 							    <option value="">&nbsp;</option>
-								<option th:if="${scategory.id != category.id}" 
+								<option th:if="${scategory.id != category.id &amp;&amp; scategory.enabled}" 
 								        th:each="scategory : ${allCategories}" 
 								        th:value="${scategory.id}"
 									    th:text="${scategory.name}"
@@ -109,9 +108,11 @@
 						    </label>
 							 <select class="form-control selectpicker" name="attributesSelected" multiple="multiple" 
 	          						 data-live-search="true">
-								<optgroup th:each="attributeCategory: ${allAttributeCategories}"  
+								<optgroup th:if="${attributeCategory.hasActiveAttributes()}"
+								          th:each="attributeCategory: ${allAttributeCategories}"  
 								          th:label="${attributeCategory.name}">
-								    <option th:each="attribute: ${attributeCategory.attributes}" th:text="${attribute.name}"
+								    <option th:if="${attribute.enabled}"
+								            th:each="attribute: ${attributeCategory.attributes}" th:text="${attribute.name}"
 								            th:selected="${#sets.contains(category.attributes, attribute)}"
 								            th:value="${attribute.id}"
 								            th:attr="data-subtext=#{${'attribute.type.' + attribute.attributeType}}">

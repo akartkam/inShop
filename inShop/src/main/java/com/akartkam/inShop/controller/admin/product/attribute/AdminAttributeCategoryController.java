@@ -24,6 +24,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -98,25 +99,34 @@ public class AdminAttributeCategoryController {
   
    
 	  @RequestMapping("/edit")
-	  public String categoryEdit(@RequestParam(value = "ID", required = false) String categoryID, Model model) {
+	  public String categoryEdit(@RequestParam(value = "ID", required = false) String categoryID, Model model,
+			  					 @RequestHeader(value = "X-Requested-With", required = false) String requestedWith) {
 		  if(!model.containsAttribute("attributeCategory")) {
 			 AttributeCategory category = attributeCategoryService.getAttributeCategoryById(UUID.fromString(categoryID));
 		     model.addAttribute("attributeCategory", category);
 		  }
+          if ("XMLHttpRequest".equals(requestedWith)) {
+              return "/admin/attributeCategoryEdit :: editCategoryForm";
+            }		  
           return "/admin/attributeCategoryEdit";		  
 		  }	  
 
 	  @RequestMapping("/add")
-	  public String categoryAdd(@RequestParam(value = "copyID", required = false) String copyID, Model model) throws CloneNotSupportedException {
+	  public String categoryAdd(@RequestParam(value = "ID", required = false) String copyID, Model model,
+				 @RequestHeader(value = "X-Requested-With", required = false) String requestedWith) throws CloneNotSupportedException {
 		  AttributeCategory category;
 		  if (copyID != null && !"".equals(copyID)) category = attributeCategoryService.cloneAttributeCategoryById(UUID.fromString(copyID)); 
 		  else category = new AttributeCategory();
  	      model.addAttribute("attributeCategory", category);
+          if ("XMLHttpRequest".equals(requestedWith)) {
+              return "/admin/attributeCategoryEdit :: editCategoryForm";
+            }
           return "/admin/attributeCategoryEdit";		  
 		  }	  
 
 	  @RequestMapping("/attribute/add")
-	  public String attributeAdd(@RequestParam(value = "copyID", required = false) String copyID, Model model) throws CloneNotSupportedException {
+	  public String attributeAdd(@RequestParam(value = "ID", required = false) String copyID, Model model,
+				 @RequestHeader(value = "X-Requested-With", required = false) String requestedWith) throws CloneNotSupportedException {
 		  AttributeForm attributeForm = null;
 		  AbstractAttribute attribute = null;
 		  if (copyID != null && !"".equals(copyID)) {
@@ -124,17 +134,24 @@ public class AdminAttributeCategoryController {
 			  if (attribute != null) attributeForm = new AttributeForm(attribute);  
 		  }  
 		  if(attributeForm == null) attributeForm = new AttributeForm();
-		  model.addAttribute("attribute",attributeForm);		  
+		  model.addAttribute("attribute",attributeForm);
+          if ("XMLHttpRequest".equals(requestedWith)) {
+              return "/admin/attributeEdit :: editAttributeForm";
+            }
           return "/admin/attributeEdit";		  
 	  }	  
 
 	  
 	  @RequestMapping("/attribute/edit")
-	  public String attributeEdit(@RequestParam(value = "ID", required = false) String ID, Model model) {
+	  public String attributeEdit(@RequestParam(value = "ID", required = false) String ID, Model model,
+				 @RequestHeader(value = "X-Requested-With", required = false) String requestedWith) {
 		  if(!model.containsAttribute("attribute")) {
 			 AttributeForm attribute = new AttributeForm(attributeCategoryService.getAttributeById(UUID.fromString(ID))); 			 
 			 model.addAttribute("attribute", attribute);
 		  }
+          if ("XMLHttpRequest".equals(requestedWith)) {
+              return "/admin/attributeEdit :: editAttributeForm";
+            }
           return "/admin/attributeEdit";		  
 		  }	  
 	  
