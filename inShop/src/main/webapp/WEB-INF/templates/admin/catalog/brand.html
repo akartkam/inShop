@@ -12,15 +12,19 @@
 		    <meta name="description" content=""/>
 		    <meta name="author" content=""/>
 		    <!-- Bootstrap Core CSS -->
-		    <link href="../../../resources/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" th:href="@{/resources/bower_components/bootstrap/dist/css/bootstrap.min.css}"/>
+		    <link href="../../../../resources/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" th:href="@{/resources/bower_components/bootstrap/dist/css/bootstrap.min.css}"/>
 			<!-- Custom css -->	    
-	    	<link href="../../../resources/css/sb-admin-2.css" rel="stylesheet" th:href="@{/resources/css/sb-admin-2.css}"/>
+	    	<link href="../../../../resources/css/sb-admin-2.css" rel="stylesheet" th:href="@{/resources/css/sb-admin-2.css}"/>
 		    <!-- Custom Fonts -->
-	    	<link href="../../../resources/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/font-awesome/css/font-awesome.min.css}"/>
+	    	<link href="../../../../resources/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/font-awesome/css/font-awesome.min.css}"/>
+		    <!-- DataTables CSS -->
+		    <link href="../../../../resources/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css" rel="stylesheet" th:href="@{/resources/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css}"/>	    	
 			<!-- DataTables Responsive CSS -->
-    		<link href="../../../resources/bower_components/datatables-responsive/css/dataTables.responsive.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/datatables-responsive/css/dataTables.responsive.css}"/>	    	
+    		<link href="../../../../resources/bower_components/datatables-responsive/css/dataTables.responsive.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/datatables-responsive/css/dataTables.responsive.css}"/>	    	
+			<!-- style.css -->
+    		<link href="../../../../resources/css/style.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/style.css}"/>	    	
     	</th:block>
-	    	<link href="../../../resources/bower_components/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/bootstrap/dist/css/bootstrap-theme.min.css}"/>
+	    	<link href="../../../../resources/bower_components/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/bootstrap/dist/css/bootstrap-theme.min.css}"/>
 	</head>
 <body>
    <th:block layout:fragment="breadcrumb">
@@ -98,9 +102,16 @@
 							            <td class="text-center">						
 										    <input class="checkCategory" type="checkbox" th:id="${'check-'+br.id}" th:value="${br.id}"/>
 									    </td>
-										<td><span th:text="${br.name}">category 1</span></td>
-										<td class="text-center" ><span th:if="${!#strings.containsIgnoreCase(ct.class.name,'AttributeCategory')}" th:text="#{${'attribute.type.' + ct.attributeType.toString()}}">Decimal</span></td>
-										<td th:text="${br.url}">/url</td>
+										<td>
+										    <div class="a-photo-out">
+                                               <span class="photo-block">
+                                                 <span class="helper"></span>
+                                                 <img th:src="@{${ct.logoUrl}}" th:onerror="@{/resources/img/noimage.png}">
+                                               </span>
+										       <span class="text-el" th:text="${br.name}">brand</span>
+										    </div>										
+										</td>
+										<td><span th:text="${br.url}">URL</span></td>
 						            	<td class="text-center"><i th:class="${ct.enabled} ? 'fa fa-check-circle'"></i></td>
 						            	<td class="text-center">
 							                <div class="row">
@@ -126,79 +137,41 @@
 			                             </td>
 							        </tr>
 							        <th:block th:remove="all">
-										<tr class="treegrid-1" th:remove="all">
+										<tr th:remove="all">
 											<td class="text-center">						
 											       <input class="checkCategory" type="checkbox" id='check-1' value="1"/>
 										    </td>					         
-											<td class="mightOverflow domain-col">Root node about rebit than eat the wolf then eat the bear then eat the elefant</td>
-											<td class="text-center">Decimal</td>
+											<td>
+												<div class="a-photo-out">
+	                                               <span class="photo-block">
+	                                                 <span class="helper"></span>
+	                                                 <img src="../../../../resources/img/logo/asus.png" onerror="../../../../resources/img/noimage.png">
+	                                               </span>
+											       <span class="text-el">brand</span>
+										        </div>	
+											</td>
+											<td>/url</td>
 											<td class="text-center">Yes</td>
 											<td class="text-center"></td>
 										</tr>
-										<tr class="treegrid-2 treegrid-parent-1" th:remove="all">
+										<tr th:remove="all">
 											<td class="text-center">						
-											       <input class="checkCategory" type="checkbox" id='check-2' value="2"/>
+											       <input class="checkCategory" type="checkbox" id='check-1' value="1"/>
 										    </td>					         
-											<td>Node 1-1</td>
+											<td>
+												<div class="a-photo-out">
+	                                               <span class="photo-block">
+	                                                 <span class="helper"></span>
+	                                                 <img src="../../../../resources/img/logo/samsung.png" onerror="../../../../resources/img/noimage.png">
+	                                               </span>
+											       <span class="text-el">brand</span>
+										        </div>	
+											</td>
+											<td>/url</td>
+											<td class="text-center">Yes</td>
 											<td class="text-center"></td>
-											<td> </td>
-											<td> </td>
-										</tr>
-										<tr class="treegrid-3 treegrid-parent-1" th:remove="all">
-											<td class="text-center">						
-											       <input class="checkCategory" type="checkbox" id='check-3' value="3"/>
-										    </td>					         
-											<td><span class="for-border">Node 1-2</span></td>
-											<td class="text-center"></td>
-											<td></td>
-											<td > </td>
-										</tr>
-										<tr class="treegrid-4 treegrid-parent-3" th:remove="all">
-											<td class="text-center">						
-											       <input type="checkbox"/>
-										    </td>					         
-											<td>Node 1-2-1</td>
-											<td class="text-center"></td>
-											<td></td>
-											<td > </td>
-										</tr>
-										<tr class="treegrid-5 treegrid-parent-3" th:remove="all">
-											<td class="text-center">						
-											       <input type="checkbox"/>
-										    </td>					         
-											<td>Node 1-2-1</td>
-											<td class="text-center"></td>
-											<td></td>
-											<td > </td>
-										</tr>
-										<tr class="treegrid-6 treegrid-parent-3" th:remove="all">
-											<td class="text-center">						
-											       <input type="checkbox"/>
-										    </td>					         
-											<td>Node 1-2-1</td>
-											<td class="text-center"></td>
-											<td></td>
-											<td > </td>
-										</tr>
-										<tr class="treegrid-7 treegrid-parent-3" th:remove="all">
-											<td class="text-center">						
-											       <input type="checkbox"/>
-										    </td>					         
-											<td>Node 1-2-1</td>
-											<td class="text-center"></td>
-											<td></td>
-											<td > </td>
-										</tr>
-										<tr class="treegrid-8 treegrid-parent-3" th:remove="all">
-											<td class="text-center">						
-											       <input type="checkbox"/>
-										    </td>					         
-											<td>Node 1-2-1</td>
-											<td class="text-center"></td>
-											<td></td>
-											<td > </td>
-										</tr>								
-									</th:block>
+										</tr>									
+								   </th:block>
 						        </tbody>
 						      </table> 
 						   </div>
@@ -242,20 +215,17 @@
 	    </div>
     </div> 
     <!-- jQuery -->
-    <script src="../../../resources/bower_components/jquery/dist/jquery.min.js" th:src="@{/resources/bower_components/jquery/dist/jquery.min.js}"></script>
+    <script src="../../../../resources/bower_components/jquery/dist/jquery.min.js" th:src="@{/resources/bower_components/jquery/dist/jquery.min.js}"></script>
     <!-- Bootstrap Core JavaScript -->
-    <script src="../../../resources/bower_components/bootstrap/dist/js/bootstrap.min.js" th:src="@{/resources/bower_components/bootstrap/dist/js/bootstrap.min.js}"></script>
+    <script src="../../../../resources/bower_components/bootstrap/dist/js/bootstrap.min.js" th:src="@{/resources/bower_components/bootstrap/dist/js/bootstrap.min.js}"></script>
     <th:block layout:fragment="script"> 
 	    <!-- DataTables JavaScript -->
-	    <script src="../../../resources/bower_components/DataTables/media/js/jquery.dataTables.min.js" th:src="@{/resources/bower_components/DataTables/media/js/jquery.dataTables.min.js}"></script>
-	    <script src="../../../resources/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js" th:src="@{/resources/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js}"></script>
+	    <script src="../../../../resources/bower_components/DataTables/media/js/jquery.dataTables.min.js" th:src="@{/resources/bower_components/DataTables/media/js/jquery.dataTables.min.js}"></script>
+	    <script src="../../../../resources/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js" th:src="@{/resources/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js}"></script>
 	    <script type="text/javascript">
 	      //<![CDATA[
 	           $(document).ready(function() {
-    		    $("#categoryDataTable").treegrid({
-    		    		treeColumn: 1, 
-		    			saveState: true,
-		    		});
+    		     $("#brandDataTable").DataTable();
 	            });
 	            //Открытие окна удаления
 		        $(document).on("click", ".open-deleteDialog", function () {
