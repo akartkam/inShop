@@ -146,6 +146,5 @@ public abstract class AbstractDomainObject implements DomainObject<UUID>, Clonea
 	@Transient
 	public boolean canRemove(){
 		return true;
-		
 	}
 }

@@ -5,7 +5,7 @@
 	  layout:decorator="layouts/admin-default">
 	<head>
 	    <th:block th:remove="all">
-			<title>inShop Admin Category</title>
+			<title>inShop Admin Brand</title>
 		    <meta charset="utf-8"/>
 		    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 		    <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -17,31 +17,14 @@
 	    	<link href="../../../resources/css/sb-admin-2.css" rel="stylesheet" th:href="@{/resources/css/sb-admin-2.css}"/>
 		    <!-- Custom Fonts -->
 	    	<link href="../../../resources/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/font-awesome/css/font-awesome.min.css}"/>
+			<!-- DataTables Responsive CSS -->
+    		<link href="../../../resources/bower_components/datatables-responsive/css/dataTables.responsive.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/datatables-responsive/css/dataTables.responsive.css}"/>	    	
     	</th:block>
 	    	<link href="../../../resources/bower_components/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/bootstrap/dist/css/bootstrap-theme.min.css}"/>
-			<!-- Treegrid -->
-		 	<link href="../../../resources/css/jquery.treegrid.css" rel="stylesheet" th:href="@{/resources/css/jquery.treegrid.css}"/>
-			<style type="text/css">
-				body {
-				    margin:0;     /* This is used to reset any browser-default margins */
-				    height:100vh; /* This is needed to overcome a Chrome bug. */
-				    width:100vw;  /* As above. */
-				}
-			 	table { table-layout: fixed; }
- 				table th, table td { overflow: hidden; }
-				td.domain-col {
-				    overflow: hidden;
-				    text-overflow: ellipsis;
-				    white-space: nowrap;
-				 }
-				mark {
-					border: 1px dashed black; !important;
-				 }
-			</style>	    	    	
 	</head>
 <body>
    <th:block layout:fragment="breadcrumb">
-   	 <li class="active" th:text="#{admin.catalog.attributecategory}"></li>
+   	 <li class="active" th:text="#{admin.catalog.brand}"></li>
    </th:block>
    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true" layout:fragment="deleteForm">
 	  <div class="modal-dialog">
@@ -53,8 +36,8 @@
 	            </div>
 	            <div class="modal-body" id = "delete-modal-body">
 	              <div class="field-box">
-	                <span th:text="#{admin.catalog.category.delete.modalmessage}">Подтвердите удаление категории: </span>
-	                <span style="font-weight:bold" id="ctgName"> Категория </span>
+	                <span th:text="#{admin.catalog.category.delete.modalmessage}">Подтвердите удаление производителя: </span>
+	                <span style="font-weight:bold" id="ctgName"> Производитель </span>
 				  </div>	                
 	              <div class="field-box" sec:authorize="hasRole('ADMIN')">
                       <label>
@@ -95,47 +78,29 @@
 		  <div class="col-lg-12" > 
 	       <div class="panel panel-default" layout:fragment="content">
 	           <div class="panel-heading">
-	               <span th:text="#{admin.catalog.attributecategory}" >Categories</span>
+	               <span th:text="#{admin.catalog.brand}" >Brand</span>
 	           </div> 	 
 	             <div class="panel-body">
- 	                  <div class="row" style="margin-bottom:10px;">
- 	                      <div class="col-md-4">
-							<div class="input-group">
-							  <input type="text" id="searchTerm" class="form-control" aria-label="..."/>
-							  <div class="input-group-btn">
-								<button id="doSearch" type="button" class="btn btn-default">
-									<i class="fa fa-search"></i>
-								</button>
-								<button id="clearSearch" type="button" class="btn btn-default" >
-									<i class="fa fa-times"></i>
-								</button>
-							  </div>
-							</div>
- 	                      </div>
- 	                  </div>  
  	                  <div class="row">
  	                    <div class="col-md-12">	               
-						      <table class="tree table table-striped table-bordered table-hover table-condensed table-responsive" id="categoryDataTable" data-checkid="">
+						      <table class="table table-striped table-bordered table-hover table-condensed table-responsive" id="brandDataTable" data-checkid="">
 						        <thead >
 							      <tr >
 							          <th class="col-md-1"></th>
-						              <th class="col-md-7 text-center" th:text="#{admin.catalog.attributecategory.name}">Name</th>
-						              <th class="col-md-1 text-center" th:text="#{admin.catalog.attributecategory.type}">Type</th>
-						              <th class="col-md-1 text-center" th:text="#{admin.catalog.attributecategory.order}">Order</th>
-						              <th class="col-md-1 text-center" th:text="#{admin.catalog.attributecategory.enabled}">Enabled?</th>
+						              <th class="col-md-4 text-center" th:text="#{admin.catalog.brand.name}">Name</th>
+						              <th class="col-md-5 text-center" th:text="#{admin.catalog.brand.url}">URL</th>
+						              <th class="col-md-1 text-center" th:text="#{admin.catalog.brand.enabled}">Enabled?</th>
 						              <th class="col-md-1 text-center"></th>
 						  	      </tr>
 						 	    </thead>
 						 	    <tbody>      
-							        <tr th:each="ct : ${allAttributeCategoriesHierarchy}"
-							              th:class="${'treegrid-'+{ct.id}+{{!#strings.containsIgnoreCase(ct.class.name,'AttributeCategory')} ? ' treegrid-parent-'+{ct.attributeCategory.id} : ''}}" 
-							              th:classappend="${!ct.enabled} ? 'text-muted'">
+							        <tr th:each="br : ${allBrand}" th:class="${!ct.enabled} ? 'text-muted'">
 							            <td class="text-center">						
-										    <input class="checkCategory" type="checkbox" th:id="${'check-'+ct.id}" th:value="${ct.id}"/>
+										    <input class="checkCategory" type="checkbox" th:id="${'check-'+br.id}" th:value="${br.id}"/>
 									    </td>
-										<td> <span class="for-border" th:style="${#strings.containsIgnoreCase(ct.class.name,'AttributeCategory')}? 'font-weight:bold': 'font-weight:'" th:text="${ct.name}">category 1</span></td>
+										<td><span th:text="${br.name}">category 1</span></td>
 										<td class="text-center" ><span th:if="${!#strings.containsIgnoreCase(ct.class.name,'AttributeCategory')}" th:text="#{${'attribute.type.' + ct.attributeType.toString()}}">Decimal</span></td>
-										<td th:text="${ct.ordering}">1</td>
+										<td th:text="${br.url}">/url</td>
 						            	<td class="text-center"><i th:class="${ct.enabled} ? 'fa fa-check-circle'"></i></td>
 						            	<td class="text-center">
 							                <div class="row">
@@ -281,12 +246,9 @@
     <!-- Bootstrap Core JavaScript -->
     <script src="../../../resources/bower_components/bootstrap/dist/js/bootstrap.min.js" th:src="@{/resources/bower_components/bootstrap/dist/js/bootstrap.min.js}"></script>
     <th:block layout:fragment="script"> 
-		<!-- Treegrid -->
-	    <script src="../../../resources/bower_components/jquery/dist/jquery.treegrid.min.js" th:src="@{/resources/bower_components/jquery/dist/jquery.treegrid.min.js}"></script>
-	    <script src="../../../resources/bower_components/jquery/dist/jquery.cookie.js" th:src="@{/resources/bower_components/jquery/dist/jquery.cookie.js}"></script>
-		<script src="../../../resources/bower_components/jquery/dist/jquery.treegrid.bootstrap3.js" th:src="@{/resources/bower_components/jquery/dist/jquery.treegrid.bootstrap3.js}"></script>
-        <!-- Tree grid search -->
-        <script src="../../../resources/js/inShop-treegrid-search.js" th:src="@{/resources/js/inShop-treegrid-search.js}"></script>		
+	    <!-- DataTables JavaScript -->
+	    <script src="../../../resources/bower_components/DataTables/media/js/jquery.dataTables.min.js" th:src="@{/resources/bower_components/DataTables/media/js/jquery.dataTables.min.js}"></script>
+	    <script src="../../../resources/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js" th:src="@{/resources/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js}"></script>
 	    <script type="text/javascript">
 	      //<![CDATA[
 	           $(document).ready(function() {
@@ -340,7 +302,7 @@
 	            
 		   // ]]>
 	     </script>
-	     <!-- <th:block layout:include="admin/attributeCategoryEdit :: scriptEditModal"> -->
+	     <!-- <th:block layout:include="/admin/catalog/attributeCategoryEdit :: scriptEditModal"> -->
 	     <th:block layout:fragment="scriptEditModal">
 	     </th:block>
     </th:block>

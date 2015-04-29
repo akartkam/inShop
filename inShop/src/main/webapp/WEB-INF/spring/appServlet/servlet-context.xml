@@ -20,12 +20,12 @@
     <view-controller path="/index.html"/>
     <view-controller path="/home.html" />
 
+    <util:properties id="appProperties" 
+                    location="classpath:application.properties"/>
+
 	<resources mapping="/resources/**" location="/resources/" />
 	<resources mapping="/images/**" location="file:///#{appProperties['inShop.imagesPath']}" />
     
-    <util:properties id="appProperties" 
-                    location="classpath:application.properties"/>  
-		
     <beans:bean id="templateResolver"
         class="org.thymeleaf.templateresolver.ServletContextTemplateResolver">
       <beans:property name="prefix" value="/WEB-INF/templates/" />

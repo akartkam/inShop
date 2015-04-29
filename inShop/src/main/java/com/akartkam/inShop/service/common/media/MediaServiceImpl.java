@@ -10,11 +10,11 @@ import org.springframework.transaction.annotation.Transactional;
 import com.akartkam.inShop.dao.common.MediaDAO;
 import com.akartkam.inShop.domain.common.media.Media;
 
-@Service("MediaService")
-@Transactional(readOnly = true)
+//@Service("MediaService")
+//@Transactional(readOnly = true)
 public class MediaServiceImpl implements MediaService {
 
-	@Autowired
+	//@Autowired
 	private MediaDAO mediaDAO;  
 	
 	@Override

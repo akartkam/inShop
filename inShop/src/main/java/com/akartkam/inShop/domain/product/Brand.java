@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Lob;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.Index;
@@ -23,8 +24,8 @@ public class Brand extends AbstractDomainObject {
 	private String name;
 	private String description;
 	private String url;
+	private String logoUrl;
 	
-
 	@NotNull
 	@NotEmpty
 	@Column(name = "name")
@@ -53,6 +54,20 @@ public class Brand extends AbstractDomainObject {
 	}
 	public void setUrl(String url) {
 		this.url = url;
-	}	
+	}
+	
+    @Column(name = "logo_url")
+	public String getLogoUrl() {
+		return logoUrl;
+	}
+	public void setLogoUrl(String logoUrl) {
+		this.logoUrl = logoUrl;
+	}
+	
+	@Override
+	@Transient
+	public boolean canRemove(){
+		return true;
+	}
 
 }

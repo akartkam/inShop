@@ -94,7 +94,7 @@ public class AdminAttributeCategoryController {
 	  
 	  @RequestMapping(method=GET)
 	  public String category(Model model) {
-		  return "/admin/attributeCategory"; 
+		  return "/admin/catalog/attributeCategory"; 
 		  }	  
   
    
@@ -106,9 +106,9 @@ public class AdminAttributeCategoryController {
 		     model.addAttribute("attributeCategory", category);
 		  }
           if ("XMLHttpRequest".equals(requestedWith)) {
-              return "/admin/attributeCategoryEdit :: editCategoryForm";
+              return "/admin/catalog/attributeCategoryEdit :: editCategoryForm";
             }		  
-          return "/admin/attributeCategoryEdit";		  
+          return "/admin/catalog/attributeCategoryEdit";		  
 		  }	  
 
 	  @RequestMapping("/add")
@@ -119,9 +119,9 @@ public class AdminAttributeCategoryController {
 		  else category = new AttributeCategory();
  	      model.addAttribute("attributeCategory", category);
           if ("XMLHttpRequest".equals(requestedWith)) {
-              return "/admin/attributeCategoryEdit :: editCategoryForm";
+              return "/admin/catalog/attributeCategoryEdit :: editCategoryForm";
             }
-          return "/admin/attributeCategoryEdit";		  
+          return "/admin/catalog/attributeCategoryEdit";		  
 		  }	  
 
 	  @RequestMapping("/attribute/add")
@@ -136,9 +136,9 @@ public class AdminAttributeCategoryController {
 		  if(attributeForm == null) attributeForm = new AttributeForm();
 		  model.addAttribute("attribute",attributeForm);
           if ("XMLHttpRequest".equals(requestedWith)) {
-              return "/admin/attributeEdit :: editAttributeForm";
+              return "/admin/catalog/attributeEdit :: editAttributeForm";
             }
-          return "/admin/attributeEdit";		  
+          return "/admin/catalog/attributeEdit";		  
 	  }	  
 
 	  
@@ -150,9 +150,9 @@ public class AdminAttributeCategoryController {
 			 model.addAttribute("attribute", attribute);
 		  }
           if ("XMLHttpRequest".equals(requestedWith)) {
-              return "/admin/attributeEdit :: editAttributeForm";
+              return "/admin/catalog/attributeEdit :: editAttributeForm";
             }
-          return "/admin/attributeEdit";		  
+          return "/admin/catalog/attributeEdit";		  
 		  }	  
 	  
 	  @RequestMapping(value="/delete", method = RequestMethod.POST)

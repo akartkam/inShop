@@ -76,7 +76,7 @@ public class AdminCategoryController {
 	  
 	  @RequestMapping(method=GET)
 	  public String category(Model model) {
-		  return "/admin/category"; 
+		  return "/admin/catalog/category"; 
 		  }	  
 	  
 	  /*@RequestMapping("/catalog/category/edit/{id}")
@@ -87,9 +87,9 @@ public class AdminCategoryController {
 		  }
 		  model.addAttribute("allCategories", categoryService.getAllCategoryHierarchy());
           if ("XMLHttpRequest".equals(requestedWith)) {
-            return "/admin/categoryEdit :: editCategoryForm";
+            return "/admin/catalog/categoryEdit :: editCategoryForm";
           }
-          return "/admin/category";		  
+          return "/admin/catalog/category";		  
 		    
 		  }	
 	   */
@@ -102,9 +102,9 @@ public class AdminCategoryController {
 		     model.addAttribute("category", category);
 		  }
           if ("XMLHttpRequest".equals(requestedWith)) {
-              return "/admin/categoryEdit :: editCategoryForm";
+              return "/admin/catalog/categoryEdit :: editCategoryForm";
             }		  
-          return "/admin/categoryEdit";		  
+          return "/admin/catalog/categoryEdit";		  
 		  }	  
 
 	  @RequestMapping("/add")
@@ -115,9 +115,9 @@ public class AdminCategoryController {
 		  else category = new Category();
  	      model.addAttribute("category", category);
           if ("XMLHttpRequest".equals(requestedWith)) {
-              return "/admin/categoryEdit :: editCategoryForm";
+              return "/admin/catalog/categoryEdit :: editCategoryForm";
             } 	      
-          return "/admin/categoryEdit";		  
+          return "/admin/catalog/categoryEdit";		  
 		  }	  
 
 	  
