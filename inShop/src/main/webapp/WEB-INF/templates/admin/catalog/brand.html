@@ -25,6 +25,8 @@
     		<link href="../../../../resources/css/style.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/style.css}"/>	    	
     	</th:block>
 	    	<link href="../../../../resources/bower_components/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/bootstrap/dist/css/bootstrap-theme.min.css}"/>
+			<!-- summernote -->
+			<link href="../../../../resources/css/summernote.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/summernote.css}"></link>
 	</head>
 <body>
    <th:block layout:fragment="breadcrumb">
@@ -41,7 +43,7 @@
 	            <div class="modal-body" id = "delete-modal-body">
 	              <div class="field-box">
 	                <span th:text="#{admin.catalog.category.delete.modalmessage}">Подтвердите удаление производителя: </span>
-	                <span style="font-weight:bold" id="ctgName"> Производитель </span>
+	                <span style="font-weight:bold" id="brName"> Производитель </span>
 				  </div>	                
 	              <div class="field-box" sec:authorize="hasRole('ADMIN')">
                       <label>
@@ -108,28 +110,28 @@
                                                  <span class="helper"></span>
                                                  <img th:src="@{${ct.logoUrl}}" th:onerror="@{/resources/img/noimage.png}">
                                                </span>
-										       <span class="text-el" th:text="${br.name}">brand</span>
+										       <span th:text="${br.name}">brand</span>
 										    </div>										
 										</td>
 										<td><span th:text="${br.url}">URL</span></td>
-						            	<td class="text-center"><i th:class="${ct.enabled} ? 'fa fa-check-circle'"></i></td>
+						            	<td class="text-center"><i th:class="${br.enabled} ? 'fa fa-check-circle'"></i></td>
 						            	<td class="text-center">
 							                <div class="row">
 											  <!--  data-toggle="modal" data-target="#editModal" -->
 		  				            	  		 <div class="btn-group" role="group" > 
 					                                  <button type="button" class="open-editDialog btn btn-outline btn-default btn-xs" 
 					                                          data-toggle="modal" data-target="#editModal" data-operation="edit" 
-					                                          th:attr="data-id=${ct.id}, data-path=@{${{#strings.containsIgnoreCase(ct.class.name,'AttributeCategory')} ? '/admin/catalog/attributecategory/edit': '/admin/catalog/attributecategory/attribute/edit'}}"> 
+					                                          th:attr="data-id=${br.id}, data-path=@{/admin/catalog/brand/edit}"> 
 					                                    <i class="fa fa-pencil"></i>
 					                                  </button>	
 					                                  <button type="button" class="open-editDialog btn btn-outline btn-default btn-xs" 
 					                                          data-toggle="modal" data-target="#editModal" data-operation="add"
-					                                          th:attr="data-id=${ct.id}, data-path=@{${{#strings.containsIgnoreCase(ct.class.name,'AttributeCategory')} ? '/admin/catalog/attributecategory/add': '/admin/catalog/attributecategory/attribute/add'}}">
+					                                          th:attr="data-id=${br.id}, data-path=@{/admin/catalog/brand/add}">
 					                                    <i class="fa fa-copy"></i>
 					                                  </button>
-						                              <button th:disabled="${!ct.enabled}" type="button" data-toggle="modal" data-target="#deleteModal" 
+						                              <button th:disabled="${!br.enabled}" type="button" data-toggle="modal" data-target="#deleteModal" 
 						                                      class="open-deleteDialog btn btn-outline btn-default btn-xs"
-						                                      th:attr="data-id=${ct.id}, data-name=${ct.name}, data-class-name=${ct.class.name}"> 
+						                                      th:attr="data-id=${br.id}, data-name=${br.name}"> 
 						                                <i class="fa fa-trash-o"></i>
 						                              </button>	
 				                            	 </div>  
@@ -191,21 +193,11 @@
 					   		 <div class="btn-group" role="group" aria-label="..."> 
                                 <button type="button" class="open-editDialog btn btn-outline btn-default btn-sm" 
                                         data-toggle="modal" data-target="#editModal" data-operation="add"
-                                        th:attr="data-path=@{/admin/catalog/attributecategory/add}">
+                                        th:attr="data-path=@{/admin/catalog/brand/add}">
                                   <i class="fa fa-plus-circle"></i>
                                   <span> </span>
-						          <span th:text="#{admin.catalog.attributecategory.addcategory.buttoncaption}">Add category</span> 
+						          <span th:text="#{admin.catalog.brand.addbrand.buttoncaption}">Add brand</span> 
                                 </button>
-						     </div>
-					   		 <div class="btn-group" role="group" aria-label="..."> 
-                                <button type="button" class="open-editDialog btn btn-outline btn-default btn-sm" 
-                                        data-toggle="modal" data-target="#editModal" data-operation="add"
-                                        th:attr="data-path=@{/admin/catalog/attributecategory/attribute/add}">
-                                  <i class="fa fa-plus-circle"></i>
-                                  <span> </span>
-						          <span th:text="#{admin.catalog.attributecategory.addattribute.buttoncaption}">Add attribute</span> 
-                                </button>
-						        
 						     </div>
 					      </div> 
 					  </div>	  
@@ -225,23 +217,19 @@
 	    <script type="text/javascript">
 	      //<![CDATA[
 	           $(document).ready(function() {
-    		     $("#brandDataTable").DataTable();
+    		     $("#brandDataTable").dataTable( {
+    					"oLanguage": {
+    						"sUrl": "/resources/bower_components/datatables-plugins/i18n/Russian.lang"
+    					}
+    				} );
 	            });
 	            //Открытие окна удаления
 		        $(document).on("click", ".open-deleteDialog", function () {
-		    	     var ctgId = $(this).data("id");
-		    	     var ctgName = $(this).data("name");
-		    	     var className = $(this).data("class-name");
+		    	     var Id = $(this).data("id");
+		    	     var brName = $(this).data("name");
 		    	     var action;
-		    	     $("#delete-modal-footer #ID").val(ctgId);
-		    	     $("#delete-modal-body #ctgName").html(ctgName);
-		    	     if (className.indexOf("AttributeCategory") >= 0) {
-		    	    	 action = window.location.pathname+"/delete"; 
-		    	     } else {
-		    	    	 action = window.location.pathname+"/attribute/delete";
-		    	     }
-	    	    	 $("#deleteModalContent #deleteForm").attr("action", action);
-
+		    	     $("#delete-modal-footer #ID").val(Id);
+		    	     $("#delete-modal-body #brName").html(brName);
 		    	});
   		        //Открытие окна редактированя
 	    		$("#editModal").on("show.bs.modal", function (e) {
