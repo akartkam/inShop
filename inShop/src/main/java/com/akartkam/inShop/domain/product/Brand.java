@@ -1,5 +1,9 @@
 package com.akartkam.inShop.domain.product;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.UUID;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Lob;
@@ -12,6 +16,7 @@ import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import com.akartkam.inShop.domain.AbstractDomainObject;
+import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
 
 @Entity
 @Table(name = "Brand")
@@ -62,6 +67,22 @@ public class Brand extends AbstractDomainObject {
 	}
 	public void setLogoUrl(String logoUrl) {
 		this.logoUrl = logoUrl;
+	}
+	
+	@Override
+	@Transient
+	public Brand clone() throws CloneNotSupportedException {
+		Brand brand = (Brand) super.clone();
+		brand.setId(UUID.randomUUID());
+		brand.setName(new String(getName()));
+		brand.setCreatedBy(null);
+		brand.setCreatedDate(null);
+		brand.setUpdatedBy(null);
+		brand.setUpdatedDate(null);
+		brand.setDescription(new String(getDescription()));
+		brand.setUrl(new String(getUrl()));
+		brand.setLogoUrl(new String(getLogoUrl()));
+		return brand;
 	}
 	
 	@Override

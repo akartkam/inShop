@@ -71,11 +71,14 @@
                         <ul class="dropdown-menu" role="menu">
                         <!-- <ul class="nav nav-second-level"> -->
                             <li>
-                                <a href="#" th:href="@{/admin/catalog/category}"><i class="fa fa-folder fa-fw"></i><span th:text= "#{admin.catalog.category}">Categories</span></a>
+                                <a href="#" th:href="@{/admin/catalog/category}"><i class="fa fa-folder fa-fw">&nbsp;</i><span th:text= "#{admin.catalog.category}">Categories</span></a>
                             </li>
                             <li>
-                                <a href="#" th:href="@{/admin/catalog/attributecategory}"><i class="fa fa-folder fa-fw"></i><span th:text= "#{admin.catalog.attributecategory}">Attribute categories</span></a>
+                                <a href="#" th:href="@{/admin/catalog/attributecategory}"><i class="fa fa-th-list fa-fw">&nbsp;</i><span th:text= "#{admin.catalog.attributecategory}">Attribute categories</span></a>
                             </li>
+                            <li>
+                                <a href="#" th:href="@{/admin/catalog/brand}"><i class="fa  fa-gears fa-fw">&nbsp;</i><span th:text= "#{admin.catalog.brand}">Brand</span></a>
+                            </li>                            
                         </ul>
                     </li>
                 </ul>

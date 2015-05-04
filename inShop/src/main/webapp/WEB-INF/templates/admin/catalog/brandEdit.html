@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ru" xmlns:th="http://www.thymeleaf.org" 
                 xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-                layout:decorator="admin/category">
+                layout:decorator="admin/catalog/brand">
 	<head>
 	<!-- layout:decorator="admin/category" -->
 	    <th:block th:remove="all">
@@ -30,7 +30,7 @@
   <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true" layout:fragment="editForm">
     <div class="modal-dialog">
 	   <div class="modal-content" id="editModalContent">
-	   <form method="post" class="form-horizontal" role="form" action="#" th:action="@{/admin/catalog/brand/edit}" th:object="${brand}" th:fragment="editCategoryForm">
+	   <form method="post" enctype="multipart/form-data" class="form-horizontal" role="form" action="#" th:action="@{/admin/catalog/brand/edit}" th:object="${brand}" th:fragment="editBrandForm">
 		   <div class="modal-header">
 	 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 				<h4 class="modal-title"  th:text="${!brand.new}? #{admin.catalog.brand.edit.title.edit}: #{admin.catalog.brand.edit.title.add}">Edit Category</h4>
@@ -61,6 +61,12 @@
 							   		  <input type="text" class="form-control" th:field="*{name}"/>
 							   		  <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Incorrect name</p>
 						   		   </div>
+						   		   <div class="field-box">	                              
+						    		  <label>
+							    	  	 <span th:text="#{admin.catalog.brand.edit.url}">URL</span>
+							   		  </label>
+							   		  <input type="text" class="form-control" th:field="*{url}"/>
+						   		   </div>
 						   		   <div class="field-box">
 			 			    		   <label>
 							    	  	<span th:text="#{admin.catalog.brand.edit.description}">Description Brand1</span>
@@ -75,13 +81,18 @@
 						      </label>
 						        <div class="media" style="margin-top: 0;">
 								  <div class="media-left">
+								    <input type="hidden" id="currLogoUrl" th:field="*{logoUrl}"/>
 								    <div class="photo-block"> 
 		                                 <span class="helper"></span>
-		                                 <img src="../../../../resources/img/logo/asus.png" style="width: 100px;"/>
+		                                 <img id="imgLogo" src="../../../../resources/img/logo/asus.png" style="width: 100px;"
+		                                     th:src="@{${{brand.logoUrl!=null}? brand.logoUrl: '/resources/img/noimage.png'}}" th:onerror="'this.src=\'' + @{/resources/img/noimage.png} + '\';'"/>
 	                                </div> 
 	                              </div>
 	                              <div class="media-body">
-	                                 <span><input type="file" class="btn-small btn" id="inputSImg" name="mainPhoto" accept="image/jpeg,image/png,image/gif"/></span>
+	                                 <input type="file" class="btn-small btn" id="inputSImg" name="mainLogo" accept="image/jpeg,image/png,image/gif"/>
+	                                 <button type="button" class="btn btn-outline btn-default btn-sm" style="margin-left:13px" onclick="$('#imgLogo').attr('src',''); $('#currLogoUrl').val(''); $('#inputSImg').val('');">
+					          			<i class="fa fa-trash-o"></i>
+					        		 </button>
 	                              </div>   
 	                            </div>  
 						   </div>	 
@@ -124,6 +135,18 @@
 	        					    lang: "ru-RU"
 	          				     });
 	                   });
+ 		 
+	 		$('#inputSImg').on('change', function (e) {
+	 	        var $this = $(this),
+	 	                $type_file = $this.val(),
+	 	                file = this.files[0],
+	 	                reader = new FileReader();
+	 	       reader.onload = (function(e) {
+	 	        	 $("#imgLogo").attr("src", e.target.result);
+	 	        });
+	 	        reader.readAsDataURL(file);
+	 	    });
+	 		 
 		   </script>
 		 </th:block>  
 </body>

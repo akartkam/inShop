@@ -81,6 +81,7 @@ public class CategoryServiceImpl implements CategoryService {
 		if (existingCategory != null) {
 	        // set here explicitly what must/can be overwritten by the html form POST
 	        existingCategory.setName(categoryFromPost.getName());
+	        existingCategory.setUrl(categoryFromPost.getUrl());
 	        Category parentCategory = categoryFromPost.getParent();
 	        if (parentCategory != null){
 	        	parentCategory.addSubCategory(existingCategory);

@@ -53,7 +53,7 @@ public class AdminCategoryController {
  
 	  @InitBinder
 	  public void initBinder(WebDataBinder binder) {
-			binder.setAllowedFields(new String[] { "id", "name", "parent",
+			binder.setAllowedFields(new String[] { "id", "name", "parent", "url",
 					"description", "longDescription", "ordering", "enabled"});
 			binder.registerCustomEditor(Category.class, "parent", new PropertyEditorSupport() {
 			    @Override

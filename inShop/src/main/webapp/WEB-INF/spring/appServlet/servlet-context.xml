@@ -25,6 +25,10 @@
 
 	<resources mapping="/resources/**" location="/resources/" />
 	<resources mapping="/images/**" location="file:///#{appProperties['inShop.imagesPath']}" />
+	
+	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+	        <beans:property name="maxUploadSize" value="3250000"/>
+	</beans:bean>
     
     <beans:bean id="templateResolver"
         class="org.thymeleaf.templateresolver.ServletContextTemplateResolver">

@@ -17,16 +17,18 @@
 	    	<link href="../../../../resources/css/sb-admin-2.css" rel="stylesheet" th:href="@{/resources/css/sb-admin-2.css}"/>
 		    <!-- Custom Fonts -->
 	    	<link href="../../../../resources/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/font-awesome/css/font-awesome.min.css}"/>
+    	</th:block>
 		    <!-- DataTables CSS -->
 		    <link href="../../../../resources/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css" rel="stylesheet" th:href="@{/resources/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css}"/>	    	
 			<!-- DataTables Responsive CSS -->
     		<link href="../../../../resources/bower_components/datatables-responsive/css/dataTables.responsive.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/datatables-responsive/css/dataTables.responsive.css}"/>	    	
-			<!-- style.css -->
-    		<link href="../../../../resources/css/style.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/style.css}"/>	    	
-    	</th:block>
+
 	    	<link href="../../../../resources/bower_components/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/bootstrap/dist/css/bootstrap-theme.min.css}"/>
 			<!-- summernote -->
 			<link href="../../../../resources/css/summernote.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/summernote.css}"></link>
+			<!-- style.css -->
+    		<link href="../../../../resources/css/style.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/style.css}"/>	    	
+			
 	</head>
 <body>
    <th:block layout:fragment="breadcrumb">
@@ -35,7 +37,7 @@
    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true" layout:fragment="deleteForm">
 	  <div class="modal-dialog">
 	    <div class="modal-content" id="deleteModalContent">
- 	        <form method="post" action="#" id="deleteForm">
+ 	        <form method="post" action="#" th:action="@{/admin/catalog/brand/delete}" id="deleteForm">
 	            <div class="modal-header">
 	              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 	              <h4 class="modal-title" id="deleteModalLabel"><span th:text="#{admin.catalog.category.delete.modalcaption}">Удаление</span></h4>
@@ -100,7 +102,7 @@
 						  	      </tr>
 						 	    </thead>
 						 	    <tbody>      
-							        <tr th:each="br : ${allBrand}" th:class="${!ct.enabled} ? 'text-muted'">
+							        <tr th:each="br : ${allBrand}" th:class="${!br.enabled} ? 'text-muted'">
 							            <td class="text-center">						
 										    <input class="checkCategory" type="checkbox" th:id="${'check-'+br.id}" th:value="${br.id}"/>
 									    </td>
@@ -108,7 +110,7 @@
 										    <div class="a-photo-out">
                                                <span class="photo-block">
                                                  <span class="helper"></span>
-                                                 <img th:src="@{${ct.logoUrl}}" th:onerror="@{/resources/img/noimage.png}">
+                                                 <img th:src="@{${br.logoUrl}}"  th:onerror="'this.src=\'' + @{/resources/img/noimage.png} + '\';'"/>
                                                </span>
 										       <span th:text="${br.name}">brand</span>
 										    </div>										
@@ -147,7 +149,7 @@
 												<div class="a-photo-out">
 	                                               <span class="photo-block">
 	                                                 <span class="helper"></span>
-	                                                 <img src="../../../../resources/img/logo/asus.png" onerror="../../../../resources/img/noimage.png">
+	                                                 <img src="../../../../resources/img/logo/asus.png" onerror="../../../../resources/img/noimage.png"/>
 	                                               </span>
 											       <span class="text-el">brand</span>
 										        </div>	
@@ -164,7 +166,7 @@
 												<div class="a-photo-out">
 	                                               <span class="photo-block">
 	                                                 <span class="helper"></span>
-	                                                 <img src="../../../../resources/img/logo/samsung.png" onerror="../../../../resources/img/noimage.png">
+	                                                 <img src="../../../../resources/img/logo/samsung.png" onerror="../../../../resources/img/noimage.png"/>
 	                                               </span>
 											       <span class="text-el">brand</span>
 										        </div>	
@@ -212,15 +214,39 @@
     <script src="../../../../resources/bower_components/bootstrap/dist/js/bootstrap.min.js" th:src="@{/resources/bower_components/bootstrap/dist/js/bootstrap.min.js}"></script>
     <th:block layout:fragment="script"> 
 	    <!-- DataTables JavaScript -->
-	    <script src="../../../../resources/bower_components/DataTables/media/js/jquery.dataTables.min.js" th:src="@{/resources/bower_components/DataTables/media/js/jquery.dataTables.min.js}"></script>
+	    <script src="../../../../resources/bower_components/datatables/media/js/jquery.dataTables.min.js" th:src="@{/resources/bower_components/datatables/media/js/jquery.dataTables.min.js}"></script>
 	    <script src="../../../../resources/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js" th:src="@{/resources/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js}"></script>
+	    <script src="../../../../resources/js/inShop-common.js" th:src="@{/resources/js/inShop-common.js}"></script>
+	    <th:block th:include="/admin/catalog/brandEdit :: scriptEditModal">
+        </th:block>	    
 	    <script type="text/javascript">
 	      //<![CDATA[
 	           $(document).ready(function() {
     		     $("#brandDataTable").dataTable( {
-    					"oLanguage": {
-    						"sUrl": "/resources/bower_components/datatables-plugins/i18n/Russian.lang"
-    					}
+		            	"language": {
+		                   	"processing": "Подождите...",
+		                   	  "search": "Поиск:",
+		                   	  "lengthMenu": "Показать _MENU_ записей",
+		                   	  "info": "Записи с _START_ до _END_ из _TOTAL_ записей",
+		                   	  "infoEmpty": "Записи с 0 до 0 из 0 записей",
+		                   	  "infoFiltered": "(отфильтровано из _MAX_ записей)",
+		                   	  "infoPostFix": "",
+		                   	  "loadingRecords": "Загрузка записей...",
+		                   	  "zeroRecords": "Записи отсутствуют.",
+		                   	  "emptyTable:": "В таблице отсутствуют данные",
+		                   	  "paginate": {
+		                   	    "first": "Первая",
+		                   	    "previous": "Предыдущая",
+		                   	    "next": "Следующая",
+		                   	    "last": "Последняя"
+		                   	  },
+		                   	  "aria": {
+		                   	    "sortAscending": ": активировать для сортировки столбца по возрастанию",
+		                   	    "sortDescending": ": активировать для сортировки столбца по убыванию"
+		                   	  }
+		                  },
+		                responsive: true,
+		                ordering:  false
     				} );
 	            });
 	            //Открытие окна удаления
@@ -241,7 +267,20 @@
 	                        cache: false
 	                    }).done(function (html) {
 	                                $("#editModalContent").append(html);
-	                                $("#editModal").data("allowed","false")
+	                                $("#editModal").data("allowed","false");
+	        	                    $("#summernote").summernote({
+	        	    				    lang: "ru-RU"
+	        	    				     });
+	        	    				$('#inputSImg').on('change', function (e) {
+	        	    					  var $this = $(this),
+	        	    					          $type_file = $this.val(),
+	        	    					          file = this.files[0],
+	        	    					          reader = new FileReader();
+	        	    					 reader.onload = (function(e) {
+	        	    					  	 $("#imgLogo").attr("src", e.target.result);
+	        	    					  });
+	        	    					  reader.readAsDataURL(file);
+	        	    					});
 	        	                    $("#name").focus();
 	                    });
 					}  
@@ -261,8 +300,6 @@
 		   // ]]>
 	     </script>
 	     <!-- <th:block layout:include="/admin/catalog/attributeCategoryEdit :: scriptEditModal"> -->
-	     <th:block layout:fragment="scriptEditModal">
-	     </th:block>
     </th:block>
 </body>
 </html>

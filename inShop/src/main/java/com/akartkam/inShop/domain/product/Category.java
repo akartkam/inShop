@@ -25,6 +25,7 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.Index;
 import org.hibernate.annotations.Type;
 
 import com.akartkam.inShop.domain.AbstractDomainObjectOrdering;
@@ -59,6 +60,7 @@ public class Category extends AbstractDomainObjectOrdering {
 	private String description;
 	private String longDescription; 
 	private Set<AbstractAttribute> attributes = new HashSet<AbstractAttribute>(0);
+	private String url;
 
 	@NotNull
 	@Size(min = 1, max = 50)
@@ -77,6 +79,15 @@ public class Category extends AbstractDomainObjectOrdering {
 	}
 	public void setParent(Category parent) {
 		this.parent = parent;
+	}
+	
+    @Column(name = "url")
+    @Index(name="category_url_index", columnNames={"url"})	
+	public String getUrl() {
+		return url;
+	}
+	public void setUrl(String url) {
+		this.url = url;
 	}
 	
 	@OneToMany(mappedBy="parent", cascade = CascadeType.ALL, orphanRemoval=true)
