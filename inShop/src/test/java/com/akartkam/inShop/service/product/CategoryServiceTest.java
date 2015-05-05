@@ -181,14 +181,14 @@ public class CategoryServiceTest extends AbstractServiceTest {
 		Category found = categoryService.getCategoryByName("Test_Category4").get(0);
 		Product product = new Product();
 		product.setName("AutoTestAddProduct1");
-		product.setManufacturer("Manufacturer1");
+		//product.setManufacturer("Manufacturer1");
 		product.setModel("Model1");
 		found.addProduct(product);
 		categoryDAO.update(found);
 		Category found1 = categoryService.getCategoryByName("Test_Category5").get(0);
 		Product product1 = new Product();
 		product1.setName("AutoTestAddProduct2");
-		product1.setManufacturer("Manufacturer2");
+		//product1.setManufacturer("Manufacturer2");
 		product1.setModel("Model2");
 		found1.addProduct(product1);
 		categoryDAO.update(found1);
@@ -217,7 +217,7 @@ public class CategoryServiceTest extends AbstractServiceTest {
 		//found.addAttribute(attribute1);
 		Product product = new Product();
 		product.setName("AutoTestAddAttributeDecimalValue1");
-		product.setManufacturer("Manufacturer1");
+		//product.setManufacturer("Manufacturer1");
 		product.setModel("Model1");	
 		AbstractAttributeValue attributeValue = SimpleAttributeFactory.createAttributeValue(AttributeType.DECIMAL);
 		attributeValue.setAttributeValue(11D);
@@ -249,7 +249,7 @@ public class CategoryServiceTest extends AbstractServiceTest {
 		attributeValue.setAttributeValue(sList1);	
 		Product product = new Product();
 		product.setName("AutoTestAddAttributeSListValue1");
-		product.setManufacturer("Manufacturer1");
+		//product.setManufacturer("Manufacturer1");
 		product.setModel("Model1");	
 		product.addAttributeValue(attributeValue, attribute);
 		//found.addAttribute(attribute);

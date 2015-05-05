@@ -1,18 +1,24 @@
 package com.akartkam.inShop.domain.product;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapKeyColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.Index;
 
 import com.akartkam.inShop.domain.AbstractDomainObjectOrdering;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
@@ -28,10 +34,12 @@ public class Product extends AbstractDomainObjectOrdering {
 	private static final long serialVersionUID = -583044339566068826L;
 	private String name;
 	private Category category;
-	private String manufacturer;
+	private Brand brand;
 	private String model;
 	private List<AbstractAttributeValue> attributeValues = new ArrayList<AbstractAttributeValue>();
-	
+	private String url;
+    Map<String, String> images = new HashMap<String, String>();	
+
 
 	@NotNull
 	@Column(name = "name")
@@ -52,12 +60,22 @@ public class Product extends AbstractDomainObjectOrdering {
 		this.category = category;
 	}
 	
-	@Column(name = "manuf")
-	public String getManufacturer() {
-		return manufacturer;
+    @Column(name = "url")
+    @Index(name="product_url_index", columnNames={"url"})	
+	public String getUrl() {
+		return url;
 	}
-	public void setManufacturer(String manufacturer) {
-		this.manufacturer = manufacturer;
+	public void setUrl(String url) {
+		this.url = url;
+	}
+	
+	@ManyToOne
+	@JoinColumn
+	public Brand getBrand() {
+		return brand;
+	}
+	public void setBrand(Brand brand) {
+		this.brand = brand;
 	}
 	
 	@Column(name = "model")
@@ -66,7 +84,19 @@ public class Product extends AbstractDomainObjectOrdering {
 	}
 	public void setModel(String model) {
 		this.model = model;
-	}	
+	}
+	
+	
+    @ElementCollection
+    @MapKeyColumn
+    @Column(name="image_url")
+    @CollectionTable(name="lnk_product_image")
+    public Map<String, String> getImages() {
+		return images;
+	}
+	public void setImages(Map<String, String> images) {
+		this.images = images;
+	}
 	
 	@OneToMany(mappedBy="product", cascade = CascadeType.ALL)
 	@Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)

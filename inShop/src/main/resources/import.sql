@@ -71,30 +71,30 @@ role_id = '53a5c8ce-4f56-4c79-acb3-e47d76e580df');
 		
 		
 INSERT INTO product(
-            id, createddate, enabled, updateddate, version, ordering, manuf, 
+            id, createddate, enabled, updateddate, version, ordering,  
             model, name, createby, updatedby, category_id)
-    SELECT '72763e92-6bb0-41ad-a8c6-d276fed557a1', current_timestamp, true, null, 0, 0, 'Test_manuf1', 
+    SELECT '72763e92-6bb0-41ad-a8c6-d276fed557a1', current_timestamp, true, null, 0, 0,  
             'Test_model1', 'Test_product1', '0b90130d-2c19-4001-b61a-ef100d7b950e',
             null, 'a6d26eb4-5f63-4482-8293-cb1de9ab4d7a'
     WHERE NOT EXISTS (SELECT id FROM product WHERE id = '72763e92-6bb0-41ad-a8c6-d276fed557a1');
 INSERT INTO product(
-            id, createddate, enabled, updateddate, version, ordering, manuf, 
+            id, createddate, enabled, updateddate, version, ordering,  
             model, name, createby, updatedby, category_id)
-    SELECT 'ea1a985e-31d2-45cc-8cd4-6ab2926e87d3', current_timestamp, true, null, 0, 0, 'Test_manuf2', 
+    SELECT 'ea1a985e-31d2-45cc-8cd4-6ab2926e87d3', current_timestamp, true, null, 0, 0,  
             'Test_model2', 'Test_product2', '0b90130d-2c19-4001-b61a-ef100d7b950e',
             null, 'a6d26eb4-5f63-4482-8293-cb1de9ab4d7a'
     WHERE NOT EXISTS (SELECT id FROM product WHERE id = 'ea1a985e-31d2-45cc-8cd4-6ab2926e87d3');
 INSERT INTO product(
-            id, createddate, enabled, updateddate, version, ordering, manuf, 
+            id, createddate, enabled, updateddate, version, ordering,  
             model, name, createby, updatedby, category_id)
-    SELECT 'd8521941-8c83-430b-8a97-4bd89249d67a', current_timestamp, true, null, 0, 0, 'Test_manuf3', 
+    SELECT 'd8521941-8c83-430b-8a97-4bd89249d67a', current_timestamp, true, null, 0, 0,  
             'Test_model3', 'Test_product3', '0b90130d-2c19-4001-b61a-ef100d7b950e',
             null, 'ed752562-3c39-4a74-9cf6-679c8689a5e9'
     WHERE NOT EXISTS (SELECT id FROM product WHERE id = 'd8521941-8c83-430b-8a97-4bd89249d67a');
 INSERT INTO product(
-            id, createddate, enabled, updateddate, version, ordering, manuf, 
+            id, createddate, enabled, updateddate, version, ordering, 
             model, name, createby, updatedby, category_id)
-    SELECT '2520f69e-6679-480b-b145-a1e9701ccdec', current_timestamp, true, null, 0, 0, 'Test_manuf4', 
+    SELECT '2520f69e-6679-480b-b145-a1e9701ccdec', current_timestamp, true, null, 0, 0,  
             'Test_model4', 'Test_product4', '0b90130d-2c19-4001-b61a-ef100d7b950e',
             null, 'ed752562-3c39-4a74-9cf6-679c8689a5e9'
     WHERE NOT EXISTS (SELECT id FROM product WHERE id = '2520f69e-6679-480b-b145-a1e9701ccdec'); 

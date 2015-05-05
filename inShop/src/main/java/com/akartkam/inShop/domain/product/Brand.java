@@ -2,15 +2,19 @@ package com.akartkam.inShop.domain.product;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.UUID;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Lob;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.Index;
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -30,6 +34,7 @@ public class Brand extends AbstractDomainObject {
 	private String description;
 	private String url;
 	private String logoUrl;
+	private List<Product> products = new ArrayList<Product>();
 	
 	@NotNull
 	@NotEmpty
@@ -69,6 +74,14 @@ public class Brand extends AbstractDomainObject {
 		this.logoUrl = logoUrl;
 	}
 	
+	@OneToMany(mappedBy = "brand")
+	public List<Product> getProducts() {
+		return products;
+	}
+	public void setProducts(List<Product> products) {
+		this.products = products;
+	}
+		
 	@Override
 	@Transient
 	public Brand clone() throws CloneNotSupportedException {
@@ -88,7 +101,7 @@ public class Brand extends AbstractDomainObject {
 	@Override
 	@Transient
 	public boolean canRemove(){
-		return true;
+		return !getProducts().isEmpty();
 	}
 
 }
