@@ -19,6 +19,7 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.Index;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import com.akartkam.inShop.domain.AbstractDomainObjectOrdering;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
@@ -26,6 +27,7 @@ import com.akartkam.inShop.domain.product.attribute.AbstractAttributeValue;
 
 @Entity
 @Table(name = "Product")
+@SuppressWarnings("rawtypes")
 public class Product extends AbstractDomainObjectOrdering {
 
 	/**
@@ -42,6 +44,7 @@ public class Product extends AbstractDomainObjectOrdering {
 
 
 	@NotNull
+	@NotEmpty
 	@Column(name = "name")
 	public String getName() {
 		return name;
