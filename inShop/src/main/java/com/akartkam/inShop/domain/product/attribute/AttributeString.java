@@ -10,7 +10,7 @@ import javax.persistence.Transient;
 
 @Entity
 @DiscriminatorValue("STRING")
-@Table(name = "Attribute_String")
+@Table
 public class AttributeString extends AbstractAttribute {
 
 	/**

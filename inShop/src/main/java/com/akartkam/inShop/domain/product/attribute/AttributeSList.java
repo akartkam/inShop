@@ -1,23 +1,31 @@
 package com.akartkam.inShop.domain.product.attribute;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.MapKeyColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
 @Entity
 @DiscriminatorValue("SLIST")
-@Table(name = "Attribute_Slist")
+@Table
 public class AttributeSList extends AbstractAttribute {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 3284620229615890714L;
-	private List<SList> sList;
+	private Set<String> items = new HashSet<String>(0);
 
 	@Override
 	@Transient
@@ -32,13 +40,18 @@ public class AttributeSList extends AbstractAttribute {
 		return attributeValues;
 	}*/
 
-	@OneToMany(mappedBy="attributeSList")
-	public List<SList> getSList() {
-		return sList;
+	
+    @ElementCollection
+    @Column(name="item", nullable = false)
+    @OrderBy("item")
+    @CollectionTable(name="items_slist")
+    public Set<String> getItems() {
+		return items;
 	}
-
-	public void setSList(List<SList> sList) {
-		this.sList = sList;
+	public void setItems(Set<String> items) {
+		this.items = items;
 	}	
+	
+
 
 }

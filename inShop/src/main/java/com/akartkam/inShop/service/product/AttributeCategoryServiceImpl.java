@@ -182,9 +182,9 @@ public class AttributeCategoryServiceImpl implements AttributeCategoryService {
 	@Override
 	@Transactional(readOnly = false)
 	public void deleteAttribute(AbstractAttribute attribute) {
-		attribute.getAttributeCategory().getAttributes().remove(attribute);
+		attribute.getAttributeCategory().removeAttribute(attribute);
 		attributeCategoryDAO.update(attribute.getAttributeCategory());
-		
+		attributeDAO.delete(attribute);
 	}
 
 	@Override

@@ -44,7 +44,7 @@ public class AttributeCategory extends AbstractDomainObjectOrdering {
 		this.name = name;
 	}
 
-	@OneToMany(mappedBy = "attributeCategory", cascade = CascadeType.ALL, orphanRemoval=true)
+	@OneToMany(mappedBy = "attributeCategory", cascade = CascadeType.ALL)
 	@Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE, org.hibernate.annotations.CascadeType.DELETE})
 	@OrderBy("ordering")
 	@BatchSize(size = 10)
@@ -57,13 +57,16 @@ public class AttributeCategory extends AbstractDomainObjectOrdering {
 	
 	public void addAttribute (AbstractAttribute attribute) {
 		if (attribute == null) throw new IllegalArgumentException("Null attribute!");
-		if (attributes.contains(attribute)) return;
-		AttributeCategory attributeCategory = attribute.getAttributeCategory();
-		if (attributeCategory != null) attributeCategory.getAttributes().remove(attribute);
-		attributes.add(attribute);
+		if (getAttributes().contains(attribute)) return;
+		if (attribute.getAttributeCategory() != null) removeAttribute(attribute);
+		getAttributes().add(attribute);
 		attribute.setAttributeCategory(this);
 	}
 
+	public void removeAttribute (AbstractAttribute attribute) {
+		if (attribute == null) throw new IllegalArgumentException("Null attribute!");
+		attribute.getAttributeCategory().getAttributes().remove(attribute);
+	}
 	
 	@Transient
 	public boolean hasAttributes() {

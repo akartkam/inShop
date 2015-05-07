@@ -90,7 +90,7 @@ public class Category extends AbstractDomainObjectOrdering {
 		this.url = url;
 	}
 	
-	@OneToMany(mappedBy="parent", cascade = CascadeType.ALL, orphanRemoval=true)
+	@OneToMany(mappedBy="parent", cascade = CascadeType.ALL)
 	@Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE,
 			  org.hibernate.annotations.CascadeType.DELETE})
 	@OrderBy("ordering")
@@ -114,7 +114,7 @@ public class Category extends AbstractDomainObjectOrdering {
 	public void removeSubCategory (Category subCategory) {
 		if (subCategory == null) throw new IllegalArgumentException("Null child category!");
 		subCategory.setParent(null);
-		this.subCategory.remove(subCategory);
+		this.getSubCategory().remove(subCategory);
 	}
 	
 	

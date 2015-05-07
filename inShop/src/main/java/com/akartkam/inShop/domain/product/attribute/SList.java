@@ -13,8 +13,8 @@ import javax.validation.constraints.Size;
 
 import com.akartkam.inShop.domain.AbstractDomainObjectOrdering;
 
-@Entity
-@Table(name = "SList")
+//@Entity
+//@Table(name = "SList")
 public class SList extends AbstractDomainObjectOrdering {
 
 	/**

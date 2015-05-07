@@ -5,17 +5,11 @@ import static org.junit.Assert.*;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import java.util.UUID;
 
-import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.Logger;
-import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.transaction.BeforeTransaction;
 import org.springframework.test.context.transaction.TransactionConfiguration;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.akartkam.inShop.dao.product.CategoryDAO;
 import com.akartkam.inShop.dao.product.attribute.SListDAO;
@@ -24,7 +18,6 @@ import com.akartkam.inShop.domain.product.Product;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttributeValue;
 import com.akartkam.inShop.domain.product.attribute.AttributeCategory;
-import com.akartkam.inShop.domain.product.attribute.AttributeDecimalValue;
 import com.akartkam.inShop.domain.product.attribute.AttributeType;
 import com.akartkam.inShop.domain.product.attribute.SList;
 import com.akartkam.inShop.domain.product.attribute.SimpleAttributeFactory;
