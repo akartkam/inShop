@@ -1,6 +1,8 @@
 package com.akartkam.inShop.domain.product.attribute;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -27,7 +29,7 @@ import org.hibernate.annotations.Cascade;
 
 import com.akartkam.inShop.domain.AbstractDomainObjectOrdering;
 import com.akartkam.inShop.domain.product.Category;
-import com.akartkam.inShop.domain.product.Product;
+
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -118,5 +120,11 @@ public abstract class AbstractAttribute extends AbstractDomainObjectOrdering {
 	public boolean canRemove() {
 		return (attributeValues.isEmpty() && category.isEmpty());
 	}
+	
+	@Transient
+    public Collection<? extends Serializable> getItems() {
+		return null;
+	}
+	
 
 }

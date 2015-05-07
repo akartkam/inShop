@@ -40,7 +40,7 @@ public class AttributeSList extends AbstractAttribute {
 		return attributeValues;
 	}*/
 
-	
+	@Override
     @ElementCollection
     @Column(name="item", nullable = false)
     @OrderBy("item")
@@ -48,6 +48,7 @@ public class AttributeSList extends AbstractAttribute {
     public Set<String> getItems() {
 		return items;
 	}
+	
 	public void setItems(Set<String> items) {
 		this.items = items;
 	}	

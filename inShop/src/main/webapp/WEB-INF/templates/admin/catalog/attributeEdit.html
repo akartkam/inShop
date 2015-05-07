@@ -42,6 +42,8 @@
 	                    </li>
 	                    <li><a href="#additional" data-toggle="tab" th:text="#{admin.edit.tab.params}">Параметры</a>
 	                    </li>
+	                    	<li><a href="#content" data-toggle="tab" th:text="#{admin.edit.tab.content}">Содержание</a>
+	                    </li>
 	                </ul>
 	                <!-- Tab panes -->
 	                <div class="tab-content">
@@ -56,7 +58,7 @@
 				   		    </div>
 	                        <div class="field-box">
 	                          <label>
-						  	    	<span th:text="#{admin.catalog.attribute.edit.type}">Type</span>
+						  	    <span th:text="#{admin.catalog.attribute.edit.type}">Type</span>
 						      </label>
 							  <select class="form-control" th:field="*{attributeType}" th:if="${attribute.new}">
 								<option th:each="type : ${allTypes}" 
@@ -93,6 +95,14 @@
 							 </label>
 						   </div>	 
 	                    </div>
+	                    <div class="tab-pane fade" id="content">
+	                       <div class="field-box" th:if="${attribute.new || #string.contains(attribute.type.name,'SLIST')}">
+	 			    		  <label>
+					    	  	<span th:text="#{admin.catalog.attribute.edit.items}">Items</span>
+					   		  </label>
+					   		  <textarea class="form-control" rows="6" th:field="*{items}"></textarea>
+						   </div>
+	                    </div>	                    
 	                </div>
 		    </div>
 		 <!-- /modal-body -->
