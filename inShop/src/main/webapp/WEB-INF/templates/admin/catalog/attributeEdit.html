@@ -96,7 +96,7 @@
 						   </div>	 
 	                    </div>
 	                    <div class="tab-pane fade" id="content">
-	                       <div class="field-box" th:if="${attribute.new || #string.contains(attribute.type.name,'SLIST')}">
+	                       <div class="field-box" th:if="${attribute.new || #strings.contains(attribute.attributeType.name,'SLIST')}">
 	 			    		  <label>
 					    	  	<span th:text="#{admin.catalog.attribute.edit.items}">Items</span>
 					   		  </label>

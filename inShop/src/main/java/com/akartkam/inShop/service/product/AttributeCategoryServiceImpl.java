@@ -89,6 +89,7 @@ public class AttributeCategoryServiceImpl implements AttributeCategoryService {
 			existingAttribute.setName(attributeFromPost.getName());
 			existingAttribute.setOrdering(attributeFromPost.getOrdering());
 			existingAttribute.setEnabled(attributeFromPost.isEnabled());
+			existingAttribute.setItems(attributeFromPost.getItems());
 			AttributeCategory attributeCategoryFromPost = attributeFromPost.getAttributeCategory();
 	        if (attributeCategoryFromPost == null) throw new IllegalArgumentException("Attribute Category can not be null!");
 	        attributeCategoryFromPost.addAttribute(existingAttribute);
@@ -98,6 +99,7 @@ public class AttributeCategoryServiceImpl implements AttributeCategoryService {
 			attributeNew.setName(attributeFromPost.getName());
 			attributeNew.setOrdering(attributeFromPost.getOrdering());
 			attributeNew.setEnabled(attributeFromPost.isEnabled());
+			attributeNew.setItems(attributeFromPost.getItems());
 			AttributeCategory attributeCategoryFromPost = attributeFromPost.getAttributeCategory();
 	        if (attributeCategoryFromPost == null) throw new IllegalArgumentException("Attribute Category can not be null!");
 	        attributeCategoryFromPost.addAttribute(attributeNew);

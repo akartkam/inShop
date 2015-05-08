@@ -1,10 +1,8 @@
 package com.akartkam.inShop.domain.product.attribute;
 
-import java.util.List;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 

@@ -125,6 +125,9 @@ public abstract class AbstractAttribute extends AbstractDomainObjectOrdering {
     public Collection<? extends Serializable> getItems() {
 		return null;
 	}
-	
+
+    public void setItems(Collection<? extends Serializable> items) {
+		
+	}	
 
 }

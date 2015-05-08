@@ -1,9 +1,11 @@
 package com.akartkam.inShop.controller.admin.product.attribute;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
+import static org.apache.commons.lang3.StringUtils.join;
 
 import java.beans.PropertyEditorSupport;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -12,6 +14,7 @@ import javax.validation.Valid;
 
 import java.util.Collection;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -66,7 +69,7 @@ public class AdminAttributeCategoryController {
 	  @InitBinder
 	  public void initBinder(WebDataBinder binder) {
 			binder.setAllowedFields(new String[] { "id", "name", "ordering", "enabled", 
-					                               "attributeType", "attributeCategory"});
+					                               "attributeType", "attributeCategory", "items"});
 			binder.registerCustomEditor(UUID.class, "id", new PropertyEditorSupport() {
 			    @Override
 			    public void setAsText(String text) {
@@ -86,6 +89,25 @@ public class AdminAttributeCategoryController {
 			    @Override
 			    public void setAsText(String text) {
 			    	 setValue(AttributeType.valueOf(text));
+			    }
+			    });			
+			binder.registerCustomEditor(Set.class, "items", new PropertyEditorSupport() {
+			    @SuppressWarnings("unchecked")
+				@Override
+			    public String getAsText() {
+			    	StringBuilder content = new StringBuilder();
+			    	for (String str: (Set<String>) getValue()) {
+			    		content.append(str+"\r\n"); 
+			    	}
+			    	if (content.toString().endsWith("\r\n"))
+			    		content.delete(content.length()-2 , content.length());
+			    	return content.toString();
+			    }
+
+				@Override
+			    public void setAsText(String text) {
+					 Set<String> val = new HashSet<String>(Arrays.asList(text.split("\r\n"))); 
+			    	 setValue(val);
 			    }
 			    });			
 			

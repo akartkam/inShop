@@ -1,5 +1,7 @@
 package com.akartkam.inShop.domain.product.attribute;
 
+import java.io.Serializable;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -33,26 +35,19 @@ public class AttributeSList extends AbstractAttribute {
 		return AttributeType.SLIST;
 	}
 
-		
-/*	@Override
-	@OneToMany(mappedBy="attribute", targetEntity=AttributeSListValue.class)
-	public List<AbstractAttributeValue> getAttributeValues() {
-		return attributeValues;
-	}*/
-
 	@Override
     @ElementCollection
     @Column(name="item", nullable = false)
     @OrderBy("item")
-    @CollectionTable(name="items_slist")
+    @CollectionTable(name="items_attributeslist")
     public Set<String> getItems() {
 		return items;
 	}
 	
-	public void setItems(Set<String> items) {
-		this.items = items;
+	@Override
+	@SuppressWarnings("unchecked")
+	public void setItems(Collection<? extends Serializable> items) {
+		this.items = (Set<String>) items;
 	}	
 	
-
-
 }
