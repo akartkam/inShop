@@ -48,6 +48,12 @@ public class AttributeSList extends AbstractAttribute {
 	@SuppressWarnings("unchecked")
 	public void setItems(Collection<? extends Serializable> items) {
 		this.items = (Set<String>) items;
-	}	
+	}
+	
+	public AttributeSList clone() throws CloneNotSupportedException {
+		AttributeSList attrib = (AttributeSList) super.clone();
+		attrib.setItems(new HashSet<String>(getItems()));
+		return attrib;
+	}
 	
 }

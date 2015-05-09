@@ -96,11 +96,14 @@ public class AdminAttributeCategoryController {
 				@Override
 			    public String getAsText() {
 			    	StringBuilder content = new StringBuilder();
-			    	for (String str: (Set<String>) getValue()) {
-			    		content.append(str+"\r\n"); 
+			    	Object val = getValue();
+			    	if (val != null) {
+				    	for (String str: (Set<String>) val) {
+				    		content.append(str+"\r\n"); 
+				    	}
+				    	if (content.toString().endsWith("\r\n"))
+				    		content.delete(content.length()-2 , content.length());
 			    	}
-			    	if (content.toString().endsWith("\r\n"))
-			    		content.delete(content.length()-2 , content.length());
 			    	return content.toString();
 			    }
 
