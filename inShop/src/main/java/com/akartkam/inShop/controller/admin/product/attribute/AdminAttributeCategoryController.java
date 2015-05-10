@@ -240,12 +240,12 @@ public class AdminAttributeCategoryController {
 			                         final BindingResult bindingResult,
 			                         final RedirectAttributes ra
 			                         ) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
-	        if (bindingResult.hasErrors()) {
+	       attributeCategoryService.mergeWithExistingAndUpdateOrCreate(attribute, bindingResult);
+		   if (bindingResult.hasErrors()) {
 	        	ra.addFlashAttribute("attribute", attribute);
 	        	ra.addFlashAttribute("org.springframework.validation.BindingResult.attribute", bindingResult);
 	            return "redirect:/admin/catalog/attributecategory/attribute/edit";
 	        }
-	        attributeCategoryService.mergeWithExistingAndUpdateOrCreate(attribute);
 	        return "redirect:/admin/catalog/attributecategory";
 	    }
 	   

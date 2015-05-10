@@ -3,6 +3,8 @@ package com.akartkam.inShop.service.product;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.validation.Errors;
+
 import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
 import com.akartkam.inShop.domain.product.attribute.AttributeCategory;
 import com.akartkam.inShop.formbean.AttributeForm;
@@ -26,7 +28,7 @@ public interface AttributeCategoryService {
 	void softDeleteAttributeCategoryById(UUID id);
 	void softDeleteAttributeById(UUID id);
 	void mergeWithExistingAndUpdateOrCreate(final AttributeCategory categoryFromPost) ;
-	void mergeWithExistingAndUpdateOrCreate(final AttributeForm attributeFromPost) throws ClassNotFoundException, InstantiationException, IllegalAccessException; 
+	void mergeWithExistingAndUpdateOrCreate(final AbstractAttribute attributeFromPost, Errors errors) throws ClassNotFoundException, InstantiationException, IllegalAccessException; 
 	@SuppressWarnings("rawtypes")
 	List buildAttributeCategoryHierarchy();	
 	AbstractAttribute getAttributeById(UUID id);

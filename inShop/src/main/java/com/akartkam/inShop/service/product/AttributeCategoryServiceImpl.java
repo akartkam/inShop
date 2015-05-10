@@ -8,11 +8,13 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.Errors;
 
 import com.akartkam.inShop.dao.product.attribute.AttributeCategoryDAO;
 import com.akartkam.inShop.dao.product.attribute.AttributeDAO;
 import com.akartkam.inShop.domain.product.Category;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
+import com.akartkam.inShop.domain.product.attribute.AbstractAttributeValue;
 import com.akartkam.inShop.domain.product.attribute.AttributeCategory;
 import com.akartkam.inShop.domain.product.attribute.SimpleAttributeFactory;
 import com.akartkam.inShop.formbean.AttributeForm;
@@ -80,10 +82,11 @@ public class AttributeCategoryServiceImpl implements AttributeCategoryService {
     }
 
 	@Transactional(readOnly = false)
-	public void mergeWithExistingAndUpdateOrCreate(AttributeForm attributeFromPost) 
+	public void mergeWithExistingAndUpdateOrCreate(AbstractAttribute attributeFromPost, Errors errors) 
 			   throws ClassNotFoundException, InstantiationException, IllegalAccessException {
-		if (attributeFromPost == null) return;
+		if (attributeFromPost == null) throw new IllegalArgumentException("Attribute can not be null!");
 		final AbstractAttribute existingAttribute = getAttributeById(attributeFromPost.getId());
+		if (!checkAttribute(existingAttribute, attributeFromPost, errors)) return;
 		if (existingAttribute != null) {
 	        // set here explicitly what must/can be overwritten by the html form POST
 			existingAttribute.setName(attributeFromPost.getName());
@@ -107,6 +110,18 @@ public class AttributeCategoryServiceImpl implements AttributeCategoryService {
 	        //createAttribute(attributeNew);
 		}
     }
+	
+	private boolean checkAttribute (AbstractAttribute existingAttribute, AbstractAttribute attributeFromPost, Errors errors) {
+		AbstractAttribute dAttr = attributeDAO.findAttributeByName(attributeFromPost.getName());
+		if (attributeFromPost.isNew() && dAttr != null) {
+			errors.rejectValue("name", "error.duplicate");
+		}
+		if (existingAttribute != null) {
+			List<AbstractAttributeValue> existingAttributeValue = existingAttribute.getAttributeValues();
+			
+		}
+		return errors.hasErrors();		
+	}
 
 	
 	@Override
