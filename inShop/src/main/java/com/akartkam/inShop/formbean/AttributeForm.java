@@ -1,9 +1,5 @@
 package com.akartkam.inShop.formbean;
 
-import java.io.Serializable;
-
-
-import java.util.Collection;
 
 import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
 import com.akartkam.inShop.domain.product.attribute.AttributeType;
@@ -18,18 +14,7 @@ public class AttributeForm extends AbstractAttribute {
 
 
 	public AttributeForm() {};
-	
-
-	private Collection<? extends Serializable> items = null; 
-	
-	public void setItems(Collection<? extends Serializable> items) {
-		this.items = items;
-	}
-	
-	@Override
-	public Collection<? extends Serializable> getItems() {
-		return items;
-	}
+		
 
 	public AttributeForm(AbstractAttribute attributeSource) {
 		if (attributeSource != null) {

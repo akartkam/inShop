@@ -153,7 +153,7 @@ public class CategoryServiceTest extends AbstractServiceTest {
 */		
 		jdbcTemplate.execute("select del_attribute('AutoTestAddAttribute')");
 		Category found = categoryService.getCategoryByName("Test_Category5.1").get(0);
-		AttributeCategory attributeCategory = attributeCategoryService.getAttributeCategoryByName("Категория атрибутов 1").get(0);
+		AttributeCategory attributeCategory = attributeCategoryService.getAttributeCategoryByName("Категория атрибутов 1");
 		AbstractAttribute attribute = SimpleAttributeFactory.createAttribute(AttributeType.DECIMAL);
 		attribute.setName("AutoTestAddAttributeDecimal1");
 		attribute.setAttributeCategory(attributeCategory);

@@ -1,7 +1,6 @@
 package com.akartkam.inShop.controller.admin.product.attribute;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
-import static org.apache.commons.lang3.StringUtils.join;
 
 import java.beans.PropertyEditorSupport;
 import java.util.Arrays;
@@ -14,15 +13,12 @@ import javax.validation.Valid;
 
 import java.util.Collection;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -33,13 +29,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.akartkam.inShop.domain.product.Category;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
 import com.akartkam.inShop.domain.product.attribute.AttributeCategory;
 import com.akartkam.inShop.domain.product.attribute.AttributeType;
 import com.akartkam.inShop.formbean.AttributeForm;
 import com.akartkam.inShop.service.product.AttributeCategoryService;
-
 
 @Controller
 @RequestMapping("/admin/catalog/attributecategory")
@@ -98,7 +92,7 @@ public class AdminAttributeCategoryController {
 			    	StringBuilder content = new StringBuilder();
 			    	Object val = getValue();
 			    	if (val != null) {
-				    	for (String str: (Set<String>) val) {
+				    	for (String str: (Set<String>)val) {
 				    		content.append(str+"\r\n"); 
 				    	}
 				    	if (content.toString().endsWith("\r\n"))
@@ -225,12 +219,12 @@ public class AdminAttributeCategoryController {
 			                         final BindingResult bindingResult,
 			                         final RedirectAttributes ra
 			                         ) {
-	        if (bindingResult.hasErrors()) {
+          attributeCategoryService.mergeWithExistingAndUpdateOrCreate(category, bindingResult);
+		   if (bindingResult.hasErrors()) {
 	        	ra.addFlashAttribute("attributeCategory", category);
 	        	ra.addFlashAttribute("org.springframework.validation.BindingResult.attributeCategory", bindingResult);
 	            return "redirect:/admin/catalog/attributecategory/edit";
 	        }
-	        attributeCategoryService.mergeWithExistingAndUpdateOrCreate(category);
 	        return "redirect:/admin/catalog/attributecategory";
 	    }
 

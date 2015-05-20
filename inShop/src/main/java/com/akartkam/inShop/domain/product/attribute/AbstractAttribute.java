@@ -47,9 +47,19 @@ public abstract class AbstractAttribute extends AbstractDomainObjectOrdering {
 	private String name;
 	private AttributeCategory attributeCategory;
 	private Set<Category> category = new HashSet<Category>(0);
+	protected Set<String> items = new HashSet<String>(0);
 	protected List<AbstractAttributeValue> attributeValues = new ArrayList<AbstractAttributeValue>(0);
-	
 
+
+	@Transient
+	public Set<String> getItems() {
+		return items;
+	}
+	public void setItems(Set<String> items) {
+		this.items = items;
+	}
+	
+	
 	@NotNull
 	@Size(min = 1, max = 50)
 	@Column(name = "name", unique=true, nullable=false)
@@ -63,11 +73,7 @@ public abstract class AbstractAttribute extends AbstractDomainObjectOrdering {
 	@NotNull
 	@Transient
 	public abstract AttributeType getAttributeType();
-	   
-
-	/*@Transient
-	public abstract List<AbstractAttributeValue> getAttributeValues();
-	*/
+	
 	@OneToMany(mappedBy="attribute")
 	public List<AbstractAttributeValue> getAttributeValues() {
 		return attributeValues;
@@ -121,13 +127,4 @@ public abstract class AbstractAttribute extends AbstractDomainObjectOrdering {
 		return (attributeValues.isEmpty() && category.isEmpty());
 	}
 	
-	@Transient
-    public Collection<? extends Serializable> getItems() {
-		return null;
-	}
-
-    public void setItems(Collection<? extends Serializable> items) {
-		
-	}	
-
 }

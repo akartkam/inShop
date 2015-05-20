@@ -15,7 +15,7 @@ public interface AttributeCategoryService {
 	 */
 	AttributeCategory createAttributeCategory(AttributeCategory category);
 	List<AttributeCategory> getAllAttributeCategory();
-	List<AttributeCategory> getAttributeCategoryByName(String name);
+	AttributeCategory getAttributeCategoryByName(String name);
 	AttributeCategory loadAttributeCategoryById(UUID id, Boolean lock);
 	AbstractAttribute loadAttributeById(UUID id, Boolean lock);
 	AttributeCategory getAttributeCategoryById(UUID id);
@@ -27,7 +27,7 @@ public interface AttributeCategoryService {
 	void deleteAttributeCategory(AttributeCategory category);
 	void softDeleteAttributeCategoryById(UUID id);
 	void softDeleteAttributeById(UUID id);
-	void mergeWithExistingAndUpdateOrCreate(final AttributeCategory categoryFromPost) ;
+	void mergeWithExistingAndUpdateOrCreate(final AttributeCategory categoryFromPost, Errors errors) ;
 	void mergeWithExistingAndUpdateOrCreate(final AbstractAttribute attributeFromPost, Errors errors) throws ClassNotFoundException, InstantiationException, IllegalAccessException; 
 	@SuppressWarnings("rawtypes")
 	List buildAttributeCategoryHierarchy();	

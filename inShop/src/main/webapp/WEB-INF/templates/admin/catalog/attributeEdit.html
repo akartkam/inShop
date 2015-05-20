@@ -96,11 +96,12 @@
 						   </div>	 
 	                    </div>
 	                    <div class="tab-pane fade" id="content">
-	                       <div class="field-box" th:if="${attribute.new || #strings.contains(attribute.attributeType.name,'SLIST')}">
+	                       <div class="field-box" th:class="${#fields.hasErrors('items')}? has-error: field-box" th:if="${attribute.new || #strings.contains(attribute.attributeType.name,'LIST')}">
 	 			    		  <label>
 					    	  	<span th:text="#{admin.catalog.attribute.edit.items}">Items</span>
 					   		  </label>
 					   		  <textarea class="form-control" rows="6" th:field="*{items}"></textarea>
+					   		  <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('items')}" th:errors="*{items}">Incorrect items</p>
 						   </div>
 	                    </div>	                    
 	                </div>

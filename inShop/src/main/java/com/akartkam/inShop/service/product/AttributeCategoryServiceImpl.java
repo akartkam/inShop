@@ -1,10 +1,13 @@
 package com.akartkam.inShop.service.product;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.Transformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,12 +15,11 @@ import org.springframework.validation.Errors;
 
 import com.akartkam.inShop.dao.product.attribute.AttributeCategoryDAO;
 import com.akartkam.inShop.dao.product.attribute.AttributeDAO;
-import com.akartkam.inShop.domain.product.Category;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttributeValue;
 import com.akartkam.inShop.domain.product.attribute.AttributeCategory;
 import com.akartkam.inShop.domain.product.attribute.SimpleAttributeFactory;
-import com.akartkam.inShop.formbean.AttributeForm;
+
 
 
 @Service("AttributeCategoryService")
@@ -44,7 +46,7 @@ public class AttributeCategoryServiceImpl implements AttributeCategoryService {
 
 	
 	@Override
-	public List<AttributeCategory> getAttributeCategoryByName(String name) {
+	public AttributeCategory getAttributeCategoryByName(String name) {
 		return attributeCategoryDAO.findAttributeCategoryByName(name);
 	}
 
@@ -67,8 +69,9 @@ public class AttributeCategoryServiceImpl implements AttributeCategoryService {
 
 	@Override
 	@Transactional(readOnly = false)
-	public void mergeWithExistingAndUpdateOrCreate(final AttributeCategory categoryFromPost) {
+	public void mergeWithExistingAndUpdateOrCreate(final AttributeCategory categoryFromPost, Errors errors) {
 		if (categoryFromPost == null) return;
+		if (checkAttributeCategory(categoryFromPost, errors)) return;
 		final AttributeCategory existingCategory = getAttributeCategoryById(categoryFromPost.getId());
 		if (existingCategory != null) {
 	        // set here explicitly what must/can be overwritten by the html form POST
@@ -81,12 +84,23 @@ public class AttributeCategoryServiceImpl implements AttributeCategoryService {
 		}
     }
 
+	private boolean checkAttributeCategory (AttributeCategory categoryFromPost, Errors errors) {
+		if (categoryFromPost.isNew()) { 
+			AttributeCategory cAttr = getAttributeCategoryByName(categoryFromPost.getName());
+			if (cAttr != null) {
+			  errors.rejectValue("name", "error.duplicate");
+		    }
+		}
+		return errors.hasErrors();	
+	}
+
+	
 	@Transactional(readOnly = false)
 	public void mergeWithExistingAndUpdateOrCreate(AbstractAttribute attributeFromPost, Errors errors) 
 			   throws ClassNotFoundException, InstantiationException, IllegalAccessException {
 		if (attributeFromPost == null) throw new IllegalArgumentException("Attribute can not be null!");
 		final AbstractAttribute existingAttribute = getAttributeById(attributeFromPost.getId());
-		if (!checkAttribute(existingAttribute, attributeFromPost, errors)) return;
+		if (checkAttribute(existingAttribute, attributeFromPost, errors)) return;
 		if (existingAttribute != null) {
 	        // set here explicitly what must/can be overwritten by the html form POST
 			existingAttribute.setName(attributeFromPost.getName());
@@ -111,21 +125,41 @@ public class AttributeCategoryServiceImpl implements AttributeCategoryService {
 		}
     }
 	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private boolean checkAttribute (AbstractAttribute existingAttribute, AbstractAttribute attributeFromPost, Errors errors) {
-		AbstractAttribute dAttr = attributeDAO.findAttributeByName(attributeFromPost.getName());
-		if (attributeFromPost.isNew() && dAttr != null) {
-			errors.rejectValue("name", "error.duplicate");
-		}
-		if (existingAttribute != null) {
-			List<AbstractAttributeValue> existingAttributeValue = existingAttribute.getAttributeValues();
+		if (existingAttribute == null) { 
+			AbstractAttribute dAttr = attributeDAO.findAttributeByName(attributeFromPost.getName());
+			if (dAttr != null) {
+			  errors.rejectValue("name", "error.duplicate");
+		    }
+		} else {
+		if (!existingAttribute.getItems().isEmpty()) {
+			Collection<?> existingAttributeValue = CollectionUtils.collect(existingAttribute.getAttributeValues(), new Transformer<AbstractAttributeValue, Object>(){
+				@Override
+				public Object transform(AbstractAttributeValue arg0) {
+					return arg0.getAttributeValue();
+				}
+			});
+			Collection<String> diffItems = CollectionUtils.disjunction(existingAttribute.getItems(), attributeFromPost.getItems());
+			List<String> diffItemsRes = new ArrayList<String>();
+			for (String diffItem: diffItems) {
+				if (existingAttributeValue.contains(diffItem)) {
+					diffItemsRes.add(diffItem);
+					attributeFromPost.getItems().add(diffItem);
+				}
+			}
+			if (!diffItemsRes.isEmpty()) {
+				errors.rejectValue("items", "error.iteminuse", new String[] {diffItemsRes.toString()}, null);				
+			}
 			
+		 }
 		}
 		return errors.hasErrors();		
-	}
+	  }
 
 	
 	@Override
-	@Transactional(readOnly = false)
+	@Transactional(readOnly = false) 
 	public void softDeleteAttributeCategoryById(UUID id) {
 		AttributeCategory category = getAttributeCategoryById(id);
 		if (category != null) {
