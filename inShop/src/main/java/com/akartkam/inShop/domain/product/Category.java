@@ -11,6 +11,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
@@ -152,9 +153,13 @@ public class Category extends AbstractDomainObjectOrdering {
 		this.longDescription = longDescription;
 	}
 	
-	@ManyToMany(mappedBy = "category", cascade = CascadeType.ALL)
+	@ManyToMany(cascade = CascadeType.ALL)
 	@Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE,
 		      org.hibernate.annotations.CascadeType.DELETE})
+	@JoinTable(name = "lnk_category_attribute", joinColumns = { 
+			@JoinColumn(name = "CATEGORY_ID", nullable = false, updatable = false) }, 
+			inverseJoinColumns = { @JoinColumn(name = "ATTRIBUTE_ID", 
+					nullable = false, updatable = false) })
 	public Set<AbstractAttribute> getAttributes() {
 		return attributes;
 	}

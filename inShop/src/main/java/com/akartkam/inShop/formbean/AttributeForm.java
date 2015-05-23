@@ -1,8 +1,12 @@
 package com.akartkam.inShop.formbean;
 
 
+import java.util.HashSet;
+import java.util.Set;
+
 import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
 import com.akartkam.inShop.domain.product.attribute.AttributeType;
+import com.akartkam.inShop.domain.product.attribute.Selectable;
 
 public class AttributeForm extends AbstractAttribute {
 	
@@ -11,11 +15,22 @@ public class AttributeForm extends AbstractAttribute {
 	 */
 	private static final long serialVersionUID = 8862249978701586923L;
 	private AttributeType attributeType;
-
+	private Set<String> items = new HashSet<String>(0);
 
 	public AttributeForm() {};
 		
 
+    public Set<String> getItems() {
+		return items;
+	}
+	
+
+	public void setItems(Set<String> items) {
+		this.items =  items;
+	}	
+	
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public AttributeForm(AbstractAttribute attributeSource) {
 		if (attributeSource != null) {
 			this.setId(attributeSource.getId());
@@ -25,7 +40,8 @@ public class AttributeForm extends AbstractAttribute {
 			this.setAttributeCategory(attributeSource.getAttributeCategory());
 			this.setCreatedDate(attributeSource.getCreatedDate());
 			this.setEnabled(attributeSource.isEnabled());
-			this.setItems(attributeSource.getItems());
+			if (attributeSource instanceof Selectable)
+				this.setItems(((Selectable)attributeSource).getStringItems());
 		}
 	}
 	

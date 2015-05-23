@@ -1,8 +1,8 @@
 package com.akartkam.inShop.domain.product.attribute;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -16,7 +16,6 @@ import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -25,6 +24,8 @@ import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.Transformer;
 import org.hibernate.annotations.Cascade;
 
 import com.akartkam.inShop.domain.AbstractDomainObjectOrdering;
@@ -47,17 +48,8 @@ public abstract class AbstractAttribute extends AbstractDomainObjectOrdering {
 	private String name;
 	private AttributeCategory attributeCategory;
 	private Set<Category> category = new HashSet<Category>(0);
-	protected Set<String> items = new HashSet<String>(0);
 	protected List<AbstractAttributeValue> attributeValues = new ArrayList<AbstractAttributeValue>(0);
 
-
-	@Transient
-	public Set<String> getItems() {
-		return items;
-	}
-	public void setItems(Set<String> items) {
-		this.items = items;
-	}
 	
 	
 	@NotNull
@@ -93,17 +85,24 @@ public abstract class AbstractAttribute extends AbstractDomainObjectOrdering {
 		this.attributeCategory = attributeCategory;
 	}	
 
-	@ManyToMany(cascade = CascadeType.ALL)
+	@ManyToMany(mappedBy = "attributes", cascade = CascadeType.ALL)
 	@Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
-	@JoinTable(name = "lnk_category_attribute", joinColumns = { 
-			@JoinColumn(name = "ATTRIBUTE_ID", nullable = false, updatable = false) }, 
-			inverseJoinColumns = { @JoinColumn(name = "CATEGORY_ID", 
-					nullable = false, updatable = false) })
 	public Set<Category> getCategory() {
-		return category;
+		return Collections.unmodifiableSet(category);
 	}
+	
 	public void setCategory(Set<Category> category) {
 		this.category = category;
+	}
+	
+	@Transient
+	public Collection<String> getStringAttributeValues() {
+		return CollectionUtils.collect(getAttributeValues(), new Transformer<AbstractAttributeValue, String>(){
+			@Override
+			public String transform(AbstractAttributeValue arg0) {
+				return arg0.getStringValue();
+			}
+		});
 	}
 	
 	@Override

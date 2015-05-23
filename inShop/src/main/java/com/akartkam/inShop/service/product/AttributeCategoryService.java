@@ -28,7 +28,7 @@ public interface AttributeCategoryService {
 	void softDeleteAttributeCategoryById(UUID id);
 	void softDeleteAttributeById(UUID id);
 	void mergeWithExistingAndUpdateOrCreate(final AttributeCategory categoryFromPost, Errors errors) ;
-	void mergeWithExistingAndUpdateOrCreate(final AbstractAttribute attributeFromPost, Errors errors) throws ClassNotFoundException, InstantiationException, IllegalAccessException; 
+	void mergeWithExistingAndUpdateOrCreate(final AttributeForm attributeFromPost, Errors errors) throws ClassNotFoundException, InstantiationException, IllegalAccessException; 
 	@SuppressWarnings("rawtypes")
 	List buildAttributeCategoryHierarchy();	
 	AbstractAttribute getAttributeById(UUID id);

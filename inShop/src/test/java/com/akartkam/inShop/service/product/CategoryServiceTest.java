@@ -12,14 +12,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 
 import com.akartkam.inShop.dao.product.CategoryDAO;
-import com.akartkam.inShop.dao.product.attribute.SListDAO;
 import com.akartkam.inShop.domain.product.Category;
 import com.akartkam.inShop.domain.product.Product;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttributeValue;
 import com.akartkam.inShop.domain.product.attribute.AttributeCategory;
 import com.akartkam.inShop.domain.product.attribute.AttributeType;
-import com.akartkam.inShop.domain.product.attribute.SList;
 import com.akartkam.inShop.domain.product.attribute.SimpleAttributeFactory;
 import com.akartkam.inShop.service.AbstractServiceTest;
 
@@ -32,8 +30,6 @@ public class CategoryServiceTest extends AbstractServiceTest {
 	private CategoryService categoryService;
 	@Autowired
 	private CategoryDAO categoryDAO;
-	@Autowired
-	private SListDAO sListDAO;
 	@Autowired
 	private AttributeCategoryService attributeCategoryService;
 	
@@ -206,14 +202,14 @@ public class CategoryServiceTest extends AbstractServiceTest {
 		AbstractAttribute attribute1 = SimpleAttributeFactory.createAttribute(AttributeType.STRING);
 		attribute1.setName("AutoTestAddAttributeDecimalValue2");
 		AbstractAttributeValue attributeValue1 = SimpleAttributeFactory.createAttributeValue(AttributeType.STRING);
-		attributeValue1.setAttributeValue("AutoTestAddAttributeStringValue1");		
+		attributeValue1.setValue("AutoTestAddAttributeStringValue1");		
 		//found.addAttribute(attribute1);
 		Product product = new Product();
 		product.setName("AutoTestAddAttributeDecimalValue1");
 		//product.setManufacturer("Manufacturer1");
 		product.setModel("Model1");	
 		AbstractAttributeValue attributeValue = SimpleAttributeFactory.createAttributeValue(AttributeType.DECIMAL);
-		attributeValue.setAttributeValue(11D);
+		attributeValue.setValue(11D);
 		product.addAttributeValue(attributeValue, attribute);
 		product.addAttributeValue(attributeValue1, attribute1);
 		//found.addAttribute(attribute);
@@ -232,14 +228,7 @@ public class CategoryServiceTest extends AbstractServiceTest {
 		Category found = categoryService.getCategoryByName("Test_Category4").get(0);
 		AbstractAttribute attribute = SimpleAttributeFactory.createAttribute(AttributeType.SLIST);
 		attribute.setName("AutoTestAddAttributeSListValue1");	
-		SList sList1 = new SList();
-		sList1.setValue("sList1Value1");
-		sListDAO.update(sList1);
-		SList sList2 = new SList();
-		sList2.setValue("sList1Value2");
-		sListDAO.update(sList2);
 		AbstractAttributeValue attributeValue = SimpleAttributeFactory.createAttributeValue(AttributeType.SLIST);
-		attributeValue.setAttributeValue(sList1);	
 		Product product = new Product();
 		product.setName("AutoTestAddAttributeSListValue1");
 		//product.setManufacturer("Manufacturer1");

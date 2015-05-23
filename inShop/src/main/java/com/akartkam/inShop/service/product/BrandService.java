@@ -11,7 +11,7 @@ public interface BrandService {
 	List<Brand> getAllBrand();
 	Brand getBrandById(UUID id);
 	Brand cloneBrandById(UUID id) throws CloneNotSupportedException;
-	Brand loadCategoryById(UUID id, Boolean lock);
+	Brand loadBrandById(UUID id, Boolean lock);
 	void softDeleteBrandById(UUID id);
 	void deleteBrand(Brand brand);
 	void deleteBrandById(UUID id);

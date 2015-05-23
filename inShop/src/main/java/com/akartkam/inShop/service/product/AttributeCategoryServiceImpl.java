@@ -18,7 +18,9 @@ import com.akartkam.inShop.dao.product.attribute.AttributeDAO;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttributeValue;
 import com.akartkam.inShop.domain.product.attribute.AttributeCategory;
+import com.akartkam.inShop.domain.product.attribute.Selectable;
 import com.akartkam.inShop.domain.product.attribute.SimpleAttributeFactory;
+import com.akartkam.inShop.formbean.AttributeForm;
 
 
 
@@ -95,8 +97,9 @@ public class AttributeCategoryServiceImpl implements AttributeCategoryService {
 	}
 
 	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Transactional(readOnly = false)
-	public void mergeWithExistingAndUpdateOrCreate(AbstractAttribute attributeFromPost, Errors errors) 
+	public void mergeWithExistingAndUpdateOrCreate(AttributeForm attributeFromPost, Errors errors) 
 			   throws ClassNotFoundException, InstantiationException, IllegalAccessException {
 		if (attributeFromPost == null) throw new IllegalArgumentException("Attribute can not be null!");
 		final AbstractAttribute existingAttribute = getAttributeById(attributeFromPost.getId());
@@ -106,7 +109,8 @@ public class AttributeCategoryServiceImpl implements AttributeCategoryService {
 			existingAttribute.setName(attributeFromPost.getName());
 			existingAttribute.setOrdering(attributeFromPost.getOrdering());
 			existingAttribute.setEnabled(attributeFromPost.isEnabled());
-			existingAttribute.setItems(attributeFromPost.getItems());
+			if (existingAttribute instanceof Selectable)
+				((Selectable)existingAttribute).setStringItems(attributeFromPost.getItems());
 			AttributeCategory attributeCategoryFromPost = attributeFromPost.getAttributeCategory();
 	        if (attributeCategoryFromPost == null) throw new IllegalArgumentException("Attribute Category can not be null!");
 	        attributeCategoryFromPost.addAttribute(existingAttribute);
@@ -116,7 +120,8 @@ public class AttributeCategoryServiceImpl implements AttributeCategoryService {
 			attributeNew.setName(attributeFromPost.getName());
 			attributeNew.setOrdering(attributeFromPost.getOrdering());
 			attributeNew.setEnabled(attributeFromPost.isEnabled());
-			attributeNew.setItems(attributeFromPost.getItems());
+			if (attributeNew instanceof Selectable)
+				((Selectable)attributeNew).setStringItems(attributeFromPost.getItems());
 			AttributeCategory attributeCategoryFromPost = attributeFromPost.getAttributeCategory();
 	        if (attributeCategoryFromPost == null) throw new IllegalArgumentException("Attribute Category can not be null!");
 	        attributeCategoryFromPost.addAttribute(attributeNew);
@@ -126,24 +131,18 @@ public class AttributeCategoryServiceImpl implements AttributeCategoryService {
     }
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	private boolean checkAttribute (AbstractAttribute existingAttribute, AbstractAttribute attributeFromPost, Errors errors) {
+	private boolean checkAttribute (AbstractAttribute existingAttribute, AttributeForm attributeFromPost, Errors errors) {
 		if (existingAttribute == null) { 
 			AbstractAttribute dAttr = attributeDAO.findAttributeByName(attributeFromPost.getName());
 			if (dAttr != null) {
 			  errors.rejectValue("name", "error.duplicate");
 		    }
 		} else {
-		if (!existingAttribute.getItems().isEmpty()) {
-			Collection<?> existingAttributeValue = CollectionUtils.collect(existingAttribute.getAttributeValues(), new Transformer<AbstractAttributeValue, Object>(){
-				@Override
-				public Object transform(AbstractAttributeValue arg0) {
-					return arg0.getAttributeValue();
-				}
-			});
-			Collection<String> diffItems = CollectionUtils.disjunction(existingAttribute.getItems(), attributeFromPost.getItems());
+		if ((existingAttribute instanceof Selectable) && (!((Selectable)existingAttribute).getItems().isEmpty())) {
+			Collection<String> diffItems = CollectionUtils.disjunction(((Selectable)existingAttribute).getStringItems(), attributeFromPost.getItems());
 			List<String> diffItemsRes = new ArrayList<String>();
 			for (String diffItem: diffItems) {
-				if (existingAttributeValue.contains(diffItem)) {
+				if (existingAttribute.getStringAttributeValues().contains(diffItem)) {
 					diffItemsRes.add(diffItem);
 					attributeFromPost.getItems().add(diffItem);
 				}

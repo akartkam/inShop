@@ -106,16 +106,16 @@ public class AdminBrandController {
 		  }		  
 
 	  @RequestMapping(value="/delete", method = RequestMethod.POST)
-	  public String categoryDelete(@RequestParam(value = "ID", required = false) String ID, 
+	  public String brandDelete(@RequestParam(value = "ID", required = false) String ID, 
 			                       @RequestParam(value = "phisycalDelete", required = false) Boolean phisycalDelete,
 				                   final RedirectAttributes ra) {
 		  Collection<? extends GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
 		  if (phisycalDelete != null && phisycalDelete)  {
-			  Brand brand = brandService.loadCategoryById(UUID.fromString(ID), false);
+			  Brand brand = brandService.loadBrandById(UUID.fromString(ID), false);
 			  if(brand.canRemove() && authorities.contains(new SimpleGrantedAuthority("ADMIN"))) {
 				  brandService.deleteBrand(brand);   
 			  } else {
-				  ra.addFlashAttribute("errormessage", "Нельзя удалить категорию. Имеются ссылки на другие сущности, либо недостаточно прав.");
+				  ra.addFlashAttribute("errormessage", "Нельзя удалить производителя. Имеются ссылки на другие сущности, либо недостаточно прав.");
 				  ra.addAttribute("error", true);
 			  }
 

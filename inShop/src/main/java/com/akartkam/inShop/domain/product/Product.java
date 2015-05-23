@@ -2,8 +2,10 @@ package com.akartkam.inShop.domain.product;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
@@ -11,6 +13,8 @@ import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapKeyColumn;
 import javax.persistence.OneToMany;
@@ -24,6 +28,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import com.akartkam.inShop.domain.AbstractDomainObjectOrdering;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttributeValue;
+import com.akartkam.inShop.domain.product.option.ProductOption;
 
 @Entity
 @Table(name = "Product")
@@ -40,8 +45,8 @@ public class Product extends AbstractDomainObjectOrdering {
 	private String model;
 	private List<AbstractAttributeValue> attributeValues = new ArrayList<AbstractAttributeValue>();
 	private String url;
-    Map<String, String> images = new HashMap<String, String>();	
-
+    private Map<String, String> images = new HashMap<String, String>();	
+    private Set<ProductOption> productOptions = new HashSet<ProductOption>(0);
 
 	@NotNull
 	@NotEmpty
@@ -119,5 +124,29 @@ public class Product extends AbstractDomainObjectOrdering {
 		attributeValues.add(attributeValue);
 
 	}
+	
+	@ManyToMany(cascade = CascadeType.ALL)
+	@Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE,
+		      org.hibernate.annotations.CascadeType.DELETE})
+	@JoinTable(name = "lnk_product_option", joinColumns = { 
+			@JoinColumn(name = "PRODUCT_ID", nullable = false, updatable = false) }, 
+			inverseJoinColumns = { @JoinColumn(name = "PRODUCT_OPTION_ID", 
+					nullable = false, updatable = false) })
+	public Set<ProductOption> getProductOption() {
+		return productOptions;
+	}
+	public void setProductOption(Set<ProductOption> productOption) {
+		this.productOptions = productOption;
+	}
+	
+    public void addProductOption(ProductOption productOption) {
+        if (productOption == null) throw new IllegalArgumentException("Null productOption!");
+        productOptions.add(productOption);
+    }
+    public void removeProductOption(ProductOption productOption) {
+        if (productOption == null) throw new IllegalArgumentException("Null productOption!");
+        productOptions.remove(productOption);
+    }
+
 
 }

@@ -24,7 +24,7 @@ public class AttributeStringValue extends AbstractAttributeValue<String> {
 
 	@Override
 	@Column(table = "Attribute_String_Value", name="attributeValue", nullable = false)
-	public String getAttributeValue() {
+	public String getValue() {
 		return attributeValue;
 	}
 

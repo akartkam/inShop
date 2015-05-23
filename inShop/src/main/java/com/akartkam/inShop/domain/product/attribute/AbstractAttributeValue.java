@@ -37,11 +37,18 @@ public abstract class AbstractAttributeValue<T extends Serializable> extends Abs
 	
 	@Transient
 	@Override
-	public abstract T getAttributeValue();
+	public abstract T getValue();
 	
 	@Override
-	public void setAttributeValue(T value) {
+	public void setValue(T value) {
 		attributeValue = value;
+	}
+
+	
+	//Can override for specific convert object to string (used for SListValues)
+	@Transient
+	public String getStringValue() {
+		return attributeValue.toString();
 	}
 	
 	@NotNull

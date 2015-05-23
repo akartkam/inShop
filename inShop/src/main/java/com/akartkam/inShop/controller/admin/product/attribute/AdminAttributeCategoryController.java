@@ -103,7 +103,8 @@ public class AdminAttributeCategoryController {
 
 				@Override
 			    public void setAsText(String text) {
-					 Set<String> val = new HashSet<String>(Arrays.asList(text.split("\r\n"))); 
+					 Set<String> val = new HashSet<String>(Arrays.asList(text.split("\r\n")));
+					 val.remove("");
 			    	 setValue(val);
 			    }
 			    });			

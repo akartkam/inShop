@@ -37,7 +37,7 @@ public class BrandServiceImpl implements BrandService {
 	}
 	
 	@Override
-	public Brand loadCategoryById(UUID id, Boolean lock) {
+	public Brand loadBrandById(UUID id, Boolean lock) {
 		return brandDAO.findById(id, lock);
 	}
 	

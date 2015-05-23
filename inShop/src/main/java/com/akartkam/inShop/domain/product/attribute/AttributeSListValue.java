@@ -23,7 +23,7 @@ public class AttributeSListValue extends AbstractAttributeValue<String> {
 	
 	@Override
 	@Column(table = "Attribute_SList_Value", name="attributeValue", nullable = false)	
-	public String getAttributeValue() {
+	public String getValue() {
 		return attributeValue;
 	}
 

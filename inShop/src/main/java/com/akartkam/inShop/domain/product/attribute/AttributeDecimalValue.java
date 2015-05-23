@@ -22,7 +22,7 @@ public class AttributeDecimalValue extends AbstractAttributeValue<Double> {
 
 	@Override
 	@Column(table = "Attribute_Decimal_Value", name= "attributeValue", nullable = false)
-	public Double getAttributeValue() {
+	public Double getValue() {
 		return attributeValue;
 	}
 
