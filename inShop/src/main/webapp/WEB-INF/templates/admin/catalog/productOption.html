@@ -36,7 +36,7 @@
    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true" layout:fragment="deleteForm">
 	  <div class="modal-dialog">
 	    <div class="modal-content" id="deleteModalContent">
- 	        <form method="post" action="#" th:action="@{/admin/catalog/productOption/delete}" id="deleteForm">
+ 	        <form method="post" action="#" th:action="@{/admin/catalog/po/delete}" id="deleteForm">
 	            <div class="modal-header">
 	              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 	              <h4 class="modal-title" id="deleteModalLabel"><span th:text="#{admin.catalog.category.delete.modalcaption}">Удаление</span></h4>
@@ -94,27 +94,21 @@
 						        <thead >
 							      <tr >
 							          <th class="col-md-1"></th>
-						              <th class="col-md-4 text-center" th:text="#{admin.catalog.productOption.name}">Name</th>
-						              <th class="col-md-5 text-center" th:text="#{admin.catalog.brand.url}">URL</th>
+						              <th class="col-md-3 text-center" th:text="#{admin.catalog.productOption.name}">Name</th>
+						              <th class="col-md-4 text-center" th:text="#{admin.catalog.productOption.label}">Label</th>
+						              <th class="col-md-1 text-center" th:text="#{admin.catalog.productOption.required}">Required</th>
+						              <th class="col-md-1 text-center" th:text="#{admin.catalog.productOption.useInSkuGeneration}">UseInSkuGeneration</th>
 						              <th class="col-md-1 text-center" th:text="#{admin.catalog.brand.enabled}">Enabled?</th>
 						              <th class="col-md-1 text-center"></th>
 						  	      </tr>
 						 	    </thead>
 						 	    <tbody>      
-							        <tr th:each="br : ${allBrand}" th:class="${!br.enabled} ? 'text-muted'">
+							        <tr th:each="po : ${allPo}" th:class="${!po.enabled} ? 'text-muted'">
 							            <td class="text-center">						
-										    <input class="checkCategory" type="checkbox" th:id="${'check-'+br.id}" th:value="${br.id}"/>
+										    <input class="checkCategory" type="checkbox" th:id="${'check-'+po.id}" th:value="${po.id}"/>
 									    </td>
-										<td>
-										    <div class="a-photo-out">
-                                               <span class="photo-block">
-                                                 <span class="helper"></span>
-                                                 <img th:src="@{${br.logoUrl}}"  th:onerror="'this.src=\'' + @{/resources/img/noimage.png} + '\';'"/>
-                                               </span>
-										       <span th:text="${br.name}">brand</span>
-										    </div>										
-										</td>
-										<td><span th:text="${br.url}">URL</span></td>
+										<td class="mightOverflow domain-col"><span th:text="${po.name}">PO1</span></td>
+							            <td class="mightOverflow domain-col"><span th:text="${po.label}">Product opt 1</span></td>
 						            	<td class="text-center"><i th:class="${br.enabled} ? 'fa fa-check-circle'"></i></td>
 						            	<td class="text-center">
 							                <div class="row">

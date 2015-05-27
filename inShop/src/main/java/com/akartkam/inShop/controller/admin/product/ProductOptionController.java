@@ -44,7 +44,7 @@ public class ProductOptionController {
 	  ProductService productService;
 	  	  
 	  @SuppressWarnings("rawtypes")
-	  @ModelAttribute("allBrand")
+	  @ModelAttribute("allPo")
 	  public List getAllPO() {
 	      return productService.getAllPO();
 	  }
@@ -123,7 +123,7 @@ public class ProductOptionController {
 	        }
 	        productService.mergeWithExistingPOAndUpdateOrCreate(po);
 	       	        
-	        return "redirect:/admin/catalog/brand";
+	        return "redirect:/admin/catalog/po";
 	    }
 	   
 
