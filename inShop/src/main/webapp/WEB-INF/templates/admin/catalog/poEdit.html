@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org" 
+                xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+                layout:decorator="admin/catalog/po">
+	<head>
+	  <th:block th:remove="all">
+		<title>inShop Admin Category</title>
+	    <meta charset="utf-8"/>
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+	    <meta name="description" content=""/>
+	    <meta name="author" content=""/>
+	
+	    <!-- Bootstrap Core CSS -->
+	    <link href="../../../../resources/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" th:href="@{/resources/bower_components/bootstrap/dist/css/bootstrap.min.css}"/>
+	    <!-- Custom Fonts -->
+    	<link href="../../../../resources/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/font-awesome/css/font-awesome.min.css}"/>
+		<link href="../../../../resources/bower_components/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/bootstrap/dist/css/bootstrap-theme.min.css}"></link>    	
+    	<link href="../../../../resources/css/sb-admin-2.css" rel="stylesheet" th:href="@{/resources/css/sb-admin-2.css}"/>
+      </th:block>	
+	</head>
+<body>
+  <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true" layout:fragment="editForm">
+    <div class="modal-dialog" style ="height:80%; width: 80%; overflow: auto;">
+	   <div class="modal-content" id="editModalContent" >
+	   <form method="post" class="form-horizontal" role="form" action="#" th:action="@{/admin/catalog/po/edit}" th:object="${po}" th:fragment="editPOForm">
+		   <div class="modal-header">
+	 			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title"  th:text="${!po.new}? #{admin.catalog.productOption.edit.title.edit}: #{admin.catalog.productOption.edit.title.add}">Edit Product option</h4>
+	 	   </div>
+		 <!-- /modal-header -->
+		    <div class="modal-body">
+		          <div  th:if="${#fields.hasErrors('*')}" class="alert alert-danger alert-dismissable">
+		          	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <span th:text="#{admin.catalog.productOption.edit.existsErrors}">There is some errors in the form</span>
+					<ul>
+					  <li th:each="err : ${#fields.errors('*')}" th:text="${err}">Input is incorrect</li>
+					</ul>                                 
+                  </div>
+	               <ul class="nav nav-tabs">
+	                    <li class="active"><a href="#main" data-toggle="tab" th:text="#{admin.edit.tab.description}">Описание</a>
+	                    </li>
+	                    <li><a href="#additional" data-toggle="tab" th:text="#{admin.edit.tab.params}">Параметры</a>
+	                    </li>
+	                    	<li><a href="#content" data-toggle="tab" th:text="#{admin.edit.tab.content}">Содержание</a>
+	                    </li>
+	                </ul>
+	                <!-- Tab panes -->
+	                <div class="tab-content">
+	                    <div class="tab-pane fade in active" id="main">
+						    <div class="field-box" th:class="${#fields.hasErrors('name')}? has-error: field-box">
+							  <input type="hidden" th:field="*{id}"/>	                              
+				    		  <label>
+					    	  	 <span th:text="#{admin.catalog.productOption.edit.name}">Product option 1</span>
+					   		  </label>
+					   		  <input type="text" class="form-control" th:field="*{name}"/>
+					   		  <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Incorrect name</p>
+				   		    </div>
+						    <div class="field-box" th:class="${#fields.hasErrors('label')}? has-error: field-box">
+							  <input type="hidden" th:field="*{id}"/>	                              
+				    		  <label>
+					    	  	 <span th:text="#{admin.catalog.productOption.edit.label}">Product option label 1</span>
+					   		  </label>
+					   		  <input type="text" class="form-control" th:field="*{label}"/>
+					   		  <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('label')}" th:errors="*{label}">Incorrect label</p>
+				   		    </div>
+	             		</div>
+	                    <div class="tab-pane fade" id="additional">
+	                       <div class="field-box">
+	 			    		  <label>
+					    	  	<span th:text="#{admin.catalog.productOption.ordering}">Orderig</span>
+					   		  </label>
+					   		  <input type="text" class="form-control" th:field="*{ordering}"/>
+						   </div>
+						   <div class="field-box">
+	                         <label>
+	 					    	<input type="checkbox" th:field="*{required}"/>
+							  	<span th:text="#{admin.catalog.productOption.required}">Required?</span>
+							 </label>
+						   </div>	 
+						   <div class="field-box">
+	                         <label>
+	 					    	<input type="checkbox" th:field="*{useInSkuGeneration}"/>
+							  	<span th:text="#{admin.catalog.productOption.useInSkuGeneration}">Use in Sku?</span>
+							 </label>
+						   </div>	 
+						   <div class="field-box">
+	                         <label>
+	 					    	<input type="checkbox" th:field="*{enabled}"/>
+							  	<span th:text="#{admin.catalog.productOption.enabled}">Active?</span>
+							 </label>
+						   </div>	 
+	                    </div>
+	                    <div class="tab-pane fade" id="content">
+	                       <div class="field-box">
+						   </div>
+	                    </div>	                    
+	                </div>
+		    </div>
+		 <!-- /modal-body -->
+	 	    <div class="modal-footer">
+	 		  <button type="button" class="btn btn-default"  
+	 		          th:text="#{admin.catalog.category.edit.button.close}"
+	 		          data-dismiss="modal">Close</button>
+			  <button type="submit" class="btn btn-primary" th:text="#{admin.catalog.attribute.edit.button.save}">Save changes</button>
+		    </div>  
+		 <!-- /modal-footer -->
+	     </form>	
+      </div> 
+    </div> 
+  </div>	    
+   <!-- jQuery -->
+   <script src="../../../../resources/bower_components/jquery/dist/jquery.min.js" th:src="@{/resources/bower_components/jquery/dist/jquery.min.js}"></script>
+   <!-- Bootstrap Core JavaScript -->
+   <script src="../../../../resources/bower_components/bootstrap/dist/js/bootstrap.min.js" th:src="@{/resources/bower_components/bootstrap/dist/js/bootstrap.min.js}"></script>
+   <th:block layout:fragment="scriptEditModal"> 
+	   <script type="text/javascript">
+		     $(document).ready(function() {
+		    	 $("#editModal").modal("show");
+			});
+			  
+	   </script>
+   </th:block>
+</body>
+</html>
+

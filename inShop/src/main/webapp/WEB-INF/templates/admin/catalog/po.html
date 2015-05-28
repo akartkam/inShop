@@ -5,7 +5,7 @@
 	  layout:decorator="layouts/admin-default">
 	<head>
 	    <th:block th:remove="all">
-			<title>inShop Admin Brand</title>
+			<title>inShop Admin po</title>
 		    <meta charset="utf-8"/>
 		    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 		    <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -64,7 +64,7 @@
     <!-- <div layout:fragment="editForm" >
     </div> -->
     <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true" layout:fragment="editForm">
-	  <div class="modal-dialog">
+	  <div class="modal-dialog" style ="height:80%; width: 80%; overflow: auto;">
 	    <div class="modal-content" id="editModalContent">
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -90,15 +90,16 @@
 	             <div class="panel-body">
  	                  <div class="row">
  	                    <div class="col-md-12">	               
-						      <table class="table table-striped table-bordered table-hover table-condensed table-responsive" id="prodOptDataTable" data-checkid="">
+						      <table class="table table-striped table-bordered table-hover table-condensed table-responsive" id="poDataTable" data-checkid="">
 						        <thead >
 							      <tr >
 							          <th class="col-md-1"></th>
 						              <th class="col-md-3 text-center" th:text="#{admin.catalog.productOption.name}">Name</th>
-						              <th class="col-md-4 text-center" th:text="#{admin.catalog.productOption.label}">Label</th>
+						              <th class="col-md-3 text-center" th:text="#{admin.catalog.productOption.label}">Label</th>
+						              <th class="col-md-1 text-center" th:text="#{admin.catalog.productOption.ordering}">Ordering</th>
 						              <th class="col-md-1 text-center" th:text="#{admin.catalog.productOption.required}">Required</th>
-						              <th class="col-md-1 text-center" th:text="#{admin.catalog.productOption.useInSkuGeneration}">UseInSkuGeneration</th>
-						              <th class="col-md-1 text-center" th:text="#{admin.catalog.brand.enabled}">Enabled?</th>
+						              <th class="col-md-1 text-center" th:text="#{admin.catalog.productOption.useInSkuGeneration}">UseInSku?</th>
+						              <th class="col-md-1 text-center" th:text="#{admin.catalog.productOption.enabled}">Enabled?</th>
 						              <th class="col-md-1 text-center"></th>
 						  	      </tr>
 						 	    </thead>
@@ -109,24 +110,27 @@
 									    </td>
 										<td class="mightOverflow domain-col"><span th:text="${po.name}">PO1</span></td>
 							            <td class="mightOverflow domain-col"><span th:text="${po.label}">Product opt 1</span></td>
-						            	<td class="text-center"><i th:class="${br.enabled} ? 'fa fa-check-circle'"></i></td>
+							            <td class="text-center"><span th:text="${po.ordering}"></span></td>
+							            <td class="text-center"><i th:class="${po.required} ? 'fa fa-check-circle'"></i></td>
+							            <td class="text-center"><i th:class="${po.useInSkuGeneration} ? 'fa fa-check-circle'"></i></td>
+						            	<td class="text-center"><i th:class="${po.enabled} ? 'fa fa-check-circle'"></i></td>
 						            	<td class="text-center">
 							                <div class="row">
 											  <!--  data-toggle="modal" data-target="#editModal" -->
 		  				            	  		 <div class="btn-group" role="group" > 
 					                                  <button type="button" class="open-editDialog btn btn-outline btn-default btn-xs" 
 					                                          data-toggle="modal" data-target="#editModal" data-operation="edit" 
-					                                          th:attr="data-id=${br.id}, data-path=@{/admin/catalog/brand/edit}"> 
+					                                          th:attr="data-id=${po.id}, data-path=@{/admin/catalog/po/edit}"> 
 					                                    <i class="fa fa-pencil"></i>
 					                                  </button>	
 					                                  <button type="button" class="open-editDialog btn btn-outline btn-default btn-xs" 
 					                                          data-toggle="modal" data-target="#editModal" data-operation="add"
-					                                          th:attr="data-id=${br.id}, data-path=@{/admin/catalog/brand/add}">
+					                                          th:attr="data-id=${po.id}, data-path=@{/admin/catalog/po/add}">
 					                                    <i class="fa fa-copy"></i>
 					                                  </button>
-						                              <button th:disabled="${!br.enabled}" type="button" data-toggle="modal" data-target="#deleteModal" 
+						                              <button th:disabled="${!po.enabled}" type="button" data-toggle="modal" data-target="#deleteModal" 
 						                                      class="open-deleteDialog btn btn-outline btn-default btn-xs"
-						                                      th:attr="data-id=${br.id}, data-name=${br.name}"> 
+						                                      th:attr="data-id=${po.id}, data-name=${po.name}"> 
 						                                <i class="fa fa-trash-o"></i>
 						                              </button>	
 				                            	 </div>  
@@ -138,16 +142,11 @@
 											<td class="text-center">						
 											       <input class="checkCategory" type="checkbox" id='check-1' value="1"/>
 										    </td>					         
-											<td>
-												<div class="a-photo-out">
-	                                               <span class="photo-block">
-	                                                 <span class="helper"></span>
-	                                                 <img src="../../../../resources/img/logo/asus.png" onerror="../../../../resources/img/noimage.png"/>
-	                                               </span>
-											       <span class="text-el">brand</span>
-										        </div>	
-											</td>
-											<td>/url</td>
+											<td>name1</td>
+											<td>label1</td>
+											<td class="text-center">1</td>
+											<td class="text-center">Yes</td>
+											<td class="text-center">Yes</td>
 											<td class="text-center">Yes</td>
 											<td class="text-center"></td>
 										</tr>
@@ -155,16 +154,11 @@
 											<td class="text-center">						
 											       <input class="checkCategory" type="checkbox" id='check-1' value="1"/>
 										    </td>					         
-											<td>
-												<div class="a-photo-out">
-	                                               <span class="photo-block">
-	                                                 <span class="helper"></span>
-	                                                 <img src="../../../../resources/img/logo/samsung.png" onerror="../../../../resources/img/noimage.png"/>
-	                                               </span>
-											       <span class="text-el">brand</span>
-										        </div>	
-											</td>
-											<td>/url</td>
+											<td>name2</td>
+											<td>label2</td>
+											<td class="text-center">2</td>
+											<td class="text-center">Yes</td>
+											<td class="text-center">Yes</td>
 											<td class="text-center">Yes</td>
 											<td class="text-center"></td>
 										</tr>									
@@ -176,22 +170,14 @@
 				     </div> 
 			         <div class="panel-footer">
 				      <div class="btn-toolbar" role="toolbar" aria-label="...">
-	 			   		  <div class="btn-group" role="group" aria-label="..."> 
-					        <button type="button" class="btn btn-outline btn-default btn-sm" onclick="$('#categoryDataTable').treegrid('expandAll');">
-					          <i class="fa fa-expand"></i>
-					        </button>
-					        <button type="button" class="btn btn-outline btn-default btn-sm" onclick="$('#categoryDataTable').treegrid('collapseAll');">
-					          <i class="fa fa-compress"></i>
-					        </button>
-					      </div>
 					      <div class="btn-group" role="group" aria-label="...">
 					   		 <div class="btn-group" role="group" aria-label="..."> 
                                 <button type="button" class="open-editDialog btn btn-outline btn-default btn-sm" 
                                         data-toggle="modal" data-target="#editModal" data-operation="add"
-                                        th:attr="data-path=@{/admin/catalog/brand/add}">
+                                        th:attr="data-path=@{/admin/catalog/po/add}">
                                   <i class="fa fa-plus-circle"></i>
                                   <span> </span>
-						          <span th:text="#{admin.catalog.brand.addbrand.buttoncaption}">Add brand</span> 
+						          <span th:text="#{admin.catalog.productOption.addpo.buttoncaption}">Add option</span> 
                                 </button>
 						     </div>
 					      </div> 
@@ -215,7 +201,7 @@
 	    <script type="text/javascript">
 	      //<![CDATA[
 	           $(document).ready(function() {
-    		     $("#brandDataTable").dataTable( {
+    		     $("#poDataTable").dataTable( {
 		            	"language": {
 		                   	"processing": "Подождите...",
 		                   	  "search": "Поиск:",
@@ -261,19 +247,6 @@
 	                    }).done(function (html) {
 	                                $("#editModalContent").append(html);
 	                                $("#editModal").data("allowed","false");
-	        	                    $("#summernote").summernote({
-	        	    				    lang: "ru-RU"
-	        	    				     });
-	        	    				$('#inputSImg').on('change', function (e) {
-	        	    					  var $this = $(this),
-	        	    					          $type_file = $this.val(),
-	        	    					          file = this.files[0],
-	        	    					          reader = new FileReader();
-	        	    					 reader.onload = (function(e) {
-	        	    					  	 $("#imgLogo").attr("src", e.target.result);
-	        	    					  });
-	        	    					  reader.readAsDataURL(file);
-	        	    					});
 	        	                    $("#name").focus();
 	                    });
 					}  
