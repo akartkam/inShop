@@ -17,6 +17,10 @@
     	<link href="../../../../resources/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/font-awesome/css/font-awesome.min.css}"/>
 		<link href="../../../../resources/bower_components/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/bootstrap/dist/css/bootstrap-theme.min.css}"></link>    	
     	<link href="../../../../resources/css/sb-admin-2.css" rel="stylesheet" th:href="@{/resources/css/sb-admin-2.css}"/>
+	    <!-- DataTables CSS -->
+	    <link href="../../../../resources/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css" rel="stylesheet" th:href="@{/resources/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css}"/>	    	
+		<!-- DataTables Responsive CSS -->
+   		<link href="../../../../resources/bower_components/datatables-responsive/css/dataTables.responsive.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/datatables-responsive/css/dataTables.responsive.css}"/>	    	
       </th:block>	
 	</head>
 <body>
@@ -106,18 +110,23 @@
 									  	   </tr>
 								  	    </thead >
 								  	    <tbody>
-								  	    
+								  	       <tr th:each="pov : ${po.productOptionValues}" th:class="${!pov.enabled} ? 'text-muted'">
+								  	       	  <td><input type="text" class="form-control" th:field="*{value}" /></td>
+								  	       	  <td><input type="number" class="form-control" th:field="*{priceAdjustment}" /></td>
+								  	       	  <td><input type="number" class="form-control" th:field="*{ordering}" /></td>
+								  	       	  <td><input type="checkbox" class="text-center" th:field="*{enabled}" /></td>
+								  	       	  <td></td>
+								  	       </tr>
 								  	    </tbody>
 			                       	 </table>
 	                       	     </div>
 	                       	     <div class="panel-footer">
 								      <div class="btn-toolbar" role="toolbar" aria-label="...">
 									      <div class="btn-group" role="group" aria-label="...">
-				                            <button type="button" class="open-editDialog btn btn-outline btn-default btn-sm" 
-				                                    data-toggle="modal" data-target="#editModal" data-operation="add"> 
+				                            <button type="button" class="btn btn-outline btn-default btn-sm" id="addPov"> 
 				                              <i class="fa fa-plus-circle"></i>
 				                              <span> </span>
-											  <span th:text="#{admin.catalog.category.add.buttoncaption}">Добавить</span>
+											  <span th:text="#{button.add.caption}">Добавить</span>
 				                            </button>							  
 									      </div> 
 									  </div>	  
@@ -143,10 +152,31 @@
    <script src="../../../../resources/bower_components/jquery/dist/jquery.min.js" th:src="@{/resources/bower_components/jquery/dist/jquery.min.js}"></script>
    <!-- Bootstrap Core JavaScript -->
    <script src="../../../../resources/bower_components/bootstrap/dist/js/bootstrap.min.js" th:src="@{/resources/bower_components/bootstrap/dist/js/bootstrap.min.js}"></script>
+   <!-- DataTables JavaScript -->
+   <script src="../../../../resources/bower_components/datatables/media/js/jquery.dataTables.min.js" th:src="@{/resources/bower_components/datatables/media/js/jquery.dataTables.min.js}"></script>
+   <script src="../../../../resources/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js" th:src="@{/resources/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js}"></script>
    <th:block layout:fragment="scriptEditModal"> 
 	   <script type="text/javascript">
 		     $(document).ready(function() {
-		    	 $("#editModal").modal("show");
+			     $("#poValDataTable").dataTable({
+			    	    info: false,
+			    		paging: false,
+		                responsive: false,
+		                searching: false,
+		                ordering:  false
+ 				});
+		    	 $(document).on("click", "#addPov", function () {
+		    		 var table = $('#poValDataTable').dataTable();
+		    		 table.fnAddData(
+		    				 ['<input type="text" class="form-control" />',
+		    				  '<input type="number" class="form-control" />',
+		    				  '<input type="number" class="form-control"  />',
+		    				  '<input type="checkbox" class="text-center" />',
+		    				  ''
+		    				  ]
+		    				 );
+		    	 });
+		    	 $("#editModal").modal("show");		    	 
 			});
 			  
 	   </script>
