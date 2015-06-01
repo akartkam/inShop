@@ -96,31 +96,61 @@
 						   </div>	 
 	                    </div>
 	                    <div class="tab-pane fade" id="content">
-	                       <div class="field-box" >
-	                       	   <div class="panel">
+                     	       <div class="panel">
                                  <div class="panel-body">
-			                       	 <table class="table table-striped table-bordered table-hover table-condensed table-responsive" id="poValDataTable" data-checkid="">
-			                       	    <thead >
-				                       	   <tr >
-								              <th class="col-md-6 text-center" th:text="#{admin.catalog.productOptionValue.value}">Value</th>
-								              <th class="col-md-3 text-center" th:text="#{admin.catalog.productOptionValue.priceAdjustment}">Price adjustment</th>
-								              <th class="col-md-1 text-center" th:text="#{admin.catalog.productOption.ordering}">Ordering</th>
-								              <th class="col-md-1 text-center" th:text="#{admin.catalog.productOption.enabled}">Enabled?</th>
-								              <th class="col-md-1 text-center"></th>
-									  	   </tr>
-								  	    </thead >
-								  	    <tbody>
-								  	       <tr th:each="pov : ${po.productOptionValues}" th:class="${!pov.enabled} ? 'text-muted'">
-								  	       	  <td><input type="text" class="form-control" th:field="*{value}" /></td>
-								  	       	  <td><input type="number" class="form-control" th:field="*{priceAdjustment}" /></td>
-								  	       	  <td><input type="number" class="form-control" th:field="*{ordering}" /></td>
-								  	       	  <td><input type="checkbox" class="text-center" th:field="*{enabled}" /></td>
-								  	       	  <td></td>
-								  	       </tr>
-								  	    </tbody>
-			                       	 </table>
-	                       	     </div>
-	                       	     <div class="panel-footer">
+<!--                                     <div class="table-responsive"> -->
+				                       	 <table class="table table-striped table-bordered table-hover table-condensed table-responsive" id="poValDataTable" data-checkid="">
+				                       	    <thead >
+					                       	   <tr >
+									              <th class="col-md-6 text-center" th:text="#{admin.catalog.productOptionValue.value}">Value</th>
+									              <th class="col-md-3 text-center" th:text="#{admin.catalog.productOptionValue.priceAdjustment}">Price adjustment</th>
+									              <th class="col-md-1 text-center" th:text="#{admin.catalog.productOption.ordering}">Ordering</th>
+									              <th class="col-md-1 text-center" th:text="#{admin.catalog.productOption.enabled}">Enabled?</th>
+									              <th class="col-md-1 text-center">  </th>
+										  	   </tr>
+									  	    </thead >
+									  	    <tbody>
+									  	       <tr th:each="pov : ${po.productOptionValues}" th:class="${!pov.enabled} ? 'text-muted'" th:object="${pov}">
+									  	       	  <td>
+									  	       	   <div class="col-md-6">
+							  	       	      		  <input type="text" class="form-control" th:value="*{optionValue}" />
+							  	       	      	   </div>  
+									  	       	  </td>
+									  	       	  <td>
+									  	       	    <div class="col-md-3">
+  							  	       	               <input type="number" class="form-control" th:value="*{priceAdjustment}" />
+												    </div>  							  	       	               
+									  	       	  </td>
+									  	       	  <td>
+									  	       	     <div class="col-md-1">
+ 									  	       	       <input type="number" class="form-control" th:value="*{ordering}" />
+ 									  	       	     </div>  
+									  	       	  </td>
+									  	       	  <td>
+									  	       	    <div class="col-md-1">
+									  	       	       <input type="checkbox" class="form-control text-center" th:value="*{enabled}" th:checked="*{enabled}"/>
+													</div>									  	       	       
+									  	       	  </td>
+									  	       	  <td >
+									  	       	    <div class="col-md-1">  
+			  				            	  		 <div class="btn-group" role="group" > 
+						                                  <button type="button" class="btn btn-outline btn-default btn-xs" 
+						                                          data-toggle="modal" data-target="#editModal" data-operation="add">
+						                                    <i class="fa fa-copy"></i>
+						                                  </button>
+							                              <button type="button" data-toggle="modal" data-target="#deleteModal" 
+							                                      class="open-deleteDialog btn btn-outline btn-default btn-xs">
+							                                <i class="fa fa-trash-o"></i>
+							                              </button>	
+					                            	 </div>
+					                            	</div> 
+									  	       	  </td>
+									  	       </tr>
+									  	    </tbody>
+				                       	 </table>
+<!--  				                      </div>  	  -->
+									 </div>
+ 	                       	     	<div class="panel-footer">
 								      <div class="btn-toolbar" role="toolbar" aria-label="...">
 									      <div class="btn-group" role="group" aria-label="...">
 				                            <button type="button" class="btn btn-outline btn-default btn-sm" id="addPov"> 
@@ -130,11 +160,10 @@
 				                            </button>							  
 									      </div> 
 									  </div>	  
-                        	     </div>
-	                       	  </div>
-						  </div>  
-	                    </div>	                    
+                       	     	</div>
+ 	                    </div>  
 	                </div>
+	             </div>   
 		    </div>
 		 <!-- /modal-body -->
 	 	    <div class="modal-footer">

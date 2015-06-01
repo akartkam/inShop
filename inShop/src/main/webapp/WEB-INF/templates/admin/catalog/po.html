@@ -247,6 +247,24 @@
 	                    }).done(function (html) {
 	                                $("#editModalContent").append(html);
 	                                $("#editModal").data("allowed","false");
+		               			    $("#poValDataTable").dataTable({
+		         			    	    info: false,
+		         			    		paging: false,
+		         		                responsive: false,
+		         		                searching: false,
+		         		                ordering:  false
+		          						});
+		         		    	 	$("#addPov").on("click", function (e) {
+		         		    			 var table = $('#poValDataTable').dataTable();
+		         		    		 	table.fnAddData(
+		         		    				 ['<input type="text" class="form-control" />',
+		         		    				  '<input type="number" class="form-control" />',
+		         		    				  '<input type="number" class="form-control"  />',
+		         		    				  '<input type="checkbox" class="text-center" />',
+		         		    				  ''
+		         		    				  ]
+		         		    				 );
+		         		    	 		});
 	        	                    $("#name").focus();
 	                    });
 					}  
