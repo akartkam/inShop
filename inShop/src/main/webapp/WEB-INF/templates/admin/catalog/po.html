@@ -115,8 +115,6 @@
 							            <td class="text-center"><i th:class="${po.useInSkuGeneration} ? 'fa fa-check-circle'"></i></td>
 						            	<td class="text-center"><i th:class="${po.enabled} ? 'fa fa-check-circle'"></i></td>
 						            	<td class="text-center">
-							                <div class="row">
-											  <!--  data-toggle="modal" data-target="#editModal" -->
 		  				            	  		 <div class="btn-group" role="group" > 
 					                                  <button type="button" class="open-editDialog btn btn-outline btn-default btn-xs" 
 					                                          data-toggle="modal" data-target="#editModal" data-operation="edit" 
@@ -134,7 +132,6 @@
 						                                <i class="fa fa-trash-o"></i>
 						                              </button>	
 				                            	 </div>  
-					                         </div>  
 			                             </td>
 							        </tr>
 							        <th:block th:remove="all">
@@ -247,24 +244,24 @@
 	                    }).done(function (html) {
 	                                $("#editModalContent").append(html);
 	                                $("#editModal").data("allowed","false");
-		               			    $("#poValDataTable").dataTable({
-		         			    	    info: false,
-		         			    		paging: false,
-		         		                responsive: false,
-		         		                searching: false,
-		         		                ordering:  false
-		          						});
-		         		    	 	$("#addPov").on("click", function (e) {
-		         		    			 var table = $('#poValDataTable').dataTable();
-		         		    		 	table.fnAddData(
-		         		    				 ['<input type="text" class="form-control" />',
-		         		    				  '<input type="number" class="form-control" />',
-		         		    				  '<input type="number" class="form-control"  />',
-		         		    				  '<input type="checkbox" class="text-center" />',
-		         		    				  ''
-		         		    				  ]
-		         		    				 );
-		         		    	 		});
+// 		               			    $("#poValDataTable").dataTable({
+// 		         			    	    info: false,
+// 		         			    		paging: false,
+// 		         		                responsive: false,
+// 		         		                searching: false,
+// 		         		                ordering:  false
+// 		          						});
+// 		         		    	 	$("#addPov").on("click", function (e) {
+// 		         		    			 var table = $('#poValDataTable').dataTable();
+// 		         		    		 	table.fnAddData(
+// 		         		    				 ['<input type="text" class="form-control" />',
+// 		         		    				  '<input type="number" class="form-control" />',
+// 		         		    				  '<input type="number" class="form-control"  />',
+// 		         		    				  '<input type="checkbox" class="text-center" />',
+// 		         		    				  ''
+// 		         		    				  ]
+// 		         		    				 );
+// 		         		    	 		});
 	        	                    $("#name").focus();
 	                    });
 					}  
@@ -284,6 +281,8 @@
 		   // ]]>
 	     </script>
 	     <!-- <th:block layout:include="/admin/catalog/attributeCategoryEdit :: scriptEditModal"> -->
+	     <th:block layout:fragment="scriptEditModal">
+	     </th:block>
     </th:block>
 </body>
 </html>

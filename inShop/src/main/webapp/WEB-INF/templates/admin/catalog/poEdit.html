@@ -10,7 +10,6 @@
 	    <meta name="viewport" content="width=device-width, initial-scale=1"/>
 	    <meta name="description" content=""/>
 	    <meta name="author" content=""/>
-
 	    <!-- Bootstrap Core CSS -->
 	    <link href="../../../../resources/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" th:href="@{/resources/bower_components/bootstrap/dist/css/bootstrap.min.css}"/>
 	    <!-- DataTables CSS -->
@@ -19,8 +18,8 @@
 	    <!-- Custom Fonts -->
     	<link href="../../../../resources/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/font-awesome/css/font-awesome.min.css}"/>
 		<link href="../../../../resources/bower_components/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/bootstrap/dist/css/bootstrap-theme.min.css}"></link>    	
-    	<link href="../../../../resources/css/sb-admin-2.css" rel="stylesheet" th:href="@{/resources/css/sb-admin-2.css}"/>
-      </th:block>	
+    	<link href="../../../../resources/css/sb-admin-2.css" rel="stylesheet" th:href="@{/resources/css/sb-admin-2.css}"/>   	
+      </th:block>
 	</head>
 <body>
   <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true" layout:fragment="editForm">
@@ -60,7 +59,6 @@
 					   		  <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Incorrect name</p>
 				   		    </div>
 						    <div class="field-box" th:class="${#fields.hasErrors('label')}? has-error: field-box">
-							  <input type="hidden" th:field="*{id}"/>	                              
 				    		  <label>
 					    	  	 <span th:text="#{admin.catalog.productOption.edit.label}">Product option label 1</span>
 					   		  </label>
@@ -110,7 +108,6 @@
 									  	    <tbody>
 									  	       <tr th:each="pov : ${po.productOptionValues}" th:class="${!pov.enabled} ? 'text-muted'" th:object="${pov}">
 									  	       	  <td>
-									  	       	     
 							  	       	      		  <input type="text" class="form-control" th:value="*{optionValue}" />
 									  	       	  </td>
 									  	       	  <td>
@@ -123,18 +120,18 @@
 									  	       	       <input type="checkbox" class="text-center" th:value="*{enabled}" th:checked="*{enabled}"/>
 									  	       	  </td>
 									  	       	  <td >
-										  	       	  <div class="btn-toolbar" role="toolbar" aria-label="...">
+<!-- 										  	       	  <div class="btn-toolbar" role="toolbar" aria-label="..."> -->
 				  				            	  		 <div class="btn-group" role="group" > 
 							                                  <button type="button" class="btn btn-outline btn-default btn-xs" 
 							                                          data-toggle="modal" data-target="#editModal" data-operation="add">
 							                                    <i class="fa fa-copy"></i>
 							                                  </button>
-								                              <button type="button" data-toggle="modal" data-target="#deleteModal" 
+							                                  <button type="button" data-toggle="modal" data-target="#deleteModal" 
 								                                      class="open-deleteDialog btn btn-outline btn-default btn-xs">
 								                                <i class="fa fa-trash-o"></i>
 								                              </button>	
 						                            	 </div>
-		 											  </div>
+<!-- 		 											  </div> -->
 									  	       	  </td>
 									  	       </tr>
 									  	    </tbody>
