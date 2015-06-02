@@ -108,16 +108,16 @@
 									  	    <tbody>
 									  	       <tr th:each="pov : ${po.productOptionValues}" th:class="${!pov.enabled} ? 'text-muted'" th:object="${pov}">
 									  	       	  <td>
-							  	       	      		  <input type="text" class="form-control" th:value="*{optionValue}" />
+							  	       	      		  <input type="text" class="form-control input-md" th:name="${'value-'+pov.id}" th:value="*{optionValue}" />
 									  	       	  </td>
 									  	       	  <td>
-  							  	       	               <input type="number" class="form-control" th:value="*{priceAdjustment}" />
+  							  	       	               <input type="number" class="form-control input-md" th:name="${'priceadj-'+pov.id}" th:value="*{priceAdjustment}" />
 									  	       	  </td>
 									  	       	  <td>
- 									  	       	       <input type="number" class="form-control" th:value="*{ordering}" />
+ 									  	       	       <input type="number" class="form-control input-md" th:name="${'order-'+pov.id}" th:value="*{ordering}" />
 									  	       	  </td>
 									  	       	  <td class="text-center">
-									  	       	       <input type="checkbox" class="text-center" th:value="*{enabled}" th:checked="*{enabled}"/>
+									  	       	       <input type="checkbox" class="text-center" th:name="${'enabled-'+pov.id}" th:value="*{enabled}" th:checked="*{enabled}"/>
 									  	       	  </td>
 									  	       	  <td >
 <!-- 										  	       	  <div class="btn-toolbar" role="toolbar" aria-label="..."> -->
