@@ -28,7 +28,7 @@ public class ProductOption extends AbstractDomainObjectOrdering {
 	private String label;
 	private Boolean required;
 	private Boolean useInSkuGeneration;
-	private List<ProductOptionValue> productOptionValues = new ArrayList<ProductOptionValue>(0);
+	private List<ProductOptionValue> productOptionValues = new ArrayList<ProductOptionValue>();
 	
 	@NotNull
 	@Size(min = 1, max = 50)

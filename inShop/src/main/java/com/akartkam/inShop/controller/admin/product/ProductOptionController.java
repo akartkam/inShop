@@ -112,7 +112,7 @@ public class ProductOptionController {
 		  }
 	  
 	   @RequestMapping(value="/edit", method = RequestMethod.POST )
-	   public String savePO(@ModelAttribute @Valid ProductOption po,
+	   public String savePO(final @Valid ProductOption po,
 			                   final BindingResult bindingResult,
 			                   final RedirectAttributes ra
 			                         ) {
