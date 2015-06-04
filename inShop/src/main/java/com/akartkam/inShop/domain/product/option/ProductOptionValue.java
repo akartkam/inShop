@@ -35,7 +35,7 @@ public class ProductOptionValue extends AbstractDomainObjectOrdering {
 	public String getOptionValue() {
 		return optionValue;
 	}
-	public void setOptionValue(String optionValue) {
+	public void setOptionValue(final String optionValue) {
 		this.optionValue = optionValue;
 	}
     @Column(name = "price_adjustment", precision = 19, scale = 5)

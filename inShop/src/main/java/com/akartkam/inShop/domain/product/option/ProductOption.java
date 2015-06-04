@@ -1,5 +1,6 @@
 package com.akartkam.inShop.domain.product.option;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -78,5 +80,4 @@ public class ProductOption extends AbstractDomainObjectOrdering {
 		this.productOptionValues = productOptionValues;
 	}
 	
-
 }

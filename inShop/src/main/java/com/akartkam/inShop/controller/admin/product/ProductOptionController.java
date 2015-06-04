@@ -5,6 +5,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import java.beans.PropertyEditorSupport;
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
@@ -51,13 +52,22 @@ public class ProductOptionController {
 	  
 	  @InitBinder
 	  public void initBinder(WebDataBinder binder) {
-			binder.setAllowedFields(new String[] { "id", "name", "label", "required", "useInSkuGeneration", "enabled"});
+			binder.setAllowedFields(new String[] { "id", "name", "label", "required", "useInSkuGeneration", "enabled","productOptionValues.optionValue",
+												   "productOptionValues.priceAdjustment", "ordering", "productOptionValues.ordering", "productOptionValues.enabled"});
+			
 			binder.registerCustomEditor(UUID.class, "id", new PropertyEditorSupport() {
 			    @Override
 			    public void setAsText(String text) {
 			    	 setValue(UUID.fromString(text));
 			    }
 			    });			
+			binder.registerCustomEditor(BigDecimal.class, "productOptionValues.priceAdjustment", new PropertyEditorSupport() {
+			    @Override
+			    public void setAsText(String text) {
+			    	 setValue(new BigDecimal(text));
+			    }
+			    });			
+
 	  }
 	  
 	  @RequestMapping(method=GET)
@@ -112,11 +122,11 @@ public class ProductOptionController {
 		  }
 	  
 	   @RequestMapping(value="/edit", method = RequestMethod.POST )
-	   public String savePO(final @Valid ProductOption po,
+	   public String savePO(@ModelAttribute @Valid ProductOption po,
 			                   final BindingResult bindingResult,
 			                   final RedirectAttributes ra
 			                         ) {
-	        if (bindingResult.hasErrors()) {
+		   if (bindingResult.hasErrors()) {
 	        	ra.addFlashAttribute("po", po);
 	        	ra.addFlashAttribute("org.springframework.validation.BindingResult.po", bindingResult);
 	            return "redirect:/admin/catalog/po/edit";

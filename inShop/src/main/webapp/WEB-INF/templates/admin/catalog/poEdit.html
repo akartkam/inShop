@@ -108,16 +108,16 @@
 									  	    <tbody>
 									  	       <tr th:each="pov, povStat : *{productOptionValues}" th:class="${!pov.enabled} ? 'text-muted'">
 									  	       	  <td>
-							  	       	      		  <input type="text" class="form-control input-md" th:field= "*{productOptionValues[__${povStat.index}__].optionValue}" />
+							  	       	      		  <input type="text" class="form-control input-md" th:field="*{productOptionValues[__${povStat.index}__].optionValue}" />
 									  	       	  </td>
 									  	       	  <td>
-  							  	       	               <input type="number" class="form-control input-md" th:field= "*{productOptionValues[__${povStat.index}__].priceAdjustment}" />
+  							  	       	               <input type="number" class="form-control input-md" th:field="*{productOptionValues[__${povStat.index}__].priceAdjustment}" />
 									  	       	  </td>
 									  	       	  <td>
- 									  	       	       <input type="number" class="form-control input-md" th:field= "*{productOptionValues[__${povStat.index}__].ordering}" />
+ 									  	       	       <input type="number" class="form-control input-md" th:field="*{productOptionValues[__${povStat.index}__].ordering}" />
 									  	       	  </td>
 									  	       	  <td class="text-center">
-									  	       	       <input type="checkbox" class="text-center" th:field= "*{productOptionValues[__${povStat.index}__].enabled}" th:checked="${pov.enabled}"/>
+									  	       	       <input type="checkbox" class="text-center" th:field="*{productOptionValues[__${povStat.index}__].enabled}" th:checked="${pov.enabled}"/>
 									  	       	  </td>
 									  	       	  <td >
 <!-- 										  	       	  <div class="btn-toolbar" role="toolbar" aria-label="..."> -->
@@ -168,24 +168,6 @@
    <th:block layout:fragment="scriptEditModal"> 
 	   <script type="text/javascript">
 		     $(document).ready(function() {
-//     			    $("#poValDataTable").dataTable({
-//  			    	    info: false,
-//  			    		paging: false,
-//  		                responsive: true,
-//  		                searching: false,
-//  		                ordering:  false
-//   						});
-//  		    	 	$("#addPov").on("click", function (e) {
-//  		    			 var table = $('#poValDataTable').dataTable();
-//  		    		 	table.fnAddData(
-//  		    				 ['<input type="text" class="form-control" />',
-//  		    				  '<input type="number" class="form-control" />',
-//  		    				  '<input type="number" class="form-control"  />',
-//  		    				  '<input type="checkbox" class="text-center" />',
-//  		    				  ''
-//  		    				  ]
-//  		    				 );
-//  		    	 		});		    	 
 		    	 $("#editModal").modal("show");		    	 
 			});
 			  
