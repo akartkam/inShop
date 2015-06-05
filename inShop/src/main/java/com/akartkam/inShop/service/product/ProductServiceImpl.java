@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.akartkam.inShop.dao.product.option.ProductOptionDAO;
 import com.akartkam.inShop.domain.product.option.ProductOption;
+import com.akartkam.inShop.domain.product.option.ProductOptionValue;
 
 @Service("ProductService")
 @Transactional(readOnly = true)
@@ -75,9 +76,38 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	@Transactional(readOnly = false)
-	public void mergeWithExistingPOAndUpdateOrCreate(ProductOption po) {
-		// TODO Auto-generated method stub
-
+	public void mergeWithExistingPOAndUpdateOrCreate(final ProductOption poFromPost) {
+		if (poFromPost == null) return;
+		final ProductOption existingPo = getPOById(poFromPost.getId());
+		if (existingPo != null) {
+			existingPo.setName(poFromPost.getName());
+			existingPo.setLabel(poFromPost.getLabel());
+			existingPo.setRequired(poFromPost.getRequired());
+			existingPo.setOrdering(poFromPost.getOrdering());
+			existingPo.setEnabled(poFromPost.isEnabled());
+			existingPo.setUseInSkuGeneration(poFromPost.getUseInSkuGeneration());
+			for (ProductOptionValue pov: existingPo.getProductOptionValues()){
+				int povIndex = poFromPost.getProductOptionValues().indexOf(pov);
+				ProductOptionValue formPov = poFromPost.getProductOptionValues().get(povIndex);
+				if (!poFromPost.getProductOptionValues().contains(pov)) {
+					existingPo.getProductOptionValues().remove(pov);
+				} else {
+					pov.setEnabled(formPov.isEnabled());
+					pov.setOptionValue(formPov.getOptionValue());
+					pov.setOrdering(formPov.getOrdering());
+					pov.setPriceAdjustment(formPov.getPriceAdjustment());
+					poFromPost.getProductOptionValues().remove(formPov);
+				}
+			}
+			for(ProductOptionValue pov: poFromPost.getProductOptionValues()) {
+				existingPo.getProductOptionValues().add(pov);
+			}
+	        updatePO(existingPo);
+		} else {
+			createPO(poFromPost);
+		}
 	}
+	
+	
 
 }

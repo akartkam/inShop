@@ -52,8 +52,8 @@ public class ProductOptionController {
 	  
 	  @InitBinder
 	  public void initBinder(WebDataBinder binder) {
-			binder.setAllowedFields(new String[] { "id", "name", "label", "required", "useInSkuGeneration", "enabled","productOptionValues.optionValue",
-												   "productOptionValues.priceAdjustment", "ordering", "productOptionValues.ordering", "productOptionValues.enabled"});
+			binder.setAllowedFields(new String[] { "*id", "name", "label", "required", "useInSkuGeneration", "*optionValue",
+												   "*priceAdjustment", "*ordering", "*enabled"});
 			
 			binder.registerCustomEditor(UUID.class, "id", new PropertyEditorSupport() {
 			    @Override
@@ -61,7 +61,7 @@ public class ProductOptionController {
 			    	 setValue(UUID.fromString(text));
 			    }
 			    });			
-			binder.registerCustomEditor(BigDecimal.class, "productOptionValues.priceAdjustment", new PropertyEditorSupport() {
+			binder.registerCustomEditor(BigDecimal.class, "*priceAdjustment", new PropertyEditorSupport() {
 			    @Override
 			    public void setAsText(String text) {
 			    	 setValue(new BigDecimal(text));

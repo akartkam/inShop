@@ -1,6 +1,5 @@
 package com.akartkam.inShop.domain.product.option;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +9,6 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -68,7 +66,7 @@ public class ProductOption extends AbstractDomainObjectOrdering {
 		this.useInSkuGeneration = useInSkuGeneration;
 	}
 	
-	@OneToMany(mappedBy="productOption", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy="productOption", cascade = CascadeType.ALL, orphanRemoval = true)
 	@Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE,
 			  org.hibernate.annotations.CascadeType.DELETE})
 	@OrderBy("ordering")
@@ -79,5 +77,6 @@ public class ProductOption extends AbstractDomainObjectOrdering {
 	public void setProductOptionValues(List<ProductOptionValue> productOptionValues) {
 		this.productOptionValues = productOptionValues;
 	}
+
 	
 }

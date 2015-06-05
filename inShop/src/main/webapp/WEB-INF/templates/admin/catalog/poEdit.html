@@ -108,6 +108,7 @@
 									  	    <tbody>
 									  	       <tr th:each="pov, povStat : *{productOptionValues}" th:class="${!pov.enabled} ? 'text-muted'">
 									  	       	  <td>
+									  	       	      <input type="hidden" th:field="*{productOptionValues[__${povStat.index}__].id}"/>
 							  	       	      		  <input type="text" class="form-control input-md" th:field="*{productOptionValues[__${povStat.index}__].optionValue}" />
 									  	       	  </td>
 									  	       	  <td>
