@@ -43,7 +43,7 @@
 	            </div>
 	            <div class="modal-body" id = "delete-modal-body">
 	              <div class="field-box">
-	                <span th:text="#{admin.catalog.productOption.delete.modalmessage}">Подтвердите удаление опции товара: </span>
+	                <span th:text="#{admin.catalog.productOption.delete.modalmessage}" layout:fragment="del-modal-message">Подтвердите удаление опции товара: </span>
 	                <span style="font-weight:bold" id="poName"> Опция товара </span>
 				  </div>	                
 	              <div class="field-box" sec:authorize="hasRole('ADMIN')">
@@ -61,8 +61,6 @@
 	     </div> 
 	  </div> 
 	</div>
-    <!-- <div layout:fragment="editForm" >
-    </div> -->
     <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true" layout:fragment="editForm">
 	  <div class="modal-dialog" style="width:70vw; overflow:auto">
 	    <div class="modal-content" id="editModalContent">
@@ -228,10 +226,10 @@
 	            //Открытие окна удаления
 		        $(document).on("click", ".open-deleteDialog", function () {
 		    	     var Id = $(this).data("id");
-		    	     var brName = $(this).data("name");
+		    	     var poName = $(this).data("name");
 		    	     var action;
 		    	     $("#delete-modal-footer #ID").val(Id);
-		    	     $("#delete-modal-body #brName").html(brName);
+		    	     $("#delete-modal-body #poName").html(poName);
 		    	});
   		        //Открытие окна редактированя
 	    		$("#editModal").on("show.bs.modal", function (e) {
@@ -244,24 +242,6 @@
 	                    }).done(function (html) {
 	                                $("#editModalContent").append(html);
 	                                $("#editModal").data("allowed","false");
-// 		               			    $("#poValDataTable").dataTable({
-// 		         			    	    info: false,
-// 		         			    		paging: false,
-// 		         		                responsive: false,
-// 		         		                searching: false,
-// 		         		                ordering:  false
-// 		          						});
-// 		         		    	 	$("#addPov").on("click", function (e) {
-// 		         		    			 var table = $('#poValDataTable').dataTable();
-// 		         		    		 	table.fnAddData(
-// 		         		    				 ['<input type="text" class="form-control" />',
-// 		         		    				  '<input type="number" class="form-control" />',
-// 		         		    				  '<input type="number" class="form-control"  />',
-// 		         		    				  '<input type="checkbox" class="text-center" />',
-// 		         		    				  ''
-// 		         		    				  ]
-// 		         		    				 );
-// 		         		    	 		});
 	        	                    $("#name").focus();
 	                    });
 					}  
@@ -276,7 +256,34 @@
 		    	  }
 		    	  $("#editModal").data("allowed","true");
 		    	  $("#editModal").data("path",path);
-		    	});  		        
+		    	}); 
+		        
+// 		        $('.modal').on('hidden.bs.modal', function( event ) {
+// 	                $(this).removeClass( 'fv-modal-stack' );
+// 	                $('body').data( 'fv_open_modals', $('body').data( 'fv_open_modals' ) - 1 );
+// 	                });
+
+
+// 				$( '.modal' ).on( 'shown.bs.modal', function ( event ) {
+// 	                   // keep track of the number of open modals
+// 	                   if ( typeof( $('body').data( 'fv_open_modals' ) ) == 'undefined' )
+// 	                   {
+// 	                     $('body').data( 'fv_open_modals', 0 );
+// 	                   }
+// 	                   // if the z-index of this modal has been set, ignore.
+// 	                if ( $(this).hasClass( 'fv-modal-stack' ) )
+// 	                        {
+// 	                        return;
+// 	                        }
+// 	                $(this).addClass( 'fv-modal-stack' );
+// 	                $('body').data( 'fv_open_modals', $('body').data( 'fv_open_modals' ) + 1 );
+// 	                $(this).css('z-index', 1040 + (10 * $('body').data( 'fv_open_modals' )));
+// 	                $( '.modal-backdrop' ).not( '.fv-modal-stack' )
+// 	                        .css( 'z-index', 1039 + (10 * $('body').data( 'fv_open_modals' )));
+// 	                $( '.modal-backdrop' ).not( 'fv-modal-stack' )
+// 	                        .addClass( 'fv-modal-stack' ); 
+// 	                 });
+	       		        
 	            
 		   // ]]>
 	     </script>

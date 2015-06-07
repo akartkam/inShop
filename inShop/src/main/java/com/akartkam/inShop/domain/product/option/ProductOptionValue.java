@@ -45,6 +45,14 @@ public class ProductOptionValue extends AbstractDomainObjectOrdering {
 	public void setPriceAdjustment(BigDecimal priceAdjustment) {
 		this.priceAdjustment = priceAdjustment;
 	}
+	@Override
+	public boolean canRemove() {
+		return super.canRemove();
+	}
+	@Override
+	protected Object clone() throws CloneNotSupportedException {
+		return super.clone();
+	}
     
     
 	

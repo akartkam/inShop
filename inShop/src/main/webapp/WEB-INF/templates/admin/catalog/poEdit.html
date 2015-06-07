@@ -24,8 +24,12 @@
 <body>
   <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true" layout:fragment="editForm">
     <div class="modal-dialog" style="width:70vw; overflow:auto">
-	   <div class="modal-content" id="editModalContent" >
+	  <div class="modal-content" id="editModalContent" >
 	   <form method="post" class="form-horizontal" role="form" action="#" th:action="@{/admin/catalog/po/edit}" th:object="${po}" th:fragment="editPOForm">
+		<!-- message for delete modal window -->
+		<span th:text="#{admin.catalog.productOptionValue.delete.modalmessage}" layout:fragment="del-modal-message" th:remove="all">
+		  Подтвердите удаление значения опции товара: 
+		</span>
 		   <div class="modal-header">
 	 			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 				<h4 class="modal-title"  th:text="${!po.new}? #{admin.catalog.productOption.edit.title.edit}: #{admin.catalog.productOption.edit.title.add}">Edit Product option</h4>
@@ -40,16 +44,16 @@
 					</ul>                                 
                   </div>
 	               <ul class="nav nav-tabs">
-	                    <li class="active"><a href="#main" data-toggle="tab" th:text="#{admin.edit.tab.description}">Описание</a>
+	                    <li th:class="${tabactive=='main'}? 'in active'"><a href="#main" data-toggle="tab" th:text="#{admin.edit.tab.description}">Описание</a>
 	                    </li>
-	                    <li><a href="#additional" data-toggle="tab" th:text="#{admin.edit.tab.params}">Параметры</a>
+	                    <li th:class="${tabactive=='additional'}? 'in active'"><a href="#additional" data-toggle="tab" th:text="#{admin.edit.tab.params}">Параметры</a>
 	                    </li>
-	                    	<li><a href="#content" data-toggle="tab" th:text="#{admin.edit.tab.content}">Содержание</a>
+	                    <li th:class="${tabactive=='content'}? 'in active'"><a href="#content" data-toggle="tab" th:text="#{admin.edit.tab.content}">Содержание</a>
 	                    </li>
 	                </ul>
 	                <!-- Tab panes -->
 	                <div class="tab-content">
-	                    <div class="tab-pane fade in active" id="main">
+	                    <div class="tab-pane fade" th:classappend="${tabactive=='main'}? 'in active'" id="main">
 						    <div class="field-box" th:class="${#fields.hasErrors('name')}? has-error: field-box">
 							  <input type="hidden" th:field="*{id}"/>	                              
 				    		  <label>
@@ -66,7 +70,7 @@
 					   		  <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('label')}" th:errors="*{label}">Incorrect label</p>
 				   		    </div>
 	             		</div>
-	                    <div class="tab-pane fade" id="additional">
+	                    <div class="tab-pane fade" th:classappend="${tabactive=='additional'}? 'in active'" id="additional">
 	                       <div class="field-box">
 	 			    		  <label>
 					    	  	<span th:text="#{admin.catalog.productOption.ordering}">Orderig</span>
@@ -92,7 +96,7 @@
 							 </label>
 						   </div>	 
 	                    </div>
-	                    <div class="tab-pane " id="content">
+	                    <div class="tab-pane fade" th:classappend="${tabactive=='content'}? 'in active'" id="content">
 							    <div class="row clearfix">
 									<div class="col-md-12 column">
 				                       	 <table class="table table-bordered table-hover" id="poValDataTable" data-checkid="">
@@ -139,7 +143,7 @@
 				                       	 </table>
 									   </div>
 									 </div>
-				                     <button type="button" class="btn btn-outline btn-default btn-sm pull-left" id="addPov"> 
+				                     <button type="submit" name="addNewPov" class="btn btn-outline btn-default btn-sm pull-left" id="addPov"> 
 			                            <i class="fa fa-plus-circle"></i>
 			                            <span> </span>
 									    <span th:text="#{button.add.caption}">Добавить</span>

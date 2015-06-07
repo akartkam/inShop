@@ -58,7 +58,7 @@ public class Brand extends AbstractDomainObject {
 	}
 	
     @Column(name = "url")
-    @Index(name="category_url_index", columnNames={"url"})	
+    @Index(name="brand_url_index", columnNames={"url"})	
 	public String getUrl() {
 		return url;
 	}

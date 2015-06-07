@@ -33,6 +33,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.akartkam.inShop.domain.product.Brand;
 import com.akartkam.inShop.domain.product.option.ProductOption;
+import com.akartkam.inShop.domain.product.option.ProductOptionValue;
 import com.akartkam.inShop.service.product.BrandService;
 import com.akartkam.inShop.service.product.ProductService;
 import com.akartkam.inShop.exception.ImageUploadException;
@@ -81,6 +82,7 @@ public class ProductOptionController {
 		  if(!model.containsAttribute("po")) {
 			 ProductOption po = productService.getPOById(UUID.fromString(categoryID));
 		     model.addAttribute("po", po);
+			 model.addAttribute("tabactive","main");
 		  }
           if ("XMLHttpRequest".equals(requestedWith)) {
               return "/admin/catalog/poEdit :: editPOForm";
@@ -95,6 +97,7 @@ public class ProductOptionController {
 		  if (copyID != null && !"".equals(copyID)) po = productService.clonePOById(UUID.fromString(copyID)); 
 		  else po = new ProductOption();
  	      model.addAttribute("po", po);
+		   model.addAttribute("tabactive","main");
           if ("XMLHttpRequest".equals(requestedWith)) {
               return "/admin/catalog/poEdit :: editPOForm";
             } 	      
@@ -135,6 +138,24 @@ public class ProductOptionController {
 	       	        
 	        return "redirect:/admin/catalog/po";
 	    }
-	   
+
+	   @RequestMapping(value="/edit",params={"addNewPov"} ,method = RequestMethod.POST )
+	   public String addNewPov(final @ModelAttribute ProductOption po,
+			                   final BindingResult bindingResult,
+			                   final Model model
+			                         ) {
+		   ProductOptionValue pov = new ProductOptionValue();
+		   pov.setProductOption(po);
+		   po.getProductOptionValues().add(pov);
+		   model.addAttribute("po", po);
+		   model.addAttribute("tabactive","content");
+	       return "/admin/catalog/poEdit";
+	    }	   
 
 }
+
+/*
+ * Программный скрол  таблицы на последнюю сторочку
+ var s = $("table tbody > tr:last-child").position();
+ $( "div" ).scrollTop( s.top );
+ * */

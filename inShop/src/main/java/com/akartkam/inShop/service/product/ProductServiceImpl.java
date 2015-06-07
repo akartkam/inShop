@@ -100,6 +100,7 @@ public class ProductServiceImpl implements ProductService {
 				}
 			}
 			for(ProductOptionValue pov: poFromPost.getProductOptionValues()) {
+				pov.setProductOption(existingPo);
 				existingPo.getProductOptionValues().add(pov);
 			}
 	        updatePO(existingPo);
