@@ -162,8 +162,3 @@ public class ProductOptionController {
 
 }
 
-/*
- * Программный скрол  таблицы на последнюю сторочку
- var s = $("table tbody > tr:last-child").position();
- $( "div" ).scrollTop( s.top );
- * */

@@ -33,34 +33,68 @@
    <th:block layout:fragment="breadcrumb">
    	 <li class="active" th:text="#{admin.catalog.productOption}"></li>
    </th:block>
-   <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true" layout:fragment="deleteForm">
-	  <div class="modal-dialog">
-	    <div class="modal-content" id="deleteModalContent">
- 	        <form method="post" action="#" th:action="@{/admin/catalog/po/delete}" id="deleteForm">
-	            <div class="modal-header">
-	              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-	              <h4 class="modal-title" id="deleteModalLabel"><span th:text="#{admin.catalog.category.delete.modalcaption}">Удаление</span></h4>
-	            </div>
-	            <div class="modal-body" id = "delete-modal-body">
-	              <div class="field-box">
-	                <span th:text="#{admin.catalog.productOption.delete.modalmessage}" layout:fragment="del-modal-message">Подтвердите удаление опции товара: </span>
-	                <span style="font-weight:bold" id="poName"> Опция товара </span>
-				  </div>	                
-	              <div class="field-box" sec:authorize="hasRole('ADMIN')">
-                      <label>
-					   	<input type="checkbox" name="phisycalDelete"/>
-					  	<span th:text="#{admin.catalog.category.delete.phisycalDelete}">Phisycal delete</span>
-					  </label>
-	              </div>
-	            </div> 
-	            <div class="modal-footer" id = "delete-modal-footer">
-	                <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
-	                <button type="submit" id="ID" name="ID" value="" class="btn btn-primary">Удалить</button>
-		        </div> 
-            </form>  	      
-	     </div> 
-	  </div> 
+   <div th:if="${po==null}"  th:remove="tag">
+	   <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true" layout:fragment="deleteForm">
+		  <div class="modal-dialog">
+		    <div class="modal-content" id="deleteModalContent">
+	 	        <form method="post" action="#" th:action="@{/admin/catalog/po/delete}" id="deleteForm">
+		            <div class="modal-header">
+		              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		              <h4 class="modal-title" id="deleteModalLabel"><span th:text="#{admin.catalog.category.delete.modalcaption}">Удаление</span></h4>
+		            </div>
+		            <div class="modal-body" id = "delete-modal-body">
+		              <div class="field-box">
+		                <span th:text="#{admin.catalog.productOption.delete.modalmessage}" >Подтвердите удаление опции товара: </span>
+		                <span style="font-weight:bold" id="poName"> Опция товара </span>
+					  </div>	                
+		              <div class="field-box" sec:authorize="hasRole('ADMIN')">
+	                      <label>
+						   	<input type="checkbox" name="phisycalDelete"/>
+						  	<span th:text="#{admin.catalog.category.delete.phisycalDelete}">Phisycal delete</span>
+						  </label>
+		              </div>
+		            </div> 
+		            <div class="modal-footer" id = "delete-modal-footer">
+		                <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+		                <button type="submit" id="ID" name="ID" value="" class="btn btn-primary">Удалить</button>
+			        </div> 
+	            </form>  	      
+		     </div> 
+		    </div> 
+		</div>
 	</div>
+    <div th:unless="${po==null}"  th:remove="tag">
+	   <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true" layout:fragment="deleteForm">
+		  <div class="modal-dialog">
+		    <div class="modal-content" id="deleteModalContent">
+	 	        <form method="post" action="#" th:action="@{/admin/catalog/po/delete}" id="deleteForm">
+		            <div class="modal-header">
+		              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		              <h4 class="modal-title" id="deleteModalLabel"><span th:text="#{admin.catalog.category.delete.modalcaption}">Удаление</span></h4>
+		            </div>
+		            <div class="modal-body" id = "delete-modal-body">
+		              <div class="field-box">
+						<span th:text="#{admin.catalog.productOptionValue.delete.modalmessage}">
+						  Подтвердите удаление значения опции товара: 
+						</span>
+		                <span style="font-weight:bold" id="poName"> Опция товара </span>
+					  </div>	                
+		              <div class="field-box" sec:authorize="hasRole('ADMIN')">
+	                      <label>
+						   	<input type="checkbox" name="phisycalDelete"/>
+						  	<span th:text="#{admin.catalog.category.delete.phisycalDelete}">Phisycal delete</span>
+						  </label>
+		              </div>
+		            </div> 
+		            <div class="modal-footer" id = "delete-modal-footer">
+		                <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+		                <button type="submit" id="ID" name="ID" value="" class="btn btn-primary">Удалить</button>
+			        </div> 
+	            </form>  	      
+		     </div> 
+		    </div> 
+		</div>
+	</div>	
     <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true" layout:fragment="editForm">
 	  <div class="modal-dialog" style="width:70vw; overflow:auto">
 	    <div class="modal-content" id="editModalContent">
@@ -221,7 +255,7 @@
 		                  },
 		                responsive: true,
 		                ordering:  false
-    				} );
+    				});    		     
 	            });
 	            //Открытие окна удаления
 		        $(document).on("click", ".open-deleteDialog", function () {
@@ -258,31 +292,7 @@
 		    	  $("#editModal").data("path",path);
 		    	}); 
 		        
-// 		        $('.modal').on('hidden.bs.modal', function( event ) {
-// 	                $(this).removeClass( 'fv-modal-stack' );
-// 	                $('body').data( 'fv_open_modals', $('body').data( 'fv_open_modals' ) - 1 );
-// 	                });
 
-
-// 				$( '.modal' ).on( 'shown.bs.modal', function ( event ) {
-// 	                   // keep track of the number of open modals
-// 	                   if ( typeof( $('body').data( 'fv_open_modals' ) ) == 'undefined' )
-// 	                   {
-// 	                     $('body').data( 'fv_open_modals', 0 );
-// 	                   }
-// 	                   // if the z-index of this modal has been set, ignore.
-// 	                if ( $(this).hasClass( 'fv-modal-stack' ) )
-// 	                        {
-// 	                        return;
-// 	                        }
-// 	                $(this).addClass( 'fv-modal-stack' );
-// 	                $('body').data( 'fv_open_modals', $('body').data( 'fv_open_modals' ) + 1 );
-// 	                $(this).css('z-index', 1040 + (10 * $('body').data( 'fv_open_modals' )));
-// 	                $( '.modal-backdrop' ).not( '.fv-modal-stack' )
-// 	                        .css( 'z-index', 1039 + (10 * $('body').data( 'fv_open_modals' )));
-// 	                $( '.modal-backdrop' ).not( 'fv-modal-stack' )
-// 	                        .addClass( 'fv-modal-stack' ); 
-// 	                 });
 	       		        
 	            
 		   // ]]>
