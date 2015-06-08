@@ -26,7 +26,6 @@
     <div class="modal-dialog" style="width:70vw; overflow:auto">
 	  <div class="modal-content" id="editModalContent" >
 	   <form method="post" class="form-horizontal" role="form" action="#" th:action="@{/admin/catalog/po/edit}" th:object="${po}" th:fragment="editPOForm">
-		<!-- message for delete modal window -->
 		<span th:text="#{admin.catalog.productOptionValue.delete.modalmessage}" layout:fragment="del-modal-message" th:remove="all">
 		  Подтвердите удаление значения опции товара: 
 		</span>
@@ -35,7 +34,7 @@
 				<h4 class="modal-title"  th:text="${!po.new}? #{admin.catalog.productOption.edit.title.edit}: #{admin.catalog.productOption.edit.title.add}">Edit Product option</h4>
 	 	   </div>
 		 <!-- /modal-header -->
-		    <div class="modal-body" style ="height:60vh; overflow:auto">
+		    <div class="modal-body" style ="height:60vh; overflow:auto" id="editModalBody">
 		          <div  th:if="${#fields.hasErrors('*')}" class="alert alert-danger alert-dismissable">
 		          	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                     <span th:text="#{admin.catalog.productOption.edit.existsErrors}">There is some errors in the form</span>
@@ -122,28 +121,26 @@
  									  	       	       <input type="number" class="form-control input-md" th:field="*{productOptionValues[__${povStat.index}__].ordering}" />
 									  	       	  </td>
 									  	       	  <td class="text-center">
-									  	       	       <input type="checkbox" class="text-center" th:field="*{productOptionValues[__${povStat.index}__].enabled}" th:checked="${pov.enabled}"/>
+									  	       	       <i th:class="${pov.enabled} ? 'fa fa-check-circle'"></i>
 									  	       	  </td>
 									  	       	  <td >
-<!-- 										  	       	  <div class="btn-toolbar" role="toolbar" aria-label="..."> -->
-				  				            	  		 <div class="btn-group" role="group" > 
-							                                  <button type="button" class="btn btn-outline btn-default btn-xs" 
-							                                          data-toggle="modal" data-target="#editModal" data-operation="add">
-							                                    <i class="fa fa-copy"></i>
-							                                  </button>
-							                                  <button type="button" data-toggle="modal" data-target="#deleteModal" 
-								                                      class="open-deleteDialog btn btn-outline btn-default btn-xs">
-								                                <i class="fa fa-trash-o"></i>
-								                              </button>	
-						                            	 </div>
-<!-- 		 											  </div> -->
+			  				            	  		 <div class="btn-group" role="group" > 
+						                                  <button type="submit" class="btn btn-outline btn-default btn-xs" 
+						                                          name="addNewPov" th:value="${pov.id}">
+						                                    <i class="fa fa-copy"></i>
+						                                  </button>
+						                                  <button type="button" data-toggle="modal" data-target="#deleteModal" 
+							                                      class="open-deleteDialog btn btn-outline btn-default btn-xs">
+							                                <i class="fa fa-trash-o"></i>
+							                              </button>	
+					                            	 </div>
 									  	       	  </td>
 									  	       </tr>
 									  	    </tbody>
 				                       	 </table>
 									   </div>
 									 </div>
-				                     <button type="submit" name="addNewPov" class="btn btn-outline btn-default btn-sm pull-left" id="addPov"> 
+				                     <button type="submit" name="addNewPov" value="new" class="btn btn-outline btn-default btn-sm pull-left" id="addPov"> 
 			                            <i class="fa fa-plus-circle"></i>
 			                            <span> </span>
 									    <span th:text="#{button.add.caption}">Добавить</span>
@@ -173,7 +170,11 @@
    <th:block layout:fragment="scriptEditModal"> 
 	   <script type="text/javascript">
 		     $(document).ready(function() {
-		    	 $("#editModal").modal("show");		    	 
+		    	 $("#editModal").modal("show");		
+		    	 $('#editModal').on( 'shown.bs.modal', function ( event ) {
+			    	 var s = $("#poValDataTable tbody > tr:last-child").position();
+			    	 $("#editModalBody" ).scrollTop( s.top );
+		    	 });
 			});
 			  
 	   </script>

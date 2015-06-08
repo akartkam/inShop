@@ -141,10 +141,18 @@ public class ProductOptionController {
 
 	   @RequestMapping(value="/edit",params={"addNewPov"} ,method = RequestMethod.POST )
 	   public String addNewPov(final @ModelAttribute ProductOption po,
+			   				   final @RequestParam(value = "addNewPov", required = false) String ID,
 			                   final BindingResult bindingResult,
 			                   final Model model
-			                         ) {
-		   ProductOptionValue pov = new ProductOptionValue();
+			                         ) throws CloneNotSupportedException {
+		   ProductOptionValue pov=null;
+		   if (ID != null && !"".equals(ID) && !"new".equals(ID)) {
+			   ProductOptionValue povCopy = po.getProductOptionValueById(UUID.fromString(ID)); 
+			   if (povCopy != null) {
+				   pov = (ProductOptionValue) povCopy.clone(); 
+			   }
+		   }
+		   if (pov==null) pov=new ProductOptionValue();
 		   pov.setProductOption(po);
 		   po.getProductOptionValues().add(pov);
 		   model.addAttribute("po", po);

@@ -2,6 +2,7 @@ package com.akartkam.inShop.domain.product.option;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -9,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -76,6 +78,17 @@ public class ProductOption extends AbstractDomainObjectOrdering {
 	}
 	public void setProductOptionValues(List<ProductOptionValue> productOptionValues) {
 		this.productOptionValues = productOptionValues;
+	}
+	
+	@Transient
+	public ProductOptionValue getProductOptionValueById(UUID id) {
+		if (id==null) return null;
+		for (ProductOptionValue pov: getProductOptionValues()){
+			if (id.equals(pov.getId())) {
+				return pov;
+			}
+		}
+		return null;
 	}
 
 	
