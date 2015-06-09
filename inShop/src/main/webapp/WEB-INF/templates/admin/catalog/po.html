@@ -33,8 +33,8 @@
    <th:block layout:fragment="breadcrumb">
    	 <li class="active" th:text="#{admin.catalog.productOption}"></li>
    </th:block>
-   <div th:if="${po==null}"  th:remove="tag">
-	   <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true" layout:fragment="deleteForm">
+   <th:block layout:fragment="modals" th:remove="tag"> 
+	   <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
 		  <div class="modal-dialog">
 		    <div class="modal-content" id="deleteModalContent">
 	 	        <form method="post" action="#" th:action="@{/admin/catalog/po/delete}" id="deleteForm">
@@ -42,10 +42,10 @@
 		              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 		              <h4 class="modal-title" id="deleteModalLabel"><span th:text="#{admin.catalog.category.delete.modalcaption}">Удаление</span></h4>
 		            </div>
-		            <div class="modal-body" id = "delete-modal-body">
+		            <div class="modal-body">
 		              <div class="field-box">
 		                <span th:text="#{admin.catalog.productOption.delete.modalmessage}" >Подтвердите удаление опции товара: </span>
-		                <span style="font-weight:bold" id="poName"> Опция товара </span>
+		                <span class="objname" style="font-weight:bold"> Опция товара </span>
 					  </div>	                
 		              <div class="field-box" sec:authorize="hasRole('ADMIN')">
 	                      <label>
@@ -62,22 +62,20 @@
 		     </div> 
 		    </div> 
 		</div>
-	</div>
-    <div th:unless="${po==null}"  th:remove="tag">
-	   <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true" layout:fragment="deleteForm">
+	   <div class="modal fade" id="deleteModalPov" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabelPov" aria-hidden="true">
 		  <div class="modal-dialog">
-		    <div class="modal-content" id="deleteModalContent">
-	 	        <form method="post" action="#" th:action="@{/admin/catalog/po/delete}" id="deleteForm">
+		    <div class="modal-content" id="deleteModalContentPov">
+	 	        <form method="post" action="#" th:action="@{/admin/catalog/pov/delete}" id="deleteFormPov">
 		            <div class="modal-header">
 		              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-		              <h4 class="modal-title" id="deleteModalLabel"><span th:text="#{admin.catalog.category.delete.modalcaption}">Удаление</span></h4>
+		              <h4 class="modal-title" id="deleteModalLabelPov"><span th:text="#{admin.catalog.category.delete.modalcaption}">Удаление</span></h4>
 		            </div>
-		            <div class="modal-body" id = "delete-modal-body">
+		            <div class="modal-body">
 		              <div class="field-box">
 						<span th:text="#{admin.catalog.productOptionValue.delete.modalmessage}">
 						  Подтвердите удаление значения опции товара: 
 						</span>
-		                <span style="font-weight:bold" id="poName"> Опция товара </span>
+		                <span class="objname" style="font-weight:bold"> Значение опции товара1 </span>
 					  </div>	                
 		              <div class="field-box" sec:authorize="hasRole('ADMIN')">
 	                      <label>
@@ -86,7 +84,7 @@
 						  </label>
 		              </div>
 		            </div> 
-		            <div class="modal-footer" id = "delete-modal-footer">
+		            <div class="modal-footer" id = "delete-modal-footer-pov">
 		                <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
 		                <button type="submit" id="ID" name="ID" value="" class="btn btn-primary">Удалить</button>
 			        </div> 
@@ -94,7 +92,7 @@
 		     </div> 
 		    </div> 
 		</div>
-	</div>	
+	</th:block>	
     <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true" layout:fragment="editForm">
 	  <div class="modal-dialog" style="width:70vw; overflow:auto">
 	    <div class="modal-content" id="editModalContent">
@@ -262,8 +260,8 @@
 		    	     var Id = $(this).data("id");
 		    	     var poName = $(this).data("name");
 		    	     var action;
-		    	     $("#delete-modal-footer #ID").val(Id);
-		    	     $("#delete-modal-body #poName").html(poName);
+		    	     $(this).find(".modal-footer input[type='submit']").val(Id);
+		    	     $(this).find(".modal-body .objname").html(poName);
 		    	});
   		        //Открытие окна редактированя
 	    		$("#editModal").on("show.bs.modal", function (e) {
