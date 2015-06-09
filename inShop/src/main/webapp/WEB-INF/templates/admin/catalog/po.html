@@ -259,9 +259,9 @@
 		        $(document).on("click", ".open-deleteDialog", function () {
 		    	     var Id = $(this).data("id");
 		    	     var poName = $(this).data("name");
-		    	     var action;
-		    	     $(this).find(".modal-footer input[type='submit']").val(Id);
-		    	     $(this).find(".modal-body .objname").html(poName);
+		    	     var modalName = $(this).data("target");
+		    	     $(modalName).find(".modal-footer button[type='submit']").val(Id);
+		    	     $(modalName).find(".modal-body .objname").html(poName);
 		    	});
   		        //Открытие окна редактированя
 	    		$("#editModal").on("show.bs.modal", function (e) {
