@@ -93,6 +93,7 @@
 						   </div>	 
 	                    </div>
 	                    <div class="tab-pane fade" th:classappend="${tabactive=='content'}? 'in active'" id="content">
+							<div class="container-fluid">	                    
 							    <div class="row clearfix">
 									<div class="col-md-12 column">
 				                       	 <table class="table table-bordered table-hover" id="poValDataTable" data-checkid="">
@@ -128,7 +129,7 @@
 						                                  </button>
 						                                  <button type="button" data-toggle="modal" data-target="#deleteModalPov" 
 							                                      class="open-deleteDialog btn btn-outline btn-default btn-xs"
-							                                      th:attr="data-id=${pov.id}, data-name=${pov.optionValue}">
+							                                      th:attr="data-id=${pov.id}, data-name=${pov.optionValue}, data-canremove=${pov.canRemove()}">
 							                                <i class="fa fa-trash-o"></i>
 							                              </button>	
 					                            	 </div>
@@ -142,7 +143,8 @@
 			                            <i class="fa fa-plus-circle"></i>
 			                            <span> </span>
 									    <span th:text="#{button.add.caption}">Добавить</span>
-		                             </button>							  	   	
+		                             </button>	
+		                     </div>        						  	   	
                        	  </div>  
  	                    </div> 
  	                 </div>      

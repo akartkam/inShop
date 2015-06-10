@@ -62,10 +62,10 @@
 		     </div> 
 		    </div> 
 		</div>
-	   <div class="modal fade" id="deleteModalPov" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabelPov" aria-hidden="true">
+	   <div class="modal fade" id="deleteModalPov" tabindex="-1" role="dialog" th:attr="data-path=@{/admin/catalog/pov/delete}" aria-labelledby="deleteModalLabelPov" aria-hidden="true">
 		  <div class="modal-dialog">
 		    <div class="modal-content" id="deleteModalContentPov">
-	 	        <form method="post" action="#" th:action="@{/admin/catalog/pov/delete}" id="deleteFormPov">
+<!-- 	 	        <form method="post" action="#" th:action="@{/admin/catalog/pov/delete}" id="deleteFormPov"> -->
 		            <div class="modal-header">
 		              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 		              <h4 class="modal-title" id="deleteModalLabelPov"><span th:text="#{admin.catalog.category.delete.modalcaption}">Удаление</span></h4>
@@ -77,18 +77,18 @@
 						</span>
 		                <span class="objname" style="font-weight:bold"> Значение опции товара1 </span>
 					  </div>	                
-		              <div class="field-box" sec:authorize="hasRole('ADMIN')">
+		              <div class="field-box" sec:authorize="${hasRole('ADMIN')}">
 	                      <label>
-						   	<input type="checkbox" name="phisycalDelete"/>
-						  	<span th:text="#{admin.catalog.category.delete.phisycalDelete}">Phisycal delete</span>
+						   	<input type="checkbox" name="phisycalDelete" id="phisycalDeletePov"/>
+						  	<span th:text="#{admin.delete.phisycalDelete}">Phisycal delete</span>
 						  </label>
 		              </div>
 		            </div> 
 		            <div class="modal-footer" id = "delete-modal-footer-pov">
 		                <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
-		                <button type="submit" id="ID" name="ID" value="" class="btn btn-primary">Удалить</button>
+		                <button type="button" id="IDPov" name="ID" value="" data-dismiss="modal" class="btn btn-primary">Удалить</button>
 			        </div> 
-	            </form>  	      
+<!-- 	            </form>  	       -->
 		     </div> 
 		    </div> 
 		</div>
@@ -227,6 +227,7 @@
         </th:block>	    
 	    <script type="text/javascript">
 	      //<![CDATA[
+	           var ee;
 	           $(document).ready(function() {
     		     $("#poDataTable").dataTable( {
 		            	"language": {
@@ -260,8 +261,13 @@
 		    	     var Id = $(this).data("id");
 		    	     var poName = $(this).data("name");
 		    	     var modalName = $(this).data("target");
-		    	     $(modalName).find(".modal-footer button[type='submit']").val(Id);
+		    	     $(modalName).find(".modal-footer .btn-primary").val(Id);
 		    	     $(modalName).find(".modal-body .objname").html(poName);
+		    	     if (modalName == "#deleteModalPov") {
+		    	    	 var canRemove = $(this).data("canremove");
+		    	    	 var checkRemove = $(modalName).find("#phisycalDeletePov")
+		    	    	 if (checkRemove != "undefined" && checkRemove !=null) checkRemove.attr("disabled", !canRemove);
+		    	     }
 		    	});
   		        //Открытие окна редактированя
 	    		$("#editModal").on("show.bs.modal", function (e) {
@@ -277,7 +283,23 @@
 	        	                    $("#name").focus();
 	                    });
 					}  
-                });    	                
+                });   
+
+		        $("#IDPov").on("click", function () { 
+	    			var id = $("#deleteModalPov").find(".btn-primary").val();
+	    			var path= $("#deleteModalPov").data("path");
+	    			var canRemove = false;
+	    			var checkRemove = $("#deleteModalPov").find("#phisycalDeletePov");
+	    			if (checkRemove != "undefined" && checkRemove !=null) canRemove = checkRemove.is(":checked");
+	    			$("#deleteModalPov").modal("hide");
+                    $.ajax({
+                        url: path+((id != null)?"?ID="+id:"")+"&phisycalDelete="+canRemove ,
+                        cache: false
+                    }).done(function (html) {
+                                $("#editModalContent").append(html);
+                    });
+	    		});
+	    		
 		        $(".open-editDialog").on("click", function () {
 		          var Id = $(this).data("id");
 		          var path = $(this).data("path");
@@ -289,10 +311,6 @@
 		    	  $("#editModal").data("allowed","true");
 		    	  $("#editModal").data("path",path);
 		    	}); 
-		        
-
-	       		        
-	            
 		   // ]]>
 	     </script>
 	     <!-- <th:block layout:include="/admin/catalog/attributeCategoryEdit :: scriptEditModal"> -->
