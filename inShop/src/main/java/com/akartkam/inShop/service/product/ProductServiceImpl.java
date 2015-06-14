@@ -1,5 +1,6 @@
 package com.akartkam.inShop.service.product;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
@@ -86,25 +87,29 @@ public class ProductServiceImpl implements ProductService {
 			existingPo.setOrdering(poFromPost.getOrdering());
 			existingPo.setEnabled(poFromPost.isEnabled());
 			existingPo.setUseInSkuGeneration(poFromPost.getUseInSkuGeneration());
-			for (ProductOptionValue pov: existingPo.getProductOptionValues()){
+			Iterator<ProductOptionValue> povi = existingPo.getProductOptionValues().iterator();
+			while(povi.hasNext()){
+				ProductOptionValue pov = povi.next();
 				int povIndex = poFromPost.getProductOptionValues().indexOf(pov);
-				ProductOptionValue formPov = poFromPost.getProductOptionValues().get(povIndex);
-				if (!poFromPost.getProductOptionValues().contains(pov)) {
-					existingPo.getProductOptionValues().remove(pov);
-				} else {
+				if(povIndex >= 0) {
+					ProductOptionValue formPov = poFromPost.getProductOptionValues().get(povIndex);
 					pov.setEnabled(formPov.isEnabled());
 					pov.setOptionValue(formPov.getOptionValue());
 					pov.setOrdering(formPov.getOrdering());
 					pov.setPriceAdjustment(formPov.getPriceAdjustment());
 					poFromPost.getProductOptionValues().remove(formPov);
+				} else {
+					povi.remove();
 				}
 			}
 			for(ProductOptionValue pov: poFromPost.getProductOptionValues()) {
 				pov.setProductOption(existingPo);
 				existingPo.getProductOptionValues().add(pov);
 			}
-	        updatePO(existingPo);
+			poFromPost.getProductOptionValues().clear();
+        //updatePO(existingPo);
 		} else {
+			for (ProductOptionValue pov: poFromPost.getProductOptionValues()) pov.setProductOption(poFromPost);
 			createPO(poFromPost);
 		}
 	}

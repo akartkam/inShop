@@ -25,7 +25,7 @@
   <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true" layout:fragment="editForm">
     <div class="modal-dialog" style="width:70vw; overflow:auto">
 	  <div class="modal-content" id="editModalContent" >
-	   <form method="post" class="form-horizontal" role="form" action="#" th:action="@{/admin/catalog/po/edit}" th:object="${po}" th:fragment="editPOForm">
+	   <form method="post" class="form-horizontal" id="poform" role="form" action="#" th:action="@{/admin/catalog/po/edit}" th:object="${po}" th:fragment="editPOForm">
 		   <div class="modal-header">
 	 			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 				<h4 class="modal-title"  th:text="${!po.new}? #{admin.catalog.productOption.edit.title.edit}: #{admin.catalog.productOption.edit.title.add}">Edit Product option</h4>
@@ -113,18 +113,19 @@
 							  	       	      		  <input type="text" class="form-control input-md" th:field="*{productOptionValues[__${povStat.index}__].optionValue}" />
 									  	       	  </td>
 									  	       	  <td>
-  							  	       	               <input type="number" class="form-control input-md" th:field="*{productOptionValues[__${povStat.index}__].priceAdjustment}" />
+  							  	       	               <input type="number" min="0" class="form-control input-md" th:field="*{productOptionValues[__${povStat.index}__].priceAdjustment}" />
 									  	       	  </td>
 									  	       	  <td>
- 									  	       	       <input type="number" class="form-control input-md" th:field="*{productOptionValues[__${povStat.index}__].ordering}" />
+ 									  	       	       <input type="number" min="0" class="form-control input-md" th:field="*{productOptionValues[__${povStat.index}__].ordering}" />
 									  	       	  </td>
 									  	       	  <td class="text-center">
+									  	       	  		<input type="hidden" th:field="*{productOptionValues[__${povStat.index}__].enabled}"/>
 									  	       	       <i th:class="${pov.enabled} ? 'fa fa-check-circle'"></i>
 									  	       	  </td>
 									  	       	  <td >
-			  				            	  		 <div class="btn-group" role="group" > 
-						                                  <button type="submit" class="btn btn-outline btn-default btn-xs" 
-						                                          name="addNewPov" th:value="${pov.id}">
+			  				            	  		 <div class="btn-group edit-btn-group" role="group" > 
+						                                  <button type="button" class="btn btn-outline btn-default btn-xs add-new-pov" 
+						                                           th:value="${pov.id}" th:attr="data-path=@{/admin/catalog/po/pov/add}">
 						                                    <i class="fa fa-copy"></i>
 						                                  </button>
 						                                  <button type="button" data-toggle="modal" data-target="#deleteModalPov" 
@@ -139,7 +140,8 @@
 				                       	 </table>
 									   </div>
 									 </div>
-				                     <button type="submit" name="addNewPov" value="new" class="btn btn-outline btn-default btn-sm pull-left" id="addPov"> 
+				                     <button type="button"  value="new" class="btn btn-outline btn-default btn-sm pull-left add-new-pov" 
+				                             id="addPov" th:attr="data-path=@{/admin/catalog/po/pov/add}"> 
 			                            <i class="fa fa-plus-circle"></i>
 			                            <span> </span>
 									    <span th:text="#{button.add.caption}">Добавить</span>
@@ -169,14 +171,33 @@
    <script src="../../../../resources/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js" th:src="@{/resources/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js}"></script>
    <th:block layout:fragment="scriptEditModal"> 
 	   <script type="text/javascript">
+	      //<![CDATA[
 		     $(document).ready(function() {
 		    	 $("#editModal").modal("show");		
 		    	 $('#editModal').on( 'shown.bs.modal', function ( event ) {
-			    	 var s = $("#poValDataTable tbody > tr:last-child").position();
-			    	 $("#editModalBody" ).scrollTop( s.top );
+
 		    	 });
+		        $(".add-new-pov").on("click", function () { 
+		        	var id = $(this).val();
+	    			var form = $("#poform");
+	    			var path= $(this).data("path");
+	    			var formser;
+	    			if (form != "undefined" && form != null) formser = form.serialize();
+	    			$("#editModalContent").text("");
+                    $.ajax({
+                    	type: "POST",
+                        url: path,
+                        data: formser+((id != null)?"&copyid="+id:""),
+                        cache: false
+                    }).done(function (html) {
+                                $("#editModalContent").append(html);
+           			    	    var s = $("#poValDataTable tbody > tr:last-child").position();
+        			    	    $("#editModalBody" ).scrollTop( s.top );
+                    });
+	    		});
+
 			});
-			  
+		// ]]>	  
 	   </script>
    </th:block>
 </body>

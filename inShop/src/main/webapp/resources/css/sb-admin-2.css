@@ -363,8 +363,8 @@ table.dataTable thead .sorting:after {
 }
 
 /* my css update
-  „тобы предотвратить перенос внутри грида 
-*/
-.btn-group {
+  „тобы предотвратить перенос внутри грида */
+
+.edit-btn-group {
 	display: flex;
 }

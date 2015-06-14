@@ -114,7 +114,7 @@ public class AttributeCategoryServiceImpl implements AttributeCategoryService {
 			AttributeCategory attributeCategoryFromPost = attributeFromPost.getAttributeCategory();
 	        if (attributeCategoryFromPost == null) throw new IllegalArgumentException("Attribute Category can not be null!");
 	        attributeCategoryFromPost.addAttribute(existingAttribute);
-	        updateAttributeCategory(attributeCategoryFromPost);
+	        //updateAttributeCategory(attributeCategoryFromPost);
 		} else {
 			AbstractAttribute attributeNew = SimpleAttributeFactory.createAttribute(attributeFromPost.getAttributeType());
 			attributeNew.setName(attributeFromPost.getName());
@@ -125,7 +125,7 @@ public class AttributeCategoryServiceImpl implements AttributeCategoryService {
 			AttributeCategory attributeCategoryFromPost = attributeFromPost.getAttributeCategory();
 	        if (attributeCategoryFromPost == null) throw new IllegalArgumentException("Attribute Category can not be null!");
 	        attributeCategoryFromPost.addAttribute(attributeNew);
-	        updateAttributeCategory(attributeCategoryFromPost);
+	        //updateAttributeCategory(attributeCategoryFromPost);
 	        //createAttribute(attributeNew);
 		}
     }

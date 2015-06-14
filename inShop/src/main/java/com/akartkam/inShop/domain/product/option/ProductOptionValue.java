@@ -10,7 +10,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.akartkam.inShop.domain.AbstractDomainObjectOrdering;
-import com.akartkam.inShop.domain.product.Brand;
+
 
 @Entity
 @Table(name = "Product_Option_Value")
@@ -20,17 +20,17 @@ public class ProductOptionValue extends AbstractDomainObjectOrdering {
 	 * 
 	 */
 	private static final long serialVersionUID = 4079321298055866701L;
-	private ProductOption ProductOption;
+	private ProductOption productOption;
 	private String optionValue;
     private BigDecimal priceAdjustment;
 
     @ManyToOne
     @JoinColumn
     public ProductOption getProductOption() {
-		return ProductOption;
+		return productOption;
 	}
 	public void setProductOption(ProductOption productOption) {
-		ProductOption = productOption;
+		this.productOption = productOption;
 	}
 	
 	@Column(name="option_value")

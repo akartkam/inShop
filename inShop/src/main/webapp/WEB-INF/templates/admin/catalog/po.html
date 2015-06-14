@@ -62,7 +62,7 @@
 		     </div> 
 		    </div> 
 		</div>
-	   <div class="modal fade" id="deleteModalPov" tabindex="-1" role="dialog" th:attr="data-path=@{/admin/catalog/pov/delete}" aria-labelledby="deleteModalLabelPov" aria-hidden="true">
+	   <div class="modal fade" id="deleteModalPov" tabindex="-1" role="dialog" th:attr="data-path=@{/admin/catalog/po/pov/delete}" aria-labelledby="deleteModalLabelPov" aria-hidden="true">
 		  <div class="modal-dialog">
 		    <div class="modal-content" id="deleteModalContentPov">
 <!-- 	 	        <form method="post" action="#" th:action="@{/admin/catalog/pov/delete}" id="deleteFormPov"> -->
@@ -284,22 +284,47 @@
 	                    });
 					}  
                 });   
-
+	    		$( document ).ajaxComplete(function() {
+	    			$(".add-new-pov").on("click", function () { 
+    		        	var id = $(this).val();
+    	    			var form = $("#poform");
+    	    			var path= $(this).data("path");
+    	    			var formser;
+    	    			if (form != "undefined" && form != null) formser = form.serialize();
+    	    			$("#editModalContent").text("");
+                        $.ajax({
+                        	type: "POST",
+                            url: path,
+                            data: formser+((id != null)?"&copyid="+id:""),
+                            cache: false
+                        }).done(function (html) {
+                                    $("#editModalContent").append(html);
+               			    	    var s = $("#poValDataTable tbody > tr:last-child").position();
+            			    	    $("#editModalBody" ).scrollTop( s.top );
+                        });
+    	    		});	    			
+	    		});
 		        $("#IDPov").on("click", function () { 
-	    			var id = $("#deleteModalPov").find(".btn-primary").val();
+	    			$("#deleteModalPov").modal("hide");
+		        	var id = $("#deleteModalPov").find(".btn-primary").val();
 	    			var path= $("#deleteModalPov").data("path");
 	    			var canRemove = false;
 	    			var checkRemove = $("#deleteModalPov").find("#phisycalDeletePov");
 	    			if (checkRemove != "undefined" && checkRemove !=null) canRemove = checkRemove.is(":checked");
-	    			$("#deleteModalPov").modal("hide");
+	    			var form = $("#poform");
+	    			var formser;
+	    			if (form != "undefined" && form != null) formser = form.serialize();
+	    			$("#editModalContent").text("");
                     $.ajax({
-                        url: path+((id != null)?"?ID="+id:"")+"&phisycalDelete="+canRemove ,
+                    	type: "POST",
+                        url: path,
+                        data: formser+"&"+((id != null)?"idpov="+id+"&":"")+"phisycalDelete="+canRemove,
                         cache: false
                     }).done(function (html) {
                                 $("#editModalContent").append(html);
                     });
 	    		});
-	    		
+		        	    		
 		        $(".open-editDialog").on("click", function () {
 		          var Id = $(this).data("id");
 		          var path = $(this).data("path");
@@ -311,6 +336,8 @@
 		    	  $("#editModal").data("allowed","true");
 		    	  $("#editModal").data("path",path);
 		    	}); 
+		        
+		        
 		   // ]]>
 	     </script>
 	     <!-- <th:block layout:include="/admin/catalog/attributeCategoryEdit :: scriptEditModal"> -->

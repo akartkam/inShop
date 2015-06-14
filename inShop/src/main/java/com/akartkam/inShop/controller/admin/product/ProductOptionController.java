@@ -3,8 +3,6 @@ package com.akartkam.inShop.controller.admin.product;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 import java.beans.PropertyEditorSupport;
-import java.io.File;
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.List;
@@ -12,9 +10,8 @@ import java.util.UUID;
 
 import javax.validation.Valid;
 
-import org.apache.commons.io.FileUtils;
+import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -28,15 +25,11 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.akartkam.inShop.domain.product.Brand;
 import com.akartkam.inShop.domain.product.option.ProductOption;
 import com.akartkam.inShop.domain.product.option.ProductOptionValue;
-import com.akartkam.inShop.service.product.BrandService;
 import com.akartkam.inShop.service.product.ProductService;
-import com.akartkam.inShop.exception.ImageUploadException;
 
 @Controller
 @RequestMapping("/admin/catalog/po")
@@ -62,12 +55,12 @@ public class ProductOptionController {
 			    	 setValue(UUID.fromString(text));
 			    }
 			    });			
-			binder.registerCustomEditor(BigDecimal.class, "*priceAdjustment", new PropertyEditorSupport() {
+			binder.registerCustomEditor(BigDecimal.class, "productOptionValues.priceAdjustment", new PropertyEditorSupport() {
 			    @Override
 			    public void setAsText(String text) {
 			    	 setValue(new BigDecimal(text));
 			    }
-			    });			
+			    });
 
 	  }
 	  
@@ -97,7 +90,7 @@ public class ProductOptionController {
 		  if (copyID != null && !"".equals(copyID)) po = productService.clonePOById(UUID.fromString(copyID)); 
 		  else po = new ProductOption();
  	      model.addAttribute("po", po);
-		   model.addAttribute("tabactive","main");
+		  model.addAttribute("tabactive","main");
           if ("XMLHttpRequest".equals(requestedWith)) {
               return "/admin/catalog/poEdit :: editPOForm";
             } 	      
@@ -124,7 +117,28 @@ public class ProductOptionController {
           return "redirect:/admin/catalog/po";		  
 		  }
 	  
-	   @RequestMapping(value="/edit", method = RequestMethod.POST )
+	  @RequestMapping(value="/pov/delete", method = RequestMethod.POST)
+	  public String povDelete(@RequestParam(value = "idpov", required = false) String ID, 
+			                       @RequestParam(value = "phisycalDelete", required = false) Boolean phisycalDelete,
+			                       @RequestHeader(value = "X-Requested-With", required = false) String requestedWith,
+			                       @ModelAttribute ProductOption po,
+				                   Model model) {
+		  if (!"XMLHttpRequest".equals(requestedWith)) throw new IllegalStateException("The povDelete method can be called only via ajax!");
+		  Collection<? extends GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+		  ProductOptionValue pov = po.getProductOptionValueById(UUID.fromString(ID));
+		  if (phisycalDelete != null && phisycalDelete)  {
+			  if(pov.canRemove() && authorities.contains(new SimpleGrantedAuthority("ADMIN"))) {
+				  po.getProductOptionValues().remove(pov);   
+			  } 
+		  } else {
+			  pov.setEnabled(false);
+		  }
+		  model.addAttribute("po", po);
+		  model.addAttribute("tabactive","content");
+          return "/admin/catalog/poEdit :: editPOForm";
+		  }
+	  
+	  @RequestMapping(value="/edit", method = RequestMethod.POST )
 	   public String savePO(@ModelAttribute @Valid ProductOption po,
 			                   final BindingResult bindingResult,
 			                   final RedirectAttributes ra
@@ -139,12 +153,14 @@ public class ProductOptionController {
 	        return "redirect:/admin/catalog/po";
 	    }
 
-	   @RequestMapping(value="/edit",params={"addNewPov"} ,method = RequestMethod.POST )
+	   @RequestMapping(value="/pov/add", method = RequestMethod.POST )
 	   public String addNewPov(final @ModelAttribute ProductOption po,
-			   				   final @RequestParam(value = "addNewPov", required = false) String ID,
+			   				   final @RequestParam(value = "copyid", required = false) String ID,
+			   				@RequestHeader(value = "X-Requested-With", required = false) String requestedWith,
 			                   final BindingResult bindingResult,
 			                   final Model model
 			                         ) throws CloneNotSupportedException {
+		   if (!"XMLHttpRequest".equals(requestedWith)) throw new IllegalStateException("The povDelete method can be called only via ajax!");
 		   ProductOptionValue pov=null;
 		   if (ID != null && !"".equals(ID) && !"new".equals(ID)) {
 			   ProductOptionValue povCopy = po.getProductOptionValueById(UUID.fromString(ID)); 
@@ -157,7 +173,7 @@ public class ProductOptionController {
 		   po.getProductOptionValues().add(pov);
 		   model.addAttribute("po", po);
 		   model.addAttribute("tabactive","content");
-	       return "/admin/catalog/poEdit";
+	       return "/admin/catalog/poEdit :: editPOForm";
 	    }	   
 
 }
