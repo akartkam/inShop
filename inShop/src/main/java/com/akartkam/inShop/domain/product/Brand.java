@@ -101,7 +101,7 @@ public class Brand extends AbstractDomainObject {
 	@Override
 	@Transient
 	public boolean canRemove(){
-		return !getProducts().isEmpty();
+		return getProducts().isEmpty();
 	}
 
 }

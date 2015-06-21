@@ -15,6 +15,7 @@ import javax.validation.Valid;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.MessageSource;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -41,6 +42,10 @@ public class AdminBrandController {
 	
 	  @Autowired
 	  BrandService brandService;
+	  
+	  @Autowired
+	  private MessageSource messageSource;
+
 	  
 	  @Value("#{appProperties['inShop.imagesPath']}")
 	  private String imagePath;
@@ -115,7 +120,7 @@ public class AdminBrandController {
 			  if(brand.canRemove() && authorities.contains(new SimpleGrantedAuthority("ADMIN"))) {
 				  brandService.deleteBrand(brand);   
 			  } else {
-				  ra.addFlashAttribute("errormessage", "Нельзя удалить производителя. Имеются ссылки на другие сущности, либо недостаточно прав.");
+				  ra.addFlashAttribute("errormessage", this.messageSource.getMessage("admin.error.cannotdelete.message", new String[] {"бренд"} , null));
 				  ra.addAttribute("error", true);
 			  }
 

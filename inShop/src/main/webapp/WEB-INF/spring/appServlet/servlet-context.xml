@@ -16,9 +16,11 @@
  	<default-servlet-handler/>
  	<!--<view-controller path="/admin" view-name="admin/admin" />-->
  	<view-controller path="/login" view-name="authentication/login" />
-    <view-controller path="/" view-name="redirect:/home.html" />
+    <view-controller path="/" view-name="forward:/home.html" />
     <view-controller path="/index.html"/>
     <view-controller path="/home.html" />
+    <view-controller path="/favicon.png" view-name="forward:/resources/img/favicon.png" />
+
 
     <util:properties id="appProperties" 
                     location="classpath:application.properties"/>

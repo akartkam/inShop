@@ -8,7 +8,16 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Pattern;
 
+import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.format.annotation.NumberFormat;
+import org.springframework.format.annotation.NumberFormat.Style;
+
+import com.akartkam.com.presentation.admin.AdminPresentation;
+import com.akartkam.com.presentation.admin.EditTab;
 import com.akartkam.inShop.domain.AbstractDomainObjectOrdering;
 
 
@@ -33,6 +42,8 @@ public class ProductOptionValue extends AbstractDomainObjectOrdering {
 		this.productOption = productOption;
 	}
 	
+	@AdminPresentation(tab=EditTab.CONTENT)
+	@NotEmpty
 	@Column(name="option_value")
 	public String getOptionValue() {
 		return optionValue;
@@ -40,6 +51,11 @@ public class ProductOptionValue extends AbstractDomainObjectOrdering {
 	public void setOptionValue(final String optionValue) {
 		this.optionValue = optionValue;
 	}
+	
+	@AdminPresentation(tab=EditTab.CONTENT)
+	//@Pattern(regexp="^\\-{0,1}[0-9]*\\.{0,1}[0-9]*$")
+	@NumberFormat(style=Style.CURRENCY)
+	@Digits(fraction = 5, integer = 14)
     @Column(name = "price_adjustment", precision = 19, scale = 5)
 	public BigDecimal getPriceAdjustment() {
 		return priceAdjustment;
@@ -47,10 +63,12 @@ public class ProductOptionValue extends AbstractDomainObjectOrdering {
 	public void setPriceAdjustment(BigDecimal priceAdjustment) {
 		this.priceAdjustment = priceAdjustment;
 	}
+	
 	@Override
 	public boolean canRemove() {
 		return super.canRemove();
 	}
+	
 	@Override
 	public Object clone() throws CloneNotSupportedException {
 		ProductOptionValue pov = (ProductOptionValue) super.clone();

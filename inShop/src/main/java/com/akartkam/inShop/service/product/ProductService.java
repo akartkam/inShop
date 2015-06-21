@@ -3,8 +3,10 @@ package com.akartkam.inShop.service.product;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.validation.Errors;
+
 import com.akartkam.inShop.domain.product.option.ProductOption;
-import com.akartkam.inShop.domain.product.option.ProductOptionValue;
+
 
 public interface ProductService {
 	ProductOption createPO(ProductOption po);
@@ -16,5 +18,5 @@ public interface ProductService {
 	void deletePO(ProductOption po);
 	void deletePOById(UUID id);
 	void updatePO(ProductOption po);
-	void mergeWithExistingPOAndUpdateOrCreate(final ProductOption poFromForm);
+	void mergeWithExistingPOAndUpdateOrCreate(final ProductOption poFromForm, Errors errors);
 }

@@ -9,6 +9,12 @@
 	        <welcome-file>home.html</welcome-file>
 	</welcome-file-list>
 	
+
+	<!-- Mimetype needed for tomcat to serve favicon images -->
+	<mime-mapping>
+		<extension>ico</extension>
+		<mime-type>image/x-icon</mime-type>
+	</mime-mapping>
 	
 	<context-param>
 		<param-name>contextConfigLocation</param-name>

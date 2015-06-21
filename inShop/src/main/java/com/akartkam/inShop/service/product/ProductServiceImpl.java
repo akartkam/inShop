@@ -7,6 +7,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.Errors;
 
 import com.akartkam.inShop.dao.product.option.ProductOptionDAO;
 import com.akartkam.inShop.domain.product.option.ProductOption;
@@ -77,8 +78,9 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	@Transactional(readOnly = false)
-	public void mergeWithExistingPOAndUpdateOrCreate(final ProductOption poFromPost) {
+	public void mergeWithExistingPOAndUpdateOrCreate(final ProductOption poFromPost, Errors errors) {
 		if (poFromPost == null) return;
+		if (checkPo(poFromPost, errors)) return;
 		final ProductOption existingPo = getPOById(poFromPost.getId());
 		if (existingPo != null) {
 			existingPo.setName(poFromPost.getName());
@@ -112,6 +114,13 @@ public class ProductServiceImpl implements ProductService {
 			for (ProductOptionValue pov: poFromPost.getProductOptionValues()) pov.setProductOption(poFromPost);
 			createPO(poFromPost);
 		}
+	}
+	
+	private boolean checkPo(final ProductOption poFromPost, Errors errors) {
+		if (errors.hasFieldErrors("priceAdjustment"))
+			errors.rejectValue("priceAdjustment", "error.convert.bigdecimal");
+		return errors.hasErrors();
+		
 	}
 	
 	

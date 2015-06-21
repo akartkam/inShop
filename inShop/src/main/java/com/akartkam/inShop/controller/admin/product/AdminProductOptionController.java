@@ -12,12 +12,15 @@ import javax.validation.Valid;
 
 import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -30,14 +33,22 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.akartkam.inShop.domain.product.option.ProductOption;
 import com.akartkam.inShop.domain.product.option.ProductOptionValue;
 import com.akartkam.inShop.service.product.ProductService;
+import com.akartkam.inShop.validator.ProductOptionValidator;
 
 @Controller
 @RequestMapping("/admin/catalog/po")
-public class ProductOptionController {
+public class AdminProductOptionController {
 	
 	  @Autowired
-	  ProductService productService;
-	  	  
+	  private ProductService productService;
+	  
+	  @Autowired
+	  private ProductOptionValidator bigDecimalValidator;
+	  
+	  @Autowired
+	  private MessageSource messageSource;
+	  
+	  
 	  @SuppressWarnings("rawtypes")
 	  @ModelAttribute("allPo")
 	  public List getAllPO() {
@@ -55,12 +66,6 @@ public class ProductOptionController {
 			    	 setValue(UUID.fromString(text));
 			    }
 			    });			
-			binder.registerCustomEditor(BigDecimal.class, "productOptionValues.priceAdjustment", new PropertyEditorSupport() {
-			    @Override
-			    public void setAsText(String text) {
-			    	 setValue(new BigDecimal(text));
-			    }
-			    });
 
 	  }
 	  
@@ -107,7 +112,7 @@ public class ProductOptionController {
 			  if(po.canRemove() && authorities.contains(new SimpleGrantedAuthority("ADMIN"))) {
 				  productService.deletePO(po);   
 			  } else {
-				  ra.addFlashAttribute("errormessage", "Нельзя удалить опцию. Имеются ссылки на другие сущности, либо недостаточно прав.");
+				  ra.addFlashAttribute("errormessage", this.messageSource.getMessage("admin.error.cannotdelete.message", new String[] {"опцию"} , null));
 				  ra.addAttribute("error", true);
 			  }
 
@@ -143,13 +148,21 @@ public class ProductOptionController {
 			                   final BindingResult bindingResult,
 			                   final RedirectAttributes ra
 			                         ) {
-		   if (bindingResult.hasErrors()) {
+	      productService.mergeWithExistingPOAndUpdateOrCreate(po, bindingResult);
+		  if (bindingResult.hasErrors()) {
 	        	ra.addFlashAttribute("po", po);
 	        	ra.addFlashAttribute("org.springframework.validation.BindingResult.po", bindingResult);
+	        	FieldError fe = bindingResult.getFieldError();
+	        	if (fe != null && fe.getField().indexOf("roductOptionValue") >= 0) {
+	        		ra.addFlashAttribute("tabactive","content");
+	        	} else if (fe != null && fe.getField().indexOf("ordering") >= 0) {
+	        		ra.addFlashAttribute("tabactive","additional");
+	        	} else {
+	        		ra.addFlashAttribute("tabactive","main");
+	        	}
+	        	ra.addFlashAttribute("fe", fe);
 	            return "redirect:/admin/catalog/po/edit";
 	        }
-	        productService.mergeWithExistingPOAndUpdateOrCreate(po);
-	       	        
 	        return "redirect:/admin/catalog/po";
 	    }
 

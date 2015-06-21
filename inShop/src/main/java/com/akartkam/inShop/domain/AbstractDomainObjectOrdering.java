@@ -2,6 +2,7 @@ package com.akartkam.inShop.domain;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
+import javax.validation.constraints.DecimalMin;
 
 
 @MappedSuperclass
@@ -13,6 +14,7 @@ public abstract class AbstractDomainObjectOrdering  extends AbstractDomainObject
 	private static final long serialVersionUID = -4923961082547539283L;
 	private int ordering;
 
+	@DecimalMin("0")
 	@Column(name="Ordering")
 	public int getOrdering() {
 		return ordering;

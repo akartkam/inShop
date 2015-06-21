@@ -11,6 +11,7 @@ import java.util.UUID;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -36,6 +37,9 @@ public class AdminCategoryController {
 	
 	  @Autowired
 	  CategoryService categoryService;
+	  
+	  @Autowired
+	  private MessageSource messageSource;
 	  
 	  @Autowired
 	  AttributeCategoryService attributeCategoryService;
@@ -131,7 +135,7 @@ public class AdminCategoryController {
 			  if(category.canRemove() && authorities.contains(new SimpleGrantedAuthority("ADMIN"))) {
 				  categoryService.deleteCategory(category);   
 			  } else {
-				  ra.addFlashAttribute("errormessage", "Нельзя удалить категорию. Имеются ссылки на другие сущности, либо недостаточно прав.");
+				  ra.addFlashAttribute("errormessage", this.messageSource.getMessage("admin.error.cannotdelete.message", new String[] {"категорию"} , null));
 				  ra.addAttribute("error", true);
 			  }
 

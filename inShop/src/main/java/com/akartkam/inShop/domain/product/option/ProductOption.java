@@ -11,12 +11,15 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Cascade;
 
+import com.akartkam.com.presentation.admin.AdminPresentation;
+import com.akartkam.com.presentation.admin.EditTab;
 import com.akartkam.inShop.domain.AbstractDomainObjectOrdering;
 
 @Entity
@@ -32,6 +35,7 @@ public class ProductOption extends AbstractDomainObjectOrdering {
 	private Boolean useInSkuGeneration;
 	private List<ProductOptionValue> productOptionValues = new ArrayList<ProductOptionValue>();
 	
+	@AdminPresentation(tab=EditTab.MAIN)
 	@NotNull
 	@Size(min = 1, max = 50)
 	@Column(name = "name")
@@ -42,6 +46,7 @@ public class ProductOption extends AbstractDomainObjectOrdering {
 		this.name = name;
 	}
 	
+	@AdminPresentation(tab=EditTab.MAIN)
 	@NotNull
 	@Size(min = 1, max = 50)
 	@Column(name = "label")	
@@ -52,6 +57,7 @@ public class ProductOption extends AbstractDomainObjectOrdering {
 		this.label = label;
 	}
 	
+	@AdminPresentation(tab=EditTab.ADDITIONAL)
 	@Column(name = "required")
 	public Boolean getRequired() {
 		return required;
@@ -60,6 +66,7 @@ public class ProductOption extends AbstractDomainObjectOrdering {
 		this.required = required;
 	}
 	
+	@AdminPresentation(tab=EditTab.ADDITIONAL)
 	@Column(name = "use_in_sku")
 	public Boolean getUseInSkuGeneration() {
 		return useInSkuGeneration;
@@ -68,6 +75,7 @@ public class ProductOption extends AbstractDomainObjectOrdering {
 		this.useInSkuGeneration = useInSkuGeneration;
 	}
 	
+	@Valid
 	@OneToMany(mappedBy="productOption", cascade = CascadeType.ALL, orphanRemoval = true)
 	@Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE,
 			  org.hibernate.annotations.CascadeType.DELETE})

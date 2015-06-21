@@ -11,7 +11,7 @@
     <http pattern="/fonts/**" security="none" />
     <http pattern="/img/**" security="none" />
     <http pattern="/js/**" security="none" />
-    <http pattern="/favicon.ico" security="none" />
+    <http pattern="/favicon.png" security="none" />
 
 	
 	<beans:bean id="passwordEncoder" 
