@@ -171,7 +171,7 @@ public class Category extends AbstractDomainObjectOrdering {
 	public void addAttribute (AbstractAttribute attribute) {
 		if (attribute == null) throw new IllegalArgumentException("Null attribute!");
 		attributes.add(attribute);
-		attribute.getCategory().add(this);
+		//attribute.getCategory().add(this);
 	}
 	
 	public void removeAttribute (AbstractAttribute attribute) {
