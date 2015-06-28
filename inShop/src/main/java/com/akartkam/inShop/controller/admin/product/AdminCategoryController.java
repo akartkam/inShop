@@ -79,7 +79,7 @@ public class AdminCategoryController {
 	
 	  
 	  @RequestMapping(method=GET)
-	  public String category(Model model) {
+	  public String category() {
 		  return "/admin/catalog/category"; 
 		  }	  
 	  

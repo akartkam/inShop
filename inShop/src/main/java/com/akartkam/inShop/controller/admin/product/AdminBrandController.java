@@ -5,7 +5,6 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import java.beans.PropertyEditorSupport;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
@@ -80,7 +79,7 @@ public class AdminBrandController {
 	  }
 	  
 	  @RequestMapping(method=GET)
-	  public String brand(Model model) {
+	  public String brand() {
 		  return "/admin/catalog/brand"; 
 		  }	  
 	  

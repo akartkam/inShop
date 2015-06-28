@@ -113,7 +113,7 @@ public class AdminAttributeCategoryController {
 	
 	  
 	  @RequestMapping(method=GET)
-	  public String category(Model model) {
+	  public String category() {
 		  return "/admin/catalog/attributeCategory"; 
 		  }	  
   

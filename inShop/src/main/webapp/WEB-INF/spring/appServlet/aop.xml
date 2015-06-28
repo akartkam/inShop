@@ -15,7 +15,9 @@
   <aop:config>
     <aop:aspect ref="adminRequestMappingAspect">
       <aop:pointcut id="showEditFormRequestMapping" expression=
-          "execution(public * *(..)) &amp;&amp; @target(org.springframework.stereotype.Controller) &amp;&amp; @annotation(org.springframework.web.bind.annotation.RequestMapping)" 
+          "execution(public * *(.., org.springframework.validation.BindingResult, org.springframework.web.servlet.mvc.support.RedirectAttributes, ..)) &amp;&amp; 
+           within(@org.springframework.stereotype.Controller *) &amp;&amp; 
+           @annotation(org.springframework.web.bind.annotation.RequestMapping)" 
           />
       <aop:around 
           pointcut-ref="showEditFormRequestMapping" 

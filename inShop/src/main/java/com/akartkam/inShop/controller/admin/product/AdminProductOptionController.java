@@ -3,14 +3,13 @@ package com.akartkam.inShop.controller.admin.product;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 import java.beans.PropertyEditorSupport;
-import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
 import javax.validation.Valid;
 
-import org.hibernate.ObjectNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.security.core.GrantedAuthority;
@@ -18,7 +17,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.WebDataBinder;
@@ -70,7 +68,7 @@ public class AdminProductOptionController {
 	  }
 	  
 	  @RequestMapping(method=GET)
-	  public String po(Model model) {
+	  public String po() {
 		  return "/admin/catalog/po"; 
 		  }	  
 	  
@@ -160,7 +158,6 @@ public class AdminProductOptionController {
 	        	} else {
 	        		ra.addFlashAttribute("tabactive","main");
 	        	}
-	        	ra.addFlashAttribute("fe", fe);
 	            return "redirect:/admin/catalog/po/edit";
 	        }
 	        return "redirect:/admin/catalog/po";
