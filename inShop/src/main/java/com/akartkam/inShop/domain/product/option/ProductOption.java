@@ -75,6 +75,7 @@ public class ProductOption extends AbstractDomainObjectOrdering {
 		this.useInSkuGeneration = useInSkuGeneration;
 	}
 	
+	@AdminPresentation(tab=EditTab.CONTENT)
 	@Valid
 	@OneToMany(mappedBy="productOption", cascade = CascadeType.ALL, orphanRemoval = true)
 	@Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE,

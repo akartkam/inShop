@@ -42,7 +42,6 @@ public class ProductOptionValue extends AbstractDomainObjectOrdering {
 		this.productOption = productOption;
 	}
 	
-	@AdminPresentation(tab=EditTab.CONTENT)
 	@NotEmpty
 	@Column(name="option_value")
 	public String getOptionValue() {
@@ -52,7 +51,6 @@ public class ProductOptionValue extends AbstractDomainObjectOrdering {
 		this.optionValue = optionValue;
 	}
 	
-	@AdminPresentation(tab=EditTab.CONTENT)
 	//@Pattern(regexp="^\\-{0,1}[0-9]*\\.{0,1}[0-9]*$")
 	@NumberFormat(style=Style.CURRENCY)
 	@Digits(fraction = 5, integer = 14)

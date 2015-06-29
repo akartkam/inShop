@@ -1,5 +1,7 @@
 package com.akartkam.inShop.service.aop;
 
+import java.beans.BeanInfo;
+import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
@@ -31,9 +33,9 @@ public class AdminRequestMappingAspect {
 		Class tclass = errors.getTarget().getClass();
 		List<FieldError> lfe = errors.getFieldErrors();
 		for (FieldError fe : lfe) {
-			//System.out.println(fe.getField() + "["
-			//		+ errors.getTarget().getClass().getName() + "]");
-			// String mname = "get" + StringUtils.capitalize(fe.getField());
+				for (PropertyDescriptor pd: Introspector.getBeanInfo(tclass).getPropertyDescriptors()) {
+					System.out.println(pd.getName());
+				}
 			PropertyDescriptor pd = new PropertyDescriptor(fe.getField(),tclass);
 			if (pd != null) {
 				Method mt = pd.getReadMethod();
@@ -47,9 +49,6 @@ public class AdminRequestMappingAspect {
 			Collections.sort(et, new Comparator <EditTab>() {
 				@Override
 				public int compare(EditTab o1, EditTab o2) {
-					/*if (o1.getDefaultOrder() > o2.getDefaultOrder()) return 1;
-					else if (o1.getDefaultOrder() < o2.getDefaultOrder()) return -1; 
-					else return 0;*/
 					return o2.getDefaultOrder() - o1.getDefaultOrder();
 				}});
 			ra.addAttribute("tabactive", et.get(0).getName().toLowerCase());
