@@ -29,6 +29,8 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.Index;
 import org.hibernate.annotations.Type;
 
+import com.akartkam.com.presentation.admin.AdminPresentation;
+import com.akartkam.com.presentation.admin.EditTab;
 import com.akartkam.inShop.domain.AbstractDomainObjectOrdering;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
 
@@ -63,6 +65,7 @@ public class Category extends AbstractDomainObjectOrdering {
 	private Set<AbstractAttribute> attributes = new HashSet<AbstractAttribute>(0);
 	private String url;
 
+	@AdminPresentation(tab=EditTab.MAIN)
 	@NotNull
 	@Size(min = 1, max = 50)
 	@Column(name = "name")

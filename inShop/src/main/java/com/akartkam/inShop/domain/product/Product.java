@@ -25,6 +25,8 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.Index;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import com.akartkam.com.presentation.admin.AdminPresentation;
+import com.akartkam.com.presentation.admin.EditTab;
 import com.akartkam.inShop.domain.AbstractDomainObjectOrdering;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttributeValue;
@@ -48,7 +50,8 @@ public class Product extends AbstractDomainObjectOrdering {
     private Map<String, String> images = new HashMap<String, String>();	
     private Set<ProductOption> productOptions = new HashSet<ProductOption>(0);
 
-	@NotNull
+    @AdminPresentation(tab=EditTab.MAIN)
+    @NotNull
 	@NotEmpty
 	@Column(name = "name")
 	public String getName() {

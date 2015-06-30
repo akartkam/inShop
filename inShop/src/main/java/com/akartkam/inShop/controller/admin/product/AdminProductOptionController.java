@@ -150,14 +150,6 @@ public class AdminProductOptionController {
 		  if (bindingResult.hasErrors()) {
 	        	ra.addFlashAttribute("po", po);
 	        	ra.addFlashAttribute("org.springframework.validation.BindingResult.po", bindingResult);
-	        	/*FieldError fe = bindingResult.getFieldError();
-	        	if (fe != null && fe.getField().indexOf("roductOptionValue") >= 0) {
-	        		ra.addFlashAttribute("tabactive","content");
-	        	} else if (fe != null && fe.getField().indexOf("ordering") >= 0) {
-	        		ra.addFlashAttribute("tabactive","additional");
-	        	} else {
-	        		ra.addFlashAttribute("tabactive","main");
-	        	}*/
 	            return "redirect:/admin/catalog/po/edit";
 	        }
 	        return "redirect:/admin/catalog/po";

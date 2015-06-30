@@ -19,6 +19,8 @@ import org.hibernate.annotations.Index;
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import com.akartkam.com.presentation.admin.AdminPresentation;
+import com.akartkam.com.presentation.admin.EditTab;
 import com.akartkam.inShop.domain.AbstractDomainObject;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
 
@@ -36,6 +38,7 @@ public class Brand extends AbstractDomainObject {
 	private String logoUrl;
 	private List<Product> products = new ArrayList<Product>();
 	
+	@AdminPresentation(tab=EditTab.MAIN)
 	@NotNull
 	@NotEmpty
 	@Column(name = "name")
