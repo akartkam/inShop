@@ -19,10 +19,21 @@
            within(@org.springframework.stereotype.Controller *) &amp;&amp; 
            @annotation(org.springframework.web.bind.annotation.RequestMapping)" 
           />
+      <aop:pointcut id="addEditTabMain" expression=
+          "execution(public * *(.., org.springframework.ui.Model, ..)) &amp;&amp; 
+           within(@org.springframework.stereotype.Controller *) &amp;&amp; 
+           @annotation(org.springframework.web.bind.annotation.RequestMapping)" 
+          />
       <aop:around 
           pointcut-ref="showEditFormRequestMapping" 
           method="setEditTab" />
+      <aop:around 
+          pointcut-ref="addEditTabMain" 
+          method="setEditTabMain" />
+
     </aop:aspect>
+    
+    
   </aop:config>
   <!-- <end id="audience_aspect" /> -->
 

@@ -19,12 +19,15 @@ import com.akartkam.com.presentation.admin.EditTab;
 
 public class AdminRequestMappingAspect {
 
-	private RedirectAttributes ra;
-	private BindingResult errors;
-
+	public Object setEditTabMain(ProceedingJoinPoint pjp) throws Throwable {
+		
+		return pjp.proceed();
+	}
+	
 	public Object setEditTab(ProceedingJoinPoint pjp) throws Throwable {
 		PropertyDescriptor fpd = null;
-		prepareVariables(pjp.getArgs());
+		BindingResult errors = getParam(pjp.getArgs(), BindingResult.class);
+		RedirectAttributes ra = getParam(pjp.getArgs(), RedirectAttributes.class);
 		if (errors == null || ra == null) {
 			ra.addFlashAttribute("tabactive", EditTab.MAIN.getName().toLowerCase());
 			return pjp.proceed();
@@ -63,6 +66,17 @@ public class AdminRequestMappingAspect {
 	}
 	
 	
+	private <T> T getParam (Object[] args, Class<T> clazz) {
+		for (Object currentArgument : args) {
+			if (currentArgument != null){
+				if (clazz.isAssignableFrom(currentArgument.getClass())) {
+					return (T) currentArgument;
+				}
+  		    }     
+		}
+		return null;		
+	}
+	
 	private String prepareFieldName(String fn) {
 		String res;
 		int i = fn.indexOf("[");
@@ -73,40 +87,5 @@ public class AdminRequestMappingAspect {
 		}
 		return res;
 	}
-	
-	private void prepareVariables(Object[] args) {
-		for (Object currentArgument : args) {
-			if (currentArgument != null){
-		       if (currentArgument instanceof BindingResult) {
-				 errors = (BindingResult) currentArgument;
-			   } else if (currentArgument instanceof RedirectAttributes) {
-				 ra = (RedirectAttributes) currentArgument;   
-			   }
-				   
-		  }     
-		}		
-	}
-
-	private BindingResult getBindingResult(Object[] args) {
-		for (Object currentArgument : args) {
-			if (currentArgument != null){
-		       if (currentArgument instanceof BindingResult) {
-				return (BindingResult) currentArgument;
-			}
-		  }     
-		}
-		return null;
-	}
-	
-	private RedirectAttributes getRedirectAttribute(Object[] args) {
-		for (Object currentArgument : args) {
-			if (currentArgument != null){
-		       if (currentArgument instanceof RedirectAttributes) {
-				return (RedirectAttributes) currentArgument;
-			}
-		  }     
-		}
-		return null;
-	}
-	
+		
 }
