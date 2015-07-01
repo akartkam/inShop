@@ -78,7 +78,7 @@ public class AdminProductOptionController {
 		  if(!model.containsAttribute("po")) {
 			 ProductOption po = productService.getPOById(UUID.fromString(categoryID));
 		     model.addAttribute("po", po);
-			 model.addAttribute("tabactive","main");
+			 //model.addAttribute("tabactive","main");
 		  }
           if ("XMLHttpRequest".equals(requestedWith)) {
               return "/admin/catalog/poEdit :: editPOForm";
@@ -93,7 +93,7 @@ public class AdminProductOptionController {
 		  if (copyID != null && !"".equals(copyID)) po = productService.clonePOById(UUID.fromString(copyID)); 
 		  else po = new ProductOption();
  	      model.addAttribute("po", po);
-		  model.addAttribute("tabactive","main");
+		  //model.addAttribute("tabactive","main");
           if ("XMLHttpRequest".equals(requestedWith)) {
               return "/admin/catalog/poEdit :: editPOForm";
             } 	      

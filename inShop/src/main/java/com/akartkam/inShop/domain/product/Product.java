@@ -1,6 +1,7 @@
 package com.akartkam.inShop.domain.product;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -136,7 +137,7 @@ public class Product extends AbstractDomainObjectOrdering {
 			inverseJoinColumns = { @JoinColumn(name = "PRODUCT_OPTION_ID", 
 					nullable = false, updatable = false) })
 	public Set<ProductOption> getProductOption() {
-		return productOptions;
+		return Collections.unmodifiableSet(productOptions);
 	}
 	public void setProductOption(Set<ProductOption> productOption) {
 		this.productOptions = productOption;

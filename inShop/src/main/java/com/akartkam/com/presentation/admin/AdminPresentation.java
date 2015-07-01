@@ -10,5 +10,5 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RUNTIME)
 public @interface AdminPresentation {
 	EditTab tab ();
-	int tabOrder() default 9999;
+	int tabOrder() default -1;
 }

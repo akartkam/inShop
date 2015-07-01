@@ -57,7 +57,6 @@ public class ProductOption extends AbstractDomainObjectOrdering {
 		this.label = label;
 	}
 	
-	@AdminPresentation(tab=EditTab.ADDITIONAL)
 	@Column(name = "required")
 	public Boolean getRequired() {
 		return required;
@@ -66,7 +65,6 @@ public class ProductOption extends AbstractDomainObjectOrdering {
 		this.required = required;
 	}
 	
-	@AdminPresentation(tab=EditTab.ADDITIONAL)
 	@Column(name = "use_in_sku")
 	public Boolean getUseInSkuGeneration() {
 		return useInSkuGeneration;
