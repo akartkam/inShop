@@ -1,5 +1,6 @@
 package com.akartkam.inShop.domain.product;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -50,6 +51,8 @@ public class Product extends AbstractDomainObjectOrdering {
 	private String url;
     private Map<String, String> images = new HashMap<String, String>();	
     private Set<ProductOption> productOptions = new HashSet<ProductOption>(0);
+    //retailPrice - базова€ цена товара. ≈сли salePrice > 0 , то retailPrice - стара€ цена
+    private BigDecimal retailPrice, salePrice;
 
     @AdminPresentation(tab=EditTab.MAIN)
     @NotNull
