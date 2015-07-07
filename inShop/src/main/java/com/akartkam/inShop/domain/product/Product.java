@@ -16,6 +16,7 @@ import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapKeyColumn;
@@ -25,6 +26,7 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.Index;
+import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import com.akartkam.com.presentation.admin.AdminPresentation;
@@ -45,6 +47,8 @@ public class Product extends AbstractDomainObjectOrdering {
 	private static final long serialVersionUID = -583044339566068826L;
 	private String name;
 	private Category category;
+	private String description;
+	private String longDescription;
 	private Brand brand;
 	private String model;
 	private List<AbstractAttributeValue> attributeValues = new ArrayList<AbstractAttributeValue>();
@@ -81,6 +85,25 @@ public class Product extends AbstractDomainObjectOrdering {
 	public void setUrl(String url) {
 		this.url = url;
 	}
+	
+	@Column(name = "description")
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	
+    @Lob
+    @Type(type = "org.hibernate.type.TextType")
+    @Column(name = "long_description", length = Integer.MAX_VALUE - 1)
+	public String getLongDescription() {
+		return longDescription;
+	}
+    
+	public void setLongDescription(String longDescription) {
+		this.longDescription = longDescription;
+	}	
 	
 	@ManyToOne
 	@JoinColumn
