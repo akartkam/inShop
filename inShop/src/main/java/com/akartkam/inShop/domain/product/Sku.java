@@ -18,6 +18,8 @@ public class Sku extends AbstractDomainObjectOrdering {
 	private String name;
 	private String skuCode;
 	private String description;
+	private int quantityAvailable;
+	private ProductStatus productStatus;
 	//цена продажи(старая цена), новая цена(если есть), себестоимость
 	private BigDecimal retailPrice, salePrice, costPrice;
 }

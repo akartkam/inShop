@@ -150,7 +150,6 @@ public class Product extends AbstractDomainObjectOrdering {
 		attributeValue.setAttribute(attribute);
 		attributeValue.setProduct(this);
 		attributeValues.add(attributeValue);
-
 	}
 	
 	@ManyToMany(cascade = CascadeType.ALL)
@@ -163,6 +162,7 @@ public class Product extends AbstractDomainObjectOrdering {
 	public Set<ProductOption> getProductOption() {
 		return Collections.unmodifiableSet(productOptions);
 	}
+	
 	public void setProductOption(Set<ProductOption> productOption) {
 		this.productOptions = productOption;
 	}
