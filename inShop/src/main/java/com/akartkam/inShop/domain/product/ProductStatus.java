@@ -1,7 +1,7 @@
 package com.akartkam.inShop.domain.product;
 
 public enum ProductStatus {
-	HIT ("Хит"),
+	HIT ("Хит продаж"),
 	NEW ("Новинка"),
 	ACTION ("Акция");
 	
