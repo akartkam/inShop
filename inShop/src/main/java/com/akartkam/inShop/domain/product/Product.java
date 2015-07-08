@@ -156,8 +156,8 @@ public class Product extends AbstractDomainObjectOrdering {
 	@Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE,
 		      org.hibernate.annotations.CascadeType.DELETE})
 	@JoinTable(name = "lnk_product_option", joinColumns = { 
-			@JoinColumn(name = "PRODUCT_ID", nullable = false, updatable = false) }, 
-			inverseJoinColumns = { @JoinColumn(name = "PRODUCT_OPTION_ID", 
+			@JoinColumn(name = "product_id", nullable = false, updatable = false) }, 
+			inverseJoinColumns = { @JoinColumn(name = "product_option_id", 
 					nullable = false, updatable = false) })
 	public Set<ProductOption> getProductOption() {
 		return Collections.unmodifiableSet(productOptions);
