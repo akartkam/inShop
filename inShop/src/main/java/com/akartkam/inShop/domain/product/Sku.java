@@ -13,6 +13,10 @@ import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import org.apache.commons.logging.Log;
@@ -23,6 +27,9 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Index;
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.format.annotation.NumberFormat;
+import org.springframework.format.annotation.NumberFormat.Style;
+
 import javax.persistence.JoinColumn;
 
 import com.akartkam.com.presentation.admin.AdminPresentation;
@@ -80,6 +87,7 @@ public class Sku extends AbstractDomainObjectOrdering {
 		this.description = description;
 	}
 	
+	@Transient
 	public int getQuantityAvailable() {
 		return quantityAvailable;
 	}
@@ -96,7 +104,8 @@ public class Sku extends AbstractDomainObjectOrdering {
 		this.productStatus = productStatus;
 	}
 	
-	
+	@Enumerated(EnumType.STRING)
+	@Column(name = "inventory_type")
 	public InventoryType getInventoryType() {
 		return inventoryType;
 	}
@@ -122,6 +131,11 @@ public class Sku extends AbstractDomainObjectOrdering {
 		this.activeEndDate = activeEndDate;
 	}
 	
+	@NotNull
+	@NotEmpty
+	@NumberFormat(style=Style.CURRENCY)
+	@Digits(fraction = 5, integer = 14)
+	@DecimalMin("0.01")
     @Column(name = "retail_price", precision = 19, scale = 5)	
 	public BigDecimal getRetailPrice() {
 		return retailPrice;
@@ -138,7 +152,7 @@ public class Sku extends AbstractDomainObjectOrdering {
 		this.salePrice = salePrice;
 	}
 
-    @Column(name = "retail_price", precision = 19, scale = 5)
+    @Column(name = "cost_price", precision = 19, scale = 5)
 	public BigDecimal getCostPrice() {
 		return costPrice;
 	}
@@ -148,9 +162,8 @@ public class Sku extends AbstractDomainObjectOrdering {
 	
 	@ManyToMany	
     @JoinTable(name = "lnk_sku_option_value", 
-        joinColumns = @JoinColumn(name = "sku_id", referencedColumnName = "sku_id"), 
-        inverseJoinColumns = @JoinColumn(name = "product_option_value_id",referencedColumnName = "product_option_value_id"))
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "blProducts")
+        joinColumns = @JoinColumn(name = "sku_id"), 
+        inverseJoinColumns = @JoinColumn(name = "product_option_value_id"))
     @BatchSize(size = 50)	
 	public Set<ProductOptionValue> getProductOptionValues() {
 		return productOptionValues;
