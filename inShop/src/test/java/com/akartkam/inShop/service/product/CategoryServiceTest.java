@@ -2,8 +2,10 @@ package com.akartkam.inShop.service.product;
 
 import static org.junit.Assert.*;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
@@ -13,6 +15,7 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 
 import com.akartkam.inShop.dao.product.CategoryDAO;
 import com.akartkam.inShop.domain.product.Category;
+import com.akartkam.inShop.domain.product.Image;
 import com.akartkam.inShop.domain.product.Product;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttributeValue;
@@ -239,7 +242,21 @@ public class CategoryServiceTest extends AbstractServiceTest {
 		categoryDAO.update(found);
 		logger.info("*********End AutoTestAddAttributeSListValue*********");
 	}
-	
+
+	@Test
+	public void addProductImage() {
+		Product p = categoryService.getProductByName("Test_product1").get(0);
+		Map<String, Image> pi = new HashMap<String, Image>();
+		Image im1 = new Image();
+		im1.setImageUrl("/images/i1.jpg");
+		im1.setIsDefault(true);
+		pi.put("Primary1", im1);
+		im1.setImageUrl("/images/i2.jpg");
+		im1.setIsDefault(true);
+		pi.put("Primary2", im1);
+		p.setImages(pi);
+		
+	}
 	
 	private void createTestCategory(String name) {
 		Category ctg = new Category();

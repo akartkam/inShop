@@ -53,7 +53,7 @@ public class Product extends AbstractDomainObjectOrdering {
 	private String model;
 	private List<AbstractAttributeValue> attributeValues = new ArrayList<AbstractAttributeValue>();
 	private String url;
-    private Map<String, String> images = new HashMap<String, String>();	
+    private Map<String, Image> images = new HashMap<String, Image>();	
     private Set<ProductOption> productOptions = new HashSet<ProductOption>(0);
 
     @AdminPresentation(tab=EditTab.MAIN)
@@ -125,12 +125,12 @@ public class Product extends AbstractDomainObjectOrdering {
 	
     @ElementCollection
     @MapKeyColumn
-    @Column(name="image_url")
+    @Column(name="image_order")
     @CollectionTable(name="lnk_product_image")
-    public Map<String, String> getImages() {
+    public Map<String, Image> getImages() {
 		return images;
 	}
-	public void setImages(Map<String, String> images) {
+	public void setImages(Map<String, Image> images) {
 		this.images = images;
 	}
 	
