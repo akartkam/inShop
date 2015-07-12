@@ -2,6 +2,7 @@ package com.akartkam.inShop.service.product;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -245,15 +246,12 @@ public class CategoryServiceTest extends AbstractServiceTest {
 
 	@Test
 	public void addProductImage() {
-		Product p = categoryService.getProductByName("Test_product1").get(0);
-		Map<String, Image> pi = new HashMap<String, Image>();
-		Image im1 = new Image();
-		im1.setImageUrl("/images/i1.jpg");
-		im1.setIsDefault(true);
-		pi.put("Primary1", im1);
-		im1.setImageUrl("/images/i2.jpg");
-		im1.setIsDefault(true);
-		pi.put("Primary2", im1);
+		Product p = categoryService.getProductByName("Test_product4").get(0);
+		List<String> pi = new ArrayList<String>();
+
+		pi.add(0, "/images/i1.jpg");
+	    pi.add("/images/i2.jpg");
+		pi.add(1,"/images/i3.jpg");
 		p.setImages(pi);
 		
 	}

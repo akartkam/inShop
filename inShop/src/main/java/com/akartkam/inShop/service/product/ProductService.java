@@ -5,12 +5,14 @@ import java.util.UUID;
 
 import org.springframework.validation.Errors;
 
+import com.akartkam.inShop.domain.product.Product;
 import com.akartkam.inShop.domain.product.option.ProductOption;
 
 
 public interface ProductService {
 	ProductOption createPO(ProductOption po);
 	List<ProductOption> getAllPO();
+	List<Product> getAllProduct();
 	ProductOption getPOById(UUID id);
 	ProductOption clonePOById(UUID id) throws CloneNotSupportedException;
 	ProductOption loadPOById(UUID id, Boolean lock);

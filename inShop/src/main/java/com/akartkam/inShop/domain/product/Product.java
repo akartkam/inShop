@@ -21,13 +21,18 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapKeyColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderColumn;
 import javax.persistence.Table;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.Index;
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.format.annotation.NumberFormat;
+import org.springframework.format.annotation.NumberFormat.Style;
 
 import com.akartkam.com.presentation.admin.AdminPresentation;
 import com.akartkam.com.presentation.admin.EditTab;
@@ -46,6 +51,7 @@ public class Product extends AbstractDomainObjectOrdering {
 	 */
 	private static final long serialVersionUID = -583044339566068826L;
 	private String name;
+	private String code;
 	private Category category;
 	private String description;
 	private String longDescription;
@@ -53,9 +59,12 @@ public class Product extends AbstractDomainObjectOrdering {
 	private String model;
 	private List<AbstractAttributeValue> attributeValues = new ArrayList<AbstractAttributeValue>();
 	private String url;
-    private Map<String, Image> images = new HashMap<String, Image>();	
+    private List<String> images = new ArrayList<String>();	
     private Set<ProductOption> productOptions = new HashSet<ProductOption>(0);
-
+    private boolean canSellWithoutOptions = true;
+	//цена продажи(старая цена), новая цена(если есть), себестоимость
+	private BigDecimal retailPrice, salePrice, costPrice;
+	
     @AdminPresentation(tab=EditTab.MAIN)
     @NotNull
 	@NotEmpty
@@ -66,7 +75,58 @@ public class Product extends AbstractDomainObjectOrdering {
 	public void setName(String name) {
 		this.name = name;
 	}
+
+	@Column(name = "code")
+	public String getCode() {
+		return code;
+	}
+	public void setCode(String code) {
+		this.code = code;
+	}
 	
+	@NotNull
+	@NotEmpty
+	@NumberFormat(style=Style.CURRENCY)
+	@Digits(fraction = 5, integer = 14)
+	@DecimalMin("0.01")
+    @Column(name = "retail_price", precision = 19, scale = 5)	
+	public BigDecimal getRetailPrice() {
+		return retailPrice;
+	}
+	public void setRetailPrice(BigDecimal retailPrice) {
+		this.retailPrice = retailPrice;
+	}
+	
+	@NumberFormat(style=Style.CURRENCY)
+	@Digits(fraction = 5, integer = 14)
+	@DecimalMin("0.01")
+    @Column(name = "sale_price", precision = 19, scale = 5)
+	public BigDecimal getSalePrice() {
+		return salePrice;
+	}
+	public void setSalePrice(BigDecimal salePrice) {
+		this.salePrice = salePrice;
+	}
+
+	@NumberFormat(style=Style.CURRENCY)
+	@Digits(fraction = 5, integer = 14)
+	@DecimalMin("0.01")
+    @Column(name = "cost_price", precision = 19, scale = 5)
+	public BigDecimal getCostPrice() {
+		return costPrice;
+	}
+	public void setCostPrice(BigDecimal costPrice) {
+		this.costPrice = costPrice;
+	}	
+	
+	
+	@Column(name = "can_sell_without_options")
+	public boolean isCanSellWithoutOptions() {
+		return canSellWithoutOptions;
+	}
+	public void setCanSellWithoutOptions(boolean canSellWithoutOptions) {
+		this.canSellWithoutOptions = canSellWithoutOptions;
+	}
 	@NotNull
 	@ManyToOne
 	@JoinColumn(nullable=false)
@@ -124,13 +184,12 @@ public class Product extends AbstractDomainObjectOrdering {
 	
 	
     @ElementCollection
-    @MapKeyColumn
-    @Column(name="image_order")
     @CollectionTable(name="lnk_product_image")
-    public Map<String, Image> getImages() {
+    @OrderColumn(name="ordering")
+    public List<String> getImages() {
 		return images;
 	}
-	public void setImages(Map<String, Image> images) {
+	public void setImages(List<String> images) {
 		this.images = images;
 	}
 	
@@ -159,11 +218,11 @@ public class Product extends AbstractDomainObjectOrdering {
 			@JoinColumn(name = "product_id", nullable = false, updatable = false) }, 
 			inverseJoinColumns = { @JoinColumn(name = "product_option_id", 
 					nullable = false, updatable = false) })
-	public Set<ProductOption> getProductOption() {
+	public Set<ProductOption> getProductOptions() {
 		return Collections.unmodifiableSet(productOptions);
 	}
 	
-	public void setProductOption(Set<ProductOption> productOption) {
+	public void setProductOptions(Set<ProductOption> productOption) {
 		this.productOptions = productOption;
 	}
 	

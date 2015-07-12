@@ -1,17 +1,25 @@
 package com.akartkam.inShop.domain.product;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
+import javax.persistence.MapKeyColumn;
+import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.DecimalMin;
@@ -22,8 +30,6 @@ import javax.validation.constraints.NotNull;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.annotations.BatchSize;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Index;
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -45,8 +51,7 @@ public class Sku extends AbstractDomainObjectOrdering {
 	 * 
 	 */
 	private static final long serialVersionUID = -6933254570165053658L;
-	private String name;
-	private String skuCode;
+	private String code;
 	private String description;
 	private int quantityAvailable;
 	private ProductStatus productStatus;
@@ -56,25 +61,15 @@ public class Sku extends AbstractDomainObjectOrdering {
 	//цена продажи(старая цена), новая цена(если есть), себестоимость
 	private BigDecimal retailPrice, salePrice, costPrice;
 	private Set<ProductOptionValue> productOptionValues = new HashSet<ProductOptionValue>();
+    private List<String> images = new ArrayList<String>();	
 
-    @AdminPresentation(tab=EditTab.MAIN)
-    @NotNull
-	@NotEmpty
-	@Column(name = "name")
-    @Index(name = "sku_name_index", columnNames = {"name"})
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
 	
-	@Column(name = "sku_code")
+	@Column(name = "code")
 	public String getSkuCode() {
-		return skuCode;
+		return code;
 	}
 	public void setSkuCode(String skuCode) {
-		this.skuCode = skuCode;
+		this.code = skuCode;
 	}
 	
     @Lob
@@ -86,6 +81,16 @@ public class Sku extends AbstractDomainObjectOrdering {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+	
+    @ElementCollection
+    @CollectionTable(name="lnk_sku_image")
+    @OrderColumn(name="ordering")
+    public List<String> getImages() {
+		return images;
+	}
+	public void setImages(List<String> images) {
+		this.images = images;
+	}	
 	
 	@Transient
 	public int getQuantityAvailable() {
