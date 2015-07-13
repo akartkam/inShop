@@ -146,7 +146,7 @@
                                                </span>
 										       <span th:text="${pr.name}">name</span>
 										       <br/>
-										       <span th:text="${#{admin.catalog.brand.articul}+': '+pr.code}">code</span>
+										       <span th:text="#{admin.catalog.product.articul}+': '+${pr.code}">code</span>
 										    </div>										
 										</td>
 										<td class="mightOverflow domain-col"><span th:text="${pr.category}">Category</span></td>
@@ -154,7 +154,7 @@
 										<td class="mightOverflow domain-col"><span th:text="${pr.brand}">Brand</span></td>
 										<td class="mightOverflow domain-col"><span th:text="${pr.model}">Model</span></td>
 										<td >
-										      <span th:style="${pr.salePrice != null &amp;&amp pr.salePrice != 0? 'text-decoration: line-through;': ''}" 
+										      <span th:style="${pr.salePrice != null &amp;&amp; pr.salePrice != 0? 'text-decoration: line-through;': ''}" 
 										            style="text-decoration: line-through;"
 										            th:text="${pr.retailPrice}">10.00</span>
 										      <br/>

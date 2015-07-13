@@ -23,6 +23,7 @@ import javax.persistence.MapKeyColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderColumn;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
@@ -61,7 +62,7 @@ public class Product extends AbstractDomainObjectOrdering {
 	private String url;
     private List<String> images = new ArrayList<String>();	
     private Set<ProductOption> productOptions = new HashSet<ProductOption>(0);
-    private boolean canSellWithoutOptions = true;
+    private Boolean canSellWithoutOptions = true;
 	//цена продажи(старая цена), новая цена(если есть), себестоимость
 	private BigDecimal retailPrice, salePrice, costPrice;
 	
@@ -84,8 +85,8 @@ public class Product extends AbstractDomainObjectOrdering {
 		this.code = code;
 	}
 	
-	@NotNull
-	@NotEmpty
+//	@NotNull
+//	@NotEmpty
 	@NumberFormat(style=Style.CURRENCY)
 	@Digits(fraction = 5, integer = 14)
 	@DecimalMin("0.01")
@@ -121,10 +122,10 @@ public class Product extends AbstractDomainObjectOrdering {
 	
 	
 	@Column(name = "can_sell_without_options")
-	public boolean isCanSellWithoutOptions() {
+	public Boolean isCanSellWithoutOptions() {
 		return canSellWithoutOptions;
 	}
-	public void setCanSellWithoutOptions(boolean canSellWithoutOptions) {
+	public void setCanSellWithoutOptions(Boolean canSellWithoutOptions) {
 		this.canSellWithoutOptions = canSellWithoutOptions;
 	}
 	@NotNull
@@ -234,6 +235,13 @@ public class Product extends AbstractDomainObjectOrdering {
         if (productOption == null) throw new IllegalArgumentException("Null productOption!");
         productOptions.remove(productOption);
     }
+    
+	@Override
+	@Transient
+	public Product clone() throws CloneNotSupportedException {
+		Product product = (Product) super.clone();
+		return product;
+	}    
 
 
 }

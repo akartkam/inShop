@@ -9,7 +9,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Errors;
 
+import com.akartkam.inShop.dao.product.ProductDAO;
 import com.akartkam.inShop.dao.product.option.ProductOptionDAO;
+import com.akartkam.inShop.domain.product.Brand;
+import com.akartkam.inShop.domain.product.Product;
 import com.akartkam.inShop.domain.product.option.ProductOption;
 import com.akartkam.inShop.domain.product.option.ProductOptionValue;
 
@@ -19,6 +22,10 @@ public class ProductServiceImpl implements ProductService {
 	
 	@Autowired
 	ProductOptionDAO productOptionDAO;
+	
+	@Autowired
+	ProductDAO productDAO;
+	
 
 	@Override
 	@Transactional(readOnly = false)
@@ -122,7 +129,42 @@ public class ProductServiceImpl implements ProductService {
 		return errors.hasErrors();
 		
 	}
+
+	@Override
+	public List<Product> getAllProduct() {
+		return productDAO.list();
+	}
+
+	@Override
+	public Product getProductById(UUID id) {
+		return productDAO.get(id);
+	}
 	
+	@Override
+	public Product cloneProductById(UUID id) throws CloneNotSupportedException{
+		Product clonedProduct = getProductById(id);
+		if (clonedProduct == null) return null;
+		return clonedProduct.clone();
+	}	
 	
+	@Override
+	public Product loadProductById(UUID id, Boolean lock) {
+		return productDAO.findById(id, lock);
+	}
+	
+	@Override
+	@Transactional(readOnly = false)
+	public void softDeleteProductById(UUID id) {
+		Product product = getProductById(id);
+		if (product != null) {
+			product.setEnabled(false);
+		}
+	}
+	
+	@Override
+	@Transactional(readOnly = false)
+	public void deleteProduct(Product product) {
+		productDAO.delete(product);
+	}	
 
 }

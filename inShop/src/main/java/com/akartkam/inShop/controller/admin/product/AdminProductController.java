@@ -32,6 +32,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.akartkam.inShop.domain.product.Brand;
+import com.akartkam.inShop.domain.product.Product;
 import com.akartkam.inShop.service.product.BrandService;
 import com.akartkam.inShop.service.product.ProductService;
 import com.akartkam.inShop.exception.ImageUploadException;
@@ -51,14 +52,17 @@ public class AdminProductController {
 	  private String imagePath;
 	  
 	  @SuppressWarnings("rawtypes")
-	  @ModelAttribute("allBrand")
+	  @ModelAttribute("allProduct")
 	  public List getAllProduct() {
 	      return productService.getAllProduct();
 	  }
 	  
 	  @InitBinder
 	  public void initBinder(WebDataBinder binder) {
-			binder.setAllowedFields(new String[] { "id", "name", "url", "description", "logoUrl", "enabled"});
+			binder.setAllowedFields(new String[] { "id", "name", "url", "description", "longDescription", 
+					 							   "code", "category", "brand", "model", "attributeValues", 
+					 							   "productOptions", "canSellWithoutOptions", "images", "enabled",
+					 							   "retailPrice", "salePrice", "costPrice"});
 			binder.registerCustomEditor(UUID.class, "id", new PropertyEditorSupport() {
 			    @Override
 			    public void setAsText(String text) {
@@ -66,48 +70,37 @@ public class AdminProductController {
 			    }
 			    });
 			
-			binder.registerCustomEditor(String.class, "logoUrl", new PropertyEditorSupport() {
-			    @Override
-			    public void setAsText(String text) {
-			    	if ("".equals(text) || "''".equals(text))
-			    	  setValue(null);
-			    	else
-			    	  setValue(text);	
-			    }
-			    });
-			
-			
 	  }
 	  
 	  @RequestMapping(method=GET)
-	  public String brand() {
-		  return "/admin/catalog/brand"; 
+	  public String product() {
+		  return "/admin/catalog/product"; 
 		  }	  
 	  
 	  @RequestMapping("/edit")
-	  public String brandEdit(@RequestParam(value = "ID", required = false) String categoryID, Model model,
+	  public String brandEdit(@RequestParam(value = "ID", required = false) String ID, Model model,
 			   				  @RequestHeader(value = "X-Requested-With", required = false) String requestedWith) {
-		  if(!model.containsAttribute("brand")) {
-			 Brand brand = brandService.getBrandById(UUID.fromString(categoryID));
-		     model.addAttribute("brand", brand);
+		  if(!model.containsAttribute("product")) {
+			 Product product = productService.getProductById(UUID.fromString(ID));
+		     model.addAttribute("product", product);
 		  }
           if ("XMLHttpRequest".equals(requestedWith)) {
-              return "/admin/catalog/brandEdit :: editBrandForm";
+              return "/admin/catalog/productEdit :: editProductForm";
             }		  
-          return "/admin/catalog/brandEdit";		  
+          return "/admin/catalog/productEdit";		  
 		  }	  
 	  
 	  @RequestMapping("/add")
 	  public String brandAdd(@RequestParam(value = "ID", required = false) String copyID, Model model,
 				                @RequestHeader(value = "X-Requested-With", required = false) String requestedWith) throws CloneNotSupportedException {
-		  Brand brand = null;
-		  if (copyID != null && !"".equals(copyID)) brand = brandService.cloneBrandById(UUID.fromString(copyID)); 
-		  else brand = new Brand();
- 	      model.addAttribute("brand", brand);
+		  Product product = null;
+		  if (copyID != null && !"".equals(copyID)) product = productService.cloneProductById(UUID.fromString(copyID)); 
+		  else product = new Product();
+ 	      model.addAttribute("product", product);
           if ("XMLHttpRequest".equals(requestedWith)) {
-              return "/admin/catalog/brandEdit :: editBrandForm";
+              return "/admin/catalog/productEdit :: editProductForm";
             } 	      
-          return "/admin/catalog/brandEdit";		  
+          return "/admin/catalog/productEdit";		  
 		  }		  
 
 	  @RequestMapping(value="/delete", method = RequestMethod.POST)
@@ -116,20 +109,20 @@ public class AdminProductController {
 				                   final RedirectAttributes ra) {
 		  Collection<? extends GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
 		  if (phisycalDelete != null && phisycalDelete)  {
-			  Brand brand = brandService.loadBrandById(UUID.fromString(ID), false);
-			  if(brand.canRemove() && authorities.contains(new SimpleGrantedAuthority("ADMIN"))) {
-				  brandService.deleteBrand(brand);   
+			  Product product = productService.loadProductById(UUID.fromString(ID), false);
+			  if(product.canRemove() && authorities.contains(new SimpleGrantedAuthority("ADMIN"))) {
+				  productService.deleteProduct(product);   
 			  } else {
-				  ra.addFlashAttribute("errormessage", this.messageSource.getMessage("admin.error.cannotdelete.message", new String[] {"бренд"} , null));
+				  ra.addFlashAttribute("errormessage", this.messageSource.getMessage("admin.error.cannotdelete.message", new String[] {"товар"} , null));
 				  ra.addAttribute("error", true);
 			  }
 
 		  } else {
-			  brandService.softDeleteBrandById(UUID.fromString(ID));
+			  productService.softDeleteProductById(UUID.fromString(ID));
 		  }
-          return "redirect:/admin/catalog/brand";		  
+          return "redirect:/admin/catalog/product";		  
 		  }
-	  
+	  /*
 	   @RequestMapping(value="/edit", method = RequestMethod.POST )
 	   public String saveBrand(@ModelAttribute @Valid Brand brand,
 			                   final BindingResult bindingResult,
@@ -178,5 +171,5 @@ public class AdminProductController {
 				throw new ImageUploadException("Unable to save image", e);
 			}
 		}	   
-
+*/
 }
