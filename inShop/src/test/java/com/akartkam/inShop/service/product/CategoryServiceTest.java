@@ -246,7 +246,7 @@ public class CategoryServiceTest extends AbstractServiceTest {
 
 	@Test
 	public void addProductImage() {
-		Product p = categoryService.getProductByName("Test_product4").get(0);
+		Product p = categoryService.getProductByName("Test_product1").get(0);
 		List<String> pi = new ArrayList<String>();
 
 		pi.add(0, "/images/i1.jpg");

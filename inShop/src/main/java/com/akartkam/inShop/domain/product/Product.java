@@ -99,7 +99,7 @@ public class Product extends AbstractDomainObjectOrdering {
 	}
 	
 	@NumberFormat(style=Style.CURRENCY)
-	@Digits(fraction = 5, integer = 14)
+	//@Digits(fraction = 5, integer = 14)
 	@DecimalMin("0.01")
     @Column(name = "sale_price", precision = 19, scale = 5)
 	public BigDecimal getSalePrice() {
@@ -110,7 +110,7 @@ public class Product extends AbstractDomainObjectOrdering {
 	}
 
 	@NumberFormat(style=Style.CURRENCY)
-	@Digits(fraction = 5, integer = 14)
+	//@Digits(fraction = 5, integer = 14)
 	@DecimalMin("0.01")
     @Column(name = "cost_price", precision = 19, scale = 5)
 	public BigDecimal getCostPrice() {
