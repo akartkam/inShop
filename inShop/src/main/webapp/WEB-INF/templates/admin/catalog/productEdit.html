@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org" 
+                xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+                layout:decorator="admin/catalog/category">
+	<head>
+	<!-- layout:decorator="admin/category" -->
+	    <th:block th:remove="all">
+			<title>inShop Admin Product</title>
+		    <meta charset="utf-8"/>
+		    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+		    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+		    <meta name="description" content=""/>
+		    <meta name="author" content=""/>
+		
+		    <!-- Bootstrap Core CSS -->
+		    <link href="../../../../resources/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" th:href="@{/resources/bower_components/bootstrap/dist/css/bootstrap.min.css}"/>
+			<!-- Treegrid -->
+		 	<link href="../../../../resources/css/jquery.treegrid.css" rel="stylesheet" th:href="@{/resources/css/jquery.treegrid.css}"/>
+			<!-- summernote -->
+			<link href="../../../../resources/css/summernote.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/summernote.css}"></link>
+			<!-- bootstrap select -->
+			<link href="../../../../resources/css/bootstrap-select.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/bootstrap-select.min.css}"></link>
+		    <!-- Custom Fonts -->
+	    	<link href="../../../../resources/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/font-awesome/css/font-awesome.min.css}"/>
+			<link href="../../../../resources/bower_components/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/bootstrap/dist/css/bootstrap-theme.min.css}"></link>    	
+	    	<link href="../../../../resources/css/sb-admin-2.css" rel="stylesheet" th:href="@{/resources/css/sb-admin-2.css}"/>
+	    </th:block>
+	</head>
+<body>
+  <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true" th:attr="data-path=@{/admin/catalog/product}" layout:fragment="editForm">
+    <div class="modal-dialog">
+	   <div class="modal-content" id="editModalContent">
+	   <form method="post" class="form-horizontal" role="form" action="#" th:action="@{/admin/catalog/product/edit}" th:object="${product}" th:fragment="editProductForm">
+		   <div class="modal-header">
+	 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title"  th:text="${!product.new}? #{admin.catalog.edit.title.edit}: #{admin.catalog.edit.title.add}">Edit Product</h4>
+	 	   </div>
+		 <!-- /modal-header -->
+		    <div class="modal-body" style ="height:420px; overflow:auto">
+		          <div  th:if="${#fields.hasErrors('*')}" class="alert alert-danger alert-dismissable">
+		          	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <span th:text="#{admin.catalog.category.edit.existsErrors}">There is some errors in the form</span>
+					<ul>
+					  <li th:each="err : ${#fields.errors('*')}" th:text="${err}">Input is incorrect</li>
+					</ul>                                 
+                  </div>
+	               <ul class="nav nav-tabs">
+	                    <li class="active"><a href="#main" data-toggle="tab" th:text="#{admin.edit.tab.description}">Описание</a>
+	                    </li>
+	                    <li><a href="#additional" data-toggle="tab" th:text="#{admin.edit.tab.params}">Параметры</a>
+	                    </li>
+	                    <li><a href="#links" data-toggle="tab" th:text="#{admin.edit.tab.links}">Связи</a>
+	                    </li>
+	                </ul>
+	                <!-- Tab panes -->
+	                <div class="tab-content">
+	                    <div class="tab-pane fade in active" id="main">
+								   <div class="field-box" th:class="${#fields.hasErrors('name')}? has-error: field-box">
+									  <input type="hidden" th:field="*{id}"/>	                              
+						    		  <label>
+							    	  	 <span th:text="#{admin.catalog.category.edit.name}">Category1</span>
+							   		  </label>
+							   		  <input type="text" class="form-control" th:field="*{name}"/>
+							   		  <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Incorrect name</p>
+						   		   </div>
+								   <div class="field-box">	                              
+						    		  <label>
+							    	  	 <span th:text="#{admin.catalog.category.edit.url}">url</span>
+							   		  </label>
+							   		  <input type="text" class="form-control" th:field="*{url}"/>
+						   		   </div>						   		   
+						   		   <div class="field-box">
+			 			    		  <label>
+							    	  	<span th:text="#{admin.catalog.category.edit.description}">Description Category1</span>
+							   		   </label>
+							   		   <input type="text" class="form-control" th:field="*{description}"/>
+						   		   </div>
+						   		   <div class="field-box">
+			 			    		   <label>
+							    	  	<span th:text="#{admin.catalog.category.edit.longDescription}">Description Category1</span>
+							   		   </label>
+								       <textarea id="summernote" class="textarea form-control" placeholder="Введите текст..." th:field="*{longDescription}"></textarea>
+		  						   </div>
+	             		</div>
+	                    <div class="tab-pane fade" id="additional">
+	                      <div class="field-box">
+	                        <label>
+						  	  	<span th:text="#{admin.catalog.category.edit.parent}">Parent category</span>
+						    </label>
+							 <select class="form-control" th:field="*{parent}">
+							    <option value="">&nbsp;</option>
+								<option th:if="${scategory.id != category.id &amp;&amp; scategory.enabled}" 
+								        th:each="scategory : ${allCategories}" 
+								        th:value="${scategory.id}"
+									    th:text="${scategory.name}"
+									    >option 1</option>
+							 </select>
+						   </div>	 
+   			   		       <div class="field-box">
+	 			    		  <label>
+					    	  	<span th:text="#{admin.catalog.category.edit.ordering}">Orderig</span>
+					   		  </label>
+					   		  <input type="text" class="form-control" th:field="*{ordering}"/>
+						   </div>
+						   <div class="field-box">
+	                         <label>
+	 					    	<input type="checkbox" th:field="*{enabled}"/>
+							  	<span th:text="#{admin.catalog.category.enabled}">Active?</span>
+							 </label>
+						   </div>	 
+	                    </div>
+	                    <div class="tab-pane fade" id="links">
+	                      <div class="field-box">
+	                        <label>
+						  	  	<span th:text="#{admin.catalog.category.edit.attributes}">Attributes</span>
+						    </label>
+							 <select class="form-control selectpicker" name="attributesSelected" multiple="multiple" 
+	          						 data-live-search="true">
+								<optgroup th:if="${attributeCategory.hasActiveAttributes()}"
+								          th:each="attributeCategory: ${allAttributeCategories}"  
+								          th:label="${attributeCategory.name}">
+								    <option th:if="${attribute.enabled}"
+								            th:each="attribute: ${attributeCategory.attributes}" th:text="${attribute.name}"
+								            th:selected="${#sets.contains(category.attributes, attribute)}"
+								            th:value="${attribute.id}"
+								            th:attr="data-subtext=#{${'attribute.type.' + attribute.attributeType}}">
+								    </option>      
+								</optgroup>
+							 </select>
+						   </div>	                    	
+	                    </div>
+	                </div>
+		    </div>
+		 <!-- /modal-body -->
+	 	    <div class="modal-footer">
+	 		  <!-- <button type="button" class="btn btn-default"  
+	 		          th:text="#{admin.catalog.category.edit.button.close}"
+	 		          th:onclick="'window.location=\''+@{/admin/catalog/category}+'\''">Close</button> -->
+	 		  <button type="button" class="btn btn-default" data-dismiss="modal" th:text="#{admin.catalog.category.edit.button.close}">Close</button>        
+			  <button type="submit" class="btn btn-primary" th:text="#{admin.catalog.category.edit.button.save}">Save changes</button>
+		    </div>  
+		 <!-- /modal-footer -->
+	     </form>	
+      </div> 
+    </div> 
+  </div>	    
+   <!-- jQuery -->
+   <script src="../../../../resources/bower_components/jquery/dist/jquery.min.js" th:src="@{/resources/bower_components/jquery/dist/jquery.min.js}"></script>
+   <!-- Bootstrap Core JavaScript -->
+   <script src="../../../../resources/bower_components/bootstrap/dist/js/bootstrap.min.js" th:src="@{/resources/bower_components/bootstrap/dist/js/bootstrap.min.js}"></script>
+ 
+	   <th:block th:fragment="scriptEditModal">
+		   <!-- Bootstrap bootstrap-wysiwyg.js -->
+		   <script src="../../../../resources/js/summernote.js" th:src="@{/resources/js/summernote.js}"></script>
+		   <script src="../../../../resources/js/summernote-ru-RU.js" th:src="@{/resources/js/summernote-ru-RU.js}"></script> 
+		    <!-- bootstrap-select -->
+		   <script src="../../../../resources/js/bootstrap-select.min.js" th:src="@{/resources/js/bootstrap-select.min.js}"></script>
+		   <script src="../../../../resources/js/defaults-ru_RU.js" th:src="@{/resources/js/defaults-ru_RU.js}"></script>
+	   </th:block>
+   		<th:block layout:fragment="scriptEditModal"> 
+	   	   <script type="text/javascript">
+		     $(document).ready(function() {
+		    	 $("#editModal").modal("show");
+			 });
+	 		 $("#editModal").on("show.bs.modal", function (e) {
+	                            $('#summernote').summernote({
+	        					    lang: "ru-RU"
+	          				     });
+	                            $(".selectpicker").selectpicker();
+	                   });
+		   </script>
+		 </th:block>  
+</body>
+</html>
+
