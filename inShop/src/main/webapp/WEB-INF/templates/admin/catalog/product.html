@@ -44,6 +44,14 @@
 				mark {
 					border: 1px dashed black; !important;
 				 }
+				tfoot {
+				    display: table-header-group;
+				}
+				tfoot input {
+			        width: 100%;
+			        padding: 3px;
+			        box-sizing: border-box;
+			    } 
 			</style>			
 	</head>
 <body>
@@ -119,7 +127,7 @@
 	    			  </div> 
  	                  <div class="row">
  	                    <div class="col-md-12">	               
-						      <table class="table table-striped table-bordered table-hover table-condensed table-responsive" id="brandDataTable" data-checkid="">
+						      <table class="table table-striped table-bordered table-hover table-condensed table-responsive" id="productDataTable" data-checkid="">
 						        <thead >
 							      <tr >
 							          <th class="col-md-1"></th>
@@ -133,6 +141,19 @@
 						              <th class="col-md-1 text-center"></th>
 						  	      </tr>
 						 	    </thead>
+						 	    <tfoot>
+							      <tr >
+							          <th ></th>
+						              <th ></th>
+						              <th ></th>
+						              <th ></th>
+						              <th ></th>
+						              <th ></th>
+						              <th ></th>
+						              <th ></th>
+						              <th ></th>
+						  	      </tr>
+						 	    </tfoot>
 						 	    <tbody>      
 							        <tr th:each="pr : ${allProduct}" th:class="${!pr.enabled} ? 'text-muted'">
 							            <td class="text-center">						
@@ -252,7 +273,7 @@
 	    <script type="text/javascript">
 	      //<![CDATA[
 	           $(document).ready(function() {
-    		     $("#brandDataTable").dataTable( {
+    		     var table = $("#productDataTable").DataTable( {
 		            	"language": {
 		                   	"processing": "Подождите...",
 		                   	  "search": "Поиск:",
@@ -274,11 +295,25 @@
 		                   	    "sortAscending": ": активировать для сортировки столбца по возрастанию",
 		                   	    "sortDescending": ": активировать для сортировки столбца по убыванию"
 		                   	  }
-		                  },
-		                responsive: true,
-		                ordering:  false
-    				} );
-	            });
+		                  }
+    				});
+  	                $('#productDataTable tfoot th').each( function () {
+	  	            	 if ($(this).is(":first-child") || $(this).is(":last-child")) return;
+		                 var title = $('#productDataTable thead th').eq( $(this).index() ).text();
+		                 $(this).html( '<input type="text" placeholder="Фильтр '+title+'" />' );
+		            });
+    		     	table.columns().each( function () {
+	  	               var that = this;
+	  	        
+	  	               $( 'input', this.footer() ).on( 'keyup change', function () {
+	  	                   alert(that.innerHTML);
+	  	            	   that
+	  	                       .search( this.value )
+	  	                       .draw();
+	  	                   
+	  	               });
+	  	           });
+	           });
 	            //Открытие окна удаления
 		        $(document).on("click", ".open-deleteDialog", function () {
 		    	     var Id = $(this).data("id");
