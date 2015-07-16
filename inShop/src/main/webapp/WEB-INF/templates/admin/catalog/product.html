@@ -22,7 +22,6 @@
 		    <link href="../../../../resources/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css" rel="stylesheet" th:href="@{/resources/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css}"/>	    	
 			<!-- DataTables Responsive CSS -->
     		<link href="../../../../resources/bower_components/datatables-responsive/css/dataTables.responsive.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/datatables-responsive/css/dataTables.responsive.css}"/>	    	
-
 	    	<link href="../../../../resources/bower_components/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/bootstrap/dist/css/bootstrap-theme.min.css}"/>
 			<!-- summernote -->
 			<link href="../../../../resources/css/summernote.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/summernote.css}"></link>
@@ -113,18 +112,6 @@
 	               <span th:text="#{admin.catalog.product}">Product</span>
 	           </div> 	 
 	             <div class="panel-body">
-	             	  <div class="row" style="margin-bottom:10px;">
-				       <div class="col-md-12">
-				          <a  data-toggle="collapse" href="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
-  							<span th:text= "#{admin.catalog.filter}">Filter</span>
-						  </a>
-						  <div class="collapse" id="collapseFilter">
-							  <div >
-							    ...
-							  </div>
-						  </div> 
-				       </div>
-	    			  </div> 
  	                  <div class="row">
  	                    <div class="col-md-12">	               
 						      <table class="table table-striped table-bordered table-hover table-condensed table-responsive" id="productDataTable" data-checkid="">
@@ -302,11 +289,10 @@
 		                 var title = $('#productDataTable thead th').eq( $(this).index() ).text();
 		                 $(this).html( '<input type="text" placeholder="Фильтр '+title+'" />' );
 		            });
-    		     	table.columns().each( function () {
+    		     	table.columns().every( function () {
 	  	               var that = this;
 	  	        
 	  	               $( 'input', this.footer() ).on( 'keyup change', function () {
-	  	                   alert(that.innerHTML);
 	  	            	   that
 	  	                       .search( this.value )
 	  	                       .draw();
