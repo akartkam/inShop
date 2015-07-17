@@ -53,10 +53,10 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public List<Category> getAllCategoryHierarchy() {
+	public List<Category> getAllCategoryHierarchy(Boolean useDisabled) {
 		List<Category> allCategoryHierarchy = new ArrayList<Category>();
-		for(Category rct: getRootCategories(true)) {
-			rct.buildSubCategoryHierarchy(allCategoryHierarchy);
+		for(Category rct: getRootCategories(useDisabled)) {
+			rct.buildSubCategoryHierarchy(allCategoryHierarchy, null);
 		}
 		return allCategoryHierarchy;
 	}

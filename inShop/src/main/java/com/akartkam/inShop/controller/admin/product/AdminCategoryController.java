@@ -46,7 +46,7 @@ public class AdminCategoryController {
 	  
 	  @ModelAttribute("allCategories")
 	  public List<Category> getAllCategories() {
-	      return categoryService.getAllCategoryHierarchy();
+	      return categoryService.getAllCategoryHierarchy(null);
 	  }	  
 	  
 	  @SuppressWarnings("rawtypes")
@@ -135,7 +135,7 @@ public class AdminCategoryController {
 			  if(category.canRemove() && authorities.contains(new SimpleGrantedAuthority("ADMIN"))) {
 				  categoryService.deleteCategory(category);   
 			  } else {
-				  ra.addFlashAttribute("errormessage", this.messageSource.getMessage("admin.error.cannotdelete.message", new String[] {"категорию"} , null));
+				  ra.addFlashAttribute("errormessage", this.messageSource.getMessage("admin.error.cannotdelete.message", new String[] {"пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ"} , null));
 				  ra.addAttribute("error", true);
 			  }
 

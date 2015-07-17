@@ -34,6 +34,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.akartkam.inShop.domain.product.Brand;
 import com.akartkam.inShop.domain.product.Product;
 import com.akartkam.inShop.service.product.BrandService;
+import com.akartkam.inShop.service.product.CategoryService;
 import com.akartkam.inShop.service.product.ProductService;
 import com.akartkam.inShop.exception.ImageUploadException;
 
@@ -43,6 +44,9 @@ public class AdminProductController {
 	
 	  @Autowired
 	  ProductService productService;
+	  
+	  @Autowired
+	  CategoryService categoryService;
 	  
 	  @Autowired
 	  private MessageSource messageSource;
@@ -56,6 +60,12 @@ public class AdminProductController {
 	  public List getAllProduct() {
 	      return productService.getAllProduct();
 	  }
+	  
+	  @SuppressWarnings("rawtypes")
+	  @ModelAttribute("allCategory")
+	  public List getAllCategory() {
+	      return categoryService.getAllCategoryHierarchy(null);
+	  }	  
 	  
 	  @InitBinder
 	  public void initBinder(WebDataBinder binder) {
@@ -113,7 +123,7 @@ public class AdminProductController {
 			  if(product.canRemove() && authorities.contains(new SimpleGrantedAuthority("ADMIN"))) {
 				  productService.deleteProduct(product);   
 			  } else {
-				  ra.addFlashAttribute("errormessage", this.messageSource.getMessage("admin.error.cannotdelete.message", new String[] {"товар"} , null));
+				  ra.addFlashAttribute("errormessage", this.messageSource.getMessage("admin.error.cannotdelete.message", new String[] {"пїЅпїЅпїЅпїЅпїЅ"} , null));
 				  ra.addAttribute("error", true);
 			  }
 
@@ -147,8 +157,8 @@ public class AdminProductController {
 	       
 	        if(!image.isEmpty()) {
 		        
-	        	validateImage(image); // Проверить изображение
-	        	saveImage(filePath, image); // Сохранить файл
+	        	validateImage(image); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+	        	saveImage(filePath, image); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
 	       	}	        
 	        
 	        return "redirect:/admin/catalog/brand";

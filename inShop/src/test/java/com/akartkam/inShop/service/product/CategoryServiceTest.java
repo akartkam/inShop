@@ -105,7 +105,7 @@ public class CategoryServiceTest extends AbstractServiceTest {
 		logger.info("*********Begin buildSubCategoryHierarchyTest*********");
 		Category found = categoryService.getCategoryByName("Test_Root_Category1").get(0);
 		List<Category> hCategory = null;
-		hCategory  = found.buildSubCategoryHierarchy(hCategory);
+		hCategory  = found.buildSubCategoryHierarchy(hCategory, null);
 		assertEquals(3, hCategory.size());
 		assertTrue(hCategory.contains(found));
 		logger.info(hCategory);
@@ -153,7 +153,7 @@ public class CategoryServiceTest extends AbstractServiceTest {
 */		
 		jdbcTemplate.execute("select del_attribute('AutoTestAddAttribute')");
 		Category found = categoryService.getCategoryByName("Test_Category5.1").get(0);
-		AttributeCategory attributeCategory = attributeCategoryService.getAttributeCategoryByName("Категория атрибутов 1");
+		AttributeCategory attributeCategory = attributeCategoryService.getAttributeCategoryByName("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ 1");
 		AbstractAttribute attribute = SimpleAttributeFactory.createAttribute(AttributeType.DECIMAL);
 		attribute.setName("AutoTestAddAttributeDecimal1");
 		attribute.setAttributeCategory(attributeCategory);

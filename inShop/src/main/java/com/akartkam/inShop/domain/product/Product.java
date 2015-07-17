@@ -63,7 +63,6 @@ public class Product extends AbstractDomainObjectOrdering {
     private List<String> images = new ArrayList<String>();	
     private Set<ProductOption> productOptions = new HashSet<ProductOption>(0);
     private Boolean canSellWithoutOptions = true;
-	//цена продажи(старая цена), новая цена(если есть), себестоимость
 	private BigDecimal retailPrice, salePrice, costPrice;
 	
     @AdminPresentation(tab=EditTab.MAIN)

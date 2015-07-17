@@ -14,7 +14,7 @@ public interface CategoryService {
 	List<Category> getRootCategories(Boolean useDisabled);
 	List<Category> getCategoryByName(String name);
 	List<Product> getProductByName(String name);
-	List<Category> getAllCategoryHierarchy();
+	List<Category> getAllCategoryHierarchy(Boolean useDisabled);
 	Category loadCategoryById(UUID id, Boolean lock);
 	Category getCategoryById(UUID id);
 	void updateCategory(Category category);

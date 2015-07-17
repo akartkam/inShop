@@ -28,15 +28,15 @@
 	</head>
 <body>
   <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true" th:attr="data-path=@{/admin/catalog/product}" layout:fragment="editForm">
-    <div class="modal-dialog">
+    <div class="modal-dialog" style="width:70vw; overflow:auto">
 	   <div class="modal-content" id="editModalContent">
 	   <form method="post" class="form-horizontal" role="form" action="#" th:action="@{/admin/catalog/product/edit}" th:object="${product}" th:fragment="editProductForm">
 		   <div class="modal-header">
-	 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	 			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 				<h4 class="modal-title"  th:text="${!product.new}? #{admin.catalog.edit.title.edit}: #{admin.catalog.edit.title.add}">Edit Product</h4>
 	 	   </div>
 		 <!-- /modal-header -->
-		    <div class="modal-body" style ="height:420px; overflow:auto">
+		    <div class="modal-body" style ="height:60vh; overflow:auto">
 		          <div  th:if="${#fields.hasErrors('*')}" class="alert alert-danger alert-dismissable">
 		          	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                     <span th:text="#{admin.catalog.category.edit.existsErrors}">There is some errors in the form</span>
@@ -58,26 +58,62 @@
 								   <div class="field-box" th:class="${#fields.hasErrors('name')}? has-error: field-box">
 									  <input type="hidden" th:field="*{id}"/>	                              
 						    		  <label>
-							    	  	 <span th:text="#{admin.catalog.category.edit.name}">Category1</span>
+							    	  	 <span th:text="#{admin.catalog.edit.name}">Product1</span>
 							   		  </label>
 							   		  <input type="text" class="form-control" th:field="*{name}"/>
 							   		  <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Incorrect name</p>
-						   		   </div>
+						   		   </div>					   		   
 								   <div class="field-box">	                              
 						    		  <label>
-							    	  	 <span th:text="#{admin.catalog.category.edit.url}">url</span>
+							    	  	 <span th:text="#{admin.catalog.url}">Url</span>
 							   		  </label>
 							   		  <input type="text" class="form-control" th:field="*{url}"/>
-						   		   </div>						   		   
+						   		   </div>
+<!-- 						   		   <div class="container-fluid" style="width:100%;">						   		    -->
+									   <div class="row">
+								   		   <div class="col-md-3">
+											   <div class="field-box">	                              
+									    		  <label>
+										    	  	 <span th:text="#{admin.catalog.product.articul}">Articul</span>
+										   		  </label>
+										   		  <input type="text" class="form-control" th:field="*{code}"/>
+									   		   </div>
+											</div>
+								   		   <div class="col-md-3">
+											   <div class="field-box">	                              
+									    		  <label>
+										    	  	 <span th:text="#{admin.catalog.product.retailPrice}">retail price</span>
+										   		  </label>
+										   		  <input type="text" class="form-control" th:field="*{retailPrice}"/>
+									   		   </div>						   		   
+								   		   </div>
+								   		   <div class="col-md-3">
+											   <div class="field-box">	                              
+									    		  <label>
+										    	  	 <span th:text="#{admin.catalog.product.salePrice}">sale price</span>
+										   		  </label>
+										   		  <input type="text" class="form-control" th:field="*{salePrice}"/>
+									   		   </div>						   		   
+								   		   </div>
+								   		   <div class="col-md-3">
+											   <div class="field-box">	                              
+									    		  <label>
+										    	  	 <span th:text="#{admin.catalog.product.costPrice}">cost price</span>
+										   		  </label>
+										   		  <input type="text" class="form-control" th:field="*{costPrice}"/>
+									   		   </div>						   		   
+								   		   </div>
+<!-- 										</div>			 -->
+									</div>			   		   
 						   		   <div class="field-box">
 			 			    		  <label>
-							    	  	<span th:text="#{admin.catalog.category.edit.description}">Description Category1</span>
+							    	  	<span th:text="#{admin.catalog.category.edit.description}">Description Product1</span>
 							   		   </label>
 							   		   <input type="text" class="form-control" th:field="*{description}"/>
 						   		   </div>
 						   		   <div class="field-box">
 			 			    		   <label>
-							    	  	<span th:text="#{admin.catalog.category.edit.longDescription}">Description Category1</span>
+							    	  	<span th:text="#{admin.catalog.category.edit.longDescription}">Description Product1</span>
 							   		   </label>
 								       <textarea id="summernote" class="textarea form-control" placeholder="Введите текст..." th:field="*{longDescription}"></textarea>
 		  						   </div>

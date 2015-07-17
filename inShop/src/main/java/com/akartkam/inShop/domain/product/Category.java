@@ -197,7 +197,7 @@ public class Category extends AbstractDomainObjectOrdering {
 	}
 	
 	@Transient
-	public List<Category> buildSubCategoryHierarchy(List<Category> currentHierarchy) {
+	public List<Category> buildSubCategoryHierarchy(List<Category> currentHierarchy, Boolean useDisabled) {
         if (currentHierarchy == null) {
             currentHierarchy = new ArrayList<Category>();
         }
@@ -206,7 +206,7 @@ public class Category extends AbstractDomainObjectOrdering {
             for(Category sc: getSubCategory()){
             	if (!currentHierarchy.contains(sc)) {
             		currentHierarchy.add(sc);
-            		sc.buildSubCategoryHierarchy(currentHierarchy);
+            		sc.buildSubCategoryHierarchy(currentHierarchy, useDisabled);
             	}
             }
         }
