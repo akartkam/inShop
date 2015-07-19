@@ -18,6 +18,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.MapKeyColumn;
 import javax.persistence.OrderColumn;
 import javax.persistence.Table;
@@ -62,13 +63,13 @@ public class Sku extends AbstractDomainObjectOrdering {
 	private BigDecimal retailPrice, salePrice, costPrice;
 	private Set<ProductOptionValue> productOptionValues = new HashSet<ProductOptionValue>();
     private List<String> images = new ArrayList<String>();	
-
+    private Product product;
 	
 	@Column(name = "code")
-	public String getSkuCode() {
+	public String getCode() {
 		return code;
 	}
-	public void setSkuCode(String skuCode) {
+	public void setCode(String skuCode) {
 		this.code = skuCode;
 	}
 	
@@ -176,5 +177,15 @@ public class Sku extends AbstractDomainObjectOrdering {
 	public void setProductOptionValues(Set<ProductOptionValue> productOptionValues) {
 		this.productOptionValues = productOptionValues;
 	}
-
+	
+	@ManyToOne
+	@JoinColumn
+	public Product getProduct() {
+		return product;
+	}
+	public void setProduct(Product product) {
+		this.product = product;
+	}
+	
+	
 }

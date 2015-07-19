@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 
 import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
@@ -61,8 +62,9 @@ public class Product extends AbstractDomainObjectOrdering {
 	private List<AbstractAttributeValue> attributeValues = new ArrayList<AbstractAttributeValue>();
 	private String url;
     private List<String> images = new ArrayList<String>();	
+    private List<Sku> sku = new ArrayList<Sku>();	
     private Set<ProductOption> productOptions = new HashSet<ProductOption>(0);
-    private Boolean canSellWithoutOptions = true;
+    private boolean canSellWithoutOptions = true;
 	private BigDecimal retailPrice, salePrice, costPrice;
 	
     @AdminPresentation(tab=EditTab.MAIN)
@@ -121,10 +123,10 @@ public class Product extends AbstractDomainObjectOrdering {
 	
 	
 	@Column(name = "can_sell_without_options")
-	public Boolean isCanSellWithoutOptions() {
+	public boolean isCanSellWithoutOptions() {
 		return canSellWithoutOptions;
 	}
-	public void setCanSellWithoutOptions(Boolean canSellWithoutOptions) {
+	public void setCanSellWithoutOptions(boolean canSellWithoutOptions) {
 		this.canSellWithoutOptions = canSellWithoutOptions;
 	}
 	@NotNull
@@ -234,11 +236,37 @@ public class Product extends AbstractDomainObjectOrdering {
         if (productOption == null) throw new IllegalArgumentException("Null productOption!");
         productOptions.remove(productOption);
     }
-    
+      
+	@OneToMany(mappedBy="product", cascade = CascadeType.ALL)
+	@Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
+	public List<Sku> getSku() {
+		return sku;
+	}
+	public void setSku(List<Sku> sku) {
+		this.sku = sku;
+	}
 	@Override
 	@Transient
 	public Product clone() throws CloneNotSupportedException {
 		Product product = (Product) super.clone();
+		product.setId(UUID.randomUUID());
+		product.setName(new String(getName()));
+		product.setCode(new String(getCode()));
+		product.setUrl(new String(getUrl()));
+		product.setImages(new ArrayList<String>());
+		product.setModel(new String(getModel()));
+		product.setDescription(new String(getDescription()));
+		product.setLongDescription(new String(getLongDescription()));
+		product.setCostPrice(new BigDecimal(getCostPrice().toPlainString()));
+		product.setRetailPrice(new BigDecimal(getRetailPrice().toPlainString()));
+		product.setSalePrice(new BigDecimal(getSalePrice().toPlainString()));
+		product.setProductOptions(new HashSet<ProductOption>());
+		product.setAttributeValues(new ArrayList<AbstractAttributeValue>());
+		product.setSku(new ArrayList<Sku>());
+		product.setCreatedBy(null);
+		product.setCreatedDate(null);
+		product.setUpdatedBy(null);
+		product.setUpdatedDate(null);
 		return product;
 	}    
 

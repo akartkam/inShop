@@ -88,7 +88,7 @@
     <!-- <div layout:fragment="editForm" >
     </div> -->
     <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true" layout:fragment="editForm">
-	  <div class="modal-dialog" style="width:70vw; overflow:auto">
+	  <div class="modal-dialog" style="width:60vw; overflow:auto">
 	    <div class="modal-content" id="editModalContent">
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -157,9 +157,9 @@
 										       <span style="font-size: 9pt;" th:text="#{admin.catalog.product.articul}+': '+${pr.code}">code</span>
 										    </div>										
 										</td>
-										<td class="mightOverflow domain-col"><span th:text="${pr.category.name}">Category</span></td>
+										<td class="mightOverflow domain-col"><span th:text="${pr.category!=null? pr.category.name: ''}">Category</span></td>
 										<td class="mightOverflow domain-col"><span th:text="${pr.url}">URL</span></td>
-										<td class="mightOverflow domain-col"><span th:text="${pr.brand.name}">Brand</span></td>
+										<td class="mightOverflow domain-col"><span th:text="${pr.brand!=null? pr.brand.name: ''}">Brand</span></td>
 										<td class="mightOverflow domain-col"><span th:text="${pr.model}">Model</span></td>
 										<td >
 										      <span th:style="${pr.salePrice != null &amp;&amp; pr.salePrice != 0? 'text-decoration: line-through;': ''}" 

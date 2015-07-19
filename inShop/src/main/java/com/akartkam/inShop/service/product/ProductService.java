@@ -11,6 +11,7 @@ import com.akartkam.inShop.domain.product.option.ProductOption;
 
 public interface ProductService {
 	ProductOption createPO(ProductOption po);
+	Product createProduct(Product product);
 	List<ProductOption> getAllPO();
 	List<Product> getAllProduct();
 	Product getProductById(UUID id);
@@ -26,4 +27,5 @@ public interface ProductService {
 	void deleteProduct(Product product);
 	void updatePO(ProductOption po);
 	void mergeWithExistingPOAndUpdateOrCreate(final ProductOption poFromForm, Errors errors);
+	void mergeWithExistingAndUpdateOrCreate(final Product productFromPost);
 }

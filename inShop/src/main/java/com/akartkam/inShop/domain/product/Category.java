@@ -201,11 +201,14 @@ public class Category extends AbstractDomainObjectOrdering {
         if (currentHierarchy == null) {
             currentHierarchy = new ArrayList<Category>();
         }
+        if (!useDisabled && !this.isEnabled()) {
+        	return currentHierarchy;
+        }
         if (!currentHierarchy.contains(this)) currentHierarchy.add(this);
         if (hasSubCategory()) {
             for(Category sc: getSubCategory()){
             	if (!currentHierarchy.contains(sc)) {
-            		currentHierarchy.add(sc);
+            		//currentHierarchy.add(sc);
             		sc.buildSubCategoryHierarchy(currentHierarchy, useDisabled);
             	}
             }

@@ -46,7 +46,7 @@ public class AdminCategoryController {
 	  
 	  @ModelAttribute("allCategories")
 	  public List<Category> getAllCategories() {
-	      return categoryService.getAllCategoryHierarchy(null);
+	      return categoryService.getAllCategoryHierarchy(true);
 	  }	  
 	  
 	  @SuppressWarnings("rawtypes")

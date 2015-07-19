@@ -73,10 +73,10 @@ public class AdminProductOptionController {
 		  }	  
 	  
 	  @RequestMapping("/edit")
-	  public String poEdit(@RequestParam(value = "ID", required = false) String categoryID, Model model,
+	  public String poEdit(@RequestParam(value = "ID", required = false) String ID, Model model,
 			   				  @RequestHeader(value = "X-Requested-With", required = false) String requestedWith) {
 		  if(!model.containsAttribute("po")) {
-			 ProductOption po = productService.getPOById(UUID.fromString(categoryID));
+			 ProductOption po = productService.getPOById(UUID.fromString(ID));
 		     model.addAttribute("po", po);
 			 //model.addAttribute("tabactive","main");
 		  }

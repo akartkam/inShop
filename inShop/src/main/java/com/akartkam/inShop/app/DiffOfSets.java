@@ -1,5 +1,6 @@
 package com.akartkam.inShop.app;
 
+import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -21,9 +22,11 @@ public class DiffOfSets {
 		s2.add(3);
 		s2.add(4);
 				
-		Collection<Number> res = CollectionUtils.disjunction(null,s1);
+		Collection<Number> res = CollectionUtils.disjunction(s2,s1);
 		
 		System.out.println(res);
+		
+		System.out.print(new BigDecimal("15E-38").toPlainString());
 
 	}
 

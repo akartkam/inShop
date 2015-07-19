@@ -9,6 +9,7 @@ import com.akartkam.inShop.domain.product.Category;
 public interface BrandService {
 	Brand createBrand(Brand brand);
 	List<Brand> getAllBrand();
+	List<Brand> getAllBrand(Boolean useDisabled);
 	Brand getBrandById(UUID id);
 	Brand cloneBrandById(UUID id) throws CloneNotSupportedException;
 	Brand loadBrandById(UUID id, Boolean lock);

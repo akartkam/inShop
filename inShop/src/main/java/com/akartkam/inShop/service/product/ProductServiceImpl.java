@@ -10,8 +10,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Errors;
 
 import com.akartkam.inShop.dao.product.ProductDAO;
+import com.akartkam.inShop.dao.product.ProductDAOImpl;
 import com.akartkam.inShop.dao.product.option.ProductOptionDAO;
 import com.akartkam.inShop.domain.product.Brand;
+import com.akartkam.inShop.domain.product.Category;
 import com.akartkam.inShop.domain.product.Product;
 import com.akartkam.inShop.domain.product.option.ProductOption;
 import com.akartkam.inShop.domain.product.option.ProductOptionValue;
@@ -32,6 +34,12 @@ public class ProductServiceImpl implements ProductService {
 	public ProductOption createPO(ProductOption po) {
 		return productOptionDAO.create(po);
 	}
+	
+	@Override
+	public Product createProduct(Product product) {
+		return productDAO.create(product);
+	}	
+	
 
 	@Override
 	public List<ProductOption> getAllPO() {
@@ -165,6 +173,32 @@ public class ProductServiceImpl implements ProductService {
 	@Transactional(readOnly = false)
 	public void deleteProduct(Product product) {
 		productDAO.delete(product);
-	}	
+	}
+
+	@Override
+	public void mergeWithExistingAndUpdateOrCreate(Product productFromPost) {
+		if (productFromPost == null) return;
+		final Product existingProduct = getProductById(productFromPost.getId());
+		if (existingProduct != null) {
+			existingProduct.setName(productFromPost.getName());
+			existingProduct.setCode(productFromPost.getCode());
+			existingProduct.setCategory(productFromPost.getCategory());
+			existingProduct.setUrl(productFromPost.getUrl());
+			existingProduct.setBrand(productFromPost.getBrand());
+			existingProduct.setModel(productFromPost.getModel());
+			existingProduct.setCostPrice(productFromPost.getCostPrice());
+			existingProduct.setRetailPrice(productFromPost.getRetailPrice());
+			existingProduct.setSalePrice(productFromPost.getSalePrice());
+			existingProduct.setDescription(productFromPost.getDescription());
+			existingProduct.setLongDescription(productFromPost.getLongDescription());
+			existingProduct.setEnabled(productFromPost.isEnabled());
+			existingProduct.setCanSellWithoutOptions(productFromPost.isCanSellWithoutOptions());
+			existingProduct.setImages(productFromPost.getImages());
+			
+		} else {
+			createProduct(productFromPost);
+		}
+	}
+
 
 }

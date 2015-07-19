@@ -23,6 +23,12 @@ public class BrandServiceImpl implements BrandService {
 	public List<Brand> getAllBrand() {
 		return brandDAO.list();
 	}
+	
+	@Override
+	public List<Brand> getAllBrand(Boolean useDisabled) {
+		return brandDAO.readAllCategory(useDisabled);
+	}
+
 
 	@Override
 	public Brand getBrandById(UUID id) {

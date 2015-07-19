@@ -49,6 +49,9 @@ public class AdminProductController {
 	  CategoryService categoryService;
 	  
 	  @Autowired
+	  BrandService brandService;	  
+
+	  @Autowired
 	  private MessageSource messageSource;
 
 	  
@@ -64,8 +67,14 @@ public class AdminProductController {
 	  @SuppressWarnings("rawtypes")
 	  @ModelAttribute("allCategory")
 	  public List getAllCategory() {
-	      return categoryService.getAllCategoryHierarchy(null);
+	      return categoryService.getAllCategoryHierarchy(true);
 	  }	  
+	  
+	  @SuppressWarnings("rawtypes")
+	  @ModelAttribute("allBrand")
+	  public List getAllBrand() {
+	      return brandService.getAllBrand(false);
+	  }	
 	  
 	  @InitBinder
 	  public void initBinder(WebDataBinder binder) {
@@ -132,38 +141,24 @@ public class AdminProductController {
 		  }
           return "redirect:/admin/catalog/product";		  
 		  }
-	  /*
+	
 	   @RequestMapping(value="/edit", method = RequestMethod.POST )
-	   public String saveBrand(@ModelAttribute @Valid Brand brand,
+	   public String saveBrand(@ModelAttribute @Valid Product product,
 			                   final BindingResult bindingResult,
-			                   @RequestParam(value = "mainLogo", required = false)	MultipartFile image,
 			                   final RedirectAttributes ra
 			                         ) {
 	        if (bindingResult.hasErrors()) {
-	        	ra.addFlashAttribute("brand", brand);
-	        	ra.addFlashAttribute("org.springframework.validation.BindingResult.brand", bindingResult);
-	            return "redirect:/admin/catalog/brand/edit";
+	        	ra.addFlashAttribute("product", product);
+	        	ra.addFlashAttribute("org.springframework.validation.BindingResult.product", bindingResult);
+	            return "redirect:/admin/catalog/product/edit";
 	        }
-	        String fileName="";
-	        String filePath="";
-	        if(!image.isEmpty()) {
-		        fileName = new File(image.getOriginalFilename()).getName(); 
-		        filePath = imagePath + "\\" + fileName;
-		        brand.setLogoUrl("/images/"+fileName);
-	        }
-	        
- 
-	        brandService.mergeWithExistingAndUpdateOrCreate(brand);
+
+	        productService.mergeWithExistingAndUpdateOrCreate(product);
 	       
-	        if(!image.isEmpty()) {
-		        
-	        	validateImage(image); // ��������� �����������
-	        	saveImage(filePath, image); // ��������� ����
-	       	}	        
-	        
-	        return "redirect:/admin/catalog/brand";
+	        return "redirect:/admin/catalog/product";
 	    }
 	   
+	   /*
 		private void validateImage(MultipartFile image) {
 			String allowedFileType = "image/jpeg,image/png,image/gif";
 			if (allowedFileType.indexOf(image.getContentType()) < 0) {

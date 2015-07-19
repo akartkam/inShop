@@ -28,12 +28,12 @@
 	</head>
 <body>
   <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true" th:attr="data-path=@{/admin/catalog/product}" layout:fragment="editForm">
-    <div class="modal-dialog" style="width:70vw; overflow:auto">
+    <div class="modal-dialog" style="width:60vw; overflow:auto">
 	   <div class="modal-content" id="editModalContent">
 	   <form method="post" class="form-horizontal" role="form" action="#" th:action="@{/admin/catalog/product/edit}" th:object="${product}" th:fragment="editProductForm">
 		   <div class="modal-header">
 	 			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				<h4 class="modal-title"  th:text="${!product.new}? #{admin.catalog.edit.title.edit}: #{admin.catalog.edit.title.add}">Edit Product</h4>
+				<h4 class="modal-title"  th:text="${!product.new}? #{admin.catalog.product.edit.title.edit}: #{admin.catalog.product.edit.title.add}">Edit Product</h4>
 	 	   </div>
 		 <!-- /modal-header -->
 		    <div class="modal-body" style ="height:60vh; overflow:auto">
@@ -49,8 +49,8 @@
 	                    </li>
 	                    <li><a href="#additional" data-toggle="tab" th:text="#{admin.edit.tab.params}">Параметры</a>
 	                    </li>
-	                    <li><a href="#links" data-toggle="tab" th:text="#{admin.edit.tab.links}">Связи</a>
-	                    </li>
+<!-- 	                    <li><a href="#links" data-toggle="tab" th:text="#{admin.edit.tab.links}">Связи</a> -->
+<!-- 	                    </li> -->
 	                </ul>
 	                <!-- Tab panes -->
 	                <div class="tab-content">
@@ -119,33 +119,68 @@
 		  						   </div>
 	             		</div>
 	                    <div class="tab-pane fade" id="additional">
-	                      <div class="field-box">
-	                        <label>
-						  	  	<span th:text="#{admin.catalog.category.edit.parent}">Parent category</span>
-						    </label>
-							 <select class="form-control" th:field="*{parent}">
-							    <option value="">&nbsp;</option>
-								<option th:if="${scategory.id != category.id &amp;&amp; scategory.enabled}" 
-								        th:each="scategory : ${allCategories}" 
+	                        <div class="field-box">
+	                           <label>
+						  	  	<span th:text="#{admin.catalog.category}">Category</span>
+						       </label>
+							   <select class="form-control" th:field="*{category}">
+								<option th:each="scategory : ${allCategory}" 
 								        th:value="${scategory.id}"
 									    th:text="${scategory.name}"
-									    >option 1</option>
-							 </select>
-						   </div>	 
+									    th:class="${!scategory.enabled} ? 'text-muted'"
+									    >Category 1</option>
+							   </select>
+						     </div>
+						     <div class="row">
+								<div class="col-md-6">
+								    <div class="field-box">	 
+				                        <label>
+									  	  	<span th:text="#{admin.catalog.brand}">Brand</span>
+									    </label>
+										 <select class="form-control" th:field="*{brand}">
+											<option th:each="sbrand : ${allBrand}" 
+											        th:value="${sbrand.id}"
+												    th:text="${sbrand.name}"
+												    th:class="${!sbrand.enabled} ? 'text-muted'"
+												    >Brand 1</option>
+										 </select>
+									</div>
+							  </div>
+							 <div class="col-md-6">	 
+	   			   		        <div class="field-box">
+		 			    		  <label>
+						    	  	<span th:text="#{admin.catalog.model}">Model</span>
+						   		  </label>
+						   		  <input type="text" class="form-control" th:field="*{model}"/>
+							    </div>					
+						     </div>
+						  </div>	  
    			   		       <div class="field-box">
 	 			    		  <label>
 					    	  	<span th:text="#{admin.catalog.category.edit.ordering}">Orderig</span>
 					   		  </label>
 					   		  <input type="text" class="form-control" th:field="*{ordering}"/>
 						   </div>
-						   <div class="field-box">
-	                         <label>
-	 					    	<input type="checkbox" th:field="*{enabled}"/>
-							  	<span th:text="#{admin.catalog.category.enabled}">Active?</span>
-							 </label>
-						   </div>	 
+						   <div class="row">
+						   		<div class="col-md-2">
+								   <div class="field-box">
+			                         <label>
+			 					    	<input type="checkbox" th:field="*{enabled}"/>
+									  	<span th:text="#{admin.catalog.category.enabled}">Active?</span>
+									 </label>
+								   </div>
+								</div>
+								<div class="col-md-2">   	 
+								   <div class="field-box">
+			                         <label>
+			 					    	<input type="checkbox" th:field="*{canSellWithoutOptions}"/>
+									  	<span th:text="#{admin.catalog.category.product.canSellWithoutOptions}">canSWO?</span>
+									 </label>
+								   </div>
+								</div>	 
+						   </div>
 	                    </div>
-	                    <div class="tab-pane fade" id="links">
+<!-- 	                    <div class="tab-pane fade" id="links"> 
 	                      <div class="field-box">
 	                        <label>
 						  	  	<span th:text="#{admin.catalog.category.edit.attributes}">Attributes</span>
@@ -164,7 +199,7 @@
 								</optgroup>
 							 </select>
 						   </div>	                    	
-	                    </div>
+<	                    </div> -->
 	                </div>
 		    </div>
 		 <!-- /modal-body -->

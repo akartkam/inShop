@@ -105,8 +105,8 @@ public class CategoryServiceTest extends AbstractServiceTest {
 		logger.info("*********Begin buildSubCategoryHierarchyTest*********");
 		Category found = categoryService.getCategoryByName("Test_Root_Category1").get(0);
 		List<Category> hCategory = null;
-		hCategory  = found.buildSubCategoryHierarchy(hCategory, null);
-		assertEquals(3, hCategory.size());
+		hCategory  = found.buildSubCategoryHierarchy(hCategory, false);
+		assertEquals(1, hCategory.size());
 		assertTrue(hCategory.contains(found));
 		logger.info(hCategory);
 		logger.info("*********End buildSubCategoryHierarchyTest*********");
