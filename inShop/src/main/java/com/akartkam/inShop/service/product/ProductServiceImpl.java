@@ -176,6 +176,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
+	@Transactional(readOnly = false)
 	public void mergeWithExistingAndUpdateOrCreate(Product productFromPost) {
 		if (productFromPost == null) return;
 		final Product existingProduct = getProductById(productFromPost.getId());

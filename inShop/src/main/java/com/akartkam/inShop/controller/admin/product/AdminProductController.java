@@ -32,6 +32,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.akartkam.inShop.domain.product.Brand;
+import com.akartkam.inShop.domain.product.Category;
 import com.akartkam.inShop.domain.product.Product;
 import com.akartkam.inShop.service.product.BrandService;
 import com.akartkam.inShop.service.product.CategoryService;
@@ -88,6 +89,28 @@ public class AdminProductController {
 			    	 setValue(UUID.fromString(text));
 			    }
 			    });
+			
+			binder.registerCustomEditor(Category.class, "category", new PropertyEditorSupport() {
+			    @Override
+			    public void setAsText(String text) {
+			    	if (!"".equals(text)) {
+			    		Category ch = categoryService.loadCategoryById(UUID.fromString(text), false);
+			            setValue(ch);
+			    	}			    
+			    }
+			    });
+
+			binder.registerCustomEditor(Brand.class, "brand", new PropertyEditorSupport() {
+			    @Override
+			    public void setAsText(String text) {
+			    	if (!"".equals(text)) {
+			    		Brand ch = brandService.loadBrandById(UUID.fromString(text), false);
+			            setValue(ch);
+			    	}			    
+			    }
+			    });
+			
+			
 			
 	  }
 	  
