@@ -2,12 +2,13 @@ package com.akartkam.com.presentation.admin;
 
 
 public enum EditTab {
-	MAIN ("MAIN", 2),
-	ADDITIONAL ("ADDITIONAL", 1),
-	CONTENT ("CONTENT", 0),
-	LINKS ("LINKS", 3);
+	MAIN ("MAIN", 4),
+	ADDITIONAL ("ADDITIONAL", 3),
+	IMAGES ("IMAGES", 2),
+	CONTENT ("CONTENT", 1),
+	LINKS ("LINKS", 0);
 	
-	public static final EditTab[] ALL = {MAIN, ADDITIONAL, CONTENT, LINKS};
+	public static final EditTab[] ALL = {MAIN, ADDITIONAL, IMAGES, CONTENT, LINKS};
 	
     private final String name;
     private final int defaultOrder;
@@ -21,6 +22,8 @@ public enum EditTab {
         } else if (name.toUpperCase().equals("ADDITIONAL")) {
             return ADDITIONAL;
         } else if (name.toUpperCase().equals("CONTENT")) {
+            return IMAGES;
+        } else if (name.toUpperCase().equals("IMAGES")) {
             return CONTENT;
 	    } else if (name.toUpperCase().equals("LINKS")) {
 	    	return LINKS;

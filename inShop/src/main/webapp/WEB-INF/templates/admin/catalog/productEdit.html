@@ -45,16 +45,16 @@
 					</ul>                                 
                   </div>
 	               <ul class="nav nav-tabs">
-	                    <li class="active"><a href="#main" data-toggle="tab" th:text="#{admin.edit.tab.description}">Описание</a>
+	                    <li th:class="${tabactive=='main'}? 'in active'"><a href="#main" data-toggle="tab" th:text="#{admin.edit.tab.description}">Описание</a>
 	                    </li>
-	                    <li><a href="#additional" data-toggle="tab" th:text="#{admin.edit.tab.params}">Параметры</a>
+	                    <li th:class="${tabactive=='additional'}? 'in active'"><a href="#additional" data-toggle="tab" th:text="#{admin.edit.tab.params}">Параметры</a>
 	                    </li>
-<!-- 	                    <li><a href="#links" data-toggle="tab" th:text="#{admin.edit.tab.links}">Связи</a> -->
-<!-- 	                    </li> -->
+	                    <li th:class="${tabactive=='images'}? 'in active'"><a href="#images" data-toggle="tab" th:text="#{admin.edit.tab.images}">Изображения</a>
+	                    </li>
 	                </ul>
 	                <!-- Tab panes -->
 	                <div class="tab-content">
-	                    <div class="tab-pane fade in active" id="main">
+	                    <div class="tab-pane fade" th:classappend="${tabactive=='main'}? 'in active'" id="main">
 								   <div class="field-box" th:class="${#fields.hasErrors('name')}? has-error: field-box">
 									  <input type="hidden" th:field="*{id}"/>	                              
 						    		  <label>
@@ -118,7 +118,7 @@
 								       <textarea id="summernote" class="textarea form-control" placeholder="Введите текст..." th:field="*{longDescription}"></textarea>
 		  						   </div>
 	             		</div>
-	                    <div class="tab-pane fade" id="additional">
+	                    <div class="tab-pane fade" th:classappend="${tabactive=='additional'}? 'in active'" id="additional">
 	                        <div class="field-box">
 	                           <label>
 						  	  	<span th:text="#{admin.catalog.category}">Category</span>
@@ -180,26 +180,26 @@
 								</div>	 
 						   </div>
 	                    </div>
-<!-- 	                    <div class="tab-pane fade" id="links"> 
-	                      <div class="field-box">
-	                        <label>
-						  	  	<span th:text="#{admin.catalog.category.edit.attributes}">Attributes</span>
-						    </label>
-							 <select class="form-control selectpicker" name="attributesSelected" multiple="multiple" 
-	          						 data-live-search="true">
-								<optgroup th:if="${attributeCategory.hasActiveAttributes()}"
-								          th:each="attributeCategory: ${allAttributeCategories}"  
-								          th:label="${attributeCategory.name}">
-								    <option th:if="${attribute.enabled}"
-								            th:each="attribute: ${attributeCategory.attributes}" th:text="${attribute.name}"
-								            th:selected="${#sets.contains(category.attributes, attribute)}"
-								            th:value="${attribute.id}"
-								            th:attr="data-subtext=#{${'attribute.type.' + attribute.attributeType}}">
-								    </option>      
-								</optgroup>
-							 </select>
-						   </div>	                    	
-<	                    </div> -->
+ 	                    <div class="tab-pane fade" th:classappend="${tabactive=='images'}? 'in active'" id="images"> 
+							<div class="container-fluid">	                    
+							    <div class="row clearfix">
+									<div class="col-md-12 column">
+				                       	 <table class="table table-bordered table-hover" id="pImagesTable" data-checkid="">
+				                       	    <thead >
+					                       	   <tr >
+					                       	      <th class="col-md-1 text-center"></th>
+									              <th class="col-md-5 text-center" th:text="#{admin.catalog.product.image}">Image</th>
+									              <th class="col-md-5 text-center" th:text="#{admin.catalog.ordering}">Ordering</th>
+									              <th class="col-md-1 text-center"></th>
+										  	   </tr>
+									  	    </thead >
+									  	    <tbody>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+	                    </div> 
 	                </div>
 		    </div>
 		 <!-- /modal-body -->
