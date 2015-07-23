@@ -194,6 +194,39 @@
 										  	   </tr>
 									  	    </thead >
 									  	    <tbody>
+									  	       <tr th:each="image, imageStat : *{images}">
+									              <td class="text-center">						
+												     <input class="checkCategory" type="checkbox" th:id="${'check-'+image}" th:value="${image}"/>
+											      </td>
+									  	       	  <td class="text-center">
+											        <div class="media" style="margin-top: 0;">
+													  <div class="media-left media-middle">
+													    <div class="photo-block"> 
+							                                <span class="helper"></span>
+							                                <img id="image" src="../../../../resources/img/logo/asus.png" style="width: 100px;"
+							                                     th:src="@{${{image!=null}? image: '/resources/img/noimage.png'}}" th:onerror="'this.src=\'' + @{/resources/img/noimage.png} + '\';'"/>
+						                                </div> 
+						                              </div>
+						                              <div class="media-body">
+														  <p>
+														     <span th:text="${image}">/images/image1.png</span>
+														  </p>
+						                              </div>   
+						                            </div> 
+									  	       	  </td>
+									  	       	  <td class="text-center">
+ 												     <input class="form-control input-md" type="text" id="imageUrl" th:name="${image}" th:value="__${imageStat.index}__"/>
+									  	       	  </td>
+									  	       	  <td>
+			  				            	  		 <div class="btn-group edit-btn-group" role="group" > 
+						                                  <button type="button" data-toggle="modal" data-target="#deleteImage" 
+							                                      class="open-deleteDialog btn btn-outline btn-default btn-xs"
+							                                      >
+							                                <i class="fa fa-trash-o"></i>
+							                              </button>	
+					                            	 </div>
+									  	       	  </td>
+									  	       </tr>
 											</tbody>
 										</table>
 									</div>
