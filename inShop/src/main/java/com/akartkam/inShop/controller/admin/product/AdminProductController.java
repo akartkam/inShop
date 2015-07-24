@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.validation.Valid;
@@ -34,6 +35,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.akartkam.inShop.domain.product.Brand;
 import com.akartkam.inShop.domain.product.Category;
 import com.akartkam.inShop.domain.product.Product;
+import com.akartkam.inShop.domain.product.option.ProductOption;
+import com.akartkam.inShop.domain.product.option.ProductOptionValue;
 import com.akartkam.inShop.service.product.BrandService;
 import com.akartkam.inShop.service.product.CategoryService;
 import com.akartkam.inShop.service.product.ProductService;
@@ -155,7 +158,7 @@ public class AdminProductController {
 			  if(product.canRemove() && authorities.contains(new SimpleGrantedAuthority("ADMIN"))) {
 				  productService.deleteProduct(product);   
 			  } else {
-				  ra.addFlashAttribute("errormessage", this.messageSource.getMessage("admin.error.cannotdelete.message", new String[] {"�����"} , null));
+				  ra.addFlashAttribute("errormessage", this.messageSource.getMessage("admin.error.cannotdelete.message", new String[] {"Товар"} , null));
 				  ra.addAttribute("error", true);
 			  }
 
@@ -167,6 +170,7 @@ public class AdminProductController {
 	
 	   @RequestMapping(value="/edit", method = RequestMethod.POST )
 	   public String saveBrand(@ModelAttribute @Valid Product product,
+			   				   @RequestParam(required=false) Map<String,String> allRequestParams,
 			                   final BindingResult bindingResult,
 			                   final RedirectAttributes ra
 			                         ) {
@@ -176,10 +180,25 @@ public class AdminProductController {
 	            return "redirect:/admin/catalog/product/edit";
 	        }
 
-	        productService.mergeWithExistingAndUpdateOrCreate(product);
+	        productService.mergeWithExistingAndUpdateOrCreate(product, allRequestParams);
 	       
 	        return "redirect:/admin/catalog/product";
 	    }
+	   
+	   @RequestMapping(value="/image/add", method = RequestMethod.POST )
+	   public String addNewImage(final @ModelAttribute Product product,
+			   				   @RequestHeader(value = "X-Requested-With", required = false) String requestedWith,
+			   				   @RequestParam(value = "newImage", required = false)	MultipartFile image,
+			                   final BindingResult bindingResult,
+			                   final Model model
+			                         ) throws CloneNotSupportedException {
+		   if (!"XMLHttpRequest".equals(requestedWith)) throw new IllegalStateException("The addNewImage method can be called only via ajax!");
+		   model.addAttribute("product", product);
+		   model.addAttribute("tabactive","images");
+	       return "/admin/catalog/poEdit :: editProductForm";
+	    }	   
+	   
+	   
 	   
 	   /*
 		private void validateImage(MultipartFile image) {

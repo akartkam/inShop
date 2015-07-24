@@ -119,7 +119,7 @@ public class AdminBrandController {
 			  if(brand.canRemove() && authorities.contains(new SimpleGrantedAuthority("ADMIN"))) {
 				  brandService.deleteBrand(brand);   
 			  } else {
-				  ra.addFlashAttribute("errormessage", this.messageSource.getMessage("admin.error.cannotdelete.message", new String[] {"бренд"} , null));
+				  ra.addFlashAttribute("errormessage", this.messageSource.getMessage("admin.error.cannotdelete.message", new String[] {"пїЅпїЅпїЅпїЅпїЅ"} , null));
 				  ra.addAttribute("error", true);
 			  }
 
@@ -153,8 +153,8 @@ public class AdminBrandController {
 	       
 	        if(!image.isEmpty()) {
 		        
-	        	validateImage(image); // Проверить изображение
-	        	saveImage(filePath, image); // Сохранить файл
+	        	validateImage(image); 
+	        	saveImage(filePath, image); 
 	       	}	        
 	        
 	        return "redirect:/admin/catalog/brand";

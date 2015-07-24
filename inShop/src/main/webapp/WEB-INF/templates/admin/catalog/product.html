@@ -321,16 +321,23 @@
 	        	                    $("#summernote").summernote({
 	        	    				    lang: "ru-RU"
 	        	    				     });
-	        	    				$('#inputSImg').on('change', function (e) {
-	        	    					  var $this = $(this),
-	        	    					          $type_file = $this.val(),
-	        	    					          file = this.files[0],
-	        	    					          reader = new FileReader();
-	        	    					 reader.onload = (function(e) {
-	        	    					  	 $("#imgLogo").attr("src", e.target.result);
-	        	    					  });
-	        	    					  reader.readAsDataURL(file);
-	        	    					});
+		        	   		    	$(document).on('change', 'inputSImg', function () { 
+		        			    			var form = $("#pform");
+		        			    			var path= $(this).data("path");
+		        			    			var formser;
+		        			    			if (form != "undefined" && form != null) formser = form.serialize();
+		        			    			$("#editModalContent").text("");
+		        		                    $.ajax({
+		        		                    	type: "POST",
+		        		                        url: path,
+		        		                        data: formser,
+		        		                        cache: false
+		        		                    }).done(function (html) {
+		        		                                $("#editModalContent").append(html);
+		        		           			    	    var s = $("#pImagesTable tbody > tr:last-child").position();
+		        		        			    	    $("#editModalBody" ).scrollTop( s.top );
+		        		                    });
+		        	   		    	});		    	 
 	        	                    $("#name").focus();
 	                    });
 					}  

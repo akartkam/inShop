@@ -2,6 +2,7 @@ package com.akartkam.inShop.service.product;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -177,7 +178,7 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	@Transactional(readOnly = false)
-	public void mergeWithExistingAndUpdateOrCreate(Product productFromPost) {
+	public void mergeWithExistingAndUpdateOrCreate(Product productFromPost, Map<String, String> allRequestParams) {
 		if (productFromPost == null) return;
 		final Product existingProduct = getProductById(productFromPost.getId());
 		if (existingProduct != null) {

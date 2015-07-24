@@ -13,3 +13,23 @@
 .a-photo-out a{text-decoration: none;}
 .a-photo-out .photo-block{width: 50px;height: 50px;background: #fff;border: 1px solid #cbcbcb;float: left;margin-right: 12px;font-size: 0;padding: 4px;}
 .a-photo-out .photo-block img{max-width: 100%;max-height: 100%;box-shadow: none;padding: 0;border: 0px;}
+
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
