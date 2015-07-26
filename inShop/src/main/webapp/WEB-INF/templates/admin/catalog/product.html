@@ -305,7 +305,7 @@
 		    	     var prName = $(this).data("name");
 		    	     var action;
 		    	     $("#delete-modal-footer #ID").val(Id);
-		    	     $("#delete-modal-body #prName").html(brName);
+		    	     $("#delete-modal-body #prName").html(prName);
 		    	});
   		        //Открытие окна редактированя
 	    		$("#editModal").on("show.bs.modal", function (e) {
@@ -321,27 +321,39 @@
 	        	                    $("#summernote").summernote({
 	        	    				    lang: "ru-RU"
 	        	    				     });
-		        	   		    	$(document).on('change', 'inputSImg', function () { 
-		        			    			var form = $("#pform");
-		        			    			var path= $(this).data("path");
-		        			    			var formser;
-		        			    			if (form != "undefined" && form != null) formser = form.serialize();
-		        			    			$("#editModalContent").text("");
-		        		                    $.ajax({
-		        		                    	type: "POST",
-		        		                        url: path,
-		        		                        data: formser,
-		        		                        cache: false
-		        		                    }).done(function (html) {
-		        		                                $("#editModalContent").append(html);
-		        		           			    	    var s = $("#pImagesTable tbody > tr:last-child").position();
-		        		        			    	    $("#editModalBody" ).scrollTop( s.top );
-		        		                    });
-		        	   		    	});		    	 
 	        	                    $("#name").focus();
 	                    });
 					}  
-                });    	                
+                });    	    
+	    		$( document ).ajaxComplete(function() {
+	    			$(document).on('change', '.btn-file :file', function () { 
+			    			var form = new FormData(document.forms.pform);
+			    			var path= $(this).data("path");
+			    			var formser;
+			    			if (form != "undefined" && form != null) formser = form;
+			    			//$("#pform").text("");
+		                    $.ajax({
+		                    	type: "POST",
+		                        url: path,
+		                        data: formser,
+		                        cache: false,
+		                        contentType: false,
+		                        processData: false		                        
+		                    }).done(function (html) {
+		                                $("#pform").html(html);
+		           			    	    var s = $("#pImagesTable tbody > tr:last-child").position();
+		        			    	    $("#editModalBody" ).scrollTop( s.top );
+		                    });
+	   		    	  });
+    			    $('.row-move-up').click(function() {
+	    			    var row = $(this).closest('tr');
+	    			    row.insertAfter(row.next());
+    			      });	    			   
+    			    $('.row-move-down').click(function() {
+    				    var row = $(this).closest('tr');
+    				    row.prev().insertAfter(row);
+    			     });    			   
+	    		});
 		        $(".open-editDialog").on("click", function () {
 		          var Id = $(this).data("id");
 		          var path = $(this).data("path");

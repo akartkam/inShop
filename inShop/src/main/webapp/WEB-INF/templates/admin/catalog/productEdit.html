@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ru" xmlns:th="http://www.thymeleaf.org" 
                 xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-                layout:decorator="admin/catalog/category">
+                layout:decorator="admin/catalog/product">
 	<head>
 	<!-- layout:decorator="admin/category" -->
 	    <th:block th:remove="all">
@@ -38,7 +38,7 @@
 				<h4 class="modal-title"  th:text="${!product.new}? #{admin.catalog.product.edit.title.edit}: #{admin.catalog.product.edit.title.add}">Edit Product</h4>
 	 	   </div>
 		 <!-- /modal-header -->
-		    <div class="modal-body" style ="height:60vh; overflow:auto">
+		    <div class="modal-body" style ="height:60vh; overflow:auto" id="editModalBody">
 		          <div  th:if="${#fields.hasErrors('*')}" class="alert alert-danger alert-dismissable">
 		          	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                     <span th:text="#{admin.catalog.category.edit.existsErrors}">There is some errors in the form</span>
@@ -191,7 +191,6 @@
 					                       	   <tr >
 					                       	      <th class="col-md-1 text-center"></th>
 									              <th class="col-md-5 text-center" th:text="#{admin.catalog.product.image}">Image</th>
-									              <th class="col-md-5 text-center" th:text="#{admin.catalog.ordering}">Ordering</th>
 									              <th class="col-md-1 text-center"></th>
 										  	   </tr>
 									  	    </thead >
@@ -201,6 +200,7 @@
 												     <input class="checkCategory" type="checkbox" th:id="${'check-'+image}" th:value="${image}"/>
 											      </td>
 									  	       	  <td class="text-center">
+									  	       	    <input type="hidden" th:field="*{images[__${imageStat.index}__]}"/>
 											        <div class="media" style="margin-top: 0;">
 													  <div class="media-left media-middle">
 													    <div class="photo-block"> 
@@ -216,11 +216,14 @@
 						                              </div>   
 						                            </div> 
 									  	       	  </td>
-									  	       	  <td class="text-center">
- 												     <input class="form-control input-md" type="text" id="imageUrl" th:name="${'image:'+image}" th:value="__${imageStat.index}__"/>
-									  	       	  </td>
 									  	       	  <td>
 			  				            	  		 <div class="btn-group edit-btn-group" role="group" > 
+						                                  <button type="button" class="row-move-down btn btn-outline btn-default btn-xs">
+						                                    <i class="fa fa-arrow-circle-up"></i>
+						                                  </button>
+							                              <button type="button" class="row-move-up btn btn-outline btn-default btn-xs"> 
+							                                <i class="fa fa-arrow-circle-down"></i>
+							                              </button>							                              
 						                                  <button type="button" data-toggle="modal" data-target="#deleteImage" 
 							                                      class="open-deleteDialog btn btn-outline btn-default btn-xs"
 							                                      >
@@ -233,10 +236,10 @@
 										</table>
 									</div>
 								</div>
-								<span class="btn btn-outline btn-default btn-sm pull-left btn-file add-new-image" th:attr="data-path=@{/admin/catalog/product/image/add}">
+								<span class="btn btn-outline btn-default btn-sm pull-left btn-file add-new-image">
 									<span th:text="#{button.add.caption}">Добавить</span>
 									<i class="fa fa-plus-circle"></i>
-								    <input type="file" id="inputSImg" name="newImage" accept="image/jpeg,image/png,image/gif"/>
+								    <input type="file" th:attr="data-path=@{/admin/catalog/product/image/add}" id="inputSImg" name="newImage" accept="image/jpeg,image/png,image/gif"/>
 								</span>								
 							</div>
 	                    </div> 
@@ -273,6 +276,34 @@
 		     //<![CDATA[
 		     $(document).ready(function() {
 		    	 $("#editModal").modal("show");
+	    			$(document).on('change', '.btn-file :file', function () { 
+		    			var form = new FormData(document.forms.pform);
+		    			var path= $(this).data("path");
+		    			var formser;
+		    			if (form != "undefined" && form != null) formser = form;
+		    			//$("#pform").text("");
+	                    $.ajax({
+	                    	type: "POST",
+	                        url: path,
+	                        data: formser,
+	                        cache: false,
+	                        contentType: false,
+	                        processData: false		                        
+	                    }).done(function (html) {
+	                                $("#pform").html(html);
+	           			    	    var s = $("#pImagesTable tbody > tr:last-child").position();
+	        			    	    $("#editModalBody" ).scrollTop( s.top );
+	                    });
+   		    	    });
+    			    $('.row-move-up').click(function() {
+	    			    var row = $(this).closest('tr');
+	    			    row.insertAfter(row.next());
+    			      });	    			   
+    			    $('.row-move-down').click(function() {
+    				    var row = $(this).closest('tr');
+    				    row.prev().insertAfter(row);
+    			     });    			   
+	    			
 			 });
 	 		 $("#editModal").on("show.bs.modal", function (e) {
 	                            $('#summernote').summernote({

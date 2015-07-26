@@ -4,14 +4,12 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 import java.beans.PropertyEditorSupport;
 import java.io.File;
-import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
 import javax.validation.Valid;
 
-import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
@@ -31,9 +29,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.akartkam.com.inShop.util.ImageUtil;
 import com.akartkam.inShop.domain.product.Brand;
 import com.akartkam.inShop.service.product.BrandService;
-import com.akartkam.inShop.exception.ImageUploadException;
 
 @Controller
 @RequestMapping("/admin/catalog/brand")
@@ -48,6 +46,10 @@ public class AdminBrandController {
 	  
 	  @Value("#{appProperties['inShop.imagesPath']}")
 	  private String imagePath;
+	  
+	  @Value("#{appProperties['inShop.imagesUrl']}")
+	  private String imageUrl;
+  
 	  
 	  @SuppressWarnings("rawtypes")
 	  @ModelAttribute("allBrand")
@@ -142,40 +144,19 @@ public class AdminBrandController {
 	        }
 	        String fileName="";
 	        String filePath="";
-	        if(!image.isEmpty()) {
+	        ImageUtil.validateImage(image, "logoUrl", bindingResult);
+	        if(!bindingResult.hasErrors()) {
 		        fileName = new File(image.getOriginalFilename()).getName(); 
 		        filePath = imagePath + "\\" + fileName;
-		        brand.setLogoUrl("/images/"+fileName);
+	        	ImageUtil.saveImage(filePath, image);		        
+		        brand.setLogoUrl(imageUrl+fileName);
 	        }
 	        
  
-	        brandService.mergeWithExistingAndUpdateOrCreate(brand);
-	       
-	        if(!image.isEmpty()) {
-		        
-	        	validateImage(image); 
-	        	saveImage(filePath, image); 
-	       	}	        
+	        brandService.mergeWithExistingAndUpdateOrCreate(brand);	        
 	        
 	        return "redirect:/admin/catalog/brand";
 	    }
 	   
-		private void validateImage(MultipartFile image) {
-			String allowedFileType = "image/jpeg,image/png,image/gif";
-			if (allowedFileType.indexOf(image.getContentType()) < 0) {
-				throw new ImageUploadException("Only jpeg, png, gif images accepted");
-			}
-		}
-		
-		private void saveImage(String filePath, MultipartFile image)
-				throws ImageUploadException {
-			try {
-				
-				File file = new File(filePath);
-				FileUtils.writeByteArrayToFile(file, image.getBytes());
-			} catch (IOException e) {
-				throw new ImageUploadException("Unable to save image", e);
-			}
-		}	   
 
 }

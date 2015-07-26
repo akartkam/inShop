@@ -5,6 +5,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import java.beans.PropertyEditorSupport;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -32,6 +33,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.akartkam.com.inShop.util.ImageUtil;
 import com.akartkam.inShop.domain.product.Brand;
 import com.akartkam.inShop.domain.product.Category;
 import com.akartkam.inShop.domain.product.Product;
@@ -62,6 +64,10 @@ public class AdminProductController {
 	  @Value("#{appProperties['inShop.imagesPath']}")
 	  private String imagePath;
 	  
+	  @Value("#{appProperties['inShop.imagesUrl']}")
+	  private String imageUrl;
+	  
+	  
 	  @SuppressWarnings("rawtypes")
 	  @ModelAttribute("allProduct")
 	  public List getAllProduct() {
@@ -84,7 +90,7 @@ public class AdminProductController {
 	  public void initBinder(WebDataBinder binder) {
 			binder.setAllowedFields(new String[] { "id", "name", "url", "description", "longDescription", 
 					 							   "code", "category", "brand", "model", "attributeValues", 
-					 							   "productOptions", "canSellWithoutOptions", "images", "enabled",
+					 							   "productOptions", "canSellWithoutOptions", "images*", "enabled",
 					 							   "retailPrice", "salePrice", "costPrice"});
 			binder.registerCustomEditor(UUID.class, "id", new PropertyEditorSupport() {
 			    @Override
@@ -188,15 +194,45 @@ public class AdminProductController {
 	   @RequestMapping(value="/image/add", method = RequestMethod.POST )
 	   public String addNewImage(final @ModelAttribute Product product,
 			   				   @RequestHeader(value = "X-Requested-With", required = false) String requestedWith,
+			   				   @RequestParam(value="imageOrder[]", required=false) String[] imageOrder,
 			   				   @RequestParam(value = "newImage", required = false)	MultipartFile image,
 			                   final BindingResult bindingResult,
 			                   final Model model
 			                         ) throws CloneNotSupportedException {
 		   if (!"XMLHttpRequest".equals(requestedWith)) throw new IllegalStateException("The addNewImage method can be called only via ajax!");
+	       String fileName="";
+	       String filePath="";
+	       ImageUtil.validateImage(image, "images", bindingResult);
+	       if(!bindingResult.hasErrors()) {
+		        fileName = new File(image.getOriginalFilename()).getName(); 
+		        filePath = imagePath + "\\" + fileName;
+	        	ImageUtil.saveImage(filePath, image);	
+	        	//List<String> images = extractImagesFromRequestParam(allRequestParams);
+	        	//images.add(imageUrl+fileName);
+	        	//product.setImages(images);
+	        	product.getImages().add(imageUrl+fileName);
+	       }
 		   model.addAttribute("product", product);
 		   model.addAttribute("tabactive","images");
-	       return "/admin/catalog/poEdit :: editProductForm";
-	    }	   
+	       return "/admin/catalog/productEdit :: editProductForm";
+	    }
+	   
+	   
+	   private List<String> extractImagesFromRequestParam(Map<String,String> requestParam) {
+		   List<String> ret = new ArrayList<String>();
+		   for (String key : requestParam.keySet()) {
+			   if (key != null && key.contains("image:")) {
+				   String order = requestParam.get(key);
+				   if (order != null && !"".equals(order)) {
+					  String url = key.replace("image:", "");
+					  int iorder = Integer.parseInt(order); 
+					  ret.add(iorder, url);
+				   }
+			   }
+		   }
+		return ret;
+		   
+	   }
 	   
 	   
 	   
