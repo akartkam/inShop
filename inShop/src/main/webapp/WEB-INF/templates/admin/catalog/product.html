@@ -88,13 +88,13 @@
     <!-- <div layout:fragment="editForm" >
     </div> -->
     <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true" layout:fragment="editForm">
-	  <div class="modal-dialog" style="width:60vw; overflow:auto">
+	  <div class="modal-dialog" style="width:65vw;overflow-y: initial !important">
 	    <div class="modal-content" id="editModalContent">
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
               <h4 class="modal-title" id="myModalLabel">Modal title</h4>
             </div>
-            <div class="modal-body"  style ="height:60vh; overflow:auto">
+            <div class="modal-body">
                 <h3>Modal Body</h3>
             </div>
             <div class="modal-footer">
@@ -161,7 +161,7 @@
 										<td class="mightOverflow domain-col"><span th:text="${pr.url}">URL</span></td>
 										<td class="mightOverflow domain-col"><span th:text="${pr.brand!=null? pr.brand.name: ''}">Brand</span></td>
 										<td class="mightOverflow domain-col"><span th:text="${pr.model}">Model</span></td>
-										<td >
+										<td style="font-size: 8pt;">
 										      <span th:style="${pr.salePrice != null &amp;&amp; pr.salePrice != 0? 'text-decoration: line-through;': ''}" 
 										            style="text-decoration: line-through;"
 										            th:text="${{pr.retailPrice}}">10.00</span>
@@ -341,18 +341,40 @@
 		                        processData: false		                        
 		                    }).done(function (html) {
 		                                $("#pform").html(html);
+		                                $("#summernote").summernote({
+		                				    lang: "ru-RU"
+		                				     });
 		           			    	    var s = $("#pImagesTable tbody > tr:last-child").position();
 		        			    	    $("#editModalBody" ).scrollTop( s.top );
 		                    });
 	   		    	  });
-    			    $('.row-move-up').click(function() {
-	    			    var row = $(this).closest('tr');
+    			    $(".row-move-up").click(function() {
+	    			    var row = $(this).closest("tr");
+	    			    var rowOther = row.next();
 	    			    row.insertAfter(row.next());
+	    			    var inp = $(row).find(".image-url");
+	    			    var inpOther = $(rowOther).find(".image-url");
+	    			    var indexOther = $(rowOther).index();
+	    			    var index = $(row).index();
+	    			    $(inp).attr("name","images["+index+"]");
+	    			    $(inp).attr("id","images"+index);
+	    			    $(inpOther).attr("name","images["+indexOther+"]");
+	    			    $(inpOther).attr("id","images"+indexOther);	    			    
     			      });	    			   
     			    $('.row-move-down').click(function() {
     				    var row = $(this).closest('tr');
+    				    var rowOther = row.prev(); 
     				    row.prev().insertAfter(row);
-    			     });    			   
+	    			    var inp = $(row).find(".image-url");
+	    			    var inpOther = $(rowOther).find(".image-url");
+	    			    var indexOther = $(rowOther).index();
+	    			    var index = $(row).index();
+	    			    $(inp).attr("name","images["+index+"]");
+	    			    $(inp).attr("id","images"+index);
+	    			    $(inpOther).attr("name","images["+indexOther+"]");
+	    			    $(inpOther).attr("id","images"+indexOther);	    			    
+    			    }); 
+    			    
 	    		});
 		        $(".open-editDialog").on("click", function () {
 		          var Id = $(this).data("id");

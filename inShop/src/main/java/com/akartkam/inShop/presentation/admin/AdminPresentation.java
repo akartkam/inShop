@@ -1,4 +1,4 @@
-package com.akartkam.com.presentation.admin;
+package com.akartkam.inShop.presentation.admin;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;

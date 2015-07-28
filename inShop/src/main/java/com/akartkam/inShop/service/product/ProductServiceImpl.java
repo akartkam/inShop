@@ -178,7 +178,7 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	@Transactional(readOnly = false)
-	public void mergeWithExistingAndUpdateOrCreate(Product productFromPost, Map<String, String> allRequestParams) {
+	public void mergeWithExistingAndUpdateOrCreate(Product productFromPost) {
 		if (productFromPost == null) return;
 		final Product existingProduct = getProductById(productFromPost.getId());
 		if (existingProduct != null) {
@@ -195,7 +195,9 @@ public class ProductServiceImpl implements ProductService {
 			existingProduct.setLongDescription(productFromPost.getLongDescription());
 			existingProduct.setEnabled(productFromPost.isEnabled());
 			existingProduct.setCanSellWithoutOptions(productFromPost.isCanSellWithoutOptions());
-			existingProduct.setImages(productFromPost.getImages());
+			existingProduct.getImages().clear();
+			for (String i : productFromPost.getImages()) existingProduct.getImages().add(i);
+			//existingProduct.setImages(productFromPost.getImages());
 			
 		} else {
 			createProduct(productFromPost);

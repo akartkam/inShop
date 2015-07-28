@@ -4,8 +4,8 @@ import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.DecimalMin;
 
-import com.akartkam.com.presentation.admin.AdminPresentation;
-import com.akartkam.com.presentation.admin.EditTab;
+import com.akartkam.inShop.presentation.admin.AdminPresentation;
+import com.akartkam.inShop.presentation.admin.EditTab;
 
 
 @MappedSuperclass

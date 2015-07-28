@@ -18,9 +18,9 @@ import javax.validation.constraints.Size;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Cascade;
 
-import com.akartkam.com.presentation.admin.AdminPresentation;
-import com.akartkam.com.presentation.admin.EditTab;
 import com.akartkam.inShop.domain.AbstractDomainObjectOrdering;
+import com.akartkam.inShop.presentation.admin.AdminPresentation;
+import com.akartkam.inShop.presentation.admin.EditTab;
 
 @Entity
 @Table(name = "Product_Option")

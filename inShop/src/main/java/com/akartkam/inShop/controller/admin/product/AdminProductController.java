@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.apache.commons.io.FileUtils;
@@ -24,16 +25,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.akartkam.com.inShop.util.ImageUtil;
 import com.akartkam.inShop.domain.product.Brand;
 import com.akartkam.inShop.domain.product.Category;
 import com.akartkam.inShop.domain.product.Product;
@@ -42,6 +45,7 @@ import com.akartkam.inShop.domain.product.option.ProductOptionValue;
 import com.akartkam.inShop.service.product.BrandService;
 import com.akartkam.inShop.service.product.CategoryService;
 import com.akartkam.inShop.service.product.ProductService;
+import com.akartkam.inShop.util.ImageUtil;
 import com.akartkam.inShop.exception.ImageUploadException;
 
 @Controller
@@ -59,6 +63,9 @@ public class AdminProductController {
 
 	  @Autowired
 	  private MessageSource messageSource;
+	  
+	  @Autowired
+	  private ImageUtil imageUtil;
 
 	  
 	  @Value("#{appProperties['inShop.imagesPath']}")
@@ -176,7 +183,6 @@ public class AdminProductController {
 	
 	   @RequestMapping(value="/edit", method = RequestMethod.POST )
 	   public String saveBrand(@ModelAttribute @Valid Product product,
-			   				   @RequestParam(required=false) Map<String,String> allRequestParams,
 			                   final BindingResult bindingResult,
 			                   final RedirectAttributes ra
 			                         ) {
@@ -186,7 +192,7 @@ public class AdminProductController {
 	            return "redirect:/admin/catalog/product/edit";
 	        }
 
-	        productService.mergeWithExistingAndUpdateOrCreate(product, allRequestParams);
+	        productService.mergeWithExistingAndUpdateOrCreate(product);
 	       
 	        return "redirect:/admin/catalog/product";
 	    }
@@ -202,57 +208,16 @@ public class AdminProductController {
 		   if (!"XMLHttpRequest".equals(requestedWith)) throw new IllegalStateException("The addNewImage method can be called only via ajax!");
 	       String fileName="";
 	       String filePath="";
-	       ImageUtil.validateImage(image, "images", bindingResult);
+	       imageUtil.validateImage(image, "images", bindingResult);
 	       if(!bindingResult.hasErrors()) {
 		        fileName = new File(image.getOriginalFilename()).getName(); 
-		        filePath = imagePath + "\\" + fileName;
-	        	ImageUtil.saveImage(filePath, image);	
-	        	//List<String> images = extractImagesFromRequestParam(allRequestParams);
-	        	//images.add(imageUrl+fileName);
-	        	//product.setImages(images);
+		        filePath = imagePath + fileName;
+	        	imageUtil.saveImage(filePath, image);	
 	        	product.getImages().add(imageUrl+fileName);
 	       }
 		   model.addAttribute("product", product);
 		   model.addAttribute("tabactive","images");
 	       return "/admin/catalog/productEdit :: editProductForm";
 	    }
-	   
-	   
-	   private List<String> extractImagesFromRequestParam(Map<String,String> requestParam) {
-		   List<String> ret = new ArrayList<String>();
-		   for (String key : requestParam.keySet()) {
-			   if (key != null && key.contains("image:")) {
-				   String order = requestParam.get(key);
-				   if (order != null && !"".equals(order)) {
-					  String url = key.replace("image:", "");
-					  int iorder = Integer.parseInt(order); 
-					  ret.add(iorder, url);
-				   }
-			   }
-		   }
-		return ret;
-		   
-	   }
-	   
-	   
-	   
-	   /*
-		private void validateImage(MultipartFile image) {
-			String allowedFileType = "image/jpeg,image/png,image/gif";
-			if (allowedFileType.indexOf(image.getContentType()) < 0) {
-				throw new ImageUploadException("Only jpeg, png, gif images accepted");
-			}
-		}
-		
-		private void saveImage(String filePath, MultipartFile image)
-				throws ImageUploadException {
-			try {
-				
-				File file = new File(filePath);
-				FileUtils.writeByteArrayToFile(file, image.getBytes());
-			} catch (IOException e) {
-				throw new ImageUploadException("Unable to save image", e);
-			}
-		}	   
-*/
+	      
 }

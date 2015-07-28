@@ -14,8 +14,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.akartkam.com.presentation.admin.AdminPresentation;
-import com.akartkam.com.presentation.admin.EditTab;
+import com.akartkam.inShop.presentation.admin.AdminPresentation;
+import com.akartkam.inShop.presentation.admin.EditTab;
 
 
 public class AdminRequestMappingAspect {

@@ -28,5 +28,5 @@ public interface ProductService {
 	void deleteProduct(Product product);
 	void updatePO(ProductOption po);
 	void mergeWithExistingPOAndUpdateOrCreate(final ProductOption poFromForm, Errors errors);
-	void mergeWithExistingAndUpdateOrCreate(final Product productFromPost, Map<String, String> allRequestParams);
+	void mergeWithExistingAndUpdateOrCreate(final Product productFromPost);
 }

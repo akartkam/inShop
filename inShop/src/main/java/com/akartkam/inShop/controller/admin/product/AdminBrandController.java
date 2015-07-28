@@ -29,9 +29,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.akartkam.com.inShop.util.ImageUtil;
 import com.akartkam.inShop.domain.product.Brand;
 import com.akartkam.inShop.service.product.BrandService;
+import com.akartkam.inShop.util.ImageUtil;
 
 @Controller
 @RequestMapping("/admin/catalog/brand")
@@ -42,6 +42,9 @@ public class AdminBrandController {
 	  
 	  @Autowired
 	  private MessageSource messageSource;
+	  
+	  @Autowired
+	  private ImageUtil imageUtil;
 
 	  
 	  @Value("#{appProperties['inShop.imagesPath']}")
@@ -144,11 +147,11 @@ public class AdminBrandController {
 	        }
 	        String fileName="";
 	        String filePath="";
-	        ImageUtil.validateImage(image, "logoUrl", bindingResult);
+	        imageUtil.validateImage(image, "logoUrl", bindingResult);
 	        if(!bindingResult.hasErrors()) {
 		        fileName = new File(image.getOriginalFilename()).getName(); 
 		        filePath = imagePath + "\\" + fileName;
-	        	ImageUtil.saveImage(filePath, image);		        
+	        	imageUtil.saveImage(filePath, image);		        
 		        brand.setLogoUrl(imageUrl+fileName);
 	        }
 	        

@@ -39,10 +39,10 @@ import org.springframework.format.annotation.NumberFormat.Style;
 
 import javax.persistence.JoinColumn;
 
-import com.akartkam.com.presentation.admin.AdminPresentation;
-import com.akartkam.com.presentation.admin.EditTab;
 import com.akartkam.inShop.domain.AbstractDomainObjectOrdering;
 import com.akartkam.inShop.domain.product.option.ProductOptionValue;
+import com.akartkam.inShop.presentation.admin.AdminPresentation;
+import com.akartkam.inShop.presentation.admin.EditTab;
 
 @Entity
 @Table(name = "sku")
@@ -59,7 +59,7 @@ public class Sku extends AbstractDomainObjectOrdering {
 	private InventoryType inventoryType;
 	private Date activeStartDate;
 	private Date activeEndDate;
-	//цена продажи(старая цена), новая цена(если есть), себестоимость
+	//пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ(пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ), пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ(пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ), пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 	private BigDecimal retailPrice, salePrice, costPrice;
 	private Set<ProductOptionValue> productOptionValues = new HashSet<ProductOptionValue>();
     private List<String> images = new ArrayList<String>();	

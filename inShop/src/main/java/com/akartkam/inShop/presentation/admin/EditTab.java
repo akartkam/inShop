@@ -1,4 +1,4 @@
-package com.akartkam.com.presentation.admin;
+package com.akartkam.inShop.presentation.admin;
 
 
 public enum EditTab {
