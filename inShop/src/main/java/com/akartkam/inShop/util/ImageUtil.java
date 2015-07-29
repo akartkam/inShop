@@ -13,13 +13,16 @@ import com.akartkam.inShop.exception.ImageUploadException;
 
 public class ImageUtil {
 	
-	@Value("#{appProperties['inShop.imagesMaxUploadSize']}")
 	private String imagesMaxUploadSize;
 	
-	public ImageUtil() {
-		
+	public String getImagesMaxUploadSize() {
+		return imagesMaxUploadSize;
 	}
-	
+
+	public void setImagesMaxUploadSize(String imagesMaxUploadSize) {
+		this.imagesMaxUploadSize = imagesMaxUploadSize;
+	}
+
 	public void validateImage(MultipartFile image, String fieldName, Errors errors) {
 		String allowedFileType = "image/jpeg,image/png,image/gif";
 		if (image == null || image.isEmpty() || (allowedFileType.indexOf(image.getContentType()) < 0)) {

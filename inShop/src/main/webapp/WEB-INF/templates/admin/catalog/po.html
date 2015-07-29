@@ -285,7 +285,7 @@
 					}  
                 });   
 	    		$( document ).ajaxComplete(function() {
-	    			$(".add-new-pov").on("click", function () { 
+	    			$(".add-new-pov").one("click", function () { 
     		        	var id = $(this).val();
     	    			var form = $("#poform");
     	    			var path= $(this).data("path");
@@ -304,7 +304,7 @@
                         });
     	    		});	    			
 	    		});
-		        $("#IDPov").on("click", function () { 
+		        $("#IDPov").one("click", function () { 
 	    			$("#deleteModalPov").modal("hide");
 		        	var id = $("#deleteModalPov").find(".btn-primary").val();
 	    			var path= $("#deleteModalPov").data("path");

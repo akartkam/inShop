@@ -30,7 +30,6 @@
 	<resources mapping="/resources/**" location="/resources/" />
 	<resources mapping="#{appProperties['inShop.imagesUrl']}**" location="file:///#{appProperties['inShop.imagesPath']}" />
 	
-	<beans:bean id="imageUtil" class="com.akartkam.inShop.util.ImageUtil"></beans:bean>
 	
 	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 <!-- 	        <beans:property name="maxUploadSize" value="#{appProperties['inShop.imagesMaxUploadSize']}"/> -->
@@ -89,6 +88,10 @@
 	        </beans:property>
 	    </beans:bean>
 	</interceptors>
+
+	<beans:bean id="imageUtil" class="com.akartkam.inShop.util.ImageUtil">
+		<beans:property name="imagesMaxUploadSize" value="#{appProperties['inShop.imagesMaxUploadSize']}"/>
+	</beans:bean>
 
 	
 	<!-- Файл с настройками контроллеров -->

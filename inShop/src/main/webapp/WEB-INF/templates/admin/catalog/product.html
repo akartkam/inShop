@@ -348,7 +348,7 @@
 					}  
                 });    	    
 	    		$( document ).ajaxComplete(function() {
-	    			$(document).on('change', '.btn-file :file', function () { 
+	    			$(".btn-file :file").one("change", function () {
 			    			var form = new FormData(document.forms.pform);
 			    			var path= $(this).data("path");
 			    			var formser;
@@ -370,7 +370,7 @@
 		        			    	    $("#editModalBody" ).scrollTop( s.top );
 		                    });
 	   		    	  });
-    			    $(".row-move-up").click(function() {
+    			    $(".row-move-up").on("click", function () { 
 	    			    var row = $(this).closest("tr");
 	    			    var rowOther = row.next();
 	    			    row.insertAfter(row.next());
@@ -383,7 +383,7 @@
 	    			    $(inpOther).attr("name","images["+indexOther+"]");
 	    			    $(inpOther).attr("id","images"+indexOther);	    			    
     			      });	    			   
-    			    $('.row-move-down').click(function() {
+    			    $('.row-move-down').on("click", function () { 
     				    var row = $(this).closest('tr');
     				    var rowOther = row.prev(); 
     				    row.prev().insertAfter(row);
@@ -396,7 +396,17 @@
 	    			    $(inpOther).attr("name","images["+indexOther+"]");
 	    			    $(inpOther).attr("id","images"+indexOther);	    			    
     			    }); 
-    			    
+    		        $(".open-deleteImageDialog").on("click", function () {
+    		        	var row = $(this).closest('tr');
+    		        	var index = $(row).index();
+    		        	$(row).remove();
+    		        	$('#pImagesTable tbody tr').slice(index).each( function () {
+    		        		var inp = $(this).find(".image-url");
+    		        		var currIndex = $(this).index();
+    		        		$(inp).attr("name","images["+currIndex+"]");
+    	    			    $(inp).attr("id","images"+currIndex);
+    		        	});
+    		        });
 	    		});
 		        $(".open-editDialog").on("click", function () {
 		          var Id = $(this).data("id");
@@ -408,7 +418,7 @@
 		    	  }
 		    	  $("#editModal").data("allowed","true");
 		    	  $("#editModal").data("path",path);
-		    	});  		        
+		    	});  
   		        $(document).on("mouseenter", ".mightOverflow", function() { 
   		        	var $t = $(this); 
   		        	var title = $t.attr("title");

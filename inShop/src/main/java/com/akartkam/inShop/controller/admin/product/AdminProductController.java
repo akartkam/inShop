@@ -52,6 +52,7 @@ import com.akartkam.inShop.exception.ImageUploadException;
 @RequestMapping("/admin/catalog/product")
 public class AdminProductController {
 	
+	  	
 	  @Autowired
 	  ProductService productService;
 	  
@@ -64,7 +65,7 @@ public class AdminProductController {
 	  @Autowired
 	  private MessageSource messageSource;
 	  
-	  @Autowired
+	  @Autowired(required=false)
 	  private ImageUtil imageUtil;
 
 	  

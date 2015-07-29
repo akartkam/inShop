@@ -43,7 +43,7 @@ public class AdminBrandController {
 	  @Autowired
 	  private MessageSource messageSource;
 	  
-	  @Autowired
+	  @Autowired(required=false)
 	  private ImageUtil imageUtil;
 
 	  
