@@ -47,7 +47,8 @@
 	                <div class="tab-content">
 	                    <div class="tab-pane fade in active" id="main">
 								   <div class="field-box" th:class="${#fields.hasErrors('name')}? has-error: field-box">
-									  <input type="hidden" th:field="*{id}"/>	                              
+									  <input type="hidden" th:field="*{id}"/>	
+									  <input type="hidden" th:field="*{createdDate}"/>                               
 						    		  <label>
 							    	  	 <span th:text="#{admin.catalog.attributecategory.edit.name}">Category1</span>
 							   		  </label>
