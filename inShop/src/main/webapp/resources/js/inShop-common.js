@@ -12,3 +12,4 @@ function getRootWebSitePath()
 
     return webFolderFullPath;
 }
+

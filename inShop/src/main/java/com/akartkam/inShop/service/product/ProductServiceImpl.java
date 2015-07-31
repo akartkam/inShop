@@ -186,6 +186,7 @@ public class ProductServiceImpl implements ProductService {
 			existingProduct.setCode(productFromPost.getCode());
 			existingProduct.setCategory(productFromPost.getCategory());
 			existingProduct.setUrl(productFromPost.getUrl());
+			existingProduct.setOrdering(productFromPost.getOrdering());
 			existingProduct.setBrand(productFromPost.getBrand());
 			existingProduct.setModel(productFromPost.getModel());
 			existingProduct.setCostPrice(productFromPost.getCostPrice());

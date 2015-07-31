@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -76,28 +77,27 @@ public class AdminProductController {
 	  private String imageUrl;
 	  
 	  
-	  @SuppressWarnings("rawtypes")
 	  @ModelAttribute("allProduct")
-	  public List getAllProduct() {
-	      return productService.getAllProduct();
+	  public List<Product> getAllProduct() {
+		  List<Product> p = productService.getAllProduct();
+		  Collections.sort(p);
+	      return p;
 	  }
 	  
-	  @SuppressWarnings("rawtypes")
 	  @ModelAttribute("allCategory")
-	  public List getAllCategory() {
+	  public List<Category> getAllCategory() {
 	      return categoryService.getAllCategoryHierarchy(true);
 	  }	  
 	  
-	  @SuppressWarnings("rawtypes")
 	  @ModelAttribute("allBrand")
-	  public List getAllBrand() {
+	  public List<Brand> getAllBrand() {
 	      return brandService.getAllBrand(false);
 	  }	
 	  
 	  @InitBinder
 	  public void initBinder(WebDataBinder binder) {
 			binder.setAllowedFields(new String[] { "id", "name", "url", "description", "longDescription", 
-					 							   "code", "category", "brand", "model", "attributeValues", 
+					 							   "code", "category", "brand", "model", "attributeValues", "ordering", 
 					 							   "productOptions", "canSellWithoutOptions", "images*", "enabled",
 					 							   "retailPrice", "salePrice", "costPrice"});
 			binder.registerCustomEditor(UUID.class, "id", new PropertyEditorSupport() {
@@ -126,9 +126,6 @@ public class AdminProductController {
 			    	}			    
 			    }
 			    });
-			
-			
-			
 	  }
 	  
 	  @RequestMapping(method=GET)
@@ -201,7 +198,6 @@ public class AdminProductController {
 	   @RequestMapping(value="/image/add", method = RequestMethod.POST )
 	   public String addNewImage(final @ModelAttribute Product product,
 			   				   @RequestHeader(value = "X-Requested-With", required = false) String requestedWith,
-			   				   @RequestParam(value="imageOrder[]", required=false) String[] imageOrder,
 			   				   @RequestParam(value = "newImage", required = false)	MultipartFile image,
 			                   final BindingResult bindingResult,
 			                   final Model model
