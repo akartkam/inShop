@@ -6,10 +6,13 @@ import java.beans.PropertyEditorSupport;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -41,6 +44,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.akartkam.inShop.domain.product.Brand;
 import com.akartkam.inShop.domain.product.Category;
 import com.akartkam.inShop.domain.product.Product;
+import com.akartkam.inShop.domain.product.ProductStatus;
 import com.akartkam.inShop.domain.product.option.ProductOption;
 import com.akartkam.inShop.domain.product.option.ProductOptionValue;
 import com.akartkam.inShop.service.product.BrandService;
@@ -61,7 +65,7 @@ public class AdminProductController {
 	  CategoryService categoryService;
 	  
 	  @Autowired
-	  BrandService brandService;	  
+	  BrandService brandService;
 
 	  @Autowired
 	  private MessageSource messageSource;
@@ -79,9 +83,7 @@ public class AdminProductController {
 	  
 	  @ModelAttribute("allProduct")
 	  public List<Product> getAllProduct() {
-		  List<Product> p = productService.getAllProduct();
-		  Collections.sort(p);
-	      return p;
+	      return productService.getAllProduct();
 	  }
 	  
 	  @ModelAttribute("allCategory")
@@ -93,6 +95,16 @@ public class AdminProductController {
 	  public List<Brand> getAllBrand() {
 	      return brandService.getAllBrand(false);
 	  }	
+	  
+	  @ModelAttribute("allPo")
+	  public List<ProductOption> getAllPO() {
+	      return productService.getAllPO();
+	  }	  
+	  
+	  @ModelAttribute("allProdStatus")
+	  public Set<ProductStatus> getAllProdStatus() {
+	      return new HashSet<ProductStatus>(Arrays.asList(ProductStatus.ALL));
+	  }	  
 	  
 	  @InitBinder
 	  public void initBinder(WebDataBinder binder) {
@@ -181,6 +193,7 @@ public class AdminProductController {
 	
 	   @RequestMapping(value="/edit", method = RequestMethod.POST )
 	   public String saveBrand(@ModelAttribute @Valid Product product,
+				   			   @RequestParam(value="poSelected", required=false) Set<String> po,
 			                   final BindingResult bindingResult,
 			                   final RedirectAttributes ra
 			                         ) {
@@ -190,7 +203,7 @@ public class AdminProductController {
 	            return "redirect:/admin/catalog/product/edit";
 	        }
 
-	        productService.mergeWithExistingAndUpdateOrCreate(product);
+	        productService.mergeWithExistingAndUpdateOrCreate(product, po);
 	       
 	        return "redirect:/admin/catalog/product";
 	    }

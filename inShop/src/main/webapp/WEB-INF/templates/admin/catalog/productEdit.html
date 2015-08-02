@@ -53,6 +53,8 @@
 	                    </li>
 	                    <li th:class="${tabactive=='images'}? 'in active'"><a href="#images" data-toggle="tab" th:text="#{admin.edit.tab.images}">Изображения</a>
 	                    </li>
+	                    <li th:class="${tabactive=='links'}? 'in active'"><a href="#links" data-toggle="tab" th:text="#{admin.edit.tab.links}">Связи</a>
+	                    </li>
 	                </ul>
 	                <!-- Tab panes -->
 	                <div class="tab-content" style ="height:50vh;overflow-x:hidden;overflow-y:auto">
@@ -156,13 +158,29 @@
 						   		  <input type="text" class="form-control" th:field="*{model}"/>
 							    </div>					
 						     </div>
-						  </div>	  
-   			   		       <div class="field-box">
-	 			    		  <label>
-					    	  	<span th:text="#{admin.catalog.category.edit.ordering}">Orderig</span>
-					   		  </label>
-					   		  <input type="text" class="form-control" th:field="*{ordering}"/>
-						   </div>
+						  </div>
+						  <div class="row">
+							 <div class="col-md-6">	
+	   			   		       <div class="field-box">
+		 			    		  <label>
+						    	  	<span th:text="#{admin.catalog.category.edit.ordering}">Orderig</span>
+						   		  </label>
+						   		  <input type="text" class="form-control" th:field="*{ordering}"/>
+							   </div>					   
+		                       <div class="field-box">
+		                        <label>
+							  	  	<span th:text="#{admin.catalog.productStatus}">Product status</span>
+							    </label>
+								 <select class="form-control selectpicker" name="psSelected" multiple="multiple">
+									    <option 
+									            th:each="po: ${allPo}" th:text="${po.name}"
+									            th:selected="${#sets.contains(product.productOptions, po)}"
+									            th:value="${po.id}">
+									    </option>      
+								 </select>
+							    </div>
+							 </div>   	                    	
+						   </div>				   
 						   <div class="row">
 						   		<div class="col-md-2">
 								   <div class="field-box">
@@ -179,8 +197,8 @@
 									  	<span th:text="#{admin.catalog.category.product.canSellWithoutOptions}">canSWO?</span>
 									 </label>
 								   </div>
-								</div>	 
-						   </div>
+								</div>	
+					   		</div>
 	                    </div>
  	                    <div class="tab-pane fade" th:classappend="${tabactive=='images'}? 'in active'" id="images"> 
 							<div class="container-fluid">	                    
@@ -243,6 +261,22 @@
 								</span>								
 							</div>
 	                    </div> 
+	                    <div class="tab-pane fade" id="links">
+	                      <div class="field-box">
+	                        <label>
+						  	  	<span th:text="#{admin.catalog.productOption}">Product options</span>
+						    </label>
+							 <select class="form-control selectpicker" name="poSelected" multiple="multiple" 
+	          						 data-live-search="true">
+								    <option th:if="${po.enabled}"
+								            th:each="po: ${allPo}" th:text="${po.name}"
+								            th:selected="${#sets.contains(product.productOptions, po)}"
+								            th:value="${po.id}">
+								    </option>      
+							 </select>
+						   </div>	                    	
+	                    </div>
+	                    
 	                </div>
 		    </div>
 		 <!-- /modal-body -->
@@ -275,6 +309,7 @@
 	   	   <script type="text/javascript">
 		     //<![CDATA[
 		     $(document).ready(function() {
+	 	    	$("#editModal").modal("show");
 	    		$('#inputSImg').one('change', function () {
     				    cnt++;
     				    alert(cnt);
@@ -295,6 +330,7 @@
 	                                $("#summernote").summernote({
 	                				    lang: "ru-RU"
 	                				     });
+	                                $(".selectpicker").selectpicker();
 	           			    	    var s = $("#pImagesTable tbody > tr:last-child").position();
 	        			    	    $("#editModalBody" ).scrollTop( s.top );
 	                    });
@@ -325,7 +361,17 @@
     			    $(inpOther).attr("name","images["+indexOther+"]");
     			    $(inpOther).attr("id","images"+indexOther);	    			    
 			    }); 
-	    			
+		        $(".open-deleteImageDialog").on("click", function () {
+		        	var row = $(this).closest('tr');
+		        	var index = $(row).index();
+		        	$(row).remove();
+		        	$('#pImagesTable tbody tr').slice(index).each( function () {
+		        		var inp = $(this).find(".image-url");
+		        		var currIndex = $(this).index();
+		        		$(inp).attr("name","images["+currIndex+"]");
+	    			    $(inp).attr("id","images"+currIndex);
+		        	});
+		        });
 			 });
 	 		 $("#editModal").on("show.bs.modal", function (e) {
 	                            $('#summernote').summernote({
@@ -333,7 +379,6 @@
 	          				     });
 	                            $(".selectpicker").selectpicker();
 	                   });
- 	    	 $("#editModal").modal("show");
 	 		 // ]]>
 		   </script>
 		 </th:block>  

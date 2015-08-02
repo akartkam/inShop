@@ -1,14 +1,17 @@
 package com.akartkam.inShop.dao;
 
+import com.akartkam.inShop.domain.AbstractDomainObjectOrdering;
 import com.akartkam.inShop.domain.DomainObject;
 
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
 import java.util.UUID;
 
+import org.hibernate.Criteria;
 import org.hibernate.LockOptions;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
@@ -77,7 +80,10 @@ public abstract class AbstractGenericDAO<T extends DomainObject<UUID>> implement
 	
 	@Override
 	public List<T> list(){
-		return currentSession().createCriteria(domainClass).list();
+		Criteria criteria = currentSession().createCriteria(domainClass);
+		if (AbstractDomainObjectOrdering.class.isAssignableFrom(domainClass)) 
+			criteria.addOrder(Order.asc("ordering"));
+		return criteria.list();
 	}
 	
 }

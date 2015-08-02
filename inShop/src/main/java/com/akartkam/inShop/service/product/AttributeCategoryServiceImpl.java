@@ -191,7 +191,8 @@ public class AttributeCategoryServiceImpl implements AttributeCategoryService {
 	@Override
 	public List<AttributeCategory> getAllAttributeCategory() {
 		List<AttributeCategory> ctg = attributeCategoryDAO.list();
-		Collections.sort(ctg);
+		//list() now can sort if class i assignable from AbstractDomainObjectOrdering
+		//Collections.sort(ctg);
 		return ctg;
 	}
 	

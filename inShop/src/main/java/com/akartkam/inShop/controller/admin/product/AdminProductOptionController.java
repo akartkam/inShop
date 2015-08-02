@@ -9,7 +9,6 @@ import java.util.UUID;
 
 import javax.validation.Valid;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.security.core.GrantedAuthority;
@@ -47,9 +46,9 @@ public class AdminProductOptionController {
 	  private MessageSource messageSource;
 	  
 	  
-	  @SuppressWarnings("rawtypes")
+
 	  @ModelAttribute("allPo")
-	  public List getAllPO() {
+	  public List<ProductOption> getAllPO() {
 	      return productService.getAllPO();
 	  }
 	  

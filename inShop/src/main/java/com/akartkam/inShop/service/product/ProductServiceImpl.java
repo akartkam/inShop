@@ -1,8 +1,10 @@
 package com.akartkam.inShop.service.product;
 
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,7 @@ import com.akartkam.inShop.dao.product.option.ProductOptionDAO;
 import com.akartkam.inShop.domain.product.Brand;
 import com.akartkam.inShop.domain.product.Category;
 import com.akartkam.inShop.domain.product.Product;
+import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
 import com.akartkam.inShop.domain.product.option.ProductOption;
 import com.akartkam.inShop.domain.product.option.ProductOptionValue;
 
@@ -178,7 +181,7 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	@Transactional(readOnly = false)
-	public void mergeWithExistingAndUpdateOrCreate(Product productFromPost) {
+	public void mergeWithExistingAndUpdateOrCreate(final Product productFromPost, final Set<String> po) {
 		if (productFromPost == null) return;
 		final Product existingProduct = getProductById(productFromPost.getId());
 		if (existingProduct != null) {
@@ -196,11 +199,24 @@ public class ProductServiceImpl implements ProductService {
 			existingProduct.setLongDescription(productFromPost.getLongDescription());
 			existingProduct.setEnabled(productFromPost.isEnabled());
 			existingProduct.setCanSellWithoutOptions(productFromPost.isCanSellWithoutOptions());
+	        for (ProductOption poCurr : existingProduct.getProductOptions()) {
+	        	if (po.contains(poCurr.getId().toString())) {
+	        		po.remove(poCurr.getId().toString());
+	        	} else {
+	        		existingProduct.removeProductOption(poCurr);
+	        	}
+	        }
+	        for (String poId : po) {
+	        	ProductOption poEx = productOptionDAO.findById(UUID.fromString(poId), false);
+	        	existingProduct.addProductOption(poEx);
+	        }
 			existingProduct.getImages().clear();
 			for (String i : productFromPost.getImages()) existingProduct.getImages().add(i);
-			//existingProduct.setImages(productFromPost.getImages());
-			
 		} else {
+	        for (String poId : po) {
+	        	ProductOption poEx = productOptionDAO.findById(UUID.fromString(poId), false);
+	        	productFromPost.addProductOption(poEx);
+	        }
 			createProduct(productFromPost);
 		}
 	}

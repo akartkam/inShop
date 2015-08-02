@@ -3,10 +3,8 @@ package com.akartkam.inShop.domain.product;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
@@ -15,12 +13,13 @@ import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.MapKeyColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderColumn;
 import javax.persistence.Table;
@@ -61,6 +60,7 @@ public class Product extends AbstractDomainObjectOrdering {
 	private String model;
 	private List<AbstractAttributeValue> attributeValues = new ArrayList<AbstractAttributeValue>();
 	private String url;
+	private Set<ProductStatus> productStatus;
     private List<String> images = new ArrayList<String>();	
     private List<Sku> sku = new ArrayList<Sku>();	
     private Set<ProductOption> productOptions = new HashSet<ProductOption>(0);
@@ -148,6 +148,14 @@ public class Product extends AbstractDomainObjectOrdering {
 		this.url = url;
 	}
 	
+	@Enumerated(EnumType.STRING)
+	@Column(name = "pstatus")
+	public Set<ProductStatus> getProductStatus() {
+		return productStatus;
+	}
+	public void setProductStatus(Set<ProductStatus> productStatus) {
+		this.productStatus = productStatus;
+	}
 	@Column(name = "description")
 	public String getDescription() {
 		return description;

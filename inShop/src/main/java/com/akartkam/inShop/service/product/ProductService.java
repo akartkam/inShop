@@ -2,6 +2,7 @@ package com.akartkam.inShop.service.product;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import org.springframework.validation.Errors;
@@ -28,5 +29,5 @@ public interface ProductService {
 	void deleteProduct(Product product);
 	void updatePO(ProductOption po);
 	void mergeWithExistingPOAndUpdateOrCreate(final ProductOption poFromForm, Errors errors);
-	void mergeWithExistingAndUpdateOrCreate(final Product productFromPost);
+	void mergeWithExistingAndUpdateOrCreate(final Product productFromPost, final Set<String> po );
 }

@@ -26,7 +26,10 @@
 			<!-- summernote -->
 			<link href="../../../../resources/css/summernote.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/summernote.css}"></link>
 			<!-- style.css -->
-    		<link href="../../../../resources/css/style.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/style.css}"/>	    	
+    		<link href="../../../../resources/css/style.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/style.css}"/>
+	    	<!-- bootstrap-select -->
+			<link href="../../../../resources/css/bootstrap-select.min.css" rel="stylesheet" th:href="@{/resources/css/bootstrap-select.min.css}"/>		 	
+    			    	
 			<style type="text/css">
 				body {
 				    margin:0;     /* This is used to reset any browser-default margins */
@@ -141,11 +144,12 @@
 							      <tr >
 							          <th class="col-md-1"></th>
 						              <th class="col-md-3 text-center" th:text="#{admin.catalog.name}">Name</th>
-						              <th class="col-md-2 text-center" th:text="#{admin.catalog.category}">Category</th>
+						              <th class="col-md-1 text-center" th:text="#{admin.catalog.category}">Category</th>
 						              <th class="col-md-1 text-center" th:text="#{admin.catalog.url}">Url</th>
 						              <th class="col-md-1 text-center" th:text="#{admin.catalog.brand}">Brand</th>
 						              <th class="col-md-1 text-center" th:text="#{admin.catalog.model}">Model</th>
 						              <th class="col-md-1 text-center" th:text="#{admin.catalog.price}">Price</th>
+						              <th class="col-md-1 text-center" th:text="#{admin.catalog.ordering}">Ordering</th>
 						              <th class="col-md-1 text-center" th:text="#{admin.catalog.enabled}">Enabled?</th>
 						              <th class="col-md-1 text-center"></th>
 						  	      </tr>
@@ -153,6 +157,7 @@
 						 	    <tfoot>
 							      <tr >
 							          <th ></th>
+						              <th ></th>
 						              <th ></th>
 						              <th ></th>
 						              <th ></th>
@@ -190,6 +195,7 @@
 										      <br/>
 										      <span th:text="${{pr.salePrice}}">9.00</span>
 										</td>
+										<td class="text-center" th:text="${pr.ordering}"></td>
 						            	<td class="text-center"><i th:class="${pr.enabled} ? 'fa fa-check-circle'"></i></td>
 						            	<td class="text-center">
 											  <!--  data-toggle="modal" data-target="#editModal" -->
@@ -276,7 +282,7 @@
 	    <script src="../../../../resources/bower_components/datatables/media/js/jquery.dataTables.min.js" th:src="@{/resources/bower_components/datatables/media/js/jquery.dataTables.min.js}"></script>
 	    <script src="../../../../resources/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js" th:src="@{/resources/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js}"></script>
 	    <script src="../../../../resources/js/inShop-common.js" th:src="@{/resources/js/inShop-common.js}"></script>
-	    <th:block th:include="/admin/catalog/brandEdit :: scriptEditModal">
+	    <th:block th:include="/admin/catalog/productEdit :: scriptEditModal">
         </th:block>	    
 	    <script type="text/javascript">
 	      //<![CDATA[
@@ -343,6 +349,7 @@
 	        	                    $("#summernote").summernote({
 	        	    				    lang: "ru-RU"
 	        	    				     });
+	 	                            $(".selectpicker").selectpicker();
 	        	                    $("#name").focus();
 	                    });
 					}  
@@ -366,7 +373,7 @@
 		                                $("#summernote").summernote({
 		                				    lang: "ru-RU"
 		                				     });
-		           			    	    var s = $("#pImagesTable tbody > tr:last-child").position();
+		                                var s = $("#pImagesTable tbody > tr:last-child").position();
 		        			    	    $("#editModalBody" ).scrollTop( s.top );
 		                    });
 	   		    	  });
@@ -407,6 +414,12 @@
     	    			    $(inp).attr("id","images"+currIndex);
     		        	});
     		        });
+    		 		$("#editModal").on("show.bs.modal", function (e) {
+                         $('#summernote').summernote({
+     					    lang: "ru-RU"
+       				     });
+                         $(".selectpicker").selectpicker();
+                    });
 	    		});
 		        $(".open-editDialog").on("click", function () {
 		          var Id = $(this).data("id");
