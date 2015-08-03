@@ -148,8 +148,10 @@ public class Product extends AbstractDomainObjectOrdering {
 		this.url = url;
 	}
 	
+    @ElementCollection
+    @CollectionTable(name="lnk_product_status")
 	@Enumerated(EnumType.STRING)
-	@Column(name = "pstatus")
+    @Column(name = "pstatus", nullable = false)
 	public Set<ProductStatus> getProductStatus() {
 		return productStatus;
 	}
