@@ -163,7 +163,7 @@
 			                        <label>
 								  	  	<span th:text="#{admin.catalog.productStatus}">Product status</span>
 								    </label>
-									 <select class="form-control selectpicker" th:field="*{productStatus}" name="psSelected" multiple="multiple">
+									 <select class="form-control selectpicker" name="psSelected" multiple="multiple">
 									    <option 
 									            th:each="ps: ${allProdStatus}" th:text="#{${'product.status.' + ps}}"
 									            th:attr="data-icon=#{${'product.status.icon.' + ps}}"

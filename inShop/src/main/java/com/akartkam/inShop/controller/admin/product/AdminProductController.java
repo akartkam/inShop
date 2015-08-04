@@ -194,6 +194,7 @@ public class AdminProductController {
 	   @RequestMapping(value="/edit", method = RequestMethod.POST )
 	   public String saveBrand(@ModelAttribute @Valid Product product,
 				   			   @RequestParam(value="poSelected", required=false) Set<String> po,
+				   			   @RequestParam(value="psSelected", required=false) Set<String> ps,
 			                   final BindingResult bindingResult,
 			                   final RedirectAttributes ra
 			                         ) {
@@ -203,7 +204,9 @@ public class AdminProductController {
 	            return "redirect:/admin/catalog/product/edit";
 	        }
 
-	        productService.mergeWithExistingAndUpdateOrCreate(product, po);
+	        if (po==null) po = new HashSet<String>(0);
+	        if (ps==null) ps = new HashSet<String>(0);
+	        productService.mergeWithExistingAndUpdateOrCreate(product, po, ps);
 	       
 	        return "redirect:/admin/catalog/product";
 	    }

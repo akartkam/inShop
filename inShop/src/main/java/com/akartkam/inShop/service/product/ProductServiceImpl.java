@@ -18,6 +18,7 @@ import com.akartkam.inShop.dao.product.option.ProductOptionDAO;
 import com.akartkam.inShop.domain.product.Brand;
 import com.akartkam.inShop.domain.product.Category;
 import com.akartkam.inShop.domain.product.Product;
+import com.akartkam.inShop.domain.product.ProductStatus;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
 import com.akartkam.inShop.domain.product.option.ProductOption;
 import com.akartkam.inShop.domain.product.option.ProductOptionValue;
@@ -181,7 +182,7 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	@Transactional(readOnly = false)
-	public void mergeWithExistingAndUpdateOrCreate(final Product productFromPost, final Set<String> po) {
+	public void mergeWithExistingAndUpdateOrCreate(final Product productFromPost, final Set<String> po, final Set<String> ps) {
 		if (productFromPost == null) return;
 		final Product existingProduct = getProductById(productFromPost.getId());
 		if (existingProduct != null) {
@@ -199,6 +200,16 @@ public class ProductServiceImpl implements ProductService {
 			existingProduct.setLongDescription(productFromPost.getLongDescription());
 			existingProduct.setEnabled(productFromPost.isEnabled());
 			existingProduct.setCanSellWithoutOptions(productFromPost.isCanSellWithoutOptions());
+			for (ProductStatus psCurr : existingProduct.getProductStatus()) {
+	        	if (ps.contains(psCurr)) {
+	        		ps.remove(psCurr);
+	        	} else {
+	        		existingProduct.getProductStatus().remove(psCurr);
+	        	}
+			}
+	        for (String psi : ps) {
+	        	existingProduct.getProductStatus().add(ProductStatus.forName(psi));
+	        }			
 	        for (ProductOption poCurr : existingProduct.getProductOptions()) {
 	        	if (po.contains(poCurr.getId().toString())) {
 	        		po.remove(poCurr.getId().toString());
@@ -217,7 +228,10 @@ public class ProductServiceImpl implements ProductService {
 	        	ProductOption poEx = productOptionDAO.findById(UUID.fromString(poId), false);
 	        	productFromPost.addProductOption(poEx);
 	        }
-			createProduct(productFromPost);
+	        for (String psi : ps) {
+	        	productFromPost.getProductStatus().add(ProductStatus.forName(psi));
+	        }			        
+	        createProduct(productFromPost);
 		}
 	}
 

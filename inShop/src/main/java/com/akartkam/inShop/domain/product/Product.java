@@ -60,10 +60,10 @@ public class Product extends AbstractDomainObjectOrdering {
 	private String model;
 	private List<AbstractAttributeValue> attributeValues = new ArrayList<AbstractAttributeValue>();
 	private String url;
-	private Set<ProductStatus> productStatus;
+	private Set<ProductStatus> productStatus = new HashSet<ProductStatus>();
     private List<String> images = new ArrayList<String>();	
     private List<Sku> sku = new ArrayList<Sku>();	
-    private Set<ProductOption> productOptions = new HashSet<ProductOption>(0);
+    private Set<ProductOption> productOptions = new HashSet<ProductOption>();
     private boolean canSellWithoutOptions = true;
 	private BigDecimal retailPrice, salePrice, costPrice;
 	
