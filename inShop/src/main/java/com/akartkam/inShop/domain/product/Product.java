@@ -69,7 +69,7 @@ public class Product extends AbstractDomainObjectOrdering {
 	
     @AdminPresentation(tab=EditTab.MAIN)
     @NotNull
-	@NotEmpty
+//	@NotEmpty
 	@Column(name = "name")
 	public String getName() {
 		return name;
