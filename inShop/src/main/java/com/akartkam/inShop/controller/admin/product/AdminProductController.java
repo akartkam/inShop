@@ -192,10 +192,10 @@ public class AdminProductController {
 		  }
 	
 	   @RequestMapping(value="/edit", method = RequestMethod.POST )
-	   public String saveBrand(@ModelAttribute @Valid Product product,
-				   			   @RequestParam(value="poSelected", required=false) Set<String> po,
+	   public String saveBrand(@RequestParam(value="poSelected", required=false) Set<String> po,
 				   			   @RequestParam(value="psSelected", required=false) Set<String> ps,
-			                   final BindingResult bindingResult,
+			                   @Valid Product product,
+				   			   final BindingResult bindingResult,
 			                   final RedirectAttributes ra
 			                         ) {
 	        if (bindingResult.hasErrors()) {

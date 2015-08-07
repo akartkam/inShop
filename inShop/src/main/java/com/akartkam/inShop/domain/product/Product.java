@@ -68,8 +68,7 @@ public class Product extends AbstractDomainObjectOrdering {
 	private BigDecimal retailPrice, salePrice, costPrice;
 	
     @AdminPresentation(tab=EditTab.MAIN)
-    @NotNull
-//	@NotEmpty
+	@NotEmpty
 	@Column(name = "name")
 	public String getName() {
 		return name;
@@ -86,8 +85,7 @@ public class Product extends AbstractDomainObjectOrdering {
 		this.code = code;
 	}
 	
-//	@NotNull
-//	@NotEmpty
+	//@NotEmpty
 	@NumberFormat(style=Style.CURRENCY)
 	@Digits(fraction = 5, integer = 14)
 	@DecimalMin("0.01")
