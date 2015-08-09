@@ -45,6 +45,7 @@ import com.akartkam.inShop.domain.product.Brand;
 import com.akartkam.inShop.domain.product.Category;
 import com.akartkam.inShop.domain.product.Product;
 import com.akartkam.inShop.domain.product.ProductStatus;
+import com.akartkam.inShop.domain.product.attribute.AbstractAttributeValue;
 import com.akartkam.inShop.domain.product.option.ProductOption;
 import com.akartkam.inShop.domain.product.option.ProductOptionValue;
 import com.akartkam.inShop.service.product.BrandService;
@@ -52,6 +53,7 @@ import com.akartkam.inShop.service.product.CategoryService;
 import com.akartkam.inShop.service.product.ProductService;
 import com.akartkam.inShop.util.ImageUtil;
 import com.akartkam.inShop.exception.ImageUploadException;
+import com.akartkam.inShop.exception.ProductNotFoundException;
 
 @Controller
 @RequestMapping("/admin/catalog/product")
@@ -150,6 +152,13 @@ public class AdminProductController {
 			   				  @RequestHeader(value = "X-Requested-With", required = false) String requestedWith) {
 		  if(!model.containsAttribute("product")) {
 			 Product product = productService.getProductById(UUID.fromString(ID));
+			 if (product == null) throw new ProductNotFoundException("Товар не найден.");
+			 List<Category> lc = new ArrayList<Category>(); 
+			 lc = product.getCategory().buildCategoryHierarchy(lc);
+			 for (Category cc : lc){
+				// List<AbstractAttributeValue<Serializable>> la = cc.getAllAttributes(currentHierarchy) 
+			 }
+			 
 		     model.addAttribute("product", product);
 		  }
           if ("XMLHttpRequest".equals(requestedWith)) {
@@ -206,8 +215,7 @@ public class AdminProductController {
 
 	        if (po==null) po = new HashSet<String>(0);
 	        if (ps==null) ps = new HashSet<String>(0);
-	        productService.mergeWithExistingAndUpdateOrCreate(product, po, ps);
-	       
+	        productService.mergeWithExistingAndUpdateOrCreate(product, po, ps);	       
 	        return "redirect:/admin/catalog/product";
 	    }
 	   

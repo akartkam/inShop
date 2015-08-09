@@ -178,7 +178,7 @@
 		 			    		   <label>
 						    	   	<span th:text="#{admin.catalog.category.edit.ordering}">Orderig</span>
 						   		   </label>
-						   		   <input type="text" class="form-control" th:field="*{ordering}"/>
+						   		   <input type="text" class="form-control" th:field="*{ordering}" pattern="^\-{0,1}[0-9]*\.{0,1}[0-9]*$"/>
 							     </div>
 							   </div> 		   	                    	
 						   </div>				   
