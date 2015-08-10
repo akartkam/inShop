@@ -243,6 +243,17 @@ public class CategoryServiceTest extends AbstractServiceTest {
 		categoryDAO.update(found);
 		logger.info("*********End AutoTestAddAttributeSListValue*********");
 	}
+	
+	@Test
+	public void getAllAttributesTest() {
+		logger.info("*********Begin getAllAttributesTest*********");	
+		Category found = categoryService.getCategoryByName("Test_Category5").get(0);
+		List<AbstractAttribute> la = new ArrayList<AbstractAttribute>(); 
+		la = found.getAllAttributes(la, true);
+		System.out.println(la);
+		logger.info("*********End getAllAttributesTest*********");
+		
+	}
 
 	@Test
 	public void addProductImage() {

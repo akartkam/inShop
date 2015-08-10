@@ -1,5 +1,6 @@
 package com.akartkam.inShop.domain.product;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -31,6 +32,7 @@ import org.hibernate.annotations.Type;
 
 import com.akartkam.inShop.domain.AbstractDomainObjectOrdering;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
+import com.akartkam.inShop.domain.product.attribute.AbstractAttributeValue;
 import com.akartkam.inShop.presentation.admin.AdminPresentation;
 import com.akartkam.inShop.presentation.admin.EditTab;
 
@@ -240,16 +242,49 @@ public class Category extends AbstractDomainObjectOrdering {
 	public List<AbstractAttribute> getAllAttributes (List<AbstractAttribute> currentHierarchy) {
         if (currentHierarchy == null) {
             currentHierarchy = new ArrayList<AbstractAttribute>();
-            currentHierarchy.addAll(getAttributes());
         }		
-		for(Category category : getSubCategory()) {
+        for (AbstractAttribute at: getAttributes()) {
+        	if (!currentHierarchy.contains(at) && at.isEnabled()) currentHierarchy.add(at);        
+        }
+        for(Category category : getSubCategory()) {
 			if (category.isEnabled()) {
-				currentHierarchy.addAll(category.getAttributes());
+				for (AbstractAttribute at: category.getAttributes()) if (at.isEnabled()) currentHierarchy.add(at);
 				category.getAllAttributes(currentHierarchy);
 			}
 		}
 		return currentHierarchy;
 	}
+	
+	@Transient
+	public List<AbstractAttribute> getAllAttributes (List<AbstractAttribute> currentHierarchy, boolean up) {
+        if (currentHierarchy == null) {
+            currentHierarchy = new ArrayList<AbstractAttribute>();
+        }		
+        for (AbstractAttribute at: getAttributes()) {
+        	if (!currentHierarchy.contains(at) && at.isEnabled()) currentHierarchy.add(at);        
+        }
+        if (!up) return getAllAttributes(currentHierarchy);
+        Category parent = getParent();
+        if (parent!=null) {
+        	for (AbstractAttribute at: parent.getAttributes()) if (at.isEnabled()) currentHierarchy.add(at);
+        	parent.getAllAttributes(currentHierarchy, up);
+        }
+        return currentHierarchy;
+	}
+
+	
+	@SuppressWarnings("rawtypes")
+	@Transient
+	public List<AbstractAttributeValue> getAllAttributeValues (boolean up) {
+		List<AbstractAttribute> la = new ArrayList<AbstractAttribute>(); 
+		la = getAllAttributes(la,up);
+        List <AbstractAttributeValue> currentHierarchy = new ArrayList<AbstractAttributeValue>();
+        for (AbstractAttribute at: la)
+        	for (AbstractAttributeValue av: at.getAttributeValues())
+        		if (av.isEnabled()) currentHierarchy.add(av);        
+        return currentHierarchy;	
+	}
+	
 	
 	@Override
 	@Transient

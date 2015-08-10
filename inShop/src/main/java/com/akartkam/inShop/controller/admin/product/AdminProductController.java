@@ -5,6 +5,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import java.beans.PropertyEditorSupport;
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -45,6 +46,7 @@ import com.akartkam.inShop.domain.product.Brand;
 import com.akartkam.inShop.domain.product.Category;
 import com.akartkam.inShop.domain.product.Product;
 import com.akartkam.inShop.domain.product.ProductStatus;
+import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttributeValue;
 import com.akartkam.inShop.domain.product.option.ProductOption;
 import com.akartkam.inShop.domain.product.option.ProductOptionValue;
@@ -147,18 +149,15 @@ public class AdminProductController {
 		  return "/admin/catalog/product"; 
 		  }	  
 	  
+	  @SuppressWarnings("rawtypes")
 	  @RequestMapping("/edit")
 	  public String brandEdit(@RequestParam(value = "ID", required = false) String ID, Model model,
 			   				  @RequestHeader(value = "X-Requested-With", required = false) String requestedWith) {
 		  if(!model.containsAttribute("product")) {
 			 Product product = productService.getProductById(UUID.fromString(ID));
-			 if (product == null) throw new ProductNotFoundException("Товар не найден.");
-			 List<Category> lc = new ArrayList<Category>(); 
-			 lc = product.getCategory().buildCategoryHierarchy(lc);
-			 for (Category cc : lc){
-				// List<AbstractAttributeValue<Serializable>> la = cc.getAllAttributes(currentHierarchy) 
-			 }
-			 
+			 if (product == null) throw new ProductNotFoundException("РўРѕРІР°СЂ РЅРµ РЅР°Р№РґРµРЅ.");			 
+ 			 List<AbstractAttributeValue> av = product.getCategory().getAllAttributeValues(true);
+			 model.addAttribute("av", av);
 		     model.addAttribute("product", product);
 		  }
           if ("XMLHttpRequest".equals(requestedWith)) {
