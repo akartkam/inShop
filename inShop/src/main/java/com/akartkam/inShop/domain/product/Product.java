@@ -38,6 +38,8 @@ import org.springframework.format.annotation.NumberFormat.Style;
 import com.akartkam.inShop.domain.AbstractDomainObjectOrdering;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttributeValue;
+import com.akartkam.inShop.domain.product.attribute.AttributeType;
+import com.akartkam.inShop.domain.product.attribute.SimpleAttributeFactory;
 import com.akartkam.inShop.domain.product.option.ProductOption;
 import com.akartkam.inShop.presentation.admin.AdminPresentation;
 import com.akartkam.inShop.presentation.admin.EditTab;
@@ -206,7 +208,7 @@ public class Product extends AbstractDomainObjectOrdering {
 	@OneToMany(mappedBy="product", cascade = CascadeType.ALL)
 	@Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
 	public List<AbstractAttributeValue> getAttributeValues() {
-		return attributeValues;
+		return Collections.unmodifiableList(attributeValues);
 	}
 	public void setAttributeValues(List<AbstractAttributeValue> attributeValues) {
 		this.attributeValues = attributeValues;
@@ -221,6 +223,12 @@ public class Product extends AbstractDomainObjectOrdering {
 		attributeValues.add(attributeValue);
 	}
 	
+	public void addAttributeValue (AbstractAttribute attribute) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
+		if (attribute == null) throw new IllegalArgumentException("Null attribute!");
+		AbstractAttributeValue attributeValue = SimpleAttributeFactory.createAttributeValue(attribute.getAttributeType());
+		addAttributeValue(attributeValue, attribute);
+	}
+
 	@ManyToMany(cascade = CascadeType.ALL)
 	@Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE,
 		      org.hibernate.annotations.CascadeType.DELETE})

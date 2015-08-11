@@ -242,10 +242,11 @@ public class Category extends AbstractDomainObjectOrdering {
 	public List<AbstractAttribute> getAllAttributes (List<AbstractAttribute> currentHierarchy) {
         if (currentHierarchy == null) {
             currentHierarchy = new ArrayList<AbstractAttribute>();
-        }		
-        for (AbstractAttribute at: getAttributes()) {
-        	if (!currentHierarchy.contains(at) && at.isEnabled()) currentHierarchy.add(at);        
-        }
+        }	
+        if (currentHierarchy.isEmpty())        
+	        for (AbstractAttribute at: getAttributes()) {
+	        	if (!currentHierarchy.contains(at) && at.isEnabled()) currentHierarchy.add(at);        
+	        }
         for(Category category : getSubCategory()) {
 			if (category.isEnabled()) {
 				for (AbstractAttribute at: category.getAttributes()) if (at.isEnabled()) currentHierarchy.add(at);
@@ -259,10 +260,11 @@ public class Category extends AbstractDomainObjectOrdering {
 	public List<AbstractAttribute> getAllAttributes (List<AbstractAttribute> currentHierarchy, boolean up) {
         if (currentHierarchy == null) {
             currentHierarchy = new ArrayList<AbstractAttribute>();
-        }		
-        for (AbstractAttribute at: getAttributes()) {
-        	if (!currentHierarchy.contains(at) && at.isEnabled()) currentHierarchy.add(at);        
         }
+        if (currentHierarchy.isEmpty())
+	        for (AbstractAttribute at: getAttributes()) {
+	        	if (!currentHierarchy.contains(at) && at.isEnabled()) currentHierarchy.add(at);        
+	        }
         if (!up) return getAllAttributes(currentHierarchy);
         Category parent = getParent();
         if (parent!=null) {

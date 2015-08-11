@@ -151,13 +151,27 @@ public class AdminProductController {
 	  
 	  @SuppressWarnings("rawtypes")
 	  @RequestMapping("/edit")
-	  public String brandEdit(@RequestParam(value = "ID", required = false) String ID, Model model,
-			   				  @RequestHeader(value = "X-Requested-With", required = false) String requestedWith) {
+	  public String productEdit(@RequestParam(value = "ID", required = false) String ID, Model model,
+			   				  @RequestHeader(value = "X-Requested-With", required = false) String requestedWith) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
 		  if(!model.containsAttribute("product")) {
 			 Product product = productService.getProductById(UUID.fromString(ID));
 			 if (product == null) throw new ProductNotFoundException("Товар не найден.");			 
- 			 List<AbstractAttributeValue> av = product.getCategory().getAllAttributeValues(true);
-			 model.addAttribute("av", av);
+ 			 List<AbstractAttribute> at = new ArrayList<AbstractAttribute>();
+ 			 at = product.getCategory().getAllAttributes(at, true);
+ 			 List<AbstractAttributeValue> av = product.getAttributeValues();
+ 			 for (AbstractAttribute cat : at) {
+ 	 			 boolean needAdd = true;
+ 				 for (AbstractAttributeValue cav: av) {
+ 					 if (cat.getAttributeType().equals(cav.getAttribute().getAttributeType())) {
+ 						needAdd = false;
+ 						break;
+ 					 }
+ 				 }
+ 				 if (needAdd) {
+ 					 product.addAttributeValue(cat);
+ 				 }
+ 			 }
+			 model.addAttribute("at", at);
 		     model.addAttribute("product", product);
 		  }
           if ("XMLHttpRequest".equals(requestedWith)) {
