@@ -159,8 +159,9 @@ public class AdminProductController {
  			 List<AbstractAttribute> at = new ArrayList<AbstractAttribute>();
  			 at = product.getCategory().getAllAttributes(at, true);
  			 List<AbstractAttributeValue> av = product.getAttributeValues();
+ 			 boolean needAdd;
  			 for (AbstractAttribute cat : at) {
- 	 			 boolean needAdd = true;
+ 				 needAdd = true;
  				 for (AbstractAttributeValue cav: av) {
  					 if (cat.getAttributeType().equals(cav.getAttribute().getAttributeType())) {
  						needAdd = false;
@@ -171,7 +172,6 @@ public class AdminProductController {
  					 product.addAttributeValue(cat);
  				 }
  			 }
-			 model.addAttribute("at", at);
 		     model.addAttribute("product", product);
 		  }
           if ("XMLHttpRequest".equals(requestedWith)) {
