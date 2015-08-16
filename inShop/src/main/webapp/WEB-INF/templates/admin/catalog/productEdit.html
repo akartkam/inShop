@@ -55,6 +55,8 @@
 	                    </li>
 	                    <li th:class="${tabactive=='links'}? 'in active'"><a href="#links" data-toggle="tab" th:text="#{admin.edit.tab.links}">Связи</a>
 	                    </li>
+	                    <li th:class="${tabactive=='attributes'}? 'in active'"><a href="#attributes" data-toggle="tab" th:text="#{admin.edit.tab.attributes}">Атрибуты</a>
+	                    </li>
 	                </ul>
 	                <!-- Tab panes -->
 	                <div class="tab-content" style ="height:50vh;overflow-x:hidden;overflow-y:auto">
@@ -276,20 +278,51 @@
 								    </option>      
 							 </select>
 						   </div>	
-						   <div class="field-box">
-					   		 <ul>
-					   		
-					   		 </ul>
-						   </div>                    	
 	                    </div>
-	                    
+	                    <div class="tab-pane fade" th:classappend="${tabactive=='attributes'}? 'in active'" id="attributes">
+							<div class="container-fluid">	                    
+							    <div class="row clearfix">
+									<div class="col-md-12">
+				                       	 <table class="table table-striped table-bordered">
+				                       	 	<thead>
+				                       	 		<tr>
+					                       	      <th class="col-md-6 text-center" th:text="#{admin.catalog.product.edit.attributevalues.name}">Name</th>
+									              <th class="col-md-6 text-center" th:text="#{admin.catalog.product.edit.attributevalues.value}">Value</th>				                       	 			
+				                       	 		</tr>
+				                       	 	</thead>
+									  	    <tbody>
+									  	       <tr th:each="av, avStat : *{attributeValues}">
+									  	       	  <td>
+									  	       	  	<input type="hidden" th:field="*{attributeValues[__${avStat.index}__].id}"/>
+									  	       	    <span th:text="${av.attribute.name}"></span><span class="text-muted" style="font-size: 8pt;" th:text="' ('+#{${'attribute.type.' + av.attribute.attributeType}}+')'"></span>
+									  	       	  </td>
+									  	       	  <td>
+									  	       	  	<input th:if="${av.attribute.attributeType.name=='DECIMAL'}" type="text" 
+									  	       	  		   class="form-control input-md" th:field="*{attributeValues[__${avStat.index}__].value}"/>
+									  	       	  	<input th:if="${av.attribute.attributeType.name=='STRING'}" type="text" 
+									  	       	  		   class="form-control input-md" th:field="*{attributeValues[__${avStat.index}__].value}"/>
+													<select th:if="${av.attribute.attributeType.name=='SLIST'}"
+													        class="form-control" name="avSelected"
+													        th:field="*{attributeValues[__${avStat.index}__].value}">
+														    <option th:each="avsl: ${av.attribute.items}" th:text="${avsl}"
+														            th:selected="${av.value}"
+														            th:value="${avsl}">
+														    </option>      
+													</select>
+									  	       	  	
+									  	       	  	
+									  	       	  </td>
+									  	       </tr>
+									  	    </tbody>
+									  	 </table>
+									</div>
+								</div>
+							</div>   
+	                    </div>
 	                </div>
 		    </div>
 		 <!-- /modal-body -->
 	 	    <div class="modal-footer">
-	 		  <!-- <button type="button" class="btn btn-default"  
-	 		          th:text="#{admin.catalog.category.edit.button.close}"
-	 		          th:onclick="'window.location=\''+@{/admin/catalog/category}+'\''">Close</button> -->
 	 		  <button type="button" class="btn btn-default" data-dismiss="modal" th:text="#{admin.catalog.category.edit.button.close}">Close</button>        
 			  <button type="submit" class="btn btn-primary" th:text="#{admin.catalog.category.edit.button.save}">Save changes</button>
 		    </div>  
@@ -317,8 +350,6 @@
 		     $(document).ready(function() {
 	 	    	$("#editModal").modal("show");
 	    		$('#inputSImg').one('change', function () {
-    				    cnt++;
-    				    alert(cnt);
 		    			var form = new FormData(document.forms.pform);
 		    			var path= $(this).data("path");
 		    			var formser;

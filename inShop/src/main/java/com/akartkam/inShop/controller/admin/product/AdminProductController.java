@@ -115,7 +115,7 @@ public class AdminProductController {
 			binder.setAllowedFields(new String[] { "id", "name", "url", "description", "longDescription", 
 					 							   "code", "category", "brand", "model", "attributeValues", "ordering", 
 					 							   "productOptions", "canSellWithoutOptions", "images*", "enabled",
-					 							   "retailPrice", "salePrice", "costPrice"});
+					 							   "retailPrice", "salePrice", "costPrice", "*value"});
 			binder.registerCustomEditor(UUID.class, "id", new PropertyEditorSupport() {
 			    @Override
 			    public void setAsText(String text) {
@@ -155,7 +155,7 @@ public class AdminProductController {
 			   				  @RequestHeader(value = "X-Requested-With", required = false) String requestedWith) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
 		  if(!model.containsAttribute("product")) {
 			 Product product = productService.getProductById(UUID.fromString(ID));
-			 if (product == null) throw new ProductNotFoundException("Товар не найден.");			 
+			 if (product == null) throw new ProductNotFoundException("Product not found.");			 
  			 List<AbstractAttribute> at = new ArrayList<AbstractAttribute>();
  			 at = product.getCategory().getAllAttributes(at, true);
  			 List<AbstractAttributeValue> av = product.getAttributeValues();
@@ -163,7 +163,7 @@ public class AdminProductController {
  			 for (AbstractAttribute cat : at) {
  				 needAdd = true;
  				 for (AbstractAttributeValue cav: av) {
- 					 if (cat.getAttributeType().equals(cav.getAttribute().getAttributeType())) {
+ 					 if (cat.equals(cav.getAttribute())) {
  						needAdd = false;
  						break;
  					 }

@@ -2,13 +2,14 @@ package com.akartkam.inShop.presentation.admin;
 
 
 public enum EditTab {
-	MAIN ("MAIN", 4),
-	ADDITIONAL ("ADDITIONAL", 3),
-	IMAGES ("IMAGES", 2),
-	CONTENT ("CONTENT", 1),
-	LINKS ("LINKS", 0);
+	MAIN ("MAIN", 5),
+	ADDITIONAL ("ADDITIONAL", 4),
+	IMAGES ("IMAGES", 3),
+	CONTENT ("CONTENT", 2),
+	LINKS ("LINKS", 1),
+	ATTRIBUTES ("ATTRIBUTES", 0);
 	
-	public static final EditTab[] ALL = {MAIN, ADDITIONAL, IMAGES, CONTENT, LINKS};
+	public static final EditTab[] ALL = {MAIN, ADDITIONAL, IMAGES, CONTENT, LINKS, ATTRIBUTES};
 	
     private final String name;
     private final int defaultOrder;
@@ -27,6 +28,8 @@ public enum EditTab {
             return CONTENT;
 	    } else if (name.toUpperCase().equals("LINKS")) {
 	    	return LINKS;
+	    } else if (name.toUpperCase().equals("ATTRIBUTES")) {
+	    	return ATTRIBUTES;
 	    }
         throw new IllegalArgumentException("Name \"" + name + "\" does not correspond to any EditTab");
     }    
