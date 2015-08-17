@@ -48,6 +48,9 @@ import com.akartkam.inShop.domain.product.Product;
 import com.akartkam.inShop.domain.product.ProductStatus;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttributeValue;
+import com.akartkam.inShop.domain.product.attribute.AttributeDecimalValue;
+import com.akartkam.inShop.domain.product.attribute.AttributeType;
+import com.akartkam.inShop.domain.product.attribute.SimpleAttributeFactory;
 import com.akartkam.inShop.domain.product.option.ProductOption;
 import com.akartkam.inShop.domain.product.option.ProductOptionValue;
 import com.akartkam.inShop.service.product.BrandService;
@@ -112,10 +115,11 @@ public class AdminProductController {
 	  
 	  @InitBinder
 	  public void initBinder(WebDataBinder binder) {
-			binder.setAllowedFields(new String[] { "id", "name", "url", "description", "longDescription", 
+			binder.setAllowedFields(new String[] { "*id", "name", "url", "description", "longDescription", 
 					 							   "code", "category", "brand", "model", "attributeValues", "ordering", 
 					 							   "productOptions", "canSellWithoutOptions", "images*", "enabled",
 					 							   "retailPrice", "salePrice", "costPrice", "*value"});
+			binder.setAutoGrowNestedPaths(false);
 			binder.registerCustomEditor(UUID.class, "id", new PropertyEditorSupport() {
 			    @Override
 			    public void setAsText(String text) {
@@ -142,6 +146,24 @@ public class AdminProductController {
 			    	}			    
 			    }
 			    });
+			binder.registerCustomEditor(AbstractAttributeValue.class, new PropertyEditorSupport() {
+			    @SuppressWarnings("rawtypes")
+				@Override
+			    public void setAsText(String text) {
+			    	if (!"".equals(text)) {
+			    		AbstractAttributeValue av = null;
+						try {
+							av = SimpleAttributeFactory.createAttributeValue(AttributeType.DECIMAL);
+						} catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
+							// TODO Auto-generated catch block
+
+						} 
+			            setValue(av);
+			    	}			    
+			    }
+			});
+					
+				
 	  }
 	  
 	  @RequestMapping(method=GET)
