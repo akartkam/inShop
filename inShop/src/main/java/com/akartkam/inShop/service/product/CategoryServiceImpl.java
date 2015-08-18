@@ -2,6 +2,7 @@ package com.akartkam.inShop.service.product;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
@@ -15,6 +16,7 @@ import com.akartkam.inShop.dao.product.attribute.AttributeDAO;
 import com.akartkam.inShop.domain.product.Category;
 import com.akartkam.inShop.domain.product.Product;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
+import com.akartkam.inShop.domain.product.option.ProductOptionValue;
 
 @Service("CategoryService")
 @Transactional(readOnly = true)
@@ -89,13 +91,26 @@ public class CategoryServiceImpl implements CategoryService {
 	        } else { 
 	        	if (existingCategory.getParent() != null)  existingCategory.getParent().removeSubCategory(existingCategory);
 	        }
-	        for (AbstractAttribute attribute : existingCategory.getAttributes()) {
+	        Iterator<AbstractAttribute> ati = existingCategory.getAttributes().iterator();
+	        while(ati.hasNext()){
+	        	AbstractAttribute at = ati.next();
+	        	if (attributes.contains(at.getId().toString())) {
+	        		attributes.remove(at.getId().toString());
+	        	} else {
+	        		ati.remove();
+	        	}
+	        	
+	        }
+
+	        /*for (AbstractAttribute attribute : existingCategory.getAttributes()) {
 	        	if (attributes.contains(attribute.getId().toString())) {
 	        		attributes.remove(attribute.getId().toString());
 	        	} else {
 	        	   existingCategory.removeAttribute(attribute);
 	        	}
 	        }
+	        */
+	        
 	        for (String attrId : attributes) {
 	        	AbstractAttribute attr = attributeDAO.findById(UUID.fromString(attrId), false);
 	        	existingCategory.addAttribute(attr);

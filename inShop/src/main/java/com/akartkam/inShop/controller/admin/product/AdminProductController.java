@@ -22,6 +22,7 @@ import javax.validation.Valid;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.propertyeditors.CustomCollectionEditor;
 import org.springframework.context.MessageSource;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -116,7 +117,7 @@ public class AdminProductController {
 	  @InitBinder
 	  public void initBinder(WebDataBinder binder) {
 			binder.setAllowedFields(new String[] { "*id", "name", "url", "description", "longDescription", 
-					 							   "code", "category", "brand", "model", "attributeValues", "ordering", 
+					 							   "code", "category", "brand", "model", "attributeValues*", "ordering", 
 					 							   "productOptions", "canSellWithoutOptions", "images*", "enabled",
 					 							   "retailPrice", "salePrice", "costPrice", "*value"});
 			binder.setAutoGrowNestedPaths(false);
@@ -146,11 +147,10 @@ public class AdminProductController {
 			    	}			    
 			    }
 			    });
-			binder.registerCustomEditor(AbstractAttributeValue.class, new PropertyEditorSupport() {
-			    @SuppressWarnings("rawtypes")
+			binder.registerCustomEditor(List.class, "attributeValues*", new CustomCollectionEditor(List.class) {
 				@Override
-			    public void setAsText(String text) {
-			    	if (!"".equals(text)) {
+				protected Object convertElement(Object element) {
+			    /*	if (!"".equals(text)) {
 			    		AbstractAttributeValue av = null;
 						try {
 							av = SimpleAttributeFactory.createAttributeValue(AttributeType.DECIMAL);
@@ -159,8 +159,9 @@ public class AdminProductController {
 
 						} 
 			            setValue(av);
-			    	}			    
-			    }
+			    	}*/			    
+					return element;
+			    } 
 			});
 					
 				
