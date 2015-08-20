@@ -14,6 +14,7 @@ import com.akartkam.inShop.dao.product.ProductDAO;
 import com.akartkam.inShop.dao.product.option.ProductOptionDAO;
 import com.akartkam.inShop.domain.product.Product;
 import com.akartkam.inShop.domain.product.ProductStatus;
+import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
 import com.akartkam.inShop.domain.product.option.ProductOption;
 import com.akartkam.inShop.domain.product.option.ProductOptionValue;
 
@@ -194,6 +195,17 @@ public class ProductServiceImpl implements ProductService {
 			existingProduct.setLongDescription(productFromPost.getLongDescription());
 			existingProduct.setEnabled(productFromPost.isEnabled());
 			existingProduct.setCanSellWithoutOptions(productFromPost.isCanSellWithoutOptions());
+	        Iterator<ProductStatus> psi = existingProduct.getProductStatus().iterator();
+	        while(psi.hasNext()){
+	        	ProductStatus p = psi.next();
+	        	if (ps.contains(p.name())) {
+	        		ps.remove(p.name());
+	        	} else {
+	        		psi.remove();
+	        	}
+	        	
+	        }
+			/*
 			for (ProductStatus psCurr : existingProduct.getProductStatus()) {
 	        	if (ps.contains(psCurr)) {
 	        		ps.remove(psCurr);
@@ -201,9 +213,12 @@ public class ProductServiceImpl implements ProductService {
 	        		existingProduct.getProductStatus().remove(psCurr);
 	        	}
 			}
-	        for (String psi : ps) {
-	        	existingProduct.getProductStatus().add(ProductStatus.forName(psi));
-	        }			
+			*/
+	        
+	        for (String psii : ps) {
+	        	existingProduct.getProductStatus().add(ProductStatus.forName(psii));
+	        }
+	        
 	        for (ProductOption poCurr : existingProduct.getProductOptions()) {
 	        	if (po.contains(poCurr.getId().toString())) {
 	        		po.remove(poCurr.getId().toString());

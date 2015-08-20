@@ -101,16 +101,6 @@ public class CategoryServiceImpl implements CategoryService {
 	        	}
 	        	
 	        }
-
-	        /*for (AbstractAttribute attribute : existingCategory.getAttributes()) {
-	        	if (attributes.contains(attribute.getId().toString())) {
-	        		attributes.remove(attribute.getId().toString());
-	        	} else {
-	        	   existingCategory.removeAttribute(attribute);
-	        	}
-	        }
-	        */
-	        
 	        for (String attrId : attributes) {
 	        	AbstractAttribute attr = attributeDAO.findById(UUID.fromString(attrId), false);
 	        	existingCategory.addAttribute(attr);

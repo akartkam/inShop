@@ -293,17 +293,15 @@
 									  	    <tbody>
 									  	       <tr th:each="av, avStat : *{attributeValues}">
 									  	       	  <td>
-									  	       	  	<input type="hidden" th:field="*{attributeValues[__${avStat.index}__].id}"/>
 									  	       	    <span th:text="${av.attribute.name}"></span><span class="text-muted" style="font-size: 8pt;" th:text="' ('+#{${'attribute.type.' + av.attribute.attributeType}}+')'"></span>
 									  	       	  </td>
 									  	       	  <td>
 									  	       	  	<input th:if="${av.attribute.attributeType.name=='DECIMAL'}" type="text" 
-									  	       	  		   class="form-control input-md" th:field="*{attributeValues[__${avStat.index}__].value}"/>
+									  	       	  		   class="form-control input-md" th:value="${av.value}" th:name="${'DECIMAL_'+av.id}"/>
 									  	       	  	<input th:if="${av.attribute.attributeType.name=='STRING'}" type="text" 
-									  	       	  		   class="form-control input-md" th:field="*{attributeValues[__${avStat.index}__].value}"/>
+									  	       	  		   class="form-control input-md" th:value="${av.value}" th:name="${'STRING_'+av.id}"/>
 													<select th:if="${av.attribute.attributeType.name=='SLIST'}"
-													        class="form-control" name="avSelected"
-													        th:field="*{attributeValues[__${avStat.index}__].value}">
+													        class="form-control" th:name="${'SLIST_'+av.id}">
 														    <option th:each="avsl: ${av.attribute.items}" th:text="${avsl}"
 														            th:selected="${av.value}"
 														            th:value="${avsl}">

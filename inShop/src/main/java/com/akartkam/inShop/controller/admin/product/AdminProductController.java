@@ -240,6 +240,7 @@ public class AdminProductController {
 	   public String saveBrand(@RequestParam(value="poSelected", required=false) Set<String> po,
 				   			   @RequestParam(value="psSelected", required=false) Set<String> ps,
 			                   @Valid Product product,
+			                   HttpServletRequest request,
 				   			   final BindingResult bindingResult,
 			                   final RedirectAttributes ra
 			                         ) {
