@@ -205,16 +205,6 @@ public class ProductServiceImpl implements ProductService {
 	        	}
 	        	
 	        }
-			/*
-			for (ProductStatus psCurr : existingProduct.getProductStatus()) {
-	        	if (ps.contains(psCurr)) {
-	        		ps.remove(psCurr);
-	        	} else {
-	        		existingProduct.getProductStatus().remove(psCurr);
-	        	}
-			}
-			*/
-	        
 	        for (String psii : ps) {
 	        	existingProduct.getProductStatus().add(ProductStatus.forName(psii));
 	        }
