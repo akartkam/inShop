@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -54,6 +55,7 @@ import com.akartkam.inShop.domain.product.attribute.AttributeType;
 import com.akartkam.inShop.domain.product.attribute.SimpleAttributeFactory;
 import com.akartkam.inShop.domain.product.option.ProductOption;
 import com.akartkam.inShop.domain.product.option.ProductOptionValue;
+import com.akartkam.inShop.service.product.AttributeCategoryService;
 import com.akartkam.inShop.service.product.BrandService;
 import com.akartkam.inShop.service.product.CategoryService;
 import com.akartkam.inShop.service.product.ProductService;
@@ -74,6 +76,9 @@ public class AdminProductController {
 	  
 	  @Autowired
 	  BrandService brandService;
+	  
+	  @Autowired
+	  AttributeCategoryService attributeCategoryService;
 
 	  @Autowired
 	  private MessageSource messageSource;
@@ -147,24 +152,6 @@ public class AdminProductController {
 			    	}			    
 			    }
 			    });
-			binder.registerCustomEditor(List.class, "attributeValues*", new CustomCollectionEditor(List.class) {
-				@Override
-				protected Object convertElement(Object element) {
-			    /*	if (!"".equals(text)) {
-			    		AbstractAttributeValue av = null;
-						try {
-							av = SimpleAttributeFactory.createAttributeValue(AttributeType.DECIMAL);
-						} catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
-							// TODO Auto-generated catch block
-
-						} 
-			            setValue(av);
-			    	}*/			    
-					return element;
-			    } 
-			});
-					
-				
 	  }
 	  
 	  @RequestMapping(method=GET)
@@ -239,8 +226,8 @@ public class AdminProductController {
 	   @RequestMapping(value="/edit", method = RequestMethod.POST )
 	   public String saveBrand(@RequestParam(value="poSelected", required=false) Set<String> po,
 				   			   @RequestParam(value="psSelected", required=false) Set<String> ps,
+				   			   @RequestParam(required=false) Map<String, String> params,
 			                   @Valid Product product,
-			                   HttpServletRequest request,
 				   			   final BindingResult bindingResult,
 			                   final RedirectAttributes ra
 			                         ) {
@@ -252,9 +239,28 @@ public class AdminProductController {
 
 	        if (po==null) po = new HashSet<String>(0);
 	        if (ps==null) ps = new HashSet<String>(0);
+	        parseProductParams(product, params);
 	        productService.mergeWithExistingAndUpdateOrCreate(product, po, ps);	       
 	        return "redirect:/admin/catalog/product";
 	    }
+	   
+	   @SuppressWarnings("rawtypes")
+	   private void parseProductParams(Product product, Map<String, String> params) {
+		   String pstr="";
+		   for (int i=0;i<=AttributeType.ALL.length-1;i++) pstr = pstr + AttributeType.ALL[i] + "|";
+		   if (pstr.endsWith("|")) pstr = pstr.substring(0, pstr.length()-1); 
+		   Pattern pattern = Pattern.compile(pstr);
+		   for (Map.Entry<String, String> entry : params.entrySet()) {
+			   if (pattern.matcher(entry.getKey()).find()) {
+				   String atName, atId;
+				   String[] pp = entry.getKey().split("_");
+				   atName = pp[0];
+				   atId = pp[1];
+				   AbstractAttributeValue av = attributeCategoryService.loadAttributeValueById(UUID.fromString(atId), false);
+				   product.addAttributeValue(av);
+			   }
+		   }
+	   }
 	   
 	   @RequestMapping(value="/image/add", method = RequestMethod.POST )
 	   public String addNewImage(final @ModelAttribute Product product,

@@ -50,7 +50,8 @@ public enum AttributeType {
     
     public String getClassAttributeValueName() {
         return this.clazzAttributeValueName;
-    }    
+    } 
+    
     
     @Override
     public String toString() {

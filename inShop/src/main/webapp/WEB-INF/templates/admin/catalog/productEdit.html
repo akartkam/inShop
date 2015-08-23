@@ -297,7 +297,9 @@
 									  	       	  </td>
 									  	       	  <td>
 									  	       	  	<input th:if="${av.attribute.attributeType.name=='DECIMAL'}" type="text" 
-									  	       	  		   class="form-control input-md" th:value="${av.value}" th:name="${'DECIMAL_'+av.id}"/>
+									  	       	  		   class="form-control input-md" th:value="${av.value}" th:name="${'DECIMAL_'+av.id}"
+									  	       	  		   data-oldtext=""
+									  	       	  		   oninput="(function(e) {var txt = e.target.value; var oldTxt = e.target.dataset.oldtext; var reg = /^\-{0,1}[0-9]*\.{0,1}[0-9]*$/gi; if (!reg.test(txt)) e.target.value = oldTxt; else e.target.dataset.oldtext = txt ;})(event)"/>
 									  	       	  	<input th:if="${av.attribute.attributeType.name=='STRING'}" type="text" 
 									  	       	  		   class="form-control input-md" th:value="${av.value}" th:name="${'STRING_'+av.id}"/>
 													<select th:if="${av.attribute.attributeType.name=='SLIST'}"
@@ -307,7 +309,7 @@
 														            th:value="${avsl}">
 														    </option>      
 													</select> 
-									  	       	  	
+<!-- 									  	       	  	var txt = this.value; var reg = /^\-{0,1}[0-9]*\.{0,1}[0-9]*$/; return = reg.test(text); -->
 									  	       	  	
 									  	       	  </td>
 									  	       </tr>

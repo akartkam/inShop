@@ -6,6 +6,7 @@ import java.util.UUID;
 import org.springframework.validation.Errors;
 
 import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
+import com.akartkam.inShop.domain.product.attribute.AbstractAttributeValue;
 import com.akartkam.inShop.domain.product.attribute.AttributeCategory;
 import com.akartkam.inShop.formbean.AttributeForm;
 
@@ -18,6 +19,7 @@ public interface AttributeCategoryService {
 	AttributeCategory getAttributeCategoryByName(String name);
 	AttributeCategory loadAttributeCategoryById(UUID id, Boolean lock);
 	AbstractAttribute loadAttributeById(UUID id, Boolean lock);
+	AbstractAttributeValue loadAttributeValueById(UUID id, Boolean lock);
 	AttributeCategory getAttributeCategoryById(UUID id);
 	void updateAttributeCategory(AttributeCategory category);
 	void updateAttribute(AbstractAttribute attribute);
@@ -34,4 +36,5 @@ public interface AttributeCategoryService {
 	AbstractAttribute getAttributeById(UUID id);
 	AttributeCategory cloneAttributeCategoryById(UUID id) throws CloneNotSupportedException;
 	AbstractAttribute cloneAttributeById(UUID id) throws CloneNotSupportedException;
+	
 }

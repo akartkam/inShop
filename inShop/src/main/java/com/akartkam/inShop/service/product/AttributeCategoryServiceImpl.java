@@ -15,6 +15,7 @@ import org.springframework.validation.Errors;
 
 import com.akartkam.inShop.dao.product.attribute.AttributeCategoryDAO;
 import com.akartkam.inShop.dao.product.attribute.AttributeDAO;
+import com.akartkam.inShop.dao.product.attribute.AttributeValueDAO;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttributeValue;
 import com.akartkam.inShop.domain.product.attribute.AttributeCategory;
@@ -33,6 +34,10 @@ public class AttributeCategoryServiceImpl implements AttributeCategoryService {
 
 	@Autowired
 	private AttributeDAO attributeDAO;
+	
+	@Autowired
+	private AttributeValueDAO attributeValueDAO;
+	
 
 	@Override
 	@Transactional(readOnly = false)
@@ -186,7 +191,12 @@ public class AttributeCategoryServiceImpl implements AttributeCategoryService {
 	@Override
 	public AbstractAttribute loadAttributeById(UUID id, Boolean lock) {
 		return attributeDAO.findById(id, lock);
-	}	
+	}
+	
+	@Override
+	public AbstractAttributeValue loadAttributeValueById(UUID id, Boolean lock) {
+		return attributeValueDAO.findById(id, lock);
+	}
 
 	@Override
 	public List<AttributeCategory> getAllAttributeCategory() {
@@ -257,5 +267,7 @@ public class AttributeCategoryServiceImpl implements AttributeCategoryService {
 		if (clonedAttribute == null) return null;
 		return clonedAttribute.clone();
 	}
+	
+	
 
 }

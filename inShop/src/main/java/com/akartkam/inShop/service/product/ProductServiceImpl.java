@@ -209,6 +209,16 @@ public class ProductServiceImpl implements ProductService {
 	        	existingProduct.getProductStatus().add(ProductStatus.forName(psii));
 	        }
 	        
+	        Iterator<ProductOption> poi = existingProduct.getProductOptions().iterator();
+	        while(poi.hasNext()){
+	        	ProductOption p = poi.next();
+	        	if (po.contains(p.getId().toString())) {
+	        		po.remove(p.getId().toString());
+	        	} else {
+	        		poi.remove();
+	        	}
+	        	
+	        }
 	        for (ProductOption poCurr : existingProduct.getProductOptions()) {
 	        	if (po.contains(poCurr.getId().toString())) {
 	        		po.remove(poCurr.getId().toString());
