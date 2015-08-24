@@ -51,6 +51,8 @@ public abstract class AbstractAttributeValue<T extends Serializable> extends Abs
 		return attributeValue.toString();
 	}
 	
+	public abstract void setStringValue (String value);
+	
 	@NotNull
 	@Transient
 	public abstract AttributeType getAttributeValueType();

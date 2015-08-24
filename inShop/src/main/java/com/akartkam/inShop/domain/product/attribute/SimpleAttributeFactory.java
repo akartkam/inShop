@@ -12,5 +12,6 @@ public class SimpleAttributeFactory {
 	public static AbstractAttributeValue createAttributeValue(AttributeType attributeType) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
 		Class cl = Class.forName(attributeType.getClassAttributeValueName());
 		return (AbstractAttributeValue) cl.newInstance();
-	}	
+	}
+	
 }

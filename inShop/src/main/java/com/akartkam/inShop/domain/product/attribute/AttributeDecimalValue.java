@@ -34,5 +34,13 @@ public class AttributeDecimalValue extends AbstractAttributeValue<Double> {
 		return AttributeType.DECIMAL;
 	}
 
+
+
+	@Override
+	public void setStringValue(String value) {
+		setValue(Double.parseDouble(value));
+		
+	}
+
 	
 }

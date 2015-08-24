@@ -15,6 +15,7 @@ import com.akartkam.inShop.dao.product.option.ProductOptionDAO;
 import com.akartkam.inShop.domain.product.Product;
 import com.akartkam.inShop.domain.product.ProductStatus;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
+import com.akartkam.inShop.domain.product.attribute.AbstractAttributeValue;
 import com.akartkam.inShop.domain.product.option.ProductOption;
 import com.akartkam.inShop.domain.product.option.ProductOptionValue;
 
@@ -195,6 +196,22 @@ public class ProductServiceImpl implements ProductService {
 			existingProduct.setLongDescription(productFromPost.getLongDescription());
 			existingProduct.setEnabled(productFromPost.isEnabled());
 			existingProduct.setCanSellWithoutOptions(productFromPost.isCanSellWithoutOptions());
+			List<AbstractAttributeValue> lavfp = productFromPost.getAttributeValues();
+			Iterator<AbstractAttributeValue> avi = existingProduct.getAttributeValues().iterator();
+			while(avi.hasNext()) {
+				AbstractAttributeValue av = avi.next();
+				int idx = lavfp.indexOf(av);
+				if (idx>=0) {
+					av.setValue(lavfp.get(idx).getValue());
+					lavfp.remove(idx);
+				} else {
+					avi.remove();
+				}
+			}
+			for (AbstractAttributeValue av1:lavfp) {
+				existingProduct.addAttributeValue(av1);
+			}
+			
 	        Iterator<ProductStatus> psi = existingProduct.getProductStatus().iterator();
 	        while(psi.hasNext()){
 	        	ProductStatus p = psi.next();

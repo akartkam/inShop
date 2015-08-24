@@ -33,5 +33,11 @@ public class AttributeSListValue extends AbstractAttributeValue<String> {
 	public AttributeType getAttributeValueType() {
 		return AttributeType.SLIST;
 	}
+
+
+	@Override
+	public void setStringValue(String value) {
+		setValue(value);
+	}
 	
 }

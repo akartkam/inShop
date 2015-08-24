@@ -34,5 +34,11 @@ public class AttributeStringValue extends AbstractAttributeValue<String> {
 	public AttributeType getAttributeValueType() {
 		return AttributeType.STRING;
 	}
+
+
+	@Override
+	public void setStringValue(String value) {
+		setValue(value);
+	}
 	
 }

@@ -208,7 +208,7 @@ public class Product extends AbstractDomainObjectOrdering {
 	@OneToMany(mappedBy="product", cascade = CascadeType.ALL)
 	@Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
 	public List<AbstractAttributeValue> getAttributeValues() {
-		return Collections.unmodifiableList(attributeValues);
+		return attributeValues;
 	}
 	public void setAttributeValues(List<AbstractAttributeValue> attributeValues) {
 		this.attributeValues = attributeValues;

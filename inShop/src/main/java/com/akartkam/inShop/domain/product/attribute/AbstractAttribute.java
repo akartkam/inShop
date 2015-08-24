@@ -75,6 +75,7 @@ public abstract class AbstractAttribute extends AbstractDomainObjectOrdering {
 		this.attributeValues = attributeValues;
 	}
 	
+	
 	@NotNull
 	@ManyToOne
 	@JoinColumn(nullable = false)

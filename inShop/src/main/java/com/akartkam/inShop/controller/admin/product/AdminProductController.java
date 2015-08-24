@@ -230,7 +230,7 @@ public class AdminProductController {
 			                   @Valid Product product,
 				   			   final BindingResult bindingResult,
 			                   final RedirectAttributes ra
-			                         ) {
+			                         ) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
 	        if (bindingResult.hasErrors()) {
 	        	ra.addFlashAttribute("product", product);
 	        	ra.addFlashAttribute("org.springframework.validation.BindingResult.product", bindingResult);
@@ -245,19 +245,21 @@ public class AdminProductController {
 	    }
 	   
 	   @SuppressWarnings("rawtypes")
-	   private void parseProductParams(Product product, Map<String, String> params) {
+	   private void parseProductParams(Product product, Map<String, String> params) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
 		   String pstr="";
 		   for (int i=0;i<=AttributeType.ALL.length-1;i++) pstr = pstr + AttributeType.ALL[i] + "|";
 		   if (pstr.endsWith("|")) pstr = pstr.substring(0, pstr.length()-1); 
 		   Pattern pattern = Pattern.compile(pstr);
 		   for (Map.Entry<String, String> entry : params.entrySet()) {
-			   if (pattern.matcher(entry.getKey()).find()) {
-				   String atName, atId;
+
+			   if (entry.getValue() != null && !"".equals(entry.getValue()) &&  pattern.matcher(entry.getKey()).find()) {
+				   String atId;
 				   String[] pp = entry.getKey().split("_");
-				   atName = pp[0];
 				   atId = pp[1];
-				   AbstractAttributeValue av = attributeCategoryService.loadAttributeValueById(UUID.fromString(atId), false);
-				   product.addAttributeValue(av);
+				   AbstractAttribute at = attributeCategoryService.loadAttributeById(UUID.fromString(atId), false);
+				   AbstractAttributeValue av = SimpleAttributeFactory.createAttributeValue(at.getAttributeType());
+				   av.setStringValue(entry.getValue());
+				   product.addAttributeValue(av, at);
 			   }
 		   }
 	   }
