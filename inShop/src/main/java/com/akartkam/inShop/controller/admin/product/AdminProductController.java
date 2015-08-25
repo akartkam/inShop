@@ -125,7 +125,7 @@ public class AdminProductController {
 					 							   "code", "category", "brand", "model", "attributeValues*", "ordering", 
 					 							   "productOptions", "canSellWithoutOptions", "images*", "enabled",
 					 							   "retailPrice", "salePrice", "costPrice", "*value"});
-			binder.setAutoGrowNestedPaths(false);
+			//binder.setAutoGrowNestedPaths(false);
 			binder.registerCustomEditor(UUID.class, "id", new PropertyEditorSupport() {
 			    @Override
 			    public void setAsText(String text) {
@@ -152,6 +152,16 @@ public class AdminProductController {
 			    	}			    
 			    }
 			    });
+			binder.registerCustomEditor(AbstractAttributeValue.class, "attributeValues.id", new PropertyEditorSupport() {
+			    @Override
+			    public void setAsText(String text) {
+			    	if (!"".equals(text)) {
+			    		AbstractAttributeValue ch = attributeCategoryService.loadAttributeValueById(UUID.fromString(text), false);
+			            setValue(ch);
+			    	}			    
+			    }
+			    });
+	
 	  }
 	  
 	  @RequestMapping(method=GET)
