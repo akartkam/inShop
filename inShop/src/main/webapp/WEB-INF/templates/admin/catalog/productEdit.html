@@ -293,21 +293,20 @@
 									  	    <tbody>
 									  	       <tr th:each="av, avStat : *{attributeValues}">
 									  	       	  <td>
-									  	       	  	<input type="hidden" th:field="*{attributeValues[__${avStat.index}__].id}"/>
 									  	       	    <span th:text="${av.attribute.name}"></span><span class="text-muted" style="font-size: 8pt;" th:text="' ('+#{${'attribute.type.' + av.attribute.attributeType}}+')'"></span>
 									  	       	  </td>
 									  	       	  <td>
 									  	       	  	<input th:if="${av.attribute.attributeType.name=='DECIMAL'}" type="text" 
-									  	       	  		   class="form-control input-md" th:value="${av.value}" th:name="${'DECIMAL_'+av.attribute.id}"
+									  	       	  		   class="form-control input-md" th:value="${av.value}" th:name="${'DECIMAL_'+av.attribute.id+'_'+av.id}"
 									  	       	  		   data-oldtext=""
 									  	       	  		   oninput="(function(e) {var txt = e.target.value; var oldTxt = e.target.dataset.oldtext; var reg = /^\-{0,1}[0-9]*\.{0,1}[0-9]*$/gi; if (!reg.test(txt)) e.target.value = oldTxt; else e.target.dataset.oldtext = txt ;})(event)"/>
 									  	       	  	<input th:if="${av.attribute.attributeType.name=='STRING'}" type="text" 
-									  	       	  		   class="form-control input-md" th:value="${av.value}" th:name="${'STRING_'+av.attribute.id}"/>
+									  	       	  		   class="form-control input-md" th:value="${av.value}" th:name="${'STRING_'+av.attribute.id+'_'+av.id}"/>
 													<select th:if="${av.attribute.attributeType.name=='SLIST'}"
-													        class="form-control" th:name="${'SLIST_'+av.attribute.id}">
+													        class="form-control" th:name="${'SLIST_'+av.attribute.id+'_'+av.id}">
 													        <option>&nbsp;</option>
 														    <option th:each="avsl: ${av.attribute.items}" th:text="${avsl}"
-														            th:selected="${av.value}"
+														            th:selected="${avsl == av.value}"
 														            th:value="${avsl}">
 														    </option>      
 													</select> 

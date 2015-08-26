@@ -152,16 +152,7 @@ public class AdminProductController {
 			    	}			    
 			    }
 			    });
-			binder.registerCustomEditor(AbstractAttributeValue.class, "attributeValues.id", new PropertyEditorSupport() {
-			    @Override
-			    public void setAsText(String text) {
-			    	if (!"".equals(text)) {
-			    		AbstractAttributeValue ch = attributeCategoryService.loadAttributeValueById(UUID.fromString(text), false);
-			            setValue(ch);
-			    	}			    
-			    }
-			    });
-	
+
 	  }
 	  
 	  @RequestMapping(method=GET)
@@ -263,11 +254,13 @@ public class AdminProductController {
 		   for (Map.Entry<String, String> entry : params.entrySet()) {
 
 			   if (entry.getValue() != null && !"".equals(entry.getValue()) &&  pattern.matcher(entry.getKey()).find()) {
-				   String atId;
+				   String atId, avId;
 				   String[] pp = entry.getKey().split("_");
 				   atId = pp[1];
+				   avId = pp[2];
 				   AbstractAttribute at = attributeCategoryService.loadAttributeById(UUID.fromString(atId), false);
 				   AbstractAttributeValue av = SimpleAttributeFactory.createAttributeValue(at.getAttributeType());
+				   av.setId(UUID.fromString(avId));
 				   av.setStringValue(entry.getValue());
 				   product.addAttributeValue(av, at);
 			   }
