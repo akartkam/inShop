@@ -3,9 +3,12 @@ package com.akartkam.inShop.domain.product;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 import java.util.UUID;
 
 import javax.persistence.CascadeType;
@@ -21,6 +24,7 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -30,6 +34,8 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.Index;
+import org.hibernate.annotations.Sort;
+import org.hibernate.annotations.SortType;
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.NumberFormat;
@@ -208,6 +214,7 @@ public class Product extends AbstractDomainObjectOrdering {
 	@OneToMany(mappedBy="product", cascade = CascadeType.ALL)
 	@Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
 	public List<AbstractAttributeValue> getAttributeValues() {
+		Collections.sort(attributeValues, new Product.AVComparer());
 		return attributeValues;
 	}
 	public void setAttributeValues(List<AbstractAttributeValue> attributeValues) {
@@ -217,7 +224,7 @@ public class Product extends AbstractDomainObjectOrdering {
 	public void addAttributeValue (AbstractAttributeValue attributeValue) {
 		if (attributeValue == null) throw new IllegalArgumentException("Null attributeValue!");
 		attributeValue.setProduct(this);
-		attributeValues.add(attributeValue);		
+		getAttributeValues().add(attributeValue);		
 	}
 	
 	public void addAttributeValue (AbstractAttributeValue attributeValue, AbstractAttribute attribute) {
@@ -290,6 +297,16 @@ public class Product extends AbstractDomainObjectOrdering {
 		product.setUpdatedDate(null);
 		return product;
 	}    
+	
+	
+	public static class AVComparer implements Comparator<AbstractAttributeValue> {
+
+		@Override
+		public int compare(AbstractAttributeValue arg0, AbstractAttributeValue arg1) {
+			return arg0.getAttribute().compareTo(arg1.getAttribute()) ;
+		}
+		  
+	}	
 
 
 }

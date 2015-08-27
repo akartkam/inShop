@@ -3,6 +3,7 @@ package com.akartkam.inShop.service.product;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.SortedSet;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -201,7 +202,7 @@ public class ProductServiceImpl implements ProductService {
 			while(avi.hasNext()) {
 				AbstractAttributeValue av = avi.next();
 				int idx = lavfp.indexOf(av);
-				if (idx>=0) {
+				if (lavfp.contains(av)) {
 					av.setValue(lavfp.get(idx).getValue());
 					lavfp.remove(idx);
 				} else {
@@ -211,7 +212,6 @@ public class ProductServiceImpl implements ProductService {
 			for (AbstractAttributeValue av1:lavfp) {
 				existingProduct.addAttributeValue(av1);
 			}
-			
 	        Iterator<ProductStatus> psi = existingProduct.getProductStatus().iterator();
 	        while(psi.hasNext()){
 	        	ProductStatus p = psi.next();
