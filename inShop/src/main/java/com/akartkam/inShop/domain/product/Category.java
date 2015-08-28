@@ -272,6 +272,13 @@ public class Category extends AbstractDomainObjectOrdering {
         }
         return currentHierarchy;
 	}
+	
+	
+	@Transient
+	public List<AbstractAttribute> getAllAttributes (boolean up) {
+		List<AbstractAttribute> currentHierarchy = new ArrayList<AbstractAttribute>();
+		return getAllAttributes(currentHierarchy, up);
+	}
 
 	
 	@SuppressWarnings("rawtypes")

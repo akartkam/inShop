@@ -121,7 +121,8 @@
 								          th:label="${attributeCategory.name}">
 								    <option th:if="${attribute.enabled}"
 								            th:each="attribute: ${attributeCategory.attributes}" th:text="${attribute.name}"
-								            th:selected="${#sets.contains(category.attributes, attribute)}"
+								            th:selected="${#lists.contains(category.getAllAttributes(null, true), attribute)}"
+								            th:disabled="${#lists.contains(category.getAllAttributes(null, true), attribute) &amp;&amp; !#lists.contains(category.attributes, attribute)}"
 								            th:value="${attribute.id}"
 								            th:attr="data-subtext=#{${'attribute.type.' + attribute.attributeType}}">
 								    </option>      
