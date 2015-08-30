@@ -89,7 +89,7 @@ public abstract class AbstractAttribute extends AbstractDomainObjectOrdering {
 	@ManyToMany(mappedBy = "attributes", cascade = CascadeType.ALL)
 	@Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
 	public Set<Category> getCategory() {
-		return Collections.unmodifiableSet(category);
+		return category;
 	}
 	
 	public void setCategory(Set<Category> category) {

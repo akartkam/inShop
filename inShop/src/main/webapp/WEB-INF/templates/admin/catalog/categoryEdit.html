@@ -89,7 +89,7 @@
 						    </label>
 							 <select class="form-control" th:field="*{parent}">
 							    <option value="">&nbsp;</option>
-								<option th:if="${scategory.id != category.id &amp;&amp; scategory.enabled}" 
+								<option th:if="${scategory.id != category.id}" 
 								        th:each="scategory : ${allCategories}" 
 								        th:value="${scategory.id}"
 									    th:text="${scategory.name}"

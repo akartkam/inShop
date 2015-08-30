@@ -59,7 +59,6 @@ public class Sku extends AbstractDomainObjectOrdering {
 	private InventoryType inventoryType;
 	private Date activeStartDate;
 	private Date activeEndDate;
-	//���� �������(������ ����), ����� ����(���� ����), �������������
 	private BigDecimal retailPrice, salePrice, costPrice;
 	private Set<ProductOptionValue> productOptionValues = new HashSet<ProductOptionValue>();
     private List<String> images = new ArrayList<String>();	

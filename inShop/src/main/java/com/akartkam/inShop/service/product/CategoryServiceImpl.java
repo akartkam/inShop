@@ -101,9 +101,13 @@ public class CategoryServiceImpl implements CategoryService {
 	        	}
 	        	
 	        }
+	        List<Category> lc = existingCategory.buildSubCategoryHierarchy(null, true);
+	        lc.remove(existingCategory);
 	        for (String attrId : attributes) {
 	        	AbstractAttribute attr = attributeDAO.findById(UUID.fromString(attrId), false);
 	        	existingCategory.addAttribute(attr);
+		        for (Category c : lc) c.removeAttribute(attr);
+		        	
 	        }
 	        existingCategory.setDescription(categoryFromPost.getDescription());
 	        existingCategory.setLongDescription(categoryFromPost.getLongDescription());
