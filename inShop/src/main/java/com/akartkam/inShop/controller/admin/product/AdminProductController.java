@@ -106,6 +106,12 @@ public class AdminProductController {
 	      return categoryService.getAllCategoryHierarchy(true);
 	  }	  
 	  
+	  @ModelAttribute("allProduct")
+	  public List<Product> getAllProduct(@RequestParam String categoryId) {
+		  Category ct = categoryService.getCategoryById(UUID.fromString(categoryId));
+	      return ct.getAllProducts(null);
+	  }	  
+	  
 	  @ModelAttribute("allBrand")
 	  public List<Brand> getAllBrand() {
 	      return brandService.getAllBrand(false);
