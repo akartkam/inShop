@@ -1,14 +1,13 @@
 package com.akartkam.inShop.domain.product;
 
 public enum InventoryType {
-	ALWAYS_AVAILABLE ("Доступен всегда"),
-	UNAVAILABLE ("Не доступен"),
-	CHECK_QUANTITY ("Отслеживать количество");
+	ALWAYS_AVAILABLE ,
+	UNAVAILABLE ,
+	CHECK_QUANTITY ;
 	
 	public static final InventoryType[] ALL = {ALWAYS_AVAILABLE, UNAVAILABLE, CHECK_QUANTITY};
 	
-    private final String name;
-    
+   
     public static InventoryType forName(final String name) {
         if (name == null) {
             throw new IllegalArgumentException("Name cannot be null for type");
@@ -23,12 +22,5 @@ public enum InventoryType {
         throw new IllegalArgumentException("Name \"" + name + "\" does not correspond to any InventoryType");
     }    
     
-    private InventoryType (final String name) {
-    	this.name = name;
-    }
-    
-    public String getName() {
-		return name;
-	}
 
 }
