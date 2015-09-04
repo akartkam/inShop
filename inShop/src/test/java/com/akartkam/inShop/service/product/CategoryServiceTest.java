@@ -173,14 +173,14 @@ public class CategoryServiceTest extends AbstractServiceTest {
 		jdbcTemplate.execute("select del_product('AutoTestAddProduct')");
 		Category found = categoryService.getCategoryByName("Test_Category4").get(0);
 		Product product = new Product();
-		product.setName("AutoTestAddProduct1");
+		//product.setName("AutoTestAddProduct1");
 		//product.setManufacturer("Manufacturer1");
 		product.setModel("Model1");
 		found.addProduct(product);
 		categoryDAO.update(found);
 		Category found1 = categoryService.getCategoryByName("Test_Category5").get(0);
 		Product product1 = new Product();
-		product1.setName("AutoTestAddProduct2");
+		//product1.setName("AutoTestAddProduct2");
 		//product1.setManufacturer("Manufacturer2");
 		product1.setModel("Model2");
 		found1.addProduct(product1);
@@ -209,7 +209,7 @@ public class CategoryServiceTest extends AbstractServiceTest {
 		attributeValue1.setValue("AutoTestAddAttributeStringValue1");		
 		//found.addAttribute(attribute1);
 		Product product = new Product();
-		product.setName("AutoTestAddAttributeDecimalValue1");
+		//product.setName("AutoTestAddAttributeDecimalValue1");
 		//product.setManufacturer("Manufacturer1");
 		product.setModel("Model1");	
 		AbstractAttributeValue attributeValue = SimpleAttributeFactory.createAttributeValue(AttributeType.DECIMAL);
@@ -234,7 +234,7 @@ public class CategoryServiceTest extends AbstractServiceTest {
 		attribute.setName("AutoTestAddAttributeSListValue1");	
 		AbstractAttributeValue attributeValue = SimpleAttributeFactory.createAttributeValue(AttributeType.SLIST);
 		Product product = new Product();
-		product.setName("AutoTestAddAttributeSListValue1");
+		//product.setName("AutoTestAddAttributeSListValue1");
 		//product.setManufacturer("Manufacturer1");
 		product.setModel("Model1");	
 		product.addAttributeValue(attributeValue, attribute);
@@ -263,7 +263,7 @@ public class CategoryServiceTest extends AbstractServiceTest {
 		pi.add(0, "/images/i1.jpg");
 	    pi.add("/images/i2.jpg");
 		pi.add(1,"/images/i3.jpg");
-		p.setImages(pi);
+		//p.setImages(pi);
 		
 	}
 	

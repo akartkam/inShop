@@ -52,18 +52,30 @@ public class Sku extends AbstractDomainObjectOrdering {
 	 * 
 	 */
 	private static final long serialVersionUID = -6933254570165053658L;
+	private String name;
 	private String code;
 	private String description;
+	private String longDescription;
 	private int quantityAvailable;
-	private ProductStatus productStatus;
+	private Set<ProductStatus> productStatus = new HashSet<ProductStatus>();
 	private InventoryType inventoryType;
 	private Date activeStartDate;
 	private Date activeEndDate;
 	private BigDecimal retailPrice, salePrice, costPrice;
 	private Set<ProductOptionValue> productOptionValues = new HashSet<ProductOptionValue>();
-    private List<String> images = new ArrayList<String>();	
+    private List<String> images = new ArrayList<String>();
     private Product product;
-	
+
+    @AdminPresentation(tab=EditTab.MAIN)
+	@NotEmpty
+	@Column(name = "name")
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+   
 	@Column(name = "code")
 	public String getCode() {
 		return code;
@@ -72,15 +84,24 @@ public class Sku extends AbstractDomainObjectOrdering {
 		this.code = skuCode;
 	}
 	
-    @Lob
-    @Type(type = "org.hibernate.type.TextType")
-    @Column(name = "description", length = Integer.MAX_VALUE - 1)
+	@Column(name = "description")
 	public String getDescription() {
 		return description;
 	}
 	public void setDescription(String description) {
 		this.description = description;
 	}
+	
+    @Lob
+    @Type(type = "org.hibernate.type.TextType")
+    @Column(name = "long_description", length = Integer.MAX_VALUE - 1)
+	public String getLongDescription() {
+		return longDescription;
+	}
+    
+	public void setLongDescription(String longDescription) {
+		this.longDescription = longDescription;
+	}		
 	
     @ElementCollection
     @CollectionTable(name="lnk_sku_image")
@@ -100,12 +121,14 @@ public class Sku extends AbstractDomainObjectOrdering {
 		this.quantityAvailable = quantityAvailable;
 	}
 	
+    @ElementCollection
+    @CollectionTable(name="lnk_product_status")
 	@Enumerated(EnumType.STRING)
-	@Column(name = "prod_status")
-	public ProductStatus getProductStatus() {
+    @Column(name = "pstatus", nullable = false)
+	public Set<ProductStatus> getProductStatus() {
 		return productStatus;
 	}
-	public void setProductStatus(ProductStatus productStatus) {
+	public void setProductStatus(Set<ProductStatus> productStatus) {
 		this.productStatus = productStatus;
 	}
 	

@@ -292,7 +292,7 @@ public class AdminProductController {
 		        fileName = new File(image.getOriginalFilename()).getName(); 
 		        filePath = imagePath + fileName;
 	        	imageUtil.saveImage(filePath, image);	
-	        	product.getImages().add(imageUrl+fileName);
+	        	//product.getImages().add(imageUrl+fileName);
 	       }
 		   model.addAttribute("product", product);
 		   model.addAttribute("tabactive","images");

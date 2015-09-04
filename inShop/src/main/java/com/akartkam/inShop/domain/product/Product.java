@@ -24,6 +24,7 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
 import javax.persistence.OrderColumn;
 import javax.persistence.Table;
@@ -32,6 +33,7 @@ import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.Index;
 import org.hibernate.annotations.Sort;
@@ -59,73 +61,16 @@ public class Product extends AbstractDomainObjectOrdering {
 	 * 
 	 */
 	private static final long serialVersionUID = -583044339566068826L;
-	private String name;
-	private String code;
 	private Category category;
-	private String description;
-	private String longDescription;
 	private Brand brand;
 	private String model;
 	private List<AbstractAttributeValue> attributeValues = new ArrayList<AbstractAttributeValue>();
 	private String url;
-	private Set<ProductStatus> productStatus = new HashSet<ProductStatus>();
-    private List<String> images = new ArrayList<String>();	
-    private List<Sku> sku = new ArrayList<Sku>();	
+	private Sku defaultSku;
+    private List<Sku> additionalSku = new ArrayList<Sku>();	
     private Set<ProductOption> productOptions = new HashSet<ProductOption>();
     private boolean canSellWithoutOptions = true;
-	private BigDecimal retailPrice, salePrice, costPrice;
-	
-    @AdminPresentation(tab=EditTab.MAIN)
-	@NotEmpty
-	@Column(name = "name")
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	@Column(name = "code")
-	public String getCode() {
-		return code;
-	}
-	public void setCode(String code) {
-		this.code = code;
-	}
-	
-	//@NotEmpty
-	@NumberFormat(style=Style.CURRENCY)
-	@Digits(fraction = 5, integer = 14)
-	@DecimalMin("0.01")
-    @Column(name = "retail_price", precision = 19, scale = 5)	
-	public BigDecimal getRetailPrice() {
-		return retailPrice;
-	}
-	public void setRetailPrice(BigDecimal retailPrice) {
-		this.retailPrice = retailPrice;
-	}
-	
-	@NumberFormat(style=Style.CURRENCY)
-	//@Digits(fraction = 5, integer = 14)
-	@DecimalMin("0.01")
-    @Column(name = "sale_price", precision = 19, scale = 5)
-	public BigDecimal getSalePrice() {
-		return salePrice;
-	}
-	public void setSalePrice(BigDecimal salePrice) {
-		this.salePrice = salePrice;
-	}
-
-	@NumberFormat(style=Style.CURRENCY)
-	//@Digits(fraction = 5, integer = 14)
-	@DecimalMin("0.01")
-    @Column(name = "cost_price", precision = 19, scale = 5)
-	public BigDecimal getCostPrice() {
-		return costPrice;
-	}
-	public void setCostPrice(BigDecimal costPrice) {
-		this.costPrice = costPrice;
-	}	
+		
 	
 	
 	@Column(name = "can_sell_without_options")
@@ -153,36 +98,7 @@ public class Product extends AbstractDomainObjectOrdering {
 	public void setUrl(String url) {
 		this.url = url;
 	}
-	
-    @ElementCollection
-    @CollectionTable(name="lnk_product_status")
-	@Enumerated(EnumType.STRING)
-    @Column(name = "pstatus", nullable = false)
-	public Set<ProductStatus> getProductStatus() {
-		return productStatus;
-	}
-	public void setProductStatus(Set<ProductStatus> productStatus) {
-		this.productStatus = productStatus;
-	}
-	@Column(name = "description")
-	public String getDescription() {
-		return description;
-	}
-	public void setDescription(String description) {
-		this.description = description;
-	}
-	
-    @Lob
-    @Type(type = "org.hibernate.type.TextType")
-    @Column(name = "long_description", length = Integer.MAX_VALUE - 1)
-	public String getLongDescription() {
-		return longDescription;
-	}
-    
-	public void setLongDescription(String longDescription) {
-		this.longDescription = longDescription;
-	}	
-	
+		
 	@ManyToOne
 	@JoinColumn
 	public Brand getBrand() {
@@ -199,18 +115,7 @@ public class Product extends AbstractDomainObjectOrdering {
 	public void setModel(String model) {
 		this.model = model;
 	}
-	
-	
-    @ElementCollection
-    @CollectionTable(name="lnk_product_image")
-    @OrderColumn(name="ordering")
-    public List<String> getImages() {
-		return images;
-	}
-	public void setImages(List<String> images) {
-		this.images = images;
-	}
-	
+		
 	@OneToMany(mappedBy="product", cascade = CascadeType.ALL)
 	@Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
 	public List<AbstractAttributeValue> getAttributeValues() {
@@ -265,32 +170,34 @@ public class Product extends AbstractDomainObjectOrdering {
         productOptions.remove(productOption);
     }
       
-	@OneToMany(mappedBy="product", cascade = CascadeType.ALL)
-	@Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
-	public List<Sku> getSku() {
-		return sku;
+    @OneToOne(cascade={CascadeType.ALL})
+    @Cascade(value={org.hibernate.annotations.CascadeType.ALL})
+    @JoinColumn(name = "default_sku_id")
+	public Sku getDefaultSku() {
+		return defaultSku;
 	}
-	public void setSku(List<Sku> sku) {
-		this.sku = sku;
+	public void setDefaultSku(Sku defaultSku) {
+		this.defaultSku = defaultSku;
+	}
+	
+	@OneToMany(mappedBy="product")
+	@BatchSize(size = 10)
+	public List<Sku> getAdditionalSku() {
+		return additionalSku;
+	}
+	public void setAdditionalSku(List<Sku> additionalSku) {
+		this.additionalSku = additionalSku;
 	}
 	@Override
 	@Transient
 	public Product clone() throws CloneNotSupportedException {
 		Product product = (Product) super.clone();
 		product.setId(UUID.randomUUID());
-		product.setName(new String(getName()));
-		product.setCode(new String(getCode()));
 		product.setUrl(new String(getUrl()));
-		product.setImages(new ArrayList<String>());
 		product.setModel(new String(getModel()));
-		product.setDescription(new String(getDescription()));
-		product.setLongDescription(new String(getLongDescription()));
-		product.setCostPrice(new BigDecimal(getCostPrice().toPlainString()));
-		product.setRetailPrice(new BigDecimal(getRetailPrice().toPlainString()));
-		product.setSalePrice(new BigDecimal(getSalePrice().toPlainString()));
 		product.setProductOptions(new HashSet<ProductOption>());
 		product.setAttributeValues(new ArrayList<AbstractAttributeValue>());
-		product.setSku(new ArrayList<Sku>());
+		//product.setDefaultSku(getDefaultSku().clone());
 		product.setCreatedBy(null);
 		product.setCreatedDate(null);
 		product.setUpdatedBy(null);
