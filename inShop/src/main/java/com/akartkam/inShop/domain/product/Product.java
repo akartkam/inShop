@@ -1,56 +1,35 @@
 package com.akartkam.inShop.domain.product;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
 import java.util.UUID;
 
 import javax.persistence.CascadeType;
-import javax.persistence.CollectionTable;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
-import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.OrderBy;
-import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.Index;
-import org.hibernate.annotations.Sort;
-import org.hibernate.annotations.SortType;
-import org.hibernate.annotations.Type;
-import org.hibernate.validator.constraints.NotEmpty;
-import org.springframework.format.annotation.NumberFormat;
-import org.springframework.format.annotation.NumberFormat.Style;
 
 import com.akartkam.inShop.domain.AbstractDomainObjectOrdering;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttributeValue;
-import com.akartkam.inShop.domain.product.attribute.AttributeType;
 import com.akartkam.inShop.domain.product.attribute.SimpleAttributeFactory;
 import com.akartkam.inShop.domain.product.option.ProductOption;
-import com.akartkam.inShop.presentation.admin.AdminPresentation;
-import com.akartkam.inShop.presentation.admin.EditTab;
 
 @Entity
 @Table(name = "Product")
@@ -117,7 +96,7 @@ public class Product extends AbstractDomainObjectOrdering {
 	}
 		
 	@OneToMany(mappedBy="product", cascade = CascadeType.ALL)
-	@Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
+	@Cascade(org.hibernate.annotations.CascadeType.ALL)
 	public List<AbstractAttributeValue> getAttributeValues() {
 		Collections.sort(attributeValues, new Product.AVComparer());
 		return attributeValues;
@@ -197,13 +176,14 @@ public class Product extends AbstractDomainObjectOrdering {
 		product.setModel(new String(getModel()));
 		product.setProductOptions(new HashSet<ProductOption>());
 		product.setAttributeValues(new ArrayList<AbstractAttributeValue>());
-		//product.setDefaultSku(getDefaultSku().clone());
+		product.setDefaultSku(getDefaultSku().clone());
 		product.setCreatedBy(null);
 		product.setCreatedDate(null);
 		product.setUpdatedBy(null);
 		product.setUpdatedDate(null);
 		return product;
-	}    
+	}   
+
 	
 	
 	public static class AVComparer implements Comparator<AbstractAttributeValue> {

@@ -183,18 +183,18 @@ public class ProductServiceImpl implements ProductService {
 		if (productFromPost == null) return;
 		final Product existingProduct = getProductById(productFromPost.getId());
 		if (existingProduct != null) {
-			//existingProduct.setName(productFromPost.getName());
-			//existingProduct.setCode(productFromPost.getCode());
+			existingProduct.getDefaultSku().setName(productFromPost.getDefaultSku().getName());
+			existingProduct.getDefaultSku().setCode(productFromPost.getDefaultSku().getCode());
 			existingProduct.setCategory(productFromPost.getCategory());
 			existingProduct.setUrl(productFromPost.getUrl());
 			existingProduct.setOrdering(productFromPost.getOrdering());
 			existingProduct.setBrand(productFromPost.getBrand());
 			existingProduct.setModel(productFromPost.getModel());
-			//existingProduct.setCostPrice(productFromPost.getCostPrice());
-			//existingProduct.setRetailPrice(productFromPost.getRetailPrice());
-			//existingProduct.setSalePrice(productFromPost.getSalePrice());
-			//existingProduct.setDescription(productFromPost.getDescription());
-			//existingProduct.setLongDescription(productFromPost.getLongDescription());
+			existingProduct.getDefaultSku().setCostPrice(productFromPost.getDefaultSku().getCostPrice());
+			existingProduct.getDefaultSku().setRetailPrice(productFromPost.getDefaultSku().getRetailPrice());
+			existingProduct.getDefaultSku().setSalePrice(productFromPost.getDefaultSku().getSalePrice());
+			existingProduct.getDefaultSku().setDescription(productFromPost.getDefaultSku().getDescription());
+			existingProduct.getDefaultSku().setLongDescription(productFromPost.getDefaultSku().getLongDescription());
 			existingProduct.setEnabled(productFromPost.isEnabled());
 			existingProduct.setCanSellWithoutOptions(productFromPost.isCanSellWithoutOptions());
 			List<AbstractAttributeValue> lavfp = productFromPost.getAttributeValues();
@@ -212,18 +212,18 @@ public class ProductServiceImpl implements ProductService {
 			for (AbstractAttributeValue av1:lavfp) {
 				existingProduct.addAttributeValue(av1);
 			}
-	        //Iterator<ProductStatus> psi = existingProduct.getProductStatus().iterator();
-	       // while(psi.hasNext()){
-	        	//ProductStatus p = psi.next();
-	        	//if (ps.contains(p.name())) {
-	        	//	ps.remove(p.name());
-	        	//} else {
-	        		///psi.remove();
+	        Iterator<ProductStatus> psi = existingProduct.getDefaultSku().getProductStatus().iterator();
+	        while(psi.hasNext()){
+	        	ProductStatus p = psi.next();
+	        	if (ps.contains(p.name())) {
+	        		ps.remove(p.name());
+	        	} else {
+	        		psi.remove();
 	        	}
 	        	
-	     //   }
+	        }
 	        for (String psii : ps) {
-	        	//existingProduct.getProductStatus().add(ProductStatus.forName(psii));
+	        	existingProduct.getDefaultSku().getProductStatus().add(ProductStatus.forName(psii));
 	        }
 	        
 	        Iterator<ProductOption> poi = existingProduct.getProductOptions().iterator();
@@ -247,19 +247,19 @@ public class ProductServiceImpl implements ProductService {
 	        	ProductOption poEx = productOptionDAO.findById(UUID.fromString(poId), false);
 	        	existingProduct.addProductOption(poEx);
 	        }
-			//existingProduct.getImages().clear();
-			//for (String i : productFromPost.getImages()) existingProduct.getImages().add(i);
-	//	} else {
+			existingProduct.getDefaultSku().getImages().clear();
+			for (String i : productFromPost.getDefaultSku().getImages()) existingProduct.getDefaultSku().getImages().add(i);
+		} else {
 	        for (String poId : po) {
 	        	ProductOption poEx = productOptionDAO.findById(UUID.fromString(poId), false);
 	        	productFromPost.addProductOption(poEx);
 	        }
 	        for (String psi : ps) {
-	        //	productFromPost.getProductStatus().add(ProductStatus.forName(psi));
+	        	productFromPost.getDefaultSku().getProductStatus().add(ProductStatus.forName(psi));
 	        }			        
 	        createProduct(productFromPost);
 		}
 	}
-
+}
 
 //}

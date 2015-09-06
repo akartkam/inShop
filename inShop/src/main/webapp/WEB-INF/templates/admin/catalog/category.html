@@ -363,7 +363,8 @@
 					$("#main-panel").css("max-height","35vh");
 					$("#main-panel").css("overflow","auto");
 					$(".treegrid-"+thisId).addClass("info");
-					$("#main-panel").scrollTop($(".treegrid-"+thisId).offset().top - ($("#main-panel").height()/2) );
+				    if ($("#main-panel").hasScrollBar())
+					    $("#main-panel").scrollTop($(".treegrid-"+thisId).offset().top - ($("#main-panel").height()/2) );
 					
   		        });
   		     // ]]>     

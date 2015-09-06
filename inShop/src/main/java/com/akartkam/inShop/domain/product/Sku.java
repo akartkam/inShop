@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
@@ -40,6 +41,8 @@ import org.springframework.format.annotation.NumberFormat.Style;
 import javax.persistence.JoinColumn;
 
 import com.akartkam.inShop.domain.AbstractDomainObjectOrdering;
+import com.akartkam.inShop.domain.product.attribute.AbstractAttributeValue;
+import com.akartkam.inShop.domain.product.option.ProductOption;
 import com.akartkam.inShop.domain.product.option.ProductOptionValue;
 import com.akartkam.inShop.presentation.admin.AdminPresentation;
 import com.akartkam.inShop.presentation.admin.EditTab;
@@ -209,5 +212,31 @@ public class Sku extends AbstractDomainObjectOrdering {
 		this.product = product;
 	}
 	
+	@Override
+	@Transient
+	public Sku clone() throws CloneNotSupportedException {
+		Sku sku = (Sku) super.clone();
+		sku.setId(UUID.randomUUID());
+		sku.setName(new String(getName()));
+		sku.setCode(new String(getCode()));
+		sku.setDescription(new String(getDescription()));
+		sku.setLongDescription(new String(getLongDescription()));
+		sku.setQuantityAvailable(getQuantityAvailable());
+		sku.setProduct(getProduct());
+		sku.setProductStatus(new HashSet<ProductStatus>(getProductStatus()));
+		sku.setInventoryType(getInventoryType());
+		sku.setActiveStartDate(new Date(getActiveStartDate().getTime()));
+		sku.setActiveEndDate(new Date(getActiveEndDate().getTime()));
+		sku.setSalePrice(new BigDecimal(getSalePrice().toPlainString()));
+		sku.setCostPrice(new BigDecimal(getCostPrice().toPlainString()));
+		sku.setRetailPrice(new BigDecimal(getRetailPrice().toPlainString()));
+		sku.setProductOptionValues(new HashSet<ProductOptionValue>(getProductOptionValues()));
+		sku.setImages(new ArrayList<String>(getImages()));
+		sku.setCreatedBy(null);
+		sku.setCreatedDate(null);
+		sku.setUpdatedBy(null);
+		sku.setUpdatedDate(null);
+		return sku;
+	}	
 	
 }

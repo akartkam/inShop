@@ -61,13 +61,13 @@
 	                <!-- Tab panes -->
 	                <div class="tab-content" style ="height:50vh;overflow-x:hidden;overflow-y:auto">
 	                    <div class="tab-pane fade" th:classappend="${tabactive=='main'}? 'in active'" id="main">
-								   <div class="field-box" th:class="${#fields.hasErrors('name')}? has-error: field-box">
+								   <div class="field-box" th:class="${#fields.hasErrors('defaultSku.name')}? has-error: field-box">
 									  <input type="hidden" th:field="*{id}"/>	                              
 						    		  <label>
 							    	  	 <span th:text="#{admin.catalog.edit.name}">Product1</span>
 							   		  </label>
-							   		  <input type="text" class="form-control" th:field="*{name}"/>
-							   		  <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Incorrect name</p>
+							   		  <input type="text" class="form-control" th:field="*{defaultSku.name}"/>
+							   		  <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('defaultSku.name')}" th:errors="*{defaultSku.name}">Incorrect name</p>
 						   		   </div>					   		   
 								   <div class="field-box">	                              
 						    		  <label>
@@ -82,7 +82,7 @@
 									    		  <label>
 										    	  	 <span th:text="#{admin.catalog.product.articul}">Articul</span>
 										   		  </label>
-										   		  <input type="text" class="form-control" th:field="*{code}"/>
+										   		  <input type="text" class="form-control" th:field="*{defaultSku.code}"/>
 									   		   </div>
 											</div>
 								   		   <div class="col-md-3">
@@ -90,7 +90,7 @@
 									    		  <label>
 										    	  	 <span th:text="#{admin.catalog.product.retailPrice}">retail price</span>
 										   		  </label>
-										   		  <input type="text" class="form-control" th:field="*{retailPrice}"/>
+										   		  <input type="text" class="form-control" th:field="*{defaultSku.retailPrice}"/>
 									   		   </div>						   		   
 								   		   </div>
 								   		   <div class="col-md-3">
@@ -98,7 +98,7 @@
 									    		  <label>
 										    	  	 <span th:text="#{admin.catalog.product.salePrice}">sale price</span>
 										   		  </label>
-										   		  <input type="text" class="form-control" th:field="*{salePrice}"/>
+										   		  <input type="text" class="form-control" th:field="*{defaultSku.salePrice}"/>
 									   		   </div>						   		   
 								   		   </div>
 								   		   <div class="col-md-3">
@@ -106,7 +106,7 @@
 									    		  <label>
 										    	  	 <span th:text="#{admin.catalog.product.costPrice}">cost price</span>
 										   		  </label>
-										   		  <input type="text" class="form-control" th:field="*{costPrice}"/>
+										   		  <input type="text" class="form-control" th:field="*{defaultSku.costPrice}"/>
 									   		   </div>						   		   
 								   		   </div>
 <!-- 										</div>			 -->
@@ -115,13 +115,13 @@
 			 			    		  <label>
 							    	  	<span th:text="#{admin.catalog.category.edit.description}">Description Product1</span>
 							   		   </label>
-							   		   <input type="text" class="form-control" th:field="*{description}"/>
+							   		   <input type="text" class="form-control" th:field="*{defaultSku.description}"/>
 						   		   </div>
 						   		   <div class="field-box">
 			 			    		   <label>
 							    	  	<span th:text="#{admin.catalog.category.edit.longDescription}">Description Product1</span>
 							   		   </label>
-								       <textarea id="summernote" class="textarea form-control" placeholder="Введите текст..." th:field="*{longDescription}"></textarea>
+								       <textarea id="summernote" class="textarea form-control" placeholder="Введите текст..." th:field="*{defaultSku.longDescription}"></textarea>
 		  						   </div>
 	             		</div>
 	                    <div class="tab-pane fade" th:classappend="${tabactive=='additional'}? 'in active'" id="additional">
@@ -169,7 +169,7 @@
 									    <option 
 									            th:each="ps: ${allProdStatus}" th:text="#{${'product.status.' + ps}}"
 									            th:attr="data-icon=#{${'product.status.icon.' + ps}}"
-									            th:selected="${#sets.contains(product.productStatus, ps)}"
+									            th:selected="${#sets.contains(product.defaultSku.productStatus, ps)}"
 									            th:value="${ps}">
 									    </option>      
 									 </select>
@@ -180,7 +180,7 @@
 		 			    		   <label>
 						    	   	<span th:text="#{admin.catalog.category.edit.ordering}">Orderig</span>
 						   		   </label>
-						   		   <input type="text" class="form-control" th:field="*{ordering}" pattern="^\-{0,1}[0-9]*\.{0,1}[0-9]*$"/>
+						   		   <input type="text" class="form-control" th:field="*{ordering}"/>
 							     </div>
 							   </div> 		   	                    	
 						   </div>				   
@@ -216,12 +216,12 @@
 										  	   </tr>
 									  	    </thead >
 									  	    <tbody>
-									  	       <tr th:each="image, imageStat : *{images}">
+									  	       <tr th:each="image, imageStat : *{defaultSku.images}">
 									              <td class="text-center">						
 												     <input class="checkCategory" type="checkbox" th:id="${'check-'+image}" th:value="${image}"/>
 											      </td>
 									  	       	  <td>
-									  	       	    <input type="hidden" class="image-url" th:field="*{images[__${imageStat.index}__]}"/>
+									  	       	    <input type="hidden" class="image-url" th:field="*{defaultSku.images[__${imageStat.index}__]}"/>
 											        <div class="media" style="margin-top: 0;">
 													  <div class="media-left media-middle">
 													    <div class="photo-block"> 

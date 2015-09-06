@@ -50,6 +50,7 @@ import com.akartkam.inShop.domain.product.Brand;
 import com.akartkam.inShop.domain.product.Category;
 import com.akartkam.inShop.domain.product.Product;
 import com.akartkam.inShop.domain.product.ProductStatus;
+import com.akartkam.inShop.domain.product.Sku;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttributeValue;
 import com.akartkam.inShop.domain.product.attribute.AttributeDecimalValue;
@@ -106,11 +107,6 @@ public class AdminProductController {
 	      return categoryService.getAllCategoryHierarchy(true);
 	  }	  
 	  
-	  @ModelAttribute("allProduct")
-	  public List<Product> getAllProduct(@RequestParam String categoryId) {
-		  Category ct = categoryService.getCategoryById(UUID.fromString(categoryId));
-	      return ct.getAllProducts(null);
-	  }	  
 	  
 	  @ModelAttribute("allBrand")
 	  public List<Brand> getAllBrand() {
@@ -202,11 +198,14 @@ public class AdminProductController {
 		  }	  
 	  
 	  @RequestMapping("/add")
-	  public String brandAdd(@RequestParam(value = "ID", required = false) String copyID, Model model,
+	  public String productAdd(@RequestParam(value = "ID", required = false) String copyID, Model model,
 				                @RequestHeader(value = "X-Requested-With", required = false) String requestedWith) throws CloneNotSupportedException {
 		  Product product = null;
 		  if (copyID != null && !"".equals(copyID)) product = productService.cloneProductById(UUID.fromString(copyID)); 
-		  else product = new Product();
+		  else {
+			  product = new Product();
+			  product.setDefaultSku(new Sku());
+		  }
  	      model.addAttribute("product", product);
           if ("XMLHttpRequest".equals(requestedWith)) {
               return "/admin/catalog/productEdit :: editProductForm";
@@ -215,7 +214,7 @@ public class AdminProductController {
 		  }		  
 
 	  @RequestMapping(value="/delete", method = RequestMethod.POST)
-	  public String brandDelete(@RequestParam(value = "ID", required = false) String ID, 
+	  public String productDelete(@RequestParam(value = "ID", required = false) String ID, 
 			                       @RequestParam(value = "phisycalDelete", required = false) Boolean phisycalDelete,
 				                   final RedirectAttributes ra) {
 		  Collection<? extends GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
@@ -235,7 +234,7 @@ public class AdminProductController {
 		  }
 	
 	   @RequestMapping(value="/edit", method = RequestMethod.POST )
-	   public String saveBrand(@RequestParam(value="poSelected", required=false) Set<String> po,
+	   public String saveProduct(@RequestParam(value="poSelected", required=false) Set<String> po,
 				   			   @RequestParam(value="psSelected", required=false) Set<String> ps,
 				   			   @RequestParam(required=false) Map<String, String> params,
 			                   @Valid Product product,

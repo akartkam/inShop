@@ -180,11 +180,11 @@
 										    <div class="a-photo-out">
                                                <span class="photo-block">
                                                  <span class="helper"></span>
-                                                 <img th:src="@{${!#lists.isEmpty(pr.images)? pr.images[0]: ''}}"  th:onerror="'this.src=\'' + @{/resources/img/noimage.png} + '\';'"/>
+                                                 <img th:src="@{${!#lists.isEmpty(pr.getDefaultSku().getImages())? pr.getDefaultSku().getImages()[0]: ''}}"  th:onerror="'this.src=\'' + @{/resources/img/noimage.png} + '\';'"/>
                                                </span>
-										       <span th:text="${pr.name}">name</span>
+										       <span th:text="${pr.defaultSku.name}">name</span>
 										       <br/>
-										       <span style="font-size: 9pt;" th:text="#{admin.catalog.product.articul}+': '+${pr.code}">code</span>
+										       <span style="font-size: 9pt;" th:text="#{admin.catalog.product.articul}+': '+${pr.defaultSku.code}">code</span>
 										    </div>										
 										</td>
 										<td class="mightOverflow domain-col"><span th:text="${pr.category!=null? pr.category.name: ''}">Category</span></td>
@@ -192,11 +192,11 @@
 										<td class="mightOverflow domain-col"><span th:text="${pr.brand!=null? pr.brand.name: ''}">Brand</span></td>
 										<td class="mightOverflow domain-col"><span th:text="${pr.model}">Model</span></td>
 										<td style="font-size: 8pt;">
-										      <span th:style="${pr.salePrice != null &amp;&amp; pr.salePrice != 0? 'text-decoration: line-through;': ''}" 
+										      <span th:style="${pr.defaultSku.salePrice != null &amp;&amp; pr.defaultSku.salePrice != 0? 'text-decoration: line-through;': ''}" 
 										            style="text-decoration: line-through;"
-										            th:text="${{pr.retailPrice}}">10.00</span>
+										            th:text="${{pr.defaultSku.retailPrice}}">10.00</span>
 										      <br/>
-										      <span th:text="${{pr.salePrice}}">9.00</span>
+										      <span th:text="${{pr.defaultSku.salePrice}}">9.00</span>
 										</td>
 										<td class="text-center" th:text="${pr.ordering}"></td>
 						            	<td class="text-center"><i th:class="${pr.enabled} ? 'fa fa-check-circle'"></i></td>
@@ -215,7 +215,7 @@
 				                                  </button>
 					                              <button th:disabled="${!pr.enabled}" type="button" data-toggle="modal" data-target="#deleteModal" 
 					                                      class="open-deleteDialog btn btn-outline btn-default btn-xs"
-					                                      th:attr="data-id=${pr.id}, data-name=${pr.name}"> 
+					                                      th:attr="data-id=${pr.id}, data-name=${pr.defaultSku.name}"> 
 					                                <i class="fa fa-trash-o"></i>
 					                              </button>	
 			                            	 </div>   
