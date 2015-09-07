@@ -155,8 +155,13 @@ public class Product extends AbstractDomainObjectOrdering {
 	public Sku getDefaultSku() {
 		return defaultSku;
 	}
-	public void setDefaultSku(Sku defaultSku) {
-		this.defaultSku = defaultSku;
+
+    public void setDefaultSku(Sku defaultSku) {
+	       if (defaultSku != null) {
+	            defaultSku.setDefaultProduct(this);
+
+	        }
+	        this.defaultSku = defaultSku;
 	}
 	
 	@OneToMany(mappedBy="product")

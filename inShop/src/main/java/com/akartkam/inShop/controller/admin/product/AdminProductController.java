@@ -125,10 +125,10 @@ public class AdminProductController {
 	  
 	  @InitBinder
 	  public void initBinder(WebDataBinder binder) {
-			binder.setAllowedFields(new String[] { "*id", "name", "url", "description", "longDescription", 
-					 							   "code", "category", "brand", "model", "attributeValues*", "ordering", 
-					 							   "productOptions", "canSellWithoutOptions", "images*", "enabled",
-					 							   "retailPrice", "salePrice", "costPrice", "*value"});
+			binder.setAllowedFields(new String[] { "*id", "*name", "url", "*description", "*longDescription", 
+					 							   "*code", "category", "brand", "*model", "attributeValues*", "ordering", 
+					 							   "productOptions", "canSellWithoutOptions", "*images*", "enabled",
+					 							   "*retailPrice", "*salePrice", "*costPrice", "*value"});
 			//binder.setAutoGrowNestedPaths(false);
 			binder.registerCustomEditor(UUID.class, "id", new PropertyEditorSupport() {
 			    @Override
@@ -291,7 +291,7 @@ public class AdminProductController {
 		        fileName = new File(image.getOriginalFilename()).getName(); 
 		        filePath = imagePath + fileName;
 	        	imageUtil.saveImage(filePath, image);	
-	        	//product.getImages().add(imageUrl+fileName);
+	        	product.getDefaultSku().getImages().add(imageUrl+fileName);
 	       }
 		   model.addAttribute("product", product);
 		   model.addAttribute("tabactive","images");

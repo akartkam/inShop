@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
+import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -21,6 +22,7 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapKeyColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -32,6 +34,7 @@ import javax.validation.constraints.NotNull;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.annotations.BatchSize;
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.Index;
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -67,6 +70,7 @@ public class Sku extends AbstractDomainObjectOrdering {
 	private BigDecimal retailPrice, salePrice, costPrice;
 	private Set<ProductOptionValue> productOptionValues = new HashSet<ProductOptionValue>();
     private List<String> images = new ArrayList<String>();
+    private Product defaultProduct;   
     private Product product;
 
     @AdminPresentation(tab=EditTab.MAIN)
@@ -163,11 +167,11 @@ public class Sku extends AbstractDomainObjectOrdering {
 	}
 	
 	@NotNull
-	@NotEmpty
 	@NumberFormat(style=Style.CURRENCY)
 	@Digits(fraction = 5, integer = 14)
 	@DecimalMin("0.01")
     @Column(name = "retail_price", precision = 19, scale = 5)	
+    @AdminPresentation(tab=EditTab.MAIN)
 	public BigDecimal getRetailPrice() {
 		return retailPrice;
 	}
@@ -210,6 +214,16 @@ public class Sku extends AbstractDomainObjectOrdering {
 	}
 	public void setProduct(Product product) {
 		this.product = product;
+	}
+	
+    @OneToOne(optional = true, cascade = {CascadeType.ALL})
+    @Cascade(value = {org.hibernate.annotations.CascadeType.ALL})
+    @JoinColumn(name = "default_product_id")
+	public Product getDefaultProduct() {
+		return defaultProduct;
+	}
+	public void setDefaultProduct(Product defaultProduct) {
+		this.defaultProduct = defaultProduct;
 	}
 	
 	@Override
