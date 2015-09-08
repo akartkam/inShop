@@ -388,10 +388,10 @@
 	    			    var inpOther = $(rowOther).find(".image-url");
 	    			    var indexOther = $(rowOther).index();
 	    			    var index = $(row).index();
-	    			    $(inp).attr("name","images["+index+"]");
-	    			    $(inp).attr("id","images"+index);
-	    			    $(inpOther).attr("name","images["+indexOther+"]");
-	    			    $(inpOther).attr("id","images"+indexOther);	    			    
+	    			    $(inp).attr("name","defaultSku.images["+index+"]");
+	    			    $(inp).attr("id","defaultSku.images"+index);
+	    			    $(inpOther).attr("name","defaultSku.images["+indexOther+"]");
+	    			    $(inpOther).attr("id","defaultSku.images"+indexOther);	    			    
     			      });	    			   
     			    $('.row-move-down').on("click", function () { 
     				    var row = $(this).closest('tr');
@@ -401,10 +401,10 @@
 	    			    var inpOther = $(rowOther).find(".image-url");
 	    			    var indexOther = $(rowOther).index();
 	    			    var index = $(row).index();
-	    			    $(inp).attr("name","images["+index+"]");
-	    			    $(inp).attr("id","images"+index);
-	    			    $(inpOther).attr("name","images["+indexOther+"]");
-	    			    $(inpOther).attr("id","images"+indexOther);	    			    
+	    			    $(inp).attr("name","defaultSku.images["+index+"]");
+	    			    $(inp).attr("id","defaultSku.images"+index);
+	    			    $(inpOther).attr("name","defaultSku.images["+indexOther+"]");
+	    			    $(inpOther).attr("id","defaultSku.images"+indexOther);	    			    
     			    }); 
     		        $(".open-deleteImageDialog").on("click", function () {
     		        	var row = $(this).closest('tr');
@@ -413,8 +413,8 @@
     		        	$('#pImagesTable tbody tr').slice(index).each( function () {
     		        		var inp = $(this).find(".image-url");
     		        		var currIndex = $(this).index();
-    		        		$(inp).attr("name","images["+currIndex+"]");
-    	    			    $(inp).attr("id","images"+currIndex);
+    		        		$(inp).attr("name","defaultSku.images["+currIndex+"]");
+    	    			    $(inp).attr("id","defaultSku.images"+currIndex);
     		        	});
     		        });
     		 		$("#editModal").on("show.bs.modal", function (e) {

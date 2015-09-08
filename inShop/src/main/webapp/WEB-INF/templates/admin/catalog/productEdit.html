@@ -89,7 +89,7 @@
 								   		   <div class="col-md-3">
 											   <div class="field-box">	                              
 									    		  <label>
-										    	  	 <span th:text="#{admin.catalog.product.Price}">retail price</span>
+										    	  	 <span th:text="#{admin.catalog.product.retailPrice}">retail price</span>
 										   		  </label>
 										   		  <input type="text" class="form-control" th:field="*{defaultSku.retailPrice}"/>
 									   		   </div>						   		   
@@ -349,73 +349,73 @@
 		     //<![CDATA[
 		     $(document).ready(function() {
 	 	    	$("#editModal").modal("show");
-	    		$('#inputSImg').one('change', function () {
-		    			var form = new FormData(document.forms.pform);
-		    			var path= $(this).data("path");
-		    			var formser;
-		    			if (form != "undefined" && form != null) formser = form;
-		    			//$("#pform").text("");
-	                    $.ajax({
-	                    	type: "POST",
-	                        url: path,
-	                        data: formser,
-	                        cache: false,
-	                        contentType: false,
-	                        processData: false		                        
-	                    }).done(function (html) {
-	                                $("#pform").html(html);
-	                                $("#summernote").summernote({
-	                				    lang: "ru-RU"
-	                				     });
-	                                $(".selectpicker").selectpicker();
-	           			    	    var s = $("#pImagesTable tbody > tr:last-child").position();
-	        			    	    $("#editModalBody" ).scrollTop( s.top );
-	                    });
-   		    	  });
-			    $(".row-move-up").click(function() {
-    			    var row = $(this).closest("tr");
-    			    var rowOther = row.next();
-    			    row.insertAfter(row.next());
-    			    var inp = $(row).find(".image-url");
-    			    var inpOther = $(rowOther).find(".image-url");
-    			    var indexOther = $(rowOther).index();
-    			    var index = $(row).index();
-    			    $(inp).attr("name","images["+index+"]");
-    			    $(inp).attr("id","images"+index);
-    			    $(inpOther).attr("name","images["+indexOther+"]");
-    			    $(inpOther).attr("id","images"+indexOther);	    			    
-			      });	    			   
-			    $('.row-move-down').click(function() {
-				    var row = $(this).closest('tr');
-				    var rowOther = row.prev(); 
-				    row.prev().insertAfter(row);
-    			    var inp = $(row).find(".image-url");
-    			    var inpOther = $(rowOther).find(".image-url");
-    			    var indexOther = $(rowOther).index();
-    			    var index = $(row).index();
-    			    $(inp).attr("name","images["+index+"]");
-    			    $(inp).attr("id","images"+index);
-    			    $(inpOther).attr("name","images["+indexOther+"]");
-    			    $(inpOther).attr("id","images"+indexOther);	    			    
-			    }); 
-		        $(".open-deleteImageDialog").on("click", function () {
-		        	var row = $(this).closest('tr');
-		        	var index = $(row).index();
-		        	$(row).remove();
-		        	$('#pImagesTable tbody tr').slice(index).each( function () {
-		        		var inp = $(this).find(".image-url");
-		        		var currIndex = $(this).index();
-		        		$(inp).attr("name","images["+currIndex+"]");
-	    			    $(inp).attr("id","images"+currIndex);
-		        	});
-		        });
-			 });
-	 		 $("#editModal").on("show.bs.modal", function (e) {
-	                            $('#summernote').summernote({
-	        					    lang: "ru-RU"
-	          				     });
-	                            $(".selectpicker").selectpicker();
-	                   });
+    			$(".btn-file :file").one("change", function () {
+	    			var form = new FormData(document.forms.pform);
+	    			var path= $(this).data("path");
+	    			var formser;
+	    			if (form != "undefined" && form != null) formser = form;
+	    			//$("#pform").text("");
+                    $.ajax({
+                    	type: "POST",
+                        url: path,
+                        data: formser,
+                        cache: false,
+                        contentType: false,
+                        processData: false		                        
+                    }).done(function (html) {
+                                $("#pform").html(html);
+                                $("#summernote").summernote({
+                				    lang: "ru-RU"
+                				     });
+                                var s = $("#pImagesTable tbody > tr:last-child").position();
+        			    	    $("#editModalBody" ).scrollTop( s.top );
+                    });
+		    	  });
+				    $(".row-move-up").on("click", function () { 
+					    var row = $(this).closest("tr");
+					    var rowOther = row.next();
+					    row.insertAfter(row.next());
+					    var inp = $(row).find(".image-url");
+					    var inpOther = $(rowOther).find(".image-url");
+					    var indexOther = $(rowOther).index();
+					    var index = $(row).index();
+					    $(inp).attr("name","defaultSku.images["+index+"]");
+					    $(inp).attr("id","defaultSku.images"+index);
+					    $(inpOther).attr("name","defaultSku.images["+indexOther+"]");
+					    $(inpOther).attr("id","defaultSku.images"+indexOther);	    			    
+				      });	    			   
+				    $('.row-move-down').on("click", function () { 
+					    var row = $(this).closest('tr');
+					    var rowOther = row.prev(); 
+					    row.prev().insertAfter(row);
+					    var inp = $(row).find(".image-url");
+					    var inpOther = $(rowOther).find(".image-url");
+					    var indexOther = $(rowOther).index();
+					    var index = $(row).index();
+					    $(inp).attr("name","defaultSku.images["+index+"]");
+					    $(inp).attr("id","defaultSku.images"+index);
+					    $(inpOther).attr("name","defaultSku.images["+indexOther+"]");
+					    $(inpOther).attr("id","defaultSku.images"+indexOther);	    			    
+				    }); 
+
+    		        $(".open-deleteImageDialog").on("click", function () {
+    		        	var row = $(this).closest('tr');
+    		        	var index = $(row).index();
+    		        	$(row).remove();
+    		        	$('#pImagesTable tbody tr').slice(index).each( function () {
+    		        		var inp = $(this).find(".image-url");
+    		        		var currIndex = $(this).index();
+    		        		$(inp).attr("name","defaultSku.images["+currIndex+"]");
+    	    			    $(inp).attr("id","defaultSku.images"+currIndex);
+    		        	});
+    		        });
+    		 		$("#editModal").on("show.bs.modal", function (e) {
+                         $('#summernote').summernote({
+     					    lang: "ru-RU"
+       				     });
+                         $(".selectpicker").selectpicker();
+                    });
+		     });
 	 		 // ]]>
 		   </script>
 		 </th:block>  

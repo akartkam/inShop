@@ -179,7 +179,10 @@ public class Sku extends AbstractDomainObjectOrdering {
 		this.retailPrice = retailPrice;
 	}
 
-    @Column(name = "sale_price", precision = 19, scale = 5)
+	@NumberFormat(style=Style.CURRENCY)
+	@Digits(fraction = 5, integer = 14)
+	@DecimalMin("0.01")
+	@Column(name = "sale_price", precision = 19, scale = 5)
 	public BigDecimal getSalePrice() {
 		return salePrice;
 	}
@@ -187,7 +190,10 @@ public class Sku extends AbstractDomainObjectOrdering {
 		this.salePrice = salePrice;
 	}
 
-    @Column(name = "cost_price", precision = 19, scale = 5)
+	@NumberFormat(style=Style.CURRENCY)
+	@Digits(fraction = 5, integer = 14)
+	@DecimalMin("0.01")
+	@Column(name = "cost_price", precision = 19, scale = 5)
 	public BigDecimal getCostPrice() {
 		return costPrice;
 	}
@@ -239,11 +245,11 @@ public class Sku extends AbstractDomainObjectOrdering {
 		sku.setProduct(getProduct());
 		sku.setProductStatus(new HashSet<ProductStatus>(getProductStatus()));
 		sku.setInventoryType(getInventoryType());
-		sku.setActiveStartDate(new Date(getActiveStartDate().getTime()));
-		sku.setActiveEndDate(new Date(getActiveEndDate().getTime()));
-		sku.setSalePrice(new BigDecimal(getSalePrice().toPlainString()));
-		sku.setCostPrice(new BigDecimal(getCostPrice().toPlainString()));
-		sku.setRetailPrice(new BigDecimal(getRetailPrice().toPlainString()));
+		sku.setActiveStartDate(getActiveStartDate() != null ? new Date(getActiveStartDate().getTime()) : null);
+		sku.setActiveEndDate(getActiveEndDate() != null ? new Date(getActiveEndDate().getTime()): null);
+		sku.setSalePrice(getSalePrice() != null ? new BigDecimal(getSalePrice().toPlainString()): null);
+		sku.setCostPrice(getCostPrice() != null ? new BigDecimal(getCostPrice().toPlainString()): null);
+		sku.setRetailPrice(getRetailPrice() != null ? new BigDecimal(getRetailPrice().toPlainString()): null);
 		sku.setProductOptionValues(new HashSet<ProductOptionValue>(getProductOptionValues()));
 		sku.setImages(new ArrayList<String>(getImages()));
 		sku.setCreatedBy(null);
