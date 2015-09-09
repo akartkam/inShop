@@ -19,6 +19,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.BatchSize;
@@ -148,7 +149,8 @@ public class Product extends AbstractDomainObjectOrdering {
         if (productOption == null) throw new IllegalArgumentException("Null productOption!");
         productOptions.remove(productOption);
     }
-      
+    
+    @Valid
     @OneToOne(cascade={CascadeType.ALL})
     @Cascade(value={org.hibernate.annotations.CascadeType.ALL})
     @JoinColumn(name = "default_sku_id")
@@ -172,6 +174,7 @@ public class Product extends AbstractDomainObjectOrdering {
 	public void setAdditionalSku(List<Sku> additionalSku) {
 		this.additionalSku = additionalSku;
 	}
+	
 	@Override
 	@Transient
 	public Product clone() throws CloneNotSupportedException {
