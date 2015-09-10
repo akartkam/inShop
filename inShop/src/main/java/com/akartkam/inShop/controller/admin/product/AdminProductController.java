@@ -166,30 +166,36 @@ public class AdminProductController {
 		  return "/admin/catalog/product"; 
 		  }	  
 	  
+	  private void addNeededAttributesForProduct(Product product) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
+			 if (product == null) throw new ProductNotFoundException("Product not found.");			 
+			 List<AbstractAttribute> at = new ArrayList<AbstractAttribute>();
+			 at = product.getCategory().getAllAttributes(at, true);
+			 List<AbstractAttributeValue> av = product.getAttributeValues();
+			 boolean needAdd;
+			 for (AbstractAttribute cat : at) {
+				 needAdd = true;
+				 for (AbstractAttributeValue cav: av) {
+					 if (cat.equals(cav.getAttribute())) {
+						needAdd = false;
+						break;
+					 }
+				 }
+				 if (needAdd) {
+					 product.addAttributeValue(cat);
+				 }
+			 }
+		  
+	  }
+	  
 	  @SuppressWarnings("rawtypes")
 	  @RequestMapping("/edit")
 	  public String productEdit(@RequestParam(value = "ID", required = false) String ID, Model model,
 			   				  @RequestHeader(value = "X-Requested-With", required = false) String requestedWith) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
 		  if(!model.containsAttribute("product")) {
-			 Product product = productService.getProductById(UUID.fromString(ID));
-			 if (product == null) throw new ProductNotFoundException("Product not found.");			 
- 			 List<AbstractAttribute> at = new ArrayList<AbstractAttribute>();
- 			 at = product.getCategory().getAllAttributes(at, true);
- 			 List<AbstractAttributeValue> av = product.getAttributeValues();
- 			 boolean needAdd;
- 			 for (AbstractAttribute cat : at) {
- 				 needAdd = true;
- 				 for (AbstractAttributeValue cav: av) {
- 					 if (cat.equals(cav.getAttribute())) {
- 						needAdd = false;
- 						break;
- 					 }
- 				 }
- 				 if (needAdd) {
- 					 product.addAttributeValue(cat);
- 				 }
- 			 }
-		     model.addAttribute("product", product);
+			  if ("".equals(ID)) throw new ProductNotFoundException("ID Product is empty.");
+		      Product product = productService.getProductById(UUID.fromString(ID));
+		      addNeededAttributesForProduct(product);
+			  model.addAttribute("product", product);
 		  }
           if ("XMLHttpRequest".equals(requestedWith)) {
               return "/admin/catalog/productEdit :: editProductForm";
@@ -242,6 +248,7 @@ public class AdminProductController {
 			                   final RedirectAttributes ra
 			                         ) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
 	        if (bindingResult.hasErrors()) {
+	        	addNeededAttributesForProduct(product);
 	        	ra.addFlashAttribute("product", product);
 	        	ra.addFlashAttribute("org.springframework.validation.BindingResult.product", bindingResult);
 	            return "redirect:/admin/catalog/product/edit";
