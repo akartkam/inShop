@@ -8,6 +8,7 @@ import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -34,7 +35,7 @@ public class AttributeSList extends AbstractAttribute implements Selectable<Stri
 	}
 
 	@Override
-    @ElementCollection
+    @ElementCollection(fetch=FetchType.EAGER)
     @Column(name="item", nullable = false)
     @OrderBy("item")
     @CollectionTable(name="items_attributeslist")

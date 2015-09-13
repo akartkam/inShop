@@ -350,6 +350,10 @@
 		     $(document).ready(function() {
 	 	    	$("#editModal").modal("show");
     			$(".btn-file :file").one("change", function () {
+    				// Get content from Summernote
+    				var content = $("#summernote").code();
+    				// Add content from summernote to textarea
+    				$("#summernote").html( content );    				
 	    			var form = new FormData(document.forms.pform);
 	    			var path= $(this).data("path");
 	    			var formser;

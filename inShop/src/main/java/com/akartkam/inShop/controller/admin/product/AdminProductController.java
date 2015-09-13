@@ -248,6 +248,7 @@ public class AdminProductController {
 			                   final RedirectAttributes ra
 			                         ) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
 	        if (bindingResult.hasErrors()) {
+	        	parseProductParams(product, params);
 	        	addNeededAttributesForProduct(product);
 	        	ra.addFlashAttribute("product", product);
 	        	ra.addFlashAttribute("org.springframework.validation.BindingResult.product", bindingResult);
