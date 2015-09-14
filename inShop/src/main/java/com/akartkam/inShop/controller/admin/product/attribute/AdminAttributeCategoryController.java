@@ -79,7 +79,7 @@ public class AdminAttributeCategoryController {
 			    	}
 			    }
 			    });
-			binder.registerCustomEditor(UUID.class, "attributeType", new PropertyEditorSupport() {
+			binder.registerCustomEditor(AttributeType.class, "attributeType", new PropertyEditorSupport() {
 			    @Override
 			    public void setAsText(String text) {
 			    	 setValue(AttributeType.valueOf(text));

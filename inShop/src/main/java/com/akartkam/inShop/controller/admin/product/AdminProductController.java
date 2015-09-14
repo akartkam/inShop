@@ -247,8 +247,8 @@ public class AdminProductController {
 				   			   final BindingResult bindingResult,
 			                   final RedirectAttributes ra
 			                         ) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
-	        if (bindingResult.hasErrors()) {
-	        	parseProductParams(product, params);
+	       parseProductParams(product, params);
+		   if (bindingResult.hasErrors()) {
 	        	addNeededAttributesForProduct(product);
 	        	ra.addFlashAttribute("product", product);
 	        	ra.addFlashAttribute("org.springframework.validation.BindingResult.product", bindingResult);
@@ -257,7 +257,6 @@ public class AdminProductController {
 
 	        if (po==null) po = new HashSet<String>(0);
 	        if (ps==null) ps = new HashSet<String>(0);
-	        parseProductParams(product, params);
 	        productService.mergeWithExistingAndUpdateOrCreate(product, po, ps);	       
 	        return "redirect:/admin/catalog/product";
 	    }
