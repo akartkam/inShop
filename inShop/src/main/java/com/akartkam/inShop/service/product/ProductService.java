@@ -1,7 +1,6 @@
 package com.akartkam.inShop.service.product;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
@@ -9,6 +8,7 @@ import org.springframework.validation.Errors;
 
 import com.akartkam.inShop.domain.product.Product;
 import com.akartkam.inShop.domain.product.option.ProductOption;
+import com.akartkam.inShop.formbean.ProductForm;
 
 
 public interface ProductService {
@@ -29,5 +29,5 @@ public interface ProductService {
 	void deleteProduct(Product product);
 	void updatePO(ProductOption po);
 	void mergeWithExistingPOAndUpdateOrCreate(final ProductOption poFromForm, Errors errors);
-	void mergeWithExistingAndUpdateOrCreate(final Product productFromPost, final Set<String> po, final Set<String> ps);
+	void mergeWithExistingAndUpdateOrCreate(final ProductForm productFromPost, final Set<String> po, final Set<String> ps);
 }

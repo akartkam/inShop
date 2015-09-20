@@ -19,6 +19,7 @@ import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttributeValue;
 import com.akartkam.inShop.domain.product.option.ProductOption;
 import com.akartkam.inShop.domain.product.option.ProductOptionValue;
+import com.akartkam.inShop.formbean.ProductForm;
 
 @Service("ProductService")
 @Transactional(readOnly = true)
@@ -179,7 +180,7 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	@Transactional(readOnly = false)
-	public void mergeWithExistingAndUpdateOrCreate(final Product productFromPost, final Set<String> po, final Set<String> ps) {
+	public void mergeWithExistingAndUpdateOrCreate(final ProductForm productFromPost, final Set<String> po, final Set<String> ps) {
 		if (productFromPost == null) return;
 		final Product existingProduct = getProductById(productFromPost.getId());
 		if (existingProduct != null) {

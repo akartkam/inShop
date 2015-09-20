@@ -3,8 +3,10 @@ package com.akartkam.inShop.domain.product;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
@@ -29,6 +31,8 @@ import org.hibernate.annotations.Index;
 import com.akartkam.inShop.domain.AbstractDomainObjectOrdering;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttributeValue;
+import com.akartkam.inShop.domain.product.attribute.AttributeDecimalValue;
+import com.akartkam.inShop.domain.product.attribute.AttributeType;
 import com.akartkam.inShop.domain.product.attribute.SimpleAttributeFactory;
 import com.akartkam.inShop.domain.product.option.ProductOption;
 
@@ -50,8 +54,6 @@ public class Product extends AbstractDomainObjectOrdering {
     private List<Sku> additionalSku = new ArrayList<Sku>();	
     private Set<ProductOption> productOptions = new HashSet<ProductOption>();
     private boolean canSellWithoutOptions = true;
-		
-	
 	
 	@Column(name = "can_sell_without_options")
 	public boolean isCanSellWithoutOptions() {
@@ -99,11 +101,12 @@ public class Product extends AbstractDomainObjectOrdering {
 	@OneToMany(mappedBy="product", cascade = CascadeType.ALL)
 	@Cascade(org.hibernate.annotations.CascadeType.ALL)
 	public List<AbstractAttributeValue> getAttributeValues() {
-		Collections.sort(attributeValues, new Product.AVComparer());
+		//Collections.sort(attributeValues, new Product.AVComparer());
 		return attributeValues;
 	}
 	public void setAttributeValues(List<AbstractAttributeValue> attributeValues) {
 		this.attributeValues = attributeValues;
+		Collections.sort(attributeValues, new Product.AVComparer());
 	}	
 	
 	public void addAttributeValue (AbstractAttributeValue attributeValue) {

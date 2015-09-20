@@ -65,6 +65,7 @@ import com.akartkam.inShop.service.product.ProductService;
 import com.akartkam.inShop.util.ImageUtil;
 import com.akartkam.inShop.exception.ImageUploadException;
 import com.akartkam.inShop.exception.ProductNotFoundException;
+import com.akartkam.inShop.formbean.ProductForm;
 
 @Controller
 @RequestMapping("/admin/catalog/product")
@@ -193,9 +194,10 @@ public class AdminProductController {
 			   				  @RequestHeader(value = "X-Requested-With", required = false) String requestedWith) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
 		  if(!model.containsAttribute("product")) {
 			  if ("".equals(ID)) throw new ProductNotFoundException("ID Product is empty.");
-		      Product product = productService.getProductById(UUID.fromString(ID));
+		      Product product = productService.getProductById(UUID.fromString(ID)); 
 		      addNeededAttributesForProduct(product);
-			  model.addAttribute("product", product);
+		      ProductForm productForm = new ProductForm(product);		      
+			  model.addAttribute("product", productForm);
 		  }
           if ("XMLHttpRequest".equals(requestedWith)) {
               return "/admin/catalog/productEdit :: editProductForm";
@@ -207,12 +209,17 @@ public class AdminProductController {
 	  public String productAdd(@RequestParam(value = "ID", required = false) String copyID, Model model,
 				                @RequestHeader(value = "X-Requested-With", required = false) String requestedWith) throws CloneNotSupportedException {
 		  Product product = null;
-		  if (copyID != null && !"".equals(copyID)) product = productService.cloneProductById(UUID.fromString(copyID)); 
-		  else {
-			  product = new Product();
-			  product.setDefaultSku(new Sku());
+		  ProductForm productForm = null;
+		  if (copyID != null && !"".equals(copyID)) {
+			  product = productService.cloneProductById(UUID.fromString(copyID));
+			  if (product != null) productForm = new ProductForm(product); 
 		  }
- 	      model.addAttribute("product", product);
+		  if (productForm == null) {
+			  productForm = new ProductForm();
+			  productForm.setDefaultSku(new Sku());
+			  
+		  }		  
+ 	      model.addAttribute("product", productForm);
           if ("XMLHttpRequest".equals(requestedWith)) {
               return "/admin/catalog/productEdit :: editProductForm";
             } 	      
@@ -243,11 +250,10 @@ public class AdminProductController {
 	   public String saveProduct(@RequestParam(value="poSelected", required=false) Set<String> po,
 				   			   @RequestParam(value="psSelected", required=false) Set<String> ps,
 				   			   @RequestParam(required=false) Map<String, String> params,
-			                   @Valid Product product,
+			                   @Valid ProductForm product,
 				   			   final BindingResult bindingResult,
 			                   final RedirectAttributes ra
 			                         ) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
-	       parseProductParams(product, params);
 		   if (bindingResult.hasErrors()) {
 	        	addNeededAttributesForProduct(product);
 	        	ra.addFlashAttribute("product", product);
@@ -261,27 +267,6 @@ public class AdminProductController {
 	        return "redirect:/admin/catalog/product";
 	    }
 	   
-	   @SuppressWarnings("rawtypes")
-	   private void parseProductParams(Product product, Map<String, String> params) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
-		   String pstr="";
-		   for (int i=0;i<=AttributeType.ALL.length-1;i++) pstr = pstr + AttributeType.ALL[i] + "|";
-		   if (pstr.endsWith("|")) pstr = pstr.substring(0, pstr.length()-1); 
-		   Pattern pattern = Pattern.compile(pstr);
-		   for (Map.Entry<String, String> entry : params.entrySet()) {
-
-			   if (entry.getValue() != null && !"".equals(entry.getValue()) &&  pattern.matcher(entry.getKey()).find()) {
-				   String atId, avId;
-				   String[] pp = entry.getKey().split("_");
-				   atId = pp[1];
-				   avId = pp[2];
-				   AbstractAttribute at = attributeCategoryService.loadAttributeById(UUID.fromString(atId), false);
-				   AbstractAttributeValue av = SimpleAttributeFactory.createAttributeValue(at.getAttributeType());
-				   av.setId(UUID.fromString(avId));
-				   av.setStringValue(entry.getValue());
-				   product.addAttributeValue(av, at);
-			   }
-		   }
-	   }
 	   
 	   @RequestMapping(value="/image/add", method = RequestMethod.POST )
 	   public String addNewImage(final @ModelAttribute Product product,
