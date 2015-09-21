@@ -48,7 +48,7 @@ public class ProductForm extends Product {
 	};
 
 	@SuppressWarnings("rawtypes")
-	private void setMapAttributeValues() {
+	public void setMapAttributeValues() {
 		List<AbstractAttributeValue> attributeValues = this.getAttributeValues();
 		if (attributeValues != null) {
 			for (int i=0; i<attributeValues.size();i++) {
@@ -64,6 +64,14 @@ public class ProductForm extends Product {
 			}  
 			   
 		}		
+	}
+	
+	public void setAttributeValuesFromMap() {
+		Map<Integer, AbstractAttributeValue> fullMap = new HashMap<Integer, AbstractAttributeValue>();
+		fullMap.putAll(getDecimalValMap());
+		fullMap.putAll(getStringValMap());
+		fullMap.putAll(getSlistValMap());
+		
 	}
 
 	public Map<Integer, AttributeDecimalValue> getDecimalValMap () {
