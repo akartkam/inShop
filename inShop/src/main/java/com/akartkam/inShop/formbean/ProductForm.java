@@ -9,6 +9,8 @@ import java.util.Map;
 
 
 
+import java.util.TreeMap;
+
 import com.akartkam.inShop.domain.product.Product;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttributeValue;
 import com.akartkam.inShop.domain.product.attribute.AttributeDecimalValue;
@@ -66,12 +68,14 @@ public class ProductForm extends Product {
 		}		
 	}
 	
+	@SuppressWarnings("rawtypes")
 	public void setAttributeValuesFromMap() {
-		Map<Integer, AbstractAttributeValue> fullMap = new HashMap<Integer, AbstractAttributeValue>();
+		Map<Integer, AbstractAttributeValue> fullMap = new TreeMap<Integer, AbstractAttributeValue>();
 		fullMap.putAll(getDecimalValMap());
 		fullMap.putAll(getStringValMap());
 		fullMap.putAll(getSlistValMap());
-		
+		this.getAttributeValues().clear();
+		this.getAttributeValues().addAll(fullMap.values());
 	}
 
 	public Map<Integer, AttributeDecimalValue> getDecimalValMap () {

@@ -198,6 +198,7 @@ public class ProductServiceImpl implements ProductService {
 			existingProduct.getDefaultSku().setLongDescription(productFromPost.getDefaultSku().getLongDescription());
 			existingProduct.setEnabled(productFromPost.isEnabled());
 			existingProduct.setCanSellWithoutOptions(productFromPost.isCanSellWithoutOptions());
+			productFromPost.setAttributeValuesFromMap();
 			List<AbstractAttributeValue> lavfp = productFromPost.getAttributeValues();
 			Iterator<AbstractAttributeValue> avi = existingProduct.getAttributeValues().iterator();
 			while(avi.hasNext()) {
@@ -236,13 +237,6 @@ public class ProductServiceImpl implements ProductService {
 	        		poi.remove();
 	        	}
 	        	
-	        }
-	        for (ProductOption poCurr : existingProduct.getProductOptions()) {
-	        	if (po.contains(poCurr.getId().toString())) {
-	        		po.remove(poCurr.getId().toString());
-	        	} else {
-	        		existingProduct.removeProductOption(poCurr);
-	        	}
 	        }
 	        for (String poId : po) {
 	        	ProductOption poEx = productOptionDAO.findById(UUID.fromString(poId), false);
