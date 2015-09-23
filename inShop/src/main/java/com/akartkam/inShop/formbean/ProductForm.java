@@ -1,5 +1,6 @@
 package com.akartkam.inShop.formbean;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,14 +10,17 @@ import java.util.Map;
 
 
 
+import java.util.Set;
 import java.util.TreeMap;
 
 import com.akartkam.inShop.domain.product.Product;
+import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttributeValue;
 import com.akartkam.inShop.domain.product.attribute.AttributeDecimalValue;
 import com.akartkam.inShop.domain.product.attribute.AttributeSListValue;
 import com.akartkam.inShop.domain.product.attribute.AttributeStringValue;
 import com.akartkam.inShop.domain.product.attribute.AttributeType;
+import com.akartkam.inShop.exception.ProductNotFoundException;
 
 public class ProductForm extends Product {
 	
@@ -48,6 +52,30 @@ public class ProductForm extends Product {
 			setMapAttributeValues();
 		}
 	};
+	
+	public void complementNecessaryAttributes() throws ClassNotFoundException, InstantiationException, IllegalAccessException {			 
+			 List<AbstractAttribute> at = new ArrayList<AbstractAttribute>();
+			 at = getCategory().getAllAttributes(at, true);
+			 List<AbstractAttributeValue> av = getAttributeValues();
+			 boolean needAdd;
+			 for (AbstractAttribute cat : at) {
+				 needAdd = true;
+				 for (AbstractAttributeValue cav: av) {
+					 if (cat.equals(cav.getAttribute())) {
+						needAdd = false;
+						break;
+					 }
+				 }
+				 if (needAdd) {
+					 addAttributeValue(cat);
+				 }
+			 }
+		  
+	  }
+
+	public void setProductStatus(Set<String> ps) {
+		
+	}
 
 	@SuppressWarnings("rawtypes")
 	public void setMapAttributeValues() {

@@ -214,6 +214,7 @@ public class ProductServiceImpl implements ProductService {
 			for (AbstractAttributeValue av1:lavfp) {
 				existingProduct.addAttributeValue(av1);
 			}
+			
 	        Iterator<ProductStatus> psi = existingProduct.getDefaultSku().getProductStatus().iterator();
 	        while(psi.hasNext()){
 	        	ProductStatus p = psi.next();
