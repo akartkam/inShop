@@ -2,6 +2,7 @@ package com.akartkam.inShop.formbean;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -12,14 +13,17 @@ import java.util.Map;
 
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.UUID;
 
 import com.akartkam.inShop.domain.product.Product;
+import com.akartkam.inShop.domain.product.ProductStatus;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttributeValue;
 import com.akartkam.inShop.domain.product.attribute.AttributeDecimalValue;
 import com.akartkam.inShop.domain.product.attribute.AttributeSListValue;
 import com.akartkam.inShop.domain.product.attribute.AttributeStringValue;
 import com.akartkam.inShop.domain.product.attribute.AttributeType;
+import com.akartkam.inShop.domain.product.option.ProductOption;
 import com.akartkam.inShop.exception.ProductNotFoundException;
 
 public class ProductForm extends Product {
@@ -31,7 +35,8 @@ public class ProductForm extends Product {
     private Map<Integer, AttributeDecimalValue> decimalValMap = new HashMap<Integer, AttributeDecimalValue>(); 
     private Map<Integer, AttributeStringValue> stringValMap = new HashMap<Integer, AttributeStringValue>(); 
     private Map<Integer, AttributeSListValue> slistValMap = new HashMap<Integer, AttributeSListValue>(); 
-	
+	private Set<ProductStatus> productStatus = new HashSet<ProductStatus>();
+
  
 	public ProductForm() {};
 	
@@ -73,10 +78,26 @@ public class ProductForm extends Product {
 		  
 	  }
 
+	public Set<ProductStatus> getProductStatus() {
+		return productStatus;
+	}
+	
 	public void setProductStatus(Set<String> ps) {
-		
+		getProductStatus().clear();
+        for (String psii : ps) {
+        	getProductStatus().add(ProductStatus.forName(psii));
+        }		
 	}
 
+	public void setProductOptionsFromStringList(Set<String> po) {
+		getProductOptions().clear();
+        for (String poId : po) {
+      //  	ProductOption poEx = productOptionDAO.findById(UUID.fromString(poId), false);
+       // 	existingProduct.addProductOption(poEx);
+        }
+	}
+
+	
 	@SuppressWarnings("rawtypes")
 	public void setMapAttributeValues() {
 		List<AbstractAttributeValue> attributeValues = this.getAttributeValues();
