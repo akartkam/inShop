@@ -177,6 +177,8 @@ public class ProductServiceImpl implements ProductService {
 	public void deleteProduct(Product product) {
 		productDAO.delete(product);
 	}
+	
+	
 
 	@Override
 	@Transactional(readOnly = false)
@@ -240,21 +242,33 @@ public class ProductServiceImpl implements ProductService {
 	        	
 	        }
 	        for (String poId : po) {
-	        	ProductOption poEx = productOptionDAO.findById(UUID.fromString(poId), false);
+	        	ProductOption poEx = loadPOById(UUID.fromString(poId), false);
 	        	existingProduct.addProductOption(poEx);
 	        }
 			existingProduct.getDefaultSku().getImages().clear();
 			for (String i : productFromPost.getDefaultSku().getImages()) existingProduct.getDefaultSku().getImages().add(i);
 		} else {
-	        for (String poId : po) {
-	        	ProductOption poEx = productOptionDAO.findById(UUID.fromString(poId), false);
-	        	productFromPost.addProductOption(poEx);
-	        }
-	        for (String psi : ps) {
-	        	productFromPost.getDefaultSku().getProductStatus().add(ProductStatus.forName(psi));
-	        }			        
+			setProductOptions(productFromPost, po);
+			setProductStatuses(productFromPost, ps);
 	        createProduct(productFromPost);
 		}
+	}
+
+	@Override
+	public void setProductStatuses(Product product, Set<String> ps) {
+        if (product == null || ps == null) return;
+		for (String psii : ps) {
+			product.getDefaultSku().getProductStatus().add(ProductStatus.forName(psii));
+        }		
+	}
+
+	@Override
+	public void setProductOptions(Product product, Set<String> po) {
+		if (product == null || po == null) return;
+        for (String poId : po) {
+        	ProductOption poEx = loadPOById(UUID.fromString(poId), false);
+        	product.addProductOption(poEx);
+        }
 	}
 }
 

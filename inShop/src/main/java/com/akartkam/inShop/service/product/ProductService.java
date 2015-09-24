@@ -30,4 +30,6 @@ public interface ProductService {
 	void updatePO(ProductOption po);
 	void mergeWithExistingPOAndUpdateOrCreate(final ProductOption poFromForm, Errors errors);
 	void mergeWithExistingAndUpdateOrCreate(final ProductForm productFromPost, final Set<String> po, final Set<String> ps);
+	void setProductStatuses(Product product, Set<String> ps);
+	void setProductOptions(Product product, Set<String> po);
 }

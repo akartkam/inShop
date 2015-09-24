@@ -35,7 +35,6 @@ public class ProductForm extends Product {
     private Map<Integer, AttributeDecimalValue> decimalValMap = new HashMap<Integer, AttributeDecimalValue>(); 
     private Map<Integer, AttributeStringValue> stringValMap = new HashMap<Integer, AttributeStringValue>(); 
     private Map<Integer, AttributeSListValue> slistValMap = new HashMap<Integer, AttributeSListValue>(); 
-	private Set<ProductStatus> productStatus = new HashSet<ProductStatus>();
 
  
 	public ProductForm() {};
@@ -78,26 +77,7 @@ public class ProductForm extends Product {
 		  
 	  }
 
-	public Set<ProductStatus> getProductStatus() {
-		return productStatus;
-	}
-	
-	public void setProductStatus(Set<String> ps) {
-		getProductStatus().clear();
-        for (String psii : ps) {
-        	getProductStatus().add(ProductStatus.forName(psii));
-        }		
-	}
-
-	public void setProductOptionsFromStringList(Set<String> po) {
-		getProductOptions().clear();
-        for (String poId : po) {
-      //  	ProductOption poEx = productOptionDAO.findById(UUID.fromString(poId), false);
-       // 	existingProduct.addProductOption(poEx);
-        }
-	}
-
-	
+		
 	@SuppressWarnings("rawtypes")
 	public void setMapAttributeValues() {
 		List<AbstractAttributeValue> attributeValues = this.getAttributeValues();

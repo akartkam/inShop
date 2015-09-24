@@ -229,14 +229,15 @@ public class AdminProductController {
 	   @RequestMapping(value="/edit", method = RequestMethod.POST )
 	   public String saveProduct(@RequestParam(value="poSelected", required=false) Set<String> po,
 				   			   @RequestParam(value="psSelected", required=false) Set<String> ps,
-				   			   @RequestParam(required=false) Map<String, String> params,
 			                   @Valid ProductForm product,
 				   			   final BindingResult bindingResult,
 			                   final RedirectAttributes ra
 			                         ) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
 		   if (bindingResult.hasErrors()) {
 			    product.complementNecessaryAttributes();
-	        	product.setMapAttributeValues();
+	        	product.setAttributeValuesFromMap();
+			    productService.setProductOptions(product, po);
+			    productService.setProductStatuses(product, ps);
 	        	ra.addFlashAttribute("product", product);
 	        	ra.addFlashAttribute("org.springframework.validation.BindingResult.product", bindingResult);
 	            return "redirect:/admin/catalog/product/edit";
