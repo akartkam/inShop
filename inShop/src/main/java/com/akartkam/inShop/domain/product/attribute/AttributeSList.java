@@ -35,7 +35,7 @@ public class AttributeSList extends AbstractAttribute implements Selectable<Stri
 	}
 
 	@Override
-    @ElementCollection(fetch=FetchType.EAGER)
+    @ElementCollection
     @Column(name="item", nullable = false)
     @OrderBy("item")
     @CollectionTable(name="items_attributeslist")
