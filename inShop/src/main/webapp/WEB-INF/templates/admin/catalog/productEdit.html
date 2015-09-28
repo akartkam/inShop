@@ -130,7 +130,7 @@
 	                           <label>
 						  	  	<span th:text="#{admin.catalog.category}">Category</span>
 						       </label>
-							   <select class="form-control" th:field="*{category}">
+							   <select class="form-control" th:field="*{category}" th:attr="data-previd=*{category.id}">
 								<option th:each="scategory : ${allCategory}" 
 								        th:value="${scategory.id}"
 									    th:text="${scategory.name}"
