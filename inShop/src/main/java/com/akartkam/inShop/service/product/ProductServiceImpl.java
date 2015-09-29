@@ -203,8 +203,8 @@ public class ProductServiceImpl implements ProductService {
 			existingProduct.getDefaultSku().setLongDescription(productFromPost.getDefaultSku().getLongDescription());
 			existingProduct.setEnabled(productFromPost.isEnabled());
 			existingProduct.setCanSellWithoutOptions(productFromPost.isCanSellWithoutOptions());
-			if (!existingProduct.getCategory().equals(productFromPost.getCategory())) {
-				productFromPost.setAttributeValuesFromMap();
+			productFromPost.setAttributeValuesFromMap();
+			if (existingProduct.getCategory().equals(productFromPost.getCategory())) {
 				List<AbstractAttributeValue> lavfp = productFromPost.getAttributeValues();
 				Iterator<AbstractAttributeValue> avi = existingProduct.getAttributeValues().iterator();
 				while(avi.hasNext()) {
@@ -220,15 +220,19 @@ public class ProductServiceImpl implements ProductService {
 				for (AbstractAttributeValue av1:lavfp) {
 					existingProduct.addAttributeValue(av1);
 				}				
-				//Set category
+			} else {
 				Category ctgFromPost = categoryService.loadCategoryById(productFromPost.getCategory().getId(), false);
 				List<AbstractAttributeValue> avCtgFromPost = ctgFromPost.getAllAttributeValues(true);
-				for (AbstractAttributeValue av : existingProduct.getCategory().getAllAttributeValues(true)) {
-					//if (!avCtgFromPost.contains(av)) 
+				Iterator<AbstractAttributeValue> avifp = productFromPost.getAttributeValues().iterator();
+				while (avifp.hasNext()) {
+					AbstractAttributeValue av = avifp.next();
+					if(!avCtgFromPost.contains(av)) avifp.remove();
 				}
+				//
+				
+				
+				//Set category
 				existingProduct.setCategory(productFromPost.getCategory());
-			} else {
-				existingProduct.getAttributeValues().clear();
 			}
 
 			
