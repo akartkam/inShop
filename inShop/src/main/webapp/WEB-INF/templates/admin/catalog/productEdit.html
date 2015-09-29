@@ -332,7 +332,7 @@
 		 <!-- /modal-body -->
 	 	    <div class="modal-footer">
 	 		  <button type="button" class="btn btn-default" data-dismiss="modal" th:text="#{admin.catalog.category.edit.button.close}">Close</button>        
-			  <button type="submit" class="btn btn-primary" th:text="#{admin.catalog.category.edit.button.save}">Save changes</button>
+			  <button type="submit" class="btn btn-primary btnSubmit" th:text="#{admin.catalog.category.edit.button.save}">Save changes</button>
 		    </div>  
 		 <!-- /modal-footer -->
 	     </form>	
@@ -383,6 +383,14 @@
         			    	    $("#editModalBody" ).scrollTop( s.top );
                     });
 		    	  });
+	 	           //Проверка перед сабмитом
+	 	           $(document).on("click", ".btnSubmit" , function() {
+	                 	//check for change category
+	                 	var previd = $("#category").data("previd");
+	                 	var currid = $("#category").val();
+	                 	if (previd!=currid)
+	                 		return confirm("При смене категории товара, все значения атрибутов, которые ей не соответствуют будут удалены. Продолжить?") ;
+	                 });    			
 				    $(".row-move-up").on("click", function () { 
 					    var row = $(this).closest("tr");
 					    var rowOther = row.next();

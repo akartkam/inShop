@@ -98,7 +98,7 @@ public class Product extends AbstractDomainObjectOrdering {
 		this.model = model;
 	}
 		
-	@OneToMany(mappedBy="product", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy="product", cascade = CascadeType.ALL, orphanRemoval=true)
 	@Cascade(org.hibernate.annotations.CascadeType.ALL)
 	public List<AbstractAttributeValue> getAttributeValues() {
 		//Collections.sort(attributeValues, new Product.AVComparer());
@@ -127,6 +127,13 @@ public class Product extends AbstractDomainObjectOrdering {
 		if (attribute == null) throw new IllegalArgumentException("Null attribute!");
 		AbstractAttributeValue attributeValue = SimpleAttributeFactory.createAttributeValue(attribute.getAttributeType());
 		addAttributeValue(attributeValue, attribute);
+	}
+	
+	public void removeAttributeValue (AbstractAttributeValue attributeValue) {
+		List<AbstractAttributeValue> lav =  getAttributeValues();
+		if (lav!=null) {
+			lav.remove(attributeValue);
+		}
 	}
 
 	@ManyToMany(cascade = CascadeType.ALL)

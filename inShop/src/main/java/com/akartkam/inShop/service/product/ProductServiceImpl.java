@@ -13,6 +13,7 @@ import org.springframework.validation.Errors;
 
 import com.akartkam.inShop.dao.product.ProductDAO;
 import com.akartkam.inShop.dao.product.option.ProductOptionDAO;
+import com.akartkam.inShop.domain.product.Category;
 import com.akartkam.inShop.domain.product.Product;
 import com.akartkam.inShop.domain.product.ProductStatus;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
@@ -30,6 +31,9 @@ public class ProductServiceImpl implements ProductService {
 	
 	@Autowired
 	ProductDAO productDAO;
+	
+	@Autowired
+	CategoryService categoryService; 
 	
 
 	@Override
@@ -188,7 +192,6 @@ public class ProductServiceImpl implements ProductService {
 		if (existingProduct != null) {
 			existingProduct.getDefaultSku().setName(productFromPost.getDefaultSku().getName());
 			existingProduct.getDefaultSku().setCode(productFromPost.getDefaultSku().getCode());
-			existingProduct.setCategory(productFromPost.getCategory());
 			existingProduct.setUrl(productFromPost.getUrl());
 			existingProduct.setOrdering(productFromPost.getOrdering());
 			existingProduct.setBrand(productFromPost.getBrand());
@@ -200,22 +203,34 @@ public class ProductServiceImpl implements ProductService {
 			existingProduct.getDefaultSku().setLongDescription(productFromPost.getDefaultSku().getLongDescription());
 			existingProduct.setEnabled(productFromPost.isEnabled());
 			existingProduct.setCanSellWithoutOptions(productFromPost.isCanSellWithoutOptions());
-			productFromPost.setAttributeValuesFromMap();
-			List<AbstractAttributeValue> lavfp = productFromPost.getAttributeValues();
-			Iterator<AbstractAttributeValue> avi = existingProduct.getAttributeValues().iterator();
-			while(avi.hasNext()) {
-				AbstractAttributeValue av = avi.next();
-				int idx = lavfp.indexOf(av);
-				if (lavfp.contains(av)) {
-					av.setValue(lavfp.get(idx).getValue());
-					lavfp.remove(idx);
-				} else {
-					avi.remove();
+			if (!existingProduct.getCategory().equals(productFromPost.getCategory())) {
+				productFromPost.setAttributeValuesFromMap();
+				List<AbstractAttributeValue> lavfp = productFromPost.getAttributeValues();
+				Iterator<AbstractAttributeValue> avi = existingProduct.getAttributeValues().iterator();
+				while(avi.hasNext()) {
+					AbstractAttributeValue av = avi.next();
+					int idx = lavfp.indexOf(av);
+					if (lavfp.contains(av)) {
+						av.setValue(lavfp.get(idx).getValue());
+						lavfp.remove(idx);
+					} else {
+						avi.remove();
+					}
 				}
+				for (AbstractAttributeValue av1:lavfp) {
+					existingProduct.addAttributeValue(av1);
+				}				
+				//Set category
+				Category ctgFromPost = categoryService.loadCategoryById(productFromPost.getCategory().getId(), false);
+				List<AbstractAttributeValue> avCtgFromPost = ctgFromPost.getAllAttributeValues(true);
+				for (AbstractAttributeValue av : existingProduct.getCategory().getAllAttributeValues(true)) {
+					//if (!avCtgFromPost.contains(av)) 
+				}
+				existingProduct.setCategory(productFromPost.getCategory());
+			} else {
+				existingProduct.getAttributeValues().clear();
 			}
-			for (AbstractAttributeValue av1:lavfp) {
-				existingProduct.addAttributeValue(av1);
-			}
+
 			
 	        Iterator<ProductStatus> psi = existingProduct.getDefaultSku().getProductStatus().iterator();
 	        while(psi.hasNext()){

@@ -330,7 +330,17 @@
 	  	               });
 	  	           });
 	           });
-	            //Открытие окна удаления
+
+	           //Проверка перед сабмитом
+	           $(document).on("click", ".btnSubmit" , function() {
+                	//check for change category
+                	var previd = $("#category").data("previd");
+                	var currid = $("#category").val();
+                	if (previd!=currid)
+                		return confirm("При смене категории товара, все значения атрибутов,<br>которые ей не соответствуют будут удалены. Продолжить?") ;
+                });
+
+	           //Открытие окна удаления
 		        $(document).on("click", ".open-deleteDialog", function () {
 		    	     var Id = $(this).data("id");
 		    	     var prName = $(this).data("name");
