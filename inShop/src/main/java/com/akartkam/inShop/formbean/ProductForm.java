@@ -57,6 +57,10 @@ public class ProductForm extends Product {
 		}
 	};
 	
+	public void copyValuesFrom(Product product) {
+		
+	}
+	
 	public void complementNecessaryAttributes() throws ClassNotFoundException, InstantiationException, IllegalAccessException {			 
 			 List<AbstractAttribute> at = new ArrayList<AbstractAttribute>();
 			 at = getCategory().getAllAttributes(at, true);

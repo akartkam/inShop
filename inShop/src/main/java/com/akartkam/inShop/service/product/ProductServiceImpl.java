@@ -204,23 +204,8 @@ public class ProductServiceImpl implements ProductService {
 			existingProduct.setEnabled(productFromPost.isEnabled());
 			existingProduct.setCanSellWithoutOptions(productFromPost.isCanSellWithoutOptions());
 			productFromPost.setAttributeValuesFromMap();
-			if (existingProduct.getCategory().equals(productFromPost.getCategory())) {
-				List<AbstractAttributeValue> lavfp = productFromPost.getAttributeValues();
-				Iterator<AbstractAttributeValue> avi = existingProduct.getAttributeValues().iterator();
-				while(avi.hasNext()) {
-					AbstractAttributeValue av = avi.next();
-					int idx = lavfp.indexOf(av);
-					if (lavfp.contains(av)) {
-						av.setValue(lavfp.get(idx).getValue());
-						lavfp.remove(idx);
-					} else {
-						avi.remove();
-					}
-				}
-				for (AbstractAttributeValue av1:lavfp) {
-					existingProduct.addAttributeValue(av1);
-				}				
-			} else {
+			if (!existingProduct.getCategory().equals(productFromPost.getCategory())) {
+				//Check attributes for choosed category
 				Category ctgFromPost = categoryService.loadCategoryById(productFromPost.getCategory().getId(), false);
 				List<AbstractAttributeValue> avCtgFromPost = ctgFromPost.getAllAttributeValues(true);
 				Iterator<AbstractAttributeValue> avifp = productFromPost.getAttributeValues().iterator();
@@ -228,13 +213,24 @@ public class ProductServiceImpl implements ProductService {
 					AbstractAttributeValue av = avifp.next();
 					if(!avCtgFromPost.contains(av)) avifp.remove();
 				}
-				//
-				
-				
 				//Set category
-				existingProduct.setCategory(productFromPost.getCategory());
+				existingProduct.setCategory(productFromPost.getCategory());				
+			}	
+			List<AbstractAttributeValue> lavfp = productFromPost.getAttributeValues();			
+			Iterator<AbstractAttributeValue> avi = existingProduct.getAttributeValues().iterator();
+			while(avi.hasNext()) {
+				AbstractAttributeValue av = avi.next();
+				int idx = lavfp.indexOf(av);
+				if (lavfp.contains(av)) {
+					av.setValue(lavfp.get(idx).getValue());
+					lavfp.remove(idx);
+				} else {
+					avi.remove();
+				}
 			}
-
+			for (AbstractAttributeValue av1:lavfp) {
+				existingProduct.addAttributeValue(av1);
+			}				
 			
 	        Iterator<ProductStatus> psi = existingProduct.getDefaultSku().getProductStatus().iterator();
 	        while(psi.hasNext()){
