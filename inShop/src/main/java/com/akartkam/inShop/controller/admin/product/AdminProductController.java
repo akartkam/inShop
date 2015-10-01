@@ -128,8 +128,8 @@ public class AdminProductController {
 	  public void initBinder(WebDataBinder binder) {
 			binder.setAllowedFields(new String[] { "*id", "*name", "url", "*description", "*longDescription", 
 					 							   "*code", "category", "brand", "*model", "attributeValues*", "ordering", 
-					 							   "productOptions", "canSellWithoutOptions", "*images*", "enabled",
-					 							   "*retailPrice", "*salePrice", "*costPrice", "*value"});
+					 							   "*productOptions", "canSellWithoutOptions", "*images*", "enabled",
+					 							   "*retailPrice", "*salePrice", "*costPrice", "*value", "*productStatus*"});
 			//binder.setAutoGrowNestedPaths(false);
 			binder.registerCustomEditor(UUID.class, "id", new PropertyEditorSupport() {
 			    @Override
@@ -157,7 +157,16 @@ public class AdminProductController {
 			    	}			    
 			    }
 			    });
-
+			binder.registerCustomEditor(ProductStatus.class,"defaultSku.productStatus", new PropertyEditorSupport() {
+			    @Override
+			    public void setAsText(String text) {
+			    	if (!"".equals(text)) {
+			    		ProductStatus p = ProductStatus.forName(text); 
+			            setValue(p);
+			    	}			    
+			    }
+			    });
+		
 	  }
 	  
 

@@ -35,7 +35,7 @@ public class ProductForm extends Product {
     private Map<Integer, AttributeDecimalValue> decimalValMap = new HashMap<Integer, AttributeDecimalValue>(); 
     private Map<Integer, AttributeStringValue> stringValMap = new HashMap<Integer, AttributeStringValue>(); 
     private Map<Integer, AttributeSListValue> slistValMap = new HashMap<Integer, AttributeSListValue>(); 
-
+    private List<ProductStatus> productStatus = new ArrayList<ProductStatus>();
  
 	public ProductForm() {};
 	
@@ -54,6 +54,7 @@ public class ProductForm extends Product {
 			this.setProductOptions(product.getProductOptions());
 			this.setUrl(product.getUrl());
 			setMapAttributeValues();
+			setProductStatus(new ArrayList<ProductStatus>(product.getDefaultSku().getProductStatus()));
 		}
 	};
 	
@@ -61,6 +62,16 @@ public class ProductForm extends Product {
 		
 	}
 	
+	
+	
+	public List<ProductStatus> getProductStatus() {
+		return productStatus;
+	}
+
+	public void setProductStatus(List<ProductStatus> productStatus) {
+		this.productStatus = productStatus;
+	}
+
 	public void complementNecessaryAttributes() throws ClassNotFoundException, InstantiationException, IllegalAccessException {			 
 			 List<AbstractAttribute> at = new ArrayList<AbstractAttribute>();
 			 at = getCategory().getAllAttributes(at, true);
