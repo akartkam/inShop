@@ -1,5 +1,6 @@
 package com.akartkam.inShop.service.product;
 
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -184,9 +185,10 @@ public class ProductServiceImpl implements ProductService {
 	
 	
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	@Transactional(readOnly = false)
-	public void mergeWithExistingAndUpdateOrCreate(final ProductForm productFromPost, final Set<String> po, final Set<String> ps) {
+	public void mergeWithExistingAndUpdateOrCreate(final ProductForm productFromPost) {
 		if (productFromPost == null) return;
 		final Product existingProduct = getProductById(productFromPost.getId());
 		if (existingProduct != null) {
@@ -230,8 +232,10 @@ public class ProductServiceImpl implements ProductService {
 			}
 			for (AbstractAttributeValue av1:lavfp) {
 				existingProduct.addAttributeValue(av1);
-			}				
-			
+			}
+			//ProductStatus
+			existingProduct.getDefaultSku().setProductStatus(new HashSet<ProductStatus>(productFromPost.getProductStatus()));
+			/*
 	        Iterator<ProductStatus> psi = existingProduct.getDefaultSku().getProductStatus().iterator();
 	        while(psi.hasNext()){
 	        	ProductStatus p = psi.next();
@@ -245,8 +249,9 @@ public class ProductServiceImpl implements ProductService {
 	        for (String psii : ps) {
 	        	existingProduct.getDefaultSku().getProductStatus().add(ProductStatus.forName(psii));
 	        }
-	        
-	        Iterator<ProductOption> poi = existingProduct.getProductOptions().iterator();
+	        */
+			
+	       /* Iterator<ProductOption> poi = existingProduct.getProductOptions().iterator();
 	        while(poi.hasNext()){
 	        	ProductOption p = poi.next();
 	        	if (po.contains(p.getId().toString())) {
@@ -259,32 +264,14 @@ public class ProductServiceImpl implements ProductService {
 	        for (String poId : po) {
 	        	ProductOption poEx = loadPOById(UUID.fromString(poId), false);
 	        	existingProduct.addProductOption(poEx);
-	        }
+	        }*/
 			existingProduct.getDefaultSku().getImages().clear();
 			for (String i : productFromPost.getDefaultSku().getImages()) existingProduct.getDefaultSku().getImages().add(i);
 		} else {
-			setProductOptions(productFromPost, po);
-			setProductStatuses(productFromPost, ps);
 	        createProduct(productFromPost);
 		}
 	}
 
-	@Override
-	public void setProductStatuses(Product product, Set<String> ps) {
-        if (product == null || ps == null) return;
-		for (String psii : ps) {
-			product.getDefaultSku().getProductStatus().add(ProductStatus.forName(psii));
-        }		
-	}
-
-	@Override
-	public void setProductOptions(Product product, Set<String> po) {
-		if (product == null || po == null) return;
-        for (String poId : po) {
-        	ProductOption poEx = loadPOById(UUID.fromString(poId), false);
-        	product.addProductOption(poEx);
-        }
-	}
 }
 
 //}

@@ -120,8 +120,8 @@ public class AdminProductController {
 	  }	  
 	  
 	  @ModelAttribute("allProdStatus")
-	  public Set<ProductStatus> getAllProdStatus() {
-	      return new HashSet<ProductStatus>(Arrays.asList(ProductStatus.ALL));
+	  public List<ProductStatus> getAllProdStatus() {
+	      return Arrays.asList(ProductStatus.ALL);
 	  }	  
 	  
 	  @InitBinder
@@ -236,8 +236,7 @@ public class AdminProductController {
 		  }
 	
 	   @RequestMapping(value="/edit", method = RequestMethod.POST )
-	   public String saveProduct(@RequestParam(value="poSelected", required=false) Set<String> po,
-				   			   @RequestParam(value="psSelected", required=false) Set<String> ps,
+	   public String saveProduct(
 			                   @Valid ProductForm product,
 				   			   final BindingResult bindingResult,
 			                   final RedirectAttributes ra
@@ -245,16 +244,12 @@ public class AdminProductController {
 		   if (bindingResult.hasErrors()) {
 			    product.complementNecessaryAttributes();
 	        	product.setAttributeValuesFromMap();
-			    productService.setProductOptions(product, po);
-			    productService.setProductStatuses(product, ps);
 	        	ra.addFlashAttribute("product", product);
 	        	ra.addFlashAttribute("org.springframework.validation.BindingResult.product", bindingResult);
 	            return "redirect:/admin/catalog/product/edit";
 	        }
 
-	        if (po==null) po = new HashSet<String>(0);
-	        if (ps==null) ps = new HashSet<String>(0);
-	        productService.mergeWithExistingAndUpdateOrCreate(product, po, ps);	       
+	        productService.mergeWithExistingAndUpdateOrCreate(product);	       
 	        return "redirect:/admin/catalog/product";
 	    }
 	   

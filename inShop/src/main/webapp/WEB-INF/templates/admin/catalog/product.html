@@ -363,6 +363,19 @@
 	        	    				    lang: "ru-RU"
 	        	    				     });
 	 	                            $(".selectpicker").selectpicker();
+		 	           				//Добавление input для productStatus
+		 	           		 		$("#productStatus").on("change", function(){
+		 	           					$("#productStatusIc").find("input").each(function(i,v){$(v).remove()});    		 			
+		 	           	 		        $(this).find("option:selected").each(function(i, v){
+		 	           	 		        	$("<input>").attr({
+		 	           	 		        	    type: "hidden",
+		 	           	 		        	    name: "productStatus["+i+"]",
+		 	           	 		        	    value: $(v).val()
+		 	           	 		        	}).appendTo("#productStatusIc");								    		 		            
+		 	           	 		        });    		 			
+		 	           	 		
+		 	           	 			});
+		 	           		 		$("#productStatus").change();
 	        	                    $("#name").focus();
 	                    });
 					}  
@@ -453,7 +466,8 @@
   		        	var $t = $(this); 
   		        	var title = $t.attr("title");
   		        	if (!title){ if (this.offsetWidth < this.scrollWidth) $t.attr("title", $t.text()) } 
-  		        	else { if (this.offsetWidth >= this.scrollWidth && title == $t.text()) $t.removeAttr("title")}});	            
+  		        	else { if (this.offsetWidth >= this.scrollWidth && title == $t.text()) $t.removeAttr("title")}});	
+
 		   // ]]>
 	     </script>
 	     <!-- <th:block layout:include="/admin/catalog/attributeCategoryEdit :: scriptEditModal"> -->

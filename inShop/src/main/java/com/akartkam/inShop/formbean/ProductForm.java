@@ -36,7 +36,8 @@ public class ProductForm extends Product {
     private Map<Integer, AttributeStringValue> stringValMap = new HashMap<Integer, AttributeStringValue>(); 
     private Map<Integer, AttributeSListValue> slistValMap = new HashMap<Integer, AttributeSListValue>(); 
     private List<ProductStatus> productStatus = new ArrayList<ProductStatus>();
- 
+    private List<ProductOption> productOption = new ArrayList<ProductOption>(); 
+    
 	public ProductForm() {};
 	
 	public ProductForm(Product product) {
@@ -55,14 +56,13 @@ public class ProductForm extends Product {
 			this.setUrl(product.getUrl());
 			setMapAttributeValues();
 			setProductStatus(new ArrayList<ProductStatus>(product.getDefaultSku().getProductStatus()));
+			setProductOption(new ArrayList<ProductOption>(product.getProductOptions()));
 		}
 	};
 	
 	public void copyValuesFrom(Product product) {
 		
 	}
-	
-	
 	
 	public List<ProductStatus> getProductStatus() {
 		return productStatus;
@@ -71,7 +71,18 @@ public class ProductForm extends Product {
 	public void setProductStatus(List<ProductStatus> productStatus) {
 		this.productStatus = productStatus;
 	}
+	
+	
 
+	public List<ProductOption> getProductOption() {
+		return productOption;
+	}
+
+	public void setProductOption(List<ProductOption> productOption) {
+		this.productOption = productOption;
+	}
+
+	@SuppressWarnings("rawtypes")
 	public void complementNecessaryAttributes() throws ClassNotFoundException, InstantiationException, IllegalAccessException {			 
 			 List<AbstractAttribute> at = new ArrayList<AbstractAttribute>();
 			 at = getCategory().getAllAttributes(at, true);
@@ -89,7 +100,6 @@ public class ProductForm extends Product {
 					 addAttributeValue(cat);
 				 }
 			 }
-		  
 	  }
 
 		
