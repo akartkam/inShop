@@ -375,7 +375,19 @@
 		 	           	 		        });    		 			
 		 	           	 		
 		 	           	 			});
+			 	       		 		$("#productOption").on("change", function(e){
+			 							$("#productOptionIc").find("input").each(function(i,v){$(v).remove()});    		 			
+			 			 		        $(this).find("option:selected").each(function(i, v){
+			 			 		        	$("<input>").attr({
+			 			 		        	    type: "hidden",
+			 			 		        	    name: "productOptions["+i+"]",
+			 			 		        	    value: $(v).val()
+			 			 		        	}).appendTo("#productOptionIc");								    		 		            
+			 			 		        });    		 			
+			 			 		
+			 			 			});
 		 	           		 		$("#productStatus").change();
+		 	           		 		$("#productOption").change();	
 	        	                    $("#name").focus();
 	                    });
 					}  
