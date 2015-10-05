@@ -278,7 +278,7 @@
 	          						 data-live-search="true">
 								    <option th:if="${po.enabled}"
 								            th:each="po: ${allPo}" th:text="${po.name}"
-								            th:selected="${#lists.contains(product.productOptions, po)}"
+								            th:selected="${#lists.contains(product.productOptionsForForm, po)}"
 								            th:value="${po.id}">
 								    </option>      
 							 </select>
@@ -456,7 +456,7 @@
 		 		        $(this).find("option:selected").each(function(i, v){
 		 		        	$("<input>").attr({
 		 		        	    type: "hidden",
-		 		        	    name: "productOptions["+i+"]",
+		 		        	    name: "productOptionsForForm["+i+"]",
 		 		        	    value: $(v).val()
 		 		        	}).appendTo("#productOptionIc");								    		 		            
 		 		        });    		 			

@@ -36,7 +36,7 @@ public class ProductForm extends Product {
     private Map<Integer, AttributeStringValue> stringValMap = new HashMap<Integer, AttributeStringValue>(); 
     private Map<Integer, AttributeSListValue> slistValMap = new HashMap<Integer, AttributeSListValue>(); 
     private List<ProductStatus> productStatus = new ArrayList<ProductStatus>();
-    private List<ProductOption> productOptions = new ArrayList<ProductOption>();
+    private List<ProductOption> productOptionsForForm = new ArrayList<ProductOption>();
     
     
 	public ProductForm() {};
@@ -57,7 +57,7 @@ public class ProductForm extends Product {
 			this.setUrl(product.getUrl());
 			setMapAttributeValues();
 			productStatus = new ArrayList<ProductStatus>(product.getDefaultSku().getProductStatus());
-			productOptions = new ArrayList<ProductOption>(product.getProductOptions());
+			productOptionsForForm = new ArrayList<ProductOption>(product.getProductOptions());
 		}
 	};
 	
@@ -76,11 +76,11 @@ public class ProductForm extends Product {
 	
 
 	public List<ProductOption> getProductOptionsForForm() {
-		return productOptions;
+		return productOptionsForForm;
 	}
 
 	public void setProductOptionFromList() {
-		setProductOptions(new HashSet<ProductOption>(productOptions));
+		setProductOptions(new HashSet<ProductOption>(productOptionsForForm));
 	}
 
 	@SuppressWarnings("rawtypes")

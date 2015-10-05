@@ -256,19 +256,6 @@
 		                ordering:  false
     				});    		     
 	            });
-	            //Открытие окна удаления
-		        $(document).on("click", ".open-deleteDialog", function () {
-		    	     var Id = $(this).data("id");
-		    	     var poName = $(this).data("name");
-		    	     var modalName = $(this).data("target");
-		    	     $(modalName).find(".modal-footer .btn-primary").val(Id);
-		    	     $(modalName).find(".modal-body .objname").html(poName);
-		    	     if (modalName == "#deleteModalPov") {
-		    	    	 var canRemove = $(this).data("canremove");
-		    	    	 var checkRemove = $(modalName).find("#phisycalDeletePov")
-		    	    	 if (checkRemove != "undefined" && checkRemove !=null) checkRemove.attr("disabled", !canRemove);
-		    	     }
-		    	});
   		        //Открытие окна редактированя
 	    		$("#editModal").on("show.bs.modal", function (e) {
 	    			var id = $("#editModal").data("id");
@@ -304,6 +291,20 @@
                         });
     	    		});	    			
 	    		});
+	            //Открытие окна удаления
+		        $(document).on("click", ".open-deleteDialog", function () {
+		    	     var Id = $(this).data("id");
+		    	     var poName = $(this).data("name");
+		    	     if (poName == "undefined" || poName ==null) poName = '';
+		    	     var modalName = $(this).data("target");
+		    	     $(modalName).find(".modal-footer .btn-primary").val(Id);
+		    	     $(modalName).find(".modal-body .objname").html(poName);
+		    	     if (modalName == "#deleteModalPov") {
+		    	    	 var canRemove = $(this).data("canremove");
+		    	    	 var checkRemove = $(modalName).find("#phisycalDeletePov")
+		    	    	 if (checkRemove != "undefined" && checkRemove !=null) checkRemove.attr("disabled", !canRemove);
+		    	     }
+		    	});
 		        $("#IDPov").one("click", function () { 
 	    			$("#deleteModalPov").modal("hide");
 		        	var id = $("#deleteModalPov").find(".btn-primary").val();
@@ -323,8 +324,8 @@
                     }).done(function (html) {
                                 $("#editModalContent").append(html);
                     });
-	    		});
-		        	    		
+	    		});	    		
+	        	    		
 		        $(".open-editDialog").on("click", function () {
 		          var Id = $(this).data("id");
 		          var path = $(this).data("path");

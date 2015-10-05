@@ -1,6 +1,7 @@
 package com.akartkam.inShop.domain.product.option;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
 
@@ -19,6 +20,9 @@ import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Cascade;
 
 import com.akartkam.inShop.domain.AbstractDomainObjectOrdering;
+import com.akartkam.inShop.domain.product.Product;
+import com.akartkam.inShop.domain.product.Sku;
+import com.akartkam.inShop.domain.product.attribute.AbstractAttributeValue;
 import com.akartkam.inShop.presentation.admin.AdminPresentation;
 import com.akartkam.inShop.presentation.admin.EditTab;
 
@@ -98,5 +102,20 @@ public class ProductOption extends AbstractDomainObjectOrdering {
 		return null;
 	}
 
+	@Override
+	@Transient
+	public ProductOption clone() throws CloneNotSupportedException {
+		ProductOption po = (ProductOption) super.clone();
+		po.setId(UUID.randomUUID());
+		po.setName(new String(getName()));
+		po.setLabel(new String(getLabel()));
+		po.setProductOptionValues(new ArrayList<ProductOptionValue>());
+		po.setUseInSkuGeneration(getUseInSkuGeneration());
+		po.setCreatedBy(null);
+		po.setCreatedDate(null);
+		po.setUpdatedBy(null);
+		po.setUpdatedDate(null);
+		return po;
+	}
 	
 }

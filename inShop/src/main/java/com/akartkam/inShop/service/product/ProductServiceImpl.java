@@ -14,6 +14,7 @@ import org.springframework.validation.Errors;
 
 import com.akartkam.inShop.dao.product.ProductDAO;
 import com.akartkam.inShop.dao.product.option.ProductOptionDAO;
+import com.akartkam.inShop.domain.product.Brand;
 import com.akartkam.inShop.domain.product.Category;
 import com.akartkam.inShop.domain.product.Product;
 import com.akartkam.inShop.domain.product.ProductStatus;
@@ -61,8 +62,9 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public ProductOption clonePOById(UUID id) throws CloneNotSupportedException {
-		// TODO Auto-generated method stub
-		return null;
+		ProductOption clonedPO = getPOById(id);
+		if (clonedPO == null) return null;
+		return clonedPO.clone();
 	}
 
 	@Override

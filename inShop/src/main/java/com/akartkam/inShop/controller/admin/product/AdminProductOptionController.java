@@ -109,7 +109,7 @@ public class AdminProductOptionController {
 			  if(po.canRemove() && authorities.contains(new SimpleGrantedAuthority("ADMIN"))) {
 				  productService.deletePO(po);   
 			  } else {
-				  ra.addFlashAttribute("errormessage", this.messageSource.getMessage("admin.error.cannotdelete.message", new String[] {"опцию"} , null));
+				  ra.addFlashAttribute("errormessage", this.messageSource.getMessage("admin.error.cannotdelete.message", new String[] {"пїЅпїЅпїЅпїЅпїЅ"} , null));
 				  ra.addAttribute("error", true);
 			  }
 
