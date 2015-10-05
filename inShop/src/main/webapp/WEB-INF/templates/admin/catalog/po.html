@@ -254,25 +254,9 @@
 		                  },
 		                responsive: true,
 		                ordering:  false
-    				});    		     
-	            });
-  		        //Открытие окна редактированя
-	    		$("#editModal").on("show.bs.modal", function (e) {
-	    			var id = $("#editModal").data("id");
-					if ($("#editModal").data("allowed") == "true") {    			
-	    		        $("#editModalContent").text("");
-	                    $.ajax({
-	                        url: $("#editModal").data("path")+((id != null)?"?ID="+id:"") ,
-	                        cache: false
-	                    }).done(function (html) {
-	                                $("#editModalContent").append(html);
-	                                $("#editModal").data("allowed","false");
-	        	                    $("#name").focus();
-	                    });
-					}  
-                });   
-	    		$( document ).ajaxComplete(function() {
-	    			$(".add-new-pov").one("click", function () { 
+    				}); 
+//  	    		$( document ).ajaxComplete(function() {
+	    			$(".add-new-pov").on("click", function () { 
     		        	var id = $(this).val();
     	    			var form = $("#poform");
     	    			var path= $(this).data("path");
@@ -289,42 +273,60 @@
                			    	    var s = $("#poValDataTable tbody > tr:last-child").position();
             			    	    $("#editModalBody" ).scrollTop( s.top );
                         });
-    	    		});	    			
-	    		});
-	            //Открытие окна удаления
-		        $(document).on("click", ".open-deleteDialog", function () {
-		    	     var Id = $(this).data("id");
-		    	     var poName = $(this).data("name");
-		    	     if (poName == "undefined" || poName ==null) poName = '';
-		    	     var modalName = $(this).data("target");
-		    	     $(modalName).find(".modal-footer .btn-primary").val(Id);
-		    	     $(modalName).find(".modal-body .objname").html(poName);
-		    	     if (modalName == "#deleteModalPov") {
-		    	    	 var canRemove = $(this).data("canremove");
-		    	    	 var checkRemove = $(modalName).find("#phisycalDeletePov")
-		    	    	 if (checkRemove != "undefined" && checkRemove !=null) checkRemove.attr("disabled", !canRemove);
-		    	     }
-		    	});
-		        $("#IDPov").one("click", function () { 
-	    			$("#deleteModalPov").modal("hide");
-		        	var id = $("#deleteModalPov").find(".btn-primary").val();
-	    			var path= $("#deleteModalPov").data("path");
-	    			var canRemove = false;
-	    			var checkRemove = $("#deleteModalPov").find("#phisycalDeletePov");
-	    			if (checkRemove != "undefined" && checkRemove !=null) canRemove = checkRemove.is(":checked");
-	    			var form = $("#poform");
-	    			var formser;
-	    			if (form != "undefined" && form != null) formser = form.serialize();
-	    			$("#editModalContent").text("");
-                    $.ajax({
-                    	type: "POST",
-                        url: path,
-                        data: formser+"&"+((id != null)?"idpov="+id+"&":"")+"phisycalDelete="+canRemove,
-                        cache: false
-                    }).done(function (html) {
-                                $("#editModalContent").append(html);
-                    });
-	    		});	    		
+    	    		});
+		            //Открытие окна удаления
+			        $(".open-deleteDialog").on("click", function () {
+			        	 alert("bad!");
+			    	     var Id = $(this).data("id");
+			    	     var poName = $(this).data("name");
+			    	     if (poName == "undefined" || poName ==null) poName = '';
+			    	     var modalName = $(this).data("target");
+			    	     $(modalName).find(".modal-footer .btn-primary").val(Id);
+			    	     $(modalName).find(".modal-body .objname").html(poName);
+			    	     if (modalName == "#deleteModalPov") {
+			    	    	 var canRemove = $(this).data("canremove");
+			    	    	 var checkRemove = $(modalName).find("#phisycalDeletePov")
+			    	    	 if (checkRemove != "undefined" && checkRemove !=null) checkRemove.attr("disabled", !canRemove);
+			    	     }
+			    	});
+			        $("#IDPov").on("click", function () { 
+		    			$("#deleteModalPov").modal("hide");
+			        	var id = $("#deleteModalPov").find(".btn-primary").val();
+		    			var path= $("#deleteModalPov").data("path");
+		    			var canRemove = false;
+		    			var checkRemove = $("#deleteModalPov").find("#phisycalDeletePov");
+		    			if (checkRemove != "undefined" && checkRemove !=null) canRemove = checkRemove.is(":checked");
+		    			var form = $("#poform");
+		    			var formser;
+		    			if (form != "undefined" && form != null) formser = form.serialize();
+		    			$("#editModalContent").text("");
+	                    $.ajax({
+	                    	type: "POST",
+	                        url: path,
+	                        data: formser+"&"+((id != null)?"idpov="+id+"&":"")+"phisycalDelete="+canRemove,
+	                        cache: false
+	                    }).done(function (html) {
+	                                $("#editModalContent").append(html);
+	                    });
+		    		});	    		
+// 	    		});
+  		     
+	            });
+  		        //Открытие окна редактированя
+	    		$("#editModal").on("show.bs.modal", function (e) {
+	    			var id = $("#editModal").data("id");
+					if ($("#editModal").data("allowed") == "true") {    			
+	    		        $("#editModalContent").text("");
+	                    $.ajax({
+	                        url: $("#editModal").data("path")+((id != null)?"?ID="+id:"") ,
+	                        cache: false
+	                    }).done(function (html) {
+	                                $("#editModalContent").append(html);
+	                                $("#editModal").data("allowed","false");
+	        	                    $("#name").focus();
+	                    });
+					}  
+                });   
 	        	    		
 		        $(".open-editDialog").on("click", function () {
 		          var Id = $(this).data("id");
