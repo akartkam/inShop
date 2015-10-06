@@ -72,7 +72,7 @@ public class ProductOptionValue extends AbstractDomainObjectOrdering {
 		ProductOptionValue pov = (ProductOptionValue) super.clone();
 		pov.setId(UUID.randomUUID());
 		pov.setOptionValue(new String(getOptionValue()));
-		pov.setPriceAdjustment(new BigDecimal(getPriceAdjustment().toString()));
+		pov.setPriceAdjustment(getPriceAdjustment() != null? new BigDecimal(getPriceAdjustment().toString()): null);
 		pov.setEnabled(isEnabled());
 		pov.setProductOption(getProductOption());
 		pov.setCreatedBy(null);

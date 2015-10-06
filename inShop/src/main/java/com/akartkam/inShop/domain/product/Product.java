@@ -35,6 +35,8 @@ import com.akartkam.inShop.domain.product.attribute.AttributeDecimalValue;
 import com.akartkam.inShop.domain.product.attribute.AttributeType;
 import com.akartkam.inShop.domain.product.attribute.SimpleAttributeFactory;
 import com.akartkam.inShop.domain.product.option.ProductOption;
+import com.akartkam.inShop.presentation.admin.AdminPresentation;
+import com.akartkam.inShop.presentation.admin.EditTab;
 
 @Entity
 @Table(name = "Product")
@@ -135,7 +137,9 @@ public class Product extends AbstractDomainObjectOrdering {
 			lav.remove(attributeValue);
 		}
 	}
-
+	
+	@AdminPresentation(tab=EditTab.LINKS)
+	@Valid
 	@ManyToMany(cascade = CascadeType.ALL)
 	@Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE,
 		      org.hibernate.annotations.CascadeType.DELETE})

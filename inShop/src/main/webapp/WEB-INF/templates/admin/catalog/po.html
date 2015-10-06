@@ -254,10 +254,9 @@
 		                  },
 		                responsive: true,
 		                ordering:  false
-    				}); 
-//  	    		$( document ).ajaxComplete(function() {
-	    			$(".add-new-pov").on("click", function () { 
-    		        	var id = $(this).val();
+    				});
+	    			$("body").on("click",".add-new-pov", function () { 
+	    				var id = $(this).val();
     	    			var form = $("#poform");
     	    			var path= $(this).data("path");
     	    			var formser;
@@ -273,10 +272,9 @@
                			    	    var s = $("#poValDataTable tbody > tr:last-child").position();
             			    	    $("#editModalBody" ).scrollTop( s.top );
                         });
-    	    		});
+    	    		});	    			
 		            //Открытие окна удаления
-			        $(".open-deleteDialog").on("click", function () {
-			        	 alert("bad!");
+			        $("body").on("click",".open-deleteDialog", function () {
 			    	     var Id = $(this).data("id");
 			    	     var poName = $(this).data("name");
 			    	     if (poName == "undefined" || poName ==null) poName = '';
@@ -289,7 +287,7 @@
 			    	    	 if (checkRemove != "undefined" && checkRemove !=null) checkRemove.attr("disabled", !canRemove);
 			    	     }
 			    	});
-			        $("#IDPov").on("click", function () { 
+			        $("body").on("click","#IDPov", function () { 
 		    			$("#deleteModalPov").modal("hide");
 			        	var id = $("#deleteModalPov").find(".btn-primary").val();
 		    			var path= $("#deleteModalPov").data("path");
@@ -309,8 +307,7 @@
 	                                $("#editModalContent").append(html);
 	                    });
 		    		});	    		
-// 	    		});
-  		     
+    		     
 	            });
   		        //Открытие окна редактированя
 	    		$("#editModal").on("show.bs.modal", function (e) {
@@ -327,7 +324,7 @@
 	                    });
 					}  
                 });   
-	        	    		
+        	    		
 		        $(".open-editDialog").on("click", function () {
 		          var Id = $(this).data("id");
 		          var path = $(this).data("path");

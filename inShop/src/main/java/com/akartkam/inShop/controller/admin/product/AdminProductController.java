@@ -129,7 +129,8 @@ public class AdminProductController {
 			binder.setAllowedFields(new String[] { "*id", "*name", "url", "*description", "*longDescription", 
 					 							   "*code", "category", "brand", "*model", "attributeValues*", "ordering", 
 					 							   "*productOptions", "canSellWithoutOptions", "*images*", "enabled",
-					 							   "*retailPrice", "*salePrice", "*costPrice", "*value", "*productStatus*"});
+					 							   "*retailPrice", "*salePrice", "*costPrice", "*value", "*productStatus*", 
+					 							   "*productOptionsForForm*"});
 			//binder.setAutoGrowNestedPaths(false);
 			binder.registerCustomEditor(UUID.class, "id", new PropertyEditorSupport() {
 			    @Override
@@ -157,7 +158,7 @@ public class AdminProductController {
 			    	}			    
 			    }
 			    });
-			binder.registerCustomEditor(ProductStatus.class,"defaultSku.productStatus", new PropertyEditorSupport() {
+			binder.registerCustomEditor(ProductStatus.class,"productStatus", new PropertyEditorSupport() {
 			    @Override
 			    public void setAsText(String text) {
 			    	if (!"".equals(text)) {
@@ -165,7 +166,17 @@ public class AdminProductController {
 			            setValue(p);
 			    	}			    
 			    }
+			    });	
+			binder.registerCustomEditor(ProductOption.class,"productOptionsForForm", new PropertyEditorSupport() {
+			    @Override
+			    public void setAsText(String text) {
+			    	if (!"".equals(text)) {
+			    		ProductOption p = productService.loadPOById(UUID.fromString(text), false); 
+			            setValue(p);
+			    	}			    
+			    }
 			    });
+			
 		
 	  }
 	  
@@ -255,7 +266,7 @@ public class AdminProductController {
 	   
 	   
 	   @RequestMapping(value="/image/add", method = RequestMethod.POST )
-	   public String addNewImage(final @ModelAttribute Product product,
+	   public String addNewImage(final @ModelAttribute ProductForm product,
 			   				   @RequestHeader(value = "X-Requested-With", required = false) String requestedWith,
 			   				   @RequestParam(value = "newImage", required = false)	MultipartFile image,
 			                   final BindingResult bindingResult,

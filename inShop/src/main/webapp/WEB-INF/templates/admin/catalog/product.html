@@ -329,16 +329,69 @@
 	  	                   
 	  	               });
 	  	           });
+   		           //Проверка перед сабмитом
+   		           $("body").on("click", ".btnSubmit" , function() {
+   	                	//check for change category
+   	                	var previd = $("#category").data("previd");
+   	                	var currid = $("#category").val();
+   	                	if (previd!=currid)
+   	                		return confirm("При смене категории товара, все значения атрибутов, которые ей не соответствуют будут удалены. Продолжить?") ;
+   	                });
+       				//Добавление input для productStatus
+       		 		 $("body").on("change", "#productStatus", function(){
+       					$("#productStatusIc").find("input").each(function(i,v){$(v).remove()});    		 			
+       	 		        $(this).find("option:selected").each(function(i, v){
+       	 		        	$("<input>").attr({
+       	 		        	    type: "hidden",
+       	 		        	    name: "productStatus["+i+"]",
+       	 		        	    value: $(v).val()
+       	 		        	}).appendTo("#productStatusIc");								    		 		            
+       	 		        });    		 			
+       	 		
+       	 			});
+       		 		$("body").on("change",  "#productOption", function(e){
+						$("#productOptionIc").find("input").each(function(i,v){$(v).remove()});    		 			
+		 		        $(this).find("option:selected").each(function(i, v){
+		 		        	$("<input>").attr({
+		 		        	    type: "hidden",
+		 		        	    name: "productOptionsForForm["+i+"]",
+		 		        	    value: $(v).val()
+		 		        	}).appendTo("#productOptionIc");								    		 		            
+		 		        });    		 			
+		 		
+		 			});
+	       		 	$("body").one("change", ".btn-file :file", function () {
+		    				// Get content from Summernote
+		    				var content = $("#summernote").code();
+		    				// Add content from summernote to textarea
+		    				$("#summernote").html( content );    				
+			    			var form = new FormData(document.forms.pform);
+			    			var path= $(this).data("path");
+			    			var formser;
+			    			if (form != "undefined" && form != null) formser = form;
+			    			//$("#pform").text("");
+		                    $.ajax({
+		                    	type: "POST",
+		                        url: path,
+		                        data: formser,
+		                        cache: false,
+		                        contentType: false,
+		                        processData: false		                        
+		                    }).done(function (html) {
+		                                $("#pform").html(html);
+		 	                            $(".selectpicker").selectpicker();
+			 	           		 		$("#productStatus").change();
+			 	           		 		$("#productOption").change();
+		                                $("#summernote").summernote({
+		                				    lang: "ru-RU"
+		                				     });
+		                                var s = $("#pImagesTable tbody > tr:last-child").position();
+		        			    	    $("#editModalBody" ).scrollTop( s.top );
+		                    });
+	   		    	 });
+    		     	
 	           });
 
-	           //Проверка перед сабмитом
-	           $(document).on("click", ".btnSubmit" , function() {
-                	//check for change category
-                	var previd = $("#category").data("previd");
-                	var currid = $("#category").val();
-                	if (previd!=currid)
-                		return confirm("При смене категории товара, все значения атрибутов, которые ей не соответствуют будут удалены. Продолжить?") ;
-                });
 
 	           //Открытие окна удаления
 		        $(document).on("click", ".open-deleteDialog", function () {
@@ -363,29 +416,6 @@
 	        	    				    lang: "ru-RU"
 	        	    				     });
 	 	                            $(".selectpicker").selectpicker();
-		 	           				//Добавление input для productStatus
-		 	           		 		$("#productStatus").on("change", function(){
-		 	           					$("#productStatusIc").find("input").each(function(i,v){$(v).remove()});    		 			
-		 	           	 		        $(this).find("option:selected").each(function(i, v){
-		 	           	 		        	$("<input>").attr({
-		 	           	 		        	    type: "hidden",
-		 	           	 		        	    name: "productStatus["+i+"]",
-		 	           	 		        	    value: $(v).val()
-		 	           	 		        	}).appendTo("#productStatusIc");								    		 		            
-		 	           	 		        });    		 			
-		 	           	 		
-		 	           	 			});
-			 	       		 		$("#productOption").on("change", function(e){
-			 							$("#productOptionIc").find("input").each(function(i,v){$(v).remove()});    		 			
-			 			 		        $(this).find("option:selected").each(function(i, v){
-			 			 		        	$("<input>").attr({
-			 			 		        	    type: "hidden",
-			 			 		        	    name: "productOptionsForForm["+i+"]",
-			 			 		        	    value: $(v).val()
-			 			 		        	}).appendTo("#productOptionIc");								    		 		            
-			 			 		        });    		 			
-			 			 		
-			 			 			});
 		 	           		 		$("#productStatus").change();
 		 	           		 		$("#productOption").change();	
 	        	                    $("#name").focus();
@@ -393,32 +423,6 @@
 					}  
                 });    	    
 	    		$( document ).ajaxComplete(function() {
-	    			$(".btn-file :file").one("change", function () {
-		    				// Get content from Summernote
-		    				var content = $("#summernote").code();
-		    				// Add content from summernote to textarea
-		    				$("#summernote").html( content );    				
-			    			var form = new FormData(document.forms.pform);
-			    			var path= $(this).data("path");
-			    			var formser;
-			    			if (form != "undefined" && form != null) formser = form;
-			    			//$("#pform").text("");
-		                    $.ajax({
-		                    	type: "POST",
-		                        url: path,
-		                        data: formser,
-		                        cache: false,
-		                        contentType: false,
-		                        processData: false		                        
-		                    }).done(function (html) {
-		                                $("#pform").html(html);
-		                                $("#summernote").summernote({
-		                				    lang: "ru-RU"
-		                				     });
-		                                var s = $("#pImagesTable tbody > tr:last-child").position();
-		        			    	    $("#editModalBody" ).scrollTop( s.top );
-		                    });
-	   		    	  });
     			    $(".row-move-up").on("click", function () { 
 	    			    var row = $(this).closest("tr");
 	    			    var rowOther = row.next();
