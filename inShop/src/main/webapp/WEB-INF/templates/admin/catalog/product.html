@@ -389,10 +389,50 @@
 		        			    	    $("#editModalBody" ).scrollTop( s.top );
 		                    });
 	   		    	 });
-    		     	
+	       		     $("body").on(".row-move-up", "click", function () { 
+	    			    var row = $(this).closest("tr");
+	    			    var rowOther = row.next();
+	    			    row.insertAfter(row.next());
+	    			    var inp = $(row).find(".image-url");
+	    			    var inpOther = $(rowOther).find(".image-url");
+	    			    var indexOther = $(rowOther).index();
+	    			    var index = $(row).index();
+	    			    $(inp).attr("name","defaultSku.images["+index+"]");
+	    			    $(inp).attr("id","defaultSku.images"+index);
+	    			    $(inpOther).attr("name","defaultSku.images["+indexOther+"]");
+	    			    $(inpOther).attr("id","defaultSku.images"+indexOther);	    			    
+    			      });	    			   
+	       		  $("body").on(".row-move-down", "click", function () { 
+    				    var row = $(this).closest('tr');
+    				    var rowOther = row.prev(); 
+    				    row.prev().insertAfter(row);
+	    			    var inp = $(row).find(".image-url");
+	    			    var inpOther = $(rowOther).find(".image-url");
+	    			    var indexOther = $(rowOther).index();
+	    			    var index = $(row).index();
+	    			    $(inp).attr("name","defaultSku.images["+index+"]");
+	    			    $(inp).attr("id","defaultSku.images"+index);
+	    			    $(inpOther).attr("name","defaultSku.images["+indexOther+"]");
+	    			    $(inpOther).attr("id","defaultSku.images"+indexOther);	    			    
+    			    }); 
+	       		  $("body").on(".open-deleteImageDialog", "click", function () {
+		        	   var row = $(this).closest('tr');
+		        	   var index = $(row).index();
+		        	   $(row).remove();
+		        	   $('#pImagesTable tbody tr').slice(index).each( function () {
+		        		 var inp = $(this).find(".image-url");
+		        		 var currIndex = $(this).index();
+		        		 $(inp).attr("name","defaultSku.images["+currIndex+"]");
+	    			     $(inp).attr("id","defaultSku.images"+currIndex);
+		        	   });
+		          });
+  		 		  $("#editModal").on("show.bs.modal", function (e) {
+                    $('#summernote').summernote({
+					    lang: "ru-RU"
+  				     });
+                    $(".selectpicker").selectpicker();
+  		 		  });
 	           });
-
-
 	           //Открытие окна удаления
 		        $(document).on("click", ".open-deleteDialog", function () {
 		    	     var Id = $(this).data("id");
@@ -422,51 +462,6 @@
 	                    });
 					}  
                 });    	    
-	    		$( document ).ajaxComplete(function() {
-    			    $(".row-move-up").on("click", function () { 
-	    			    var row = $(this).closest("tr");
-	    			    var rowOther = row.next();
-	    			    row.insertAfter(row.next());
-	    			    var inp = $(row).find(".image-url");
-	    			    var inpOther = $(rowOther).find(".image-url");
-	    			    var indexOther = $(rowOther).index();
-	    			    var index = $(row).index();
-	    			    $(inp).attr("name","defaultSku.images["+index+"]");
-	    			    $(inp).attr("id","defaultSku.images"+index);
-	    			    $(inpOther).attr("name","defaultSku.images["+indexOther+"]");
-	    			    $(inpOther).attr("id","defaultSku.images"+indexOther);	    			    
-    			      });	    			   
-    			    $('.row-move-down').on("click", function () { 
-    				    var row = $(this).closest('tr');
-    				    var rowOther = row.prev(); 
-    				    row.prev().insertAfter(row);
-	    			    var inp = $(row).find(".image-url");
-	    			    var inpOther = $(rowOther).find(".image-url");
-	    			    var indexOther = $(rowOther).index();
-	    			    var index = $(row).index();
-	    			    $(inp).attr("name","defaultSku.images["+index+"]");
-	    			    $(inp).attr("id","defaultSku.images"+index);
-	    			    $(inpOther).attr("name","defaultSku.images["+indexOther+"]");
-	    			    $(inpOther).attr("id","defaultSku.images"+indexOther);	    			    
-    			    }); 
-    		        $(".open-deleteImageDialog").on("click", function () {
-    		        	var row = $(this).closest('tr');
-    		        	var index = $(row).index();
-    		        	$(row).remove();
-    		        	$('#pImagesTable tbody tr').slice(index).each( function () {
-    		        		var inp = $(this).find(".image-url");
-    		        		var currIndex = $(this).index();
-    		        		$(inp).attr("name","defaultSku.images["+currIndex+"]");
-    	    			    $(inp).attr("id","defaultSku.images"+currIndex);
-    		        	});
-    		        });
-    		 		$("#editModal").on("show.bs.modal", function (e) {
-                         $('#summernote').summernote({
-     					    lang: "ru-RU"
-       				     });
-                         $(".selectpicker").selectpicker();
-                    });
-	    		});
 		        $(".open-editDialog").on("click", function () {
 		          var Id = $(this).data("id");
 		          var path = $(this).data("path");

@@ -61,8 +61,8 @@ public class ProductForm extends Product {
 		}
 	};
 	
-	public void copyValuesFrom(Product product) {
-		
+	public void setValuesFrom(ProductForm product) {
+		//this.getDefaultSku().set
 	}
 	
 	public List<ProductStatus> getProductStatus() {
