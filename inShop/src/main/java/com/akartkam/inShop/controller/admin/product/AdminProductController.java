@@ -6,6 +6,7 @@ import java.beans.PropertyEditorSupport;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -22,6 +23,7 @@ import java.util.regex.Pattern;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import org.apache.commons.beanutils.BeanUtilsBean;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -63,6 +65,7 @@ import com.akartkam.inShop.service.product.BrandService;
 import com.akartkam.inShop.service.product.CategoryService;
 import com.akartkam.inShop.service.product.ProductService;
 import com.akartkam.inShop.util.ImageUtil;
+import com.akartkam.inShop.util.NullAwareBeanUtilsBean;
 import com.akartkam.inShop.exception.ImageUploadException;
 import com.akartkam.inShop.exception.ProductNotFoundException;
 import com.akartkam.inShop.formbean.ProductForm;
@@ -131,7 +134,6 @@ public class AdminProductController {
 					 							   "*productOptions", "canSellWithoutOptions", "*images*", "enabled",
 					 							   "*retailPrice", "*salePrice", "*costPrice", "*value", "*productStatus*", 
 					 							   "*productOptionsForForm*"});
-			//binder.setAutoGrowNestedPaths(false);
 			binder.registerCustomEditor(UUID.class, "id", new PropertyEditorSupport() {
 			    @Override
 			    public void setAsText(String text) {
@@ -176,10 +178,7 @@ public class AdminProductController {
 			    	}			    
 			    }
 			    });
-			
-		
 	  }
-	  
 
 	  
 	  @RequestMapping(method=GET)
@@ -188,17 +187,25 @@ public class AdminProductController {
 		  }	  
 	  
 	  
-	  @SuppressWarnings("rawtypes")
 	  @RequestMapping("/edit")
 	  public String productEdit(@RequestParam(value = "ID", required = false) String ID, Model model,
-			   				  @RequestHeader(value = "X-Requested-With", required = false) String requestedWith) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
-		  if(!model.containsAttribute("product")) {
-			  if ("".equals(ID)) throw new ProductNotFoundException("ID Product is empty.");
-		      Product product = productService.getProductById(UUID.fromString(ID)); 
-		      ProductForm productForm = new ProductForm(product);
-		      productForm.complementNecessaryAttributes();
-			  model.addAttribute("product", productForm);
+			   				  @RequestHeader(value = "X-Requested-With", required = false) String requestedWith) throws ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException {
+
+		  ProductForm errP = null;
+		  if(model.containsAttribute("errProduct")) {
+			errP = (ProductForm)model.asMap().get("errProduct");   
+			if (errP != null) ID = errP.getId().toString();  
 		  }
+		  if ("".equals(ID)) throw new ProductNotFoundException("ID Product is empty.");
+	      Product product = productService.getProductById(UUID.fromString(ID)); 
+	      ProductForm productForm = new ProductForm(product);
+	      productForm.complementNecessaryAttributes();
+	      if (errP != null) {
+	    	  BeanUtilsBean notNullBeanUtils=new NullAwareBeanUtilsBean();
+	    	  notNullBeanUtils.copyProperties(productForm, errP);
+	      }
+	      model.addAttribute("product", productForm);
+		  
           if ("XMLHttpRequest".equals(requestedWith)) {
               return "/admin/catalog/productEdit :: editProductForm";
             }		  
@@ -255,7 +262,7 @@ public class AdminProductController {
 		   if (bindingResult.hasErrors()) {
 			    product.complementNecessaryAttributes();
 	        	product.setAttributeValuesFromMap();
-	        	ra.addFlashAttribute("product", product);
+	        	ra.addFlashAttribute("errProduct", product);
 	        	ra.addFlashAttribute("org.springframework.validation.BindingResult.product", bindingResult);
 	            return "redirect:/admin/catalog/product/edit";
 	        }
