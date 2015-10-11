@@ -212,7 +212,17 @@ public class Product extends AbstractDomainObjectOrdering {
 
 		@Override
 		public int compare(AbstractAttributeValue arg0, AbstractAttributeValue arg1) {
-			return arg0.getAttribute().compareTo(arg1.getAttribute()) ;
+			AbstractAttribute at0 = (arg0!=null?arg0.getAttribute():null);
+			AbstractAttribute at1 = (arg1!=null?arg1.getAttribute():null);
+		    if (at0 == null ^ at1 == null) {
+		        return (at0 == null) ? -1 : 1;
+		    }
+
+		    if (at0 == null && at1 == null) {
+		        return 0;
+		    }
+
+			return at0.compareTo(at1) ;
 		}
 		  
 	}	

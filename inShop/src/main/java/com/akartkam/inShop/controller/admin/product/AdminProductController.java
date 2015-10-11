@@ -199,11 +199,12 @@ public class AdminProductController {
 		  if ("".equals(ID)) throw new ProductNotFoundException("ID Product is empty.");
 	      Product product = productService.getProductById(UUID.fromString(ID)); 
 	      ProductForm productForm = new ProductForm(product);
-	      productForm.complementNecessaryAttributes();
 	      if (errP != null) {
 	    	  BeanUtilsBean notNullBeanUtils=new NullAwareBeanUtilsBean();
 	    	  notNullBeanUtils.copyProperties(productForm, errP);
 	      }
+	      productForm.complementNecessaryAttributes();
+	      productForm.setMapAttributeValues();
 	      model.addAttribute("product", productForm);
 		  
           if ("XMLHttpRequest".equals(requestedWith)) {
@@ -260,8 +261,8 @@ public class AdminProductController {
 			                   final RedirectAttributes ra
 			                         ) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
 		   if (bindingResult.hasErrors()) {
-			    product.complementNecessaryAttributes();
-	        	product.setAttributeValuesFromMap();
+			    //product.complementNecessaryAttributes();
+	        	//product.setAttributeValuesFromMap();
 	        	ra.addFlashAttribute("errProduct", product);
 	        	ra.addFlashAttribute("org.springframework.validation.BindingResult.product", bindingResult);
 	            return "redirect:/admin/catalog/product/edit";
