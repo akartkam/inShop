@@ -111,10 +111,12 @@
 	                    </div>
 	                    <div class="tab-pane fade" id="links">
 	                      <div class="field-box">
+	                      	<div id="productAttributesIc" style="display: none">
+		                    </div>
 	                        <label>
 						  	  	<span th:text="#{admin.catalog.category.edit.attributes}">Attributes</span>
 						    </label>
-							 <select class="form-control selectpicker" name="attributesSelected" multiple="multiple" 
+							 <select class="form-control selectpicker" id="productAttributes" multiple="multiple" 
 	          						 data-live-search="true">
 								<optgroup th:if="${attributeCategory.hasActiveAttributes()}"
 								          th:each="attributeCategory: ${allAttributeCategories}"  
@@ -122,7 +124,7 @@
 								    <option th:if="${attribute.enabled}"
 								            th:each="attribute: ${attributeCategory.attributes}" th:text="${attribute.name}"
 								            th:selected="${#lists.contains(category.getAllAttributes(null, true), attribute)}"
-								            th:disabled="${#lists.contains(category.getAllAttributes(null, true), attribute) &amp;&amp; !#lists.contains(category.attributes, attribute)}"
+								            th:disabled="${#lists.contains(category.getAllAttributes(null, true), attribute) &amp;&amp; !#lists.contains(category.attributesForForm, attribute)}"
 								            th:value="${attribute.id}"
 								            th:attr="data-subtext=#{${'attribute.type.' + attribute.attributeType}}">
 								    </option>      

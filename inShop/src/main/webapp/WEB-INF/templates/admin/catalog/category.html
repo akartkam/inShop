@@ -300,7 +300,19 @@
     		    $("#categoryDataTable").treegrid({
     		    		treeColumn: 1, 
 		    			saveState: true,
-		    		});    		    
+		    		}); 
+    		    $("body").on("change", "#productAttributes", function(e){
+						$("#productAttributesIc").find("input").each(function(i,v){$(v).remove()});    		 			
+		 		        $(this).find("option:selected").each(function(i, v){
+		 		          $("<input>").attr({
+		 		        	    type: "hidden",
+		 		        	    name: "attributesForForm["+i+"]",
+		 		        	    value: $(v).val()
+		 		        	}).appendTo("#productAttributesIc");								    		 		            
+		 		        });     		 			
+		 		
+		 			 });    		    
+    		    
 	           });
 	            //Открытие окна удаления
   		        $(document).on("click", ".open-deleteDialog", function () {
@@ -324,6 +336,7 @@
 	        	    				    lang: "ru-RU"
 	        	    				     });
 	        	                    $(".selectpicker").selectpicker();
+	        	                    $("#productAttributes").change();
 	        	                    $("#name").focus();
 	                    });
 					}  

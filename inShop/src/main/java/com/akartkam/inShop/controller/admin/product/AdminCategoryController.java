@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.akartkam.inShop.domain.product.Category;
+import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
 import com.akartkam.inShop.service.product.AttributeCategoryService;
 import com.akartkam.inShop.service.product.CategoryService;
 
@@ -35,6 +36,7 @@ import com.akartkam.inShop.service.product.CategoryService;
 @RequestMapping("/admin/catalog/category")
 public class AdminCategoryController {
 	
+
 	  @Autowired
 	  CategoryService categoryService;
 	  
@@ -58,7 +60,7 @@ public class AdminCategoryController {
 	  @InitBinder
 	  public void initBinder(WebDataBinder binder) {
 			binder.setAllowedFields(new String[] { "id", "name", "parent", "url",
-					"description", "longDescription", "ordering", "enabled"});
+					"description", "longDescription", "ordering", "enabled", "*attributesForForm*"});
 			binder.registerCustomEditor(Category.class, "parent", new PropertyEditorSupport() {
 			    @Override
 			    public void setAsText(String text) {
@@ -74,7 +76,15 @@ public class AdminCategoryController {
 			    	 setValue(UUID.fromString(text));
 			    }
 			    });
-			
+			binder.registerCustomEditor(AbstractAttribute.class, "attributesForForm", new PropertyEditorSupport() {
+			    @Override
+			    public void setAsText(String text) {
+			    	if (!"".equals(text)) {
+			    		AbstractAttribute at = attributeCategoryService.loadAttributeById(UUID.fromString(text), false);
+			            setValue(at);
+			    	}
+			    }
+			    });			
 	  }
 	
 	  
@@ -103,6 +113,7 @@ public class AdminCategoryController {
 			   					 @RequestHeader(value = "X-Requested-With", required = false) String requestedWith) {
 		  if(!model.containsAttribute("category")) {
 			 Category category = categoryService.getCategoryById(UUID.fromString(categoryID));
+			 category.setAttributesForForm();
 		     model.addAttribute("category", category);
 		  }
           if ("XMLHttpRequest".equals(requestedWith)) {
@@ -147,8 +158,7 @@ public class AdminCategoryController {
 	  
 
 	   @RequestMapping(value="/edit", method = RequestMethod.POST )
-	   public String saveCategory(   @RequestParam(value="attributesSelected", required=false) List<String> attributes,
-			                         @ModelAttribute @Valid Category category,
+	   public String saveCategory(   @ModelAttribute @Valid Category category,
 			                         final BindingResult bindingResult,
 			                         final RedirectAttributes ra
 			                         ) {
@@ -157,8 +167,7 @@ public class AdminCategoryController {
 	        	ra.addFlashAttribute("org.springframework.validation.BindingResult.category", bindingResult);
 	            return "redirect:/admin/catalog/category/edit";
 	        }
-	        if (attributes == null) attributes = new ArrayList<String>(0); 
-	        categoryService.mergeWithExistingAndUpdateOrCreate(category, attributes);
+	        categoryService.mergeWithExistingAndUpdateOrCreate(category);
 	        return "redirect:/admin/catalog/category";
 	    }
 	  

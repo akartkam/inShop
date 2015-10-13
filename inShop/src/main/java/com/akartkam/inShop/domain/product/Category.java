@@ -65,7 +65,8 @@ public class Category extends AbstractDomainObjectOrdering {
 	private String longDescription; 
 	private Set<AbstractAttribute> attributes = new HashSet<AbstractAttribute>(0);
 	private String url;
-
+	//for form
+	private List<AbstractAttribute> attributesForForm = new ArrayList<AbstractAttribute>(0); 
 	@AdminPresentation(tab=EditTab.MAIN)
 	@NotNull
 	@Size(min = 1, max = 50)
@@ -316,5 +317,17 @@ public class Category extends AbstractDomainObjectOrdering {
 	public boolean canRemove() {
 		return (!hasSubCategory() && attributes.isEmpty() && products.isEmpty());
 	}
+
+	//for form
+	@Transient
+	public List<AbstractAttribute> getAttributesForForm() {
+		return attributesForForm;
+	}
+
+	public void setAttributesForForm() {
+		this.attributesForForm = new ArrayList<AbstractAttribute>(attributes);
+	}
+	
+	
 	
 }

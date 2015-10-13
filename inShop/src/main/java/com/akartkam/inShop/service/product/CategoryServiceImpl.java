@@ -77,7 +77,7 @@ public class CategoryServiceImpl implements CategoryService {
 	
 	@Override
 	@Transactional(readOnly = false)
-	public void mergeWithExistingAndUpdateOrCreate(final Category categoryFromPost, final List<String> attributes) {
+	public void mergeWithExistingAndUpdateOrCreate(final Category categoryFromPost) {
 		if (categoryFromPost == null) return;
 		final Category existingCategory = getCategoryById(categoryFromPost.getId());
 		if (existingCategory != null) {
@@ -93,8 +93,8 @@ public class CategoryServiceImpl implements CategoryService {
 	        Iterator<AbstractAttribute> ati = existingCategory.getAttributes().iterator();
 	        while(ati.hasNext()){
 	        	AbstractAttribute at = ati.next();
-	        	if (attributes.contains(at.getId().toString())) {
-	        		attributes.remove(at.getId().toString());
+	        	if (categoryFromPost.getAttributesForForm().contains(at)) {
+	        		categoryFromPost.getAttributesForForm().remove(at);
 	        	} else {
 	        		ati.remove();
 	        	}
@@ -102,8 +102,7 @@ public class CategoryServiceImpl implements CategoryService {
 	        }
 	        List<Category> lc = existingCategory.buildSubCategoryHierarchy(null, true);
 	        lc.remove(existingCategory);
-	        for (String attrId : attributes) {
-	        	AbstractAttribute attr = attributeDAO.findById(UUID.fromString(attrId), false);
+	        for (AbstractAttribute attr : categoryFromPost.getAttributesForForm()) {
 	        	existingCategory.addAttribute(attr);
 		        for (Category c : lc) c.removeAttribute(attr);
 		        	
@@ -114,8 +113,7 @@ public class CategoryServiceImpl implements CategoryService {
 	        existingCategory.setEnabled(categoryFromPost.isEnabled());
 	        //updateCategory(existingCategory);
 		} else {
-	        for (String attrId : attributes) {
-	        	AbstractAttribute attr = attributeDAO.findById(UUID.fromString(attrId), false);
+	        for (AbstractAttribute attr : categoryFromPost.getAttributesForForm()) {
 	        	categoryFromPost.addAttribute(attr);
 	        }
 			createCategory(categoryFromPost);
