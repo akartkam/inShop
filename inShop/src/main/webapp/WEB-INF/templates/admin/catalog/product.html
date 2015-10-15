@@ -389,7 +389,7 @@
 		        			    	    $("#editModalBody" ).scrollTop( s.top );
 		                    });
 	   		    	 });
-	       		     $("body").on(".row-move-up", "click", function () { 
+	       		     $("body").on("click", ".row-move-up",  function () { 
 	    			    var row = $(this).closest("tr");
 	    			    var rowOther = row.next();
 	    			    row.insertAfter(row.next());
@@ -402,7 +402,7 @@
 	    			    $(inpOther).attr("name","defaultSku.images["+indexOther+"]");
 	    			    $(inpOther).attr("id","defaultSku.images"+indexOther);	    			    
     			      });	    			   
-	       		  $("body").on(".row-move-down", "click", function () { 
+	       		  $("body").on("click", ".row-move-down", function () { 
     				    var row = $(this).closest('tr');
     				    var rowOther = row.prev(); 
     				    row.prev().insertAfter(row);
@@ -415,7 +415,7 @@
 	    			    $(inpOther).attr("name","defaultSku.images["+indexOther+"]");
 	    			    $(inpOther).attr("id","defaultSku.images"+indexOther);	    			    
     			    }); 
-	       		  $("body").on(".open-deleteImageDialog", "click", function () {
+	       		  $("body").on("click", ".open-deleteImageDialog", function () {
 		        	   var row = $(this).closest('tr');
 		        	   var index = $(row).index();
 		        	   $(row).remove();

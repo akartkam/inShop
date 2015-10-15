@@ -29,6 +29,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.akartkam.inShop.domain.product.Category;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
+import com.akartkam.inShop.domain.product.attribute.AttributeCategory;
 import com.akartkam.inShop.service.product.AttributeCategoryService;
 import com.akartkam.inShop.service.product.CategoryService;
 
@@ -51,12 +52,30 @@ public class AdminCategoryController {
 	      return categoryService.getAllCategoryHierarchy(true);
 	  }	  
 	  
-	  @SuppressWarnings("rawtypes")
 	  @ModelAttribute("allAttributeCategories")
-	  public List getAllAttributeCategoriesHierarchy() {
+	  public List<AttributeCategory> getAllAttributeCategoriesHierarchy() {
 	      return attributeCategoryService.getAllAttributeCategory();
 	  }
  
+	  @ModelAttribute("allAttributes")
+	  public List<AbstractAttribute> getAllAttributes(@RequestParam(value = "categoryID", required = false) String categoryID) {
+		  List<AbstractAttribute> al = new ArrayList<AbstractAttribute>(0);
+          if (categoryID == null || "".equals(categoryID)) return al;
+		  Category category = categoryService.getCategoryById(UUID.fromString(categoryID));
+    	  if (category != null) al = category.getAllAttributes(null, true);
+	      return al;
+	  }
+
+	  @ModelAttribute("selfAttributes")
+	  public List<AbstractAttribute> getSelfAttributes(@RequestParam(value = "categoryID", required = false) String categoryID) {
+		  List<AbstractAttribute> al = new ArrayList<AbstractAttribute>(0);
+          if (categoryID == null || "".equals(categoryID)) return al;
+		  Category category = categoryService.getCategoryById(UUID.fromString(categoryID));
+    	  if (category != null) al = new ArrayList<AbstractAttribute>(category.getAttributes()); 
+	      return al;
+	  }
+
+	  
 	  @InitBinder
 	  public void initBinder(WebDataBinder binder) {
 			binder.setAllowedFields(new String[] { "id", "name", "parent", "url",
@@ -93,27 +112,12 @@ public class AdminCategoryController {
 		  return "/admin/catalog/category"; 
 		  }	  
 	  
-	  /*@RequestMapping("/catalog/category/edit/{id}")
-	  public String category(@PathVariable("id") String id, Model model, @RequestHeader(value = "X-Requested-With", required = false) String requestedWith) {
-		  if(!model.containsAttribute("category")) {
-			 Category category = categoryService.getCategoryById(id);
-		     model.addAttribute("category", category);
-		  }
-		  model.addAttribute("allCategories", categoryService.getAllCategoryHierarchy());
-          if ("XMLHttpRequest".equals(requestedWith)) {
-            return "/admin/catalog/categoryEdit :: editCategoryForm";
-          }
-          return "/admin/catalog/category";		  
-		    
-		  }	
-	   */
 	   
 	  @RequestMapping("/edit")
-	  public String categoryEdit(@RequestParam(value = "categoryID", required = false) String categoryID, Model model,
+	  public String categoryEdit(@RequestParam(value = "categoryID", required = true) String categoryID, Model model,
 			   					 @RequestHeader(value = "X-Requested-With", required = false) String requestedWith) {
 		  if(!model.containsAttribute("category")) {
 			 Category category = categoryService.getCategoryById(UUID.fromString(categoryID));
-			 category.setAttributesForForm();
 		     model.addAttribute("category", category);
 		  }
           if ("XMLHttpRequest".equals(requestedWith)) {
@@ -165,7 +169,7 @@ public class AdminCategoryController {
 	        if (bindingResult.hasErrors()) {
 	        	ra.addFlashAttribute("category", category);
 	        	ra.addFlashAttribute("org.springframework.validation.BindingResult.category", bindingResult);
-	            return "redirect:/admin/catalog/category/edit";
+	            return "redirect:/admin/catalog/category/edit?categoryID="+category.getId();
 	        }
 	        categoryService.mergeWithExistingAndUpdateOrCreate(category);
 	        return "redirect:/admin/catalog/category";
