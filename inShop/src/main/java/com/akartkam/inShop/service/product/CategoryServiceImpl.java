@@ -90,7 +90,7 @@ public class CategoryServiceImpl implements CategoryService {
 	        } else { 
 	        	if (existingCategory.getParent() != null)  existingCategory.getParent().removeSubCategory(existingCategory);
 	        }
-	        Iterator<AbstractAttribute> ati = existingCategory.getAttributes().iterator();
+	        Iterator<AbstractAttribute> ati = existingCategory.getAllAttributes(true).iterator();
 	        while(ati.hasNext()){
 	        	AbstractAttribute at = ati.next();
 	        	if (categoryFromPost.getAttributesForForm().contains(at)) {

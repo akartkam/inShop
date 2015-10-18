@@ -69,6 +69,7 @@ import com.akartkam.inShop.util.NullAwareBeanUtilsBean;
 import com.akartkam.inShop.exception.ImageUploadException;
 import com.akartkam.inShop.exception.ProductNotFoundException;
 import com.akartkam.inShop.formbean.ProductForm;
+import com.akartkam.inShop.domain.product.attribute.Selectable;
 
 @Controller
 @RequestMapping("/admin/catalog/product")
@@ -127,6 +128,7 @@ public class AdminProductController {
 	      return Arrays.asList(ProductStatus.ALL);
 	  }	  
 	  
+	  
 	  @InitBinder
 	  public void initBinder(WebDataBinder binder) {
 			binder.setAllowedFields(new String[] { "*id", "*name", "url", "*description", "*longDescription", 
@@ -178,6 +180,27 @@ public class AdminProductController {
 			    	}			    
 			    }
 			    });
+			binder.registerCustomEditor(AbstractAttributeValue.class,"attributeValues", new PropertyEditorSupport() {
+			    @Override
+			    public void setAsText(String text) {
+			    	if (!"".equals(text)) {
+			    		String[] avv = text.split("_");
+			    		AbstractAttributeValue av = attributeCategoryService.getAttributeValueById(UUID.fromString(avv[1]));
+			    		if (av == null)
+							try {
+								av = SimpleAttributeFactory.createAttributeValue(AttributeType.valueOf(avv[0]));
+							} catch (ClassNotFoundException
+									| InstantiationException
+									| IllegalAccessException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+			    		if (av instanceof Selectable ) ((Selectable) av).getItems();
+			            setValue(av);
+			    	}			    
+			    }
+			    });	
+
 	  }
 
 	  
@@ -189,24 +212,17 @@ public class AdminProductController {
 	  
 	  @RequestMapping("/edit")
 	  public String productEdit(@RequestParam(value = "ID", required = false) String ID, Model model,
-			   				  @RequestHeader(value = "X-Requested-With", required = false) String requestedWith) throws ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException {
+			   				    @RequestHeader(value = "X-Requested-With", required = false) String requestedWith) throws ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException {
 
-		  ProductForm errP = null;
-		  if(model.containsAttribute("errProduct")) {
-			errP = (ProductForm)model.asMap().get("errProduct");   
-			if (errP != null) ID = errP.getId().toString();  
-		  }
-		  if ("".equals(ID)) throw new ProductNotFoundException("ID Product is empty.");
-	      Product product = productService.getProductById(UUID.fromString(ID)); 
-	      ProductForm productForm = new ProductForm(product);
-	      if (errP != null) {
-	    	  BeanUtilsBean notNullBeanUtils=new NullAwareBeanUtilsBean();
-	    	  notNullBeanUtils.copyProperties(productForm, errP);
-	      }
-	      productForm.complementNecessaryAttributes();
-	      productForm.setMapAttributeValues();
-	      model.addAttribute("product", productForm);
 		  
+		  if(!model.containsAttribute("product")) {
+			  if ("".equals(ID)) throw new ProductNotFoundException("ID Product is empty.");
+		      Product product = productService.getProductById(UUID.fromString(ID)); 
+		      ProductForm productForm = new ProductForm(product);
+		      productForm.complementNecessaryAttributes();
+		      productForm.setMapAttributeValues();
+		      model.addAttribute("product", productForm);
+		  }
           if ("XMLHttpRequest".equals(requestedWith)) {
               return "/admin/catalog/productEdit :: editProductForm";
             }		  
@@ -263,9 +279,9 @@ public class AdminProductController {
 		   if (bindingResult.hasErrors()) {
 			    //product.complementNecessaryAttributes();
 	        	//product.setAttributeValuesFromMap();
-	        	ra.addFlashAttribute("errProduct", product);
+	        	ra.addFlashAttribute("product", product);
 	        	ra.addFlashAttribute("org.springframework.validation.BindingResult.product", bindingResult);
-	            return "redirect:/admin/catalog/product/edit";
+	            return "redirect:/admin/catalog/product/edit?ID="+product.getId();
 	        }
 
 	        productService.mergeWithExistingAndUpdateOrCreate(product);	       

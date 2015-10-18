@@ -267,6 +267,11 @@ public class AttributeCategoryServiceImpl implements AttributeCategoryService {
 		if (clonedAttribute == null) return null;
 		return clonedAttribute.clone();
 	}
+
+	@Override
+	public AbstractAttributeValue getAttributeValueById(UUID id) {
+		return attributeValueDAO.get(id);
+	}
 	
 	
 

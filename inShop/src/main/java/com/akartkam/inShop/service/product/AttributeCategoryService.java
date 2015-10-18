@@ -20,6 +20,7 @@ public interface AttributeCategoryService {
 	AttributeCategory loadAttributeCategoryById(UUID id, Boolean lock);
 	AbstractAttribute loadAttributeById(UUID id, Boolean lock);
 	AbstractAttributeValue loadAttributeValueById(UUID id, Boolean lock);
+	AbstractAttributeValue getAttributeValueById(UUID id);
 	AttributeCategory getAttributeCategoryById(UUID id);
 	void updateAttributeCategory(AttributeCategory category);
 	void updateAttribute(AbstractAttribute attribute);
