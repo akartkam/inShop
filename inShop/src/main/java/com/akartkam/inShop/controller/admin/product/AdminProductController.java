@@ -203,8 +203,8 @@ public class AdminProductController {
 			    @Override
 			    public void setAsText(String text) {
 			    	if (!"".equals(text)) {
-			    		AbstractAttribute at = attributeCategoryService.getAttributeById(UUID.fromString(text));
-			    		if (at instanceof Selectable ) ((Selectable<?>) at).getItems();			    		
+			    		AbstractAttribute at = attributeCategoryService.getAttributeByIdForForm(UUID.fromString(text));
+			    		//if (at instanceof Selectable ) ((Selectable<?>) at).getItems();			    		
 			            setValue(at);
 			    	}			    
 			    }
@@ -228,7 +228,6 @@ public class AdminProductController {
 		      Product product = productService.getProductById(UUID.fromString(ID)); 
 		      ProductForm productForm = new ProductForm(product);
 		      productForm.complementNecessaryAttributes();
-		      productForm.setMapAttributeValues();
 		      model.addAttribute("product", productForm);
 		  }
           if ("XMLHttpRequest".equals(requestedWith)) {

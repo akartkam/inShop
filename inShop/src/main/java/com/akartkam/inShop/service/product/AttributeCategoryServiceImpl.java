@@ -8,6 +8,7 @@ import java.util.UUID;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.Transformer;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -226,6 +227,15 @@ public class AttributeCategoryServiceImpl implements AttributeCategoryService {
 	@Override
 	public AbstractAttribute getAttributeById(UUID id) {
 		return attributeDAO.get(id);
+	}
+	
+	@Override
+	public AbstractAttribute getAttributeByIdForForm(UUID id) {
+		AbstractAttribute at = getAttributeById(id);
+		if (at != null && at instanceof Selectable) {
+			Hibernate.initialize(((Selectable<?>)at).getItems());
+		}
+		return at;
 	}
 
 	@Override

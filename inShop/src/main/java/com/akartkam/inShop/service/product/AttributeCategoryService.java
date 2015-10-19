@@ -35,6 +35,7 @@ public interface AttributeCategoryService {
 	@SuppressWarnings("rawtypes")
 	List buildAttributeCategoryHierarchy();	
 	AbstractAttribute getAttributeById(UUID id);
+	AbstractAttribute getAttributeByIdForForm(UUID id);
 	AttributeCategory cloneAttributeCategoryById(UUID id) throws CloneNotSupportedException;
 	AbstractAttribute cloneAttributeById(UUID id) throws CloneNotSupportedException;
 	

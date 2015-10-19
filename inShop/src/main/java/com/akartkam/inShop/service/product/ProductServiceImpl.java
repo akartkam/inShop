@@ -193,7 +193,6 @@ public class ProductServiceImpl implements ProductService {
 	public void mergeWithExistingAndUpdateOrCreate(final ProductForm productFromPost) {
 		if (productFromPost == null) return;
 		final Product existingProduct = getProductById(productFromPost.getId());
-		productFromPost.setAttributeValuesFromMap();
 		if (existingProduct != null) {
 			existingProduct.getDefaultSku().setName(productFromPost.getDefaultSku().getName());
 			existingProduct.getDefaultSku().setCode(productFromPost.getDefaultSku().getCode());

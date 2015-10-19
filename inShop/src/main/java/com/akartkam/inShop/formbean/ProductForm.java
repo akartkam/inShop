@@ -32,9 +32,6 @@ public class ProductForm extends Product {
 	 * 
 	 */
 	private static final long serialVersionUID = -4758849266803696007L;
-    private Map<Integer, AttributeDecimalValue> decimalValMap = new HashMap<Integer, AttributeDecimalValue>(); 
-    private Map<Integer, AttributeStringValue> stringValMap = new HashMap<Integer, AttributeStringValue>(); 
-    private Map<Integer, AttributeSListValue> slistValMap = new HashMap<Integer, AttributeSListValue>(); 
     private List<ProductStatus> productStatus = new ArrayList<ProductStatus>();
     private List<ProductOption> productOptionsForForm = new ArrayList<ProductOption>();
     
@@ -55,15 +52,10 @@ public class ProductForm extends Product {
 			this.setOrdering(product.getOrdering());
 			this.setProductOptions(product.getProductOptions());
 			this.setUrl(product.getUrl());
-			setMapAttributeValues();
 			productStatus = new ArrayList<ProductStatus>(product.getDefaultSku().getProductStatus());
 			productOptionsForForm = new ArrayList<ProductOption>(product.getProductOptions());
 		}
 	};
-	
-	public void setValuesFrom(ProductForm product) {
-		//this.getDefaultSku().set
-	}
 	
 	public List<ProductStatus> getProductStatus() {
 		return productStatus;
@@ -102,48 +94,6 @@ public class ProductForm extends Product {
 				 }
 			 }
 	  }
-
-		
-	@SuppressWarnings("rawtypes")
-	public void setMapAttributeValues() {
-		List<AbstractAttributeValue> attributeValues = this.getAttributeValues();
-		if (attributeValues != null) {
-			for (int i=0; i<attributeValues.size();i++) {
-				if (AttributeType.DECIMAL.equals(attributeValues.get(i).getAttribute().getAttributeType())) {
-					decimalValMap.put(i, (AttributeDecimalValue) attributeValues.get(i));	
-				} else
-				if (AttributeType.STRING.equals(attributeValues.get(i).getAttribute().getAttributeType())) {
-					stringValMap.put(i, (AttributeStringValue) attributeValues.get(i));
-				} else
-				if (AttributeType.SLIST.equals(attributeValues.get(i).getAttribute().getAttributeType())) { 
-					slistValMap.put(i, (AttributeSListValue) attributeValues.get(i));
-				}
-			}  
-			   
-		}		
-	}
-	
-	@SuppressWarnings("rawtypes")
-	public void setAttributeValuesFromMap() {
-		Map<Integer, AbstractAttributeValue> fullMap = new TreeMap<Integer, AbstractAttributeValue>();
-		fullMap.putAll(getDecimalValMap());
-		fullMap.putAll(getStringValMap());
-		fullMap.putAll(getSlistValMap());
-		this.getAttributeValues().clear();
-		this.getAttributeValues().addAll(fullMap.values());
-	}
-
-	public Map<Integer, AttributeDecimalValue> getDecimalValMap () {
-		return decimalValMap;
-	}
-
-	public Map<Integer, AttributeStringValue> getStringValMap() {
-		return stringValMap;
-	}
-
-	public Map<Integer, AttributeSListValue> getSlistValMap() {
-		return slistValMap;
-	}
 	
 	
 	
