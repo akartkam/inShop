@@ -185,7 +185,7 @@ public class AdminProductController {
 			    public void setAsText(String text) {
 			    	if (!"".equals(text)) {
 			    		String[] avv = text.split("_");
-			    		AbstractAttributeValue av = attributeCategoryService.getAttributeValueById(UUID.fromString(avv[1]));
+			    		AbstractAttributeValue<?> av = attributeCategoryService.getAttributeValueById(UUID.fromString(avv[1]));
 			    		if (av == null)
 							try {
 								av = SimpleAttributeFactory.createAttributeValue(AttributeType.valueOf(avv[0]));
@@ -195,12 +195,20 @@ public class AdminProductController {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
-			    		if (av instanceof Selectable ) ((Selectable) av).getItems();
 			            setValue(av);
 			    	}			    
 			    }
 			    });	
-
+			binder.registerCustomEditor(AbstractAttribute.class,"attributeValues.attribute", new PropertyEditorSupport() {
+			    @Override
+			    public void setAsText(String text) {
+			    	if (!"".equals(text)) {
+			    		AbstractAttribute at = attributeCategoryService.getAttributeById(UUID.fromString(text));
+			    		if (at instanceof Selectable ) ((Selectable<?>) at).getItems();			    		
+			            setValue(at);
+			    	}			    
+			    }
+			    });
 	  }
 
 	  
