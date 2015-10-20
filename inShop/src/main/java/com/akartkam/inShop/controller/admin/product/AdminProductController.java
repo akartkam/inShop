@@ -203,8 +203,7 @@ public class AdminProductController {
 			    @Override
 			    public void setAsText(String text) {
 			    	if (!"".equals(text)) {
-			    		AbstractAttribute at = attributeCategoryService.getAttributeByIdForForm(UUID.fromString(text));
-			    		//if (at instanceof Selectable ) ((Selectable<?>) at).getItems();			    		
+			    		AbstractAttribute at = attributeCategoryService.getAttributeByIdForForm(UUID.fromString(text));			    		
 			            setValue(at);
 			    	}			    
 			    }
