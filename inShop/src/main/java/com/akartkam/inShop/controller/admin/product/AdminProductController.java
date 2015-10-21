@@ -314,7 +314,7 @@ public class AdminProductController {
 	       }
 		   model.addAttribute("product", product);
 		   model.addAttribute("tabactive","images");
-	       return "/admin/catalog/productEdit :: editProductForm";
+	       return "/admin/catalog/productEdit :: imageTable";
 	    }
 	      
 }
