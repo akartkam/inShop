@@ -334,7 +334,7 @@
    	                	//check for change category
    	                	var previd = $("#category").data("previd");
    	                	var currid = $("#category").val();
-   	                	if (previd!=currid)
+   	                	if (previd!='undefined' && previd!=currid)
    	                		return confirm("При смене категории товара, все значения атрибутов, которые ей не соответствуют будут удалены. Продолжить?") ;
    	                });
        				//Добавление input для productStatus
@@ -360,7 +360,7 @@
 		 		        });    		 			
 		 		
 		 			});
-	       		 	$("body").on("change", ".btn-file :file", function () {
+	       		 	$("body").on("change", "#inputSImg", function () {
 		    				// Get content from Summernote
 		    				var content = $("#summernote").code();
 		    				// Add content from summernote to textarea
@@ -369,7 +369,6 @@
 			    			var path= $(this).data("path");
 			    			var formser;
 			    			if (form != "undefined" && form != null) formser = form;
-			    			//$("#pform").text("");
 		                    $.ajax({
 		                    	type: "POST",
 		                        url: path,
@@ -381,6 +380,9 @@
 		                                $("#dImageTable").html(html);
 		                                var s = $("#pImagesTable tbody > tr:last-child").position();
 		        			    	    $("#editModalBody" ).scrollTop( s.top );
+		        			    	    //for clean the file input
+		        			    	    $("#inputSImg").replaceWith($("#inputSImg").clone(true));
+		        			    	    
 		                    });
 	   		    	 });
 	       		     $("body").on("click", ".row-move-up",  function () { 
@@ -420,25 +422,6 @@
 	    			     $(inp).attr("id","defaultSku.images"+currIndex);
 		        	   });
 		          });
-	  		      //Открытие окна редактированя
-		    	  $("body").on("show.bs.modal", "#editModal", function (e) {
-		    			var id = $("#editModal").data("id");
-						if ($("#editModal").data("allowed") == "true") {    			
-		    		        $("#editModalContent").text("");
-		                    $.ajax({
-		                        url: $("#editModal").data("path")+((id != null)?"?ID="+id:"") ,
-		                        cache: false
-		                    }).done(function (html) {
-		                                $("#editModalContent").append(html);
-		                                $("#editModal").data("allowed","false");
-		        	                    $("#summernote").summernote({
-		        	    				    lang: "ru-RU"
-		        	    				     });
-		 	                            $(".selectpicker").selectpicker();
-		        	                    $("#name").focus();
-		                    });
-						}  
-	              });	       		  
 	           });
 	           //Открытие окна удаления
 		        $(document).on("click", ".open-deleteDialog", function () {
@@ -448,16 +431,22 @@
 		    	     $("#delete-modal-footer #ID").val(Id);
 		    	     $("#delete-modal-body #prName").html(prName);
 		    	});    	    
-		        $(".open-editDialog").on("click", function () {
-		          var Id = $(this).data("id");
+		        $(document).on("click", ".open-editDialog", function () {
+		          var id = $(this).data("id");
 		          var path = $(this).data("path");
-		    	  if (typeof Id != 'undefined') {
-		    	  	$("#editModal").data("id",Id);
-		    	  } else {
-		    		$("#editModal").data("id",null);  
-		    	  }
-		    	  $("#editModal").data("allowed","true");
-		    	  $("#editModal").data("path",path);
+		    	  if (typeof id == 'undefined') id=null;  
+  		          $("#editModalContent").html("");
+                  $.ajax({
+                    url: path+((id != null)?"?ID="+id:"") ,
+                    cache: false
+                  }).done(function (html) {
+                            $("#editModalContent").html(html);
+    	                    $("#summernote").summernote({
+    	    				    lang: "ru-RU"
+    	    				     });
+	                        $(".selectpicker").selectpicker();
+    	                    $("#name").focus();
+                  });
 		    	});  
   		        $(document).on("mouseenter", ".mightOverflow", function() { 
   		        	var $t = $(this); 

@@ -3,7 +3,6 @@
                 xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
                 layout:decorator="admin/catalog/product">
 	<head>
-	<!-- layout:decorator="admin/category" -->
 	    <th:block th:remove="all">
 			<title>inShop Admin Product</title>
 		    <meta charset="utf-8"/>
@@ -130,7 +129,7 @@
 	                           <label>
 						  	  	<span th:text="#{admin.catalog.category}">Category</span>
 						       </label>
-							   <select class="form-control" th:field="*{category}" th:attr="data-previd=*{category.id}">
+							   <select class="form-control" th:field="*{category}" th:attr="data-previd=${product.category != null? product.category.id: ''}">
 								<option th:each="scategory : ${allCategory}" 
 								        th:value="${scategory.id}"
 									    th:text="${scategory.name}"
@@ -164,8 +163,8 @@
 							   <div class="col-md-3">			   
 		                         <div class="field-box">
 		                            <div id="productStatusIc" style="display: none">
-		                            	<input type="hidden" th:each="ps,psStat : ${allProdStatus}" th:name="productStatus[__${psStat.index}__]" 
-		                            	       th:value="${ps}" th:if="${#lists.contains(product.productStatus, ps)}"/>
+		                            	<input type="hidden" th:each="ps,psStat : ${product.productStatus}" th:name="productStatus[__${psStat.index}__]" 
+		                            	       th:value="${ps}" />
 		                            </div>
 			                        <label>
 								  	  	<span th:text="#{admin.catalog.productStatus}">Product status</span>
@@ -272,8 +271,8 @@
 	                    <div class="tab-pane fade" id="links">
 	                      <div class="field-box">
 	                      	<div id="productOptionIc" style="display: none">
-                            	<input type="hidden" th:each="po,poStat : ${allPo}" th:name="productOptionsForForm[__${poStat.index}__]" 
-                            	       th:value="${po.id}" th:if="${#lists.contains(product.productOptionsForForm, po)}"/>
+                            	<input type="hidden" th:each="po,poStat : ${product.productOptionsForForm}" th:name="productOptionsForForm[__${poStat.index}__]" 
+                            	       th:value="${po.id}" />
 		                    </div>
 	                        <label>
 						  	  	<span th:text="#{admin.catalog.productOption}">Product options</span>
@@ -365,6 +364,11 @@
 		     //<![CDATA[
 		     $(document).ready(function() {
 	 	    	$("#editModal").modal("show");
+                $("#summernote").summernote({
+				    lang: "ru-RU"
+				     });
+                $(".selectpicker").selectpicker();
+                $("#name").focus();
 		     });
 	 		 // ]]>
 		   </script>
