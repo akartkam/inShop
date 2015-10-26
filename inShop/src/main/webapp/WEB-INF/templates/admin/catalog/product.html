@@ -334,7 +334,7 @@
    	                	//check for change category
    	                	var previd = $("#category").data("previd");
    	                	var currid = $("#category").val();
-   	                	if (previd!='undefined' && previd!=currid)
+   	                	if (previd && previd!=currid)
    	                		return confirm("При смене категории товара, все значения атрибутов, которые ей не соответствуют будут удалены. Продолжить?") ;
    	                });
        				//Добавление input для productStatus
@@ -422,8 +422,8 @@
 	    			     $(inp).attr("id","defaultSku.images"+currIndex);
 		        	   });
 		          });
-	           });
-	           //Открытие окна удаления
+	            });
+	            //Открытие окна удаления
 		        $(document).on("click", ".open-deleteDialog", function () {
 		    	     var Id = $(this).data("id");
 		    	     var prName = $(this).data("name");

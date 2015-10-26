@@ -1,30 +1,14 @@
 package com.akartkam.inShop.formbean;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-
-
-
-
-
-
-import java.util.Set;
-import java.util.TreeMap;
-import java.util.UUID;
-
 import com.akartkam.inShop.domain.product.Product;
 import com.akartkam.inShop.domain.product.ProductStatus;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttributeValue;
-import com.akartkam.inShop.domain.product.attribute.AttributeDecimalValue;
-import com.akartkam.inShop.domain.product.attribute.AttributeSListValue;
-import com.akartkam.inShop.domain.product.attribute.AttributeStringValue;
-import com.akartkam.inShop.domain.product.attribute.AttributeType;
 import com.akartkam.inShop.domain.product.option.ProductOption;
-import com.akartkam.inShop.exception.ProductNotFoundException;
+
 
 public class ProductForm extends Product {
 	

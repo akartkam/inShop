@@ -113,13 +113,13 @@
 									</div>			   		   
 						   		   <div class="field-box">
 			 			    		  <label>
-							    	  	<span th:text="#{admin.catalog.category.edit.description}">Description Product1</span>
+							    	  	<span th:text="#{admin.catalog.product.edit.description}">Description Product1</span>
 							   		   </label>
 							   		   <input type="text" class="form-control" th:field="*{defaultSku.description}"/>
 						   		   </div>
 						   		   <div class="field-box">
 			 			    		   <label>
-							    	  	<span th:text="#{admin.catalog.category.edit.longDescription}">Description Product1</span>
+							    	  	<span th:text="#{admin.catalog.product.edit.longDescription}">Description Product1</span>
 							   		   </label>
 								       <textarea id="summernote" class="textarea form-control" placeholder="Введите текст..." th:field="*{defaultSku.longDescription}"></textarea>
 		  						   </div>
@@ -129,12 +129,11 @@
 	                           <label>
 						  	  	<span th:text="#{admin.catalog.category}">Category</span>
 						       </label>
-							   <select class="form-control" th:field="*{category}" th:attr="data-previd=${product.category != null? product.category.id: ''}">
+							   <select class="form-control" id="category" th:field="*{category}" th:attr="data-previd=${product.category != null? product.category.id: ''}">
 								<option th:each="scategory : ${allCategory}" 
 								        th:value="${scategory.id}"
 									    th:text="${scategory.name}"
-									    th:class="${!scategory.enabled} ? 'text-muted'"
-									    >Category 1</option>
+									    th:class="${!scategory.enabled} ? 'text-muted'">Category 1</option>
 							   </select>
 						     </div>
 						     <div class="row">

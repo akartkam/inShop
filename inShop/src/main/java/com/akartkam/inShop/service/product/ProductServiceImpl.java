@@ -1,5 +1,6 @@
 package com.akartkam.inShop.service.product;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -7,6 +8,7 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.UUID;
 
+import org.apache.commons.beanutils.BeanUtilsBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +25,7 @@ import com.akartkam.inShop.domain.product.attribute.AbstractAttributeValue;
 import com.akartkam.inShop.domain.product.option.ProductOption;
 import com.akartkam.inShop.domain.product.option.ProductOptionValue;
 import com.akartkam.inShop.formbean.ProductForm;
+import com.akartkam.inShop.util.NullAwareBeanUtilsBean;
 
 @Service("ProductService")
 @Transactional(readOnly = true)
@@ -256,7 +259,15 @@ public class ProductServiceImpl implements ProductService {
 		} else {
 			productFromPost.setProductStatusFromList();
 			productFromPost.setProductOptionFromList();
-	        createProduct(productFromPost);
+			Product product = new Product();
+			BeanUtilsBean bu = new NullAwareBeanUtilsBean();
+			try {
+				bu.copyProperties(product, productFromPost);
+			} catch (IllegalAccessException | InvocationTargetException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	        createProduct(product);
 		}
 	}
 
