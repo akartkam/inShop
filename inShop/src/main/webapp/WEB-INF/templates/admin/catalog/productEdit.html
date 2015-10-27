@@ -129,7 +129,7 @@
 	                           <label>
 						  	  	<span th:text="#{admin.catalog.category}">Category</span>
 						       </label>
-							   <select class="form-control" id="category" th:field="*{category}" th:attr="data-previd=${product.category != null? product.category.id: ''}">
+							   <select class="form-control" id="category" th:field="*{category}" th:attr="data-previd=${!product.new && product.category != null? product.category.id: ''}">
 								<option th:each="scategory : ${allCategory}" 
 								        th:value="${scategory.id}"
 									    th:text="${scategory.name}"
@@ -290,7 +290,9 @@
 							<div class="container-fluid">	                    
 							    <div class="row clearfix">
 									<div class="col-md-12">
-				                       	 <table class="table table-striped table-bordered">
+										 <div class="alert alert-info" th:if="${product.new}" th:text="#{admin.catalog.product.edit.attributeValues.info}">
+										 </div>
+				                       	 <table class="table table-striped table-bordered" th:unless="${product.new}">
 				                       	 	<thead>
 				                       	 		<tr>
 					                       	      <th class="col-md-6 text-center" th:text="#{admin.catalog.product.edit.attributevalues.name}">Name</th>

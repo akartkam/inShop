@@ -36,6 +36,7 @@ public class ProductForm extends Product {
 			this.setOrdering(product.getOrdering());
 			this.setProductOptions(product.getProductOptions());
 			this.setUrl(product.getUrl());
+			this.setCreatedDate(product.getCreatedDate());
 			productStatus = new ArrayList<ProductStatus>(product.getDefaultSku().getProductStatus());
 			productOptionsForForm = new ArrayList<ProductOption>(product.getProductOptions());
 		}
