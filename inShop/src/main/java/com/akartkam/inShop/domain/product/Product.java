@@ -103,7 +103,6 @@ public class Product extends AbstractDomainObjectOrdering {
 	@OneToMany(mappedBy="product", cascade = CascadeType.ALL, orphanRemoval=true)
 	@Cascade(org.hibernate.annotations.CascadeType.ALL)
 	public List<AbstractAttributeValue> getAttributeValues() {
-		//Collections.sort(attributeValues, new Product.AVComparer());
 		return attributeValues;
 	}
 	public void setAttributeValues(List<AbstractAttributeValue> attributeValues) {
@@ -140,9 +139,7 @@ public class Product extends AbstractDomainObjectOrdering {
 	
 	@AdminPresentation(tab=EditTab.LINKS)
 	@Valid
-	@ManyToMany(cascade = CascadeType.ALL)
-	@Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE,
-		      org.hibernate.annotations.CascadeType.DELETE})
+	@ManyToMany
 	@JoinTable(name = "lnk_product_option", joinColumns = { 
 			@JoinColumn(name = "product_id", nullable = false, updatable = false) }, 
 			inverseJoinColumns = { @JoinColumn(name = "product_option_id", 
