@@ -222,8 +222,7 @@ public class Sku extends AbstractDomainObjectOrdering {
 		this.product = product;
 	}
 	
-    @OneToOne(optional = true, cascade = {CascadeType.ALL})
-    @Cascade(value = {org.hibernate.annotations.CascadeType.ALL})
+    @OneToOne(optional = true)
     @JoinColumn(name = "default_product_id")
 	public Product getDefaultProduct() {
 		return defaultProduct;
