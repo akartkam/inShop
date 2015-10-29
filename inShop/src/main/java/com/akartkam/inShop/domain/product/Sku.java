@@ -186,6 +186,7 @@ public class Sku extends AbstractDomainObjectOrdering {
 	public BigDecimal getSalePrice() {
 		return salePrice;
 	}
+	
 	public void setSalePrice(BigDecimal salePrice) {
 		this.salePrice = salePrice;
 	}
