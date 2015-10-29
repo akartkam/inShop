@@ -38,7 +38,7 @@
 	 	   </div>
 		 <!-- /modal-header -->
 		    <div class="modal-body"  id="editModalBody">
-		          <div  th:if="${#fields.hasErrors('*')}" class="alert alert-danger alert-dismissable">йцук
+		          <div  th:if="${#fields.hasErrors('*')}" class="alert alert-danger alert-dismissable">
 		          	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                     <span th:text="#{admin.catalog.category.edit.existsErrors}">There is some errors in the form</span>
 					<ul>
@@ -86,11 +86,12 @@
 									   		   </div>
 											</div>
 								   		   <div class="col-md-3">
-											   <div class="field-box">	                              
+											   <div class="field-box" th:class="${#fields.hasErrors('defaultSku.retailPrice')}? has-error: field-box">	                              
 									    		  <label>
 										    	  	 <span th:text="#{admin.catalog.product.retailPrice}">retail price</span>
 										   		  </label>
 										   		  <input type="text" class="form-control" th:field="*{defaultSku.retailPrice}"/>
+										   		  <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('defaultSku.retailPrice')}" th:errors="*{defaultSku.retailPrice}">Incorrect retailPrice</p>
 									   		   </div>						   		   
 								   		   </div>
 								   		   <div class="col-md-3">
