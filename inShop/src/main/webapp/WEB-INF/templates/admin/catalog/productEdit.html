@@ -24,7 +24,9 @@
 			<link href="../../../../resources/bower_components/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/bootstrap/dist/css/bootstrap-theme.min.css}"></link>    	
 	    	<link href="../../../../resources/css/sb-admin-2.css" rel="stylesheet" th:href="@{/resources/css/sb-admin-2.css}"/>   	
 			<!-- style.css -->
-    		<link href="../../../../resources/css/style.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/style.css}"/>	    	
+    		<link href="../../../../resources/css/style.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/style.css}"/>
+	    	<!-- bootstrap-datetimepicker -->
+  			<link href="../../../../resources/css/bootstrap-datetimepicker.min.css" rel="stylesheet" th:href="@{/resources/css/bootstrap-datetimepicker.min.css}"/>			      			    	
 	    </th:block>
 	</head>
 <body>
@@ -189,6 +191,16 @@
 							   </div> 		   	                    	
 						   </div>				   
 						   <div class="row">
+						        <div class="col-md-3">
+						            <div class="field-box">
+						                <div class="input-group date datetimepicker">
+						                    <input type="text" class="form-control" id="activeStartDate" th:field="*{defaultSku.activeStartDate}"/>
+						                    <span class="input-group-addon">
+						                        <span class="glyphicon glyphicon-calendar"></span>
+						                    </span>
+						                </div>
+						            </div>						        
+                				</div>
 						   		<div class="col-md-2">
 								   <div class="field-box">
 			                         <label>
@@ -360,6 +372,11 @@
 		    <!-- bootstrap-select -->
 		   <script src="../../../../resources/js/bootstrap-select.min.js" th:src="@{/resources/js/bootstrap-select.min.js}"></script>
 		   <script src="../../../../resources/js/defaults-ru_RU.js" th:src="@{/resources/js/defaults-ru_RU.js}"></script>
+		    <!-- moment -->		  
+		   <script src="../../../../resources/js/moment-with-locales.min.js"></script>
+		    <!-- bootstrap-datetimepicker -->		  
+		   <script src="../../../../resources/js/bootstrap-datetimepicker.min.js" th:src="@{/resources/js/bootstrap-datetimepicker.min.js}"></script>					 	
+		   
 	   </th:block>
    		<th:block layout:fragment="scriptEditModal"> 
 	   	   <script type="text/javascript">
@@ -370,6 +387,11 @@
 				    lang: "ru-RU"
 				     });
                 $(".selectpicker").selectpicker();
+                $(".datetimepicker").datetimepicker({
+                    locale: "ru",
+                    defaultDate: new Date()
+                });
+                $("#activeStartDate").val("");
                 $("#name").focus();
 		     });
 	 		 // ]]>
