@@ -30,7 +30,7 @@
 	    	<!-- bootstrap-select -->
 			<link href="../../../../resources/css/bootstrap-select.min.css" rel="stylesheet" th:href="@{/resources/css/bootstrap-select.min.css}"/>
 	    	<!-- bootstrap-datetimepicker -->
-  			<link rel="stylesheet" href="/bower_components/css/bootstrap-datetimepicker.min.css" />			  
+  			<link href="../../../../resources/css/bootstrap-datetimepicker.min.css" rel="stylesheet" th:href="@{/resources/css/bootstrap-datetimepicker.min.css}"/>			      			    	
     			    	
 			<style type="text/css">
 				body {
@@ -447,6 +447,10 @@
     	    				    lang: "ru-RU"
     	    				     });
 	                        $(".selectpicker").selectpicker();
+	                        $("#active-start-date").datetimepicker({
+	                            locale: "ru"
+	                        });
+	                        $('#active-start-date').data("DateTimePicker").date($("active-start-date-input").val());
     	                    $("#name").focus();
                   });
 		    	});  

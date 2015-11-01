@@ -38,6 +38,7 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.Index;
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.NumberFormat;
 import org.springframework.format.annotation.NumberFormat.Style;
 
@@ -148,6 +149,7 @@ public class Sku extends AbstractDomainObjectOrdering {
 		this.inventoryType = inventoryType;
 	}
 	
+	@DateTimeFormat(pattern="dd.MM.yyyy HH:mm")
     @Column(name = "active_start_date")
     @Index(name="sku_active_start_index")
 	public Date getActiveStartDate() {
@@ -157,7 +159,8 @@ public class Sku extends AbstractDomainObjectOrdering {
 		this.activeStartDate = activeStartDate;
 	}
 
-    @Column(name = "active_end_date")
+	@DateTimeFormat(pattern="dd.MM.yyyy HH:mm")
+	@Column(name = "active_end_date")
     @Index(name="sku_active_end_index")	
 	public Date getActiveEndDate() {
 		return activeEndDate;

@@ -2,17 +2,22 @@ package com.akartkam.inShop.controller.admin.product;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
+import java.beans.PropertyEditor;
 import java.beans.PropertyEditorSupport;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
@@ -25,6 +30,8 @@ import javax.validation.Valid;
 
 import org.apache.commons.beanutils.BeanUtilsBean;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.propertyeditors.CustomCollectionEditor;
@@ -74,7 +81,7 @@ import com.akartkam.inShop.domain.product.attribute.Selectable;
 @Controller
 @RequestMapping("/admin/catalog/product")
 public class AdminProductController {
-	
+	  private static final Log LOG = LogFactory.getLog(AdminProductController.class);
 	  	
 	  @Autowired
 	  ProductService productService;
@@ -135,7 +142,7 @@ public class AdminProductController {
 					 							   "*code", "category", "brand", "*model", "attributeValues*", "ordering", 
 					 							   "*productOptions", "canSellWithoutOptions", "*images*", "enabled",
 					 							   "*retailPrice", "*salePrice", "*costPrice", "*value", "*productStatus*", 
-					 							   "*productOptionsForForm*"});
+					 							   "*productOptionsForForm*","*activeStartDate", "*activeEndDate"});
 			binder.registerCustomEditor(UUID.class, "id", new PropertyEditorSupport() {
 			    @Override
 			    public void setAsText(String text) {
@@ -193,7 +200,7 @@ public class AdminProductController {
 									| InstantiationException
 									| IllegalAccessException e) {
 								// TODO Auto-generated catch block
-								e.printStackTrace();
+								LOG.error(e);
 							}
 			            setValue(av);
 			    	}			    
@@ -208,6 +215,28 @@ public class AdminProductController {
 			    	}			    
 			    }
 			    });
+			
+			PropertyEditor pe = new PropertyEditorSupport() {
+			    @Override
+			    public void setAsText(String text) {
+			    	if (!"".equals(text)) {
+			    		SimpleDateFormat formatter = new SimpleDateFormat(messageSource.getMessage("date.format", null, Locale.getDefault()));
+			    		try {
+			    			Date date = formatter.parse(text);
+				            setValue(date);
+			    		} catch (ParseException e) {
+			    			LOG.error(e);
+			    		}			    		
+
+			    	} else {
+			    		setValue(null);
+			    	}
+			    }
+			    };
+
+			binder.registerCustomEditor(java.util.Date.class,"defaultSku.activeStartDate", pe);
+			binder.registerCustomEditor(java.util.Date.class,"defaultSku.activeEndDate", pe);
+	  
 	  }
 
 	  
@@ -266,7 +295,7 @@ public class AdminProductController {
 			  if(product.canRemove() && authorities.contains(new SimpleGrantedAuthority("ADMIN"))) {
 				  productService.deleteProduct(product);   
 			  } else {
-				  ra.addFlashAttribute("errormessage", this.messageSource.getMessage("admin.error.cannotdelete.message", new String[] {"РўРѕРІР°СЂ"} , null));
+				  ra.addFlashAttribute("errormessage", this.messageSource.getMessage("admin.error.cannotdelete.message", new String[] {"товар"} , Locale.getDefault()));
 				  ra.addAttribute("error", true);
 			  }
 

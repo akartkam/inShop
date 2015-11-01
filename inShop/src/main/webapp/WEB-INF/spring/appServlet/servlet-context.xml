@@ -14,7 +14,7 @@
 
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
 	
-	<annotation-driven />
+	<annotation-driven/>
  	<default-servlet-handler/>
  	<!--<view-controller path="/admin" view-name="admin/admin" />-->
  	<view-controller path="/login" view-name="authentication/login" />
@@ -75,11 +75,13 @@
 	    </beans:property>
 	</beans:bean>
 	
-	<!--
-	<interceptors>
-		<beans:bean class="org.thymeleaf.spring.support.ThymeleafLayoutInterceptor" />
-	</interceptors>	
-	-->
+<!-- 	<beans:bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean"> -->
+<!-- 	    <beans:property name="formatters"> -->
+<!-- 	      <beans:set> -->
+<!-- 	        <beans:bean class="com.akartkam.inShop.converter.DateFormatter" /> -->
+<!-- 	      </beans:set> -->
+<!-- 	    </beans:property> -->
+<!-- 	</beans:bean> -->
 	
 	<interceptors>
 	    <beans:bean class="org.springframework.orm.hibernate4.support.OpenSessionInViewInterceptor">

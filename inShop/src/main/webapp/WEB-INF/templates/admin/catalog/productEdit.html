@@ -193,10 +193,32 @@
 						   <div class="row">
 						        <div class="col-md-3">
 						            <div class="field-box">
+						                <label>
+						    	   	        <span th:text="#{admin.catalog.category.edit.activeStartDate}">Active Start Date</span>
+						   		        </label>
+										<div class="input-group">
+							                <div class="input-group date" id="active-start-date">
+							                    <input type="text" class="form-control datetimepicker-input" id="active-start-date-input" 
+							                           name="defaultSku.activeStartDate" th:value="${{product.defaultSku.activeStartDate}}"/>
+								                    <span class="input-group-addon">
+								                        <span class="fa fa-calendar"></span>
+								                    </span>
+											</div>
+											<button type="button" class="btn btn-default" >
+												<i class="fa fa-times"></i>
+											</button>
+						                </div>
+						            </div>						        
+                				</div>
+						        <div class="col-md-3">
+						            <div class="field-box">
+						                <label>
+						    	   	        <span th:text="#{admin.catalog.category.edit.activeEndDate}">Active End Date</span>
+						   		        </label>
 						                <div class="input-group date datetimepicker">
-						                    <input type="text" class="form-control" id="activeStartDate" th:field="*{defaultSku.activeStartDate}"/>
+						                    <input type="text" class="form-control datetimepicker-input" th:field="*{defaultSku.activeEndDate}"/>
 						                    <span class="input-group-addon">
-						                        <span class="glyphicon glyphicon-calendar"></span>
+						                        <span class="fa fa-calendar"></span>
 						                    </span>
 						                </div>
 						            </div>						        
@@ -213,7 +235,7 @@
 								   <div class="field-box">
 			                         <label>
 			 					    	<input type="checkbox" th:field="*{canSellWithoutOptions}"/>
-									  	<span th:text="#{admin.catalog.category.product.canSellWithoutOptions}">canSWO?</span>
+									  	<span th:text="#{admin.catalog.product.canSellWithoutOptions}">canSWO?</span>
 									 </label>
 								   </div>
 								</div>	
@@ -373,7 +395,7 @@
 		   <script src="../../../../resources/js/bootstrap-select.min.js" th:src="@{/resources/js/bootstrap-select.min.js}"></script>
 		   <script src="../../../../resources/js/defaults-ru_RU.js" th:src="@{/resources/js/defaults-ru_RU.js}"></script>
 		    <!-- moment -->		  
-		   <script src="../../../../resources/js/moment-with-locales.min.js"></script>
+		   <script src="../../../../resources/js/moment-with-locales.min.js" th:src="@{/resources/js/moment-with-locales.min.js}"></script>
 		    <!-- bootstrap-datetimepicker -->		  
 		   <script src="../../../../resources/js/bootstrap-datetimepicker.min.js" th:src="@{/resources/js/bootstrap-datetimepicker.min.js}"></script>					 	
 		   
@@ -388,10 +410,8 @@
 				     });
                 $(".selectpicker").selectpicker();
                 $(".datetimepicker").datetimepicker({
-                    locale: "ru",
-                    defaultDate: new Date()
+                    locale: "ru"
                 });
-                $("#activeStartDate").val("");
                 $("#name").focus();
 		     });
 	 		 // ]]>

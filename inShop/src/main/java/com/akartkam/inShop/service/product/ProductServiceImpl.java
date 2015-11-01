@@ -208,6 +208,8 @@ public class ProductServiceImpl implements ProductService {
 			existingProduct.getDefaultSku().setSalePrice(productFromPost.getDefaultSku().getSalePrice());
 			existingProduct.getDefaultSku().setDescription(productFromPost.getDefaultSku().getDescription());
 			existingProduct.getDefaultSku().setLongDescription(productFromPost.getDefaultSku().getLongDescription());
+			existingProduct.getDefaultSku().setActiveStartDate(productFromPost.getDefaultSku().getActiveStartDate());
+			existingProduct.getDefaultSku().setActiveEndDate(productFromPost.getDefaultSku().getActiveEndDate());
 			existingProduct.setEnabled(productFromPost.isEnabled());
 			existingProduct.setCanSellWithoutOptions(productFromPost.isCanSellWithoutOptions());
 			if (!existingProduct.getCategory().equals(productFromPost.getCategory())) {
