@@ -191,37 +191,47 @@
 							   </div> 		   	                    	
 						   </div>				   
 						   <div class="row">
-						        <div class="col-md-3">
+						        <div class="col-md-4">
 						            <div class="field-box">
 						                <label>
 						    	   	        <span th:text="#{admin.catalog.category.edit.activeStartDate}">Active Start Date</span>
 						   		        </label>
 										<div class="input-group">
-							                <div class="input-group date" id="active-start-date">
+							                <div class="input-group date datetimepicker">
 							                    <input type="text" class="form-control datetimepicker-input" id="active-start-date-input" 
 							                           name="defaultSku.activeStartDate" th:value="${{product.defaultSku.activeStartDate}}"/>
 								                    <span class="input-group-addon">
 								                        <span class="fa fa-calendar"></span>
 								                    </span>
 											</div>
-											<button type="button" class="btn btn-default" >
-												<i class="fa fa-times"></i>
-											</button>
+											<div class="input-group-btn">
+												<button type="button" class="btn btn-default" onclick="$('#active-start-date-input').val('');">
+													<i class="fa fa-times"></i>
+												</button>
+											</div>
 						                </div>
 						            </div>						        
                 				</div>
-						        <div class="col-md-3">
+						        <div class="col-md-4">
 						            <div class="field-box">
 						                <label>
 						    	   	        <span th:text="#{admin.catalog.category.edit.activeEndDate}">Active End Date</span>
 						   		        </label>
+									<div class="input-group">
 						                <div class="input-group date datetimepicker">
-						                    <input type="text" class="form-control datetimepicker-input" th:field="*{defaultSku.activeEndDate}"/>
+						                    <input type="text" class="form-control datetimepicker-input" id="active-end-date-input" 
+							                        name="defaultSku.activeEndDate" th:value="${{product.defaultSku.activeEndDate}}"/>
 						                    <span class="input-group-addon">
 						                        <span class="fa fa-calendar"></span>
 						                    </span>
 						                </div>
-						            </div>						        
+										<div class="input-group-btn">
+											<button type="button" class="btn btn-default" onclick="$('#active-end-date-input').val('');">
+												<i class="fa fa-times"></i>
+											</button>
+										</div>						                
+						             </div>
+						           </div> 						        
                 				</div>
 						   		<div class="col-md-2">
 								   <div class="field-box">
