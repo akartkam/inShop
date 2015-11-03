@@ -203,10 +203,11 @@
 								                    <span class="input-group-addon">
 								                        <span class="fa fa-calendar"></span>
 								                    </span>
-												    <span class="input-group" onclick="$('#active-start-date-input').val(''); return false;">
-													   <span class="fa fa-times"></span>
-												    </span>
 											</div>
+											<span class="input-group-addon" >
+											   <span class="fa fa-times" onmousedown="(function(e) {$('.datetimepicker').data('DateTimePicker').hide();  $('#active-start-date-input').val('');})(event)"></span>
+											</span>
+											
 						                </div>
 						            </div>						        
                 				</div>
@@ -223,7 +224,7 @@
 						                        <span class="fa fa-calendar"></span>
 						                    </span>
 						                </div>
-										<div class="input-group-btn">
+										<div class="input-group-addon">
 											<button type="button" class="btn btn-default" onclick="$('#active-end-date-input').val('');">
 												<i class="fa fa-times"></i>
 											</button>
