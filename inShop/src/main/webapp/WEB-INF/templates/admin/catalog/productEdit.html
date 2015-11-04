@@ -191,12 +191,12 @@
 							   </div> 		   	                    	
 						   </div>				   
 						   <div class="row">
-						        <div class="col-md-4">
+						        <div class="col-md-3">
 						            <div class="field-box">
 						                <label>
 						    	   	        <span th:text="#{admin.catalog.category.edit.activeStartDate}">Active Start Date</span>
 						   		        </label>
-										<div class="input-group">
+<!-- 										<div class="input-group"> -->
 							                <div class="input-group date datetimepicker">
 							                    <input type="text" class="form-control datetimepicker-input" id="active-start-date-input" 
 							                           name="defaultSku.activeStartDate" th:value="${{product.defaultSku.activeStartDate}}"/>
@@ -204,32 +204,23 @@
 								                        <span class="fa fa-calendar"></span>
 								                    </span>
 											</div>
-											<span class="input-group-addon" >
-											   <span class="fa fa-times" onmousedown="(function(e) {$('.datetimepicker').data('DateTimePicker').hide();  $('#active-start-date-input').val('');})(event)"></span>
-											</span>
-											
-						                </div>
+<!-- 						                </div> -->
 						            </div>						        
                 				</div>
-						        <div class="col-md-4">
+						        <div class="col-md-3">
 						            <div class="field-box">
 						                <label>
 						    	   	        <span th:text="#{admin.catalog.category.edit.activeEndDate}">Active End Date</span>
 						   		        </label>
-									<div class="input-group">
+<!-- 									<div class="input-group"> -->
 						                <div class="input-group date datetimepicker">
 						                    <input type="text" class="form-control datetimepicker-input" id="active-end-date-input" 
 							                        name="defaultSku.activeEndDate" th:value="${{product.defaultSku.activeEndDate}}"/>
 						                    <span class="input-group-addon">
 						                        <span class="fa fa-calendar"></span>
-						                    </span>
+						                    </span>						                
 						                </div>
-										<div class="input-group-addon">
-											<button type="button" class="btn btn-default" onclick="$('#active-end-date-input').val('');">
-												<i class="fa fa-times"></i>
-											</button>
-										</div>						                
-						             </div>
+<!-- 						             </div> -->
 						           </div> 						        
                 				</div>
 						   		<div class="col-md-2">
