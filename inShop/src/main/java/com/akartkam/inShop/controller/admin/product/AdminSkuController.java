@@ -1,5 +1,6 @@
 package com.akartkam.inShop.controller.admin.product;
 
+
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 import java.beans.PropertyEditor;
@@ -79,18 +80,13 @@ import com.akartkam.inShop.formbean.ProductForm;
 import com.akartkam.inShop.domain.product.attribute.Selectable;
 
 @Controller
-@RequestMapping("/admin/catalog/product")
-public class AdminProductController {
-	  private static final Log LOG = LogFactory.getLog(AdminProductController.class);
+@RequestMapping("/admin/catalog/sku")
+public class AdminSkuController {
+	  private static final Log LOG = LogFactory.getLog(AdminSkuController.class);
 	  	
 	  @Autowired
 	  ProductService productService;
 	  
-	  @Autowired
-	  CategoryService categoryService;
-	  
-	  @Autowired
-	  BrandService brandService;
 	  
 	  @Autowired
 	  AttributeCategoryService attributeCategoryService;
@@ -107,34 +103,7 @@ public class AdminProductController {
 	  
 	  @Value("#{appProperties['inShop.imagesUrl']}")
 	  private String imageUrl;
-	  
-	  
-	  @ModelAttribute("allProduct")
-	  public List<Product> getAllProduct() {
-	      return productService.getAllProduct();
-	  }
-	  
-	  @ModelAttribute("allCategory")
-	  public List<Category> getAllCategory() {
-	      return categoryService.getAllCategoryHierarchy(true);
-	  }	  
-	  
-	  
-	  @ModelAttribute("allBrand")
-	  public List<Brand> getAllBrand() {
-	      return brandService.getAllBrand(false);
-	  }	
-	  
-	  @ModelAttribute("allPo")
-	  public List<ProductOption> getAllPO() {
-	      return productService.getAllPO();
-	  }	  
-	  
-	  @ModelAttribute("allProdStatus")
-	  public List<ProductStatus> getAllProdStatus() {
-	      return Arrays.asList(ProductStatus.ALL);
-	  }	  
-	  
+	  	  	  	  
 	  
 	  @InitBinder
 	  public void initBinder(WebDataBinder binder) {
@@ -150,25 +119,6 @@ public class AdminProductController {
 			    }
 			    });
 			
-			binder.registerCustomEditor(Category.class, "category", new PropertyEditorSupport() {
-			    @Override
-			    public void setAsText(String text) {
-			    	if (!"".equals(text)) {
-			    		Category ch = categoryService.loadCategoryById(UUID.fromString(text), false);
-			            setValue(ch);
-			    	}			    
-			    }
-			    });
-
-			binder.registerCustomEditor(Brand.class, "brand", new PropertyEditorSupport() {
-			    @Override
-			    public void setAsText(String text) {
-			    	if (!"".equals(text)) {
-			    		Brand ch = brandService.loadBrandById(UUID.fromString(text), false);
-			            setValue(ch);
-			    	}			    
-			    }
-			    });
 			binder.registerCustomEditor(ProductStatus.class,"productStatus", new PropertyEditorSupport() {
 			    @Override
 			    public void setAsText(String text) {
@@ -242,7 +192,7 @@ public class AdminProductController {
 	  
 	  @RequestMapping(method=GET)
 	  public String product() {
-		  return "/admin/catalog/product"; 
+		  return "/admin/catalog/sku"; 
 		  }	  
 	  
 	  

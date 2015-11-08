@@ -32,14 +32,14 @@
 	    	<!-- bootstrap-datetimepicker -->
   			<link href="../../../../resources/css/bootstrap-datetimepicker.min.css" rel="stylesheet" th:href="@{/resources/css/bootstrap-datetimepicker.min.css}"/>			      			    	
     			    	
-			<style type="text/css">
+			<style type="text/css">			
 				body {
 				    margin:0;     /* This is used to reset any browser-default margins */
 				    height:100vh; /* This is needed to overcome a Chrome bug. */
 				    width:100vw;  /* As above. */
 				}
 			 	table { table-layout: fixed; }
- 				table th, table td { overflow: hidden; }
+ 				/*table th, table td { overflow: hidden; }*/
 				td.domain-col {
 				    overflow: hidden;
 				    text-overflow: ellipsis;
@@ -58,7 +58,11 @@
 			    } 
 			    textarea:required:invalid, input:required:invalid {
 			            background-color: lightyellow;
-			    }			    
+			    }		
+				.table-responsive {
+				  overflow-x: visible !important;
+				  overflow-y: visible !important;
+				}			    	    
 			</style>			
 	</head>
 <body>
@@ -143,7 +147,7 @@
 	           </div> 	 
 	             <div class="panel-body">
  	                  <div class="row">
- 	                    <div class="col-md-12">	               
+ 	                    <div class="col-md-12">	              
 						      <table class="table table-striped table-bordered table-hover table-condensed table-responsive" id="productDataTable" data-checkid="">
 						        <thead >
 							      <tr >
@@ -189,7 +193,7 @@
 										       <span style="font-size: 9pt;" th:text="#{admin.catalog.product.articul}+': '+${pr.defaultSku.code}">code</span>
 										    </div>										
 										</td>
-										<td class="mightOverflow domain-col"><span th:text="${pr.category!=null? pr.category.name: ''}">Category</span></td>
+										<td class="mightOverflow domain-col"><span th:text="${pr.category!=null? pr.category.name: ''}">Category Category Category Category Category Category Category</span></td>
 										<td class="mightOverflow domain-col"><span th:text="${pr.url}">URL</span></td>
 										<td class="mightOverflow domain-col"><span th:text="${pr.brand!=null? pr.brand.name: ''}">Brand</span></td>
 										<td class="mightOverflow domain-col"><span th:text="${pr.model}">Model</span></td>
@@ -220,41 +224,16 @@
 					                                      th:attr="data-id=${pr.id}, data-name=${pr.defaultSku.name}"> 
 					                                <i class="fa fa-trash-o"></i>
 					                              </button>	
-			                            	 </div>   
+					                              <button class="btn btn-outline btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    													<i class="fa fa-sort-down"></i>
+  											      </button>
+	 			                            	  <ul class="dropdown-menu">
+	    											<li><a th:href="@{${'/admin/catalog/sku?productID='+pr.id}}" th:text="#{admin.catalog.sku}">Sku</a></li>
+	  											  </ul>
+ 			                            	 </div>   
 			                             </td>
 							        </tr>
-							        <th:block th:remove="all">
-										<tr th:remove="all">
-											<td class="text-center">						
-											       <input class="checkCategory" type="checkbox" id='check-1' value="1"/>
-										    </td>					         
-											<td class="mightOverflow domain-col">
-											    <div class="a-photo-out">
-	                                               <span class="photo-block">
-	                                                 <span class="helper"></span>
-	                                                 <img src="../../../../resources/img/logo/samsung.png" onerror="'this.src=\'' + @{/resources/img/noimage.png} + '\';'"/>
-	                                               </span>
-											       <span>name</span>
-											       <br/>
-											       <span>code: 123456</span>
-											    </div>										
-											</td>
-											<td class="mightOverflow domain-col"><span>Category1</span></td>
-											<td class="mightOverflow domain-col"><span>/url1</span></td>
-											<td class="mightOverflow domain-col"><span>Brand1</span></td>
-											<td class="mightOverflow domain-col"><span>Model1</span></td>
-											<td >
-										      <span 
-										            style="text-decoration: line-through;"
-										            >10.00</span>
-										      <br/>
-										      <span>9.00</span>
-											</td>
-											<td class="text-center">Yes</td>
-											<td class="text-center"></td>
-										</tr>									
-								   </th:block>
-						        </tbody>
+  						         </tbody>
 						      </table> 
 						   </div>
 						</div>      

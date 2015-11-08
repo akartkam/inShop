@@ -137,7 +137,7 @@
     <div class="container-fluid">
 		<div class="row" >
 		  <div class="col-lg-12" >
-	       <div class="panel panel-default" layout:fragment="content">
+	       <div class="panel panel-info">
 	           <div class="panel-heading">
 	               <span th:text="#{admin.catalog.product}">Product</span>
 	           </div> 	 
@@ -146,7 +146,7 @@
  	                    <div class="col-md-12">	               
 						      <table class="table table-striped table-bordered table-hover table-condensed table-responsive" id="productDataTable" data-checkid="">
 						        <thead >
-							      <tr >
+							      <tr class="info">
 						              <th class="col-md-3 text-center" th:text="#{admin.catalog.name}">Name</th>
 						              <th class="col-md-3 text-center" th:text="#{admin.catalog.category}">Category</th>
 						              <th class="col-md-2 text-center" th:text="#{admin.catalog.url}">Url</th>
@@ -157,7 +157,7 @@
 						  	      </tr>
 						 	    </thead>
 						 	    <tbody>      
-							        <tr th:class="${!product.enabled} ? 'text-muted'">
+							        <tr class="info" th:classappend="${!product.enabled} ? 'text-muted'">
 										<td class="mightOverflow domain-col">
 										    <div class="a-photo-out">
                                                <span class="photo-block">
@@ -219,7 +219,68 @@
 	             <div class="panel-body">
  	                  <div class="row">
  	                    <div class="col-md-12">	 
- 	                    
+					      <table class="table table-striped table-bordered table-hover table-condensed table-responsive" id="skuDataTable" data-checkid="">
+					        <thead >
+						      <tr>
+						          <th class="col-md-1"></th>
+					              <th class="col-md-4 text-center" th:text="#{admin.catalog.name}">Name</th>
+					              <th class="col-md-3 text-center" th:text="#{admin.catalog.productOption}">Product options</th>					              
+					              <th class="col-md-1 text-center" th:text="#{admin.catalog.price}">Price</th>
+					              <th class="col-md-1 text-center" th:text="#{admin.catalog.ordering}">Ordering</th>
+					              <th class="col-md-1 text-center" th:text="#{admin.catalog.enabled}">Enabled?</th>
+						          <th class="col-md-1"></th>
+					  	      </tr>
+					 	    </thead>
+					 	    <tbody>      
+						        <tr th:each="sku : ${product.additionalSku}" th:class="${!sku.enabled} ? 'text-muted'">
+						            <td class="text-center">						
+									    <input class="checkCategory" type="checkbox" th:id="${'check-'+sku.id}" th:value="${sku.id}"/>
+								    </td>
+									<td class="mightOverflow domain-col">
+									    <div class="a-photo-out">
+                                           <span class="photo-block">
+                                             <span class="helper"></span>
+                                             <img th:src="@{${#lists.isEmpty(sku.images)? product.defaultSku.images[0]: sku.images[0]}}"  th:onerror="'this.src=\'' + @{/resources/img/noimage.png} + '\';'"/>
+                                           </span>
+									       <span th:text="${sku.name}">name</span>
+									       <br/>
+									       <span style="font-size: 9pt;" th:text="#{admin.catalog.product.articul}+': '+${sku.code}">code</span>
+									    </div>										
+									</td>
+									<td>
+										<span th:each="pov, povStat: ${sku.productOptionValues}" th:text="${pov.optionValue+';'}"></span>
+									</td>
+									<td style="font-size: 8pt;">
+									      <span th:style="${sku.salePrice != null &amp;&amp; sku.salePrice != 0? 'text-decoration: line-through;': ''}" 
+									            style="text-decoration: line-through;"
+									            th:text="${{sku.retailPrice}}">10.00</span>
+									      <br/>
+									      <span th:text="${{sku.salePrice}}">9.00</span>
+									</td>
+									<td class="text-center" th:text="${sku.ordering}"></td>
+					            	<td class="text-center"><i th:class="${sku.enabled} ? 'fa fa-check-circle'"></i></td>
+					                <td class="text-center">
+  				            	  		 <div class="btn-group edit-btn-group" role="group" > 
+			                                  <button type="button" class="open-editDialog btn btn-outline btn-default btn-xs" 
+			                                          data-toggle="modal" data-target="#editModal" data-operation="edit" 
+			                                          th:attr="data-id=${sku.id}, data-path=@{/admin/catalog/sku/edit}"> 
+			                                    <i class="fa fa-pencil"></i>
+			                                  </button>	
+			                                  <button type="button" class="open-editDialog btn btn-outline btn-default btn-xs" 
+			                                          data-toggle="modal" data-target="#editModal" data-operation="add"
+			                                          th:attr="data-id=${sku.id}, data-path=@{/admin/catalog/sku/add}">
+			                                    <i class="fa fa-copy"></i>
+			                                  </button>
+				                              <button th:disabled="${!sku.enabled}" type="button" data-toggle="modal" data-target="#deleteModal" 
+				                                      class="open-deleteDialog btn btn-outline btn-default btn-xs"
+				                                      th:attr="data-id=${sku.id}, data-name=${sku.name}"> 
+				                                <i class="fa fa-trash-o"></i>
+				                              </button>	
+		                            	 </div>   
+		                             </td>
+						        </tr>
+					        </tbody>
+					      </table>  	                    
  	                    </div>
  	                  </div>
  	             </div>
@@ -229,10 +290,10 @@
 				   		 <div class="btn-group" role="group" aria-label="..."> 
                                <button type="button" class="open-editDialog btn btn-outline btn-default btn-sm" 
                                        data-toggle="modal" data-target="#editModal" data-operation="add"
-                                       th:attr="data-path=@{/admin/catalog/product/add}">
+                                       th:attr="data-path=@{/admin/catalog/sku/add}">
                                  <i class="fa fa-plus-circle"></i>
                                  <span> </span>
-					          <span th:text="#{button.add.caption}">Add product</span> 
+					          <span th:text="#{button.add.caption}">Add sku</span> 
                                </button>
 					     </div>
 				      </div> 
@@ -281,52 +342,6 @@
 		                   	  }
 		                  }
     				});
-  	                $('#skuDataTable tfoot th').each( function () {
-	  	            	 if ($(this).is(":first-child") || $(this).is(":last-child")) return;
-		                 var title = $('#skuDataTable thead th').eq( $(this).index() ).text();
-		                 $(this).html( '<input type="text" placeholder="Фильтр '+title+'" />' );
-		            });
-    		     	table.columns().every( function () {
-	  	               var that = this;
-	  	        
-	  	               $( 'input', this.footer() ).on( 'keyup change', function () {
-	  	            	   that
-	  	                       .search( this.value )
-	  	                       .draw();
-	  	                   
-	  	               });
-	  	           });
-   		           //Проверка перед сабмитом
-   		           $("body").on("click", ".btnSubmit" , function() {
-   	                	//check for change category
-   	                	var previd = $("#category").data("previd");
-   	                	var currid = $("#category").val();
-   	                	if (previd && previd!=currid)
-   	                		return confirm("При смене категории товара, все значения атрибутов, которые ей не соответствуют будут удалены. Продолжить?") ;
-   	                });
-       				//Добавление input для productStatus
-       		 		 $("body").on("change", "#productStatus", function(){
-       					$("#productStatusIc").find("input").each(function(i,v){$(v).remove()});    		 			
-       	 		        $(this).find("option:selected").each(function(i, v){
-       	 		        	$("<input>").attr({
-       	 		        	    type: "hidden",
-       	 		        	    name: "productStatus["+i+"]",
-       	 		        	    value: $(v).val()
-       	 		        	}).appendTo("#productStatusIc");								    		 		            
-       	 		        });    		 			
-       	 		
-       	 			});
-       		 		$("body").on("change",  "#productOption", function(e){
-						$("#productOptionIc").find("input").each(function(i,v){$(v).remove()});    		 			
-		 		        $(this).find("option:selected").each(function(i, v){
-		 		        	$("<input>").attr({
-		 		        	    type: "hidden",
-		 		        	    name: "productOptionsForForm["+i+"]",
-		 		        	    value: $(v).val()
-		 		        	}).appendTo("#productOptionIc");								    		 		            
-		 		        });    		 			
-		 		
-		 			});
 	       		 	$("body").on("change", "#inputSImg", function () {
 		    				// Get content from Summernote
 		    				var content = $("#summernote").code();
