@@ -39,7 +39,6 @@
 				    width:100vw;  /* As above. */
 				}
 			 	table { table-layout: fixed; }
- 				table th, table td { overflow: hidden; }
 				td.domain-col {
 				    overflow: hidden;
 				    text-overflow: ellipsis;
@@ -63,7 +62,7 @@
 	</head>
 <body>
    <th:block layout:fragment="breadcrumb">
-     <li><a th:href="@{/product}" th:text="#{admin.catalog.product}"></a></li>
+     <li><a th:href="@{/admin/catalog/product}" th:text="#{admin.catalog.product}"></a></li>
    	 <li class="active" th:text="#{admin.catalog.sku}"></li>
    </th:block>
    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true" layout:fragment="deleteForm">
@@ -134,7 +133,7 @@
 	     </div> 
 	   </div> 
     </div>
-    <div class="container-fluid">
+    <div class="container-fluid" layout:fragment="content">
 		<div class="row" >
 		  <div class="col-lg-12" >
 	       <div class="panel panel-info">
@@ -212,7 +211,7 @@
 	    </div>
 		<div class="row" >
 		  <div class="col-lg-12" >
-	       <div class="panel panel-default" layout:fragment="content">
+	       <div class="panel panel-default" >
 	           <div class="panel-heading">
 	               <span th:text="#{admin.catalog.sku}">Sku</span>
 	           </div> 	 
@@ -288,12 +287,18 @@
 			      <div class="btn-toolbar" role="toolbar" aria-label="...">
 				      <div class="btn-group" role="group" aria-label="...">
 				   		 <div class="btn-group" role="group" aria-label="..."> 
+                               <button type="button" class="gen-sku btn btn-outline btn-default btn-sm" 
+                                       th:attr="data-path=@{${'/admin/catalog/sku/gen?productID='+product.id}}">
+                                  <i class="fa fa-rocket"></i>
+                                  <span> </span>
+					              <span th:text="#{admin.catalog.sku.button.gensku}">Gen skus</span> 
+                               </button>
                                <button type="button" class="open-editDialog btn btn-outline btn-default btn-sm" 
                                        data-toggle="modal" data-target="#editModal" data-operation="add"
                                        th:attr="data-path=@{/admin/catalog/sku/add}">
-                                 <i class="fa fa-plus-circle"></i>
-                                 <span> </span>
-					          <span th:text="#{button.add.caption}">Add sku</span> 
+                                  <i class="fa fa-plus-circle"></i>
+                                  <span> </span>
+					              <span th:text="#{button.add.caption}">Add sku</span> 
                                </button>
 					     </div>
 				      </div> 
@@ -434,7 +439,18 @@
     	                    $("#name").focus();
                   });
 		    	});  
-  		        $(document).on("mouseenter", ".mightOverflow", function() { 
+		        $(document).on("click", ".gen-sku", function () {
+		        	  var path = $(this).data("path");
+	  		          $("#skuDataTable").html("");
+	                  $.ajax({
+	                    url: path ,
+	                    cache: false
+	                  }).done(function (html) {
+	                            $("#skuDataTable").html(html);
+
+	                  });
+			    	});
+		        $(document).on("mouseenter", ".mightOverflow", function() { 
   		        	var $t = $(this); 
   		        	var title = $t.attr("title");
   		        	if (!title){ if (this.offsetWidth < this.scrollWidth) $t.attr("title", $t.text()) } 

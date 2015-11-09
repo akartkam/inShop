@@ -191,7 +191,7 @@ public class AdminSkuController {
 
 	  
 	  @RequestMapping(method=GET)
-	  public String product(@RequestParam(value = "productID") String productID, Model model) {
+	  public String sku(@RequestParam(value = "productID") String productID, Model model) {
 		  if ("".equals(productID)) throw new ProductNotFoundException("ID Product is empty.");
 	      Product product = productService.getProductById(UUID.fromString(productID)); 
 	      model.addAttribute("product", product);
