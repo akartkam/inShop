@@ -191,7 +191,10 @@ public class AdminSkuController {
 
 	  
 	  @RequestMapping(method=GET)
-	  public String product() {
+	  public String product(@RequestParam(value = "productID") String productID, Model model) {
+		  if ("".equals(productID)) throw new ProductNotFoundException("ID Product is empty.");
+	      Product product = productService.getProductById(UUID.fromString(productID)); 
+	      model.addAttribute("product", product);
 		  return "/admin/catalog/sku"; 
 		  }	  
 	  
@@ -202,7 +205,10 @@ public class AdminSkuController {
 
 		  
 		  if(!model.containsAttribute("product")) {
-			  if ("".equals(ID)) throw new ProductNotFoundException("ID Product is empty.");
+			  if ("".equals(ID)) {
+				  LOG.error("ID Product is empty.");
+				  throw new ProductNotFoundException("ID Product is empty.");
+			  }
 		      Product product = productService.getProductById(UUID.fromString(ID)); 
 		      ProductForm productForm = new ProductForm(product);
 		      productForm.complementNecessaryAttributes();
@@ -245,7 +251,7 @@ public class AdminSkuController {
 			  if(product.canRemove() && authorities.contains(new SimpleGrantedAuthority("ADMIN"))) {
 				  productService.deleteProduct(product);   
 			  } else {
-				  ra.addFlashAttribute("errormessage", this.messageSource.getMessage("admin.error.cannotdelete.message", new String[] {"товар"} , Locale.getDefault()));
+				  ra.addFlashAttribute("errormessage", this.messageSource.getMessage("admin.error.cannotdelete.message", new String[] {"пїЅпїЅпїЅпїЅпїЅ"} , Locale.getDefault()));
 				  ra.addAttribute("error", true);
 			  }
 
