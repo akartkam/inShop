@@ -217,6 +217,7 @@ public class Sku extends AbstractDomainObjectOrdering {
 		this.productOptionValues = productOptionValues;
 	}
 	
+	
 	@ManyToOne
 	@JoinColumn
 	public Product getProduct() {

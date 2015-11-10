@@ -20,6 +20,7 @@ import com.akartkam.inShop.domain.product.Brand;
 import com.akartkam.inShop.domain.product.Category;
 import com.akartkam.inShop.domain.product.Product;
 import com.akartkam.inShop.domain.product.ProductStatus;
+import com.akartkam.inShop.domain.product.Sku;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttributeValue;
 import com.akartkam.inShop.domain.product.option.ProductOption;
@@ -274,6 +275,21 @@ public class ProductServiceImpl implements ProductService {
 	        createProduct(product);
 		}
 	}
+	
+	@Transactional(readOnly = false)
+	public void genSkus(Product product) {
+		Set<ProductOption> spo =  product.getProductOptions();
+		List<Sku> aSku = product.getAdditionalSku();
+		Sku defSku = product.getDefaultSku();
+		for (ProductOption po : spo) {
+			Sku sku = new Sku();
+			sku.setName(defSku.getName());
+			for (ProductOptionValue pov: po.getProductOptionValues()) {
+				sku.getProductOptionValues().add(pov);
+			}
+			aSku.add(sku);
+		}
+ 	}
 
 }
 

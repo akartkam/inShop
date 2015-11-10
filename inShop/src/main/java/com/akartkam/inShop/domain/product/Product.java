@@ -137,6 +137,12 @@ public class Product extends AbstractDomainObjectOrdering {
 		}
 	}
 	
+	public void addAdditionalSku(Sku sku) {
+		if (sku == null) throw new IllegalArgumentException("Null sku!");
+		sku.setProduct(this);
+		getAdditionalSku().add(sku);		
+	}
+	
 	@AdminPresentation(tab=EditTab.LINKS)
 	@Valid
 	@ManyToMany
@@ -178,6 +184,7 @@ public class Product extends AbstractDomainObjectOrdering {
 	}
 	
 	@OneToMany(mappedBy="product")
+	@Cascade(org.hibernate.annotations.CascadeType.ALL)
 	@BatchSize(size = 10)
 	public List<Sku> getAdditionalSku() {
 		return additionalSku;
