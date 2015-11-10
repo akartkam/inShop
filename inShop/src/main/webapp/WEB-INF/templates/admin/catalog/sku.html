@@ -217,8 +217,8 @@
 	           </div> 	 
 	             <div class="panel-body">
  	                  <div class="row">
- 	                    <div class="col-md-12">	 
-					      <table class="table table-striped table-bordered table-hover table-condensed table-responsive" id="skuDataTable" data-checkid="">
+ 	                    <div class="col-md-12" id="dSkuDataTable">	 
+					      <table class="table table-striped table-bordered table-hover table-condensed table-responsive" id="skuDataTable" th:fragment="skuDataTable" th:object="${product}" data-checkid="">
 					        <thead >
 						      <tr>
 						          <th class="col-md-1"></th>

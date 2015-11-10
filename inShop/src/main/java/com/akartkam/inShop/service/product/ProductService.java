@@ -30,4 +30,5 @@ public interface ProductService {
 	void updatePO(ProductOption po);
 	void mergeWithExistingPOAndUpdateOrCreate(final ProductOption poFromForm, Errors errors);
 	void mergeWithExistingAndUpdateOrCreate(final ProductForm productFromPost);
+	public void genSkus(Product product);
 }

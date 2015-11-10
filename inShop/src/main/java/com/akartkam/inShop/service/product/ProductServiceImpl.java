@@ -276,6 +276,7 @@ public class ProductServiceImpl implements ProductService {
 		}
 	}
 	
+	@Override
 	@Transactional(readOnly = false)
 	public void genSkus(Product product) {
 		Set<ProductOption> spo =  product.getProductOptions();
@@ -284,11 +285,13 @@ public class ProductServiceImpl implements ProductService {
 		for (ProductOption po : spo) {
 			Sku sku = new Sku();
 			sku.setName(defSku.getName());
+			sku.setRetailPrice(defSku.getRetailPrice());
 			for (ProductOptionValue pov: po.getProductOptionValues()) {
 				sku.getProductOptionValues().add(pov);
 			}
-			aSku.add(sku);
+			product.addAdditionalSku(sku);
 		}
+		productDAO.update(product);
  	}
 
 }
