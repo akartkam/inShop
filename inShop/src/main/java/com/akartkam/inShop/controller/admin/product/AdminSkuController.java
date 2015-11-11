@@ -302,7 +302,7 @@ public class AdminSkuController {
 
 	   @RequestMapping(value="/gen")
 	   public String genSkus(  @RequestHeader(value = "X-Requested-With", required = false) String requestedWith,
-			   				   @RequestParam(value = "productID") String productID,
+			   				   @RequestParam(value = "productID", required=true) String productID,
 			                   final Model model) {
 		   if (!"XMLHttpRequest".equals(requestedWith)) throw new IllegalStateException("The genSkus method can be called only via ajax!");
            Product product = productService.getProductById(UUID.fromString(productID)); 

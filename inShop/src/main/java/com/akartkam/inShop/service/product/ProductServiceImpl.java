@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import java.util.SortedSet;
 import java.util.UUID;
 
 import org.apache.commons.beanutils.BeanUtilsBean;
@@ -16,12 +15,10 @@ import org.springframework.validation.Errors;
 
 import com.akartkam.inShop.dao.product.ProductDAO;
 import com.akartkam.inShop.dao.product.option.ProductOptionDAO;
-import com.akartkam.inShop.domain.product.Brand;
 import com.akartkam.inShop.domain.product.Category;
 import com.akartkam.inShop.domain.product.Product;
 import com.akartkam.inShop.domain.product.ProductStatus;
 import com.akartkam.inShop.domain.product.Sku;
-import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttributeValue;
 import com.akartkam.inShop.domain.product.option.ProductOption;
 import com.akartkam.inShop.domain.product.option.ProductOptionValue;
