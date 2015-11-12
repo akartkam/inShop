@@ -1,6 +1,7 @@
 package com.akartkam.inShop.service.product;
 
 import java.lang.reflect.InvocationTargetException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -281,26 +282,10 @@ public class ProductServiceImpl implements ProductService {
 	        createProduct(product);
 		}
 	}
-	
+		
 	@Override
 	@Transactional(readOnly = false)
-	public void genSkus(Product product) {
-		Set<ProductOption> spo =  product.getProductOptions();
-		List<Sku> aSku = product.getAdditionalSku();
-		Sku defSku = product.getDefaultSku();
-		for (ProductOption po : spo) {
-			Sku sku = new Sku();
-			sku.setName(defSku.getName());
-			sku.setRetailPrice(defSku.getRetailPrice());
-			for (ProductOptionValue pov: po.getProductOptionValues()) {
-				sku.getProductOptionValues().add(pov);
-			}
-			product.addAdditionalSku(sku);
-		}
-		productDAO.update(product);
- 	}
-	
-    public Product generateSkusFromProduct(UUID productId) {
+	public Product generateSkusFromProduct(UUID productId) {
         Product product = getProductById(productId);
         
         if (product == null) {
@@ -312,7 +297,7 @@ public class ProductServiceImpl implements ProductService {
             return null;
         }
         
-        List<List<ProductOptionValue>> allPermutations = generatePermutations(0, new ArrayList<ProductOptionValue>(), product.getProductOptions());
+        List<List<ProductOptionValue>> allPermutations = generatePermutations(0, new ArrayList<ProductOptionValue>(), new ArrayList<ProductOption>(product.getProductOptions()));
         LOG.info("Total number of permutations: " + allPermutations.size());
         LOG.info(allPermutations);
         
@@ -321,7 +306,7 @@ public class ProductServiceImpl implements ProductService {
         if (CollectionUtils.isNotEmpty(product.getAdditionalSku())) {
             for (Sku additionalSku : product.getAdditionalSku()) {
                 if (CollectionUtils.isNotEmpty(additionalSku.getProductOptionValues())) {
-                    previouslyGeneratedPermutations.add(additionalSku.getProductOptionValues());
+                    previouslyGeneratedPermutations.add(new ArrayList<ProductOptionValue>(additionalSku.getProductOptionValues()));
                 }
             }
         }
@@ -329,7 +314,7 @@ public class ProductServiceImpl implements ProductService {
         List<List<ProductOptionValue>> permutationsToGenerate = new ArrayList<List<ProductOptionValue>>();
         for (List<ProductOptionValue> permutation : allPermutations) {
             boolean previouslyGenerated = false;
-            for (Set<ProductOptionValue> generatedPermutation : previouslyGeneratedPermutations) {
+            for (List<ProductOptionValue> generatedPermutation : previouslyGeneratedPermutations) {
                 if (isSamePermutation(permutation, generatedPermutation)) {
                     previouslyGenerated = true;
                     break;
@@ -341,15 +326,16 @@ public class ProductServiceImpl implements ProductService {
             }
         }
 
-        int numPermutationsCreated = 0;
-        if (extensionManager != null) {
-            ExtensionResultHolder<Integer> result = new ExtensionResultHolder<Integer>();
-            ExtensionResultStatusType resultStatusType = extensionManager.getProxy().persistSkuPermutation(product, permutationsToGenerate, result);
-            if (ExtensionResultStatusType.HANDLED == resultStatusType) {
-                numPermutationsCreated = result.getResult();
-            }
+        
+        for (List<ProductOptionValue> permutation : permutationsToGenerate) {
+            if (permutation.isEmpty()) continue;
+            Sku permutatedSku = new Sku();
+            permutatedSku.setName(product.getDefaultSku().getName());
+            permutatedSku.setRetailPrice(new BigDecimal("0.0"));
+            permutatedSku.setProductOptionValues(new HashSet<ProductOptionValue>(permutation));
+            product.addAdditionalSku(permutatedSku);
         }
-        return numPermutationsCreated;
+        return product;
     }
 
     protected boolean isSamePermutation(List<ProductOptionValue> perm1, List<ProductOptionValue> perm2) {
@@ -375,7 +361,7 @@ public class ProductServiceImpl implements ProductService {
     }
     
 
-    public List<List<ProductOptionValue>> generatePermutations(int currentTypeIndex, List<ProductOptionValue> currentPermutation, Set<ProductOption> options) {
+    public List<List<ProductOptionValue>> generatePermutations(int currentTypeIndex, List<ProductOptionValue> currentPermutation, List<ProductOption> options) {
         List<List<ProductOptionValue>> result = new ArrayList<List<ProductOptionValue>>();
         if (currentTypeIndex == options.size()) {
             result.add(currentPermutation);

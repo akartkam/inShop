@@ -305,8 +305,7 @@ public class AdminSkuController {
 			   				   @RequestParam(value = "productID", required=true) String productID,
 			                   final Model model) {
 		   if (!"XMLHttpRequest".equals(requestedWith)) throw new IllegalStateException("The genSkus method can be called only via ajax!");
-           Product product = productService.getProductById(UUID.fromString(productID)); 
-           productService.genSkus(product);
+           Product product =  productService.generateSkusFromProduct(UUID.fromString(productID));
 		   model.addAttribute("product", product);
 	       return "/admin/catalog/sku :: skuDataTable";
 	    }
