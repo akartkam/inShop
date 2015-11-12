@@ -1,6 +1,8 @@
 package com.akartkam.inShop.service.product;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -8,11 +10,16 @@ import java.util.Set;
 import java.util.UUID;
 
 import org.apache.commons.beanutils.BeanUtilsBean;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.Transformer;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Errors;
 
+import com.akartkam.inShop.controller.admin.product.AdminSkuController;
 import com.akartkam.inShop.dao.product.ProductDAO;
 import com.akartkam.inShop.dao.product.option.ProductOptionDAO;
 import com.akartkam.inShop.domain.product.Category;
@@ -28,6 +35,8 @@ import com.akartkam.inShop.util.NullAwareBeanUtilsBean;
 @Service("ProductService")
 @Transactional(readOnly = true)
 public class ProductServiceImpl implements ProductService {
+	
+	private static final Log LOG = LogFactory.getLog(ProductServiceImpl.class);
 	
 	@Autowired
 	ProductOptionDAO productOptionDAO;
@@ -290,6 +299,110 @@ public class ProductServiceImpl implements ProductService {
 		}
 		productDAO.update(product);
  	}
+	
+    public Product generateSkusFromProduct(UUID productId) {
+        Product product = getProductById(productId);
+        
+        if (product == null) {
+        	LOG.info("Product with Id="+productId.toString()+" not found!");
+        	return null;
+        }
+        
+        if (CollectionUtils.isEmpty(product.getProductOptions())) {
+            return null;
+        }
+        
+        List<List<ProductOptionValue>> allPermutations = generatePermutations(0, new ArrayList<ProductOptionValue>(), product.getProductOptions());
+        LOG.info("Total number of permutations: " + allPermutations.size());
+        LOG.info(allPermutations);
+        
+        //determine the permutations that I already have Skus for
+        List<List<ProductOptionValue>> previouslyGeneratedPermutations = new ArrayList<List<ProductOptionValue>>();
+        if (CollectionUtils.isNotEmpty(product.getAdditionalSku())) {
+            for (Sku additionalSku : product.getAdditionalSku()) {
+                if (CollectionUtils.isNotEmpty(additionalSku.getProductOptionValues())) {
+                    previouslyGeneratedPermutations.add(additionalSku.getProductOptionValues());
+                }
+            }
+        }
+        
+        List<List<ProductOptionValue>> permutationsToGenerate = new ArrayList<List<ProductOptionValue>>();
+        for (List<ProductOptionValue> permutation : allPermutations) {
+            boolean previouslyGenerated = false;
+            for (Set<ProductOptionValue> generatedPermutation : previouslyGeneratedPermutations) {
+                if (isSamePermutation(permutation, generatedPermutation)) {
+                    previouslyGenerated = true;
+                    break;
+                }
+            }
+            
+            if (!previouslyGenerated) {
+                permutationsToGenerate.add(permutation);
+            }
+        }
+
+        int numPermutationsCreated = 0;
+        if (extensionManager != null) {
+            ExtensionResultHolder<Integer> result = new ExtensionResultHolder<Integer>();
+            ExtensionResultStatusType resultStatusType = extensionManager.getProxy().persistSkuPermutation(product, permutationsToGenerate, result);
+            if (ExtensionResultStatusType.HANDLED == resultStatusType) {
+                numPermutationsCreated = result.getResult();
+            }
+        }
+        return numPermutationsCreated;
+    }
+
+    protected boolean isSamePermutation(List<ProductOptionValue> perm1, List<ProductOptionValue> perm2) {
+        if (perm1.size() == perm2.size()) {
+            
+            Collection<UUID> perm1Ids = CollectionUtils.collect(perm1, new Transformer<ProductOptionValue, UUID>() {
+                @Override
+                public UUID transform(ProductOptionValue input) {
+                    return ((ProductOptionValue) input).getId();
+                }
+            });
+            
+            Collection<UUID> perm2Ids = CollectionUtils.collect(perm2, new Transformer<ProductOptionValue, UUID>() {
+                @Override
+                public UUID transform(ProductOptionValue input) {
+                    return ((ProductOptionValue) input).getId();
+                }
+            });
+            
+            return perm1Ids.containsAll(perm2Ids);
+        }
+        return false;
+    }
+    
+
+    public List<List<ProductOptionValue>> generatePermutations(int currentTypeIndex, List<ProductOptionValue> currentPermutation, Set<ProductOption> options) {
+        List<List<ProductOptionValue>> result = new ArrayList<List<ProductOptionValue>>();
+        if (currentTypeIndex == options.size()) {
+            result.add(currentPermutation);
+            return result;
+        }
+        
+        ProductOption currentOption = options.get(currentTypeIndex);
+        if (!currentOption.getUseInSkuGeneration()) {
+            //This flag means do not generate skus and so do not create permutations for this productoption, 
+            //end it here and return the current list of permutations.
+            result.addAll(generatePermutations(currentTypeIndex + 1, currentPermutation, options));
+            return result;
+        }
+        for (ProductOptionValue option : currentOption.getProductOptionValues()) {
+            List<ProductOptionValue> permutation = new ArrayList<ProductOptionValue>();
+            permutation.addAll(currentPermutation);
+            permutation.add(option);
+            result.addAll(generatePermutations(currentTypeIndex + 1, permutation, options));
+        }
+        if (currentOption.getProductOptionValues().size() == 0) {
+            //There are still product options left in our array to compute permutations, even though this productOption does not have any values associated.
+            result.addAll(generatePermutations(currentTypeIndex + 1, currentPermutation, options));
+        }
+        
+        return result;
+    }
+	
 
 }
 
