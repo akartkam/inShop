@@ -22,6 +22,7 @@ import org.springframework.validation.Errors;
 
 import com.akartkam.inShop.controller.admin.product.AdminSkuController;
 import com.akartkam.inShop.dao.product.ProductDAO;
+import com.akartkam.inShop.dao.product.SkuDAO;
 import com.akartkam.inShop.dao.product.option.ProductOptionDAO;
 import com.akartkam.inShop.domain.product.Category;
 import com.akartkam.inShop.domain.product.Product;
@@ -44,6 +45,10 @@ public class ProductServiceImpl implements ProductService {
 	
 	@Autowired
 	ProductDAO productDAO;
+	
+	@Autowired
+	SkuDAO skuDAO;
+	
 	
 	@Autowired
 	CategoryService categoryService; 
@@ -195,8 +200,6 @@ public class ProductServiceImpl implements ProductService {
 	public void deleteProduct(Product product) {
 		productDAO.delete(product);
 	}
-	
-	
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
@@ -282,6 +285,20 @@ public class ProductServiceImpl implements ProductService {
 	        createProduct(product);
 		}
 	}
+	
+	//Sku
+	
+	@Override
+	public Sku getSkuById(UUID id) {
+		return skuDAO.get(id);
+	}
+	
+	@Override
+	public Sku cloneSkuById(UUID id) throws CloneNotSupportedException {
+		Sku sku = getSkuById(id);
+		if (sku == null) return null;
+		return sku.clone();
+	}	
 		
 	@Override
 	@Transactional(readOnly = false)
@@ -331,7 +348,6 @@ public class ProductServiceImpl implements ProductService {
             if (permutation.isEmpty()) continue;
             Sku permutatedSku = new Sku();
             permutatedSku.setName(product.getDefaultSku().getName());
-            permutatedSku.setRetailPrice(new BigDecimal("0.0"));
             permutatedSku.setProductOptionValues(new HashSet<ProductOptionValue>(permutation));
             product.addAdditionalSku(permutatedSku);
         }

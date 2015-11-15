@@ -262,12 +262,12 @@
   				            	  		 <div class="btn-group edit-btn-group" role="group" > 
 			                                  <button type="button" class="open-editDialog btn btn-outline btn-default btn-xs" 
 			                                          data-toggle="modal" data-target="#editModal" data-operation="edit" 
-			                                          th:attr="data-id=${sku.id}, data-path=@{/admin/catalog/sku/edit}"> 
+			                                          th:attr="data-path=@{${'/admin/catalog/sku/edit?ID='+sku.id}}"> 
 			                                    <i class="fa fa-pencil"></i>
 			                                  </button>	
 			                                  <button type="button" class="open-editDialog btn btn-outline btn-default btn-xs" 
 			                                          data-toggle="modal" data-target="#editModal" data-operation="add"
-			                                          th:attr="data-id=${sku.id}, data-path=@{/admin/catalog/sku/add}">
+			                                          th:attr="data-path=@{${'/admin/catalog/sku/add?ID='+sku.id+'&amp;productID='+product.id}}">
 			                                    <i class="fa fa-copy"></i>
 			                                  </button>
 				                              <button th:disabled="${!sku.enabled}" type="button" data-toggle="modal" data-target="#deleteModal" 
@@ -295,7 +295,7 @@
                                </button>
                                <button type="button" class="open-editDialog btn btn-outline btn-default btn-sm" 
                                        data-toggle="modal" data-target="#editModal" data-operation="add"
-                                       th:attr="data-path=@{/admin/catalog/sku/add}">
+                                       th:attr="data-path=@{${'/admin/catalog/sku/add?productID='+product.id}}">
                                   <i class="fa fa-plus-circle"></i>
                                   <span> </span>
 					              <span th:text="#{button.add.caption}">Add sku</span> 
@@ -419,12 +419,10 @@
 		    	     $("#delete-modal-body #prName").html(prName);
 		    	});    	    
 		        $(document).on("click", ".open-editDialog", function () {
-		          var id = $(this).data("id");
 		          var path = $(this).data("path");
-		    	  if (typeof id == 'undefined') id=null;  
   		          $("#editModalContent").html("");
                   $.ajax({
-                    url: path+((id != null)?"?ID="+id:"") ,
+                    url: path ,
                     cache: false
                   }).done(function (html) {
                             $("#editModalContent").html(html);

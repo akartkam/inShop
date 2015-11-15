@@ -169,10 +169,10 @@ public class Sku extends AbstractDomainObjectOrdering {
 		this.activeEndDate = activeEndDate;
 	}
 	
-	@NotNull
+	//@NotNull
 	@NumberFormat(style=Style.CURRENCY)
 	@Digits(fraction = 5, integer = 14)
-	@DecimalMin("0.01")
+	//@DecimalMin("0.01")
     @Column(name = "retail_price", precision = 19, scale = 5)	
     @AdminPresentation(tab=EditTab.MAIN)
 	public BigDecimal getRetailPrice() {

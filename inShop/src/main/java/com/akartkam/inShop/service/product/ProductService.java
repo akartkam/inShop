@@ -7,6 +7,7 @@ import java.util.UUID;
 import org.springframework.validation.Errors;
 
 import com.akartkam.inShop.domain.product.Product;
+import com.akartkam.inShop.domain.product.Sku;
 import com.akartkam.inShop.domain.product.option.ProductOption;
 import com.akartkam.inShop.formbean.ProductForm;
 
@@ -31,4 +32,6 @@ public interface ProductService {
 	void mergeWithExistingPOAndUpdateOrCreate(final ProductOption poFromForm, Errors errors);
 	void mergeWithExistingAndUpdateOrCreate(final ProductForm productFromPost);
 	Product generateSkusFromProduct(UUID productId);
+	Sku getSkuById(UUID id);
+	Sku cloneSkuById(UUID id) throws CloneNotSupportedException;
 }

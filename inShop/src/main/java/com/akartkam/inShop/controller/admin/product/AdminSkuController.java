@@ -119,52 +119,6 @@ public class AdminSkuController {
 			    }
 			    });
 			
-			binder.registerCustomEditor(ProductStatus.class,"productStatus", new PropertyEditorSupport() {
-			    @Override
-			    public void setAsText(String text) {
-			    	if (!"".equals(text)) {
-			    		ProductStatus p = ProductStatus.forName(text); 
-			            setValue(p);
-			    	}			    
-			    }
-			    });	
-			binder.registerCustomEditor(ProductOption.class,"productOptionsForForm", new PropertyEditorSupport() {
-			    @Override
-			    public void setAsText(String text) {
-			    	if (!"".equals(text)) {
-			    		ProductOption p = productService.loadPOById(UUID.fromString(text), false); 
-			            setValue(p);
-			    	}			    
-			    }
-			    });
-			binder.registerCustomEditor(AbstractAttributeValue.class,"attributeValues", new PropertyEditorSupport() {
-			    @Override
-			    public void setAsText(String text) {
-			    	if (!"".equals(text)) {
-			    		String[] avv = text.split("_");
-			    		AbstractAttributeValue<?> av = attributeCategoryService.getAttributeValueById(UUID.fromString(avv[1]));
-			    		if (av == null)
-							try {
-								av = SimpleAttributeFactory.createAttributeValue(AttributeType.valueOf(avv[0]));
-							} catch (ClassNotFoundException
-									| InstantiationException
-									| IllegalAccessException e) {
-								// TODO Auto-generated catch block
-								LOG.error(e);
-							}
-			            setValue(av);
-			    	}			    
-			    }
-			    });	
-			binder.registerCustomEditor(AbstractAttribute.class,"attributeValues.attribute", new PropertyEditorSupport() {
-			    @Override
-			    public void setAsText(String text) {
-			    	if (!"".equals(text)) {
-			    		AbstractAttribute at = attributeCategoryService.getAttributeByIdForForm(UUID.fromString(text));			    		
-			            setValue(at);
-			    	}			    
-			    }
-			    });
 			
 			PropertyEditor pe = new PropertyEditorSupport() {
 			    @Override
@@ -184,8 +138,8 @@ public class AdminSkuController {
 			    }
 			    };
 
-			binder.registerCustomEditor(java.util.Date.class,"defaultSku.activeStartDate", pe);
-			binder.registerCustomEditor(java.util.Date.class,"defaultSku.activeEndDate", pe);
+			binder.registerCustomEditor(java.util.Date.class,"activeStartDate", pe);
+			binder.registerCustomEditor(java.util.Date.class,"activeEndDate", pe);
 	  
 	  }
 
@@ -204,41 +158,40 @@ public class AdminSkuController {
 			   				    @RequestHeader(value = "X-Requested-With", required = false) String requestedWith) throws ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException {
 
 		  
-		  if(!model.containsAttribute("product")) {
+		  if(!model.containsAttribute("sku")) {
 			  if ("".equals(ID)) {
-				  LOG.error("ID Product is empty.");
-				  throw new ProductNotFoundException("ID Product is empty.");
+				  LOG.error("ID Sku is empty.");
+				  throw new ProductNotFoundException("ID Sku is empty.");
 			  }
-		      Product product = productService.getProductById(UUID.fromString(ID)); 
-		      ProductForm productForm = new ProductForm(product);
-		      productForm.complementNecessaryAttributes();
-		      model.addAttribute("product", productForm);
+		      Sku sku = productService.getSkuById(UUID.fromString(ID)); 
+		      model.addAttribute("sku", sku);
 		  }
           if ("XMLHttpRequest".equals(requestedWith)) {
-              return "/admin/catalog/productEdit :: editProductForm";
+              return "/admin/catalog/skuEdit :: editSkuForm";
             }		  
-          return "/admin/catalog/productEdit";		  
+          return "/admin/catalog/skuEdit";		  
 	   }	  
 	  
 	  @RequestMapping("/add")
-	  public String productAdd(@RequestParam(value = "ID", required = false) String copyID, Model model,
-				                @RequestHeader(value = "X-Requested-With", required = false) String requestedWith) throws CloneNotSupportedException {
-		  Product product = null;
-		  ProductForm productForm = null;
+	  public String productAdd(@RequestParam(value = "ID", required = false) String copyID,
+			  				   @RequestParam(value = "productID", required = false) String productID, Model model,
+				               @RequestHeader(value = "X-Requested-With", required = false) String requestedWith) throws CloneNotSupportedException {
+		  Sku sku = null;
 		  if (copyID != null && !"".equals(copyID)) {
-			  product = productService.cloneProductById(UUID.fromString(copyID));
-			  if (product != null) productForm = new ProductForm(product); 
+			  sku = productService.cloneSkuById(UUID.fromString(copyID)); 
 		  }
-		  if (productForm == null) {
-			  productForm = new ProductForm();
-			  productForm.setDefaultSku(new Sku());
-			  
+		  if (sku == null) {
+			  sku = new Sku();
+			  if (productID !=null && !"".equals(productID)) {
+				  Product product = productService.loadProductById(UUID.fromString(productID), false);
+				  product.addAdditionalSku(sku);
+			  }
 		  }		  
- 	      model.addAttribute("product", productForm);
+ 	      model.addAttribute("sku", sku);
           if ("XMLHttpRequest".equals(requestedWith)) {
-              return "/admin/catalog/productEdit :: editProductForm";
+              return "/admin/catalog/skuEdit :: editSkuForm";
             } 	      
-          return "/admin/catalog/productEdit";		  
+          return "/admin/catalog/skuEdit";		  
 		  }		  
 
 	  @RequestMapping(value="/delete", method = RequestMethod.POST)
@@ -263,23 +216,23 @@ public class AdminSkuController {
 	
 	   @RequestMapping(value="/edit", method = RequestMethod.POST )
 	   public String saveProduct(
-			                   @Valid ProductForm product,
+			                   @Valid Sku sku,
 				   			   final BindingResult bindingResult,
 			                   final RedirectAttributes ra
 			                         ) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
 		   if (bindingResult.hasErrors()) {
-	        	ra.addFlashAttribute("product", product);
-	        	ra.addFlashAttribute("org.springframework.validation.BindingResult.product", bindingResult);
-	            return "redirect:/admin/catalog/product/edit?ID="+product.getId();
+	        	ra.addFlashAttribute("sku", sku);
+	        	ra.addFlashAttribute("org.springframework.validation.BindingResult.sku", bindingResult);
+	            return "redirect:/admin/catalog/sku/edit?ID="+sku.getId();
 	        }
 
-	        productService.mergeWithExistingAndUpdateOrCreate(product);	       
-	        return "redirect:/admin/catalog/product";
+	        //productService.mergeWithExistingAndUpdateOrCreate(product);	       
+	        return "redirect:/admin/catalog/sku";
 	    }
 	   
 	   
 	   @RequestMapping(value="/image/add", method = RequestMethod.POST )
-	   public String addNewImage(final @ModelAttribute ProductForm product,
+	   public String addNewImage(final @ModelAttribute Sku sku,
 			   				   @RequestHeader(value = "X-Requested-With", required = false) String requestedWith,
 			   				   @RequestParam(value = "newImage", required = false)	MultipartFile image,
 			                   final BindingResult bindingResult,
@@ -293,11 +246,11 @@ public class AdminSkuController {
 		        fileName = new File(image.getOriginalFilename()).getName(); 
 		        filePath = imagePath + fileName;
 	        	imageUtil.saveImage(filePath, image);	
-	        	product.getDefaultSku().getImages().add(imageUrl+fileName);
+	        	sku.getImages().add(imageUrl+fileName);
 	       }
-		   model.addAttribute("product", product);
+		   model.addAttribute("sku", sku);
 		   model.addAttribute("tabactive","images");
-	       return "/admin/catalog/productEdit :: imageTable";
+	       return "/admin/catalog/skuEdit :: imageTable";
 	    }
 
 	   @RequestMapping(value="/gen")
