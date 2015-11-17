@@ -169,10 +169,8 @@ public class Sku extends AbstractDomainObjectOrdering {
 		this.activeEndDate = activeEndDate;
 	}
 	
-	//@NotNull
 	@NumberFormat(style=Style.CURRENCY)
 	@Digits(fraction = 5, integer = 14)
-	//@DecimalMin("0.01")
     @Column(name = "retail_price", precision = 19, scale = 5)	
     @AdminPresentation(tab=EditTab.MAIN)
 	public BigDecimal getRetailPrice() {
@@ -234,6 +232,14 @@ public class Sku extends AbstractDomainObjectOrdering {
 	}
 	public void setDefaultProduct(Product defaultProduct) {
 		this.defaultProduct = defaultProduct;
+	}
+	
+	@Transient
+	public ProductOptionValue getProductOptionValueByPO(ProductOption po) {
+		for (ProductOptionValue pov: getProductOptionValues()) {
+			if (pov.getProductOption().equals(po)) return pov; 
+		}
+		return null;
 	}
 	
 	@Override
