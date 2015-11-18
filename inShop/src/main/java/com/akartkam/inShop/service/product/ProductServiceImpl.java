@@ -24,6 +24,7 @@ import com.akartkam.inShop.controller.admin.product.AdminSkuController;
 import com.akartkam.inShop.dao.product.ProductDAO;
 import com.akartkam.inShop.dao.product.SkuDAO;
 import com.akartkam.inShop.dao.product.option.ProductOptionDAO;
+import com.akartkam.inShop.dao.product.option.ProductOptionValueDAO;
 import com.akartkam.inShop.domain.product.Category;
 import com.akartkam.inShop.domain.product.Product;
 import com.akartkam.inShop.domain.product.ProductStatus;
@@ -42,6 +43,9 @@ public class ProductServiceImpl implements ProductService {
 	
 	@Autowired
 	ProductOptionDAO productOptionDAO;
+
+	@Autowired
+	ProductOptionValueDAO productOptionValueDAO;	
 	
 	@Autowired
 	ProductDAO productDAO;
@@ -86,6 +90,11 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public ProductOption loadPOById(UUID id, Boolean lock) {
 		return productOptionDAO.findById(id, lock);
+	}
+	
+	@Override
+	public ProductOptionValue loadPOVById(UUID id, Boolean lock) {
+		return productOptionValueDAO.findById(id, lock);
 	}
 
 	@Override

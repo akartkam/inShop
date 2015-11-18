@@ -9,6 +9,7 @@ import org.springframework.validation.Errors;
 import com.akartkam.inShop.domain.product.Product;
 import com.akartkam.inShop.domain.product.Sku;
 import com.akartkam.inShop.domain.product.option.ProductOption;
+import com.akartkam.inShop.domain.product.option.ProductOptionValue;
 import com.akartkam.inShop.formbean.ProductForm;
 
 
@@ -22,6 +23,7 @@ public interface ProductService {
 	ProductOption clonePOById(UUID id) throws CloneNotSupportedException;
 	Product cloneProductById(UUID id) throws CloneNotSupportedException;
 	ProductOption loadPOById(UUID id, Boolean lock);
+	ProductOptionValue loadPOVById(UUID id, Boolean lock);
 	Product loadProductById(UUID id, Boolean lock);
 	void softDeletePOById(UUID id);
 	void deletePO(ProductOption po);

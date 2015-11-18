@@ -73,6 +73,8 @@ public class Sku extends AbstractDomainObjectOrdering {
     private List<String> images = new ArrayList<String>();
     private Product defaultProduct;   
     private Product product;
+    //for form
+    private List<ProductOptionValue> productOptionValuesList = new ArrayList<ProductOptionValue>();
 
     @AdminPresentation(tab=EditTab.MAIN)
 	@NotEmpty
@@ -170,6 +172,7 @@ public class Sku extends AbstractDomainObjectOrdering {
 	}
 	
 	@NumberFormat(style=Style.CURRENCY)
+	@DecimalMin("0.01")	
 	@Digits(fraction = 5, integer = 14)
     @Column(name = "retail_price", precision = 19, scale = 5)	
     @AdminPresentation(tab=EditTab.MAIN)
@@ -213,8 +216,14 @@ public class Sku extends AbstractDomainObjectOrdering {
 	}
 	public void setProductOptionValues(Set<ProductOptionValue> productOptionValues) {
 		this.productOptionValues = productOptionValues;
+		this.productOptionValuesList = new ArrayList<ProductOptionValue>(productOptionValues);
 	}
 	
+	@Transient
+	public List<ProductOptionValue> getProductOptionValuesList() {
+		return productOptionValuesList;
+	}
+
 	
 	@ManyToOne
 	@JoinColumn
