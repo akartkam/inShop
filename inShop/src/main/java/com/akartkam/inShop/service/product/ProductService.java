@@ -31,6 +31,7 @@ public interface ProductService {
 	void softDeleteProductById(UUID id);
 	void deleteProduct(Product product);
 	void updatePO(ProductOption po);
+	void mergeWithExistingSkuAndUpdateOrCreate(final Sku sku, Errors errors);
 	void mergeWithExistingPOAndUpdateOrCreate(final ProductOption poFromForm, Errors errors);
 	void mergeWithExistingAndUpdateOrCreate(final ProductForm productFromPost);
 	Product generateSkusFromProduct(UUID productId);

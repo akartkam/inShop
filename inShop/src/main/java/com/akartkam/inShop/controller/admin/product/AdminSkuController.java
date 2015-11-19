@@ -235,7 +235,7 @@ public class AdminSkuController {
 	        }
 
 	        //productService.mergeWithExistingAndUpdateOrCreate(product);	       
-	        return "redirect:/admin/catalog/sku";
+           return "redirect:/admin/catalog/sku?productID="+sku.getProduct().getId();
 	    }
 	   
 	   

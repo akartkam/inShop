@@ -296,6 +296,31 @@ public class ProductServiceImpl implements ProductService {
 	}
 	
 	//Sku
+	@Override
+	public void mergeWithExistingSkuAndUpdateOrCreate(final Sku skuFromPost, Errors errors) {
+		if (skuFromPost == null) return;
+		Sku sku = getSkuById(skuFromPost.getId());
+		if (sku != null) {
+			sku.setName(skuFromPost.getName());
+			sku.setActiveEndDate(skuFromPost.getActiveEndDate());
+			sku.setActiveStartDate(skuFromPost.getActiveStartDate());
+			sku.setCode(skuFromPost.getCode());
+			sku.setCostPrice(skuFromPost.getCostPrice());
+			sku.setDescription(skuFromPost.getDescription());
+			sku.setLongDescription(skuFromPost.getLongDescription());
+			sku.setEnabled(skuFromPost.isEnabled());
+	        //Images
+			sku.getImages().clear();
+			for (String i : sku.getImages()) sku.getImages().add(i);
+			sku.setInventoryType(skuFromPost.getInventoryType());
+			sku.setOrdering(skuFromPost.getOrdering());
+			sku.set
+
+			
+		} else {
+			
+		}
+	}
 	
 	@Override
 	public Sku getSkuById(UUID id) {
