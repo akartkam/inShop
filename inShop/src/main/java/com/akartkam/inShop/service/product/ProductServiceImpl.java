@@ -299,6 +299,7 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public void mergeWithExistingSkuAndUpdateOrCreate(final Sku skuFromPost, Errors errors) {
 		if (skuFromPost == null) return;
+		if (checkSku(skuFromPost, errors)) return;
 		Sku sku = getSkuById(skuFromPost.getId());
 		if (sku != null) {
 			sku.setName(skuFromPost.getName());
@@ -314,12 +315,14 @@ public class ProductServiceImpl implements ProductService {
 			for (String i : sku.getImages()) sku.getImages().add(i);
 			sku.setInventoryType(skuFromPost.getInventoryType());
 			sku.setOrdering(skuFromPost.getOrdering());
-			sku.set
-
 			
 		} else {
 			
 		}
+	}
+	
+	private boolean checkSku(final Sku skuFromPost, Errors errors) {
+		return true;
 	}
 	
 	@Override
