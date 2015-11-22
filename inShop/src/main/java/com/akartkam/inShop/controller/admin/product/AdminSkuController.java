@@ -108,7 +108,7 @@ public class AdminSkuController {
 	  @InitBinder
 	  public void initBinder(WebDataBinder binder) {
 			binder.setAllowedFields(new String[] { "*id", "*name", "url", "*description", "*longDescription", 
-					 							   "*code", "ordering", "*images*", "enabled", "*retailPrice", 
+					 							   "*code", "ordering", "*images*", "enabled", "*retailPrice", "productOptionValuesList*", 
 					 							   "*salePrice", "*costPrice", "*activeStartDate", "*activeEndDate"});
 			binder.registerCustomEditor(UUID.class, "id", new PropertyEditorSupport() {
 			    @Override
@@ -228,13 +228,13 @@ public class AdminSkuController {
 				   			   final BindingResult bindingResult,
 			                   final RedirectAttributes ra
 			                         ) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
+		   productService.mergeWithExistingSkuAndUpdateOrCreate(sku, bindingResult);
 		   if (bindingResult.hasErrors()) {
 	        	ra.addFlashAttribute("sku", sku);
 	        	ra.addFlashAttribute("org.springframework.validation.BindingResult.sku", bindingResult);
 	            return "redirect:/admin/catalog/sku/edit?ID="+sku.getId();
 	        }
-
-	        //productService.mergeWithExistingAndUpdateOrCreate(product);	       
+	       
            return "redirect:/admin/catalog/sku?productID="+sku.getProduct().getId();
 	    }
 	   

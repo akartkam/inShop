@@ -220,6 +220,7 @@ public class Sku extends AbstractDomainObjectOrdering {
 	}
 	
 	@Transient
+	@AdminPresentation(tab=EditTab.ADDITIONAL)
 	public List<ProductOptionValue> getProductOptionValuesList() {
 		return productOptionValuesList;
 	}

@@ -27,12 +27,13 @@ public class AdminRequestMappingAspect {
 	}
 	
 	public Object setEditTab(ProceedingJoinPoint pjp) throws Throwable {
+		Object ret = pjp.proceed();
 		PropertyDescriptor fpd = null;
 		BindingResult errors = getParam(pjp.getArgs(), BindingResult.class);
 		RedirectAttributes ra = getParam(pjp.getArgs(), RedirectAttributes.class);
 		if (errors == null || ra == null) {
 			ra.addFlashAttribute("tabactive", EditTab.MAIN.getName().toLowerCase());
-			return pjp.proceed();
+			return ret;
 		}
 		List<AdminPresentation> et = new ArrayList<AdminPresentation>();
 		Class<?> tclass = errors.getTarget().getClass();
@@ -69,7 +70,7 @@ public class AdminRequestMappingAspect {
 		} else {
 			ra.addFlashAttribute("tabactive", EditTab.MAIN.getName().toLowerCase());
 		}
-		return pjp.proceed();
+		return ret;
 	}
 	
 	

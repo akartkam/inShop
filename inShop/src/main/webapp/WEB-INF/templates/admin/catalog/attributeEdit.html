@@ -38,16 +38,16 @@
 					</ul>                                 
                   </div>
 	               <ul class="nav nav-tabs">
-	                    <li class="active"><a href="#main" data-toggle="tab" th:text="#{admin.edit.tab.description}">Описание</a>
+	                    <li th:class="${tabactive=='main'}? 'in active'"><a href="#main" data-toggle="tab" th:text="#{admin.edit.tab.description}">Описание</a>
 	                    </li>
-	                    <li><a href="#additional" data-toggle="tab" th:text="#{admin.edit.tab.params}">Параметры</a>
+	                    <li th:class="${tabactive=='additional'}? 'in active'"><a href="#additional" data-toggle="tab" th:text="#{admin.edit.tab.params}">Параметры</a>
 	                    </li>
-	                    	<li><a href="#content" data-toggle="tab" th:text="#{admin.edit.tab.content}">Содержание</a>
+	                    <li th:class="${tabactive=='content'}? 'in active'"><a href="#content" data-toggle="tab" th:text="#{admin.edit.tab.content}">Содержание</a>
 	                    </li>
 	                </ul>
 	                <!-- Tab panes -->
 	                <div class="tab-content">
-	                    <div class="tab-pane fade in active" id="main">
+	                    <div class="tab-pane fade" th:classappend="${tabactive=='main'}? 'in active'" id="main">
 						    <div class="field-box" th:class="${#fields.hasErrors('name')}? has-error: field-box">
 							  <input type="hidden" th:field="*{id}"/>	                              
 				    		  <label>
@@ -71,7 +71,7 @@
                               </div>							     
 						    </div>	 
 	             		</div>
-	                    <div class="tab-pane fade" id="additional">
+	                    <div class="tab-pane fade" th:classappend="${tabactive=='additional'}? 'in active'" id="additional">
 	                       <div class="field-box">
 	                          <label>
 						  	    	<span th:text="#{admin.catalog.attribute.edit.attributeCategory}">Attribute category</span>
@@ -95,7 +95,7 @@
 							 </label>
 						   </div>	 
 	                    </div>
-	                    <div class="tab-pane fade" id="content">
+	                    <div class="tab-pane fade" th:classappend="${tabactive=='content'}? 'in active'" id="content">
 	                       <div class="field-box" th:class="${#fields.hasErrors('items')}? has-error: field-box" th:if="${attribute.new || #strings.contains(attribute.attributeType.name,'LIST')}">
 	 			    		  <label>
 					    	  	<span th:text="#{admin.catalog.attribute.edit.items}">Items</span>

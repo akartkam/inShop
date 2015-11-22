@@ -32,6 +32,7 @@ import com.akartkam.inShop.domain.product.Sku;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttributeValue;
 import com.akartkam.inShop.domain.product.option.ProductOption;
 import com.akartkam.inShop.domain.product.option.ProductOptionValue;
+import com.akartkam.inShop.exception.ProductNotFoundException;
 import com.akartkam.inShop.formbean.ProductForm;
 import com.akartkam.inShop.util.NullAwareBeanUtilsBean;
 
@@ -299,7 +300,7 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public void mergeWithExistingSkuAndUpdateOrCreate(final Sku skuFromPost, Errors errors) {
 		if (skuFromPost == null) return;
-		if (checkSku(skuFromPost, errors)) return;
+		if (!checkSku(skuFromPost, errors)) return;
 		Sku sku = getSkuById(skuFromPost.getId());
 		if (sku != null) {
 			sku.setName(skuFromPost.getName());
@@ -322,7 +323,18 @@ public class ProductServiceImpl implements ProductService {
 	}
 	
 	private boolean checkSku(final Sku skuFromPost, Errors errors) {
-		return true;
+		Product product = getProductById(skuFromPost.getProduct().getId());
+		if (product == null) {
+			LOG.error("Product "+skuFromPost.getProduct().getId()+" not found!");
+			throw new ProductNotFoundException("Product "+skuFromPost.getProduct().getId()+" not found!");
+		}
+		for (Sku lsku : product.getAdditionalSku()) {
+			if (lsku.equals(skuFromPost)) continue;
+			if (isSamePermutation(lsku.getProductOptionValuesList() , skuFromPost.getProductOptionValuesList())) {
+				errors.rejectValue("productOptionValuesList", "error.duplicate.optionValue");
+			}
+		}
+		return !errors.hasErrors();
 	}
 	
 	@Override

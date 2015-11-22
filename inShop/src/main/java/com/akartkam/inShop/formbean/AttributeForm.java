@@ -7,6 +7,8 @@ import java.util.Set;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
 import com.akartkam.inShop.domain.product.attribute.AttributeType;
 import com.akartkam.inShop.domain.product.attribute.Selectable;
+import com.akartkam.inShop.presentation.admin.AdminPresentation;
+import com.akartkam.inShop.presentation.admin.EditTab;
 
 public class AttributeForm extends AbstractAttribute {
 	
@@ -19,7 +21,7 @@ public class AttributeForm extends AbstractAttribute {
 
 	public AttributeForm() {};
 		
-
+	@AdminPresentation(tab=EditTab.CONTENT)
     public Set<String> getItems() {
 		return items;
 	}
