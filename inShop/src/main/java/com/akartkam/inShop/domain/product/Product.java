@@ -56,7 +56,9 @@ public class Product extends AbstractDomainObjectOrdering {
     private List<Sku> additionalSku = new ArrayList<Sku>();	
     private Set<ProductOption> productOptions = new HashSet<ProductOption>();
     private boolean canSellWithoutOptions = true;
-	
+	//for Form
+    private List<ProductOption> productOptionsList = new ArrayList<ProductOption>();
+    
 	@Column(name = "can_sell_without_options")
 	public boolean isCanSellWithoutOptions() {
 		return canSellWithoutOptions;

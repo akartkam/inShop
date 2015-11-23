@@ -175,10 +175,10 @@
 			                       	 		</tr>
 			                       	 	</thead>
 								  	    <tbody>
-								  	        <tr th:each="po, poStat : ${product.productOptions}">
+								  	        <tr th:each="po, poStat : ${sku.product.productOptions}">
 								  	       	  <td>
 								  	       	    <span th:text="${po.name}"></span>
-<!-- 								  	       	    <input type="hidden" th:name="attributeValues[__${avStat.index}__]" th:value="${product.attributeValues[__${avStat.index}__].attribute.attributeType+'_'+product.attributeValues[__${avStat.index}__].id}"/> -->
+								  	       	    <input type="hidden" th:field="*{product.productOptions[__${poStat.index}__].id}"/>
 								  	       	  </td>
 								  	       	  <td>
 <!-- 												<input type="hidden" th:field="*{attributeValues[__${avStat.index}__].id}"/> -->
