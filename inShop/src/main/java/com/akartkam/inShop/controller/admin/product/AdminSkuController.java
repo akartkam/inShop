@@ -164,16 +164,22 @@ public class AdminSkuController {
 	  @RequestMapping("/edit")
 	  public String productEdit(@RequestParam(value = "ID", required = false) String ID, Model model,
 			   				    @RequestHeader(value = "X-Requested-With", required = false) String requestedWith) throws ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException {
-
-		  
+		  Sku sku = null;
 		  if(!model.containsAttribute("sku")) {
 			  if ("".equals(ID)) {
 				  LOG.error("ID Sku is empty.");
 				  throw new ProductNotFoundException("ID Sku is empty.");
 			  }
-		      Sku sku = productService.getSkuById(UUID.fromString(ID)); 
+		      sku = productService.getSkuById(UUID.fromString(ID));
+			  if (sku == null) {
+				  LOG.error("Sku ID="+ID+" not found!");
+				  throw new ProductNotFoundException("Sku ID="+ID+" not found!");
+			  }		      
 		      model.addAttribute("sku", sku);
 		  }
+		  if (sku == null) sku = (Sku) model.asMap().get("sku"); 
+		  Product product = productService.getProductById(sku.getProduct().getId());
+	      model.addAttribute("product", product);		  
           if ("XMLHttpRequest".equals(requestedWith)) {
               return "/admin/catalog/skuEdit :: editSkuForm";
             }		  
