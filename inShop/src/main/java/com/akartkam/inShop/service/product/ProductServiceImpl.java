@@ -348,6 +348,26 @@ public class ProductServiceImpl implements ProductService {
 		Sku sku = getSkuById(id);
 		if (sku == null) return null;
 		return sku.clone();
+	}
+	
+	@Override
+	public Sku loadSkuById(UUID id, Boolean lock) {
+		return skuDAO.findById(id, lock);
+	}
+	
+	@Override
+	@Transactional(readOnly = false)
+	public void softDeleteSkuById(UUID id) {
+		Sku sku = getSkuById(id);
+		if (sku != null) {
+			sku.setEnabled(false);
+		}
+	}
+	
+	@Override
+	@Transactional(readOnly = false)
+	public void deleteSku(Sku sku) {
+		skuDAO.delete(sku);
 	}	
 		
 	@Override

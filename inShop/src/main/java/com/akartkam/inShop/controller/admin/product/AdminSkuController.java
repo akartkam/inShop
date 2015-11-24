@@ -144,6 +144,7 @@ public class AdminSkuController {
 	  public String productEdit(@RequestParam(value = "ID", required = false) String ID, Model model,
 			   				    @RequestHeader(value = "X-Requested-With", required = false) String requestedWith) throws ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException {
 		  Sku sku = null;
+		  Product product = null;
 		  if(!model.containsAttribute("sku")) {
 			  if ("".equals(ID)) {
 				  LOG.error("ID Sku is empty.");
@@ -155,9 +156,12 @@ public class AdminSkuController {
 				  throw new ProductNotFoundException("Sku ID="+ID+" not found!");
 			  }		      
 		      model.addAttribute("sku", sku);
+		      product = sku.getProduct();
 		  }
-		  if (sku == null) sku = (Sku) model.asMap().get("sku"); 
-		  Product product = productService.getProductById(sku.getProduct().getId());
+		  if (product == null) {
+			  sku = (Sku) model.asMap().get("sku");
+			  product = productService.getProductById(sku.getProduct().getId());
+		  }
 	      model.addAttribute("product", product);		  
           if ("XMLHttpRequest".equals(requestedWith)) {
               return "/admin/catalog/skuEdit :: editSkuForm";
@@ -181,6 +185,7 @@ public class AdminSkuController {
 			  }
 		  }		  
  	      model.addAttribute("sku", sku);
+	      model.addAttribute("product", sku.getProduct()); 	      
           if ("XMLHttpRequest".equals(requestedWith)) {
               return "/admin/catalog/skuEdit :: editSkuForm";
             } 	      
@@ -192,19 +197,19 @@ public class AdminSkuController {
 			                       @RequestParam(value = "phisycalDelete", required = false) Boolean phisycalDelete,
 				                   final RedirectAttributes ra) {
 		  Collection<? extends GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+		  Sku sku = productService.loadSkuById(UUID.fromString(ID), false);
 		  if (phisycalDelete != null && phisycalDelete)  {
-			  Product product = productService.loadProductById(UUID.fromString(ID), false);
-			  if(product.canRemove() && authorities.contains(new SimpleGrantedAuthority("ADMIN"))) {
-				  productService.deleteProduct(product);   
+			  if(sku.canRemove() && authorities.contains(new SimpleGrantedAuthority("ADMIN"))) {
+				  productService.deleteSku(sku);   
 			  } else {
-				  ra.addFlashAttribute("errormessage", this.messageSource.getMessage("admin.error.cannotdelete.message", new String[] {"пїЅпїЅпїЅпїЅпїЅ"} , Locale.getDefault()));
+				  ra.addFlashAttribute("errormessage", this.messageSource.getMessage("admin.error.cannotdelete.message", new String[] {"вариант товара"} , Locale.getDefault()));
 				  ra.addAttribute("error", true);
 			  }
 
 		  } else {
-			  productService.softDeleteProductById(UUID.fromString(ID));
+			  productService.softDeleteSkuById(UUID.fromString(ID));
 		  }
-          return "redirect:/admin/catalog/product";		  
+          return "redirect:/admin/catalog/sku?productID="+sku.getProduct().getId();		  
 		  }
 	
 	   @RequestMapping(value="/edit", method = RequestMethod.POST )
