@@ -175,18 +175,18 @@
 			                       	 		</tr>
 			                       	 	</thead>
 								  	    <tbody>
-								  	        <tr th:each="po, poStat : ${sku.product.productOptions}">
+								  	        <tr th:each="po, poStat : ${sku.product.productOptionsList}">
 								  	       	  <td>
 								  	       	    <span th:text="${po.name}"></span>
-								  	       	    <input type="hidden" th:field="*{product.productOptions[__${poStat.index}__].id}"/>
+								  	       	    <input type="hidden" th:field="*{product.productOptionsList[__${poStat.index}__].id}"/>
 								  	       	  </td>
 								  	       	  <td>
-<!-- 												<input type="hidden" th:field="*{attributeValues[__${avStat.index}__].id}"/> -->
+			  	       	    				    <input type="hidden" th:each="pov, povStat: ${po.productOptionValues}" th:field="*{product.productOptionsList[__${poStat.index}__].productOptionValues[__${povStat.index}__].id}"/>
 												<select class="form-control" th:name="productOptionValuesList[__${poStat.index}__]">
 												        <option value="">&nbsp;</option>
-													    <option th:each="pov: ${po.productOptionValues}" th:text="${pov.optionValue}"
+													    <option th:each="pov, povStat: ${po.productOptionValues}" th:text="${pov.optionValue}"
 													            th:selected="${pov.equals(sku.getProductOptionValueByPO(po))}"
-													            th:value="${pov.id}">
+													            th:value="${pov.id}">  
 													    </option>      
 												</select>								  	       	  	
 								  	       	  </td>
