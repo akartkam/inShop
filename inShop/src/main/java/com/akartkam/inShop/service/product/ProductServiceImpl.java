@@ -299,6 +299,7 @@ public class ProductServiceImpl implements ProductService {
 	
 	//Sku
 	@Override
+	@Transactional(readOnly = false)
 	public void mergeWithExistingSkuAndUpdateOrCreate(final Sku skuFromPost, Errors errors) {
 		if (skuFromPost == null) return;
 		if (!checkSku(skuFromPost, errors)) return;
@@ -309,12 +310,13 @@ public class ProductServiceImpl implements ProductService {
 			sku.setActiveStartDate(skuFromPost.getActiveStartDate());
 			sku.setCode(skuFromPost.getCode());
 			sku.setCostPrice(skuFromPost.getCostPrice());
+			sku.setRetailPrice(skuFromPost.getRetailPrice());
 			sku.setDescription(skuFromPost.getDescription());
 			sku.setLongDescription(skuFromPost.getLongDescription());
 			sku.setEnabled(skuFromPost.isEnabled());
 	        //Images
 			sku.getImages().clear();
-			for (String i : sku.getImages()) sku.getImages().add(i);
+			for (String i : skuFromPost.getImages()) sku.getImages().add(i);
 			sku.setInventoryType(skuFromPost.getInventoryType());
 			sku.setOrdering(skuFromPost.getOrdering());
 			
@@ -430,14 +432,14 @@ public class ProductServiceImpl implements ProductService {
             Collection<UUID> perm1Ids = CollectionUtils.collect(perm1, new Transformer<ProductOptionValue, UUID>() {
                 @Override
                 public UUID transform(ProductOptionValue input) {
-                    return ((ProductOptionValue) input).getId();
+                    return input != null?((ProductOptionValue) input).getId(): null;
                 }
             });
             
             Collection<UUID> perm2Ids = CollectionUtils.collect(perm2, new Transformer<ProductOptionValue, UUID>() {
                 @Override
                 public UUID transform(ProductOptionValue input) {
-                    return ((ProductOptionValue) input).getId();
+                    return  input != null? ((ProductOptionValue) input).getId(): null;
                 }
             });
             
