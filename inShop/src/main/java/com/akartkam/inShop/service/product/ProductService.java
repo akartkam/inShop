@@ -19,6 +19,7 @@ public interface ProductService {
 	List<ProductOption> getAllPO();
 	List<Product> getAllProduct();
 	Product getProductById(UUID id);
+	ProductOptionValue getPOVById(UUID id);
 	ProductOption getPOById(UUID id);
 	ProductOption clonePOById(UUID id) throws CloneNotSupportedException;
 	Product cloneProductById(UUID id) throws CloneNotSupportedException;

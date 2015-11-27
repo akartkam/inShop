@@ -247,7 +247,9 @@ public class Sku extends AbstractDomainObjectOrdering {
 	@Transient
 	public ProductOptionValue getProductOptionValueByPO(ProductOption po) {
 		for (ProductOptionValue pov: getProductOptionValuesList()) {
-			if (pov.getProductOption().equals(po)) return pov; 
+			if (pov == null) continue;
+			ProductOption poc = pov.getProductOption();
+			if (poc != null && poc.equals(po)) return pov; 
 		}
 		return null;
 	}

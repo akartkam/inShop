@@ -107,16 +107,7 @@ public class AdminSkuController {
 
 			binder.registerCustomEditor(java.util.Date.class,"activeStartDate", pe);
 			binder.registerCustomEditor(java.util.Date.class,"activeEndDate", pe);
-			
-			binder.registerCustomEditor(ProductOptionValue.class,"productOptionValuesList", new PropertyEditorSupport() {
-			    @Override
-			    public void setAsText(String text) {
-			    	if (!"".equals(text)) {
-			    		ProductOptionValue pov = productService.loadPOVById(UUID.fromString(text), false);			    		
-			            setValue(pov);
-			    	}			    
-			    }
-			    });	
+				
 			binder.registerCustomEditor(ProductOption.class,"productOptions", new PropertyEditorSupport() {
 			    @Override
 			    public void setAsText(String text) {
@@ -127,6 +118,15 @@ public class AdminSkuController {
 			    }
 			    });				
 			
+			binder.registerCustomEditor(ProductOptionValue.class,"productOptionValuesList", new PropertyEditorSupport() {
+			    @Override
+			    public void setAsText(String text) {
+			    	if (!"".equals(text)) {
+			    		ProductOptionValue pov = productService.getPOVById(UUID.fromString(text));			    		
+			            setValue(pov);
+			    	}			    
+			    }
+			    });			
 	  
 	  }
 
@@ -202,7 +202,7 @@ public class AdminSkuController {
 			  if(sku.canRemove() && authorities.contains(new SimpleGrantedAuthority("ADMIN"))) {
 				  productService.deleteSku(sku);   
 			  } else {
-				  ra.addFlashAttribute("errormessage", this.messageSource.getMessage("admin.error.cannotdelete.message", new String[] {"вариант товара"} , Locale.getDefault()));
+				  ra.addFlashAttribute("errormessage", this.messageSource.getMessage("admin.error.cannotdelete.message", new String[] {"пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ"} , Locale.getDefault()));
 				  ra.addAttribute("error", true);
 			  }
 

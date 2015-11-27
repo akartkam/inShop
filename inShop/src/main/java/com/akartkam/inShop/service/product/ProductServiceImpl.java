@@ -83,6 +83,12 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
+	public ProductOptionValue getPOVById(UUID id) {
+		return productOptionValueDAO.get(id);
+	}
+
+	
+	@Override
 	public ProductOption clonePOById(UUID id) throws CloneNotSupportedException {
 		ProductOption clonedPO = getPOById(id);
 		if (clonedPO == null) return null;
