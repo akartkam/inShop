@@ -70,7 +70,12 @@ public class ProductServiceImpl implements ProductService {
 	public Product createProduct(Product product) {
 		return productDAO.create(product);
 	}	
-	
+
+	@Override
+	@Transactional(readOnly = false)
+	public Sku createSku(Sku sku) {
+		return skuDAO.create(sku);
+	}
 
 	@Override
 	public List<ProductOption> getAllPO() {
@@ -292,13 +297,16 @@ public class ProductServiceImpl implements ProductService {
 			productFromPost.setProductStatusFromList();
 			productFromPost.setProductOptionFromList();
 			Product product = new Product();
+			Sku sku = new Sku();
 			BeanUtilsBean bu = new NullAwareBeanUtilsBean();
 			try {
 				bu.copyProperties(product, productFromPost);
+				bu.copyProperties(sku, productFromPost.getDefaultSku());
 			} catch (IllegalAccessException | InvocationTargetException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			product.setDefaultSku(sku);
 	        createProduct(product);
 		}
 	}
@@ -320,6 +328,8 @@ public class ProductServiceImpl implements ProductService {
 			sku.setDescription(skuFromPost.getDescription());
 			sku.setLongDescription(skuFromPost.getLongDescription());
 			sku.setEnabled(skuFromPost.isEnabled());
+			sku.setActiveStartDate(skuFromPost.getActiveStartDate());
+			sku.setActiveEndDate(skuFromPost.getActiveEndDate());
 	        //Images
 			sku.getImages().clear();
 			for (String i : skuFromPost.getImages()) sku.getImages().add(i);
@@ -327,7 +337,7 @@ public class ProductServiceImpl implements ProductService {
 			sku.setOrdering(skuFromPost.getOrdering());
 			
 		} else {
-			
+			createSku(skuFromPost);
 		}
 	}
 	

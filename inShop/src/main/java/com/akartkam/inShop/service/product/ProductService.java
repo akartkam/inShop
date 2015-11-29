@@ -16,6 +16,7 @@ import com.akartkam.inShop.formbean.ProductForm;
 public interface ProductService {
 	ProductOption createPO(ProductOption po);
 	Product createProduct(Product product);
+	Sku createSku(Sku sku);
 	List<ProductOption> getAllPO();
 	List<Product> getAllProduct();
 	Product getProductById(UUID id);

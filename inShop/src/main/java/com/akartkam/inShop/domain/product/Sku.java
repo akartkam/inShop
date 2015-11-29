@@ -35,6 +35,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.Index;
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -53,6 +54,7 @@ import com.akartkam.inShop.presentation.admin.EditTab;
 
 @Entity
 @Table(name = "sku")
+@DynamicUpdate
 public class Sku extends AbstractDomainObjectOrdering {
 	private static final Log LOG = LogFactory.getLog(Sku.class);
 	/**
