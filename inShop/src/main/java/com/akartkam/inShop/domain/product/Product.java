@@ -106,6 +106,10 @@ public class Product extends AbstractDomainObjectOrdering {
 	public void setModel(String model) {
 		this.model = model;
 	}
+	
+	public boolean canRemove() {
+		return additionalSku.isEmpty();
+	};
 		
 	@OneToMany(mappedBy="product", cascade = CascadeType.ALL, orphanRemoval=true)
 	@Cascade(org.hibernate.annotations.CascadeType.ALL)
