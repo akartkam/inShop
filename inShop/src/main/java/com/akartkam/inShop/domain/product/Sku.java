@@ -37,6 +37,7 @@ import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.Index;
+import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -54,7 +55,6 @@ import com.akartkam.inShop.presentation.admin.EditTab;
 
 @Entity
 @Table(name = "sku")
-@DynamicUpdate
 public class Sku extends AbstractDomainObjectOrdering {
 	private static final Log LOG = LogFactory.getLog(Sku.class);
 	/**

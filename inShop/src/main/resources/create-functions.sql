@@ -50,3 +50,32 @@ $BODY$
   COST 100;
 ALTER FUNCTION del_product(character varying)
   OWNER TO postgres;
+  
+-- Function: sku_before_del()
+
+-- DROP FUNCTION sku_before_del();
+
+CREATE OR REPLACE FUNCTION sku_before_del()
+  RETURNS trigger AS
+$BODY$
+BEGIN 
+  IF (OLD.default_product_id IS NOT NULL) THEN
+    UPDATE product SET default_sku_id = NULL WHERE id = OLD.default_product_id;
+  END IF;
+  RETURN OLD;
+END; 
+ $BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION sku_before_del()
+  OWNER TO postgres;
+  
+-- Trigger: before_del on sku
+
+-- DROP TRIGGER before_del ON sku;
+
+CREATE TRIGGER before_del
+  BEFORE DELETE
+  ON sku
+  FOR EACH ROW
+  EXECUTE PROCEDURE sku_before_del();  

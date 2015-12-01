@@ -292,10 +292,11 @@ public class AdminProductController {
 		  Collection<? extends GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
 		  if (phisycalDelete != null && phisycalDelete)  {
 			  Product product = productService.loadProductById(UUID.fromString(ID), false);
-			  if(product.canRemove() && authorities.contains(new SimpleGrantedAuthority("ADMIN"))) {
+			  if(product.canRemove() && authorities.contains(new SimpleGrantedAuthority("ADMIN"))) { 
 				  productService.deleteProduct(product);   
 			  } else {
-				  ra.addFlashAttribute("errormessage", this.messageSource.getMessage("admin.error.cannotdelete.message", new String[] {"товар"} , Locale.getDefault()));
+				  ra.addFlashAttribute("errormessage", this.messageSource.getMessage("admin.error.cannotdelete.message", 
+						  new String[] {messageSource.getMessage("admin.catalog.product", null, Locale.getDefault())} , Locale.getDefault()));
 				  ra.addAttribute("error", true);
 			  }
 
