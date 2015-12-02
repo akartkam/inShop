@@ -59,7 +59,7 @@
 	<root>
 <!-- 		<priority value="warn" /> -->
 <!-- 		<appender-ref ref="console" /> -->
-		<level value="DEBUG" />
+		<level value="INFO" />
 		<appender-ref ref="console" />
 		<appender-ref ref="file" />
 	</root>
