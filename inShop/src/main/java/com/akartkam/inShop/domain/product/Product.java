@@ -180,9 +180,9 @@ public class Product extends AbstractDomainObjectOrdering {
     }
     
     @Valid
-    @OneToOne(cascade={CascadeType.ALL}, mappedBy="defaultProduct", orphanRemoval=true)
+    @OneToOne(cascade={CascadeType.ALL})
     @Cascade(value={org.hibernate.annotations.CascadeType.ALL})
-    @JoinColumn(name = "default_sku_id")
+    @JoinColumn(name="default_sku_id")
 	public Sku getDefaultSku() {
 		return defaultSku;
 	}

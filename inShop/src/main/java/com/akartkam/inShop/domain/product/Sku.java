@@ -237,8 +237,8 @@ public class Sku extends AbstractDomainObjectOrdering {
 		this.product = product;
 	}
 	
-    @OneToOne(optional = true)
-    @JoinColumn(name = "default_product_id")
+    @OneToOne(optional = true, mappedBy="defaultSku")
+    //@JoinColumn(name = "default_product_id")
 	public Product getDefaultProduct() {
 		return defaultProduct;
 	}
