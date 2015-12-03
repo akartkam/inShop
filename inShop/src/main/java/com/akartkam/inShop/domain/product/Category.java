@@ -97,7 +97,7 @@ public class Category extends AbstractDomainObjectOrdering {
 		this.url = url;
 	}
 	
-	@OneToMany(mappedBy="parent", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy="parent", cascade = CascadeType.ALL, orphanRemoval=true)
 	@Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE,
 			  org.hibernate.annotations.CascadeType.DELETE})
 	@OrderBy("ordering")
@@ -225,6 +225,11 @@ public class Category extends AbstractDomainObjectOrdering {
 		return !subCategory.isEmpty(); 
 	}
 	
+	@Transient
+	public boolean hasParentCategory() {
+		return parent != null; 
+	}
+
 	@Transient
 	public List<Product> getAllProducts(List<Product> currentHierarchy) {
         if (currentHierarchy == null) {

@@ -147,10 +147,11 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	@Transactional(readOnly = false)
 	public void deleteCategory(Category category) {
-		Category pcategory = category.getParent();
-		if (pcategory != null) {
-			pcategory.getSubCategory().remove(category);
-			categoryDAO.update(pcategory);
+		if (category.hasParentCategory()) {
+			Category pcategory = getCategoryById(category.getParent().getId());
+			if (pcategory != null) {
+				pcategory.getSubCategory().remove(category);
+			}
 		} else {
 			categoryDAO.delete(category);
 		}

@@ -6,6 +6,7 @@ import java.beans.PropertyEditorSupport;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
 import javax.validation.Valid;
@@ -150,7 +151,8 @@ public class AdminCategoryController {
 			  if(category.canRemove() && authorities.contains(new SimpleGrantedAuthority("ADMIN"))) {
 				  categoryService.deleteCategory(category);   
 			  } else {
-				  ra.addFlashAttribute("errormessage", this.messageSource.getMessage("admin.error.cannotdelete.message", new String[] {"���������"} , null));
+				  ra.addFlashAttribute("errormessage", this.messageSource.getMessage("admin.error.cannotdelete.message", 
+						            new String[] {messageSource.getMessage("admin.catalog.category", null, Locale.getDefault())} , null));
 				  ra.addAttribute("error", true);
 			  }
 

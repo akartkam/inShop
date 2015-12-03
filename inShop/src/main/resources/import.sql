@@ -8,6 +8,13 @@ SELECT '0b90130d-2c19-4001-b61a-ef100d7b950e', 'akartkam','Artur','Akchurin', 'K
 '0b90130d-2c19-4001-b61a-ef100d7b950e', Now(), 0
 WHERE NOT EXISTS (SELECT id FROM account a WHERE a.id='0b90130d-2c19-4001-b61a-ef100d7b950e');
 
+INSERT INTO account (id, username, first_name, last_name, middle_name, password, email, enabled, createby, createddate, version) 
+SELECT '702902f5-349d-44a6-abe8-e0f34fb9d239', 'alien','Unknown','Unknown', 'Unknown',
+'$2a$10$x9u7rEEjbQinwmzC5CI6wOnCd4ei.bxQHhtCLrxuw06ThNwYkd5NS', 'lapkinav@gmail.com', true,
+'702902f5-349d-44a6-abe8-e0f34fb9d239', Now(), 0
+WHERE NOT EXISTS (SELECT id FROM account a WHERE a.id='702902f5-349d-44a6-abe8-e0f34fb9d239');
+
+
 INSERT INTO role (id, name, role, enabled, createby, createddate, version) 
 SELECT '53a5c8ce-4f56-4c79-acb3-e47d76e580df', 'Admin','ADMIN',true, '0b90130d-2c19-4001-b61a-ef100d7b950e', Now(), 0
 WHERE NOT EXISTS (SELECT id FROM role a WHERE a.id='53a5c8ce-4f56-4c79-acb3-e47d76e580df');

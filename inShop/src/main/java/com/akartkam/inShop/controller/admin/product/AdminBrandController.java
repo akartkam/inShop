@@ -149,8 +149,9 @@ public class AdminBrandController {
 	        String filePath="";
 	        imageUtil.validateImage(image, "logoUrl", bindingResult);
 	        if(!bindingResult.hasErrors()) {
-		        fileName = new File(image.getOriginalFilename()).getName(); 
-		        filePath = imagePath + "\\" + fileName;
+		        fileName = new File(image.getOriginalFilename()).getName();
+		        if(!imagePath.endsWith("\\")) imagePath = imagePath + "\\";
+		        filePath = imagePath + fileName;
 	        	imageUtil.saveImage(filePath, image);		        
 		        brand.setLogoUrl(imageUrl+fileName);
 	        }
