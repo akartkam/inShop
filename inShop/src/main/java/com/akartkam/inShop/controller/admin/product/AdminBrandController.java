@@ -150,7 +150,6 @@ public class AdminBrandController {
 	        imageUtil.validateImage(image, "logoUrl", bindingResult);
 	        if(!bindingResult.hasErrors()) {
 		        fileName = new File(image.getOriginalFilename()).getName();
-		        if(!imagePath.endsWith("\\")) imagePath = imagePath + "\\";
 		        filePath = imagePath + fileName;
 	        	imageUtil.saveImage(filePath, image);		        
 		        brand.setLogoUrl(imageUrl+fileName);

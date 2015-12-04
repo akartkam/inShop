@@ -44,10 +44,10 @@
                         <form th:action="@{/login_post.htm}" method="post" role="form">
                             <fieldset>
                                 <div class="form-group" th:class="${param.error} ? 'form-group has-error' : 'form-group'">
-                                    <input class="form-control" placeholder="Username" name="j_username" type="text" autofocus = "autofocus" th:placeholder="#{login.login}" value="akartkam"/>
+                                    <input class="form-control" placeholder="Username" name="j_username" type="text" autofocus = "autofocus" th:placeholder="#{login.login}"/>
                                 </div>
                                 <div class="form-group" th:class="${param.error} ? 'form-group has-error' : 'form-group'">
-                                    <input class="form-control" placeholder="Password" name="j_password" type="password" value="123456" th:placeholder="#{login.password}"/>
+                                    <input class="form-control" placeholder="Password" name="j_password" type="password" th:placeholder="#{login.password}"/>
                                 </div>
                                 <div class="checkbox">
                                     <label>

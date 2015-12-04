@@ -3,6 +3,8 @@ package com.akartkam.inShop.formbean;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+
+import com.akartkam.inShop.domain.product.Category;
 import com.akartkam.inShop.domain.product.Product;
 import com.akartkam.inShop.domain.product.ProductStatus;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
@@ -63,7 +65,9 @@ public class ProductForm extends Product {
 	@SuppressWarnings("rawtypes")
 	public void complementNecessaryAttributes() throws ClassNotFoundException, InstantiationException, IllegalAccessException {			 
 			 List<AbstractAttribute> at = new ArrayList<AbstractAttribute>();
-			 at = getCategory().getAllAttributes(at, true);
+			 Category ct = getCategory();
+			 if (ct == null) return;
+			 at = ct.getAllAttributes(at, true);
 			 List<AbstractAttributeValue> av = getAttributeValues();
 			 boolean needAdd;
 			 for (AbstractAttribute cat : at) {
