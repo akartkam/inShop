@@ -2,6 +2,8 @@ package com.akartkam.inShop.service;
 
 
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.security.core.context.SecurityContext;
@@ -29,10 +31,12 @@ public class AccountServiceImpl implements AccountService {
 		return valid;
 	}
 	
+	@Override
 	public Account getAccountByUsername(String username) {
 		return accountDao.findByUsername(username);
 	}
 	
+	@Override
 	public Account getCurrentAccount() {
 	    SecurityContext securityContext = SecurityContextHolder.getContext();
 	    UserDetailsAdapter springSecurityUser = (UserDetailsAdapter) securityContext.getAuthentication().getPrincipal();
@@ -44,6 +48,11 @@ public class AccountServiceImpl implements AccountService {
 			errors.rejectValue("username", "error.duplicate",
 					new String[] { username }, null);
 		}
+	}
+	
+	@Override
+	public List<Account> getAllAccount() {
+		return accountDao.list(); 
 	}
 
 }

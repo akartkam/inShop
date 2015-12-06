@@ -19,6 +19,7 @@ import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 
 import com.akartkam.inShop.controller.admin.product.AdminSkuController;

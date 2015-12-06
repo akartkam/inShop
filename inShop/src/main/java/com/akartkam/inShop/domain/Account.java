@@ -30,7 +30,7 @@ public class Account extends AbstractDomainObject {
 	 */
 	private static final long serialVersionUID = -4943474187321876921L;
 	
-	private String username, firstName, lastName, middleName, email;
+	private String username, firstName, lastName, middleName, email, phone, address;
 	private Set<Role> roles = new HashSet<Role>();
 	
 	
@@ -45,6 +45,25 @@ public class Account extends AbstractDomainObject {
 	@Size(min = 1, max = 50)
 	@Column(name = "first_name")
 	public String getFirstName() { return firstName; }
+	
+	
+	@Column(name = "phone")
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	@Column(name = "address")
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
 
 	public void setFirstName(String firstName) { this.firstName = firstName; }
 	
@@ -75,7 +94,7 @@ public class Account extends AbstractDomainObject {
 
 	public void setEmail(String email) { this.email = email; }
 	
-	
+		
 	@ManyToMany
 	@JoinTable(
 		name = "Account_role",
