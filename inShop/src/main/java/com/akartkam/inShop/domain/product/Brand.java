@@ -18,6 +18,8 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.Index;
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.SafeHtml;
+import org.hibernate.validator.constraints.SafeHtml.WhiteListType;
 
 import com.akartkam.inShop.domain.AbstractDomainObject;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
@@ -49,7 +51,8 @@ public class Brand extends AbstractDomainObject {
 		this.name = name;
 	}
 	
-    @Lob
+    @SafeHtml(whitelistType=WhiteListType.RELAXED)
+	@Lob
     @Type(type = "org.hibernate.type.TextType")
     @Column(name = "description", length = Integer.MAX_VALUE - 1)
 	public String getDescription() {

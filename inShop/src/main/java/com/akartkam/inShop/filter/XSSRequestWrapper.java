@@ -56,6 +56,13 @@ public class XSSRequestWrapper extends HttpServletRequestWrapper {
     	}
     	return parts;
     }
+    
+    @Override
+    public Part getPart(String name) throws java.io.IOException, ServletException {
+    	Part part = super.getPart(name);
+    	LOG.info(part.getName());
+    	return part;
+    }
 
 
     private String stripXSS(String value) {

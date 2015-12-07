@@ -75,6 +75,10 @@
 	    </beans:property>
 	</beans:bean>
 	
+<!-- JSR-303 validation-->
+	<beans:bean id ="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"
+        p:validationMessageSource-ref="messageSource"/>	
+	
 <!-- 	<beans:bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean"> -->
 <!-- 	    <beans:property name="formatters"> -->
 <!-- 	      <beans:set> -->
