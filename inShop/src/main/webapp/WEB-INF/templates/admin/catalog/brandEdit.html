@@ -53,26 +53,26 @@
 	                <!-- Tab panes -->
 	                <div class="tab-content">
 	                    <div class="tab-pane fade in active" id="main">
-								   <div class="field-box" th:class="${#fields.hasErrors('name')}? has-error: field-box">
-									  <input type="hidden" th:field="*{id}"/>	                              
-						    		  <label>
-							    	  	 <span th:text="#{admin.catalog.brand.edit.name}">Brand1</span>
-							   		  </label>
-							   		  <input type="text" class="form-control" th:field="*{name}"/>
-							   		  <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Incorrect name</p>
-						   		   </div>
-						   		   <div class="field-box">	                              
-						    		  <label>
-							    	  	 <span th:text="#{admin.catalog.brand.edit.url}">URL</span>
-							   		  </label>
-							   		  <input type="text" class="form-control" th:field="*{url}"/>
-						   		   </div>
-						   		   <div class="field-box">
-			 			    		   <label>
-							    	  	<span th:text="#{admin.catalog.brand.edit.description}">Description Brand1</span>
-							   		   </label>
-								       <textarea id="summernote" class="textarea form-control" placeholder="Введите текст..." th:field="*{description}"></textarea>
-		  						   </div>
+						   <div class="field-box" th:class="${#fields.hasErrors('name')}? has-error: field-box">
+							  <input type="hidden" th:field="*{id}"/>	                              
+				    		  <label>
+					    	  	 <span th:text="#{admin.catalog.brand.edit.name}">Brand1</span>
+					   		  </label>
+					   		  <input type="text" class="form-control" th:field="*{name}"/>
+					   		  <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Incorrect name</p>
+				   		   </div>
+				   		   <div class="field-box">	                              
+				    		  <label>
+					    	  	 <span th:text="#{admin.catalog.brand.edit.url}">URL</span>
+					   		  </label>
+					   		  <input type="text" class="form-control" th:field="*{url}"/>
+				   		   </div>
+				   		   <div class="field-box">
+	 			    		   <label>
+					    	  	<span th:text="#{admin.catalog.brand.edit.description}">Description Brand1</span>
+					   		   </label>
+						       <textarea id="summernote" class="textarea form-control" placeholder="Введите текст..." th:field="*{description}"></textarea>
+  						   </div>
 	             		</div>
 	                    <div class="tab-pane fade" id="additional">
 	                       <div class="field-box">

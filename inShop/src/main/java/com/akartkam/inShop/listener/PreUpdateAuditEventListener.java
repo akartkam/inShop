@@ -37,7 +37,7 @@ public class PreUpdateAuditEventListener implements PreUpdateEventListener {
 			DateTime insertDate = new DateTime(DateTimeZone.UTC);
 			String[] properties = event.getPersister().getEntityMetamodel().getPropertyNames();
 			List<String> propertyList = Arrays.asList(properties);
-			Type[] propertyTypes = event.getPersister().getEntityMetamodel().getPropertyTypes();
+/*			Type[] propertyTypes = event.getPersister().getEntityMetamodel().getPropertyTypes();
 			for (int i = 0; i<propertyTypes.length; i++) {
 				if (propertyTypes[i] instanceof org.hibernate.type.TextType ) {
 					String ld = (String) event.getState()[i];
@@ -52,6 +52,7 @@ public class PreUpdateAuditEventListener implements PreUpdateEventListener {
 					}
 				}
 			}
+*/			
 			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 			event.getState()[propertyList.indexOf("updatedDate")] = insertDate;
 			event.getState()[propertyList.indexOf("updatedBy")] = ((UserDetailsAdapter) authentication.getPrincipal()).getAccount();

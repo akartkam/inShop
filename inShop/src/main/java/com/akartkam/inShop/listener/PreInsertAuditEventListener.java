@@ -39,7 +39,7 @@ public class PreInsertAuditEventListener implements PreInsertEventListener {
 			DateTime insertDate = new DateTime(DateTimeZone.UTC);
 			String[] properties = event.getPersister().getEntityMetamodel().getPropertyNames();
 			List<String> propertyList = Arrays.asList(properties);
-			Type[] propertyTypes = event.getPersister().getEntityMetamodel().getPropertyTypes();
+/*			Type[] propertyTypes = event.getPersister().getEntityMetamodel().getPropertyTypes();
 			for (int i = 0; i<propertyTypes.length; i++) {
 				if (propertyTypes[i] instanceof org.hibernate.type.TextType ) {
 					String ld = (String) event.getState()[i];
@@ -53,7 +53,8 @@ public class PreInsertAuditEventListener implements PreInsertEventListener {
 						LOG.error(e.getMessage());
 					}
 				}
-			}			
+			}
+*/			
 			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 			event.getState()[propertyList.indexOf("createdDate")] = insertDate;
 			event.getState()[propertyList.indexOf("createdBy")] = ((UserDetailsAdapter) authentication.getPrincipal()).getAccount();
