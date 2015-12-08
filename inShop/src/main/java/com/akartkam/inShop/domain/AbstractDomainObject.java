@@ -12,6 +12,7 @@ import javax.persistence.Version;
 
 import org.hibernate.Hibernate;
 import org.joda.time.DateTime;
+import org.springframework.format.annotation.DateTimeFormat;
 
 
 @SuppressWarnings("serial")
@@ -51,7 +52,7 @@ public abstract class AbstractDomainObject implements DomainObject<UUID>, Clonea
 		this.version = version;
 	}
 	
-	
+	@DateTimeFormat(pattern="${date.format}")
     @Column(name="createdDate", columnDefinition = "timestamp with time zone")
 	public DateTime getCreatedDate() {
 		return createdDate;

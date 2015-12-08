@@ -34,8 +34,7 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
 			<version>${org.springframework-version}</version>
-		</dependency>
-		
+		</dependency>		
 		<!-- AspectJ -->
 		
 		<dependency>
@@ -104,6 +103,7 @@
 			<artifactId>jstl</artifactId>
 			<version>1.2</version>
 		</dependency>
+		
 		<!-- Hibernate -->
 		<dependency>
 			<groupId>org.hibernate</groupId>

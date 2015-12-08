@@ -115,7 +115,7 @@
 		  <div class="col-lg-12" >
 	       <div class="panel panel-default" layout:fragment="content">
 	           <div class="panel-heading">
-	               <span th:text="#{admin.catalog.account}">Account</span>
+	               <span th:text="#{admin.account.account}">Account</span>
 	           </div> 	 
 	             <div class="panel-body">
  	                  <div class="row">
@@ -124,10 +124,10 @@
 						        <thead >
 							      <tr >
 							          <th class="col-md-1"></th>
-						              <th class="col-md-5 text-center" th:text="#{admin.account.name}">Name</th>
+						              <th class="col-md-3 text-center" th:text="#{admin.account.name}">Name</th>
 						              <th class="col-md-1 text-center" th:text="#{admin.account.username}">Username</th>
-						              <th class="col-md-1 text-center" th:text="#{admin.account.email}">Email</th>
-						              <th class="col-md-1 text-center" th:text="#{admin.account.role}">Role</th>
+						              <th class="col-md-2 text-center" th:text="#{admin.account.email}">Email</th>
+						              <th class="col-md-2 text-center" th:text="#{admin.account.role}">Role</th>
 						              <th class="col-md-1 text-center" th:text="#{admin.created}">Created</th>
 						              <th class="col-md-1 text-center" th:text="#{admin.enabled}">Enabled?</th>
 						              <th class="col-md-1 text-center"></th>
@@ -136,8 +136,6 @@
 						 	    <tfoot>
 							      <tr >
 							          <th ></th>
-						              <th ></th>
-						              <th ></th>
 						              <th ></th>
 						              <th ></th>
 						              <th ></th>
@@ -158,7 +156,7 @@
 										<td class="mightOverflow domain-col">
    											<span th:each="rl: ${ac.roles}" th:text="${rl.name+';'}"></span>
 										</td>
-										<td class="mightOverflow domain-col"><span th:text="${ac.createdDate}">01.01.2015</span></td>
+										<td class="mightOverflow domain-col"><span th:text="${{ac.createdDate}}" style="font-size: 9pt;">01.01.2015 12:30</span></td>
 						            	<td class="text-center"><i th:class="${ac.enabled} ? 'fa fa-check-circle'"></i></td>
 						            	<td class="text-center">
 											  <!--  data-toggle="modal" data-target="#editModal" -->
@@ -245,7 +243,7 @@
     				});
   	                $('#accountDataTable tfoot th').each( function () {
 	  	            	 if ($(this).is(":first-child") || $(this).is(":last-child")) return;
-		                 var title = $('#productDataTable thead th').eq( $(this).index() ).text();
+		                 var title = $('#accountDataTable thead th').eq( $(this).index() ).text();
 		                 $(this).html( '<input type="text" placeholder="Фильтр '+title+'" />' );
 		            });
     		     	table.columns().every( function () {

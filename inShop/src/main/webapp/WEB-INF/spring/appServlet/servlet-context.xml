@@ -14,7 +14,7 @@
 
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
 	
-	<annotation-driven/>
+	<annotation-driven validator="validator"/>
  	<default-servlet-handler/>
  	<!--<view-controller path="/admin" view-name="admin/admin" />-->
  	<view-controller path="/login" view-name="authentication/login" />
@@ -97,6 +97,12 @@
 
 	<beans:bean id="imageUtil" class="com.akartkam.inShop.util.ImageUtil">
 		<beans:property name="imagesMaxUploadSize" value="#{appProperties['inShop.imagesMaxUploadSize']}"/>
+	</beans:bean>
+
+	<beans:bean class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
+	  <beans:property name="location">
+	      <beans:value>classpath:messages.properties</beans:value>
+	  </beans:property>	
 	</beans:bean>
 
 	
