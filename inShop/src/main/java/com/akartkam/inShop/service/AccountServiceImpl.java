@@ -3,6 +3,7 @@ package com.akartkam.inShop.service;
 
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,6 +37,8 @@ public class AccountServiceImpl implements AccountService {
 		return accountDao.findByUsername(username);
 	}
 	
+	
+	
 	@Override
 	public Account getCurrentAccount() {
 	    SecurityContext securityContext = SecurityContextHolder.getContext();
@@ -53,6 +56,11 @@ public class AccountServiceImpl implements AccountService {
 	@Override
 	public List<Account> getAllAccount() {
 		return accountDao.list(); 
+	}
+
+	@Override
+	public Account getAccountById(UUID ID) {
+		return accountDao.get(ID);
 	}
 
 }

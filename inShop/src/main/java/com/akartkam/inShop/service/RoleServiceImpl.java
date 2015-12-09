@@ -1,5 +1,7 @@
 package com.akartkam.inShop.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,9 +43,16 @@ public class RoleServiceImpl implements RoleService {
 		return roleDao.findRoleByRoletype(role);
 	}	
 	
+	@Override
+	public List<Role> getAllRoles() {
+		return roleDao.list();
+	}
+	
+
 	private boolean validateRole(Role role) {
 		return (roleDao.findRoleByName(role.getName()) == null);
 		
-	}	
+	}
+	
 
 }

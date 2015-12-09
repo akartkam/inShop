@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org" 
+                xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+                layout:decorator="admin/account/account">
+	<head>
+	    <th:block th:remove="all">
+			<title>inShop Admin Account Edit</title>
+		    <meta charset="utf-8"/>
+		    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+		    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+		    <meta name="description" content=""/>
+		    <meta name="author" content=""/>
+		
+		    <!-- Bootstrap Core CSS -->
+		    <link href="../../../../resources/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" th:href="@{/resources/bower_components/bootstrap/dist/css/bootstrap.min.css}"/>
+			<!-- Treegrid -->
+		 	<link href="../../../../resources/css/jquery.treegrid.css" rel="stylesheet" th:href="@{/resources/css/jquery.treegrid.css}"/>
+			<!-- summernote -->
+			<link href="../../../../resources/css/summernote.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/summernote.css}"></link>
+			<!-- bootstrap select -->
+			<link href="../../../../resources/css/bootstrap-select.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/bootstrap-select.min.css}"></link>
+		    <!-- Custom Fonts -->
+	    	<link href="../../../../resources/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/font-awesome/css/font-awesome.min.css}"/>
+			<link href="../../../../resources/bower_components/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/bootstrap/dist/css/bootstrap-theme.min.css}"></link>    	
+	    	<link href="../../../../resources/css/sb-admin-2.css" rel="stylesheet" th:href="@{/resources/css/sb-admin-2.css}"/>
+	    </th:block>
+	</head>
+<body>
+  <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true" th:attr="data-path=@{/admin/catalog/category}" layout:fragment="editForm">
+    <div class="modal-dialog">
+	   <div class="modal-content" id="editModalContent">
+	   <form method="post" class="form-horizontal" role="form" action="#" th:action="@{/admin/account/account/edit}" th:object="${account}" th:fragment="editAccountForm">
+		   <div class="modal-header">
+	 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title"  th:text="${!account.new}? #{admin.account.account.edit.title.edit}: #{admin.account.account.edit.title.add}">Edit Account</h4>
+	 	   </div>
+		 <!-- /modal-header -->
+		    <div class="modal-body" style ="height:420px; overflow:auto">
+		          <div  th:if="${#fields.hasErrors('*')}" class="alert alert-danger alert-dismissable">
+		          	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <span th:text="#{admin.catalog.category.edit.existsErrors}">There is some errors in the form</span>
+					<ul>
+					  <li th:each="err : ${#fields.errors('*')}" th:text="${err}">Input is incorrect</li>
+					</ul>                                 
+                  </div>
+	               <ul class="nav nav-tabs">
+	                    <li class="active"><a href="#main" data-toggle="tab" th:text="#{admin.edit.tab.description}">Описание</a>
+	                    </li>
+	                </ul>
+	                <!-- Tab panes -->
+	                <div class="tab-content">
+	                    <div class="tab-pane fade in active" id="main">
+	                    	   <input type="hidden" th:field="*{id}"/>
+	                           <div class="row">
+							     <div class="col-md-4">
+								   <div class="field-box" th:class="${#fields.hasErrors('firstName')}? has-error: field-box">
+						    		  <label>
+							    	  	 <span th:text="#{admin.account.firstname}">Adam</span>
+							   		  </label>
+							   		  <input type="text" class="form-control" th:field="*{firstName}"/>
+							   		  <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">Incorrect Name</p>
+						   		   </div>
+						   		 </div>
+							     <div class="col-md-4">
+								   <div class="field-box" th:class="${#fields.hasErrors('lastName')}? has-error: field-box">
+						    		  <label>
+							    	  	 <span th:text="#{admin.account.lastname}">John</span>
+							   		  </label>
+							   		  <input type="text" class="form-control" th:field="*{lastName}"/>
+							   		  <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">Incorrect Name</p>
+						   		   </div>
+						   		 </div>
+							     <div class="col-md-4">
+								   <div class="field-box" th:class="${#fields.hasErrors('middleName')}? has-error: field-box">
+						    		  <label>
+							    	  	 <span th:text="#{admin.account.middlename}">John</span>
+							   		  </label>
+							   		  <input type="text" class="form-control" th:field="*{middleName}"/>
+							   		  <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('middleName')}" th:errors="*{middleName}">Incorrect Name</p>
+						   		   </div>
+						   		 </div>  						   		   
+   					   		   </div>
+							   <div class="field-box">	                              
+					    		  <label>
+						    	  	 <span th:text="#{admin.account.username}">Username</span>
+						   		  </label>
+						   		  <input type="text" class="form-control" th:field="*{username}"/>
+					   		   </div>						   		   
+					   		   <div class="field-box">
+		 			    		  <label>
+						    	  	<span th:text="#{admin.account.email}">Email</span>
+						   		   </label>
+						   		   <input type="email" class="form-control" th:field="*{email}"/>
+					   		   </div>
+					   		   <div class="field-box">
+		 			    		  <label>
+						    	  	<span th:text="#{admin.account.address}">Address</span>
+						   		   </label>
+						   		   <input type="text" class="form-control" th:field="*{address}"/>
+					   		   </div>
+					   		   <div class="field-box">
+		 			    		  <label>
+						    	  	<span th:text="#{admin.account.phone}">Phone</span>
+						   		   </label>
+						   		   <input type="text" class="form-control" th:field="*{phone}"/>
+					   		   </div>
+		                       <div class="field-box">
+		                         <label>
+							  	  	<span th:text="#{admin.account.role}">Role</span>
+							     </label>
+								 <select class="form-control selectpicker" id="roleAccount"  multiple="multiple">
+								    <option th:each="rl: ${allRoles}" th:text="${rl.name}"
+								            th:selected="${#lists.contains(account.roles, rl)}"
+								            th:value="${rl.id}">
+								    </option>      
+								 </select>
+							  </div>	 
+	             		</div>
+                 </div>
+		    </div>
+		 <!-- /modal-body -->
+	 	    <div class="modal-footer">
+	 		  <button type="button" class="btn btn-default" data-dismiss="modal" th:text="#{admin.catalog.category.edit.button.close}">Close</button>        
+			  <button type="submit" class="btn btn-primary" th:text="#{admin.catalog.category.edit.button.save}">Save changes</button>
+		    </div>  
+		 <!-- /modal-footer -->
+	     </form>	
+      </div> 
+    </div> 
+  </div>	    
+   <!-- jQuery -->
+   <script src="../../../../resources/bower_components/jquery/dist/jquery.min.js" th:src="@{/resources/bower_components/jquery/dist/jquery.min.js}"></script>
+   <!-- Bootstrap Core JavaScript -->
+   <script src="../../../../resources/bower_components/bootstrap/dist/js/bootstrap.min.js" th:src="@{/resources/bower_components/bootstrap/dist/js/bootstrap.min.js}"></script>
+ 
+	   <th:block th:fragment="scriptEditModal">
+	       <!-- bootstrap-select -->
+		   <script src="../../../../resources/js/bootstrap-select.min.js" th:src="@{/resources/js/bootstrap-select.min.js}"></script>
+		   <script src="../../../../resources/js/defaults-ru_RU.js" th:src="@{/resources/js/defaults-ru_RU.js}"></script>
+	   </th:block>
+   		<th:block layout:fragment="scriptEditModal"> 
+	   	   <script type="text/javascript">
+		     $(document).ready(function() {
+		    	 $("#editModal").modal("show");
+                 $(".selectpicker").selectpicker();
+             });
+		   </script>
+		 </th:block>  
+</body>
+</html>
+

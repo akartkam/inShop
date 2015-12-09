@@ -1,6 +1,7 @@
 package com.akartkam.inShop.service;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.validation.Errors;
 
@@ -11,4 +12,5 @@ public interface AccountService {
 	Account getAccountByUsername(String username);
 	Account getCurrentAccount();
 	List<Account> getAllAccount();
+	Account getAccountById(UUID ID);
 }

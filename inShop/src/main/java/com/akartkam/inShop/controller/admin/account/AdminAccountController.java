@@ -29,10 +29,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.akartkam.inShop.domain.Account;
+import com.akartkam.inShop.domain.Role;
 import com.akartkam.inShop.domain.product.Category;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
 import com.akartkam.inShop.domain.product.attribute.AttributeCategory;
 import com.akartkam.inShop.service.AccountService;
+import com.akartkam.inShop.service.RoleService;
 import com.akartkam.inShop.service.product.AttributeCategoryService;
 import com.akartkam.inShop.service.product.CategoryService;
 
@@ -46,16 +48,23 @@ public class AdminAccountController {
 	  @Autowired
 	  AccountService accountService;
 	  
+	  @Autowired
+	  RoleService roleService;
+	  
+	  
 	  @ModelAttribute("allAccount")
 	  public List<Account> getAllAccounts() {
 	      return accountService.getAllAccount();
 	  }	  
 	  
+	  @ModelAttribute("allRoles")
+	  public List<Role> getAllRoles() {
+	      return roleService.getAllRoles();
+	  }
 	  
 	  @InitBinder
 	  public void initBinder(WebDataBinder binder) {
-			binder.setAllowedFields(new String[] { "id", "name", "parent", "url",
-					"description", "longDescription", "ordering", "enabled", "*attributesForForm*"});
+			binder.setAllowedFields(new String[] { "id", "username", "firstName", "lastName", "middleName", "email", "phone", "address"});
 			binder.registerCustomEditor(UUID.class, "id", new PropertyEditorSupport() {
 			    @Override
 			    public void setAsText(String text) {
@@ -72,16 +81,16 @@ public class AdminAccountController {
 	  
 	   
 	  @RequestMapping("/edit")
-	  public String categoryEdit(@RequestParam(value = "categoryID", required = true) String categoryID, Model model,
+	  public String categoryEdit(@RequestParam(value = "ID", required = true) String accountID, Model model,
 			   					 @RequestHeader(value = "X-Requested-With", required = false) String requestedWith) {
-		  if(!model.containsAttribute("category")) {
-//			 Category category = categoryService.getCategoryById(UUID.fromString(categoryID));
-//		     model.addAttribute("category", category);
+		  if(!model.containsAttribute("account")) {
+			 Account account = accountService.getAccountById(UUID.fromString(accountID));
+		     model.addAttribute("account", account);
 		  }
           if ("XMLHttpRequest".equals(requestedWith)) {
-              return "/admin/catalog/categoryEdit :: editCategoryForm";
+              return "/admin/account/accountEdit :: editAccountForm";
             }		  
-          return "/admin/catalog/categoryEdit";		  
+          return "/admin/account/accountEdit";		  
 		  }	  
 
 	  @RequestMapping("/add")

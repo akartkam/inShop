@@ -1,5 +1,7 @@
 package com.akartkam.inShop.service;
 
+import java.util.List;
+
 import com.akartkam.inShop.domain.Role;
 import com.akartkam.inShop.domain.RoleType;
 
@@ -8,5 +10,6 @@ public interface RoleService {
 	void updateRole(Role role);
 	Role getRoleByRoletype(RoleType role);
 	Role getRoleByName(String name);
+	List<Role> getAllRoles(); 
 	
 }
