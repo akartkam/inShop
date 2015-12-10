@@ -19,6 +19,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -33,6 +34,7 @@ import com.akartkam.inShop.domain.Role;
 import com.akartkam.inShop.domain.product.Category;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
 import com.akartkam.inShop.domain.product.attribute.AttributeCategory;
+import com.akartkam.inShop.formbean.AccountForm;
 import com.akartkam.inShop.service.AccountService;
 import com.akartkam.inShop.service.RoleService;
 import com.akartkam.inShop.service.product.AttributeCategoryService;
@@ -85,7 +87,7 @@ public class AdminAccountController {
 			   					 @RequestHeader(value = "X-Requested-With", required = false) String requestedWith) {
 		  if(!model.containsAttribute("account")) {
 			 Account account = accountService.getAccountById(UUID.fromString(accountID));
-		     model.addAttribute("account", account);
+		     model.addAttribute("account", new AccountForm(account));
 		  }
           if ("XMLHttpRequest".equals(requestedWith)) {
               return "/admin/account/accountEdit :: editAccountForm";
@@ -108,7 +110,7 @@ public class AdminAccountController {
 
 	  
 	  @RequestMapping(value="/delete", method = RequestMethod.POST)
-	  public String categoryDelete(@RequestParam(value = "categoryID", required = false) String categoryID, 
+	  public String categoryDelete(@RequestParam(value = "ID", required = false) String accountID, 
 			                       @RequestParam(value = "phisycalDelete", required = false) Boolean phisycalDelete,
 				                   final RedirectAttributes ra) {
 		  Collection<? extends GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
@@ -130,17 +132,29 @@ public class AdminAccountController {
 	  
 
 	   @RequestMapping(value="/edit", method = RequestMethod.POST )
-	   public String saveCategory(   @ModelAttribute @Valid Category category,
+	   public String saveCategory(   @ModelAttribute @Valid AccountForm account,
 			                         final BindingResult bindingResult,
 			                         final RedirectAttributes ra
 			                         ) {
 	        if (bindingResult.hasErrors()) {
-	        	ra.addFlashAttribute("category", category);
-	        	ra.addFlashAttribute("org.springframework.validation.BindingResult.category", bindingResult);
-	            return "redirect:/admin/catalog/category/edit?categoryID="+category.getId();
+	        	//ra.addFlashAttribute("category", category);
+	        	//ra.addFlashAttribute("org.springframework.validation.BindingResult.category", bindingResult);
+	            return "redirect:/admin/catalog/category/edit?categoryID=";//+category.getId();
 	        }
 //	        categoryService.mergeWithExistingAndUpdateOrCreate(category);
 	        return "redirect:/admin/catalog/category";
 	    }
+
+	   private static void convertPasswordError(BindingResult result) {
+			for (ObjectError error : result.getGlobalErrors()) {
+				String msg = error.getDefaultMessage();
+				if ("account.password.mismatch.message".equals(msg)) {
+					// Don't show if there's already some other error message.
+					if (!result.hasFieldErrors("password")) {
+						result.rejectValue("password", "error.mismatch");
+					}
+				}
+			}
+		}
 	  
 }

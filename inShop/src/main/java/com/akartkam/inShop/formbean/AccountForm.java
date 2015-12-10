@@ -12,7 +12,27 @@ import com.akartkam.inShop.domain.Account;
 			   script = "_this.confirmPassword.equals(_this.password)",
 			   message = "account.password.mismatch.message")
 public class AccountForm extends Account {
-	private String password;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3047051567463301843L;
+	private String password, confirmPassword;
+	
+	public AccountForm () { }
+	
+	public AccountForm (Account account) {
+		this.setId(account.getId());
+		this.setAddress(account.getAddress());
+		this.setCreatedDate(account.getCreatedDate());
+		this.setEmail(account.getEmail());
+		this.setEnabled(account.isEnabled());
+		this.setFirstName(account.getFirstName());
+		this.setMiddleName(account.getMiddleName());
+		this.setLastName(account.getLastName());
+		this.setPhone(account.getPhone());
+		this.setRoles(account.getRoles());
+		this.setUsername(account.getUsername());
+	}
 	
 	@NotNull
 	@NotEmpty
@@ -24,5 +44,13 @@ public class AccountForm extends Account {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	
+	public String getConfirmPassword() { 
+		return confirmPassword; 
+	}
+
+	public void setConfirmPassword(String confirmPassword) { 
+		this.confirmPassword = confirmPassword; 
+	}	
 	
 }
