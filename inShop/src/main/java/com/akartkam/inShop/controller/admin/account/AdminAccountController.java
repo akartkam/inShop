@@ -101,9 +101,9 @@ public class AdminAccountController {
 //		  else category = new Category();
 // 	      model.addAttribute("category", category);
           if ("XMLHttpRequest".equals(requestedWith)) {
-              return "/admin/catalog/categoryEdit :: editCategoryForm";
+              return "/admin/account/accountEdit :: editAccountForm";
             } 	      
-          return "/admin/catalog/categoryEdit";		  
+          return "/admin/account/accountEdit";		  
 		  }	  
 
 	  

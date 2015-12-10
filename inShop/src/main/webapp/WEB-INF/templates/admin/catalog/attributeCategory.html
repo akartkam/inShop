@@ -139,16 +139,17 @@
 						            	<td class="text-center"><i th:class="${ct.enabled} ? 'fa fa-check-circle'"></i></td>
 						            	<td class="text-center">
 							                <div class="row">
-											  <!--  data-toggle="modal" data-target="#editModal" -->
 		  				            	  		 <div class="btn-group" role="group" > 
 					                                  <button type="button" class="open-editDialog btn btn-outline btn-default btn-xs" 
 					                                          data-toggle="modal" data-target="#editModal" data-operation="edit" 
-					                                          th:attr="data-id=${ct.id}, data-path=@{${{#strings.containsIgnoreCase(ct.class.name,'AttributeCategory')} ? '/admin/catalog/attributecategory/edit': '/admin/catalog/attributecategory/attribute/edit'}}"> 
+					                                          th:attr="data-id=${ct.id}, data-path=@{${{#strings.containsIgnoreCase(ct.class.name,'AttributeCategory')} ? '/admin/catalog/attributecategory/edit': '/admin/catalog/attributecategory/attribute/edit'}}"
+					                                          data-backdrop="static" data-keyboard="false"> 
 					                                    <i class="fa fa-pencil"></i>
 					                                  </button>	
 					                                  <button type="button" class="open-editDialog btn btn-outline btn-default btn-xs" 
 					                                          data-toggle="modal" data-target="#editModal" data-operation="add"
-					                                          th:attr="data-id=${ct.id}, data-path=@{${{#strings.containsIgnoreCase(ct.class.name,'AttributeCategory')} ? '/admin/catalog/attributecategory/add': '/admin/catalog/attributecategory/attribute/add'}}">
+					                                          th:attr="data-id=${ct.id}, data-path=@{${{#strings.containsIgnoreCase(ct.class.name,'AttributeCategory')} ? '/admin/catalog/attributecategory/add': '/admin/catalog/attributecategory/attribute/add'}}"
+					                                          data-backdrop="static" data-keyboard="false">
 					                                    <i class="fa fa-copy"></i>
 					                                  </button>
 						                              <button th:disabled="${!ct.enabled}" type="button" data-toggle="modal" data-target="#deleteModal" 
@@ -253,7 +254,8 @@
 					   		 <div class="btn-group" role="group" aria-label="..."> 
                                 <button type="button" class="open-editDialog btn btn-outline btn-default btn-sm" 
                                         data-toggle="modal" data-target="#editModal" data-operation="add"
-                                        th:attr="data-path=@{/admin/catalog/attributecategory/add}">
+                                        th:attr="data-path=@{/admin/catalog/attributecategory/add}"
+                                        data-backdrop="static" data-keyboard="false">
                                   <i class="fa fa-plus-circle"></i>
                                   <span> </span>
 						          <span th:text="#{admin.catalog.attributecategory.addcategory.buttoncaption}">Add category</span> 
@@ -262,7 +264,8 @@
 					   		 <div class="btn-group" role="group" aria-label="..."> 
                                 <button type="button" class="open-editDialog btn btn-outline btn-default btn-sm" 
                                         data-toggle="modal" data-target="#editModal" data-operation="add"
-                                        th:attr="data-path=@{/admin/catalog/attributecategory/attribute/add}">
+                                        th:attr="data-path=@{/admin/catalog/attributecategory/attribute/add}"
+                                        data-backdrop="static" data-keyboard="false">
                                   <i class="fa fa-plus-circle"></i>
                                   <span> </span>
 						          <span th:text="#{admin.catalog.attributecategory.addattribute.buttoncaption}">Add attribute</span> 

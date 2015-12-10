@@ -13,10 +13,6 @@
 		
 		    <!-- Bootstrap Core CSS -->
 		    <link href="../../../../resources/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" th:href="@{/resources/bower_components/bootstrap/dist/css/bootstrap.min.css}"/>
-			<!-- Treegrid -->
-		 	<link href="../../../../resources/css/jquery.treegrid.css" rel="stylesheet" th:href="@{/resources/css/jquery.treegrid.css}"/>
-			<!-- summernote -->
-			<link href="../../../../resources/css/summernote.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/summernote.css}"></link>
 			<!-- bootstrap select -->
 			<link href="../../../../resources/css/bootstrap-select.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/bootstrap-select.min.css}"></link>
 		    <!-- Custom Fonts -->
@@ -141,7 +137,10 @@
    		<th:block layout:fragment="scriptEditModal"> 
 	   	   <script type="text/javascript">
 		     $(document).ready(function() {
-		    	 $("#editModal").modal("show");
+		    	 $("#editModal").modal({
+		    		    backdrop: 'static',
+		    		    keyboard: false
+		    		});
                  $(".selectpicker").selectpicker();
              });
 		   </script>

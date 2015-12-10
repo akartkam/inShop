@@ -92,7 +92,10 @@
    <th:block layout:fragment="scriptEditModal"> 
 	   <script type="text/javascript">
 		     $(document).ready(function() {
-		    	 $("#editModal").modal("show");
+		    	 $("#editModal").modal({
+		    		    backdrop: 'static',
+		    		    keyboard: false
+		    		});
 			});			  
 	   </script>
    </th:block>

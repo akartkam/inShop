@@ -173,7 +173,10 @@
 	   <script type="text/javascript">
 	      //<![CDATA[
 		     $(document).ready(function() {
-		    	 $("#editModal").modal("show");		
+		    	 $("#editModal").modal({
+		    		    backdrop: 'static',
+		    		    keyboard: false
+		    		});		
 		    	 $('#editModal').on( 'shown.bs.modal', function ( event ) {
 
 		    	 });

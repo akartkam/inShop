@@ -291,7 +291,10 @@
 	   	   <script type="text/javascript">
 		     //<![CDATA[
 		     $(document).ready(function() {
-	 	    	$("#editModal").modal("show");
+	 	    	$("#editModal").modal({
+	    		    backdrop: 'static',
+	    		    keyboard: false
+	    		});
                 $("#summernote").summernote({
 				    lang: "ru-RU"
 				     });

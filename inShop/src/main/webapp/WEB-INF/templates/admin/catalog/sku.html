@@ -180,26 +180,6 @@
 										      <span th:text="${{product.defaultSku.salePrice}}">9.00</span>
 										</td>
 						            	<td class="text-center"><i th:class="${product.enabled} ? 'fa fa-check-circle'"></i></td>
-						                <!--  	<td class="text-center">
-	  				            	  		 <div class="btn-group edit-btn-group" role="group" > 
-				                                  <button type="button" class="open-editDialog btn btn-outline btn-default btn-xs" 
-				                                          data-toggle="modal" data-target="#editModal" data-operation="edit" 
-				                                          th:attr="data-id=${pr.id}, data-path=@{/admin/catalog/product/edit}"> 
-				                                    <i class="fa fa-pencil"></i>
-				                                  </button>	
-				                                  <button type="button" class="open-editDialog btn btn-outline btn-default btn-xs" 
-				                                          data-toggle="modal" data-target="#editModal" data-operation="add"
-				                                          th:attr="data-id=${pr.id}, data-path=@{/admin/catalog/product/add}">
-				                                    <i class="fa fa-copy"></i>
-				                                  </button>
-					                              <button th:disabled="${!pr.enabled}" type="button" data-toggle="modal" data-target="#deleteModal" 
-					                                      class="open-deleteDialog btn btn-outline btn-default btn-xs"
-					                                      th:attr="data-id=${pr.id}, data-name=${pr.defaultSku.name}"> 
-					                                <i class="fa fa-trash-o"></i>
-					                              </button>	
-			                            	 </div>   
-			                             </td>
-			                             -->
 							        </tr>
 						        </tbody>
 						      </table> 
@@ -262,12 +242,14 @@
   				            	  		 <div class="btn-group edit-btn-group" role="group" > 
 			                                  <button type="button" class="open-editDialog btn btn-outline btn-default btn-xs" 
 			                                          data-toggle="modal" data-target="#editModal" data-operation="edit" 
-			                                          th:attr="data-path=@{${'/admin/catalog/sku/edit?ID='+sku.id}}"> 
+			                                          th:attr="data-path=@{${'/admin/catalog/sku/edit?ID='+sku.id}}"
+			                                          data-backdrop="static" data-keyboard="false"> 
 			                                    <i class="fa fa-pencil"></i>
 			                                  </button>	
 			                                  <button type="button" class="open-editDialog btn btn-outline btn-default btn-xs" 
 			                                          data-toggle="modal" data-target="#editModal" data-operation="add"
-			                                          th:attr="data-path=@{${'/admin/catalog/sku/add?ID='+sku.id+'&amp;productID='+product.id}}">
+			                                          th:attr="data-path=@{${'/admin/catalog/sku/add?ID='+sku.id+'&amp;productID='+product.id}}"
+			                                          data-backdrop="static" data-keyboard="false">
 			                                    <i class="fa fa-copy"></i>
 			                                  </button>
 				                              <button th:disabled="${!sku.enabled}" type="button" data-toggle="modal" data-target="#deleteModal" 
@@ -295,7 +277,8 @@
                                </button>
                                <button type="button" class="open-editDialog btn btn-outline btn-default btn-sm" 
                                        data-toggle="modal" data-target="#editModal" data-operation="add"
-                                       th:attr="data-path=@{${'/admin/catalog/sku/add?productID='+product.id}}">
+                                       th:attr="data-path=@{${'/admin/catalog/sku/add?productID='+product.id}}"
+                                       data-backdrop="static" data-keyboard="false">
                                   <i class="fa fa-plus-circle"></i>
                                   <span> </span>
 					              <span th:text="#{button.add.caption}">Add sku</span> 

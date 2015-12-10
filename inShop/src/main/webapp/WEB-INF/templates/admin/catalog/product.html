@@ -211,12 +211,14 @@
 	  				            	  		 <div class="btn-group edit-btn-group" role="group" > 
 				                                  <button type="button" class="open-editDialog btn btn-outline btn-default btn-xs" 
 				                                          data-toggle="modal" data-target="#editModal" data-operation="edit" 
-				                                          th:attr="data-id=${pr.id}, data-path=@{/admin/catalog/product/edit}"> 
+				                                          th:attr="data-id=${pr.id}, data-path=@{/admin/catalog/product/edit}"
+				                                          data-backdrop="static" data-keyboard="false"> 
 				                                    <i class="fa fa-pencil"></i>
 				                                  </button>	
 				                                  <button type="button" class="open-editDialog btn btn-outline btn-default btn-xs" 
 				                                          data-toggle="modal" data-target="#editModal" data-operation="add"
-				                                          th:attr="data-id=${pr.id}, data-path=@{/admin/catalog/product/add}">
+				                                          th:attr="data-id=${pr.id}, data-path=@{/admin/catalog/product/add}"
+				                                          data-backdrop="static" data-keyboard="false">
 				                                    <i class="fa fa-copy"></i>
 				                                  </button>
 					                              <button th:disabled="${!pr.enabled}" type="button" data-toggle="modal" data-target="#deleteModal" 
@@ -244,7 +246,7 @@
 					   		 <div class="btn-group" role="group" aria-label="..."> 
                                 <button type="button" class="open-editDialog btn btn-outline btn-default btn-sm" 
                                         data-toggle="modal" data-target="#editModal" data-operation="add"
-                                        th:attr="data-path=@{/admin/catalog/product/add}">
+                                        th:attr="data-path=@{/admin/catalog/product/add}" data-backdrop="static" data-keyboard="false">
                                   <i class="fa fa-plus-circle"></i>
                                   <span> </span>
 						          <span th:text="#{button.add.caption}">Add product</span> 
