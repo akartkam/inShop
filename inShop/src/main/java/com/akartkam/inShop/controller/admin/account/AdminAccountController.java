@@ -34,6 +34,7 @@ import com.akartkam.inShop.domain.Role;
 import com.akartkam.inShop.domain.product.Category;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
 import com.akartkam.inShop.domain.product.attribute.AttributeCategory;
+import com.akartkam.inShop.domain.product.option.ProductOption;
 import com.akartkam.inShop.formbean.AccountForm;
 import com.akartkam.inShop.service.AccountService;
 import com.akartkam.inShop.service.RoleService;
@@ -66,13 +67,23 @@ public class AdminAccountController {
 	  
 	  @InitBinder
 	  public void initBinder(WebDataBinder binder) {
-			binder.setAllowedFields(new String[] { "id", "username", "firstName", "lastName", "middleName", "email", "phone", "address"});
+			binder.setAllowedFields(new String[] { "id", "username", "firstName", "lastName", "middleName", "email", "phone", 
+					                               "address","rolesList*"});
 			binder.registerCustomEditor(UUID.class, "id", new PropertyEditorSupport() {
 			    @Override
 			    public void setAsText(String text) {
 			    	 setValue(UUID.fromString(text));
 			    }
 			    });
+			binder.registerCustomEditor(Role.class,"rolesList", new PropertyEditorSupport() {
+			    @Override
+			    public void setAsText(String text) {
+			    	if (!"".equals(text)) {
+			    		Role rl =  roleService.getRoleById(UUID.fromString(text)); 
+			            setValue(rl);
+			    	}			    
+			    }
+			    });			
 	  }
 	
 	  
@@ -136,25 +147,13 @@ public class AdminAccountController {
 			                         final BindingResult bindingResult,
 			                         final RedirectAttributes ra
 			                         ) {
+		    accountService.mergeWithExistingAndUpdateOrCreate(account, bindingResult);
 	        if (bindingResult.hasErrors()) {
-	        	//ra.addFlashAttribute("category", category);
-	        	//ra.addFlashAttribute("org.springframework.validation.BindingResult.category", bindingResult);
-	            return "redirect:/admin/catalog/category/edit?categoryID=";//+category.getId();
+	        	ra.addFlashAttribute("account", account);
+	        	ra.addFlashAttribute("org.springframework.validation.BindingResult.account", bindingResult);
+	            return "redirect:/admin/account/account/edit?ID="+account.getId();
 	        }
 //	        categoryService.mergeWithExistingAndUpdateOrCreate(category);
-	        return "redirect:/admin/catalog/category";
-	    }
-
-	   private static void convertPasswordError(BindingResult result) {
-			for (ObjectError error : result.getGlobalErrors()) {
-				String msg = error.getDefaultMessage();
-				if ("account.password.mismatch.message".equals(msg)) {
-					// Don't show if there's already some other error message.
-					if (!result.hasFieldErrors("password")) {
-						result.rejectValue("password", "error.mismatch");
-					}
-				}
-			}
-		}
-	  
+	        return "redirect:/admin/account/account";
+	    }  
 }

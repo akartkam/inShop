@@ -1,12 +1,15 @@
 package com.akartkam.inShop.formbean;
 
-import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
 import javax.validation.constraints.Size;
 
-import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.ScriptAssert;
 
 import com.akartkam.inShop.domain.Account;
+import com.akartkam.inShop.domain.Role;
 
 @ScriptAssert( lang = "javascript",
 			   script = "_this.confirmPassword.equals(_this.password)",
@@ -16,7 +19,8 @@ public class AccountForm extends Account {
 	 * 
 	 */
 	private static final long serialVersionUID = 3047051567463301843L;
-	private String password, confirmPassword;
+	private String password = new String() , confirmPassword = new String();
+	private List<Role> rolesList = new ArrayList<Role>();
 	
 	public AccountForm () { }
 	
@@ -34,8 +38,13 @@ public class AccountForm extends Account {
 		this.setUsername(account.getUsername());
 	}
 	
-	@NotNull
-	@NotEmpty
+	@Override
+	public void setRoles(Set<Role> roles) {
+		super.setRoles(roles);
+		rolesList = new ArrayList<Role>(roles);
+	}
+	
+
 	@Size(min = 6, max = 50)
 	public String getPassword() {
 		return password;
@@ -51,6 +60,13 @@ public class AccountForm extends Account {
 
 	public void setConfirmPassword(String confirmPassword) { 
 		this.confirmPassword = confirmPassword; 
-	}	
+	}
+
+	public List<Role> getRolesList() {
+		return rolesList;
+	}
+	
+	
+	
 	
 }

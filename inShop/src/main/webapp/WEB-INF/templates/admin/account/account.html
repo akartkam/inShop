@@ -264,6 +264,18 @@
 	  	                   
 	  	               });
 	  	           });
+   		 		   $("body").on("change", "#roleAccount", function(){
+     					$("#roleAccountIc").find("input").each(function(i,v){$(v).remove()});    		 			
+     	 		        $(this).find("option:selected").each(function(i, v){
+     	 		        	$("<input>").attr({
+     	 		        	    type: "hidden",
+     	 		        	    name: "rolesList["+i+"]",
+     	 		        	    value: $(v).val()
+     	 		        	}).appendTo("#roleAccountIc");								    		 		            
+     	 		        });    		 			
+     	 		
+     	 			});
+    		     	
 	            });
 	            //Открытие окна удаления
 		        $(document).on("click", ".open-deleteDialog", function () {

@@ -1,8 +1,10 @@
 /*
- * В основном класс служит для тестирования
+ * пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
  * 
  */
 package com.akartkam.inShop.dao;
+
+import java.util.UUID;
 
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
@@ -26,6 +28,7 @@ public class RoleDAOImpl extends AbstractGenericDAO<Role> implements RoleDAO {
 		q.setParameter("role", role);
 		return (Role) q.uniqueResult();
 	}
+
 
 
 }

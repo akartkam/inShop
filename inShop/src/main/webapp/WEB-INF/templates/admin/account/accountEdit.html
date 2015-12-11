@@ -113,6 +113,10 @@
 						   		   <input type="text" class="form-control" th:field="*{phone}"/>
 					   		   </div>
 		                       <div class="field-box">
+	                             <div id="roleAccountIc" style="display: none">
+	                            	<input type="hidden" th:each="rl,rlStat : ${account.rolesList}" th:name="rolesList[__${rlStat.index}__]" 
+	                            	       th:value="${rl.id}" />
+	                             </div>		                       
 		                         <label>
 							  	  	<span th:text="#{admin.account.role}">Role</span>
 							     </label>

@@ -1,6 +1,7 @@
 package com.akartkam.inShop.service;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -52,6 +53,11 @@ public class RoleServiceImpl implements RoleService {
 	private boolean validateRole(Role role) {
 		return (roleDao.findRoleByName(role.getName()) == null);
 		
+	}
+
+	@Override
+	public Role getRoleById(UUID id) {
+		return roleDao.get(id);
 	}
 	
 
