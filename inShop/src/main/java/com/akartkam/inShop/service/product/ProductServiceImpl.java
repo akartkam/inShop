@@ -304,8 +304,7 @@ public class ProductServiceImpl implements ProductService {
 				bu.copyProperties(product, productFromPost);
 				bu.copyProperties(sku, productFromPost.getDefaultSku());
 			} catch (IllegalAccessException | InvocationTargetException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				LOG.error(e);
 			}
 			product.setDefaultSku(sku);
 	        createProduct(product);

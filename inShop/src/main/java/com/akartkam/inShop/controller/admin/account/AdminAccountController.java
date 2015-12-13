@@ -68,7 +68,7 @@ public class AdminAccountController {
 	  @InitBinder
 	  public void initBinder(WebDataBinder binder) {
 			binder.setAllowedFields(new String[] { "id", "username", "firstName", "lastName", "middleName", "email", "phone", 
-					                               "address","rolesList*"});
+					                               "address","rolesList*", "password", "confirmPassword", "createdDate"});
 			binder.registerCustomEditor(UUID.class, "id", new PropertyEditorSupport() {
 			    @Override
 			    public void setAsText(String text) {

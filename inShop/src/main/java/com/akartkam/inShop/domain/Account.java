@@ -15,8 +15,8 @@ import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-
 import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
 
 @NamedQuery(
 		name = "findAccountByUsername",
@@ -86,8 +86,8 @@ public class Account extends AbstractDomainObject {
 	@Transient
 	public String getFullName() { return firstName + " " + middleName + " " + lastName; }
 	
-	@NotNull
-	@Size(min = 6, max = 50)
+
+	@NotEmpty
 	@Email
 	@Column(name = "email")
 	public String getEmail() { return email; }

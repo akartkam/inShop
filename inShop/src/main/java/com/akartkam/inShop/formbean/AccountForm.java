@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.ScriptAssert;
 
@@ -13,7 +12,7 @@ import com.akartkam.inShop.domain.Role;
 
 @ScriptAssert( lang = "javascript",
 			   script = "_this.confirmPassword.equals(_this.password)",
-			   message = "account.password.mismatch.message")
+			   message = "{error.password}")
 public class AccountForm extends Account {
 	/**
 	 * 
@@ -45,7 +44,6 @@ public class AccountForm extends Account {
 	}
 	
 
-	@Size(min = 6, max = 50)
 	public String getPassword() {
 		return password;
 	}
