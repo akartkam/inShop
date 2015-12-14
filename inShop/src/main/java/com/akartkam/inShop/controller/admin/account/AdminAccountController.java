@@ -11,8 +11,11 @@ import java.util.UUID;
 
 import javax.validation.Valid;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -37,6 +40,7 @@ import com.akartkam.inShop.domain.product.attribute.AttributeCategory;
 import com.akartkam.inShop.domain.product.option.ProductOption;
 import com.akartkam.inShop.formbean.AccountForm;
 import com.akartkam.inShop.service.AccountService;
+import com.akartkam.inShop.service.AccountServiceImpl;
 import com.akartkam.inShop.service.RoleService;
 import com.akartkam.inShop.service.product.AttributeCategoryService;
 import com.akartkam.inShop.service.product.CategoryService;
@@ -45,6 +49,8 @@ import com.akartkam.inShop.service.product.CategoryService;
 @RequestMapping("/admin/account/account")
 public class AdminAccountController {
 		  
+	  private static final Log LOG = LogFactory.getLog(AdminAccountController.class);
+	  
 	  @Autowired
 	  private MessageSource messageSource;
 	  
@@ -68,7 +74,7 @@ public class AdminAccountController {
 	  @InitBinder
 	  public void initBinder(WebDataBinder binder) {
 			binder.setAllowedFields(new String[] { "id", "username", "firstName", "lastName", "middleName", "email", "phone", 
-					                               "address","rolesList*", "password", "confirmPassword", "createdDate"});
+					                               "address","rolesList*", "password", "confirmPassword", "createdDate", "enabled"});
 			binder.registerCustomEditor(UUID.class, "id", new PropertyEditorSupport() {
 			    @Override
 			    public void setAsText(String text) {
@@ -122,14 +128,24 @@ public class AdminAccountController {
 			                       @RequestParam(value = "phisycalDelete", required = false) Boolean phisycalDelete,
 				                   final RedirectAttributes ra) {
 		  Collection<? extends GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+          boolean err=false;
 		  if (phisycalDelete != null && phisycalDelete)  {
 			  Account account = accountService.getAccountById(UUID.fromString(accountID));
 			  if(account.canRemove() && authorities.contains(new SimpleGrantedAuthority("ADMIN"))) {
-				  accountService.deleteAccount(account);;   
+				  try {
+				    accountService.deleteAccount(account);
+				  } catch (DataIntegrityViolationException e) {
+					  LOG.error(e);
+					  err = true;
+					  
+				  }
 			  } else {
+				  err = true;
+			  }
+			  if (err) {
 				  ra.addFlashAttribute("errormessage", this.messageSource.getMessage("admin.error.cannotdelete.message", 
-						            new String[] {messageSource.getMessage("admin.account.account", null, Locale.getDefault())} , null));
-				  ra.addAttribute("error", true);
+				            new String[] {messageSource.getMessage("admin.account.account", null, Locale.getDefault())} , null));
+		          ra.addAttribute("error", true);
 			  }
 
 		  } else {

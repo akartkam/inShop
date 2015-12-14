@@ -9,7 +9,6 @@ import java.util.Locale;
 import java.util.UUID;
 
 import org.apache.commons.beanutils.BeanUtilsBean;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,10 +23,7 @@ import org.springframework.validation.ObjectError;
 import com.akartkam.inShop.domain.Account;
 import com.akartkam.inShop.domain.Role;
 import com.akartkam.inShop.domain.UserDetailsAdapter;
-import com.akartkam.inShop.domain.product.Product;
-import com.akartkam.inShop.domain.product.Sku;
 import com.akartkam.inShop.formbean.AccountForm;
-import com.akartkam.inShop.service.product.ProductServiceImpl;
 import com.akartkam.inShop.util.NullAwareBeanUtilsBean;
 import com.akartkam.inShop.dao.AccountDAO;
 

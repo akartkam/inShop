@@ -128,7 +128,14 @@
 								            th:value="${rl.id}">
 								    </option>      
 								 </select>
-							  </div>	 
+							  </div>
+							  <div class="field-box">
+		                         <label>
+		 					    	<input type="checkbox" th:field="*{enabled}"/>
+								  	<span th:text="#{admin.enabled}">Active?</span>
+								 </label>
+						      </div>	 
+							  	 
 	             		</div>
                  </div>
 		    </div>
