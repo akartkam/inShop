@@ -88,13 +88,13 @@ public class AdminAccountController {
 	
 	  
 	  @RequestMapping(method=GET)
-	  public String category() {
+	  public String account() {
 		  return "/admin/account/account"; 
 		  }	  
 	  
 	   
 	  @RequestMapping("/edit")
-	  public String categoryEdit(@RequestParam(value = "ID", required = true) String accountID, Model model,
+	  public String accountEdit(@RequestParam(value = "ID", required = true) String accountID, Model model,
 			   					 @RequestHeader(value = "X-Requested-With", required = false) String requestedWith) {
 		  if(!model.containsAttribute("account")) {
 			 Account account = accountService.getAccountById(UUID.fromString(accountID));
@@ -107,12 +107,9 @@ public class AdminAccountController {
 		  }	  
 
 	  @RequestMapping("/add")
-	  public String categoryAdd(@RequestParam(value = "categoryID", required = false) String copyCategoryID, Model model,
-				                @RequestHeader(value = "X-Requested-With", required = false) String requestedWith) throws CloneNotSupportedException {
-		  Category category;
-//		  if (copyCategoryID != null && !"".equals(copyCategoryID)) category = categoryService.cloneCategoryById(UUID.fromString(copyCategoryID)); 
-//		  else category = new Category();
-// 	      model.addAttribute("category", category);
+	  public String accountAdd(Model model, @RequestHeader(value = "X-Requested-With", required = false) String requestedWith) throws CloneNotSupportedException {
+		  Account account = new AccountForm();
+ 	      model.addAttribute("account", account);
           if ("XMLHttpRequest".equals(requestedWith)) {
               return "/admin/account/accountEdit :: editAccountForm";
             } 	      
@@ -121,24 +118,24 @@ public class AdminAccountController {
 
 	  
 	  @RequestMapping(value="/delete", method = RequestMethod.POST)
-	  public String categoryDelete(@RequestParam(value = "ID", required = false) String accountID, 
+	  public String accountDelete(@RequestParam(value = "ID", required = false) String accountID, 
 			                       @RequestParam(value = "phisycalDelete", required = false) Boolean phisycalDelete,
 				                   final RedirectAttributes ra) {
 		  Collection<? extends GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
 		  if (phisycalDelete != null && phisycalDelete)  {
-	/*		  Category category = categoryService.loadCategoryById(UUID.fromString(categoryID), false);
-			  if(category.canRemove() && authorities.contains(new SimpleGrantedAuthority("ADMIN"))) {
-				  categoryService.deleteCategory(category);   
+			  Account account = accountService.getAccountById(UUID.fromString(accountID));
+			  if(account.canRemove() && authorities.contains(new SimpleGrantedAuthority("ADMIN"))) {
+				  accountService.deleteAccount(account);;   
 			  } else {
 				  ra.addFlashAttribute("errormessage", this.messageSource.getMessage("admin.error.cannotdelete.message", 
-						            new String[] {messageSource.getMessage("admin.catalog.category", null, Locale.getDefault())} , null));
+						            new String[] {messageSource.getMessage("admin.account.account", null, Locale.getDefault())} , null));
 				  ra.addAttribute("error", true);
 			  }
-*/
+
 		  } else {
-//		      categoryService.softDeleteCategoryById(UUID.fromString(categoryID));
+		      accountService.softDeleteAccountById(UUID.fromString(accountID));
 		  }
-          return "redirect:/admin/catalog/category";		  
+          return "redirect:/admin/account/account";		  
 		  }	  
 	  
 
@@ -153,7 +150,6 @@ public class AdminAccountController {
 	        	ra.addFlashAttribute("org.springframework.validation.BindingResult.account", bindingResult);
 	            return "redirect:/admin/account/account/edit?ID="+account.getId();
 	        }
-//	        categoryService.mergeWithExistingAndUpdateOrCreate(category);
 	        return "redirect:/admin/account/account";
 	    }  
 }

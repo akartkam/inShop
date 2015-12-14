@@ -24,6 +24,7 @@ import org.springframework.validation.ObjectError;
 import com.akartkam.inShop.domain.Account;
 import com.akartkam.inShop.domain.Role;
 import com.akartkam.inShop.domain.UserDetailsAdapter;
+import com.akartkam.inShop.domain.product.Product;
 import com.akartkam.inShop.domain.product.Sku;
 import com.akartkam.inShop.formbean.AccountForm;
 import com.akartkam.inShop.service.product.ProductServiceImpl;
@@ -42,6 +43,7 @@ public class AccountServiceImpl implements AccountService {
 	@Autowired
 	private MessageSource messageSource;
 	
+	@Override
 	@Transactional(readOnly = false)
 	public void registerAccount(Account account, String password) {
 			accountDao.create(account, password);
@@ -68,6 +70,22 @@ public class AccountServiceImpl implements AccountService {
 	@Override
 	public Account getAccountById(UUID ID) {
 		return accountDao.get(ID);
+	}
+	
+	@Override
+	@Transactional(readOnly = false)
+	public void deleteAccount(Account account) {
+		accountDao.delete(account);
+		
+	}
+
+	@Override
+	@Transactional(readOnly = false)
+	public void softDeleteAccountById(UUID id) {
+		Account account = getAccountById(id);
+		if (account != null) {
+			account.setEnabled(false);
+		}
 	}
 
 	@Override

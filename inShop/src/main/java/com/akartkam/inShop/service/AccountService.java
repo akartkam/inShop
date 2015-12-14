@@ -15,4 +15,6 @@ public interface AccountService {
 	List<Account> getAllAccount();
 	Account getAccountById(UUID ID);
 	void mergeWithExistingAndUpdateOrCreate (AccountForm accountForm, Errors errors);
+	void deleteAccount(Account account);
+	void softDeleteAccountById(UUID id);
 }
