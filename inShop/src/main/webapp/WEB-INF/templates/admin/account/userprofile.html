@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+	  layout:decorator="layouts/admin-default">
+	<head>
+	    <th:block th:remove="all">
+			<title>inShop Admin Userprofile</title>
+		    <meta charset="utf-8"/>
+		    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+		    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+		    <meta name="description" content=""/>
+		    <meta name="author" content=""/>
+		    <!-- Bootstrap Core CSS -->
+		    <link href="../../../../resources/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" th:href="@{/resources/bower_components/bootstrap/dist/css/bootstrap.min.css}"/>
+			<!-- bootstrap select -->
+			<link href="../../../../resources/css/bootstrap-select.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/bootstrap-select.min.css}"></link>		    
+			<!-- Custom css -->	    
+	    	<link href="../../../../resources/css/sb-admin-2.css" rel="stylesheet" th:href="@{/resources/css/sb-admin-2.css}"/>
+		    <!-- Custom Fonts -->
+	    	<link href="../../../../resources/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/font-awesome/css/font-awesome.min.css}"/>
+    	</th:block>
+	    	<link href="../../../../resources/bower_components/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/bootstrap/dist/css/bootstrap-theme.min.css}"/>
+			<!-- style.css -->
+    		<link href="../../../../resources/css/style.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/style.css}"/>
+	    	<!-- bootstrap-select -->
+			<link href="../../../../resources/css/bootstrap-select.min.css" rel="stylesheet" th:href="@{/resources/css/bootstrap-select.min.css}"/>
+    			    	
+			<style type="text/css">			
+				body {
+				    margin:0;     /* This is used to reset any browser-default margins */
+				    height:100vh; /* This is needed to overcome a Chrome bug. */
+				    width:100vw;  /* As above. */
+				}
+			</style>			
+	</head>
+<body>
+  <div layout:fragment="content">
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true" th:include="admin/account/accountEdit :: editForm">
+	  <div class="modal-dialog" style="width:65vw;overflow-y: initial !important">
+	    <div class="modal-content" id="editModalContent">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+            </div>
+            <div class="modal-body">
+                <h3>Modal Body</h3>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>	      
+	        </div> 
+	     </div> 
+	   </div> 
+    </div>
+  </div>
+    <!-- jQuery -->
+    <script src="../../../../resources/bower_components/jquery/dist/jquery.min.js" th:src="@{/resources/bower_components/jquery/dist/jquery.min.js}"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="../../../../resources/bower_components/bootstrap/dist/js/bootstrap.min.js" th:src="@{/resources/bower_components/bootstrap/dist/js/bootstrap.min.js}"></script>
+    <th:block layout:fragment="script"> 
+	    <!-- DataTables JavaScript -->
+	    <!-- bootstrap-select -->
+	    <script src="../../../../resources/js/bootstrap-select.min.js" th:src="@{/resources/js/bootstrap-select.min.js}"></script>
+	    <script src="../../../../resources/js/defaults-ru_RU.js" th:src="@{/resources/js/defaults-ru_RU.js}"></script>    
+	    <script src="../../../../resources/js/inShop-common.js" th:src="@{/resources/js/inShop-common.js}"></script>
+	    <script type="text/javascript">
+	      //<![CDATA[
+	           $(document).ready(function() {
+			    	 $("#editModal").modal({
+			    		    backdrop: 'static',
+			    		    keyboard: false
+			    		});
+	                 $(".selectpicker").selectpicker();
+	        	     $("body").on("change", "#roleAccount", function(){
+     					$("#roleAccountIc").find("input").each(function(i,v){$(v).remove()});    		 			
+     	 		        $(this).find("option:selected").each(function(i, v){
+     	 		        	$("<input>").attr({
+     	 		        	    type: "hidden",
+     	 		        	    name: "rolesList["+i+"]",
+     	 		        	    value: $(v).val()
+     	 		        	}).appendTo("#roleAccountIc");								    		 		            
+     	 		        });    		 			
+     	 		
+     	 			});
+    		     	
+	            });
+		   // ]]>
+	     </script>
+  	     <th:block layout:fragment="scriptEditModal">
+	     </th:block>
+    </th:block>
+</body>
+</html>

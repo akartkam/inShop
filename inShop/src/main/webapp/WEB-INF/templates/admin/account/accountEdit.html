@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ru" xmlns:th="http://www.thymeleaf.org" 
                 xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+                xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
                 layout:decorator="admin/account/account">
 	<head>
 	    <th:block th:remove="all">
@@ -22,7 +23,7 @@
 	    </th:block>
 	</head>
 <body>
-  <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true" th:attr="data-path=@{/admin/catalog/category}" layout:fragment="editForm">
+  <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true" th:fragment="editForm" layout:fragment="editForm">
     <div class="modal-dialog">
 	   <div class="modal-content" id="editModalContent">
 	   <form method="post" class="form-horizontal" role="form" action="#" th:action="@{/admin/account/account/edit}" th:object="${account}" th:fragment="editAccountForm">
@@ -114,7 +115,7 @@
 						   		   </label>
 						   		   <input type="text" class="form-control" th:field="*{phone}"/>
 					   		   </div>
-		                       <div class="field-box">
+		                       <div class="field-box" sec:authorize="hasRole('ADMIN')">
 	                             <div id="roleAccountIc" style="display: none">
 	                            	<input type="hidden" th:each="rl,rlStat : ${account.rolesList}" th:name="rolesList[__${rlStat.index}__]" 
 	                            	       th:value="${rl.id}" />

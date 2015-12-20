@@ -74,8 +74,6 @@ public class Account extends AbstractDomainObject {
 
 	public void setLastName(String lastName) { this.lastName = lastName; }
 	
-	@NotNull
-	@Size(min = 1, max = 50)
 	@Column(name = "middle_name")
 	public String getMiddleName() { return middleName; }
 

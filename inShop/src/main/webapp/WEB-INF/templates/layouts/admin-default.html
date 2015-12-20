@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ru" xmlns:th="http://www.thymeleaf.org"
-				xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+				xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+				xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
@@ -92,7 +93,7 @@
                     	<a href="#" class="dropdown-toggle" data-toggle="dropdown" ><span th:text= "#{admin.users}">Users</span><span class="caret"></span></a> 
                         <ul class="dropdown-menu" role="menu">
                             <li>
-                                <a href="#" th:href="@{/admin/account/account}"><i class="fa fa-user fa-fw">&nbsp;</i><span th:text= "#{admin.users.list}">Users list</span></a>
+                                <a href="#" th:href="@{/admin/account/account}" sec:authorize="hasRole('ADMIN')"><i class="fa fa-user fa-fw">&nbsp;</i><span th:text= "#{admin.users.list}">Users list</span></a>
                             </li>
                         </ul>
                     </li>
@@ -122,9 +123,9 @@
 	                  </a>
 	                  <ul class="dropdown-menu dropdown-user">
 	                      <li>
-	                        <a href="#" th:href="@{/admin/account/account}"><i class="fa fa-user fa-fw">&nbsp;</i><span th:text= "#{admin.account.userprofile}">User Profile</span></a>
+	                        <a href="#" th:href="@{/admin/account/userprofile}"><i class="fa fa-user fa-fw">&nbsp;</i><span th:text= "#{admin.account.userprofile}">User Profile</span></a>
 	                      </li>
-	                      <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+	                      <li><a href="#"><i class="fa fa-gear fa-fw"></i> Настройки</a>
 	                      </li>
 	                      <li class="divider"></li>
 	                      <li>

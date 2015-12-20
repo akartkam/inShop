@@ -111,6 +111,7 @@ public class AccountServiceImpl implements AccountService {
 			} catch (IllegalAccessException | InvocationTargetException e) {
 				LOG.error(e);
 			}
+			account.setRoles(new HashSet<Role>(accountForm.getRolesList()));
 			registerAccount(account, accountForm.getPassword());
 		}
 	}

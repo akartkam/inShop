@@ -28,7 +28,9 @@ public class AccountDAOImpl extends AbstractGenericDAO<Account> implements Accou
 	@Override
 	public void create(Account account, String password) {
 		LOG.debug("Creating Account");
-		updatePassword(create(account), password);
+		create(account);
+		currentSession().flush();
+		updatePassword(account, password);
 	}
 	
 	
