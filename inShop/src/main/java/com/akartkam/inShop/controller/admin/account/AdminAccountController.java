@@ -107,7 +107,7 @@ public class AdminAccountController {
 		     model.addAttribute("account", new AccountForm(account));
 		  }
           if ("XMLHttpRequest".equals(requestedWith)) {
-              return "/admin/account/accountEdit :: editAccountForm";
+              return "/admin/account/accountEdit :: editAccountForm(action='/admin/account/account/edit')";
             }		  
           return "/admin/account/accountEdit";		  
 		  }	  
@@ -117,7 +117,7 @@ public class AdminAccountController {
 		  Account account = new AccountForm();
  	      model.addAttribute("account", account);
           if ("XMLHttpRequest".equals(requestedWith)) {
-              return "/admin/account/accountEdit :: editAccountForm";
+              return "/admin/account/accountEdit :: editAccountForm(action='/admin/account/account/edit')";
             } 	      
           return "/admin/account/accountEdit";		  
 		  }	  

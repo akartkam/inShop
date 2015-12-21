@@ -95,6 +95,7 @@ public class AdminUserProfileController {
 		  UserDetailsAdapter uda =  (UserDetailsAdapter)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		  AccountForm account = new AccountForm(uda.getAccount());
 		  model.addAttribute("account", account);
+		  model.addAttribute("action", "/admin/account/userprofile/edit");		  
 		  return "/admin/account/userprofile"; 
 		  }	  
 	  	  
