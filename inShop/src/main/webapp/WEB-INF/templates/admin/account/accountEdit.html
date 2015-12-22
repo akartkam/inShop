@@ -130,7 +130,7 @@
 								    </option>      
 								 </select>
 							  </div>
-							  <div class="field-box">
+							  <div class="field-box" sec:authorize="hasRole('ADMIN')">
 		                         <label>
 		 					    	<input type="checkbox" th:field="*{enabled}"/>
 								  	<span th:text="#{admin.enabled}">Active?</span>

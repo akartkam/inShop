@@ -93,8 +93,10 @@ public class AdminUserProfileController {
 	  @RequestMapping(method=GET)
 	  public String account(Model model) {		  
 		  UserDetailsAdapter uda =  (UserDetailsAdapter)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		  AccountForm account = new AccountForm(uda.getAccount());
-		  model.addAttribute("account", account);
+		  if(!model.containsAttribute("account")) {
+			  AccountForm account = new AccountForm(uda.getAccount());
+			  model.addAttribute("account", account);
+		  }
 		  model.addAttribute("action", "/admin/account/userprofile/edit");		  
 		  return "/admin/account/userprofile"; 
 		  }	  
@@ -109,6 +111,7 @@ public class AdminUserProfileController {
 	        if (bindingResult.hasErrors()) {
 	        	ra.addFlashAttribute("account", account);
 	        	ra.addFlashAttribute("org.springframework.validation.BindingResult.account", bindingResult);
+	        	return "redirect:/admin/account/userprofile"; 
 	        }
             return "redirect:/logout";
 	    }  
