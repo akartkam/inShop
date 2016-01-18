@@ -88,9 +88,9 @@
 					    		  <label>
 						    	  	 <span th:text="#{admin.account.password}">Password</span>
 						   		  </label>					    	  	 
-					    	  	  <button type="button" class="btn btn-default btn-xs" data-toggle="tooltip" data-placement="right" title="" data-original-title="Вводите пароль только, если хотите его изменить">
-					    	  	 		<i class="fa fa-info"></i>
-					    	  	  </button>
+					    	  	  <a href="#" data-toggle="tooltip" data-placement="right" title="" data-original-title="Вводите пароль только, если хотите его изменить">
+					    	  	 		<i class="fa fa-question-circle"></i>
+					    	  	  </a>
 						   		  <input type="password" class="form-control" th:field="*{password}"/>
 						   		  <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Incorrect Password</p>
 					   		   </div>						   		   
@@ -98,6 +98,9 @@
 					    		  <label>
 						    	  	 <span th:text="#{admin.account.confirmpassword}">Confirm password</span>
 						   		  </label>
+						   		  <a href="#" data-toggle="tooltip" data-placement="right" title="" data-original-title="Вводите пароль только, если хотите его изменить">
+					    	  	 		<i class="fa fa-question-circle"></i>
+					    	  	  </a>
 						   		  <input type="password" class="form-control" th:field="*{confirmPassword}"/>
 					   		   </div>						   		   
 					   		   <div class="field-box">
