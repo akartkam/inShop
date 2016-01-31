@@ -72,6 +72,7 @@
 			    		    keyboard: false
 			    		});
 	                 $(".selectpicker").selectpicker();
+	                 $('[data-toggle="tooltip"]').tooltip();
 	        	     $("body").on("change", "#roleAccount", function(){
      					$("#roleAccountIc").find("input").each(function(i,v){$(v).remove()});    		 			
      	 		        $(this).find("option:selected").each(function(i, v){
