@@ -26,7 +26,7 @@ public class BrandServiceImpl implements BrandService {
 	
 	@Override
 	public List<Brand> getAllBrand(Boolean useDisabled) {
-		return brandDAO.readAllCategory(useDisabled);
+		return brandDAO.readAllBrand(useDisabled);
 	}
 
 

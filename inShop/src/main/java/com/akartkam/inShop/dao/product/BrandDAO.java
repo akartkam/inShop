@@ -7,5 +7,5 @@ import com.akartkam.inShop.dao.GenericDAO;
 import com.akartkam.inShop.domain.product.Brand;
 
 public interface BrandDAO extends GenericDAO<Brand, UUID> {
-	List<Brand> readAllCategory(Boolean useDisabled);
+	List<Brand> readAllBrand(Boolean useDisabled);
 }

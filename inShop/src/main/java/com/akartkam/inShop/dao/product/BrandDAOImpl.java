@@ -15,7 +15,7 @@ import com.akartkam.inShop.domain.product.Category;
 public class BrandDAOImpl extends AbstractGenericDAO<Brand> implements BrandDAO {
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Brand> readAllCategory(Boolean useDisabled) {
+	public List<Brand> readAllBrand(Boolean useDisabled) {
 		Criteria criteria = currentSession().createCriteria(Brand.class);
 		if (!useDisabled) criteria.add(Restrictions.eq("enabled", true));
 		criteria.setCacheable(true);
