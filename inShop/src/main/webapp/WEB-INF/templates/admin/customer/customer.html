@@ -126,8 +126,8 @@
 						        <thead >
 							      <tr >
 							          <th class="col-md-1"></th>
-						              <th class="col-md-3 text-center" th:text="#{admin.customer.name}">Name</th>
-						              <th class="col-md-2 text-center" th:text="#{admin.customer.email}">Email</th>
+						              <th class="col-md-3 text-center" th:text="#{admin.fullname}">Name</th>
+						              <th class="col-md-2 text-center" th:text="#{admin.email}">Email</th>
 						              <th class="col-md-1 text-center" th:text="#{admin.account.account}">Account</th>
 						              <th class="col-md-2 text-center" th:text="#{admin.account.role}">Role</th>
 						              <th class="col-md-1 text-center" th:text="#{admin.created}">Created</th>
@@ -148,15 +148,17 @@
 						  	      </tr>
 						 	    </tfoot>
 						 	    <tbody>      
-							        <tr th:each="ac : ${allAccount}" th:class="${!ac.enabled} ? 'text-muted'">
+							        <tr th:each="ac : ${allCustomer}" th:class="${!ac.enabled} ? 'text-muted'">
 							            <td class="text-center">						
 										    <input class="checkCategory" type="checkbox" th:id="${'check-'+ac.id}" th:value="${ac.id}"/>
 									    </td>
 										<td class="mightOverflow domain-col"><span th:text="${ac.fullName}">Adam John Smith</span></td>
-										<td class="mightOverflow domain-col"><span th:text="${ac.username}">Username1</span></td>
 										<td class="mightOverflow domain-col"><span th:text="${ac.email}">user@user.com</span></td>
-										<td class="mightOverflow domain-col">
-   											<span th:each="rl: ${ac.roles}" th:text="${rl.name+';'}"></span>
+										<td class="mightOverflow domain-col"><span th:text="${ac.account!=null ? ac.account.username : ''}"></span>User1</td>
+										<td class="mightOverflow domain-col" >
+										  <div th:if="${ac.account} != null">
+   											<span  th:each="rl: ${#lists.toList(ac.account.getRoles())}" th:text="${rl.name+';'}"></span>
+   										  </div>
 										</td>
 										<td class="mightOverflow domain-col"><span th:text="${{ac.createdDate}}" style="font-size: 9pt;">01.01.2015 12:30</span></td>
 						            	<td class="text-center"><i th:class="${ac.enabled} ? 'fa fa-check-circle'"></i></td>
@@ -165,13 +167,13 @@
 	  				            	  		 <div class="btn-group edit-btn-group" role="group" > 
 				                                  <button type="button" class="open-editDialog btn btn-outline btn-default btn-xs" 
 				                                          data-toggle="modal" data-target="#editModal" data-operation="edit" 
-				                                          th:attr="data-id=${ac.id}, data-path=@{/admin/account/account/edit}"
+				                                          th:attr="data-id=${ac.id}, data-path=@{/admin/customer/customer/edit}"
 				                                          data-backdrop="static" data-keyboard="false"> 
 				                                    <i class="fa fa-pencil"></i>
 				                                  </button>	
 					                              <button th:disabled="${!ac.enabled}" type="button" data-toggle="modal" data-target="#deleteModal" 
 					                                      class="open-deleteDialog btn btn-outline btn-default btn-xs"
-					                                      th:attr="data-id=${ac.id}, data-name=${ac.username}"> 
+					                                      th:attr="data-id=${ac.id}, data-name=${ac.fullName}"> 
 					                                <i class="fa fa-trash-o"></i>
 					                              </button>	
  			                            	 </div>   
@@ -188,7 +190,7 @@
 					   		 <div class="btn-group" role="group" aria-label="..."> 
                                 <button type="button" class="open-editDialog btn btn-outline btn-default btn-sm" 
                                         data-toggle="modal" data-target="#editModal" data-operation="add"
-                                        th:attr="data-path=@{/admin/account/account/add}"
+                                        th:attr="data-path=@{/admin/customer/customer/add}"
                                         data-backdrop="static" data-keyboard="false">
                                   <i class="fa fa-plus-circle"></i>
                                   <span> </span>

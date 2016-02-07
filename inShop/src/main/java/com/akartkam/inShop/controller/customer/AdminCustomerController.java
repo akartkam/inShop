@@ -3,39 +3,24 @@ package com.akartkam.inShop.controller.customer;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 import java.beans.PropertyEditorSupport;
-import java.io.File;
-import java.util.Collection;
+
 import java.util.List;
 import java.util.UUID;
 
-import javax.validation.Valid;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import com.akartkam.inShop.domain.product.Brand;
+import com.akartkam.inShop.domain.customer.Customer;
 import com.akartkam.inShop.service.customer.CustomerService;
-import com.akartkam.inShop.service.product.BrandService;
-import com.akartkam.inShop.util.ImageUtil;
 
 @Controller
-@RequestMapping("/admin/customer")
+@RequestMapping("/admin/customer/customer")
 public class AdminCustomerController {
 	
 	  @Autowired
@@ -45,39 +30,28 @@ public class AdminCustomerController {
 	  private MessageSource messageSource;
 	  
  
-	  /*@SuppressWarnings("rawtypes")
-	  @ModelAttribute("allBrand")
-	  public List getAllBrand() {
-	      return brandService.getAllBrand();
-	  }*/
+	  @ModelAttribute("allCustomer")
+	  public List<Customer> getAllCustomer() {
+	      return customerService.getAllCustomer();
+	  }
 	  
 	  @InitBinder
 	  public void initBinder(WebDataBinder binder) {
-			binder.setAllowedFields(new String[] { "id", "name", "url", "description", "logoUrl", "enabled"});
+			binder.setAllowedFields(new String[] { "id", "firstName", "lastName", "middleName", "email",
+					                               "phone", "address", "birthdate"});
 			binder.registerCustomEditor(UUID.class, "id", new PropertyEditorSupport() {
 			    @Override
 			    public void setAsText(String text) {
 			    	 setValue(UUID.fromString(text));
 			    }
-			    });
-			
-			binder.registerCustomEditor(String.class, "logoUrl", new PropertyEditorSupport() {
-			    @Override
-			    public void setAsText(String text) {
-			    	if ("".equals(text) || "''".equals(text))
-			    	  setValue(null);
-			    	else
-			    	  setValue(text);	
-			    }
-			    });
-			
+			    });						
 			
 	  }
 	  
 	  @RequestMapping(method=GET)
-	  public String brand() {
-		  return "/admin/catalog/brand"; 
-		  }	  
+	  public String customer() {
+		  return "/admin/customer/customer"; 
+	  }	  
 	 /* 
 	  @RequestMapping("/edit")
 	  public String brandEdit(@RequestParam(value = "ID", required = false) String categoryID, Model model,

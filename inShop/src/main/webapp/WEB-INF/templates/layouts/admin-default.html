@@ -90,11 +90,16 @@
                         </ul>
                     </li>
                     <li class="dropdown">
-                    	<a href="#" class="dropdown-toggle" data-toggle="dropdown" ><span th:text= "#{admin.users}">Users</span><span class="caret"></span></a> 
+                    	<a href="#" class="dropdown-toggle" data-toggle="dropdown" ><span th:text= "#{admin.people}">Users</span><span class="caret"></span></a> 
                         <ul class="dropdown-menu" role="menu">
                             <li>
                                 <a href="#" th:href="@{${#authorization.expression('hasRole(''ADMIN'')')?'/admin/account/account':'#'}}">
                                 	<i class="fa fa-user fa-fw">&nbsp;</i><span th:class="${#authorization.expression('hasRole(''ADMIN'')') ? '' : 'text-muted'}" th:text= "#{admin.users.list}">Users list</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" th:href="@{/admin/customer/customer}">
+                                	<i class="fa fa-user fa-fw">&nbsp;</i><span th:text= "#{admin.customers.list}">Customers list</span>
                                 </a>
                             </li>
                         </ul>

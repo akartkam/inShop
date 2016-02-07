@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org" 
+                xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+                xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+                layout:decorator="admin/customer/customer">
+	<head>
+	    <th:block th:remove="all">
+			<title>inShop Admin Customer Edit</title>
+		    <meta charset="utf-8"/>
+		    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+		    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+		    <meta name="description" content=""/>
+		    <meta name="author" content=""/>
+		
+		    <!-- Bootstrap Core CSS -->
+		    <link href="../../../../resources/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" th:href="@{/resources/bower_components/bootstrap/dist/css/bootstrap.min.css}"/>
+			<!-- bootstrap select -->
+			<link href="../../../../resources/css/bootstrap-select.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/bootstrap-select.min.css}"></link>
+		    <!-- Custom Fonts -->
+	    	<link href="../../../../resources/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/font-awesome/css/font-awesome.min.css}"/>
+			<link href="../../../../resources/bower_components/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/bootstrap/dist/css/bootstrap-theme.min.css}"></link>    	
+	    	<link href="../../../../resources/css/sb-admin-2.css" rel="stylesheet" th:href="@{/resources/css/sb-admin-2.css}"/>
+	    	<!-- bootstrap-datetimepicker -->
+  			<link href="../../../../resources/css/bootstrap-datetimepicker.min.css" rel="stylesheet" th:href="@{/resources/css/bootstrap-datetimepicker.min.css}"/>			      			    		    	
+	    </th:block>
+	</head>
+<body>
+  <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true" th:fragment="editForm" layout:fragment="editForm">
+    <div class="modal-dialog">
+	   <div class="modal-content" id="editModalContent">
+	   <form method="post" class="form-horizontal" role="form" action="#" th:action="@{${action}}" th:object="${customer}" th:fragment="editCustomerForm">
+		   <div class="modal-header">
+	 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title"  th:text="${!customer.new}? #{admin.customer.customer.edit.title.edit}: #{admin.customer.customer.edit.title.add}">Edit customer</h4>
+	 	   </div>
+		 <!-- /modal-header -->
+		    <div class="modal-body" style ="height:420px; overflow:auto">
+		          <div  th:if="${#fields.hasErrors('*')}" class="alert alert-danger alert-dismissable">
+		          	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <span th:text="#{admin.catalog.category.edit.existsErrors}">There is some errors in the form</span>
+					<ul>
+					  <li th:each="err : ${#fields.errors('*')}" th:text="${err}">Input is incorrect</li>
+					</ul>                                 
+                  </div>
+	               <ul class="nav nav-tabs">
+	                    <li class="active"><a href="#main" data-toggle="tab" th:text="#{admin.edit.tab.description}">Описание</a>
+	                    </li>
+	                </ul>
+	                <!-- Tab panes -->
+	                <div class="tab-content">
+	                    <div class="tab-pane fade in active" id="main">
+	                    	   <input type="hidden" th:field="*{id}"/>
+	                    	   <input type="hidden" th:field="*{createdDate}"/>
+	                           <div class="row">
+							     <div class="col-md-4">
+								   <div class="field-box" th:class="${#fields.hasErrors('firstName')}? has-error: field-box">
+						    		  <label>
+							    	  	 <span th:text="#{admin.account.firstname}">Adam</span>
+							   		  </label>
+							   		  <input type="text" class="form-control" th:field="*{firstName}"/>
+							   		  <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">Incorrect Name</p>
+						   		   </div>
+						   		 </div>
+							     <div class="col-md-4">
+								   <div class="field-box" th:class="${#fields.hasErrors('lastName')}? has-error: field-box">
+						    		  <label>
+							    	  	 <span th:text="#{admin.account.lastname}">John</span>
+							   		  </label>
+							   		  <input type="text" class="form-control" th:field="*{lastName}"/>
+							   		  <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">Incorrect Name</p>
+						   		   </div>
+						   		 </div>
+							     <div class="col-md-4">
+								   <div class="field-box" th:class="${#fields.hasErrors('middleName')}? has-error: field-box">
+						    		  <label>
+							    	  	 <span th:text="#{admin.account.middlename}">John</span>
+							   		  </label>
+							   		  <input type="text" class="form-control" th:field="*{middleName}"/>
+							   		  <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('middleName')}" th:errors="*{middleName}">Incorrect Name</p>
+						   		   </div>
+						   		 </div>  						   		   
+   					   		   </div>
+					           <div class="field-box">
+					                <label>
+					    	   	        <span th:text="#{admin.catalog.product.edit.activeEndDate}">Active End Date</span>
+					   		        </label>
+					                <div class="input-group date datetimepicker">
+					                    <input type="text" class="form-control datetimepicker-input" id="active-end-date-input" 
+						                        name="defaultSku.activeEndDate" th:value="${{product.defaultSku.activeEndDate}}"/>
+					                    <span class="input-group-addon">
+					                        <span class="fa fa-calendar"></span>
+					                    </span>						                
+					                </div>
+					           </div>
+					   		   <div class="field-box">
+		 			    		  <label>
+						    	  	<span th:text="#{admin.customer.email}">Email</span>
+						   		   </label>
+						   		   <input type="email" class="form-control" th:field="*{email}"/>
+					   		   </div>
+					   		   <div class="field-box">
+		 			    		  <label>
+						    	  	<span th:text="#{admin.customer.address}">Address</span>
+						   		   </label>
+						   		   <input type="text" class="form-control" th:field="*{address}"/>
+					   		   </div>
+					   		   <div class="field-box">
+		 			    		  <label>
+						    	  	<span th:text="#{admin.customer.phone}">Phone</span>
+						   		   </label>
+						   		   <input type="text" class="form-control" th:field="*{phone}"/>
+					   		   </div>
+							  <div class="field-box" sec:authorize="hasRole('ADMIN')">
+		                         <label>
+		 					    	<input type="checkbox" th:field="*{enabled}"/>
+								  	<span th:text="#{admin.enabled}">Active?</span>
+								 </label>
+						      </div>	 
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <input type="checkbox"  aria-controls="collapseOne" href="#collapseOne"/>
+                                            <span >Create account</span>
+<!--                                             <a data-toggle="collapse" href="#collapseOne">Collapsible Group Item #1</a> -->
+                                        </h4>
+                                    </div>
+                                    <div id="collapseOne" class="panel-collapse collapse in">
+                                        <div class="panel-body">
+										   <div class="field-box">	                              
+								    		  <label>
+									    	  	 <span th:text="#{admin.customer.username}">Username</span>
+									   		  </label>
+									   		  <input type="text" class="form-control" th:field="*{username}"/>
+								   		   </div>						   		   
+										   <div class="field-box" th:class="${#fields.hasErrors('password')}? has-error: field-box">	                              
+								    		  <label>
+									    	  	 <span th:text="#{admin.customer.password}">Password</span>
+									   		  </label>					    	  	 
+								    	  	  <a href="#" data-toggle="tooltip" data-placement="right" title="" data-original-title="Вводите пароль только, если хотите его изменить">
+								    	  	 		<i class="fa fa-question-circle"></i>
+								    	  	  </a>
+									   		  <input type="password" class="form-control" th:field="*{password}"/>
+									   		  <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Incorrect Password</p>
+								   		   </div>						   		   
+										   <div class="field-box">	                              
+								    		  <label>
+									    	  	 <span th:text="#{admin.customer.confirmpassword}">Confirm password</span>
+									   		  </label>
+									   		  <a href="#" data-toggle="tooltip" data-placement="right" title="" data-original-title="Вводите пароль только, если хотите его изменить">
+								    	  	 		<i class="fa fa-question-circle"></i>
+								    	  	  </a>
+									   		  <input type="password" class="form-control" th:field="*{confirmPassword}"/>
+								   		   </div>						   		   
+                                        </div>
+                                    </div>
+                                </div>							  	 
+	             		</div>
+                 </div>
+		    </div>
+		 <!-- /modal-body -->
+	 	    <div class="modal-footer">
+	 		  <button type="button" class="btn btn-default" data-dismiss="modal" th:text="#{admin.catalog.category.edit.button.close}">Close</button>        
+			  <button type="submit" class="btn btn-primary" th:text="#{admin.catalog.category.edit.button.save}">Save changes</button>
+		    </div>  
+		 <!-- /modal-footer -->
+	     </form>	
+      </div> 
+    </div> 
+  </div>	    
+   <!-- jQuery -->
+   <script src="../../../../resources/bower_components/jquery/dist/jquery.min.js" th:src="@{/resources/bower_components/jquery/dist/jquery.min.js}"></script>
+   <!-- Bootstrap Core JavaScript -->
+   <script src="../../../../resources/bower_components/bootstrap/dist/js/bootstrap.min.js" th:src="@{/resources/bower_components/bootstrap/dist/js/bootstrap.min.js}"></script>
+ 
+	   <th:block th:fragment="scriptEditModal">
+	       <!-- bootstrap-select -->
+		   <script src="../../../../resources/js/bootstrap-select.min.js" th:src="@{/resources/js/bootstrap-select.min.js}"></script>
+		   <script src="../../../../resources/js/defaults-ru_RU.js" th:src="@{/resources/js/defaults-ru_RU.js}"></script>
+		    <!-- moment -->		  
+		   <script src="../../../../resources/js/moment-with-locales.min.js" th:src="@{/resources/js/moment-with-locales.min.js}"></script>
+		    <!-- bootstrap-datetimepicker -->		  
+		   <script src="../../../../resources/js/bootstrap-datetimepicker.min.js" th:src="@{/resources/js/bootstrap-datetimepicker.min.js}"></script>					 			   
+	   </th:block>
+   		<th:block layout:fragment="scriptEditModal"> 
+	   	   <script type="text/javascript">
+		     $(document).ready(function() {
+		    	 $("#editModal").modal({
+		    		    backdrop: 'static',
+		    		    keyboard: false
+		    		});
+                 $(".selectpicker").selectpicker();
+                 $(document).ready(function(){
+                	    $('[data-toggle="tooltip"]').tooltip();  
+                        $(".datetimepicker").datetimepicker({
+                            locale: "ru",
+                            format: "DD.MM.YYYY"
+                        });
+                 });
+             });
+		   </script>
+		 </th:block>  
+</body>
+</html>
+

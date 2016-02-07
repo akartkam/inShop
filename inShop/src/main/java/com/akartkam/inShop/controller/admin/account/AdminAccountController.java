@@ -16,6 +16,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -94,12 +95,13 @@ public class AdminAccountController {
 			    });			
 	  }
 	
+
 	  @RequestMapping(method=GET)
 	  public String account() {
 		  return "/admin/account/account"; 
 		  }	  
 	  
-	   
+
 	  @RequestMapping("/edit")
 	  public String accountEdit(@RequestParam(value = "ID", required = true) String accountID, Model model,
 			   					 @RequestHeader(value = "X-Requested-With", required = false) String requestedWith) {
@@ -113,6 +115,7 @@ public class AdminAccountController {
           return "/admin/account/accountEdit";		  
 		  }	  
 
+
 	  @RequestMapping("/add")
 	  public String accountAdd(Model model, @RequestHeader(value = "X-Requested-With", required = false) String requestedWith) throws CloneNotSupportedException {
 		  Account account = new AccountForm();
@@ -123,7 +126,7 @@ public class AdminAccountController {
           return "/admin/account/accountEdit";		  
 		  }	  
 
-	  
+
 	  @RequestMapping(value="/delete", method = RequestMethod.POST)
 	  public String accountDelete(@RequestParam(value = "ID", required = false) String accountID, 
 			                       @RequestParam(value = "phisycalDelete", required = false) Boolean phisycalDelete,
