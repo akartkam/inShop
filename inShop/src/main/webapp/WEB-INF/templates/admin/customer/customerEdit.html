@@ -118,11 +118,8 @@
 						      </div>	 
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
-                                        <h4 class="panel-title">
-                                            <input type="checkbox"  aria-controls="collapseOne" href="#collapseOne"/>
-                                            <span >Create account</span>
-<!--                                             <a data-toggle="collapse" href="#collapseOne">Collapsible Group Item #1</a> -->
-                                        </h4>
+                                            <input type="checkbox" th:checked="${customer.account != null}"  id="cbCreateAccount"/>
+                                            <label for="cbCreateAccount" >Create Account</label>
                                     </div>
                                     <div id="collapseOne" class="panel-collapse collapse in">
                                         <div class="panel-body">
@@ -189,14 +186,25 @@
 		    		    keyboard: false
 		    		});
                  $(".selectpicker").selectpicker();
-                 $(document).ready(function(){
-                	    $('[data-toggle="tooltip"]').tooltip();  
-                        $(".datetimepicker").datetimepicker({
-                            locale: "ru",
-                            format: "DD.MM.YYYY"
-                        });
-                 });
+         	     $('[data-toggle="tooltip"]').tooltip();  
+                 $(".datetimepicker").datetimepicker({
+                    locale: "ru",
+                    format: "DD.MM.YYYY"
+                 }); 
+                 if ($("#cbCreateAccount").is(":checked")) {
+                     $("#collapseOne").collapse("show");
+                     $("#cbCreateAccount").attr("disabled", true);
+                 } else {
+                	 $("#collapseOne").collapse("hide");
+                 }    
              });
+		     $(document).on("click", "#cbCreateAccount", function () {
+		    	if ($("#cbCreateAccount").is(":checked")) {
+		    		$("#collapseOne").collapse("show");
+		    	} else {
+		    		$("#collapseOne").collapse("hide");
+		    	}
+		     });
 		   </script>
 		 </th:block>  
 </body>
