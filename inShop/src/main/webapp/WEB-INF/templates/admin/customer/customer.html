@@ -29,6 +29,8 @@
     		<link href="../../../../resources/css/style.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/style.css}"/>
 	    	<!-- bootstrap-select -->
 			<link href="../../../../resources/css/bootstrap-select.min.css" rel="stylesheet" th:href="@{/resources/css/bootstrap-select.min.css}"/>
+	    	<!-- bootstrap-datetimepicker -->
+  			<link href="../../../../resources/css/bootstrap-datetimepicker.min.css" rel="stylesheet" th:href="@{/resources/css/bootstrap-datetimepicker.min.css}"/>			      			    		    	
     			    	
 			<style type="text/css">			
 				body {
@@ -96,7 +98,7 @@
 	  </div> 
 	</div>
     <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true" layout:fragment="editForm">
-	  <div class="modal-dialog" style="width:65vw;overflow-y: initial !important">
+	  <div class="modal-dialog" style="width:45vw;overflow-y: initial !important">
 	    <div class="modal-content" id="editModalContent">
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -216,8 +218,10 @@
 	    <script src="../../../../resources/bower_components/datatables/media/js/jquery.dataTables.min.js" th:src="@{/resources/bower_components/datatables/media/js/jquery.dataTables.min.js}"></script>
 	    <script src="../../../../resources/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js" th:src="@{/resources/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js}"></script>
 	    <script src="../../../../resources/js/inShop-common.js" th:src="@{/resources/js/inShop-common.js}"></script>
-<!-- 	    <th:block th:include="/admin/account/accountEdit :: scriptEditModal"> -->
-<!--         </th:block>	     -->
+		<!-- moment -->		  
+	    <script src="../../../../resources/js/moment-with-locales.min.js" th:src="@{/resources/js/moment-with-locales.min.js}"></script>
+		<!-- bootstrap-datetimepicker -->		  
+	    <script src="../../../../resources/js/bootstrap-datetimepicker.min.js" th:src="@{/resources/js/bootstrap-datetimepicker.min.js}"></script>					 			   
 	    <script type="text/javascript">
 	      //<![CDATA[
 	           $(document).ready(function() {
@@ -271,7 +275,13 @@
      	 		        });    		 			
      	 		
      	 			});
-    		     	
+   			       $("body").on("click", "#cbCreateAccount", function () {
+   			    	if ($("#cbCreateAccount").is(":checked")) {
+   			    		$("#collapseOne").collapse("show");
+   			    	} else {
+   			    		$("#collapseOne").collapse("hide");
+   			    	}
+   			       })   		 		   
 	            });
 	            //Открытие окна удаления
 		        $(document).on("click", ".open-deleteDialog", function () {
@@ -293,7 +303,17 @@
                             $("#editModalContent").html(html);
                             $(".selectpicker").selectpicker();
     	                    $("#name").focus();
-  	                	    $('[data-toggle="tooltip"]').tooltip();   
+  	                	    $('[data-toggle="tooltip"]').tooltip();
+	  	                    $(".datetimepicker").datetimepicker({
+	  	                        locale: "ru",
+	  	                        format: "DD.MM.YYYY"
+	  	                    }); 
+	  	                    if ($("#cbCreateAccount").is(":checked")) {
+	  	                         $("#collapseOne").collapse("show");
+	  	                         $("#cbCreateAccount").attr("disabled", true);
+	  	                     } else {
+	  	                    	 $("#collapseOne").collapse("hide");
+	  	                    }  	                	    
                   });
 		    	});  
   		        $(document).on("mouseenter", ".mightOverflow", function() { 

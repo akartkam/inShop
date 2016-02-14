@@ -3,19 +3,25 @@ package com.akartkam.inShop.controller.customer;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 import java.beans.PropertyEditorSupport;
-
 import java.util.List;
 import java.util.UUID;
+
+
+
 
 
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 import com.akartkam.inShop.domain.customer.Customer;
 import com.akartkam.inShop.service.customer.CustomerService;
 
@@ -52,6 +58,19 @@ public class AdminCustomerController {
 	  public String customer() {
 		  return "/admin/customer/customer"; 
 	  }	  
+	  
+	 @RequestMapping("/add")
+	  public String customerAdd(@RequestParam(value = "ID", required = false) String copyID, Model model,
+				               @RequestHeader(value = "X-Requested-With", required = false) String requestedWith) throws CloneNotSupportedException {
+		  Customer customer = new Customer();
+		  //if (copyID != null && !"".equals(copyID)) customer = customerService.cloneBrandById(UUID.fromString(copyID)); 
+		  //else brand = new Brand();
+ 	      model.addAttribute("customer", customer);
+          if ("XMLHttpRequest".equals(requestedWith)) {
+              return "/admin/customer/customerEdit :: editCustomerForm";
+            } 	      
+          return "/admin/customer/customerEdit";		  
+		  }		  
 	 /* 
 	  @RequestMapping("/edit")
 	  public String brandEdit(@RequestParam(value = "ID", required = false) String categoryID, Model model,
@@ -65,19 +84,7 @@ public class AdminCustomerController {
             }		  
           return "/admin/catalog/brandEdit";		  
 		  }	  
-	  
-	  @RequestMapping("/add")
-	  public String brandAdd(@RequestParam(value = "ID", required = false) String copyID, Model model,
-				                @RequestHeader(value = "X-Requested-With", required = false) String requestedWith) throws CloneNotSupportedException {
-		  Brand brand = null;
-		  if (copyID != null && !"".equals(copyID)) brand = brandService.cloneBrandById(UUID.fromString(copyID)); 
-		  else brand = new Brand();
- 	      model.addAttribute("brand", brand);
-          if ("XMLHttpRequest".equals(requestedWith)) {
-              return "/admin/catalog/brandEdit :: editBrandForm";
-            } 	      
-          return "/admin/catalog/brandEdit";		  
-		  }		  
+	  	  
 
 	  @RequestMapping(value="/delete", method = RequestMethod.POST)
 	  public String brandDelete(@RequestParam(value = "ID", required = false) String ID, 

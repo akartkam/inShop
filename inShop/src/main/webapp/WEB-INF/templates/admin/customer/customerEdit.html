@@ -82,11 +82,11 @@
    					   		   </div>
 					           <div class="field-box">
 					                <label>
-					    	   	        <span th:text="#{admin.catalog.product.edit.activeEndDate}">Active End Date</span>
+					    	   	        <span th:text="#{admin.birthdate}">Birthdate</span>
 					   		        </label>
 					                <div class="input-group date datetimepicker">
-					                    <input type="text" class="form-control datetimepicker-input" id="active-end-date-input" 
-						                        name="defaultSku.activeEndDate" th:value="${{product.defaultSku.activeEndDate}}"/>
+					                    <input type="text" class="form-control datetimepicker-input" 
+						                       th:field="*{{birthdate}}"/>
 					                    <span class="input-group-addon">
 					                        <span class="fa fa-calendar"></span>
 					                    </span>						                
@@ -94,19 +94,19 @@
 					           </div>
 					   		   <div class="field-box">
 		 			    		  <label>
-						    	  	<span th:text="#{admin.customer.email}">Email</span>
+						    	  	<span th:text="#{admin.email}">Email</span>
 						   		   </label>
 						   		   <input type="email" class="form-control" th:field="*{email}"/>
 					   		   </div>
 					   		   <div class="field-box">
 		 			    		  <label>
-						    	  	<span th:text="#{admin.customer.address}">Address</span>
+						    	  	<span th:text="#{admin.address}">Address</span>
 						   		   </label>
 						   		   <input type="text" class="form-control" th:field="*{address}"/>
 					   		   </div>
 					   		   <div class="field-box">
 		 			    		  <label>
-						    	  	<span th:text="#{admin.customer.phone}">Phone</span>
+						    	  	<span th:text="#{admin.phone}">Phone</span>
 						   		   </label>
 						   		   <input type="text" class="form-control" th:field="*{phone}"/>
 					   		   </div>
@@ -118,26 +118,32 @@
 						      </div>	 
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
-                                            <input type="checkbox" th:checked="${customer.account != null}"  id="cbCreateAccount"/>
+                                            <input type="checkbox" th:checked="${customer.account != null}" th:disabled="${customer.account != null}"  id="cbCreateAccount"/>
                                             <label for="cbCreateAccount" >Create Account</label>
-                                    </div>
+                                            <span>&nbsp;</span>
+                                            <span>&nbsp;</span>
+<!--                                             <button th:if="${customer.account} != null &amp;&amp; ${#authorization.expression('hasRole(''ADMIN'')')}" type="button" 
+                                                    class="btn btn-outline btn-default btn-xs">
+			                                  <i class="fa fa-trash-o"></i> 
+			                                </button>
+ -->                                    </div>
                                     <div id="collapseOne" class="panel-collapse collapse in">
                                         <div class="panel-body">
 										   <div class="field-box">	                              
 								    		  <label>
 									    	  	 <span th:text="#{admin.customer.username}">Username</span>
 									   		  </label>
-									   		  <input type="text" class="form-control" th:field="*{username}"/>
+									   		  <input type="text" class="form-control"/>
 								   		   </div>						   		   
-										   <div class="field-box" th:class="${#fields.hasErrors('password')}? has-error: field-box">	                              
+										   <div class="field-box"> <!--th:class="${#fields.hasErrors('password')}? has-error: field-box" -->	                              
 								    		  <label>
 									    	  	 <span th:text="#{admin.customer.password}">Password</span>
 									   		  </label>					    	  	 
 								    	  	  <a href="#" data-toggle="tooltip" data-placement="right" title="" data-original-title="Вводите пароль только, если хотите его изменить">
 								    	  	 		<i class="fa fa-question-circle"></i>
 								    	  	  </a>
-									   		  <input type="password" class="form-control" th:field="*{password}"/>
-									   		  <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Incorrect Password</p>
+									   		  <input type="password" class="form-control"/>
+									   		  <p class="text-danger" style="font-size: 8pt;">Incorrect Password</p> <!-- th:errors="*{password}" th:if="${#fields.hasErrors('password')}"-->
 								   		   </div>						   		   
 										   <div class="field-box">	                              
 								    		  <label>
@@ -146,7 +152,7 @@
 									   		  <a href="#" data-toggle="tooltip" data-placement="right" title="" data-original-title="Вводите пароль только, если хотите его изменить">
 								    	  	 		<i class="fa fa-question-circle"></i>
 								    	  	  </a>
-									   		  <input type="password" class="form-control" th:field="*{confirmPassword}"/>
+									   		  <input type="password" class="form-control"/>
 								   		   </div>						   		   
                                         </div>
                                     </div>
