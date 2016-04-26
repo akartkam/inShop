@@ -24,9 +24,6 @@
     <view-controller path="/favicon.png" view-name="forward:/resources/img/favicon.png" />
 
 
-    <util:properties id="appProperties" 
-                    location="classpath:application.properties"/>
-
 	<resources mapping="/resources/**" location="/resources/" />
 	<resources mapping="#{appProperties['inShop.imagesUrl']}**" location="file:///#{appProperties['inShop.imagesPath']}" />
 	

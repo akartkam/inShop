@@ -175,7 +175,7 @@
 			                       	 		</tr>
 			                       	 	</thead>
 								  	    <tbody>
-								  	        <tr th:each="po, poStat : ${product.productOptionsList}">
+								  	        <tr th:each="po, poStat : ${sku.productOptionsFromPOVL}">
 								  	       	  <td>
 								  	       	    <span th:text="${po.name}"></span>
 								  	       	  </td>
@@ -184,7 +184,7 @@
 												        <option value="">&nbsp;</option>
 													    <option th:each="pov, povStat: ${po.productOptionValues}" 
 													    		th:text="${pov.optionValue}"
-													            th:selected="${pov.equals(sku.getProductOptionValueByPO(po))}"
+													            th:selected="${sku.productOptionValuesList[__${poStat.index}__].productOption.equals(po)}"
 													            th:value="${pov.id}">  
 													    </option>      
 												</select>								  	       	  	

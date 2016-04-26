@@ -4,6 +4,7 @@ package com.akartkam.inShop.service;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
@@ -12,6 +13,7 @@ import org.apache.commons.beanutils.BeanUtilsBean;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.security.core.context.SecurityContext;
@@ -23,7 +25,9 @@ import org.springframework.validation.ObjectError;
 import com.akartkam.inShop.domain.Account;
 import com.akartkam.inShop.domain.Role;
 import com.akartkam.inShop.domain.UserDetailsAdapter;
+import com.akartkam.inShop.domain.product.option.ProductOption;
 import com.akartkam.inShop.formbean.AccountForm;
+import com.akartkam.inShop.formbean.AccountableForm;
 import com.akartkam.inShop.util.NullAwareBeanUtilsBean;
 import com.akartkam.inShop.dao.AccountDAO;
 
@@ -38,6 +42,12 @@ public class AccountServiceImpl implements AccountService {
 	
 	@Autowired
 	private MessageSource messageSource;
+	
+	@Value("#{appProperties['inShop.passMinSize']}")
+	private String passMinSize;	
+	
+	@Value("#{appProperties['inShop.passMaxSize']}")
+	private String passMaxSize;
 	
 	@Override
 	@Transactional(readOnly = false)
@@ -88,7 +98,7 @@ public class AccountServiceImpl implements AccountService {
 	@Transactional(readOnly = false)
 	public void mergeWithExistingAndUpdateOrCreate(AccountForm accountForm, Errors errors) {
 		if (accountForm == null) return;
-		if (!checkAccount(accountForm, errors)) return;
+		if (!checkAccountableForm(accountForm, errors)) return;
 		Account account = getAccountById(accountForm.getId());
 		if (account != null) {
 			account.setAddress(accountForm.getAddress());
@@ -98,7 +108,19 @@ public class AccountServiceImpl implements AccountService {
 			account.setLastName(accountForm.getLastName());
 			account.setMiddleName(accountForm.getMiddleName());
 			account.setPhone(accountForm.getPhone());
-			account.setRoles(new HashSet<Role>(accountForm.getRolesList()));
+			Iterator<Role> ri = account.getRoles().iterator();
+	        while(ri.hasNext()){
+	        	Role r = ri.next();
+	        	if (accountForm.getRolesList().contains(r)) {
+	        		accountForm.getRolesList().remove(r);
+	        	} else {
+	        		ri.remove();
+	        	}
+	        	
+	        }
+	        for (Role rlEx : accountForm.getRolesList()) {
+	        	account.getRoles().add(rlEx);
+	        }			
 			String newPassword = accountForm.getPassword();
 			if (newPassword != null && !"".equals(newPassword)) {
 				accountDao.updatePassword(account, newPassword);
@@ -116,7 +138,8 @@ public class AccountServiceImpl implements AccountService {
 		}
 	}
 	
-	private boolean checkAccount (AccountForm accountForm, Errors errors) {
+	@Override
+	public boolean checkAccountableForm (AccountableForm accountForm, Errors errors) {
 		for (ObjectError error : errors.getGlobalErrors()) {
 			String errMsg = error.getDefaultMessage();
 			String msg = messageSource.getMessage("error.password", null, Locale.getDefault());
@@ -130,12 +153,13 @@ public class AccountServiceImpl implements AccountService {
 		
 		if (accountForm.isNew()) {
 			if (pass == null || "".equals(pass)) {
-				errors.rejectValue("password", "error.empty");
+			errors.rejectValue("password", "error.empty");
 			}
 		}
 
 		if (pass != null && !"".equals(pass)) {
-			if (pass.length()<6 || pass.length()>20) errors.rejectValue("password", "error.size"); 
+			if (pass.length()<Integer.parseInt(passMinSize) || pass.length()> Integer.parseInt(passMaxSize)) 
+				  errors.rejectValue("password", "error.size", new String[]{passMinSize, passMaxSize}, null); 
 		}
 		String username = accountForm.getUsername();
 		if (username != null  && !"".equals(username)) {

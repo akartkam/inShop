@@ -7,6 +7,7 @@ import org.springframework.validation.Errors;
 
 import com.akartkam.inShop.domain.Account;
 import com.akartkam.inShop.formbean.AccountForm;
+import com.akartkam.inShop.formbean.AccountableForm;
 
 public interface AccountService {
 	void registerAccount(Account account, String password);
@@ -17,4 +18,5 @@ public interface AccountService {
 	void mergeWithExistingAndUpdateOrCreate (AccountForm accountForm, Errors errors);
 	void deleteAccount(Account account);
 	void softDeleteAccountById(UUID id);
+	boolean checkAccountableForm (AccountableForm accountForm, Errors errors);
 }

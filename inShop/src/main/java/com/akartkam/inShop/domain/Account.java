@@ -35,7 +35,7 @@ public class Account extends AbstractDomainObject {
 	
 	
 	@NotNull
-	@Size(min = 1, max = 50)
+	@Size(min = 1, max = 20)
 	@Column(name = "username", unique=true)
 	public String getUsername() { return username; }
 

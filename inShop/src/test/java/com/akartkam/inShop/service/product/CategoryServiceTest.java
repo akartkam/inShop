@@ -3,10 +3,8 @@ package com.akartkam.inShop.service.product;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
@@ -14,19 +12,18 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 
+import com.akartkam.inShop.common.AbstractTest;
 import com.akartkam.inShop.dao.product.CategoryDAO;
 import com.akartkam.inShop.domain.product.Category;
-import com.akartkam.inShop.domain.product.Image;
 import com.akartkam.inShop.domain.product.Product;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttributeValue;
 import com.akartkam.inShop.domain.product.attribute.AttributeCategory;
 import com.akartkam.inShop.domain.product.attribute.AttributeType;
 import com.akartkam.inShop.domain.product.attribute.SimpleAttributeFactory;
-import com.akartkam.inShop.service.AbstractServiceTest;
 
 @TransactionConfiguration(defaultRollback=false)
-public class CategoryServiceTest extends AbstractServiceTest {
+public class CategoryServiceTest extends AbstractTest {
 	
 	final static Logger logger = Logger.getLogger(CategoryServiceTest.class);
 	
@@ -37,10 +34,6 @@ public class CategoryServiceTest extends AbstractServiceTest {
 	@Autowired
 	private AttributeCategoryService attributeCategoryService;
 	
-	
-	
-	
-
 	@Test
 	public void addCategoryTest(){
 		jdbcTemplate.execute("delete from Category where name like 'AutoTestAdd%'");

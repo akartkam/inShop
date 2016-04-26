@@ -39,8 +39,8 @@ public class AdminProductOptionController {
 	  @Autowired
 	  private ProductService productService;
 	  
-	  @Autowired
-	  private ProductOptionValidator bigDecimalValidator;
+	  //@Autowired
+	  //private ProductOptionValidator bigDecimalValidator;
 	  
 	  @Autowired
 	  private MessageSource messageSource;
@@ -155,9 +155,10 @@ public class AdminProductOptionController {
 	    }
 
 	   @RequestMapping(value="/pov/add", method = RequestMethod.POST )
-	   public String addNewPov(final @ModelAttribute ProductOption po,
+	   public String addNewPov(
 			   				   final @RequestParam(value = "copyid", required = false) String ID,
-			   				@RequestHeader(value = "X-Requested-With", required = false) String requestedWith,
+			   				         @RequestHeader(value = "X-Requested-With", required = false) String requestedWith,
+			   				   final @ModelAttribute("po") @Valid ProductOption po,
 			                   final BindingResult bindingResult,
 			                   final Model model
 			                         ) throws CloneNotSupportedException {

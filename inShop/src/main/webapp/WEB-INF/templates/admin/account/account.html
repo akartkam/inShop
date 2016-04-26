@@ -121,8 +121,8 @@
 	           </div> 	 
 	             <div class="panel-body">
  	                  <div class="row">
- 	                    <div class="col-md-12">	              
-						      <table class="table table-striped table-bordered table-hover table-condensed table-responsive" id="accountDataTable" data-checkid="">
+ 	                    <div class="col-md-12" id="accountDataTableContainer" th:attr="data-path=@{/admin/account/account/reload}">	              
+						      <table class="table table-striped table-bordered table-hover table-condensed table-responsive" id="accountDataTable" data-checkid="" th:fragment="accountDataTable">
 						        <thead >
 							      <tr >
 							          <th class="col-md-1"></th>
@@ -163,10 +163,9 @@
 						            	<td class="text-center">
 											  <!--  data-toggle="modal" data-target="#editModal" -->
 	  				            	  		 <div class="btn-group edit-btn-group" role="group" > 
-				                                  <button type="button" class="open-editDialog btn btn-outline btn-default btn-xs" 
-				                                          data-toggle="modal" data-target="#editModal" data-operation="edit" 
-				                                          th:attr="data-id=${ac.id}, data-path=@{/admin/account/account/edit}"
-				                                          data-backdrop="static" data-keyboard="false"> 
+				                                  <button type="button" class="editProfile btn btn-outline btn-default btn-xs" 
+				                                          data-operation="edit" 
+				                                          th:attr="data-id=${ac.id}, data-path=@{/admin/account/account/edit}">
 				                                    <i class="fa fa-pencil"></i>
 				                                  </button>	
 					                              <button th:disabled="${!ac.enabled}" type="button" data-toggle="modal" data-target="#deleteModal" 
@@ -186,10 +185,9 @@
 				      <div class="btn-toolbar" role="toolbar" aria-label="...">
 					      <div class="btn-group" role="group" aria-label="...">
 					   		 <div class="btn-group" role="group" aria-label="..."> 
-                                <button type="button" class="open-editDialog btn btn-outline btn-default btn-sm" 
-                                        data-toggle="modal" data-target="#editModal" data-operation="add"
-                                        th:attr="data-path=@{/admin/account/account/add}"
-                                        data-backdrop="static" data-keyboard="false">
+                                <button type="button" class="editProfile btn btn-outline btn-default btn-sm" 
+                                        data-operation="add"
+                                        th:attr="data-path=@{/admin/account/account/add}">
                                   <i class="fa fa-plus-circle"></i>
                                   <span> </span>
 						          <span th:text="#{button.add.caption}">Add account</span> 
@@ -218,31 +216,36 @@
 <!--         </th:block>	     -->
 	    <script type="text/javascript">
 	      //<![CDATA[
+	           var table;
+	           function makeTable(){
+	    		      table = $("#accountDataTable").DataTable( {
+			            	"language": {
+			                   	"processing": "Подождите...",
+			                   	  "search": "Поиск:",
+			                   	  "lengthMenu": "Показать _MENU_ записей",
+			                   	  "info": "Записи с _START_ до _END_ из _TOTAL_ записей",
+			                   	  "infoEmpty": "Записи с 0 до 0 из 0 записей",
+			                   	  "infoFiltered": "(отфильтровано из _MAX_ записей)",
+			                   	  "infoPostFix": "",
+			                   	  "loadingRecords": "Загрузка записей...",
+			                   	  "zeroRecords": "Записи отсутствуют.",
+			                   	  "emptyTable:": "В таблице отсутствуют данные",
+			                   	  "paginate": {
+			                   	    "first": "Первая",
+			                   	    "previous": "Предыдущая",
+			                   	    "next": "Следующая",
+			                   	    "last": "Последняя"
+			                   	  },
+			                   	  "aria": {
+			                   	    "sortAscending": ": активировать для сортировки столбца по возрастанию",
+			                   	    "sortDescending": ": активировать для сортировки столбца по убыванию"
+			                   	  }
+			                  }	        	   
+	                       });
+	           };
 	           $(document).ready(function() {
-    		     var table = $("#accountDataTable").DataTable( {
-		            	"language": {
-		                   	"processing": "Подождите...",
-		                   	  "search": "Поиск:",
-		                   	  "lengthMenu": "Показать _MENU_ записей",
-		                   	  "info": "Записи с _START_ до _END_ из _TOTAL_ записей",
-		                   	  "infoEmpty": "Записи с 0 до 0 из 0 записей",
-		                   	  "infoFiltered": "(отфильтровано из _MAX_ записей)",
-		                   	  "infoPostFix": "",
-		                   	  "loadingRecords": "Загрузка записей...",
-		                   	  "zeroRecords": "Записи отсутствуют.",
-		                   	  "emptyTable:": "В таблице отсутствуют данные",
-		                   	  "paginate": {
-		                   	    "first": "Первая",
-		                   	    "previous": "Предыдущая",
-		                   	    "next": "Следующая",
-		                   	    "last": "Последняя"
-		                   	  },
-		                   	  "aria": {
-		                   	    "sortAscending": ": активировать для сортировки столбца по возрастанию",
-		                   	    "sortDescending": ": активировать для сортировки столбца по убыванию"
-		                   	  }
-		                  }
-    				});
+	        	     makeTable();
+
   	                $('#accountDataTable tfoot th').each( function () {
 	  	            	 if ($(this).is(":first-child") || $(this).is(":last-child")) return;
 		                 var title = $('#accountDataTable thead th').eq( $(this).index() ).text();
@@ -258,18 +261,20 @@
 	  	                   
 	  	               });
 	  	           });
-   		 		   $("body").on("change", "#roleAccount", function(){
-     					$("#roleAccountIc").find("input").each(function(i,v){$(v).remove()});    		 			
-     	 		        $(this).find("option:selected").each(function(i, v){
-     	 		        	$("<input>").attr({
-     	 		        	    type: "hidden",
-     	 		        	    name: "rolesList["+i+"]",
-     	 		        	    value: $(v).val()
-     	 		        	}).appendTo("#roleAccountIc");								    		 		            
-     	 		        });    		 			
-     	 		
-     	 			});
     		     	
+	            });
+	            events.on("onReloadMainDataTableNeed", function() {
+	            	var path = $("#accountDataTableContainer").data("path")
+	            	if (path == 'undefined') return;
+	    			$("#accountDataTableContainer").text("");
+                    $.ajax({
+                    	type: "GET",
+                        url: path,
+                        cache: false
+                    }).done(function (html) {
+                    	$("#accountDataTableContainer").html(html);
+                    	makeTable();
+                    });
 	            });
 	            //Открытие окна удаления
 		        $(document).on("click", ".open-deleteDialog", function () {
@@ -279,21 +284,6 @@
 		    	     $("#delete-modal-footer #ID").val(Id);
 		    	     $("#delete-modal-body #prName").html(prName);
 		    	});    	    
-		        $(document).on("click", ".open-editDialog", function () {
-		          var id = $(this).data("id");
-		          var path = $(this).data("path");
-		    	  if (typeof id == 'undefined') id=null;  
-  		          $("#editModalContent").html("");
-                  $.ajax({
-                    url: path+((id != null)?"?ID="+id:"") ,
-                    cache: false
-                  }).done(function (html) {
-                            $("#editModalContent").html(html);
-                            $(".selectpicker").selectpicker();
-    	                    $("#name").focus();
-  	                	    $('[data-toggle="tooltip"]').tooltip();   
-                  });
-		    	});  
   		        $(document).on("mouseenter", ".mightOverflow", function() { 
   		        	var $t = $(this); 
   		        	var title = $t.attr("title");

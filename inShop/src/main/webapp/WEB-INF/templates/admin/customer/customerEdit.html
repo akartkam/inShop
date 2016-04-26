@@ -28,13 +28,15 @@
   <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true" th:fragment="editForm" layout:fragment="editForm">
     <div class="modal-dialog">
 	   <div class="modal-content" id="editModalContent">
-	   <form method="post" class="form-horizontal" role="form" action="#" th:action="@{${action}}" th:object="${customer}" th:fragment="editCustomerForm">
+	   <form method="post" class="form-horizontal" role="form" action="#" th:action="@{/admin/customer/customer/edit}" th:object="${customer}" th:fragment="editCustomerForm">
 		   <div class="modal-header">
 	 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 				<h4 class="modal-title"  th:text="${!customer.new}? #{admin.customer.customer.edit.title.edit}: #{admin.customer.customer.edit.title.add}">Edit customer</h4>
 	 	   </div>
 		 <!-- /modal-header -->
 		    <div class="modal-body" style ="height:420px; overflow:auto">
+		    	  <input type="hidden" th:unless="${customer.new}" th:field="*{createdDate}"/>
+		    	  <input type="hidden" th:unless="${customer.new}" th:field="*{username}"/>
 		          <div  th:if="${#fields.hasErrors('*')}" class="alert alert-danger alert-dismissable">
 		          	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                     <span th:text="#{admin.catalog.category.edit.existsErrors}">There is some errors in the form</span>
@@ -50,7 +52,6 @@
 	                <div class="tab-content">
 	                    <div class="tab-pane fade in active" id="main">
 	                    	   <input type="hidden" th:field="*{id}"/>
-	                    	   <input type="hidden" th:field="*{createdDate}"/>
 	                           <div class="row">
 							     <div class="col-md-4">
 								   <div class="field-box" th:class="${#fields.hasErrors('firstName')}? has-error: field-box">
@@ -80,24 +81,30 @@
 						   		   </div>
 						   		 </div>  						   		   
    					   		   </div>
-					           <div class="field-box">
-					                <label>
-					    	   	        <span th:text="#{admin.birthdate}">Birthdate</span>
-					   		        </label>
-					                <div class="input-group date datetimepicker">
-					                    <input type="text" class="form-control datetimepicker-input" 
-						                       th:field="*{{birthdate}}"/>
-					                    <span class="input-group-addon">
-					                        <span class="fa fa-calendar"></span>
-					                    </span>						                
-					                </div>
-					           </div>
-					   		   <div class="field-box">
-		 			    		  <label>
-						    	  	<span th:text="#{admin.email}">Email</span>
-						   		   </label>
-						   		   <input type="email" class="form-control" th:field="*{email}"/>
-					   		   </div>
+   					   		   <div class="row">
+   					   		      <div class="col-md-6">
+						            <div class="field-box">
+						                <label>
+						    	   	        <span th:text="#{admin.birthdate}">Birthdate</span>
+						   		        </label>
+						                <div class="input-group date datetimepicker">
+						                    <input type="text" class="form-control datetimepicker-input" 
+							                       th:field="*{{birthdate}}"/>
+						                    <span class="input-group-addon">
+						                        <span class="fa fa-calendar"></span>
+						                    </span>						                
+						                </div>
+						            </div>   
+						       </div>
+						         <div class="col-md-6">
+						   		   <div class="field-box">
+			 			    		  <label>
+							    	  	<span th:text="#{admin.email}">Email</span>
+							   		   </label>
+							   		   <input type="email" class="form-control" th:field="*{email}"/>
+						   		   </div>
+						   		 </div>
+					   		  </div>
 					   		   <div class="field-box">
 		 			    		  <label>
 						    	  	<span th:text="#{admin.address}">Address</span>
@@ -110,53 +117,54 @@
 						   		   </label>
 						   		   <input type="text" class="form-control" th:field="*{phone}"/>
 					   		   </div>
-							  <div class="field-box" sec:authorize="hasRole('ADMIN')">
+							  <div class="field-box" sec:authorize="hasAnyRole('ADMIN', 'MANAGER')">
 		                         <label>
 		 					    	<input type="checkbox" th:field="*{enabled}"/>
 								  	<span th:text="#{admin.enabled}">Active?</span>
 								 </label>
 						      </div>	 
-                                <div class="panel panel-default">
+                              <div class="panel panel-default" th:if="${customer.new}">
                                     <div class="panel-heading">
-                                            <input type="checkbox" th:checked="${customer.account != null}" th:disabled="${customer.account != null}"  id="cbCreateAccount"/>
-                                            <label for="cbCreateAccount" >Create Account</label>
+				 					    	<input type="checkbox" name="createAccount" th:checked="${createAccount}" id="cbCreateAccount"/>
+										  	<label for="cbCreateAccount" ><span th:text="#{admin.customer.createAccount}">Create Account</span></label>
                                             <span>&nbsp;</span>
                                             <span>&nbsp;</span>
 <!--                                             <button th:if="${customer.account} != null &amp;&amp; ${#authorization.expression('hasRole(''ADMIN'')')}" type="button" 
                                                     class="btn btn-outline btn-default btn-xs">
 			                                  <i class="fa fa-trash-o"></i> 
 			                                </button>
- -->                                    </div>
-                                    <div id="collapseOne" class="panel-collapse collapse in">
+ -->                                </div>
+                                    <div id="collapseAccount" class="panel-collapse collapse in">
                                         <div class="panel-body">
 										   <div class="field-box">	                              
 								    		  <label>
-									    	  	 <span th:text="#{admin.customer.username}">Username</span>
+									    	  	 <span th:text="#{admin.account.username}">Username</span>
 									   		  </label>
-									   		  <input type="text" class="form-control"/>
-								   		   </div>						   		   
-										   <div class="field-box"> <!--th:class="${#fields.hasErrors('password')}? has-error: field-box" -->	                              
-								    		  <label>
-									    	  	 <span th:text="#{admin.customer.password}">Password</span>
-									   		  </label>					    	  	 
-								    	  	  <a href="#" data-toggle="tooltip" data-placement="right" title="" data-original-title="Вводите пароль только, если хотите его изменить">
-								    	  	 		<i class="fa fa-question-circle"></i>
-								    	  	  </a>
-									   		  <input type="password" class="form-control"/>
-									   		  <p class="text-danger" style="font-size: 8pt;">Incorrect Password</p> <!-- th:errors="*{password}" th:if="${#fields.hasErrors('password')}"-->
+									   		  <input type="text" class="form-control" th:field="*{username}"/>
+									   		  <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Incorrect username</p>
 								   		   </div>						   		   
 										   <div class="field-box">	                              
 								    		  <label>
-									    	  	 <span th:text="#{admin.customer.confirmpassword}">Confirm password</span>
+									    	  	 <span th:text="#{admin.account.password}">Password</span>
+									   		  </label>					    	  	 
+									   		  <input type="password" class="form-control" th:field="*{password}"/>
+									   		  <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Incorrect Password</p>
+								   		   </div>						   		   
+										   <div class="field-box">	                              
+								    		  <label>
+									    	  	 <span th:text="#{admin.account.confirmpassword}">Confirm password</span>
 									   		  </label>
-									   		  <a href="#" data-toggle="tooltip" data-placement="right" title="" data-original-title="Вводите пароль только, если хотите его изменить">
-								    	  	 		<i class="fa fa-question-circle"></i>
-								    	  	  </a>
-									   		  <input type="password" class="form-control"/>
+									   		  <input type="password" class="form-control" th:field="*{confirmPassword}"/>
 								   		   </div>						   		   
                                         </div>
                                     </div>
-                                </div>							  	 
+                              </div>
+					   		   <div class="field-box" th:unless="${customer.new &amp;&amp; (customer.account==null)}">
+		 			    		  <label>
+						    	  	<span th:text="#{admin.account.username}">Username</span>
+						   		   </label>
+						   		   <input type="text" class="form-control" disabled="disabled" th:value="${customer.username}"/>
+					   		   </div>							  	 
 	             		</div>
                  </div>
 		    </div>
@@ -196,21 +204,9 @@
                  $(".datetimepicker").datetimepicker({
                     locale: "ru",
                     format: "DD.MM.YYYY"
-                 }); 
-                 if ($("#cbCreateAccount").is(":checked")) {
-                     $("#collapseOne").collapse("show");
-                     $("#cbCreateAccount").attr("disabled", true);
-                 } else {
-                	 $("#collapseOne").collapse("hide");
-                 }    
+                 });
+                 updateCollapseAccount();
              });
-		     $(document).on("click", "#cbCreateAccount", function () {
-		    	if ($("#cbCreateAccount").is(":checked")) {
-		    		$("#collapseOne").collapse("show");
-		    	} else {
-		    		$("#collapseOne").collapse("hide");
-		    	}
-		     });
 		   </script>
 		 </th:block>  
 </body>

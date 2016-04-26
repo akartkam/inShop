@@ -91,28 +91,34 @@ public class AdminUserProfileController {
 	
 	  
 	  @RequestMapping(method=GET)
-	  public String account(Model model) {		  
+	  public String account( @RequestHeader(value = "X-Requested-With", required = false) String requestedWith,
+			  				 Model model) {		  
 		  UserDetailsAdapter uda =  (UserDetailsAdapter)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		  if(!model.containsAttribute("account")) {
+		  //if(!model.containsAttribute("account")) {
 			  AccountForm account = new AccountForm(uda.getAccount());
 			  model.addAttribute("account", account);
+		  //}
+		  model.addAttribute("action", "/admin/account/userprofile/edit");
+		  if ("XMLHttpRequest".equals(requestedWith)) {
+			 return "/admin/account/accountEdit :: editForm(modalId='editProfileForm')"; 
+		  } else{
+		     return "/admin/account/userprofile";
 		  }
-		  model.addAttribute("action", "/admin/account/userprofile/edit");		  
-		  return "/admin/account/userprofile"; 
-		  }	  
+		}	  
 	  	  
 
 	   @RequestMapping(value="/edit", method = RequestMethod.POST )
-	   public String saveAccount(   @ModelAttribute @Valid AccountForm account,
-			                         final BindingResult bindingResult,
-			                         final RedirectAttributes ra
+	   public String saveAccount(@RequestHeader(value = "X-Requested-With", required = false) String requestedWith,    
+			                     @ModelAttribute("account") @Valid AccountForm account,
+			                     final BindingResult bindingResult,
+				                 final Model model
 			                         ) {
+		    if (!"XMLHttpRequest".equals(requestedWith)) throw new IllegalStateException("The saveAccount method can be called only via ajax!");
 		    accountService.mergeWithExistingAndUpdateOrCreate(account, bindingResult);
 	        if (bindingResult.hasErrors()) {
-	        	ra.addFlashAttribute("account", account);
-	        	ra.addFlashAttribute("org.springframework.validation.BindingResult.account", bindingResult);
-	        	return "redirect:/admin/account/userprofile"; 
-	        }
-            return "redirect:/logout";
+	        	model.addAttribute("account", account);
+	        	return "/admin/account/accountEdit :: editAccountForm"; 
+	        } else 
+            return "/admin/Ok";
 	    }  
 }

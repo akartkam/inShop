@@ -82,7 +82,7 @@
 	                <span th:text="#{admin.catalog.category.delete.modalmessage}">Подтвердите удаление покупателя: </span>
 	                <span style="font-weight:bold" id="prName"> Покупатель </span>
 				  </div>	                
-	              <div class="field-box" sec:authorize="hasRole('ADMIN')">
+	              <div class="field-box" sec:authorize="hasAnyRole('ADMIN','MANAGER')">
                       <label>
 					   	<input type="checkbox" name="phisycalDelete"/>
 					  	<span th:text="#{admin.catalog.category.delete.phisycalDelete}">Phisycal delete</span>
@@ -98,7 +98,7 @@
 	  </div> 
 	</div>
     <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true" layout:fragment="editForm">
-	  <div class="modal-dialog" style="width:45vw;overflow-y: initial !important">
+	  <div class="modal-dialog" style ="width:35vw;overflow-y: initial !important">
 	    <div class="modal-content" id="editModalContent">
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -156,7 +156,13 @@
 									    </td>
 										<td class="mightOverflow domain-col"><span th:text="${ac.fullName}">Adam John Smith</span></td>
 										<td class="mightOverflow domain-col"><span th:text="${ac.email}">user@user.com</span></td>
-										<td class="mightOverflow domain-col"><span th:text="${ac.account!=null ? ac.account.username : ''}"></span>User1</td>
+										<td class="mightOverflow domain-col">
+					                        <a href="#" sec:authorize="hasRole('ADMIN')" th:if="${ac.account!=null}" class="editProfile" th:attr="data-id=${ac.id}, data-path=@{/admin/account/account/edit}">
+					                        	<i class="fa fa-user fa-fw">&nbsp;</i>
+					                        	<span th:text= "${ac.account.username}">User Profile</span>
+					                        </a>
+					                        <span sec:authorize="!hasRole('ADMIN')" th:if="${ac.account!=null}" th:text= "${ac.account.username}">User Profile</span>
+										</td>
 										<td class="mightOverflow domain-col" >
 										  <div th:if="${ac.account} != null">
    											<span  th:each="rl: ${#lists.toList(ac.account.getRoles())}" th:text="${rl.name+';'}"></span>
@@ -224,6 +230,13 @@
 	    <script src="../../../../resources/js/bootstrap-datetimepicker.min.js" th:src="@{/resources/js/bootstrap-datetimepicker.min.js}"></script>					 			   
 	    <script type="text/javascript">
 	      //<![CDATA[
+	           function updateCollapseAccount() {
+  			       	if ($("#cbCreateAccount").is(":checked")) {
+   			    		$("#collapseAccount").collapse("show");
+   			    	} else {
+   			    		$("#collapseAccount").collapse("hide");
+   			    	}
+	           };
 	           $(document).ready(function() {
     		     var table = $("#accountDataTable").DataTable( {
 		            	"language": {
@@ -275,13 +288,9 @@
      	 		        });    		 			
      	 		
      	 			});
-   			       $("body").on("click", "#cbCreateAccount", function () {
-   			    	if ($("#cbCreateAccount").is(":checked")) {
-   			    		$("#collapseOne").collapse("show");
-   			    	} else {
-   			    		$("#collapseOne").collapse("hide");
-   			    	}
-   			       })   		 		   
+   			        $("body").on("click", "#cbCreateAccount", function () {
+   			        	updateCollapseAccount();
+   			        });   		 		   
 	            });
 	            //Открытие окна удаления
 		        $(document).on("click", ".open-deleteDialog", function () {
@@ -308,12 +317,7 @@
 	  	                        locale: "ru",
 	  	                        format: "DD.MM.YYYY"
 	  	                    }); 
-	  	                    if ($("#cbCreateAccount").is(":checked")) {
-	  	                         $("#collapseOne").collapse("show");
-	  	                         $("#cbCreateAccount").attr("disabled", true);
-	  	                     } else {
-	  	                    	 $("#collapseOne").collapse("hide");
-	  	                    }  	                	    
+	  	                  updateCollapseAccount();  	                	    
                   });
 		    	});  
   		        $(document).on("mouseenter", ".mightOverflow", function() { 

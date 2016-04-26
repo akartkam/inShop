@@ -7,12 +7,13 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 
+import com.akartkam.inShop.common.AbstractTest;
 import com.akartkam.inShop.domain.Account;
 import com.akartkam.inShop.domain.Role;
 import com.akartkam.inShop.domain.RoleType;
 
 @TransactionConfiguration(defaultRollback=false)
-public class RoleServiceTest extends AbstractServiceTest {
+public class RoleServiceTest extends AbstractTest {
 
 
 	@Autowired
@@ -24,9 +25,9 @@ public class RoleServiceTest extends AbstractServiceTest {
 	
 	@Test
 	public void FindById_AccountServiceTest(){
-		Account account = accountService.getAccountByUsername("akartkam@gmail.com");
+		Account account = accountService.getAccountByUsername("akartkam");
 		assertNotNull(account);
-		assertEquals("akartkam@gmail.com", account.getUsername());
+		assertEquals("akartkam", account.getUsername());
 	}
 	
 	@Test

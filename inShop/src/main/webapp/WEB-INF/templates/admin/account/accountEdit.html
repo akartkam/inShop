@@ -23,10 +23,10 @@
 	    </th:block>
 	</head>
 <body>
-  <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true" th:fragment="editForm" layout:fragment="editForm">
+  <div class="modal fade" id="editModalAccount" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true" th:fragment="editForm" layout:fragment="editForm">
     <div class="modal-dialog">
-	   <div class="modal-content" id="editModalContent">
-	   <form method="post" class="form-horizontal" role="form" action="#" th:action="@{${action}}" th:object="${account}" th:fragment="editAccountForm">
+	   <div class="modal-content" id="editModalAccountContent">
+	   <form method="post" class="form-horizontal" id="accountEditForm" role="form" action="#" th:action="@{${action}}" th:object="${account}" th:fragment="editAccountForm">
 		   <div class="modal-header">
 	 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 				<h4 class="modal-title"  th:text="${!account.new}? #{admin.account.account.edit.title.edit}: #{admin.account.account.edit.title.add}">Edit Account</h4>
@@ -83,6 +83,7 @@
 						    	  	 <span th:text="#{admin.account.username}">Username</span>
 						   		  </label>
 						   		  <input type="text" class="form-control" th:field="*{username}"/>
+						   		  <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Incorrect username</p>
 					   		   </div>						   		   
 							   <div class="field-box" th:class="${#fields.hasErrors('password')}? has-error: field-box">	                              
 					    		  <label>
@@ -108,6 +109,7 @@
 						    	  	<span th:text="#{admin.account.email}">Email</span>
 						   		   </label>
 						   		   <input type="email" class="form-control" th:field="*{email}"/>
+						   		   <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Incorrect email</p>
 					   		   </div>
 					   		   <div class="field-box">
 		 			    		  <label>
@@ -149,7 +151,8 @@
 		 <!-- /modal-body -->
 	 	    <div class="modal-footer">
 	 		  <button type="button" class="btn btn-default" data-dismiss="modal" th:text="#{admin.catalog.category.edit.button.close}">Close</button>        
-			  <button type="submit" class="btn btn-primary" th:text="#{admin.catalog.category.edit.button.save}">Save changes</button>
+			  <button type="button" class="btn btn-primary submit-account-edit" th:attr="data-path=@{/admin/account/account/edit}" 
+			          th:text="#{admin.catalog.category.edit.button.save}">Save changes</button>
 		    </div>  
 		 <!-- /modal-footer -->
 	     </form>	

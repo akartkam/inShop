@@ -5,15 +5,14 @@ import java.util.List;
 import java.util.Set;
 
 
+
 import org.hibernate.validator.constraints.ScriptAssert;
 
 import com.akartkam.inShop.domain.Account;
 import com.akartkam.inShop.domain.Role;
 
-@ScriptAssert( lang = "javascript",
-			   script = "_this.confirmPassword.equals(_this.password)",
-			   message = "{error.password}")
-public class AccountForm extends Account {
+
+public class AccountForm extends Account implements AccountableForm {
 	/**
 	 * 
 	 */

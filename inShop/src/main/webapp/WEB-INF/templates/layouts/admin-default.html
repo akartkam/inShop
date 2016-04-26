@@ -20,6 +20,9 @@
     <link href="../../../resources/css/sb-admin-2.css" rel="stylesheet" th:href="@{/resources/css/sb-admin-2.css}"/>
     <!-- Custom Fonts -->
     <link href="../../../resources/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/font-awesome/css/font-awesome.min.css}"/>
+			<!-- bootstrap select -->
+			<link href="../../../resources/css/bootstrap-select.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/bootstrap-select.min.css}"></link>
+
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -51,6 +54,7 @@
     </div>
     <div layout:fragment="modals" th:remove="tag" >
     </div>
+    <input type="hidden" id="currentContextName" th:value="@{/}"/>
     <!-- Navigation -->
     <nav class="navbar navbar-default navbar-static-top" style="margin-bottom: 0" role="navigation">
 <!--           <div class="container"> -->
@@ -130,7 +134,11 @@
 	                  </a>
 	                  <ul class="dropdown-menu dropdown-user">
 	                      <li>
-	                        <a href="#" th:href="@{/admin/account/userprofile}"><i class="fa fa-user fa-fw">&nbsp;</i><span th:text= "#{admin.account.userprofile}">User Profile</span></a>
+<!-- 	                         th:href="@{/admin/account/userprofile}" -->
+	                        <a href="#" class="editProfile" th:attr="data-path=@{/admin/account/account/userprofile/edit}">
+	                        	<i class="fa fa-user fa-fw">&nbsp;</i>
+	                        	<span sec:authentication="name">User Profile</span>
+	                        </a>
 	                      </li>
 	                      <li><a href="#"><i class="fa fa-gear fa-fw"></i> Настройки</a>
 	                      </li>
@@ -154,17 +162,17 @@
 		  </ol>	             
         </div>
         <!-- Page Content-->  
-            <div class="container-fluid">
-                <div class="row">
-                  <div class="col-lg-12" role="main">
-					<div layout:fragment="content" >
-					    <h1 class="page-header">Admin</h1>
-					</div>                    
-                    <!-- /.col-lg-12 -->
-                  </div>  
-            	</div>
-                <!-- /.row -->
-           </div>
+        <div class="container-fluid">
+            <div class="row">
+              <div class="col-lg-12" role="main">
+				<div layout:fragment="content" >
+				    <h1 class="page-header">Admin</h1>
+				</div>                    
+                <!-- /.col-lg-12 -->
+              </div>  
+        	</div>
+            <!-- /.row -->
+       </div>
             <!-- /.container-fluid -->
        <!--  /#page-wrapper -->
     
@@ -176,17 +184,25 @@
     <script src="../../../resources/bower_components/metisMenu/dist/metisMenu.min.js" th:src="@{/resources/bower_components/metisMenu/dist/metisMenu.min.js}"></script>
     <!-- Custom Theme JavaScript -->
     <script src="../../../resources/js/sb-admin-2.js" th:src="@{/resources/js/sb-admin-2.js}"></script>
+	       <!-- bootstrap-select -->
+		   <script src="../../../resources/js/bootstrap-select.min.js" th:src="@{/resources/js/bootstrap-select.min.js}"></script>
+		   <script src="../../../resources/js/defaults-ru_RU.js" th:src="@{/resources/js/defaults-ru_RU.js}"></script>
+	<script src="../../../resources/js/inShop-common.js" th:src="@{/resources/js/inShop-common.js}"></script>
     <script type="text/javascript">
-       //<![CDATA[
-               $.urlParam = function(name){
-				    var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
-				    if (results==null){
-				       return null;
-				    }
-				    else{
-				       return results[1] || 0;
-				    }
-				}
+       //<![CDATA[;
+               var events = (function(){
+            	   var eventNode = $({});
+            	   return {
+            	     on: on,
+            	     trigger: trigger
+            	   };
+            	   function on(){
+            	     eventNode.on.apply(eventNode, arguments);
+            	   }
+            	   function trigger(){
+            	     eventNode.trigger.apply(eventNode, arguments);
+            	   }
+            	 })();
                 $(document).ready(function() {
         	  		if($.urlParam("error")) {
         	  			 $("#messages-panel").dropdown("toggle");
@@ -209,12 +225,66 @@
     	                        }
     	                $(this).addClass( 'fv-modal-stack' );
     	                $('body').data( 'fv_open_modals', $('body').data( 'fv_open_modals' ) + 1 );
-    	                $(this).css('z-index', 1040 + (10 * $('body').data( 'fv_open_modals' )));
-//     	                $('body div .modal-backdrop' ).not( '.fv-modal-stack' )
-//     	                        .css( 'z-index', 1039 + (10 * $('body').data( 'fv_open_modals' )));
-//     	                $('body div .modal-backdrop' ).not( 'fv-modal-stack' )
-//     	                        .addClass( 'fv-modal-stack' ); 
-    	                 });        	  		
+    	                $(this).css('z-index', 1040 + (10 * $('body').data( 'fv_open_modals' ))); 
+    	                 });
+    				//User profile edit
+    				$("body").on("click",".editProfile", function () {
+    					var path = $(this).data("path");
+    					var id = $(this).data("id");
+    					$.ajax({
+    	                    url: path+((id != null)?"?ID="+id:""),
+    	                    cache: false 
+    	                  }).done(function (html) {
+    	                	  $("#editModalAccount").remove();
+                              $(html).appendTo("body");
+                              $(".selectpicker").selectpicker();
+      	                      $("#name").focus();
+    	                	  $('[data-toggle="tooltip"]').tooltip();
+    	                  }).always(function () {
+    	                	  $("#editModalAccount").modal({
+    	  		    		     backdrop: 'static',
+    			    		     keyboard: false
+    			    		  });
+    	                  });
+    				});
+   		 		    $("body").on("change", "#roleAccount", function(){
+       					$("#roleAccountIc").find("input").each(function(i,v){$(v).remove()});    		 			
+       	 		        $(this).find("option:selected").each(function(i, v){
+       	 		        	$("<input>").attr({
+       	 		        	    type: "hidden",
+       	 		        	    name: "rolesList["+i+"]",
+       	 		        	    value: $(v).val()
+       	 		        	}).appendTo("#roleAccountIc");								    		 		            
+       	 		        });    		 			
+       	 		
+       	 			});
+	    			$("body").on("click",".submit-account-edit", function () { 
+	    				var path = $(this).data("path");
+    	    			var form = $("#accountEditForm");
+    	    			var formser;
+    	    			if (form != "undefined" && form != null) formser = form.serialize();
+    	    			$("#editModalAccountContent").text("");
+                        $.ajax({
+                        	type: "POST",
+                            url: path,
+                            data: formser,
+                            cache: false
+                        })
+                        .done(function (html) {
+                             if (html != "Ok") {
+                            	 $("#editModalAccountContent").append(html);
+                                 $(".selectpicker").selectpicker();
+         	                     $("#name").focus();
+       	                	     $('[data-toggle="tooltip"]').tooltip();                            	 
+                             }
+                        })
+                        .always(function(html){
+                        	if (html == "Ok") { 
+                        		$("#editModalAccount").modal("hide");
+                        		events.trigger("onReloadMainDataTableNeed");
+                        		};
+                        	});
+    	    		});    				
           		});
                 var $loading = $("#ajaxlogo").hide();
                 $(document)

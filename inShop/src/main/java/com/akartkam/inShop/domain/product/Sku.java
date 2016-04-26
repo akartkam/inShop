@@ -182,7 +182,11 @@ public class Sku extends AbstractDomainObjectOrdering {
     @Column(name = "retail_price", precision = 19, scale = 5)	
     @AdminPresentation(tab=EditTab.MAIN)
 	public BigDecimal getRetailPrice() {
-		return retailPrice;
+        BigDecimal tmpRetailPrice = getRetailPriceInternal();
+        if (tmpRetailPrice == null) {
+            throw new IllegalStateException("Retail price on Sku with id " + getId() + " was null");
+        }
+        return tmpRetailPrice;
 	}
 	public void setRetailPrice(BigDecimal retailPrice) {
 		this.retailPrice = retailPrice;
@@ -193,7 +197,23 @@ public class Sku extends AbstractDomainObjectOrdering {
 	@DecimalMin("0.01")
 	@Column(name = "sale_price", precision = 19, scale = 5)
 	public BigDecimal getSalePrice() {
-		return salePrice;
+		BigDecimal returnPrice = null;
+		BigDecimal optionValueAdjustments = null;
+        if (salePrice != null) {
+            // We have an explicitly set sale price directly on this entity. We will not apply any adjustments
+            returnPrice = new BigDecimal(salePrice.toPlainString());
+        }
+        if (returnPrice == null && hasDefaultSku()) {
+            returnPrice = lookupDefaultSku().getSalePrice();
+            optionValueAdjustments = getProductOptionValueAdjustments();
+        }
+        if (returnPrice == null) {
+            return null;
+        }        
+        if (optionValueAdjustments != null) {
+            returnPrice = returnPrice.add(optionValueAdjustments);
+        }
+        return returnPrice;
 	}
 	
 	public void setSalePrice(BigDecimal salePrice) {
@@ -258,15 +278,86 @@ public class Sku extends AbstractDomainObjectOrdering {
 		return null;
 	}
 	
+	@Transient
+	public boolean isOnSale() {
+		BigDecimal retailPrice = getRetailPrice();
+		BigDecimal salePrice = getSalePrice();
+        return (salePrice != null && salePrice != BigDecimal.ZERO && salePrice.compareTo(retailPrice) == -1);
+    }
+	
+	@Transient
+    private boolean hasDefaultSku() {
+        return (product != null && product.getDefaultSku() != null && !getId().equals(product.getDefaultSku().getId()));
+    }
+
+	@Transient
+    private Sku lookupDefaultSku() {
+        if (product != null && product.getDefaultSku() != null) {
+            return product.getDefaultSku();
+        } else {
+            return null;
+        }
+    }
+    
+	@Transient
+    public BigDecimal getProductOptionValueAdjustments() {
+		BigDecimal optionValuePriceAdjustments = null;
+        if (getProductOptionValues() != null) {
+            for (ProductOptionValue value : getProductOptionValues()) {
+                if (value.getPriceAdjustment() != null) {
+                    if (optionValuePriceAdjustments == null) {
+                        optionValuePriceAdjustments = value.getPriceAdjustment();
+                    } else {
+                        optionValuePriceAdjustments = optionValuePriceAdjustments.add(value.getPriceAdjustment());
+                    }
+                }
+            }
+        }
+        return optionValuePriceAdjustments;
+    }    
+	
+	@Transient
+    public BigDecimal getPrice() {
+        return isOnSale() ? getSalePrice() : getRetailPrice();
+    }
+	
+	@Transient
+    private BigDecimal getRetailPriceInternal() {
+		BigDecimal returnPrice = null;
+		BigDecimal optionValueAdjustments = null;       
+		if (retailPrice != null) {
+            returnPrice = new BigDecimal(retailPrice.toPlainString());
+        }
+        if (returnPrice == null && hasDefaultSku()) {
+            // Otherwise, we'll pull the retail price from the default sku
+            returnPrice = lookupDefaultSku().getRetailPrice();
+            optionValueAdjustments = getProductOptionValueAdjustments();
+        }
+        if (returnPrice != null && optionValueAdjustments != null) {
+            returnPrice = returnPrice.add(optionValueAdjustments);
+        }        
+        return returnPrice;
+    }
+	
+	@Transient
+	//нужно для skuEdit.html для того чтобы optionValues соответствовал productOtions
+	public List<ProductOption> getProductOptionsFromPOVL() {
+		List<ProductOption> lpo = new ArrayList<ProductOption>();
+		for (ProductOptionValue pov : productOptionValuesList) {
+			lpo.add(pov.getProductOption());
+		}
+		return lpo;
+	}
+	
 	@Override
 	@Transient
 	public Sku clone() throws CloneNotSupportedException {
 		Sku sku = (Sku) super.clone();
 		sku.setId(UUID.randomUUID());
-		sku.setName(new String(getName()));
-		sku.setCode(new String(getCode()));
-		sku.setDescription(new String(getDescription()));
-		sku.setLongDescription(new String(getLongDescription()));
+		if (getName() != null) sku.setName(new String(getName()));
+		if (getCode() != null) sku.setCode(new String(getCode()));
+		if (getDescription() != null) sku.setDescription(new String(getDescription()));
+		if (getLongDescription() != null) sku.setLongDescription(new String(getLongDescription()));
 		sku.setQuantityAvailable(getQuantityAvailable());
 		sku.setProduct(getProduct());
 		sku.setProductStatus(new HashSet<ProductStatus>(getProductStatus()));

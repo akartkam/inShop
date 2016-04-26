@@ -1,15 +1,17 @@
-package com.akartkam.inShop.service;
+package com.akartkam.inShop.common;
 
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
+import org.junit.runner.RunWith;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.AfterTransaction;
 import org.springframework.test.context.transaction.BeforeTransaction;
 
@@ -18,8 +20,9 @@ import com.akartkam.inShop.domain.Role;
 import com.akartkam.inShop.domain.RoleType;
 import com.akartkam.inShop.domain.UserDetailsAdapter;
 
+@RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:ServiceTest-context.xml")
-public abstract class AbstractServiceTest extends AbstractTransactionalJUnit4SpringContextTests {
+public abstract class AbstractTest extends AbstractTransactionalJUnit4SpringContextTests {
 
 
 	@BeforeTransaction 
