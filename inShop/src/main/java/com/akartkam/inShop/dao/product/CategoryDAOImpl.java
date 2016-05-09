@@ -14,18 +14,6 @@ import com.akartkam.inShop.domain.product.Category;
 public class CategoryDAOImpl extends AbstractGenericDAO<Category> implements
 		CategoryDAO {
 
-
-	/* Добавил метод list в abstractdao 
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<Category> readAllCategories() {
-		Criteria criteria = currentSession().createCriteria(Category.class).
-				  add(Restrictions.eq("enabled", true)).addOrder(Order.asc("ordering"));
-		criteria.setCacheable(true);
-		criteria.setCacheRegion("query.Catalog");
-        return (List<Category>) criteria.list();
-	}*/
-
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Category> readRootCategories(Boolean useDisabled) {

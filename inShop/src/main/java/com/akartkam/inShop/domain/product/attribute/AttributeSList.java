@@ -20,7 +20,6 @@ import com.akartkam.inShop.presentation.admin.EditTab;
 
 @Entity
 @DiscriminatorValue("SLIST")
-@Table
 public class AttributeSList extends AbstractAttribute implements Selectable<String>  {
 
 	/**

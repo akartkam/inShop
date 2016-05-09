@@ -47,7 +47,12 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
 			<version>${org.springframework-version}</version>
-		</dependency>		
+		</dependency>	
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-beans</artifactId>
+			<version>${org.springframework-version}</version>
+		</dependency>			
 		<!-- AspectJ -->
 		
 		<dependency>
@@ -170,6 +175,12 @@
 			<version>1.9.5</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.hsqldb</groupId>
+			<artifactId>hsqldb</artifactId>
+			<version>2.3.1</version>
+			<scope>test</scope>
+		</dependency>
 		<!-- Other tools -->
 		<dependency>
 			<groupId>c3p0</groupId>
@@ -248,7 +259,7 @@
 			<artifactId>jsoup</artifactId>
 			<version>1.8.3</version>
 		</dependency>
-  </dependencies> 
+   </dependencies> 
   <build>
         <plugins>
             <plugin>

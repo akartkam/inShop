@@ -6,11 +6,13 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 import org.apache.log4j.Logger;
+import org.hibernate.SessionFactory;
+import org.junit.Assume;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.transaction.TransactionConfiguration;
 
 import com.akartkam.inShop.common.AbstractTest;
 import com.akartkam.inShop.dao.product.CategoryDAO;
@@ -22,7 +24,6 @@ import com.akartkam.inShop.domain.product.attribute.AttributeCategory;
 import com.akartkam.inShop.domain.product.attribute.AttributeType;
 import com.akartkam.inShop.domain.product.attribute.SimpleAttributeFactory;
 
-@TransactionConfiguration(defaultRollback=false)
 public class CategoryServiceTest extends AbstractTest {
 	
 	final static Logger logger = Logger.getLogger(CategoryServiceTest.class);
@@ -33,35 +34,49 @@ public class CategoryServiceTest extends AbstractTest {
 	private CategoryDAO categoryDAO;
 	@Autowired
 	private AttributeCategoryService attributeCategoryService;
+	@Autowired
+	private SessionFactory sessionFactory;
 	
 	@Test
 	public void addCategoryTest(){
-		jdbcTemplate.execute("delete from Category where name like 'AutoTestAdd%'");
 		logger.info("*********Begin AutoTestAdd*********");
 		int size = categoryDAO.list().size();
-		createTestCategory("AutoTestAdd");
+		Category ct = createTestCategory("AutoTestAdd");
+		UUID id = ct.getId();
 		assertTrue (size < categoryDAO.list().size());
+		sessionFactory.getCurrentSession().flush();
+		ct = categoryService.getCategoryById(id);
+		assertNotNull(ct);
+		assertEquals("AutoTestAdd", ct.getName());
 		logger.info("*********End AutoTestAdd*********");
 	}
 	
 	@Test
 	public void updateCategoryTest(){
-		jdbcTemplate.execute("delete from Category where name like 'AutoTestUpdate%'");
 		logger.info("*********Begin AutoTestUpdate*********");
-		createTestCategory("AutoTestUpdate");
-		Category found = categoryDAO.findCategoryByName("AutoTestUpdate").get(0);
+		List<Category> lc = categoryDAO.findCategoryByName("Test_Root_Category1");
+		assertNotNull(lc);
+		assertTrue(lc.size() > 0);
+		Category found = lc.get(0);
+		assertNotNull(found);
+		Assume.assumeNotNull(found);
 		found.setName("AutoTestUpdate_updated");
 		categoryDAO.update(found);
+		sessionFactory.getCurrentSession().flush();			
 		Category found1 = categoryDAO.findCategoryByName("AutoTestUpdate_updated").get(0);
+		assertNotNull(found1);
+		Assume.assumeNotNull(found1);		
 		assertEquals("AutoTestUpdate_updated", found1.getName());
 		logger.info("*********End AutoTestUpdate*********");
-
 	}
 	
 	@Test
 	public void findeCategoryTest(){
 		logger.info("*********Begin AutoTestFinde*********");
-		Category found = categoryService.getCategoryByName("Test_Root_Category1").get(0);
+		List<Category> lc = categoryDAO.findCategoryByName("Test_Root_Category1");
+		assertNotNull(lc);
+		assertTrue(lc.size() > 0);
+		Category found = lc.get(0);
 		assertNotNull(found);
 		assertEquals("Test_Root_Category1", found.getName());
 		logger.info("*********End AutoTestFinde*********");
@@ -71,35 +86,39 @@ public class CategoryServiceTest extends AbstractTest {
 	public void getRootCategoryHierarchyTest(){
 		logger.info("*********Begin getRootCategoryHierarchyTest*********");
 		List<Category> rootCategory = categoryService.getRootCategories(true);
-		logger.info(rootCategory);
+		assertNotNull(rootCategory);
+		assertEquals(2, rootCategory.size());
 		logger.info("*********End getRootCategoryHierarchyTest*********");		
 	}
 	
 	@Test
 	public void buildCategoryHierarchyTest(){
 		logger.info("*********Begin buildCategoryHierarchyTest*********");
-		Category found = categoryService.getCategoryByName("Test_Category4").get(0);
+		List<Category> lc = categoryDAO.findCategoryByName("Test_Category3");
+		assertNotNull(lc);
+		assertTrue(lc.size() > 0);
+		Category found = lc.get(0);
 		List<Category> hCategory = null;
 		hCategory  = found.buildCategoryHierarchy(hCategory);
-		assertEquals(3, hCategory.size());
+		assertEquals(2, hCategory.size());
 		assertTrue(hCategory.contains(found));
 		Category c3 = hCategory.get(hCategory.indexOf(found));
 		Category c2 = c3.getParent();
 		assertNotNull(c2);
 		assertTrue(hCategory.contains(c2));
-		Category c1 = c2.getParent();
-		assertNotNull(c1);
-		assertTrue(hCategory.contains(c1));
 		logger.info("*********End buildCategoryHierarchyTest*********");
 	}
 	
 	@Test
 	public void buildSubCategoryHierarchyTest(){
 		logger.info("*********Begin buildSubCategoryHierarchyTest*********");
-		Category found = categoryService.getCategoryByName("Test_Root_Category1").get(0);
+		List<Category> lc = categoryDAO.findCategoryByName("Test_Root_Category1");
+		assertNotNull(lc);
+		assertTrue(lc.size() > 0);
+		Category found = lc.get(0);
 		List<Category> hCategory = null;
 		hCategory  = found.buildSubCategoryHierarchy(hCategory, false);
-		assertEquals(1, hCategory.size());
+		assertEquals(2, hCategory.size());
 		assertTrue(hCategory.contains(found));
 		logger.info(hCategory);
 		logger.info("*********End buildSubCategoryHierarchyTest*********");
@@ -135,15 +154,6 @@ public class CategoryServiceTest extends AbstractTest {
 	@Test
 	public void addAttributeTest() throws ClassNotFoundException, InstantiationException, IllegalAccessException {
 		logger.info("*********Begin addAttributeTes*********");
-/*		jdbcTemplate.execute("delete from Attribute_Decimal_Value where id in (select id from Attribute_Value where attribute_id in " + 
-							 "(select id from Attribute where name like 'AutoTestAddAttribute%'))");
-		jdbcTemplate.execute("delete from Attribute_String_Value where id in (select id from Attribute_Value where attribute_id in " + 
-				 			 "(select id from Attribute where name like 'AutoTestAddAttribute%'))");
-		jdbcTemplate.execute("delete from Attribute_SList_Value where id in (select id from Attribute_Value where attribute_id in " + 
-				 			 "(select id from Attribute where name like 'AutoTestAddAttribute%'))");
-		jdbcTemplate.execute("delete from Attribute_Value where attribute_id in (select id from Attribute where name like 'AutoTestAddAttribute%')");
-		jdbcTemplate.execute("delete from Attribute where name like 'AutoTestAddAttribute%'");
-*/		
 		jdbcTemplate.execute("select del_attribute('AutoTestAddAttribute')");
 		Category found = categoryService.getCategoryByName("Test_Category5.1").get(0);
 		AttributeCategory attributeCategory = attributeCategoryService.getAttributeCategoryByName("��������� ��������� 1");
@@ -191,9 +201,7 @@ public class CategoryServiceTest extends AbstractTest {
 	@Test
 	public void addAttributeValueTest() throws ClassNotFoundException, InstantiationException, IllegalAccessException {
 		logger.info("*********Begin addAttributeDecimalValueTest*********");	
-		jdbcTemplate.execute("select del_attribute('AutoTestAddAttributeDecimalValue')");
-		jdbcTemplate.execute("select del_product('AutoTestAddAttributeDecimalValue')");
-		Category found = categoryService.getCategoryByName("Test_Category4").get(0);
+		Category found = categoryService.getCategoryByName("Test_Category3").get(0);
 		AbstractAttribute attribute = SimpleAttributeFactory.createAttribute(AttributeType.DECIMAL);
 		attribute.setName("AutoTestAddAttributeDecimalValue1");	
 		AbstractAttribute attribute1 = SimpleAttributeFactory.createAttribute(AttributeType.STRING);
@@ -220,9 +228,7 @@ public class CategoryServiceTest extends AbstractTest {
 	@Test
 	public void addAttributeSListValueTest() throws ClassNotFoundException, InstantiationException, IllegalAccessException {
 		logger.info("*********Begin AutoTestAddAttributeSListValue*********");	
-		jdbcTemplate.execute("select del_attribute('AutoTestAddAttributeSListValue')");
-		jdbcTemplate.execute("select del_product('AutoTestAddAttributeSListValue')");
-		Category found = categoryService.getCategoryByName("Test_Category4").get(0);
+		Category found = categoryService.getCategoryByName("Test_Category3").get(0);
 		AbstractAttribute attribute = SimpleAttributeFactory.createAttribute(AttributeType.SLIST);
 		attribute.setName("AutoTestAddAttributeSListValue1");	
 		AbstractAttributeValue attributeValue = SimpleAttributeFactory.createAttributeValue(AttributeType.SLIST);
@@ -240,7 +246,7 @@ public class CategoryServiceTest extends AbstractTest {
 	@Test
 	public void getAllAttributesTest() {
 		logger.info("*********Begin getAllAttributesTest*********");	
-		Category found = categoryService.getCategoryByName("Test_Category5").get(0);
+		Category found = categoryService.getCategoryByName("Test_Category3").get(0);
 		List<AbstractAttribute> la = new ArrayList<AbstractAttribute>(); 
 		la = found.getAllAttributes(la, true);
 		System.out.println(la);
@@ -260,13 +266,14 @@ public class CategoryServiceTest extends AbstractTest {
 		
 	}
 	
-	private void createTestCategory(String name) {
+	private Category createTestCategory(String name) {
 		Category ctg = new Category();
 		ctg.setName(name);
 		ctg.setOrdering(999);
 		ctg.setDescription(name+"_description");
 		ctg.setLongDescription(name+"_longDescription");	
-		categoryService.createCategory(ctg);
+		ctg = categoryService.createCategory(ctg);
+		return ctg;
 	}
 	
 	

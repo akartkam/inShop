@@ -5,7 +5,9 @@
 	xmlns:tx="http://www.springframework.org/schema/tx"
 	xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:util="http://www.springframework.org/schema/util"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xsi:schemaLocation="http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd">
@@ -26,17 +28,19 @@
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>		
 
-	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
-		<property name="driverClass" value="${jdbc.driverClassName}" />
-		<property name="jdbcUrl" value="${jdbc.databaseurl}"/>
-		<property name="user" value="${jdbc.username}"/>
-		<property name="password" value="${jdbc.password}"/>
-		<!--  these are C3P0 properties  -->
-		<property name="acquireIncrement" value="1"/>
-		<property name="minPoolSize" value="5"/>
-		<property name="maxPoolSize" value="50"/>
-		<property name="maxIdleTime" value="3000"/>
-	</bean>
+<!-- 	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close"> -->
+<!-- 		<property name="driverClass" value="${jdbc.driverClassName}" /> -->
+<!-- 		<property name="jdbcUrl" value="${jdbc.databaseurl}"/> -->
+<!-- 		<property name="user" value="${jdbc.username}"/> -->
+<!-- 		<property name="password" value="${jdbc.password}"/> -->
+<!-- 		these are C3P0 properties  -->
+<!-- 		<property name="acquireIncrement" value="1"/> -->
+<!-- 		<property name="minPoolSize" value="5"/> -->
+<!-- 		<property name="maxPoolSize" value="50"/> -->
+<!-- 		<property name="maxIdleTime" value="3000"/> -->
+<!-- 	</bean> -->
+
+	<jdbc:embedded-database id="dataSource" type="HSQL" />
 	
 	<!-- Настройки фабрики сессий Хибернейта -->
 	<bean id="sessionFactory"
@@ -46,12 +50,13 @@
 		<property name="hibernateProperties">
 			<props>
 				<prop key="hibernate.show_sql">true</prop>
-				<prop key="hibernate.dialect">${jdbc.dialect}</prop>
+				<prop key="hibernate.dialect">com.akartkam.inShop.common.CustomHSQLDialect</prop>
 				<prop key="hibernate.connection.charSet">UTF-8</prop>
-				<prop key="hibernate.hbm2ddl.auto">update</prop>
+				<prop key="hibernate.hbm2ddl.auto">create</prop>
   				<prop key="show_sql">true</prop> 
   				<prop key="format_sql">true</prop>
-  				<prop key="jadira.usertype.autoRegisterUserTypes">true</prop>	
+  				<prop key="jadira.usertype.autoRegisterUserTypes">true</prop>
+  				<prop key="hibernate.hbm2ddl.import_files_sql_extractor">org.hibernate.tool.hbm2ddl.MultipleLinesSqlCommandExtractor</prop> 		
   				<prop key="jadira.usertype.javaZone">jvm</prop>
 				<prop key="jadira.usertype.databaseZone">UTC</prop>	
  			</props>
@@ -62,9 +67,23 @@
 	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
 		<constructor-arg ref="dataSource" />
 	</bean>		
- 
-<!--     <bean id="datTimeProvider" class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">  
-         <property name="staticField" value="org.springframework.data.auditing.CurrentDateTimeProvider.INSTANCE"></property>  
-    </bean> -->
+	
+<!-- 	<bean depends-on="dataSource, sessionFactory, jdbcTemplate" -->
+<!-- 		class="org.springframework.beans.factory.config.MethodInvokingFactoryBean"> -->
+<!-- 		<property name="targetClass" value="org.hsqldb.util.DatabaseManagerSwing" /> -->
+<!-- 		<property name="targetMethod" value="main" /> -->
+<!-- 		<property name="arguments"> -->
+<!-- 			<list> -->
+<!-- 				<value>driver</value> -->
+<!-- 				<value>org.hsqldb.jdbcDriver</value> -->
+<!-- 				<value>url</value> -->
+<!-- 				<value>jdbc:hsqldb:mem:dataSource</value> -->
+<!-- 				<value>user</value> -->
+<!-- 				<value>sa</value> -->
+<!-- 				<value>password</value> -->
+<!-- 				<value></value> -->
+<!-- 			</list> -->
+<!-- 		</property> -->
+<!-- 	</bean>	 -->
 
 </beans>

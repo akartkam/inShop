@@ -26,6 +26,7 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.ForeignKey;
 import org.hibernate.annotations.Index;
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.SafeHtml;
@@ -83,6 +84,7 @@ public class Category extends AbstractDomainObjectOrdering {
 	
 	@ManyToOne
 	@JoinColumn
+	@ForeignKey(name="fk_parent")
 	public Category getParent() {
 		return parent;
 	}

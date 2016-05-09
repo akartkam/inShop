@@ -8,7 +8,6 @@ import javax.persistence.Transient;
 
 @Entity
 @DiscriminatorValue("DECIMAL")
-@Table
 public class AttributeDecimal extends AbstractAttribute {
 
 	/**

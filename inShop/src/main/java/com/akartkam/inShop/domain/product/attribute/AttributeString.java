@@ -8,7 +8,6 @@ import javax.persistence.Transient;
 
 @Entity
 @DiscriminatorValue("STRING")
-@Table
 public class AttributeString extends AbstractAttribute {
 
 	/**
