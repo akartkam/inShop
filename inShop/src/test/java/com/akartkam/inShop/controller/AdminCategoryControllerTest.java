@@ -5,10 +5,12 @@ import java.util.List;
 import java.util.UUID;
 
 
+
 import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -96,24 +98,26 @@ public class AdminCategoryControllerTest extends AbstractTest {
 	public void testCategoryEdit_CatNotExists_Ajax() throws Exception {
 		Category cat = new Category();
 		when(categoryService.getCategoryById(any(UUID.class))).thenReturn(cat);
-		mockMvc.perform(get("/admin/catalog/category/edit").param("categoryID", cat.getId().toString()).header("X-Requested-With", "XMLHttpRequest"))
+		mockMvc.perform(get("/admin/catalog/category/edit")
+				        .param("categoryID", cat.getId().toString())
+				        .header("X-Requested-With", "XMLHttpRequest"))
 		.andExpect(status().isOk())
 		.andExpect(model().attribute("category", cat))
 		.andExpect(view().name("/admin/catalog/categoryEdit :: editCategoryForm"));
 		
 	}
 	
-	///??????????????????????????
 	@Test
 	public void testCategoryEdit_CatExists_NoAjax() throws Exception {
 		Category cat = new Category();
+		Category cat1 = new Category();
 		when(categoryService.getCategoryById(any(UUID.class))).thenReturn(cat);
 		mockMvc.perform(get("/admin/catalog/category/edit")
-				        .requestAttr("category", new Category())
 				        .param("categoryID", cat.getId().toString())
+				        .flashAttr("category", cat1)
 				        .header("X-Requested-With", ""))
 		.andExpect(status().isOk())
-		.andExpect(model().attribute("category", cat))
+		.andExpect(model().attribute("category", cat1))
 		.andExpect(view().name("/admin/catalog/categoryEdit"));
 		
 	}	
