@@ -1,5 +1,7 @@
 package com.akartkam.inShop.app;
 
+import java.util.Random;
+
 import org.apache.commons.lang3.StringUtils;
 
 
@@ -17,5 +19,11 @@ public class DelSubstring {
 		System.out.println(s);
 		String sss = null;
 		System.out.println(StringUtils.deleteWhitespace(sss));
+		for (int i=0;i<=30;i++) System.out.println(generateNumber());
 	}
+	
+	public static long generateNumber()
+	{
+	  return (long)(Math.random()*10000000 + 3330000000L);
+	}	
 }
