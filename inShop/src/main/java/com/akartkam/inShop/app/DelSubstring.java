@@ -19,6 +19,8 @@ public class DelSubstring {
 		System.out.println(s);
 		String sss = null;
 		System.out.println(StringUtils.deleteWhitespace(sss));
+		System.out.println(System.currentTimeMillis());
+		
 		for (int i=0;i<=30;i++) System.out.println(generateNumber());
 	}
 	

@@ -18,6 +18,8 @@
 
     <util:properties id="appProperties" 
                     location="classpath:application.properties"/>
+    <util:properties id="shopProperties" 
+                    location="classpath:shop.properties"/>
 	<!-- Root Context: defines shared resources visible to all other web components -->	
 	<!-- Включаем опцию использования конфигурационных аннотаций (@Annotation-based configuration)-->
 	<context:annotation-config />
