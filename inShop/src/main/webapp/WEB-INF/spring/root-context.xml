@@ -26,10 +26,9 @@
 
 	<!-- Определяем папки, в которых будем автоматически искать бины-компоненты (@Component, @Service) -->  
 	<context:component-scan base-package="com.akartkam.inShop.dao;com.akartkam.inShop.service" />
-	
+	<import resource="util.xml" />
 	<!-- Файл с настройками ресурсов для работы с данными (Data Access Resources) -->
 	<import resource="data.xml" />	
-
 	
 	<import resource="inshop-security.xml" />
 	
