@@ -1,7 +1,5 @@
 package com.akartkam.inShop.app;
 
-import java.util.Random;
-
 import com.akartkam.inShop.util.Random10OrderNumberGenerator;
 
 public class GenerateRandom {

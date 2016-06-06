@@ -13,7 +13,7 @@ public class OrderServiceImpl implements OrderService{
 	
 	@Autowired
 	private OrderDAO orderDAO;
-	@Autowired
+	@Autowired(required=false)
 	private OrderNumberGenerator orderNumberGenerator;
 	
 	

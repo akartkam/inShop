@@ -154,7 +154,7 @@ public class AdminCustomerController {
 			  if(customer.canRemove() && authorities.containsAll(Arrays.asList(new SimpleGrantedAuthority("ADMIN"), new SimpleGrantedAuthority("MANAGER")))) {
 				  customerService.deleteCustomer(customer);   
 			  } else {
-				  ra.addFlashAttribute("errormessage", this.messageSource.getMessage("admin.error.cannotdelete.message", new String[] {"покупателя"} , null));
+				  ra.addFlashAttribute("errormessage", this.messageSource.getMessage("admin.error.cannotdelete.message", new String[] {"пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ"} , null));
 				  ra.addAttribute("error", true);
 			  }
 
@@ -187,7 +187,7 @@ public class AdminCustomerController {
 	            return "redirect:/admin/customer/customer/edit";
 	        }
 		   status.setComplete();
-		   return "/admin/customer/customer";
+		   return "redirect:/admin/customer/customer";
 	    }
   
 
