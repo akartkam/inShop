@@ -12,7 +12,11 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.BeanPropertyBindingResult;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 
 import com.akartkam.inShop.dao.customer.CustomerDAO;
 import com.akartkam.inShop.domain.Account;
@@ -57,9 +61,9 @@ public class CustomerServiceImpl implements CustomerService{
 
 	@Override
 	@Transactional(readOnly = false)
-	public void mergeWithExistingAndUpdateOrCreate(CustomerForm customerForm,
-			Errors errors, boolean createAccount) throws IllegalAccessException , InvocationTargetException {
-		if (customerForm == null) return;
+	public Errors mergeWithExistingAndUpdateOrCreate(CustomerForm customerForm,
+			BindingResult errors , boolean createAccount) throws IllegalAccessException , InvocationTargetException {
+		if (customerForm == null) return errors;
 		Customer customer = getCustomerById(customerForm.getId());
 		if (customer != null && !errors.hasErrors()) {
 			customer.setAddress(customerForm.getAddress());
@@ -70,6 +74,7 @@ public class CustomerServiceImpl implements CustomerService{
 			customer.setMiddleName(customerForm.getMiddleName());
 			customer.setPhone(customerForm.getPhone());
 			customer.setBirthdate(customerForm.getBirthdate());
+			return errors;
 		} else {
 			BeanUtilsBean bu = new NullAwareBeanUtilsBean();
 			Account account = null;
@@ -84,16 +89,23 @@ public class CustomerServiceImpl implements CustomerService{
 						account.setRoles(sr);
 					}
 				} else {
-					return;
+					return errors;
 				}
+			} else if (errors.hasFieldErrors()) {
+				BindingResult nerrors = new BeanPropertyBindingResult(errors.getTarget(), errors.getObjectName());
+				for (ObjectError oe: errors.getGlobalErrors()) nerrors.addError(oe);
+				for (FieldError fe: errors.getFieldErrors()) if (!"username".equals(fe.getField())) nerrors.addError(fe);
+				return nerrors;
 			}
-			if (errors.hasErrors()) return; 
-			accountService.registerAccount(account, customerForm.getPassword());
+			if (errors.hasErrors()) return errors; 
+			if (createAccount && account != null) accountService.registerAccount(account, customerForm.getPassword());
 			customer = new Customer();
 			bu.copyProperties(customer, customerForm);
 			if (createAccount && account != null) customer.setAccount(account); 
 			customerDAO.create(customer);
-		}		
+			return errors;
+		}
+				
 		
 	}
 

@@ -71,7 +71,7 @@
 	 			    		   <label>
 					    	  	<span th:text="#{admin.catalog.brand.edit.description}">Description Brand1</span>
 					   		   </label>
-						       <textarea id="summernote" class="textarea form-control" placeholder="Введите текст..." th:field="*{description}"></textarea>
+						       <textarea id="summernote" class="textarea form-control" placeholder="Введите текст..." th:field="*{description}" th:value="${#strings.escapeJavaScript(brand.description)}"></textarea>
   						   </div>
 	             		</div>
 	                    <div class="tab-pane fade" id="additional">

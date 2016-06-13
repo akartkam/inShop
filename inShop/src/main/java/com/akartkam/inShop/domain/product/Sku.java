@@ -183,9 +183,9 @@ public class Sku extends AbstractDomainObjectOrdering {
     @AdminPresentation(tab=EditTab.MAIN)
 	public BigDecimal getRetailPrice() {
         BigDecimal tmpRetailPrice = getRetailPriceInternal();
-        if (tmpRetailPrice == null) {
+        /*if (tmpRetailPrice == null) {
             throw new IllegalStateException("Retail price on Sku with id " + getId() + " was null");
-        }
+        }*/
         return tmpRetailPrice;
 	}
 	public void setRetailPrice(BigDecimal retailPrice) {

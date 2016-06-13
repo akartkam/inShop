@@ -27,7 +27,10 @@
 		<form-login login-processing-url="/login_post.htm"
 			login-page="/login" authentication-failure-url="/login?error=t"/> 
 		<logout logout-url="/logout" logout-success-url="/logout/success" invalidate-session="false"/>
-	 <!--  	<csrf />  -->
+		<headers>
+            <xss-protection  />
+        </headers>
+<!-- 	  	<csrf />  -->
 	</http>	
 	
 <!--  

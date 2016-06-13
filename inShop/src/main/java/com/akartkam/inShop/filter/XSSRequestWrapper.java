@@ -71,6 +71,8 @@ public class XSSRequestWrapper extends HttpServletRequestWrapper {
             // avoid encoded attacks.
             // value = ESAPI.encoder().canonicalize(value);
 
+        	//Лучше конечно юзать jsoup, но пока лень.
+        	
             // Avoid null characters
             value = value.replaceAll("", "");
 

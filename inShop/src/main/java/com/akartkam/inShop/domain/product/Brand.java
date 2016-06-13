@@ -51,7 +51,7 @@ public class Brand extends AbstractDomainObject {
 		this.name = name;
 	}
 	
-    @SafeHtml(whitelistType=WhiteListType.RELAXED)
+//    @SafeHtml(whitelistType=WhiteListType.RELAXED)
 	@Lob
     @Type(type = "org.hibernate.type.TextType")
     @Column(name = "description", length = Integer.MAX_VALUE - 1)

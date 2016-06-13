@@ -40,6 +40,7 @@ import java.util.UUID;
 
 
 
+
 import javax.validation.Valid;
 
 import org.apache.commons.logging.Log;
@@ -54,6 +55,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -179,11 +181,11 @@ public class AdminCustomerController {
 		    if (model.containsAttribute("customerUsername")) {
 		    	customer.setUsername((String)model.asMap().get("customerUsername"));
 		    }
-		   customerService.mergeWithExistingAndUpdateOrCreate(customer, bindingResult, createAccount);
-		   if (bindingResult.hasErrors()) {
+		   Errors br = customerService.mergeWithExistingAndUpdateOrCreate(customer, bindingResult, createAccount);
+		   if (br.hasErrors()) {
 	        	ra.addFlashAttribute("customer", customer);
 	        	ra.addFlashAttribute("createAccount", new Boolean(createAccount));
-	        	ra.addFlashAttribute("org.springframework.validation.BindingResult.customer", bindingResult);
+	        	ra.addFlashAttribute("org.springframework.validation.BindingResult.customer", br);
 	            return "redirect:/admin/customer/customer/edit";
 	        }
 		   status.setComplete();

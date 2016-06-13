@@ -26,8 +26,7 @@
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
-	
-
+		
 	<!-- Processes application requests -->
 	<servlet>
 		<servlet-name>inShop</servlet-name>
@@ -42,6 +41,19 @@
 		<servlet-name>inShop</servlet-name>
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
+	
+	    <!--anti xss filter-->
+    <filter>
+        <filter-name>XSSFilter</filter-name>
+        <filter-class>
+            com.akartkam.inShop.filter.XSSFilter
+        </filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>XSSFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>	
+	
 	
     <!--<start id="filter_security" />-->
     <filter>
