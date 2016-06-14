@@ -1,5 +1,8 @@
 package com.akartkam.inShop.app;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
  
@@ -16,7 +19,7 @@ public class CleanerExample {
  
     public static void main(String[] args) {
          
-    	Whitelist wl = Whitelist.relaxed().addAttributes("span", "style").addAttributes("img", "src");
+    	/*Whitelist wl = Whitelist.relaxed().addAttributes("span", "style").addAttributes("img", "src");
         String clean = Jsoup.clean(dirty,wl);
          
         System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
@@ -28,6 +31,12 @@ public class CleanerExample {
         System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
         System.out.println(clean);
         System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+        */
+    	String s = "<img src='erty\\hhh'";
+        Pattern scriptPattern = Pattern.compile(".*<[\\s]*img.*src[\r\n]*=[\r\n]*\\\'(.*?)\\\'", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
+        boolean value = scriptPattern.matcher(s).matches();
+        System.out.println(value);
+
     }
  
 }
