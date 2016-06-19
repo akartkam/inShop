@@ -33,10 +33,12 @@ public class CleanerExample {
         System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
         */
     	// вроде работает ^((?!<[\s]*img).)*src[\s]*=[\s]*\\'(.*?)'.* только нужно дл€ java адаптировать
-    	String s = "<img src='erty\\hhh'";
+    	String s = "<img src=\"data:image/png;base64;filename=\"sony.png\" style=\"width: 362px;\"></div>\r"+
+"<link src=\"qwer\"/>";
         //Pattern scriptPattern = Pattern.compile(".*<[\\s]*img.*src[\r\n]*=[\r\n]*\\\'(.*?)\\\'", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
-    	Pattern scriptPattern = Pattern.compile("src[\r\n]*=[\r\n]*\\\'(.*?)\\\'", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
+        Pattern scriptPattern = Pattern.compile("^((?!<[\\s]*img).)*src[\r\n]*=[\r\n]*\\\"(.*?)\\\"", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
         String value = scriptPattern.matcher(s).replaceAll("~");
+    	//boolean value = scriptPattern.matcher(s).matches();
         System.out.println(value);
 
     }

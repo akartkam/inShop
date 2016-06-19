@@ -2,6 +2,7 @@ package com.akartkam.inShop.service.aop;
 
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
+import java.beans.PropertyEditorSupport;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -11,15 +12,39 @@ import java.util.List;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.DataBinder;
 import org.springframework.validation.FieldError;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.akartkam.inShop.presentation.admin.AdminPresentation;
 import com.akartkam.inShop.presentation.admin.EditTab;
+import com.akartkam.inShop.util.SecurityTools;
 
 
 public class AdminRequestMappingAspect {
 
+	/*Нижеследующий код для внедрения CustomEditor в IninBinder для XSS в полях description*/
+	public Object injectCustomEditorAntiXSS(ProceedingJoinPoint pjp) throws Throwable {
+		
+		DataBinder db = getParam(pjp.getArgs(), WebDataBinder.class);
+		String[] af = db.getAllowedFields();
+		String fs = findStrIntoStrArray(af, "description");
+		if (fs != null) {
+			db.registerCustomEditor(String.class, fs, new PropertyEditorSupport() {
+			    @Override
+			    public void setAsText(String text) {
+			    	if ("".equals(text) || "''".equals(text))
+			    	  setValue(null);
+			    	else
+			    	  setValue(SecurityTools.stripXSS(text));	
+			    }
+			    });			
+		}
+		return pjp.proceed();
+	}
+	
+	/*Нижеследующий код для аспекта определяющего правильную страницу tab в окне редактирования*/
 	public Object setEditTabMain(ProceedingJoinPoint pjp) throws Throwable {
 		Model m = getParam(pjp.getArgs(), Model.class);
 		if(m != null && !m.containsAttribute("tabactive")) m.addAttribute("tabactive", EditTab.MAIN.getName().toLowerCase());
@@ -71,6 +96,14 @@ public class AdminRequestMappingAspect {
 			ra.addFlashAttribute("tabactive", EditTab.MAIN.getName().toLowerCase());
 		}
 		return ret;
+	}
+	
+	private String findStrIntoStrArray (String[] ar, String fs){
+		if (ar != null)
+			for (String cs: ar) {
+				if (cs.contains(fs)) return cs;
+			}
+		return null;
 	}
 	
 	

@@ -14,6 +14,11 @@
   <!-- <start id="audience_aspect" /> -->
   <aop:config>
     <aop:aspect ref="adminRequestMappingAspect">
+      <aop:pointcut id="injectCustomEditorAntiXSSForDescription" expression=
+          "execution(public void *(org.springframework.web.bind.WebDataBinder)) &amp;&amp; 
+           within(@org.springframework.stereotype.Controller *) &amp;&amp; 
+           @annotation(org.springframework.web.bind.annotation.InitBinder)" 
+          />
       <aop:pointcut id="showEditFormRequestMapping" expression=
           "execution(public * *(.., org.springframework.validation.BindingResult, org.springframework.web.servlet.mvc.support.RedirectAttributes, ..)) &amp;&amp; 
            within(@org.springframework.stereotype.Controller *) &amp;&amp; 
@@ -24,6 +29,9 @@
            within(@org.springframework.stereotype.Controller *) &amp;&amp; 
            @annotation(org.springframework.web.bind.annotation.RequestMapping)" 
           />
+      <aop:around 
+          pointcut-ref="injectCustomEditorAntiXSSForDescription" 
+          method="injectCustomEditorAntiXSS" />
       <aop:around 
           pointcut-ref="showEditFormRequestMapping" 
           method="setEditTab" />
