@@ -11,6 +11,8 @@ import java.util.regex.Pattern;
 
 import javax.validation.Valid;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
@@ -32,12 +34,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.akartkam.inShop.domain.product.Brand;
 import com.akartkam.inShop.service.product.BrandService;
+import com.akartkam.inShop.service.product.ProductServiceImpl;
 import com.akartkam.inShop.util.ImageUtil;
 
 @Controller
 @RequestMapping("/admin/catalog/brand")
 public class AdminBrandController {
-	
+	  private static final Log LOG = LogFactory.getLog(AdminBrandController.class);
 	  @Autowired
 	  BrandService brandService;
 	  
@@ -61,7 +64,6 @@ public class AdminBrandController {
 	      return brandService.getAllBrand();
 	  }
 	 
-
 	  
 	  @InitBinder
 	  public void initBinder(WebDataBinder binder) {
@@ -72,7 +74,6 @@ public class AdminBrandController {
 			    	 setValue(UUID.fromString(text));
 			    }
 			    });
-			
 			binder.registerCustomEditor(String.class, "logoUrl", new PropertyEditorSupport() {
 			    @Override
 			    public void setAsText(String text) {
@@ -82,6 +83,16 @@ public class AdminBrandController {
 			    	  setValue(text);	
 			    }
 			    });
+			binder.registerCustomEditor(String.class, "description", new PropertyEditorSupport() {
+			    @Override
+			    public void setAsText(String text) {
+			    	if ("".equals(text) || "''".equals(text))
+			    	  setValue(null);
+			    	else
+			    	  setValue(text);	
+			    }
+			    });
+			
 	  }
 	  
 	  @RequestMapping(method=GET)

@@ -15,7 +15,7 @@
   <aop:config>
     <aop:aspect ref="adminRequestMappingAspect">
       <aop:pointcut id="injectCustomEditorAntiXSSForDescription" expression=
-          "execution(public void *(org.springframework.web.bind.WebDataBinder)) &amp;&amp; 
+          "execution(public void initBinder(org.springframework.web.bind.WebDataBinder)) &amp;&amp; 
            within(@org.springframework.stereotype.Controller *) &amp;&amp; 
            @annotation(org.springframework.web.bind.annotation.InitBinder)" 
           />

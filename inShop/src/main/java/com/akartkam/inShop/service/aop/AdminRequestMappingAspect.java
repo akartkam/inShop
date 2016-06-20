@@ -2,6 +2,7 @@ package com.akartkam.inShop.service.aop;
 
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
+import java.beans.PropertyEditor;
 import java.beans.PropertyEditorSupport;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -26,22 +27,16 @@ public class AdminRequestMappingAspect {
 
 	/*Нижеследующий код для внедрения CustomEditor в IninBinder для XSS в полях description*/
 	public Object injectCustomEditorAntiXSS(ProceedingJoinPoint pjp) throws Throwable {
-		
+		Object ret = pjp.proceed();
 		DataBinder db = getParam(pjp.getArgs(), WebDataBinder.class);
 		String[] af = db.getAllowedFields();
 		String fs = findStrIntoStrArray(af, "description");
-		if (fs != null) {
-			db.registerCustomEditor(String.class, fs, new PropertyEditorSupport() {
-			    @Override
-			    public void setAsText(String text) {
-			    	if ("".equals(text) || "''".equals(text))
-			    	  setValue(null);
-			    	else
-			    	  setValue(SecurityTools.stripXSS(text));	
-			    }
-			    });			
-		}
-		return pjp.proceed();
+		if (fs == null)  return ret;
+		PropertyEditor exPe = db.findCustomEditor(String.class, fs);
+		if (exPe != null && exPe.getClass().equals(PropertyEditorSupportAntiXSSWrapper.class)) return ret;
+		PropertyEditor pe = (exPe != null) ? new PropertyEditorSupportAntiXSSWrapper(exPe): new PropertyEditorSupportAntiXSSWrapper();
+		db.registerCustomEditor(String.class, fs, pe);			
+		return ret;
 	}
 	
 	/*Нижеследующий код для аспекта определяющего правильную страницу tab в окне редактирования*/
@@ -128,6 +123,23 @@ public class AdminRequestMappingAspect {
 			res = fn;
 		}
 		return res;
+	}
+	
+	static private class PropertyEditorSupportAntiXSSWrapper extends PropertyEditorSupport {
+		
+		private PropertyEditor propertyEditor = null;
+		public PropertyEditorSupportAntiXSSWrapper() {}
+		public PropertyEditorSupportAntiXSSWrapper (PropertyEditor propertyEditor) {
+			this.propertyEditor = propertyEditor;
+		}
+
+	    @Override
+	    public void setAsText(String text) {
+	    	if (propertyEditor != null) {
+	    		propertyEditor.setAsText(text);
+	    	} else 	if ("".equals(text) || "''".equals(text))  setValue(null);
+         	setValue(SecurityTools.stripXSS(text));	
+	    }	    
 	}
 		
 }
