@@ -106,8 +106,6 @@ public class Sku extends AbstractDomainObjectOrdering {
 		this.description = description;
 	}
 	
-	@SafeHtml(whitelistType=WhiteListType.RELAXED)
-    @Lob
     @Type(type = "org.hibernate.type.TextType")
     @Column(name = "long_description", length = Integer.MAX_VALUE - 1)
 	public String getLongDescription() {

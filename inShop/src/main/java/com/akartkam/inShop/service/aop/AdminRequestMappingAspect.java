@@ -33,8 +33,8 @@ public class AdminRequestMappingAspect {
 		String fs = findStrIntoStrArray(af, "description");
 		if (fs == null)  return ret;
 		PropertyEditor exPe = db.findCustomEditor(String.class, fs);
-		if (exPe != null && exPe.getClass().equals(PropertyEditorSupportAntiXSSWrapper.class)) return ret;
-		PropertyEditor pe = (exPe != null) ? new PropertyEditorSupportAntiXSSWrapper(exPe): new PropertyEditorSupportAntiXSSWrapper();
+		if (exPe != null && exPe.getClass().equals(PropertyEditorSupportAntiXSSProxy.class)) return ret;
+		PropertyEditor pe = (exPe != null) ? new PropertyEditorSupportAntiXSSProxy(exPe): new PropertyEditorSupportAntiXSSProxy();
 		db.registerCustomEditor(String.class, fs, pe);			
 		return ret;
 	}
@@ -125,11 +125,11 @@ public class AdminRequestMappingAspect {
 		return res;
 	}
 	
-	static private class PropertyEditorSupportAntiXSSWrapper extends PropertyEditorSupport {
+	static private class PropertyEditorSupportAntiXSSProxy extends PropertyEditorSupport {
 		
 		private PropertyEditor propertyEditor = null;
-		public PropertyEditorSupportAntiXSSWrapper() {}
-		public PropertyEditorSupportAntiXSSWrapper (PropertyEditor propertyEditor) {
+		public PropertyEditorSupportAntiXSSProxy() {}
+		public PropertyEditorSupportAntiXSSProxy (PropertyEditor propertyEditor) {
 			this.propertyEditor = propertyEditor;
 		}
 
