@@ -10,6 +10,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,24 +20,30 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.akartkam.inShop.controller.admin.product.AdminBrandController;
 import com.akartkam.inShop.presentation.admin.AdminPresentation;
 import com.akartkam.inShop.presentation.admin.EditTab;
 import com.akartkam.inShop.util.SecurityTools;
+import com.akartkam.inShop.validator.HtmlSafe;
 
 
 public class AdminRequestMappingAspect {
-
+	private static final Log LOG = LogFactory.getLog(AdminRequestMappingAspect.class);
 	/*Ќижеследующий код дл€ внедрени€ CustomEditor в IninBinder дл€ XSS в пол€х description*/
 	public Object injectCustomEditorAntiXSS(ProceedingJoinPoint pjp) throws Throwable {
 		Object ret = pjp.proceed();
 		DataBinder db = getParam(pjp.getArgs(), WebDataBinder.class);
-		String[] af = db.getAllowedFields();
-		String fs = findStrIntoStrArray(af, "description");
-		if (fs == null)  return ret;
-		PropertyEditor exPe = db.findCustomEditor(String.class, fs);
-		if (exPe != null && exPe.getClass().equals(PropertyEditorSupportAntiXSSProxy.class)) return ret;
-		PropertyEditor pe = (exPe != null) ? new PropertyEditorSupportAntiXSSProxy(exPe): new PropertyEditorSupportAntiXSSProxy();
-		db.registerCustomEditor(String.class, fs, pe);			
+		Object target = db.getTarget();
+		if (target != null) {
+			List<HtmlSafe> et = new ArrayList<HtmlSafe>();
+			String[] af = db.getAllowedFields();
+			String fs = findStrIntoStrArray(af, "description");
+			if (fs == null)  return ret;
+			PropertyEditor exPe = db.findCustomEditor(String.class, fs);
+			if (exPe != null && exPe.getClass().equals(PropertyEditorSupportAntiXSSProxy.class)) return ret;
+			PropertyEditor pe = (exPe != null) ? new PropertyEditorSupportAntiXSSProxy(exPe): new PropertyEditorSupportAntiXSSProxy();
+			db.registerCustomEditor(String.class, fs, pe);	
+		}
 		return ret;
 	}
 	
