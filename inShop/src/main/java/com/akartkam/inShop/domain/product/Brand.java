@@ -25,6 +25,7 @@ import com.akartkam.inShop.domain.AbstractDomainObject;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
 import com.akartkam.inShop.presentation.admin.AdminPresentation;
 import com.akartkam.inShop.presentation.admin.EditTab;
+import com.akartkam.inShop.validator.HtmlSafe;
 
 @Entity
 @Table(name = "Brand")
@@ -51,6 +52,7 @@ public class Brand extends AbstractDomainObject {
 		this.name = name;
 	}
 	
+	@HtmlSafe
 	@Lob
     @Type(type = "org.hibernate.type.TextType")
     @Column(name = "description", length = Integer.MAX_VALUE - 1)

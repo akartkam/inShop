@@ -37,9 +37,9 @@ public class PreInsertAuditEventListener implements PreInsertEventListener {
 			List<String> propertyList = Arrays.asList(properties);			
 			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 			event.getState()[propertyList.indexOf("createdDate")] = insertDate;
-			event.getState()[propertyList.indexOf("createdBy")] = ((UserDetailsAdapter) authentication.getPrincipal()).getAccount();
+			event.getState()[propertyList.indexOf("createdBy")] = ((UserDetailsAdapter) authentication.getPrincipal()).getUsername();
 			entity.setCreatedDate(insertDate);
-			entity.setCreatedBy(((UserDetailsAdapter) authentication.getPrincipal()).getAccount());
+			entity.setCreatedBy(((UserDetailsAdapter) authentication.getPrincipal()).getUsername());
 		}
 		return false;
 	}

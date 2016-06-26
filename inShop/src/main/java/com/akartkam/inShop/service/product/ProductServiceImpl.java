@@ -234,7 +234,6 @@ public class ProductServiceImpl implements ProductService {
 			existingProduct.getDefaultSku().setName(productFromPost.getDefaultSku().getName());
 			existingProduct.getDefaultSku().setCode(productFromPost.getDefaultSku().getCode());
 			String url = productFromPost.getUrl();
-			if (url != null && !"".equals(url) && !url.startsWith("/")) url = "/"+url; 
 			existingProduct.setUrl(url);
 			existingProduct.setOrdering(productFromPost.getOrdering());
 			existingProduct.setBrand(productFromPost.getBrand());

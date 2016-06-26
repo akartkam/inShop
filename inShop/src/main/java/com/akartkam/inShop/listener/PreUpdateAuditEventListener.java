@@ -34,9 +34,9 @@ public class PreUpdateAuditEventListener implements PreUpdateEventListener {
 			List<String> propertyList = Arrays.asList(properties);
 			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 			event.getState()[propertyList.indexOf("updatedDate")] = insertDate;
-			event.getState()[propertyList.indexOf("updatedBy")] = ((UserDetailsAdapter) authentication.getPrincipal()).getAccount();
+			event.getState()[propertyList.indexOf("updatedBy")] = ((UserDetailsAdapter) authentication.getPrincipal()).getUsername();
 			entity.setUpdatedDate(insertDate);
-			entity.setUpdatedBy(((UserDetailsAdapter) authentication.getPrincipal()).getAccount());
+			entity.setUpdatedBy(((UserDetailsAdapter) authentication.getPrincipal()).getUsername());
 		}
 		return false;
 	}

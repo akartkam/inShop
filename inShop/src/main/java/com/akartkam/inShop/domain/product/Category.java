@@ -37,6 +37,7 @@ import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttributeValue;
 import com.akartkam.inShop.presentation.admin.AdminPresentation;
 import com.akartkam.inShop.presentation.admin.EditTab;
+import com.akartkam.inShop.validator.HtmlSafe;
 
 @NamedQueries({
 @NamedQuery(
@@ -152,6 +153,7 @@ public class Category extends AbstractDomainObjectOrdering {
 		this.description = description;
 	}
 	
+	@HtmlSafe
     @Lob
     @Type(type = "org.hibernate.type.TextType")
     @Column(name = "long_description", length = Integer.MAX_VALUE - 1)

@@ -10,6 +10,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.SystemUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -35,14 +37,20 @@ public class AdminRequestMappingAspect {
 		DataBinder db = getParam(pjp.getArgs(), WebDataBinder.class);
 		Object target = db.getTarget();
 		if (target != null) {
-			List<HtmlSafe> et = new ArrayList<HtmlSafe>();
+			Class<?> tclass = target.getClass();
 			String[] af = db.getAllowedFields();
-			String fs = findStrIntoStrArray(af, "description");
-			if (fs == null)  return ret;
-			PropertyEditor exPe = db.findCustomEditor(String.class, fs);
-			if (exPe != null && exPe.getClass().equals(PropertyEditorSupportAntiXSSProxy.class)) return ret;
-			PropertyEditor pe = (exPe != null) ? new PropertyEditorSupportAntiXSSProxy(exPe): new PropertyEditorSupportAntiXSSProxy();
-			db.registerCustomEditor(String.class, fs, pe);	
+			for (PropertyDescriptor pd: Introspector.getBeanInfo(tclass).getPropertyDescriptors()) {
+				Method mt = pd.getReadMethod();
+				if (mt != null && mt.isAnnotationPresent(HtmlSafe.class) && pd.getPropertyType().isAssignableFrom(String.class)) {
+					String pname = pd.getName();
+					if (StringUtils.indexOfAny(pname,af)!=-1) {
+						PropertyEditor exPe = db.findCustomEditor(String.class, pname);
+						if (exPe != null && exPe.getClass().equals(PropertyEditorSupportAntiXSSProxy.class)) continue;
+						PropertyEditor pe = (exPe != null) ? new PropertyEditorSupportAntiXSSProxy(exPe): new PropertyEditorSupportAntiXSSProxy();
+						db.registerCustomEditor(String.class, pname, pe);	
+					}
+				}
+			}	
 		}
 		return ret;
 	}
@@ -100,16 +108,7 @@ public class AdminRequestMappingAspect {
 		}
 		return ret;
 	}
-	
-	private String findStrIntoStrArray (String[] ar, String fs){
-		if (ar != null)
-			for (String cs: ar) {
-				if (cs.contains(fs)) return cs;
-			}
-		return null;
-	}
-	
-	
+		
 	@SuppressWarnings("unchecked")
 	private <T> T getParam (Object[] args, Class<T> clazz) {
 		for (Object currentArgument : args) {
@@ -145,8 +144,12 @@ public class AdminRequestMappingAspect {
 	    public void setAsText(String text) {
 	    	if (propertyEditor != null) {
 	    		propertyEditor.setAsText(text);
-	    	} else 	if ("".equals(text) || "''".equals(text))  setValue(null);
-         	setValue(SecurityTools.stripXSS(text));	
+	    	}	    	
+	    	if ("".equals(text) || "''".equals(text)) {
+	    		setValue(null); 
+	    	} else {
+         	    setValue(SecurityTools.stripXSS(text));
+	    	}
 	    }	    
 	}
 		

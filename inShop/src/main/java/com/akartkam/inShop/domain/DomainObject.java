@@ -21,11 +21,11 @@ public interface DomainObject <ID extends Serializable> extends Serializable {
     DateTime getUpdatedDate();
     void setUpdatedDate(DateTime updatedDate);
     
-    Account getCreatedBy();
-    void setCreatedBy(Account createdBy);
+    String getCreatedBy();
+    void setCreatedBy(String createdBy);
     
-    Account getUpdatedBy();
-    void setUpdatedBy(Account updatedBy);
+    String getUpdatedBy();
+    void setUpdatedBy(String updatedBy);
     
     boolean isNew();
     

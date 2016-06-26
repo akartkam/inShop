@@ -23,9 +23,9 @@ public abstract class AbstractDomainObject implements DomainObject<UUID>, Clonea
     private Integer version=0;
     private boolean enabled=true;
     private DateTime createdDate; //= DateTime.now();  
-    private Account createdBy;  
+    private String createdBy;  
 	private DateTime updatedDate; //= DateTime.now();  
-    private Account  updatedBy;      
+    private String  updatedBy;      
 
 
 	@Id
@@ -73,24 +73,21 @@ public abstract class AbstractDomainObject implements DomainObject<UUID>, Clonea
 	}
 	
 	  
-	@ManyToOne
-	@JoinColumn(name = "createBy")
-	public Account getCreatedBy() {
+	@Column(name = "createBy")
+	public String getCreatedBy() {
 		return createdBy;
 	}
 
-	public void setCreatedBy(Account createdBy) {
+	public void setCreatedBy(String createdBy) {
 		this.createdBy = createdBy;
 	}
 
- 
-	@ManyToOne
-	@JoinColumn(name = "updatedBy")
-	public Account getUpdatedBy() {
+	@Column(name = "updatedBy")
+	public String getUpdatedBy() {
 		return updatedBy;
 	}
 
-	public void setUpdatedBy(Account updatedBy) {
+	public void setUpdatedBy(String updatedBy) {
 		this.updatedBy = updatedBy;
 	}
 	
