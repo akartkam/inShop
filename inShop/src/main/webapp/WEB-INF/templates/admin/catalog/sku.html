@@ -219,7 +219,7 @@
 									    <div class="a-photo-out">
                                            <span class="photo-block">
                                              <span class="helper"></span>
-                                             <img th:src="@{${#lists.isEmpty(sku.images)? product.defaultSku.images[0]: sku.images[0]}}"  th:onerror="'this.src=\'' + @{/resources/img/noimage.png} + '\';'"/>
+                                             <img th:src="@{${#lists.isEmpty(sku.images)? (!#lists.isEmpty(product.defaultSku.images)? product.defaultSku.images[0]: '') : sku.images[0]}}"  th:onerror="'this.src=\'' + @{/resources/img/noimage.png} + '\';'"/>
                                            </span>
 									       <span th:text="${sku.name}">name</span>
 									       <br/>
