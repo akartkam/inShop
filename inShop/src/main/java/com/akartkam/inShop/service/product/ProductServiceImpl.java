@@ -323,6 +323,7 @@ public class ProductServiceImpl implements ProductService {
 			sku.setActiveStartDate(skuFromPost.getActiveStartDate());
 			sku.setCode(skuFromPost.getCode());
 			sku.setCostPrice(skuFromPost.getCostPrice());
+			sku.setSalePrice(skuFromPost.getSalePrice());
 			sku.setRetailPrice(skuFromPost.getRetailPrice());
 			sku.setDescription(skuFromPost.getDescription());
 			sku.setLongDescription(skuFromPost.getLongDescription());
