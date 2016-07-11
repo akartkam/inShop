@@ -19,6 +19,8 @@ public interface ProductService {
 	Sku createSku(Sku sku);
 	List<ProductOption> getAllPO();
 	List<Product> getAllProduct();
+	List<Product> getProductsByName(String name);
+	List<Sku> getSkusByName(String name);
 	Product getProductById(UUID id);
 	ProductOptionValue getPOVById(UUID id);
 	ProductOption getPOById(UUID id);

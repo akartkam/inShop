@@ -93,6 +93,15 @@ public class ProductServiceImpl implements ProductService {
 		return productOptionValueDAO.get(id);
 	}
 
+	@Override
+	public List<Product> getProductsByName(String name) {
+		return productDAO.findProductsByName(name);
+	}
+	
+	@Override
+	public List<Sku> getSkusByName(String name) {
+		return skuDAO.findSkusByName(name);
+	}
 	
 	@Override
 	public ProductOption clonePOById(UUID id) throws CloneNotSupportedException {

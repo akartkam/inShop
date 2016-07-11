@@ -49,10 +49,6 @@ public class CategoryServiceImpl implements CategoryService {
 		return categoryDAO.findCategoryByName(name);
 	}
 
-	@Override
-	public List<Product> getProductByName(String name) {
-		return productDAO.findProductByName(name);
-	}
 
 	@Override
 	public List<Category> getAllCategoryHierarchy(Boolean useDisabled) {

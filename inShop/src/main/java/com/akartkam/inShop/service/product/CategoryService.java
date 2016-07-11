@@ -13,7 +13,6 @@ public interface CategoryService {
 	Category createCategory(Category category);
 	List<Category> getRootCategories(Boolean useDisabled);
 	List<Category> getCategoryByName(String name);
-	List<Product> getProductByName(String name);
 	List<Category> getAllCategoryHierarchy(Boolean useDisabled);
 	Category loadCategoryById(UUID id, Boolean lock);
 	Category getCategoryById(UUID id);

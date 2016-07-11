@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.Logger;
 import org.hibernate.SessionFactory;
 import org.junit.Assume;
@@ -18,6 +20,7 @@ import com.akartkam.inShop.common.AbstractTest;
 import com.akartkam.inShop.dao.product.CategoryDAO;
 import com.akartkam.inShop.domain.product.Category;
 import com.akartkam.inShop.domain.product.Product;
+import com.akartkam.inShop.domain.product.Sku;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttributeValue;
 import com.akartkam.inShop.domain.product.attribute.AttributeCategory;
@@ -26,7 +29,7 @@ import com.akartkam.inShop.domain.product.attribute.SimpleAttributeFactory;
 
 public class CategoryServiceTest extends AbstractTest {
 	
-	final static Logger logger = Logger.getLogger(CategoryServiceTest.class);
+	private static final Log LOG = LogFactory.getLog(CategoryServiceTest.class);
 	
 	@Autowired
 	private CategoryService categoryService;
@@ -36,6 +39,8 @@ public class CategoryServiceTest extends AbstractTest {
 	private AttributeCategoryService attributeCategoryService;
 	@Autowired
 	private SessionFactory sessionFactory;
+	@Autowired
+	private ProductService productService; 
 	
 	@Test
 	public void addCategoryTest(){
@@ -190,8 +195,8 @@ public class CategoryServiceTest extends AbstractTest {
 		categoryDAO.update(found1);
 		Category found2 = categoryService.getCategoryByName("Test_Category4").get(0);
 		Category found3 = categoryService.getCategoryByName("Test_Category5").get(0);
-		Product fproduct1 = categoryService.getProductByName("AutoTestAddProduct1").get(0);
-		Product fproduct2 = categoryService.getProductByName("AutoTestAddProduct2").get(0);
+		Product fproduct1 = productService.getProductsByName("AutoTestAddProduct1").get(0);
+		Product fproduct2 = productService.getProductsByName("AutoTestAddProduct2").get(0);
 		assertEquals(found2, fproduct1.getCategory());
 		assertEquals(found3, fproduct2.getCategory());
 		logger.info("*********End addProductTest*********");
@@ -256,7 +261,7 @@ public class CategoryServiceTest extends AbstractTest {
 
 	@Test
 	public void addProductImage() {
-		Product p = categoryService.getProductByName("Test_product1").get(0);
+		Product p = productService.getProductsByName("Test_product1").get(0);
 		List<String> pi = new ArrayList<String>();
 
 		pi.add(0, "/images/i1.jpg");
@@ -264,6 +269,13 @@ public class CategoryServiceTest extends AbstractTest {
 		pi.add(1,"/images/i3.jpg");
 		//p.setImages(pi);
 		
+	}
+	
+	@Test
+	public void searchSku() {
+		List<Sku> skus = productService.getSkusByName("Panasonic%");
+		assertTrue(skus.size()>0);
+		LOG.info(skus);
 	}
 	
 	private Category createTestCategory(String name) {
