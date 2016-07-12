@@ -11,6 +11,7 @@ import com.akartkam.inShop.domain.product.Sku;
 import com.akartkam.inShop.domain.product.option.ProductOption;
 import com.akartkam.inShop.domain.product.option.ProductOptionValue;
 import com.akartkam.inShop.formbean.ProductForm;
+import com.akartkam.inShop.formbean.SkuForJSON;
 
 
 public interface ProductService {
@@ -21,6 +22,7 @@ public interface ProductService {
 	List<Product> getAllProduct();
 	List<Product> getProductsByName(String name);
 	List<Sku> getSkusByName(String name);
+	List<SkuForJSON> getSkusForJSONByName(String name); 
 	Product getProductById(UUID id);
 	ProductOptionValue getPOVById(UUID id);
 	ProductOption getPOById(UUID id);

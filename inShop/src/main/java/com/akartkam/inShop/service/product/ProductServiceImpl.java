@@ -36,6 +36,7 @@ import com.akartkam.inShop.domain.product.option.ProductOption;
 import com.akartkam.inShop.domain.product.option.ProductOptionValue;
 import com.akartkam.inShop.exception.ProductNotFoundException;
 import com.akartkam.inShop.formbean.ProductForm;
+import com.akartkam.inShop.formbean.SkuForJSON;
 import com.akartkam.inShop.util.NullAwareBeanUtilsBean;
 
 @Service("ProductService")
@@ -501,6 +502,12 @@ public class ProductServiceImpl implements ProductService {
         
         return result;
     }
+
+	@Override
+	public List<SkuForJSON> getSkusForJSONByName(String name) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 
 }

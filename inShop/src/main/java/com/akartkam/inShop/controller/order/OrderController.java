@@ -33,7 +33,7 @@ public class OrderController {
 	  
 	  @RequestMapping(value="/product-search", method= RequestMethod.GET, produces="application/json")
 	  @ResponseStatus(HttpStatus.OK)	  
-	  public @ResponseBody List<Sku> searchProductsForOrder(@RequestParam(value = "q", required = true) String q, Model model,
+	  public @ResponseBody List<FoundSku> searchProductsForOrder(@RequestParam(value = "q", required = true) String q, Model model,
               							   @RequestHeader(value = "X-Requested-With", required = false) String requestedWith) {
 		  //if (!"XMLHttpRequest".equals(requestedWith)) throw new IllegalStateException("The addNewImage method can be called only via ajax!");
 		  List<Sku> skus = productService.getSkusByName('%'+q+'%');
@@ -41,7 +41,7 @@ public class OrderController {
 		  for (Sku sku: skus) {
 			  fSku.add(new FoundSku(sku.getName(), sku.getImages())); 
 		  }
-		  return skus;
+		  return fSku;
 		  
 	  }
 	  
