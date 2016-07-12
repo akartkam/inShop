@@ -505,8 +505,48 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public List<SkuForJSON> getSkusForJSONByName(String name) {
-		// TODO Auto-generated method stub
-		return null;
+		List<SkuForJSON> ret = new ArrayList<SkuForJSON>();
+		List<Sku> skus = getSkusByName(name);
+		String pname, images[] = new String[0], code, brand = null, model = null, description, retailPrice, salePrice = null, productStatus = null;
+		for (Sku sku: skus) {
+			pname = sku.getName();
+			if (sku.getImages() != null && sku.getImages().size() != 0) {
+				images = sku.getImages().toArray(new String[0]);	
+			}
+			if (images.length == 0) {
+				if (sku.getDefaultProduct() == null) {
+					Sku dsku = sku.getProduct().getDefaultSku();
+					if (dsku != null) {
+						images = dsku.getImages().toArray(new String[0]);
+					}
+				}
+			}
+			code = sku.getCode();
+			if (sku.getDefaultProduct() != null) { 
+				brand = sku.getDefaultProduct().getBrand() != null ? sku.getDefaultProduct().getBrand().getName() : null;
+				model = sku.getDefaultProduct().getModel();
+			}
+			else
+			  if (sku.getProduct() != null) { 
+				 brand = sku.getProduct().getBrand() != null ? sku.getProduct().getBrand().getName() : null;
+				 model = sku.getProduct().getModel();
+			  }
+			description = sku.getDescription();
+			if (description == null || description == "") {
+				if (sku.getDefaultProduct() == null) 
+					description = sku.getProduct().getDefaultSku().getDescription();
+			}
+			retailPrice = sku.getRetailPrice() != null ? sku.getRetailPrice().toPlainString() : null;
+			if (retailPrice == null) {
+				if (sku.getDefaultProduct() == null) {
+					retailPrice = sku.getProduct().getDefaultSku().getRetailPrice() != null ? sku.getProduct().getDefaultSku().getRetailPrice().toPlainString() : null;
+				}
+			}
+			SkuForJSON sj = new SkuForJSON (pname,images, code, brand, model, description, retailPrice, salePrice, productStatus);
+			ret.add(sj);
+		}
+		
+		return ret;
 	}
 	
 
