@@ -2,6 +2,7 @@ package com.akartkam.inShop.service.product;
 
 import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -17,6 +18,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -60,6 +62,9 @@ public class ProductServiceImpl implements ProductService {
 	
 	@Autowired
 	CategoryService categoryService; 
+	
+	/*@Autowired
+	private ApplicationContext appContext;*/
 	
 
 	@Override
@@ -505,6 +510,7 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public List<SkuForJSON> getSkusForJSONByName(String name) {
+		
 		List<SkuForJSON> ret = new ArrayList<SkuForJSON>();
 		List<Sku> skus = getSkusByName(name);
 		String pname, images[] = new String[0], code, brand = null, model = null, description, retailPrice, salePrice = null, productStatus = null;
@@ -521,6 +527,8 @@ public class ProductServiceImpl implements ProductService {
 					}
 				}
 			}
+			
+
 			code = sku.getCode();
 			if (sku.getDefaultProduct() != null) { 
 				brand = sku.getDefaultProduct().getBrand() != null ? sku.getDefaultProduct().getBrand().getName() : null;
@@ -536,10 +544,11 @@ public class ProductServiceImpl implements ProductService {
 				if (sku.getDefaultProduct() == null) 
 					description = sku.getProduct().getDefaultSku().getDescription();
 			}
-			retailPrice = sku.getRetailPrice() != null ? sku.getRetailPrice().toPlainString() : null;
+			NumberFormat money = NumberFormat.getCurrencyInstance();
+			retailPrice = sku.getRetailPrice() != null ? money.format(sku.getRetailPrice()) : null;
 			if (retailPrice == null) {
 				if (sku.getDefaultProduct() == null) {
-					retailPrice = sku.getProduct().getDefaultSku().getRetailPrice() != null ? sku.getProduct().getDefaultSku().getRetailPrice().toPlainString() : null;
+					retailPrice = sku.getProduct().getDefaultSku().getRetailPrice() != null ? money.format(sku.getProduct().getDefaultSku().getRetailPrice()) : null;
 				}
 			}
 			SkuForJSON sj = new SkuForJSON (pname,images, code, brand, model, description, retailPrice, salePrice, productStatus);
