@@ -509,11 +509,10 @@ public class ProductServiceImpl implements ProductService {
     }
 
 	@Override
-	public List<SkuForJSON> getSkusForJSONByName(String name) {
-		
+	public List<SkuForJSON> getSkusForJSONByName(String name) {		
 		List<SkuForJSON> ret = new ArrayList<SkuForJSON>();
 		List<Sku> skus = getSkusByName(name);
-		String pname, images[] = new String[0], code, brand = null, model = null, description, retailPrice, salePrice = null, productStatus = null;
+		String pname, images[] = new String[0], code, brand = null, model = null, description, retailPrice, salePrice, productStatus[] = new String[0];
 		for (Sku sku: skus) {
 			pname = sku.getName();
 			if (sku.getImages() != null && sku.getImages().size() != 0) {
@@ -528,7 +527,6 @@ public class ProductServiceImpl implements ProductService {
 				}
 			}
 			
-
 			code = sku.getCode();
 			if (sku.getDefaultProduct() != null) { 
 				brand = sku.getDefaultProduct().getBrand() != null ? sku.getDefaultProduct().getBrand().getName() : null;
@@ -549,6 +547,21 @@ public class ProductServiceImpl implements ProductService {
 			if (retailPrice == null) {
 				if (sku.getDefaultProduct() == null) {
 					retailPrice = sku.getProduct().getDefaultSku().getRetailPrice() != null ? money.format(sku.getProduct().getDefaultSku().getRetailPrice()) : null;
+				}
+			}
+			salePrice = sku.getSalePrice() != null ? money.format(sku.getSalePrice()) : null;
+			if (salePrice == null) {
+				if (sku.getDefaultProduct() == null) {
+					salePrice = sku.getProduct().getDefaultSku().getSalePrice() != null ? money.format(sku.getProduct().getDefaultSku().getSalePrice()) : null;
+				}
+			}
+			if (sku.getProductStatus().size() != 0) {
+				productStatus = new String[sku.getProductStatus().size()];
+				Iterator<ProductStatus> ips = sku.getProductStatus().iterator();
+				int i = 0;
+				while (ips.hasNext()) {
+					productStatus[i] = ips.next().name();
+					i++;
 				}
 			}
 			SkuForJSON sj = new SkuForJSON (pname,images, code, brand, model, description, retailPrice, salePrice, productStatus);

@@ -8,7 +8,7 @@ public class SkuForJSON {
 	private String model;
 	private String description;
 	private String retailPrice, salePrice;
-	private String productStatus;
+	private String productStatus[];
 	
 	public SkuForJSON(){};
 	
@@ -20,7 +20,7 @@ public class SkuForJSON {
 					  String description,
 					  String retailPrice, 
 					  String salePrice,
-					  String productStatus){
+					  String productStatus[]){
 		  this.name = name; 
 		  this.images = images;
 		  this.code = code;
@@ -80,10 +80,10 @@ public class SkuForJSON {
 	public void setSalePrice(String salePrice) {
 		this.salePrice = salePrice;
 	}
-	public String getProductStatus() {
+	public String[] getProductStatus() {
 		return productStatus;
 	}
-	public void setProductStatus(String productStatus) {
+	public void setProductStatus(String[] productStatus) {
 		this.productStatus = productStatus;
 	}
 
