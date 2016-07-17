@@ -21,6 +21,7 @@ import org.springframework.http.HttpStatus;
 
 import com.akartkam.inShop.domain.product.Product;
 import com.akartkam.inShop.domain.product.Sku;
+import com.akartkam.inShop.formbean.ItemsForJSON;
 import com.akartkam.inShop.formbean.SkuForJSON;
 import com.akartkam.inShop.service.product.ProductService;
 
@@ -34,14 +35,17 @@ public class OrderController {
 	  
 	  @RequestMapping(value="/product-search", method= RequestMethod.GET, produces="application/json")
 	  @ResponseStatus(HttpStatus.OK)	  
-	  public @ResponseBody List<SkuForJSON> searchProductsForOrder(@RequestParam(value = "q", required = true) String q, Model model,
-              							   @RequestHeader(value = "X-Requested-With", required = false) String requestedWith) {
-		  //if (!"XMLHttpRequest".equals(requestedWith)) throw new IllegalStateException("The addNewImage method can be called only via ajax!");
+	  public @ResponseBody ItemsForJSON searchProductsForOrder(@RequestParam(value = "q", required = true) String q, Model model) {
 		  List<SkuForJSON> skus = productService.getSkusForJSONByName('%'+q+'%');
-		  return skus;
+		  ItemsForJSON items = new ItemsForJSON(skus);
+		  return items;
 		  
 	  }
 	  
+	  @RequestMapping(value="/test", method= RequestMethod.GET)
+	  public String testOrder() {
+		  return "/productsForOrder";		  
+	  }
 
 
 }

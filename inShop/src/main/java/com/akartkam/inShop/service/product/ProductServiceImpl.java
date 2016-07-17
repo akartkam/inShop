@@ -14,6 +14,7 @@ import java.util.UUID;
 import org.apache.commons.beanutils.BeanUtilsBean;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.Transformer;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Hibernate;
@@ -63,8 +64,8 @@ public class ProductServiceImpl implements ProductService {
 	@Autowired
 	CategoryService categoryService; 
 	
-	/*@Autowired
-	private ApplicationContext appContext;*/
+	@Autowired
+	private ApplicationContext appContext;
 	
 
 	@Override
@@ -509,32 +510,47 @@ public class ProductServiceImpl implements ProductService {
     }
 
 	@Override
-	public List<SkuForJSON> getSkusForJSONByName(String name) {		
+	public List<SkuForJSON> getSkusForJSONByName(String name) {	
+		final String appName = appContext.getApplicationName();
 		List<SkuForJSON> ret = new ArrayList<SkuForJSON>();
 		List<Sku> skus = getSkusByName(name);
-		String pname, images[] = new String[0], code, brand = null, model = null, description, retailPrice, salePrice, productStatus[] = new String[0];
+		String pname, images[], code, brand, model, description, retailPrice, salePrice, productStatus[] = new String[0];
+		int quantityAvailable;
 		for (Sku sku: skus) {
 			pname = sku.getName();
+			images = new String[0];
 			if (sku.getImages() != null && sku.getImages().size() != 0) {
-				images = sku.getImages().toArray(new String[0]);	
+				images= CollectionUtils.collect (sku.getImages(), new Transformer<String, String>() {
+ 											@Override
+							                public String transform(final String input) {
+							                    return  input != null && input != ""? appName+input : "";
+							                };
+				}).toArray(new String[0]);	
 			}
 			if (images.length == 0) {
 				if (sku.getDefaultProduct() == null) {
 					Sku dsku = sku.getProduct().getDefaultSku();
 					if (dsku != null) {
-						images = dsku.getImages().toArray(new String[0]);
+						images= CollectionUtils.collect (dsku.getImages(), new Transformer<String, String>() {
+											@Override
+							                public String transform(final String input) {
+							                    return  input != null && input != ""? appName+input : "";
+							                };
+						}).toArray(new String[0]);						
 					}
 				}
 			}
 			
 			code = sku.getCode();
+			brand = "";
+			model = "";
 			if (sku.getDefaultProduct() != null) { 
-				brand = sku.getDefaultProduct().getBrand() != null ? sku.getDefaultProduct().getBrand().getName() : null;
+				brand = sku.getDefaultProduct().getBrand() != null ? sku.getDefaultProduct().getBrand().getName() : "";
 				model = sku.getDefaultProduct().getModel();
 			}
 			else
 			  if (sku.getProduct() != null) { 
-				 brand = sku.getProduct().getBrand() != null ? sku.getProduct().getBrand().getName() : null;
+				 brand = sku.getProduct().getBrand() != null ? sku.getProduct().getBrand().getName() : "";
 				 model = sku.getProduct().getModel();
 			  }
 			description = sku.getDescription();
@@ -543,16 +559,16 @@ public class ProductServiceImpl implements ProductService {
 					description = sku.getProduct().getDefaultSku().getDescription();
 			}
 			NumberFormat money = NumberFormat.getCurrencyInstance();
-			retailPrice = sku.getRetailPrice() != null ? money.format(sku.getRetailPrice()) : null;
+			retailPrice = sku.getRetailPrice() != null ? money.format(sku.getRetailPrice()) : "";
 			if (retailPrice == null) {
 				if (sku.getDefaultProduct() == null) {
-					retailPrice = sku.getProduct().getDefaultSku().getRetailPrice() != null ? money.format(sku.getProduct().getDefaultSku().getRetailPrice()) : null;
+					retailPrice = sku.getProduct().getDefaultSku().getRetailPrice() != null ? money.format(sku.getProduct().getDefaultSku().getRetailPrice()) : "";
 				}
 			}
-			salePrice = sku.getSalePrice() != null ? money.format(sku.getSalePrice()) : null;
+			salePrice = sku.getSalePrice() != null ? money.format(sku.getSalePrice()) : "";
 			if (salePrice == null) {
 				if (sku.getDefaultProduct() == null) {
-					salePrice = sku.getProduct().getDefaultSku().getSalePrice() != null ? money.format(sku.getProduct().getDefaultSku().getSalePrice()) : null;
+					salePrice = sku.getProduct().getDefaultSku().getSalePrice() != null ? money.format(sku.getProduct().getDefaultSku().getSalePrice()) : "";
 				}
 			}
 			if (sku.getProductStatus().size() != 0) {
@@ -564,7 +580,9 @@ public class ProductServiceImpl implements ProductService {
 					i++;
 				}
 			}
-			SkuForJSON sj = new SkuForJSON (pname,images, code, brand, model, description, retailPrice, salePrice, productStatus);
+			quantityAvailable = sku.getQuantityAvailable();
+			if (quantityAvailable == 0 && sku.getDefaultProduct() == null) quantityAvailable = sku.getProduct().getDefaultSku().getQuantityAvailable();
+ 			SkuForJSON sj = new SkuForJSON (sku.getId(), pname,images, code, brand, model, description, retailPrice, salePrice, quantityAvailable, productStatus);
 			ret.add(sj);
 		}
 		

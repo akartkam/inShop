@@ -227,8 +227,8 @@
 									    </div>										
 									</td>
 									<td>
-										<span th:each="pov, povStat: ${sku.productOptionValues}" th:text="${pov.optionValue+';'}"></span>
-									</td>
+										<span th:text="${sku.commaDelemitedPOVL}"></span>
+									</td> 
 									<td style="font-size: 8pt;">
 									      <span th:style="${sku.salePrice != null &amp;&amp; sku.salePrice != 0? 'text-decoration: line-through;': ''}" 
 									            style="text-decoration: line-through;"

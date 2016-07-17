@@ -2,6 +2,7 @@ package com.akartkam.inShop.domain.product;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -31,6 +32,8 @@ import javax.validation.constraints.Digits;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.Transformer;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.annotations.BatchSize;
@@ -45,6 +48,7 @@ import org.hibernate.validator.constraints.SafeHtml.WhiteListType;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.NumberFormat;
 import org.springframework.format.annotation.NumberFormat.Style;
+import org.springframework.util.StringUtils;
 
 import javax.persistence.JoinColumn;
 
@@ -345,6 +349,17 @@ public class Sku extends AbstractDomainObjectOrdering {
 			lpo.add(pov.getProductOption());
 		}
 		return lpo;
+	}
+	
+	@Transient
+	public String getCommaDelemitedPOVL() {
+		Collection<String> cs = CollectionUtils.collect(productOptionValuesList, new Transformer<ProductOptionValue, String>(){
+							@Override
+			                public String transform(final ProductOptionValue input) {
+			                    return  input.getOptionValue();
+			                };
+					}); 
+		return StringUtils.collectionToCommaDelimitedString(cs);
 	}
 	
 	@Override

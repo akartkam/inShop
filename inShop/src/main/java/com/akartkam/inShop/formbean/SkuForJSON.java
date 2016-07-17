@@ -1,6 +1,9 @@
 package com.akartkam.inShop.formbean;
 
+import java.util.UUID;
+
 public class SkuForJSON {
+	private UUID id;
 	private String name;
 	private String images[];
 	private String code;
@@ -8,11 +11,13 @@ public class SkuForJSON {
 	private String model;
 	private String description;
 	private String retailPrice, salePrice;
+	private int quantityAvailable;
 	private String productStatus[];
 	
 	public SkuForJSON(){};
 	
-	public SkuForJSON(String name, 
+	public SkuForJSON(UUID id,
+			          String name, 
 					  String images[],
 					  String code,
 					  String brand,
@@ -20,7 +25,9 @@ public class SkuForJSON {
 					  String description,
 					  String retailPrice, 
 					  String salePrice,
+					  int quantityAvailable,
 					  String productStatus[]){
+		  this.id = id;
 		  this.name = name; 
 		  this.images = images;
 		  this.code = code;
@@ -29,8 +36,24 @@ public class SkuForJSON {
 		  this.description = description; 
 		  this.retailPrice = retailPrice;  
 		  this.salePrice = salePrice;
+		  this.quantityAvailable = quantityAvailable;
 		  this.productStatus = productStatus; 		
 	};
+	public int getQuantityAvailable() {
+		return quantityAvailable;
+	}
+
+	public void setQuantityAvailable(int quantityAvailable) {
+		this.quantityAvailable = quantityAvailable;
+	}
+
+	public void setId(UUID id) {
+		this.id = id;
+	}
+	
+	public UUID getId() {
+		return id;
+	}
 	
 	public String getName() {
 		return name;

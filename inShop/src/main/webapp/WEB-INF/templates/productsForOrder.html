@@ -18,6 +18,7 @@
 		    <!-- Custom Fonts -->
 	    	<link href="../../resources/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/font-awesome/css/font-awesome.min.css}"/>
     	</th:block>
+	    	<link href="../../resources/css/style.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/style.css}"/>
 	    	<link href="../../resources/bower_components/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/bootstrap/dist/css/bootstrap-theme.min.css}"/>
 			<!-- Treegrid -->
 		 	<link href="../../resources/css/jquery.treegrid.css" rel="stylesheet" th:href="@{/resources/css/jquery.treegrid.css}"/>
@@ -76,161 +77,20 @@
 							      <tr >
 							          <th class="col-md-1"></th>
 						              <th class="col-md-7 text-center" th:text="#{admin.catalog.attributecategory.name}">Name</th>
-						              <th class="col-md-1 text-center" th:text="#{admin.catalog.attributecategory.type}">Type</th>
-						              <th class="col-md-1 text-center" th:text="#{admin.catalog.attributecategory.order}">Order</th>
-						              <th class="col-md-1 text-center" th:text="#{admin.catalog.attributecategory.enabled}">Enabled?</th>
-						              <th class="col-md-1 text-center"></th>
 						  	      </tr>
 						 	    </thead>
 						 	    <tbody>      
-							        <tr th:each="ct : ${allAttributeCategoriesHierarchy}"
-							              th:class="${'treegrid-'+{ct.id}+{{!#strings.containsIgnoreCase(ct.class.name,'AttributeCategory')} ? ' treegrid-parent-'+{ct.attributeCategory.id} : ''}}" 
-							              th:classappend="${!ct.enabled} ? 'text-muted'">
+							        <tr >
 							            <td class="text-center">						
-										    <input class="checkCategory" type="checkbox" th:id="${'check-'+ct.id}" th:value="${ct.id}"/>
+
 									    </td>
-										<td> <span class="for-border" th:style="${#strings.containsIgnoreCase(ct.class.name,'AttributeCategory')}? 'font-weight:bold': 'font-weight:'" th:text="${ct.name}">category 1</span></td>
-										<td class="text-center" ><span th:if="${!#strings.containsIgnoreCase(ct.class.name,'AttributeCategory')}" th:text="#{${'attribute.type.' + ct.attributeType.toString()}}">Decimal</span></td>
-										<td th:text="${ct.ordering}">1</td>
-						            	<td class="text-center"><i th:class="${ct.enabled} ? 'fa fa-check-circle'"></i></td>
-						            	<td class="text-center">
-							                <div class="row">
-		  				            	  		 <div class="btn-group" role="group" > 
-					                                  <button type="button" class="open-editDialog btn btn-outline btn-default btn-xs" 
-					                                          data-toggle="modal" data-target="#editModal" data-operation="edit" 
-					                                          th:attr="data-id=${ct.id}, data-path=@{${{#strings.containsIgnoreCase(ct.class.name,'AttributeCategory')} ? '/admin/catalog/attributecategory/edit': '/admin/catalog/attributecategory/attribute/edit'}}"
-					                                          data-backdrop="static" data-keyboard="false"> 
-					                                    <i class="fa fa-pencil"></i>
-					                                  </button>	
-					                                  <button type="button" class="open-editDialog btn btn-outline btn-default btn-xs" 
-					                                          data-toggle="modal" data-target="#editModal" data-operation="add"
-					                                          th:attr="data-id=${ct.id}, data-path=@{${{#strings.containsIgnoreCase(ct.class.name,'AttributeCategory')} ? '/admin/catalog/attributecategory/add': '/admin/catalog/attributecategory/attribute/add'}}"
-					                                          data-backdrop="static" data-keyboard="false">
-					                                    <i class="fa fa-copy"></i>
-					                                  </button>
-						                              <button th:disabled="${!ct.enabled}" type="button" data-toggle="modal" data-target="#deleteModal" 
-						                                      class="open-deleteDialog btn btn-outline btn-default btn-xs"
-						                                      th:attr="data-id=${ct.id}, data-name=${ct.name}, data-class-name=${ct.class.name}"> 
-						                                <i class="fa fa-trash-o"></i>
-						                              </button>	
-				                            	 </div>  
-					                         </div>  
-			                             </td>
+										<td></td>
 							        </tr>
-							        <th:block th:remove="all">
-										<tr class="treegrid-1" th:remove="all">
-											<td class="text-center">						
-											       <input class="checkCategory" type="checkbox" id='check-1' value="1"/>
-										    </td>					         
-											<td class="mightOverflow domain-col">Root node about rebit than eat the wolf then eat the bear then eat the elefant</td>
-											<td class="text-center">Decimal</td>
-											<td class="text-center">Yes</td>
-											<td class="text-center"></td>
-										</tr>
-										<tr class="treegrid-2 treegrid-parent-1" th:remove="all">
-											<td class="text-center">						
-											       <input class="checkCategory" type="checkbox" id='check-2' value="2"/>
-										    </td>					         
-											<td>Node 1-1</td>
-											<td class="text-center"></td>
-											<td> </td>
-											<td> </td>
-										</tr>
-										<tr class="treegrid-3 treegrid-parent-1" th:remove="all">
-											<td class="text-center">						
-											       <input class="checkCategory" type="checkbox" id='check-3' value="3"/>
-										    </td>					         
-											<td><span class="for-border">Node 1-2</span></td>
-											<td class="text-center"></td>
-											<td></td>
-											<td > </td>
-										</tr>
-										<tr class="treegrid-4 treegrid-parent-3" th:remove="all">
-											<td class="text-center">						
-											       <input type="checkbox"/>
-										    </td>					         
-											<td>Node 1-2-1</td>
-											<td class="text-center"></td>
-											<td></td>
-											<td > </td>
-										</tr>
-										<tr class="treegrid-5 treegrid-parent-3" th:remove="all">
-											<td class="text-center">						
-											       <input type="checkbox"/>
-										    </td>					         
-											<td>Node 1-2-1</td>
-											<td class="text-center"></td>
-											<td></td>
-											<td > </td>
-										</tr>
-										<tr class="treegrid-6 treegrid-parent-3" th:remove="all">
-											<td class="text-center">						
-											       <input type="checkbox"/>
-										    </td>					         
-											<td>Node 1-2-1</td>
-											<td class="text-center"></td>
-											<td></td>
-											<td > </td>
-										</tr>
-										<tr class="treegrid-7 treegrid-parent-3" th:remove="all">
-											<td class="text-center">						
-											       <input type="checkbox"/>
-										    </td>					         
-											<td>Node 1-2-1</td>
-											<td class="text-center"></td>
-											<td></td>
-											<td > </td>
-										</tr>
-										<tr class="treegrid-8 treegrid-parent-3" th:remove="all">
-											<td class="text-center">						
-											       <input type="checkbox"/>
-										    </td>					         
-											<td>Node 1-2-1</td>
-											<td class="text-center"></td>
-											<td></td>
-											<td > </td>
-										</tr>								
-									</th:block>
 						        </tbody>
 						      </table> 
 						   </div>
 						</div>      
 				     </div> 
-			         <div class="panel-footer">
-				      <div class="btn-toolbar" role="toolbar" aria-label="...">
-	 			   		  <div class="btn-group" role="group" aria-label="..."> 
-					        <button type="button" class="btn btn-outline btn-default btn-sm" onclick="$('#categoryDataTable').treegrid('expandAll');">
-					          <i class="fa fa-expand"></i>
-					        </button>
-					        <button type="button" class="btn btn-outline btn-default btn-sm" onclick="$('#categoryDataTable').treegrid('collapseAll');">
-					          <i class="fa fa-compress"></i>
-					        </button>
-					      </div>
-					      <div class="btn-group" role="group" aria-label="...">
-					   		 <div class="btn-group" role="group" aria-label="..."> 
-                                <button type="button" class="open-editDialog btn btn-outline btn-default btn-sm" 
-                                        data-toggle="modal" data-target="#editModal" data-operation="add"
-                                        th:attr="data-path=@{/admin/catalog/attributecategory/add}"
-                                        data-backdrop="static" data-keyboard="false">
-                                  <i class="fa fa-plus-circle"></i>
-                                  <span> </span>
-						          <span th:text="#{admin.catalog.attributecategory.addcategory.buttoncaption}">Add category</span> 
-                                </button>
-						     </div>
-					   		 <div class="btn-group" role="group" aria-label="..."> 
-                                <button type="button" class="open-editDialog btn btn-outline btn-default btn-sm" 
-                                        data-toggle="modal" data-target="#editModal" data-operation="add"
-                                        th:attr="data-path=@{/admin/catalog/attributecategory/attribute/add}"
-                                        data-backdrop="static" data-keyboard="false">
-                                  <i class="fa fa-plus-circle"></i>
-                                  <span> </span>
-						          <span th:text="#{admin.catalog.attributecategory.addattribute.buttoncaption}">Add attribute</span> 
-                                </button>
-						        
-						     </div>
-					      </div> 
-					  </div>	  
-			       </div>
                </div>    
 	       </div>
 	    </div>
@@ -239,9 +99,6 @@
     <script src="../../resources/bower_components/jquery/dist/jquery.min.js" th:src="@{/resources/bower_components/jquery/dist/jquery.min.js}"></script>
     <!-- Bootstrap Core JavaScript -->
     <script src="../../resources/bower_components/bootstrap/dist/js/bootstrap.min.js" th:src="@{/resources/bower_components/bootstrap/dist/js/bootstrap.min.js}"></script>
-    <!-- Select2 -->
-    <script src="../../resources/js/select2.full.min.js" th:src="@{/resources/js/select2.full.min.js}"></script>
-    <script src="../../resources/js/ru.js" th:src="@{/resources/js/ru.js}"></script>
     <th:block layout:fragment="script"> 
 		<!-- Treegrid -->
 	    <script src="../../resources/bower_components/jquery/dist/jquery.treegrid.min.js" th:src="@{/resources/bower_components/jquery/dist/jquery.treegrid.min.js}"></script>
@@ -249,17 +106,77 @@
 		<script src="../../resources/bower_components/jquery/dist/jquery.treegrid.bootstrap3.js" th:src="@{/resources/bower_components/jquery/dist/jquery.treegrid.bootstrap3.js}"></script>
         <!-- Tree grid search -->
         <script src="../../resources/js/inShop-treegrid-search.js" th:src="@{/resources/js/inShop-treegrid-search.js}"></script>		
-	    <script type="text/javascript">
+	    <!-- Select2 -->
+	    <script src="../../resources/js/select2.full.min.js" th:src="@{/resources/js/select2.full.min.js}"></script>
+	    <script src="../../resources/js/ru.js" th:src="@{/resources/js/ru.js}"></script>
+	    <script th:inline="javascript" type="text/javascript">
 	      //<![CDATA[
+	           var $ajax = $(".js-example-data-ajax");
 	           $(document).ready(function() {
     		    $("#categoryDataTable").treegrid({
     		    		treeColumn: 1, 
 		    			saveState: true,
 		    		});
 	            });
-	           $(".js-example-data-ajax").select2({
-	        	   language: "ru"
-	           });
+	           function formatRepo (repo) {
+	        	      if (repo.loading) return repo.text;
+
+	        	      var markup = "<div class='select2-result-repository clearfix'>" +
+	        	        "<div class='photo-block'><img src='" + repo.images[0] + "' /></div>" +
+	        	        "<div class='select2-result-repository__meta'>" +
+	        	          "<div class='select2-result-repository__title'>" + repo.name + "</div>";
+
+	        	      if (repo.description) {
+	        	        markup += "<div class='select2-result-repository__description'>" + repo.description + "</div>";
+	        	      }
+
+	        	      markup += "<div class='select2-result-repository__statistics'>" +
+	        	        "<div class='select2-result-repository__forks'><i class='fa fa-flash'></i> " + repo.brand + " Forks</div>" +
+	        	        "<div class='select2-result-repository__stargazers'><i class='fa fa-star'></i> " + repo.model + " Stars</div>" +
+	        	        "<div class='select2-result-repository__watchers'><i class='fa fa-eye'></i> " + repo.productStatus + " Watchers</div>" +
+	        	      "</div>" +
+	        	      "</div></div>";
+	        	      
+	        	      return markup;
+	        	    }
+
+	        	    function formatRepoSelection (repo) {
+	        	      return repo.name || repo.description;
+	        	    }
+
+	        	    $ajax.select2({
+	        	      ajax: {
+	        	        url: /*[[@{/order/product-search}]]*/,
+	        	        dataType: 'json',
+	        	        delay: 250,
+	        	        data: function (params) {
+	        	          return {
+	        	            q: params.term, // search term
+	        	            page: params.page
+	        	          };
+	        	        },
+	        	        processResults: function (data, params) {
+	        	          // parse the results into the format expected by Select2
+	        	          // since we are using custom formatting functions we do not need to
+	        	          // alter the remote JSON data, except to indicate that infinite
+	        	          // scrolling can be used
+	        	          params.page = params.page || 1;
+
+	        	          return {
+	        	            results: data.items,
+	        	            pagination: {
+	        	              more: (params.page * 30) < data.itemsCount
+	        	            }
+	        	          };
+	        	        },
+	        	        cache: true
+	        	      },
+	        	      escapeMarkup: function (markup) { return markup; },
+	        	      minimumInputLength: 3,
+	        	      templateResult: formatRepo,
+	        	      templateSelection: formatRepoSelection
+	        	    });
+
 		   // ]]>
 	     </script>
 	     <th:block layout:fragment="scriptEditModal">
