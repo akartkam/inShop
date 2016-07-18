@@ -71,7 +71,7 @@ public class Sku extends AbstractDomainObjectOrdering {
 	private String code;
 	private String description;
 	private String longDescription;
-	private int quantityAvailable;
+	private Integer quantityAvailable;
 	private Set<ProductStatus> productStatus = new HashSet<ProductStatus>();
 	private InventoryType inventoryType;
 	private Date activeStartDate;
@@ -130,11 +130,11 @@ public class Sku extends AbstractDomainObjectOrdering {
 		this.images = images;
 	}	
 	
-	@Transient
-	public int getQuantityAvailable() {
+	@Column(name = "quantity_avable")
+	public Integer getQuantityAvailable() {
 		return quantityAvailable;
 	}
-	public void setQuantityAvailable(int quantityAvailable) {
+	public void setQuantityAvailable(Integer quantityAvailable) {
 		this.quantityAvailable = quantityAvailable;
 	}
 	
@@ -353,13 +353,10 @@ public class Sku extends AbstractDomainObjectOrdering {
 	
 	@Transient
 	public String getCommaDelemitedPOVL() {
-		Collection<String> cs = CollectionUtils.collect(productOptionValuesList, new Transformer<ProductOptionValue, String>(){
-							@Override
-			                public String transform(final ProductOptionValue input) {
-			                    return  input.getOptionValue();
-			                };
-					}); 
-		return StringUtils.collectionToCommaDelimitedString(cs);
+		String ret = "";
+	    for (ProductOptionValue pov : productOptionValues) ret = ret + pov.getOptionValue() + ", ";
+	    if (ret != "" && ret.trim().endsWith(",")) ret = ret.substring(0, ret.length()-2);
+	    return ret;
 	}
 	
 	@Override
@@ -371,7 +368,7 @@ public class Sku extends AbstractDomainObjectOrdering {
 		if (getCode() != null) sku.setCode(new String(getCode()));
 		if (getDescription() != null) sku.setDescription(new String(getDescription()));
 		if (getLongDescription() != null) sku.setLongDescription(new String(getLongDescription()));
-		sku.setQuantityAvailable(getQuantityAvailable());
+		sku.setQuantityAvailable(new Integer(getQuantityAvailable()));
 		sku.setProduct(getProduct());
 		sku.setProductStatus(new HashSet<ProductStatus>(getProductStatus()));
 		sku.setInventoryType(getInventoryType());

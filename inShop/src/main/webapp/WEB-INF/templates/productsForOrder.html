@@ -122,12 +122,13 @@
 	        	      if (repo.loading) return repo.text;
 
 	        	      var markup = "<div class='select2-result-repository clearfix'>" +
-	        	        "<div class='photo-block'><img src='" + repo.images[0] + "' /></div>" +
+	        	       "<div class='a-photo-out'>"+
+	        	        "<div class='photo-block'><img src='" + repo.images[0] + "' /></div></div>" +
 	        	        "<div class='select2-result-repository__meta'>" +
 	        	          "<div class='select2-result-repository__title'>" + repo.name + "</div>";
 
-	        	      if (repo.description) {
-	        	        markup += "<div class='select2-result-repository__description'>" + repo.description + "</div>";
+	        	      if (repo.code) {
+	        	        markup += "<div class='select2-result-repository__description'>" + repo.code + "</div>";
 	        	      }
 
 	        	      markup += "<div class='select2-result-repository__statistics'>" +

@@ -514,8 +514,9 @@ public class ProductServiceImpl implements ProductService {
 		final String appName = appContext.getApplicationName();
 		List<SkuForJSON> ret = new ArrayList<SkuForJSON>();
 		List<Sku> skus = getSkusByName(name);
-		String pname, images[], code, brand, model, description, retailPrice, salePrice, productStatus[] = new String[0];
-		int quantityAvailable;
+		String pname, images[], code, brand, model, description, productStatus[] = new String[0];
+		Integer quantityAvailable;
+		BigDecimal retailPrice, salePrice;
 		for (Sku sku: skus) {
 			pname = sku.getName();
 			images = new String[0];
@@ -558,17 +559,17 @@ public class ProductServiceImpl implements ProductService {
 				if (sku.getDefaultProduct() == null) 
 					description = sku.getProduct().getDefaultSku().getDescription();
 			}
-			NumberFormat money = NumberFormat.getCurrencyInstance();
-			retailPrice = sku.getRetailPrice() != null ? money.format(sku.getRetailPrice()) : "";
+			//NumberFormat money = NumberFormat.getCurrencyInstance();
+			retailPrice = sku.getRetailPrice() != null ? new BigDecimal(sku.getRetailPrice().toPlainString()) : null;
 			if (retailPrice == null) {
 				if (sku.getDefaultProduct() == null) {
-					retailPrice = sku.getProduct().getDefaultSku().getRetailPrice() != null ? money.format(sku.getProduct().getDefaultSku().getRetailPrice()) : "";
+					retailPrice = sku.getProduct().getDefaultSku().getRetailPrice() != null ? new BigDecimal(sku.getProduct().getDefaultSku().getRetailPrice().toPlainString()) : null;
 				}
 			}
-			salePrice = sku.getSalePrice() != null ? money.format(sku.getSalePrice()) : "";
+			salePrice = sku.getSalePrice() != null ? new BigDecimal(sku.getSalePrice().toPlainString()) : null;
 			if (salePrice == null) {
 				if (sku.getDefaultProduct() == null) {
-					salePrice = sku.getProduct().getDefaultSku().getSalePrice() != null ? money.format(sku.getProduct().getDefaultSku().getSalePrice()) : "";
+					salePrice = sku.getProduct().getDefaultSku().getSalePrice() != null ? new BigDecimal(sku.getProduct().getDefaultSku().getSalePrice().toPlainString()) : null;
 				}
 			}
 			if (sku.getProductStatus().size() != 0) {
@@ -580,8 +581,9 @@ public class ProductServiceImpl implements ProductService {
 					i++;
 				}
 			}
-			quantityAvailable = sku.getQuantityAvailable();
-			if (quantityAvailable == 0 && sku.getDefaultProduct() == null) quantityAvailable = sku.getProduct().getDefaultSku().getQuantityAvailable();
+			quantityAvailable = sku.getQuantityAvailable() != null ? new Integer(sku.getQuantityAvailable()) : null;
+			if (quantityAvailable == null && sku.getDefaultProduct() == null) 
+				 quantityAvailable = sku.getProduct().getDefaultSku().getQuantityAvailable() != null ? new Integer(sku.getProduct().getDefaultSku().getQuantityAvailable()) : null;
  			SkuForJSON sj = new SkuForJSON (sku.getId(), pname,images, code, brand, model, description, retailPrice, salePrice, quantityAvailable, productStatus);
 			ret.add(sj);
 		}

@@ -1,5 +1,6 @@
 package com.akartkam.inShop.formbean;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 public class SkuForJSON {
@@ -10,8 +11,8 @@ public class SkuForJSON {
 	private String brand;
 	private String model;
 	private String description;
-	private String retailPrice, salePrice;
-	private int quantityAvailable;
+	private BigDecimal retailPrice, salePrice;
+	private Integer quantityAvailable;
 	private String productStatus[];
 	
 	public SkuForJSON(){};
@@ -23,9 +24,9 @@ public class SkuForJSON {
 					  String brand,
 					  String model,
 					  String description,
-					  String retailPrice, 
-					  String salePrice,
-					  int quantityAvailable,
+					  BigDecimal retailPrice, 
+					  BigDecimal salePrice,
+					  Integer quantityAvailable,
 					  String productStatus[]){
 		  this.id = id;
 		  this.name = name; 
@@ -39,11 +40,11 @@ public class SkuForJSON {
 		  this.quantityAvailable = quantityAvailable;
 		  this.productStatus = productStatus; 		
 	};
-	public int getQuantityAvailable() {
+	public Integer getQuantityAvailable() {
 		return quantityAvailable;
 	}
 
-	public void setQuantityAvailable(int quantityAvailable) {
+	public void setQuantityAvailable(Integer quantityAvailable) {
 		this.quantityAvailable = quantityAvailable;
 	}
 
@@ -91,16 +92,16 @@ public class SkuForJSON {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public String getRetailPrice() {
+	public BigDecimal getRetailPrice() {
 		return retailPrice;
 	}
-	public void setRetailPrice(String retailPrice) {
+	public void setRetailPrice(BigDecimal retailPrice) {
 		this.retailPrice = retailPrice;
 	}
-	public String getSalePrice() {
+	public BigDecimal getSalePrice() {
 		return salePrice;
 	}
-	public void setSalePrice(String salePrice) {
+	public void setSalePrice(BigDecimal salePrice) {
 		this.salePrice = salePrice;
 	}
 	public String[] getProductStatus() {
