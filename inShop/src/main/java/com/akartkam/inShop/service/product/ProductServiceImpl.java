@@ -514,7 +514,7 @@ public class ProductServiceImpl implements ProductService {
 		final String appName = appContext.getApplicationName();
 		List<SkuForJSON> ret = new ArrayList<SkuForJSON>();
 		List<Sku> skus = getSkusByName(name);
-		String pname, images[], code, brand, model, description, productStatus[] = new String[0];
+		String pname, images[], code, brand, model, description, productStatus[] = new String[0], productOptions[] = new String[0];
 		Integer quantityAvailable;
 		BigDecimal retailPrice, salePrice;
 		for (Sku sku: skus) {
@@ -581,10 +581,11 @@ public class ProductServiceImpl implements ProductService {
 					i++;
 				}
 			}
+			productOptions = sku.getProductOptionValues() != null ? sku.getCommaDelemitedPOVL().split(",") : new String[0];
 			quantityAvailable = sku.getQuantityAvailable() != null ? new Integer(sku.getQuantityAvailable()) : null;
 			if (quantityAvailable == null && sku.getDefaultProduct() == null) 
 				 quantityAvailable = sku.getProduct().getDefaultSku().getQuantityAvailable() != null ? new Integer(sku.getProduct().getDefaultSku().getQuantityAvailable()) : null;
- 			SkuForJSON sj = new SkuForJSON (sku.getId(), pname,images, code, brand, model, description, retailPrice, salePrice, quantityAvailable, productStatus);
+ 			SkuForJSON sj = new SkuForJSON (sku.getId(), pname,images, code, brand, model, description, retailPrice, salePrice, quantityAvailable, productStatus, productOptions);
 			ret.add(sj);
 		}
 		

@@ -14,6 +14,7 @@ public class SkuForJSON {
 	private BigDecimal retailPrice, salePrice;
 	private Integer quantityAvailable;
 	private String productStatus[];
+	private String optionValues[];
 	
 	public SkuForJSON(){};
 	
@@ -27,7 +28,8 @@ public class SkuForJSON {
 					  BigDecimal retailPrice, 
 					  BigDecimal salePrice,
 					  Integer quantityAvailable,
-					  String productStatus[]){
+					  String productStatus[],
+					  String optionValues[]){
 		  this.id = id;
 		  this.name = name; 
 		  this.images = images;
@@ -38,8 +40,17 @@ public class SkuForJSON {
 		  this.retailPrice = retailPrice;  
 		  this.salePrice = salePrice;
 		  this.quantityAvailable = quantityAvailable;
-		  this.productStatus = productStatus; 		
+		  this.productStatus = productStatus; 
+		  this.optionValues = optionValues;
 	};
+	public String[] getOptionValues() {
+		return optionValues;
+	}
+
+	public void setOptionValues(String[] optionValues) {
+		this.optionValues = optionValues;
+	}
+
 	public Integer getQuantityAvailable() {
 		return quantityAvailable;
 	}

@@ -123,13 +123,15 @@
 
 	        	      var markup = "<div class='select2-result-repository clearfix'>" +
 	        	       "<div class='a-photo-out'>"+
-	        	        "<div class='photo-block'><img src='" + repo.images[0] + "' /></div></div>" +
+	        	        "<div class='photo-block'><img src='" + (repo.images[0]) + "' /></div></div>" +
 	        	        "<div class='select2-result-repository__meta'>" +
 	        	          "<div class='select2-result-repository__title'>" + repo.name + "</div>";
 
 	        	      if (repo.code) {
-	        	        markup += "<div class='select2-result-repository__description'>" + repo.code + "</div>";
+	        	        markup += "<div class='select2-result-repository__description'>Артикул: " + repo.code + "</div>&nbsp;";
 	        	      }
+	        	      
+		        	  markup += "<div class='select2-result-repository__description'>Вариант: " + repo.optionValues.join() + "</div>";
 
 	        	      markup += "<div class='select2-result-repository__statistics'>" +
 	        	        "<div class='select2-result-repository__forks'><i class='fa fa-flash'></i> " + repo.brand + " Forks</div>" +
