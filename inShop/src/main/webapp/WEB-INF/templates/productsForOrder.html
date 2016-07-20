@@ -126,17 +126,11 @@
 	        	        "<div class='photo-block'><img src='" + (repo.images[0]) + "' /></div></div>" +
 	        	        "<div class='select2-result-repository__meta'>" +
 	        	          "<div class='select2-result-repository__title'>" + repo.name + "</div>";
-
-	        	      if (repo.code) {
-	        	        markup += "<div class='select2-result-repository__description'>Артикул: " + repo.code + "</div>&nbsp;";
-	        	      }
-	        	      
-		        	  markup += "<div class='select2-result-repository__description'>Вариант: " + repo.optionValues.join() + "</div>";
-
+         	          markup += "<div class='select2-result-repository__description'>" + (repo.code ? "Артикул:" + repo.code + " <i class='fa fa-asterisk'></i> " : "") + "Вариант:" + repo.optionValues.join() + "</div>";
 	        	      markup += "<div class='select2-result-repository__statistics'>" +
-	        	        "<div class='select2-result-repository__forks'><i class='fa fa-flash'></i> " + repo.brand + " Forks</div>" +
-	        	        "<div class='select2-result-repository__stargazers'><i class='fa fa-star'></i> " + repo.model + " Stars</div>" +
-	        	        "<div class='select2-result-repository__watchers'><i class='fa fa-eye'></i> " + repo.productStatus + " Watchers</div>" +
+	        	        "<div class='select2-result-repository__price'><i class='fa fa-rub'></i> " + (repo.salePrice ? "<span style='text-decoration: line-through;'>"+repo.retailPrice.toFixed(2)+"</span> <span>"+ repo.salePrice.toFixed(2) +"</span>" : repo.retailPrice.toFixed(2))+"</div>" +
+	        	        "<div class='select2-result-repository__stargazers'><i class='fa fa-star'></i> " + repo.model + "</div>" +
+	        	        "<div class='select2-result-repository__watchers'><i class='fa fa-eye'></i> " + repo.productStatus + "</div>" +
 	        	      "</div>" +
 	        	      "</div></div>";
 	        	      
