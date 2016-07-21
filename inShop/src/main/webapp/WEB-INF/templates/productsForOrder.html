@@ -126,13 +126,21 @@
 	        	        "<div class='photo-block'><img src='" + (repo.images[0]) + "' /></div></div>" +
 	        	        "<div class='select2-result-repository__meta'>" +
 	        	          "<div class='select2-result-repository__title'>" + repo.name + "</div>";
-         	          markup += "<div class='select2-result-repository__description'>" + (repo.code ? "Артикул:" + repo.code + " <i class='fa fa-asterisk'></i> " : "") + "Вариант:" + repo.optionValues.join() + "</div>";
-	        	      markup += "<div class='select2-result-repository__statistics'>" +
-	        	        "<div class='select2-result-repository__price'><i class='fa fa-rub'></i> " + (repo.salePrice ? "<span style='text-decoration: line-through;'>"+repo.retailPrice.toFixed(2)+"</span> <span>"+ repo.salePrice.toFixed(2) +"</span>" : repo.retailPrice.toFixed(2))+"</div>" +
-	        	        "<div class='select2-result-repository__stargazers'><i class='fa fa-star'></i> " + repo.model + "</div>" +
-	        	        "<div class='select2-result-repository__watchers'><i class='fa fa-eye'></i> " + repo.productStatus + "</div>" +
-	        	      "</div>" +
-	        	      "</div></div>";
+         	          markup += "<div class='select2-result-repository__description'>" + (repo.code ? "Артикул:" + repo.code : "") + 
+         	        		    (repo.optionValues ? "&nbsp;<span style='display: inline-block; color: #aaa; font-size: 11px;'>&#9679;</span>&nbsp;"  + 
+         	        		    "Вариант:" + repo.optionValues.join()  : "") + 
+         	        		    (repo.quantityAvailable ? "&nbsp;<span style='display: inline-block; color: #aaa; font-size: 11px;'>&#9679;</span>&nbsp;"  +
+         	        		    "Остаток:" + repo.quantityAvailable  : "") +
+         	        		    "</div>";
+	        	      markup += "<div class='select2-result-repository__additional-info'>" +
+	        	        "<div class='select2-result-repository__additional'><i class='fa fa-rub'></i> " + (repo.salePrice ? "<span style='text-decoration: line-through;'>"+repo.retailPrice.toFixed(2)+"</span> <span>"+ repo.salePrice.toFixed(2) +"</span>" : repo.retailPrice.toFixed(2))+"</div>"
+	        	      if (repo.model) {  
+	        	    	  markup += "<div class='select2-result-repository__additional'><i class='fa fa-star'></i> " + repo.model + "</div>"
+	        	      }
+	        	      if (repo.productStatus){  
+	        	      	markup += "<div class='select2-result-repository__additional'><i class='fa fa-eye'></i> " + repo.productStatus + "</div>"
+	           		  }
+	           		  markup += "</div></div></div>";
 	        	      
 	        	      return markup;
 	        	    }
