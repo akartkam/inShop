@@ -2,6 +2,8 @@ package com.akartkam.inShop.dao.product;
 
 import java.util.List;
 
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.Predicate;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
@@ -22,7 +24,15 @@ public class SkuDAOImpl extends AbstractGenericDAO<Sku> implements SkuDAO {
 				.addOrder(Order.asc("ordering"));
 		criteria.setCacheable(true);
 		criteria.setCacheRegion("query.Catalog");
-		List<Sku> skus = criteria.list();	
+		List<Sku> skus = criteria.list();
+		CollectionUtils.filter(skus, new Predicate<Sku>() {
+			@Override
+			public boolean evaluate(Sku object) {
+				boolean ret = object.getDefaultProduct() != null ? object.getDefaultProduct().isCanSellWithoutOptions() : true;
+				return ret;
+			}
+			
+		});
         return skus; 	
 	}
 }

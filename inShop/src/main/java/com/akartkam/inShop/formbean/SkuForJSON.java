@@ -13,7 +13,7 @@ public class SkuForJSON {
 	private String description;
 	private BigDecimal retailPrice, salePrice;
 	private Integer quantityAvailable;
-	private String productStatus[];
+	private ProductStatusForJSON productStatus[];
 	private String optionValues[];
 	
 	public SkuForJSON(){};
@@ -28,7 +28,7 @@ public class SkuForJSON {
 					  BigDecimal retailPrice, 
 					  BigDecimal salePrice,
 					  Integer quantityAvailable,
-					  String productStatus[],
+					  ProductStatusForJSON productStatus[],
 					  String optionValues[]){
 		  this.id = id;
 		  this.name = name; 
@@ -115,11 +115,36 @@ public class SkuForJSON {
 	public void setSalePrice(BigDecimal salePrice) {
 		this.salePrice = salePrice;
 	}
-	public String[] getProductStatus() {
+	public ProductStatusForJSON[] getProductStatus() {
 		return productStatus;
 	}
-	public void setProductStatus(String[] productStatus) {
+	public void setProductStatus(ProductStatusForJSON[] productStatus) {
 		this.productStatus = productStatus;
+	}
+	
+	public static class ProductStatusForJSON {
+		private String productStatus;
+		private String productStatusDisplayName;
+		private String productStatusIcon;
+		public String getProductStatus() {
+			return productStatus;
+		}
+		public void setProductStatus(String productStatus) {
+			this.productStatus = productStatus;
+		}
+		public String getProductStatusDisplayName() {
+			return productStatusDisplayName;
+		}
+		public void setProductStatusDisplayName(String productStatusDisplayName) {
+			this.productStatusDisplayName = productStatusDisplayName;
+		}
+		public String getProductStatusIcon() {
+			return productStatusIcon;
+		}
+		public void setProductStatusIcon(String productStatusUrl) {
+			this.productStatusIcon = productStatusUrl;
+		}
+		
 	}
 
 }

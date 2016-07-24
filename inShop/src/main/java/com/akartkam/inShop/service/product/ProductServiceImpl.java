@@ -8,6 +8,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 import java.util.UUID;
 
@@ -20,6 +21,7 @@ import org.apache.commons.logging.LogFactory;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -40,6 +42,7 @@ import com.akartkam.inShop.domain.product.option.ProductOptionValue;
 import com.akartkam.inShop.exception.ProductNotFoundException;
 import com.akartkam.inShop.formbean.ProductForm;
 import com.akartkam.inShop.formbean.SkuForJSON;
+import com.akartkam.inShop.formbean.SkuForJSON.ProductStatusForJSON;
 import com.akartkam.inShop.util.NullAwareBeanUtilsBean;
 
 @Service("ProductService")
@@ -59,15 +62,17 @@ public class ProductServiceImpl implements ProductService {
 	
 	@Autowired
 	SkuDAO skuDAO;
-	
-	
+		
 	@Autowired
 	CategoryService categoryService; 
 	
 	@Autowired
 	private ApplicationContext appContext;
 	
+	@Autowired
+	private MessageSource messageSource;
 
+	
 	@Override
 	@Transactional(readOnly = false)
 	public ProductOption createPO(ProductOption po) {
@@ -514,7 +519,8 @@ public class ProductServiceImpl implements ProductService {
 		final String appName = appContext.getApplicationName();
 		List<SkuForJSON> ret = new ArrayList<SkuForJSON>();
 		List<Sku> skus = getSkusByName(name);
-		String pname, images[], code, brand, model, description, productStatus[] = new String[0], productOptions[] = new String[0];
+		String pname, images[], code, brand, model, description, productOptions[] = new String[0];
+		SkuForJSON.ProductStatusForJSON productStatus[] = new SkuForJSON.ProductStatusForJSON[0];
 		Integer quantityAvailable;
 		BigDecimal retailPrice, salePrice;
 		for (Sku sku: skus) {
@@ -573,15 +579,20 @@ public class ProductServiceImpl implements ProductService {
 				}
 			}
 			if (sku.getProductStatus().size() != 0) {
-				productStatus = new String[sku.getProductStatus().size()];
+				productStatus = new SkuForJSON.ProductStatusForJSON[sku.getProductStatus().size()];
 				Iterator<ProductStatus> ips = sku.getProductStatus().iterator();
 				int i = 0;
 				while (ips.hasNext()) {
-					productStatus[i] = ips.next().name();
+					SkuForJSON.ProductStatusForJSON psfjson = new SkuForJSON.ProductStatusForJSON();
+					String nm = ips.next().name();
+					psfjson.setProductStatus(nm);
+					psfjson.setProductStatusDisplayName(messageSource.getMessage("product.status."+nm, null, Locale.getDefault()));
+					psfjson.setProductStatusIcon(messageSource.getMessage("product.status.icon."+nm, null, Locale.getDefault()));
+					productStatus[i] = psfjson;
 					i++;
 				}
 			}
-			productOptions = sku.getProductOptionValues() != null ? sku.getCommaDelemitedPOVL().split(",") : new String[0];
+			productOptions = sku.getProductOptionValues() != null && sku.getProductOptionValues().size() != 0 ? sku.getCommaDelemitedPOVL().split(",") : new String[0];
 			quantityAvailable = sku.getQuantityAvailable() != null ? new Integer(sku.getQuantityAvailable()) : null;
 			if (quantityAvailable == null && sku.getDefaultProduct() == null) 
 				 quantityAvailable = sku.getProduct().getDefaultSku().getQuantityAvailable() != null ? new Integer(sku.getProduct().getDefaultSku().getQuantityAvailable()) : null;
