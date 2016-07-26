@@ -59,14 +59,9 @@
 							<div class="input-group">
 							    <select id="searchTerm" class="js-example-data-ajax form-control">
     							</select>
-							  <div class="input-group-btn">
-								<button id="doSearch" type="button" class="btn btn-default">
-									<i class="fa fa-search"></i>
-								</button>
-								<button id="clearSearch" type="button" class="btn btn-default" >
-									<i class="fa fa-times"></i>
-								</button>
-							  </div>
+    							<a href='#' class="input-group-addon">
+						            <i class="fa fa-plus-circle"></i>
+						        </a>
 							</div>
  	                      </div>
  	                  </div>  
@@ -148,12 +143,12 @@
 	        	    }
 
 	        	    function formatRepoSelection (repo) {
-	        	      return repo.name || repo.description;
+	        	      return repo.name;
 	        	    }
 
 	        	    $ajax.select2({
 	        	      ajax: {
-	        	        url: /*[[@{/order/product-search}]]*/,
+	        	        url: /*[[@{/order/product-search}]]*/'',
 	        	        dataType: 'json',
 	        	        delay: 250,
 	        	        data: function (params) {

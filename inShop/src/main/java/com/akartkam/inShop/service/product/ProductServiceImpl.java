@@ -520,7 +520,7 @@ public class ProductServiceImpl implements ProductService {
 		List<SkuForJSON> ret = new ArrayList<SkuForJSON>();
 		List<Sku> skus = getSkusByName(name);
 		String pname, images[], code, brand, model, description, productOptions[] = new String[0];
-		SkuForJSON.ProductStatusForJSON productStatus[] = new SkuForJSON.ProductStatusForJSON[0];
+		SkuForJSON.ProductStatusForJSON productStatus[];
 		Integer quantityAvailable;
 		BigDecimal retailPrice, salePrice;
 		for (Sku sku: skus) {
@@ -591,6 +591,8 @@ public class ProductServiceImpl implements ProductService {
 					productStatus[i] = psfjson;
 					i++;
 				}
+			} else {
+				productStatus = new SkuForJSON.ProductStatusForJSON[0];	
 			}
 			productOptions = sku.getProductOptionValues() != null && sku.getProductOptionValues().size() != 0 ? sku.getCommaDelemitedPOVL().split(",") : new String[0];
 			quantityAvailable = sku.getQuantityAvailable() != null ? new Integer(sku.getQuantityAvailable()) : null;
