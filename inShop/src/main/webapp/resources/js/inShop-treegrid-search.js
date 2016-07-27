@@ -30,25 +30,23 @@
               var row = $(this)[0];
               if (row.rowIndex < 2) return true;
         	  for (var i=0; i < row.cells.length; i++) {
-        		$(this).css("background", "");
-        			$(row.cells[i]).find("span").each(function(){ 
+        		  $(this).css("background", "");
+        		  $(row.cells[i]).find("span").each(function(){ 
         				if ($(this).hasClass("for-border")) { 
         					$(this).html($(this).html().replace("<mark>", ""));
         					$(this).html($(this).html().replace("</mark>", ""));
         				}
-        			   });
-        	  }
-              for (var i=0; i < row.cells.length; i++) {
+        		  });
         		  if ($(row.cells[i]).text().indexOf(searchText)>=0) {
-        			$(this).css("background", "#ffec82");
-        			$(row.cells[i]).find("span").each(function(){ 
-        				if ($(this).hasClass("for-border")) { 
-        					 $(this).html($(this).html().replace(searchText, "<mark>"+searchText+"</mark>"));
-        				}
-        			   });
-        			var parent = $(this).treegrid("getParentNode");
-        			if (parent != null) checkNode(parent);
-        		  } 
+          			$(this).css("background", "#ffec82");
+          			$(row.cells[i]).find("span").each(function(){ 
+          				if ($(this).hasClass("for-border")) { 
+          					 $(this).html($(this).html().replace(searchText, "<mark>"+searchText+"</mark>"));
+          				}
+          			   });
+          			var parent = $(this).treegrid("getParentNode");
+          			if (parent != null) checkNode(parent);
+          		  } 
         	  }
         	});
         	$("#searchTerm").attr("placeholder",searchText);
