@@ -46,6 +46,7 @@
    <th:block layout:fragment="breadcrumb">
 
    </th:block>
+<!--    	<form method="post" class="form-horizontal" id="oform" role="form" action="#" th:action="@{/order/catalog/po/edit}" th:object="${po}" th:fragment="editPOForm"> -->
     <div class="container-fluid">
 		<div class="row" >
 		  <div class="col-lg-12" > 
@@ -69,17 +70,17 @@
  	                    <div class="col-md-12">	               
 						      <table class="tree table table-striped table-bordered table-hover table-condensed table-responsive" id="categoryDataTable" data-checkid="">
 						        <thead >
-							      <tr >
-							          <th class="col-md-1"></th>
-						              <th class="col-md-7 text-center" th:text="#{admin.catalog.attributecategory.name}">Name</th>
+							      <tr>
+							          <th class="col-md-10">Наименование</th>
+						              <th class="col-md-1">Цена</th>
+						              <th class="col-md-1">Кол-во</th>
 						  	      </tr>
 						 	    </thead>
 						 	    <tbody>      
-							        <tr >
-							            <td class="text-center">						
-
-									    </td>
-										<td></td>
+							        <tr th:each="oi : ${order.orderItems}" >
+							            <td th:text="${oi.sku.name}">Tovar1</td>
+										<td th:text="${oi.price}">10.00</td>
+										<td th:text="${oi.quantity}">1</td>
 							        </tr>
 						        </tbody>
 						      </table> 
