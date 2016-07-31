@@ -9,6 +9,7 @@ import org.springframework.format.annotation.NumberFormat.Style;
 
 import com.akartkam.inShop.domain.AbstractDomainObjectOrdering;
 import com.akartkam.inShop.domain.customer.Customer;
+import com.akartkam.inShop.domain.product.Sku;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -150,6 +151,15 @@ public class Order extends AbstractDomainObjectOrdering {
 
     public void setEmailAddress(String emailAddress) {
         this.emailAddress = emailAddress;
+    }
+    
+    @Transient
+    public boolean isContainsSku(Sku sku) {
+    	if (sku == null) return false;
+    	for (OrderItem oi :  getOrderItems()) {
+    		if (oi.getSku().equals(sku)) return true;
+    	}
+    	return false;
     }
 
 }

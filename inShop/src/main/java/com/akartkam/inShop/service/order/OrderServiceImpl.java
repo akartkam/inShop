@@ -1,10 +1,14 @@
 package com.akartkam.inShop.service.order;
 
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.akartkam.inShop.dao.order.OrderDAO;
+import com.akartkam.inShop.dao.order.OrderItemDAO;
+import com.akartkam.inShop.domain.order.OrderItem;
 import com.akartkam.inShop.util.OrderNumberGenerator;
 
 @Service("OrderService")
@@ -13,8 +17,12 @@ public class OrderServiceImpl implements OrderService{
 	
 	@Autowired
 	private OrderDAO orderDAO;
+	@Autowired
+	private OrderItemDAO orderItemDAO;	
 	@Autowired(required=false)
 	private OrderNumberGenerator orderNumberGenerator;
 	
-	
+	public OrderItem getOrderItemById(UUID id) {
+		return orderItemDAO.get(id);
+	}
 }
