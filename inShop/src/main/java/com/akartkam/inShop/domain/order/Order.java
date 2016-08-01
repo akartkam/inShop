@@ -1,7 +1,6 @@
 
 package com.akartkam.inShop.domain.order;
 
-import org.hibernate.annotations.Index;
 import org.hibernate.validator.constraints.Email;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.NumberFormat;

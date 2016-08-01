@@ -44,13 +44,13 @@
 		            </div>
 		            <div class="modal-body">
 		              <div class="field-box">
-		                <span th:text="#{admin.catalog.productOption.delete.modalmessage}" >Подтвердите удаление опции товара: </span>
-		                <span class="objname" style="font-weight:bold"> Опция товара </span>
+		                <span th:text="#{admin.order.delete.modalmessage}" >Подтвердите удаление заказа: </span>
+		                <span class="objname" style="font-weight:bold"> Заказ </span>
 					  </div>	                
 		              <div class="field-box" sec:authorize="hasRole('ADMIN')">
 	                      <label>
 						   	<input type="checkbox" name="phisycalDelete"/>
-						  	<span th:text="#{admin.catalog.category.delete.phisycalDelete}">Phisycal delete</span>
+						  	<span th:text="#{admin.delete.phisycalDelete}">Phisycal delete</span>
 						  </label>
 		              </div>
 		            </div> 
@@ -59,36 +59,6 @@
 		                <button type="submit" id="ID" name="ID" value="" class="btn btn-primary">Удалить</button>
 			        </div> 
 	            </form>  	      
-		     </div> 
-		    </div> 
-		</div>
-	   <div class="modal fade" id="deleteModalPov" tabindex="-1" role="dialog" th:attr="data-path=@{/admin/catalog/po/pov/delete}" aria-labelledby="deleteModalLabelPov" aria-hidden="true">
-		  <div class="modal-dialog">
-		    <div class="modal-content" id="deleteModalContentPov">
-<!-- 	 	        <form method="post" action="#" th:action="@{/admin/catalog/pov/delete}" id="deleteFormPov"> -->
-		            <div class="modal-header">
-		              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-		              <h4 class="modal-title" id="deleteModalLabelPov"><span th:text="#{admin.catalog.category.delete.modalcaption}">Удаление</span></h4>
-		            </div>
-		            <div class="modal-body">
-		              <div class="field-box">
-						<span th:text="#{admin.catalog.productOptionValue.delete.modalmessage}">
-						  Подтвердите удаление значения опции товара: 
-						</span>
-		                <span class="objname" style="font-weight:bold"> Значение опции товара1 </span>
-					  </div>	                
-		              <div class="field-box" sec:authorize="${hasRole('ADMIN')}">
-	                      <label>
-						   	<input type="checkbox" name="phisycalDelete" id="phisycalDeletePov"/>
-						  	<span th:text="#{admin.delete.phisycalDelete}">Phisycal delete</span>
-						  </label>
-		              </div>
-		            </div> 
-		            <div class="modal-footer" id = "delete-modal-footer-pov">
-		                <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
-		                <button type="button" id="IDPov" name="ID" value="" data-dismiss="modal" class="btn btn-primary">Удалить</button>
-			        </div> 
-<!-- 	            </form>  	       -->
 		     </div> 
 		    </div> 
 		</div>
@@ -115,21 +85,21 @@
 		  <div class="col-lg-12" > 
 	       <div class="panel panel-default" layout:fragment="content">
 	           <div class="panel-heading">
-	               <span th:text="#{admin.catalog.productOption}">Product Options</span>
+	               <span th:text="#{admin.order}">Orders</span>
 	           </div> 	 
 	             <div class="panel-body">
  	                  <div class="row">
  	                    <div class="col-md-12">	               
-						      <table class="table table-striped table-bordered table-hover table-condensed table-responsive" id="poDataTable" data-checkid="">
+						      <table class="table table-striped table-bordered table-hover table-condensed table-responsive" id="oDataTable" data-checkid="">
 						        <thead >
 							      <tr >
 							          <th class="col-md-1"></th>
-						              <th class="col-md-3 text-center" th:text="#{admin.catalog.productOption.name}">Name</th>
-						              <th class="col-md-3 text-center" th:text="#{admin.catalog.productOption.label}">Label</th>
-						              <th class="col-md-1 text-center" th:text="#{admin.catalog.productOption.ordering}">Ordering</th>
-						              <th class="col-md-1 text-center" th:text="#{admin.catalog.productOption.required}">Required</th>
-						              <th class="col-md-1 text-center" th:text="#{admin.catalog.productOption.useInSkuGeneration}">UseInSku?</th>
-						              <th class="col-md-1 text-center" th:text="#{admin.catalog.productOption.enabled}">Enabled?</th>
+						              <th class="col-md-3 text-center" th:text="#{admin.order.number}">Nuber</th>
+						              <th class="col-md-3 text-center" th:text="#{admin.order.date}">Order date</th>
+						              <th class="col-md-1 text-center" th:text="#{admin.order.customer.fullname}">Customer name</th>
+						              <th class="col-md-1 text-center" th:text="#{admin.email}">Email</th>
+						              <th class="col-md-1 text-center" th:text="#{admin.order.total}">Order total</th>
+						              <th class="col-md-1 text-center" th:text="#{admin.order.status}">Enabled?</th>
 						              <th class="col-md-1 text-center"></th>
 						  	      </tr>
 						 	    </thead>
