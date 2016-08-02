@@ -22,10 +22,8 @@ import com.akartkam.inShop.dao.customer.CustomerDAO;
 import com.akartkam.inShop.domain.Account;
 import com.akartkam.inShop.domain.Role;
 import com.akartkam.inShop.domain.customer.Customer;
-import com.akartkam.inShop.domain.product.Brand;
 import com.akartkam.inShop.formbean.CustomerForm;
 import com.akartkam.inShop.service.AccountService;
-import com.akartkam.inShop.service.AccountServiceImpl;
 import com.akartkam.inShop.service.RoleService;
 import com.akartkam.inShop.util.NullAwareBeanUtilsBean;
 

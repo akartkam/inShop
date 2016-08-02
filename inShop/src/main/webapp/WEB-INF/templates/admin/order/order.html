@@ -94,25 +94,25 @@
 						        <thead >
 							      <tr >
 							          <th class="col-md-1"></th>
-						              <th class="col-md-3 text-center" th:text="#{admin.order.number}">Nuber</th>
+						              <th class="col-md-3 text-center" th:text="#{admin.order.number}">Order number</th>
 						              <th class="col-md-3 text-center" th:text="#{admin.order.date}">Order date</th>
 						              <th class="col-md-1 text-center" th:text="#{admin.order.customer.fullname}">Customer name</th>
 						              <th class="col-md-1 text-center" th:text="#{admin.email}">Email</th>
 						              <th class="col-md-1 text-center" th:text="#{admin.order.total}">Order total</th>
-						              <th class="col-md-1 text-center" th:text="#{admin.order.status}">Enabled?</th>
+						              <th class="col-md-1 text-center" th:text="#{admin.order.status}">Status</th>
 						              <th class="col-md-1 text-center"></th>
 						  	      </tr>
 						 	    </thead>
 						 	    <tbody>      
-							        <tr th:each="po : ${allPo}" th:class="${!po.enabled} ? 'text-muted'">
+							        <tr th:each="o : ${allOrders}">
 							            <td class="text-center">						
-										    <input class="checkCategory" type="checkbox" th:id="${'check-'+po.id}" th:value="${po.id}"/>
+										    <input class="checkCategory" type="checkbox" th:id="${'check-'+o.id}" th:value="${o.id}"/>
 									    </td>
-										<td class="mightOverflow domain-col"><span th:text="${po.name}">PO1</span></td>
-							            <td class="mightOverflow domain-col"><span th:text="${po.label}">Product opt 1</span></td>
-							            <td class="text-center"><span th:text="${po.ordering}"></span></td>
-							            <td class="text-center"><i th:class="${po.required} ? 'fa fa-check-circle'"></i></td>
-							            <td class="text-center"><i th:class="${po.useInSkuGeneration} ? 'fa fa-check-circle'"></i></td>
+										<td ><span th:text="${o.orderNumber}">Order1</span></td>
+							            <td ><span th:text="${{o.submitDate}}">01.08.2016</span></td>
+							            <td ><span th:text="${o.customer.fullName}">Alex F.J.</span></td>
+							            <td ><span th:text="${o.emailAddress}">alex@foo.com</span></td>
+							            <td ><span th:text="${{o.total}}">$100</span></td>
 						            	<td class="text-center"><i th:class="${po.enabled} ? 'fa fa-check-circle'"></i></td>
 						            	<td class="text-center">
 		  				            	  		 <div class="btn-group edit-btn-group" role="group" > 
