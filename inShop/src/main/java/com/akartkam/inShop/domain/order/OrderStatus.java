@@ -4,9 +4,10 @@ public enum OrderStatus {
 	NEW,
 	IN_PROCESS ,
 	PAID ,
+	IN_DELIVERY,
 	COMPLITED ,
 	CANCELLED ;
-	public static final OrderStatus[] ALL = {NEW, IN_PROCESS, PAID, COMPLITED, CANCELLED};
+	public static final OrderStatus[] ALL = {NEW, IN_PROCESS, PAID, IN_DELIVERY, COMPLITED, CANCELLED};
 	
     
     public static OrderStatus forName(final String name) {
@@ -20,7 +21,9 @@ public enum OrderStatus {
         } else if (name.toUpperCase().equals("COMPLITED")) {
             return COMPLITED;
         } else if (name.toUpperCase().equals("PAID")) {
-            return PAID;            
+            return PAID;
+        } else if (name.toUpperCase().equals("IN_DELIVERY")) {
+            return IN_DELIVERY;                        
         } else if (name.toUpperCase().equals("CANCELLED")) {
             return CANCELLED;
 	    }

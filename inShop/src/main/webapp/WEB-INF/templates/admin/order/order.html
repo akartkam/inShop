@@ -113,55 +113,23 @@
 							            <td ><span th:text="${o.customer.fullName}">Alex F.J.</span></td>
 							            <td ><span th:text="${o.emailAddress}">alex@foo.com</span></td>
 							            <td ><span th:text="${{o.total}}">$100</span></td>
-						            	<td class="text-center"><i th:class="${po.enabled} ? 'fa fa-check-circle'"></i></td>
+						            	<td class="text-center"><span th:text="#{${'order.status.' + o.status}}"></span></td>
 						            	<td class="text-center">
 		  				            	  		 <div class="btn-group edit-btn-group" role="group" > 
 					                                  <button type="button" class="open-editDialog btn btn-outline btn-default btn-xs" 
 					                                          data-toggle="modal" data-target="#editModal" data-operation="edit" 
-					                                          th:attr="data-id=${po.id}, data-path=@{/admin/catalog/po/edit}"
+					                                          th:attr="data-id=${o.id}, data-path=@{/admin/order/edit}"
 					                                          data-backdrop="static" data-keyboard="false"> 
 					                                    <i class="fa fa-pencil"></i>
 					                                  </button>	
-					                                  <button type="button" class="open-editDialog btn btn-outline btn-default btn-xs" 
-					                                          data-toggle="modal" data-target="#editModal" data-operation="add"
-					                                          th:attr="data-id=${po.id}, data-path=@{/admin/catalog/po/add}"
-					                                          data-backdrop="static" data-keyboard="false">
-					                                    <i class="fa fa-copy"></i>
-					                                  </button>
 						                              <button th:disabled="${!po.enabled}" type="button" data-toggle="modal" data-target="#deleteModal" 
 						                                      class="open-deleteDialog btn btn-outline btn-default btn-xs"
-						                                      th:attr="data-id=${po.id}, data-name=${po.name}"> 
+						                                      th:attr="data-id=${o.id}, data-number=${o.orderNumber}"> 
 						                                <i class="fa fa-trash-o"></i>
 						                              </button>	
 				                            	 </div>  
 			                             </td>
 							        </tr>
-							        <th:block th:remove="all">
-										<tr th:remove="all">
-											<td class="text-center">						
-											       <input class="checkCategory" type="checkbox" id='check-1' value="1"/>
-										    </td>					         
-											<td>name1</td>
-											<td>label1</td>
-											<td class="text-center">1</td>
-											<td class="text-center">Yes</td>
-											<td class="text-center">Yes</td>
-											<td class="text-center">Yes</td>
-											<td class="text-center"></td>
-										</tr>
-										<tr th:remove="all">
-											<td class="text-center">						
-											       <input class="checkCategory" type="checkbox" id='check-1' value="1"/>
-										    </td>					         
-											<td>name2</td>
-											<td>label2</td>
-											<td class="text-center">2</td>
-											<td class="text-center">Yes</td>
-											<td class="text-center">Yes</td>
-											<td class="text-center">Yes</td>
-											<td class="text-center"></td>
-										</tr>									
-								   </th:block>
 						        </tbody>
 						      </table> 
 						   </div>
@@ -173,10 +141,10 @@
 					   		 <div class="btn-group" role="group" aria-label="..."> 
                                 <button type="button" class="open-editDialog btn btn-outline btn-default btn-sm" 
                                         data-toggle="modal" data-target="#editModal" data-operation="add"
-                                        th:attr="data-path=@{/admin/catalog/po/add}" data-backdrop="static" data-keyboard="false">
+                                        th:attr="data-path=@{/admin/order/add}" data-backdrop="static" data-keyboard="false">
                                   <i class="fa fa-plus-circle"></i>
                                   <span> </span>
-						          <span th:text="#{admin.catalog.productOption.addpo.buttoncaption}">Add option</span> 
+						          <span th:text="#{admin.order.add.buttoncaption}">Add order</span> 
                                 </button>
 						     </div>
 					      </div> 
@@ -195,13 +163,13 @@
 	    <script src="../../../../resources/bower_components/datatables/media/js/jquery.dataTables.min.js" th:src="@{/resources/bower_components/datatables/media/js/jquery.dataTables.min.js}"></script>
 	    <script src="../../../../resources/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js" th:src="@{/resources/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js}"></script>
 	    <script src="../../../../resources/js/inShop-common.js" th:src="@{/resources/js/inShop-common.js}"></script>
-	    <th:block th:include="/admin/catalog/brandEdit :: scriptEditModal">
+	    <th:block th:include="/admin/order/orderEdit :: scriptEditModal">
         </th:block>	    
 	    <script type="text/javascript">
 	      //<![CDATA[
 	           var ee;
 	           $(document).ready(function() {
-    		     $("#poDataTable").dataTable( {
+    		     $("#oDataTable").dataTable( {
 		            	"language": {
 		                   	"processing": "Подождите...",
 		                   	  "search": "Поиск:",
@@ -312,7 +280,6 @@
 		        
 		   // ]]>
 	     </script>
-	     <!-- <th:block layout:include="/admin/catalog/attributeCategoryEdit :: scriptEditModal"> -->
 	     <th:block layout:fragment="scriptEditModal">
 	     </th:block>
     </th:block>
