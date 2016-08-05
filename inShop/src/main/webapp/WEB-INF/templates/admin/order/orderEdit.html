@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org" 
+                xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+                layout:decorator="admin/catalog/po">
+	<head>
+	  <th:block th:remove="all">
+		<title>inShop Admin Order edit</title>
+	    <meta charset="utf-8"/>
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+	    <meta name="description" content=""/>
+	    <meta name="author" content=""/>
+	    <!-- Bootstrap Core CSS -->
+	    <link href="../../../../resources/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" th:href="@{/resources/bower_components/bootstrap/dist/css/bootstrap.min.css}"/>
+	    <!-- DataTables CSS -->
+<!--    		<link href="../../../../resources/bower_components/datatables-responsive/css/dataTables.responsive.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/datatables-responsive/css/dataTables.responsive.css}"/>	    	 -->
+	    <link href="../../../../resources/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css" rel="stylesheet" th:href="@{/resources/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css}"/>	    		
+	    <!-- Custom Fonts -->
+    	<link href="../../../../resources/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/font-awesome/css/font-awesome.min.css}"/>
+		<link href="../../../../resources/bower_components/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/bootstrap/dist/css/bootstrap-theme.min.css}"></link>    	
+    	<link href="../../../../resources/css/sb-admin-2.css" rel="stylesheet" th:href="@{/resources/css/sb-admin-2.css}"/>   	
+      </th:block>
+	</head>
+<body>
+  <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true" layout:fragment="editForm">
+    <div class="modal-dialog" style="width:70vw; overflow:auto">
+	  <div class="modal-content" id="editModalContent" >
+	   <form method="post" class="form-horizontal" id="poform" role="form" action="#" th:action="@{/admin/order/edit}" th:object="${order}" th:fragment="editOrderForm">
+		   <div class="modal-header">
+	 			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title"  th:text="${!order.new}? #{admin.order.edit.title.edit}: #{admin.order.edit.title.add}">Edit Order</h4>
+	 	   </div>
+		 <!-- /modal-header -->
+		    <div class="modal-body" style ="height:60vh; overflow:auto" id="editModalBody">
+		          <div  th:if="${#fields.hasErrors('*')}" class="alert alert-danger alert-dismissable">
+		          	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <span th:text="#{admin.edit.existsErrors}">There is some errors in the form</span>
+					<ul>
+					  <li th:each="err : ${#fields.errors('*')}" th:text="${err}">Input is incorrect</li>
+					</ul>                                 
+                  </div>
+	               <ul class="nav nav-tabs">
+	                    <li th:class="${tabactive=='main'}? 'in active'"><a href="#main" data-toggle="tab" th:text="#{admin.edit.tab.description}">Описание</a>
+	                    </li>
+	                    <li th:class="${tabactive=='content'}? 'in active'"><a href="#content" data-toggle="tab" th:text="#{admin.edit.tab.content}">Содержание</a>
+	                    </li>
+	                </ul>
+	                <!-- Tab panes -->
+	                <div class="tab-content">
+	                    <div class="tab-pane fade" th:classappend="${tabactive=='main'}? 'in active'" id="main">
+						    <div class="field-box" th:class="${#fields.hasErrors('name')}? has-error: field-box">
+							  <input type="hidden" th:field="*{id}"/>	                              
+				    		  <label>
+					    	  	 <span th:text="#{admin.catalog.productOption.edit.name}">Product option 1</span>
+					   		  </label>
+					   		  <input type="text" class="form-control" th:field="*{name}"/>
+					   		  <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Incorrect name</p>
+				   		    </div>
+						    <div class="field-box" th:class="${#fields.hasErrors('label')}? has-error: field-box">
+				    		  <label>
+					    	  	 <span th:text="#{admin.catalog.productOption.edit.label}">Product option label 1</span>
+					   		  </label>
+					   		  <input type="text" class="form-control" th:field="*{label}"/>
+					   		  <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('label')}" th:errors="*{label}">Incorrect label</p>
+				   		    </div>
+	             		</div>
+	                    <div class="tab-pane fade" th:classappend="${tabactive=='content'}? 'in active'" id="content">
+							<div class="container-fluid">	                    
+							    <div class="row clearfix">
+									<div class="col-md-12 column">
+				                       	 <table class="table table-bordered table-hover" id="poValDataTable" data-checkid="">
+				                       	    <thead >
+					                       	   <tr >
+									              <th class="col-md-6 text-center" th:text="#{admin.catalog.productOptionValue.value}">Value</th>
+									              <th class="col-md-2 text-center" th:text="#{admin.catalog.productOptionValue.priceAdjustment}">Price adjustment</th>
+									              <th class="col-md-2 text-center" th:text="#{admin.catalog.productOption.ordering}">Ordering</th>
+									              <th class="col-md-1 text-center" th:text="#{admin.catalog.productOption.enabled}">Enabled?</th>
+									              <th class="col-md-1 text-center"><span>         </span></th>
+										  	   </tr>
+									  	    </thead >
+									  	    <tbody>
+									  	       <tr th:each="pov, povStat : *{productOptionValues}" th:class="${!pov.enabled} ? 'text-muted'">
+									  	       	  <td>
+									  	       	      <input type="hidden" th:field="*{productOptionValues[__${povStat.index}__].id}"/>
+							  	       	      		  <input type="text" class="form-control input-md" th:field="*{productOptionValues[__${povStat.index}__].optionValue}" />
+									  	       	  </td>
+									  	       	  <td>
+  							  	       	               <input type="text"  class="form-control input-md" th:field="*{productOptionValues[__${povStat.index}__].priceAdjustment}" />
+									  	       	  </td>
+									  	       	  <td>
+ 									  	       	       <input type="text"  class="form-control input-md" th:field="*{productOptionValues[__${povStat.index}__].ordering}" />
+									  	       	  </td>
+									  	       	  <td class="text-center">
+									  	       	  		<input type="checkbox" th:field="*{productOptionValues[__${povStat.index}__].enabled}" th:checked="${pov.enabled}"/>
+<!-- 									  	       	       <i th:class="${pov.enabled} ? 'fa fa-check-circle'"></i> -->
+									  	       	  </td>
+									  	       	  <td >
+			  				            	  		 <div class="btn-group edit-btn-group" role="group" > 
+						                                  <button type="button" class="btn btn-outline btn-default btn-xs add-new-pov" 
+						                                           th:value="${pov.id}" th:attr="data-path=@{/admin/catalog/po/pov/add}">
+						                                    <i class="fa fa-copy"></i>
+						                                  </button>
+						                                  <button type="button" data-toggle="modal" data-target="#deleteModalPov" 
+							                                      class="open-deleteDialog btn btn-outline btn-default btn-xs"
+							                                      th:attr="data-id=${pov.id}, data-name=${#objects.nullSafe(pov.optionValue,'')}, data-canremove=${pov.canRemove()}">
+							                                <i class="fa fa-trash-o"></i>
+							                              </button>	
+					                            	 </div>
+									  	       	  </td>
+									  	       </tr>
+									  	    </tbody>
+				                       	 </table>
+									   </div>
+									 </div>
+				                     <button type="button"  value="new" class="btn btn-outline btn-default btn-sm pull-left add-new-pov" 
+				                             id="addPov" th:attr="data-path=@{/admin/catalog/po/pov/add}"> 
+			                            <i class="fa fa-plus-circle"></i>
+			                            <span> </span>
+									    <span th:text="#{button.add.caption}">Добавить</span>
+		                             </button>	
+		                     </div>        						  	   	
+                       	  </div>  
+ 	                    </div> 
+ 	                 </div>      
+		 <!-- /modal-body -->
+	 	    <div class="modal-footer">
+	 		  <button type="button" class="btn btn-default"  
+	 		          th:text="#{admin.catalog.category.edit.button.close}"
+	 		          data-dismiss="modal">Close</button>
+			  <button type="submit" class="btn btn-primary" th:text="#{admin.catalog.attribute.edit.button.save}">Save changes</button>
+		    </div>  
+		 <!-- /modal-footer -->
+	     </form>	
+      </div> 
+    </div> 
+  </div>	    
+   <!-- jQuery -->
+   <script src="../../../../resources/bower_components/jquery/dist/jquery.min.js" th:src="@{/resources/bower_components/jquery/dist/jquery.min.js}"></script>
+   <!-- Bootstrap Core JavaScript -->
+   <script src="../../../../resources/bower_components/bootstrap/dist/js/bootstrap.min.js" th:src="@{/resources/bower_components/bootstrap/dist/js/bootstrap.min.js}"></script>
+   <!-- DataTables JavaScript -->
+   <script src="../../../../resources/bower_components/datatables/media/js/jquery.dataTables.min.js" th:src="@{/resources/bower_components/datatables/media/js/jquery.dataTables.min.js}"></script>
+   <script src="../../../../resources/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js" th:src="@{/resources/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js}"></script>
+   <th:block layout:fragment="scriptEditModal"> 
+	   <script type="text/javascript">
+	      //<![CDATA[
+		     $(document).ready(function() {
+		    	 $("#editModal").modal({
+		    		    backdrop: 'static',
+		    		    keyboard: false
+		    		});		
+		    	 $('#editModal').on( 'shown.bs.modal', function ( event ) {
+
+		    	 });
+		        $(".add-new-pov").on("click", function () { 
+		        	var id = $(this).val();
+	    			var form = $("#poform");
+	    			var path= $(this).data("path");
+	    			var formser;
+	    			if (form != "undefined" && form != null) formser = form.serialize();
+	    			$("#editModalContent").text("");
+                    $.ajax({
+                    	type: "POST",
+                        url: path,
+                        data: formser+((id != null)?"&copyid="+id:""),
+                        cache: false
+                    }).done(function (html) {
+                                $("#editModalContent").append(html);
+           			    	    var s = $("#poValDataTable tbody > tr:last-child").position();
+        			    	    $("#editModalBody" ).scrollTop( s.top );
+                    });
+	    		});
+
+			});
+		// ]]>	  
+	   </script>
+   </th:block>
+</body>
+</html>
+

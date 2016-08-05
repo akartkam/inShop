@@ -124,7 +124,7 @@
 	             <div class="panel-body">
  	                  <div class="row">
  	                    <div class="col-md-12">	              
-						      <table class="table table-striped table-bordered table-hover table-condensed table-responsive" id="accountDataTable" data-checkid="">
+						      <table class="table table-striped table-bordered table-hover table-condensed table-responsive" id="customerDataTable" data-checkid="">
 						        <thead >
 							      <tr >
 							          <th class="col-md-1"></th>
@@ -238,7 +238,7 @@
    			    	}
 	           };
 	           $(document).ready(function() {
-    		     var table = $("#accountDataTable").DataTable( {
+    		     var table = $("#customerDataTable").DataTable( {
 		            	"language": {
 		                   	"processing": "Подождите...",
 		                   	  "search": "Поиск:",
@@ -262,9 +262,9 @@
 		                   	  }
 		                  }
     				});
-  	                $('#accountDataTable tfoot th').each( function () {
+  	                $('#customerDataTable tfoot th').each( function () {
 	  	            	 if ($(this).is(":first-child") || $(this).is(":last-child")) return;
-		                 var title = $('#accountDataTable thead th').eq( $(this).index() ).text();
+		                 var title = $('#customerDataTable thead th').eq( $(this).index() ).text();
 		                 $(this).html( '<input type="text" placeholder="Фильтр '+title+'" />' );
 		            });
     		     	table.columns().every( function () {

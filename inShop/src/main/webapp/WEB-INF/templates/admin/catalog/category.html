@@ -40,9 +40,6 @@
 				    text-overflow: ellipsis;
 				    white-space: nowrap;
 				 }
-				mark {
-					border: 1px dashed black; !important;
-				 }
 			</style>
 	</head>
 <body>
@@ -121,7 +118,7 @@
  	                  </div>  
  	                  <div class="row">
  	                    <div class="col-md-12">
-					      <table class="tree table table-striped table-bordered table-hover table-condensed table-responsive" id="categoryDataTable" data-checkid="">
+					      <table class="tree table table-striped table-bordered table-hover table-condensed table-responsive searchableDataTable" id="categoryDataTable" data-checkid="">
 					        <thead >
 						      <tr >
 						         <th class="col-md-1"> </th>
@@ -138,9 +135,9 @@
 								  <td class="text-center">						
 									    <input class="checkCategory" type="checkbox" th:id="${'check-'+ct.id}" th:value="${ct.id}"/>
 								  </td>					         
-								  <td class="mightOverflow domain-col"><span class="for-border" th:text="${ct.name}">Root category 1</span></td>
-					              <td class="mightOverflow domain-col"><span class="for-border" th:text="${ct.description}">Root category description 1</span></td>
-					              <td class="mightOverflow domain-col"><span class="for-border" th:text="${ct.url}">url</span></td>
+								  <td class="mightOverflow domain-col"><span class="for-search" th:text="${ct.name}">Root category 1</span></td>
+					              <td class="mightOverflow domain-col"><span class="for-search" th:text="${ct.description}">Root category description 1</span></td>
+					              <td class="mightOverflow domain-col"><span class="for-search" th:text="${ct.url}">url</span></td>
 					              <td class="text-center"><i th:class="${{ct.enabled} ? 'fa fa-check-circle' : ''}"></i></td>
 					              <td class="text-center">
   				            	  		 <div class="btn-group edit-btn-group" role="group" > 	
@@ -218,7 +215,7 @@
 										<td class="text-center">						
 										       <input type="checkbox"/>
 									    </td>					         
-										<td><span class="for-border">Node 1-2-3</span></td>
+										<td><span class="for-search">Node 1-2-3</span></td>
 										<td>Additional info</td>
 										<td></td>
 										<td > </td>

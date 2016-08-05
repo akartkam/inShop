@@ -133,7 +133,7 @@
 							            <td class="text-center">						
 										    <input class="checkCategory" type="checkbox" th:id="${'check-'+ct.id}" th:value="${ct.id}"/>
 									    </td>
-										<td> <span class="for-border" th:style="${#strings.containsIgnoreCase(ct.class.name,'AttributeCategory')}? 'font-weight:bold': 'font-weight:'" th:text="${ct.name}">category 1</span></td>
+										<td> <span class="for-search" th:style="${#strings.containsIgnoreCase(ct.class.name,'AttributeCategory')}? 'font-weight:bold': 'font-weight:'" th:text="${ct.name}">category 1</span></td>
 										<td class="text-center" ><span th:if="${!#strings.containsIgnoreCase(ct.class.name,'AttributeCategory')}" th:text="#{${'attribute.type.' + ct.attributeType.toString()}}">Decimal</span></td>
 										<td th:text="${ct.ordering}">1</td>
 						            	<td class="text-center"><i th:class="${ct.enabled} ? 'fa fa-check-circle'"></i></td>
@@ -183,7 +183,7 @@
 											<td class="text-center">						
 											       <input class="checkCategory" type="checkbox" id='check-3' value="3"/>
 										    </td>					         
-											<td><span class="for-border">Node 1-2</span></td>
+											<td><span class="for-search">Node 1-2</span></td>
 											<td class="text-center"></td>
 											<td></td>
 											<td > </td>

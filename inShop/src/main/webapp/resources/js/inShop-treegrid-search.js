@@ -3,7 +3,7 @@
  * 
  */
 	 function clearSearchableDataTable() {
-	    $(".searchableDataTable td.for-search:has(mark)").each(function () {
+	    $(".searchableDataTable span.for-search:has(mark)").each(function () {
 	        var col = $($(this)[0]);
 	        col.css("background", "");
 	        col.html(col.html().replace("<mark>", ""));
@@ -32,8 +32,8 @@
     	    var st;
     	    var idx;
     	    var tr;
-    	    $(".searchableDataTable td.for-search").filter(function () { return $(this).text().toLowerCase().indexOf(searchText.toLowerCase()) > -1 }).each(function (index) {
-    	        col = $($(this)[0]);
+    	    $(".searchableDataTable span.for-search").filter(function () { return $(this).text().toLowerCase().indexOf(searchText.toLowerCase()) > -1 }).each(function (index) {
+    	        col = $(this).closest('td');
     	        tr = col.closest('tr');
     	        if (tr.index() < 1) return true;
     	        if (index == 0) {

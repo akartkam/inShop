@@ -37,9 +37,6 @@
 				    text-overflow: ellipsis;
 				    white-space: nowrap;
 				 }
-				mark {
-					border: 1px dashed black; !important;
-				 }
 			</style>	    	    	
 	</head>
 <body>
@@ -68,7 +65,7 @@
  	                  <div class="row">
  	                    <div class="col-md-12" id="loadableContentContainer">	               
   						    <form method="post" class="form-horizontal" id="oform" role="form" action="#" th:action="@{/order/test}" th:object="${order}" th:fragment="editOrderForm">
-						      <table class="tree table table-striped table-bordered table-hover table-condensed table-responsive" id="categoryDataTable" data-checkid="">
+						      <table class="tree table table-striped table-bordered table-hover table-condensed table-responsive searchableDataTable" id="categoryDataTable" data-checkid="">
 						        <thead >
 							      <tr>
 							          <th class="col-md-10">Наименование</th>

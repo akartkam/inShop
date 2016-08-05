@@ -94,15 +94,27 @@
 						        <thead >
 							      <tr >
 							          <th class="col-md-1"></th>
-						              <th class="col-md-3 text-center" th:text="#{admin.order.number}">Order number</th>
-						              <th class="col-md-3 text-center" th:text="#{admin.order.date}">Order date</th>
-						              <th class="col-md-1 text-center" th:text="#{admin.order.customer.fullname}">Customer name</th>
+						              <th class="col-md-1 text-center" th:text="#{admin.order.number}">Order number</th>
+						              <th class="col-md-1 text-center" th:text="#{admin.order.date}">Order date</th>
+						              <th class="col-md-4 text-center" th:text="#{admin.order.customer.fullname}">Customer name</th>
 						              <th class="col-md-1 text-center" th:text="#{admin.email}">Email</th>
 						              <th class="col-md-1 text-center" th:text="#{admin.order.total}">Order total</th>
 						              <th class="col-md-1 text-center" th:text="#{admin.order.status}">Status</th>
 						              <th class="col-md-1 text-center"></th>
 						  	      </tr>
 						 	    </thead>
+					            <tfoot>
+							      <tr >
+							          <th ></th>
+						              <th ></th>
+						              <th ></th>
+						              <th ></th>
+						              <th ></th>
+						              <th ></th>
+						              <th ></th>
+						              <th ></th>
+						  	      </tr>
+						 	    </tfoot>
 						 	    <tbody>      
 							        <tr th:each="o : ${allOrders}">
 							            <td class="text-center">						
@@ -139,7 +151,7 @@
 				      <div class="btn-toolbar" role="toolbar" aria-label="...">
 					      <div class="btn-group" role="group" aria-label="...">
 					   		 <div class="btn-group" role="group" aria-label="..."> 
-                                <button type="button" class="open-editDialog btn btn-outline btn-default btn-sm" 
+                                <button type="button" class="open-editDialog btn btn-outline btn-default btn-sm add-new" 
                                         data-toggle="modal" data-target="#editModal" data-operation="add"
                                         th:attr="data-path=@{/admin/order/add}" data-backdrop="static" data-keyboard="false">
                                   <i class="fa fa-plus-circle"></i>
@@ -163,8 +175,8 @@
 	    <script src="../../../../resources/bower_components/datatables/media/js/jquery.dataTables.min.js" th:src="@{/resources/bower_components/datatables/media/js/jquery.dataTables.min.js}"></script>
 	    <script src="../../../../resources/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js" th:src="@{/resources/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js}"></script>
 	    <script src="../../../../resources/js/inShop-common.js" th:src="@{/resources/js/inShop-common.js}"></script>
-	    <th:block th:include="/admin/order/orderEdit :: scriptEditModal">
-        </th:block>	    
+<!-- 	    <th:block th:include="/admin/order/orderEdit :: scriptEditModal"> -->
+<!--         </th:block>	     -->
 	    <script type="text/javascript">
 	      //<![CDATA[
 	           var ee;
@@ -195,7 +207,21 @@
 		                responsive: true,
 		                ordering:  false
     				});
-	    			$("body").on("click",".add-new-pov", function () { 
+	                $('#oDataTable tfoot th').each( function () {
+	  	            	 if ($(this).is(":first-child") || $(this).is(":last-child")) return;
+		                 var title = $('#oDataTable thead th').eq( $(this).index() ).text();
+		                 $(this).html( '<input type="text" placeholder="Фильтр '+title+'" />' );
+		            });
+   		     		table.columns().every( function () {
+	  	               var that = this;	  	        
+	  	               $( 'input', this.footer() ).on( 'keyup change', function () {
+	  	            	   that
+	  	                       .search( this.value )
+	  	                       .draw();
+	  	                   
+	  	               });
+	  	           });    		     
+	    			$("body").on("click",".add-new", function () { 
 	    				var id = $(this).val();
     	    			var form = $("#poform");
     	    			var path= $(this).data("path");
