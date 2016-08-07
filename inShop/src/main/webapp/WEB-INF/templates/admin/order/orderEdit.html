@@ -23,7 +23,7 @@
 	</head>
 <body>
   <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true" layout:fragment="editForm">
-    <div class="modal-dialog" style="width:70vw; overflow:auto">
+    <div class="modal-dialog" style="width:60vw; overflow:auto">
 	  <div class="modal-content" id="editModalContent" >
 	   <form method="post" class="form-horizontal" id="poform" role="form" action="#" th:action="@{/admin/order/edit}" th:object="${order}" th:fragment="editOrderForm">
 		   <div class="modal-header">
@@ -31,7 +31,7 @@
 				<h4 class="modal-title"  th:text="${!order.new}? #{admin.order.edit.title.edit}: #{admin.order.edit.title.add}">Edit Order</h4>
 	 	   </div>
 		 <!-- /modal-header -->
-		    <div class="modal-body" style ="height:60vh; overflow:auto" id="editModalBody">
+		    <div class="modal-body" style ="height:50vh; overflow:auto" id="editModalBody">
 		          <div  th:if="${#fields.hasErrors('*')}" class="alert alert-danger alert-dismissable">
 		          	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                     <span th:text="#{admin.edit.existsErrors}">There is some errors in the form</span>
@@ -48,13 +48,20 @@
 	                <!-- Tab panes -->
 	                <div class="tab-content">
 	                    <div class="tab-pane fade" th:classappend="${tabactive=='main'}? 'in active'" id="main">
-						    <div class="field-box" th:class="${#fields.hasErrors('name')}? has-error: field-box">
+						    <div class="field-box" th:class="${#fields.hasErrors('customer')}? has-error: field-box">
 							  <input type="hidden" th:field="*{id}"/>	                              
 				    		  <label>
-					    	  	 <span th:text="#{admin.catalog.productOption.edit.name}">Product option 1</span>
+					    	  	 <span th:text="#{admin.customer.customer}">Customer</span>
 					   		  </label>
-					   		  <input type="text" class="form-control" th:field="*{name}"/>
-					   		  <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Incorrect name</p>
+							  <select class="form-control selectpicker" id="selCustomer" th:field="*{customer}" data-live-search="true">
+								    <option th:each="oc: ${allCustomers}" 
+								            th:text="${oc.fullName+'('+oc.email+')'}"
+								            th:if="${oc.enabled}"
+								            th:selected="${order.customer.equals(oc)}"
+								            th:value="${oc.id}">
+								    </option>      
+							  </select>
+					   		  <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('customer')}" th:errors="*{customer}">Incorrect customer</p>
 				   		    </div>
 						    <div class="field-box" th:class="${#fields.hasErrors('label')}? has-error: field-box">
 				    		  <label>

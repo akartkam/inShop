@@ -1,6 +1,6 @@
 package com.akartkam.inShop.app;
 
-import com.akartkam.inShop.util.Random10OrderNumberGenerator;
+import com.akartkam.inShop.util.Random10OrderNumberGeneratorImpl;
 
 public class GenerateRandom {
 	public static void main(String[] args) {
@@ -19,9 +19,9 @@ public class GenerateRandom {
 			System.out.println(String.format("%b\t %d\t %d\t %d\t %.10f\t %.10f", rand.nextBoolean(), rand.nextInt(),
 					rand.nextInt(20), rand.nextLong(), rand.nextFloat(), rand.nextDouble()));
 		}*/
-		Random10OrderNumberGenerator r = new Random10OrderNumberGenerator();
+		Random10OrderNumberGeneratorImpl r = new Random10OrderNumberGeneratorImpl();
 		r.setPrefix("M-");
-		System.out.println(r.genOrderNumber());
+		System.out.println(r.generateOrderNumber(null));
 		//for (int i = 0; i < 1000; i++) {
 		  //System.out.print(new Random().nextInt(999999999)+100000000L);
 		  //System.out.print("--");

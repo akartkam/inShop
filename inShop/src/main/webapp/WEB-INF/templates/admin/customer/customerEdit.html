@@ -31,7 +31,7 @@
 	   <form method="post" class="form-horizontal" role="form" action="#" th:action="@{/admin/customer/customer/edit}" th:object="${customer}" th:fragment="editCustomerForm">
 		   <div class="modal-header">
 	 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				<h4 class="modal-title"  th:text="${!customer.new}? #{admin.customer.customer.edit.title.edit}: #{admin.customer.customer.edit.title.add}">Edit customer</h4>
+				<h4 class="modal-title"  th:text="${!customer.new}? #{admin.customer.customers.edit.title.edit}: #{admin.customer.customers.edit.title.add}">Edit customer</h4>
 	 	   </div>
 		 <!-- /modal-header -->
 		    <div class="modal-body" style ="height:420px; overflow:auto">

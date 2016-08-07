@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,8 +22,6 @@ public class OrderServiceImpl implements OrderService{
 	private OrderDAO orderDAO;
 	@Autowired
 	private OrderItemDAO orderItemDAO;	
-	@Autowired(required=false)
-	private OrderNumberGenerator orderNumberGenerator;
 	
 	public OrderItem getOrderItemById(UUID id) {
 		return orderItemDAO.get(id);
@@ -31,5 +30,16 @@ public class OrderServiceImpl implements OrderService{
 	@Override
 	public List<Order> getAllOrders() {
 		return orderDAO.list();
+	}
+
+	@Override
+	@Transactional(readOnly = false)
+	public Order createOrder(Order order) {
+		return orderDAO.create(order);
+	}
+
+	@Override
+	public Order getOrderById(UUID id) {
+		return orderDAO.get(id);
 	}
 }

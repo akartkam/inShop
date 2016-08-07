@@ -80,6 +80,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 	
 	@Override
+	@Transactional(readOnly = false)
 	public Product createProduct(Product product) {
 		return productDAO.create(product);
 	}	

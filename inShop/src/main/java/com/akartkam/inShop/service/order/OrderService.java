@@ -9,4 +9,6 @@ import com.akartkam.inShop.domain.order.OrderItem;
 public interface OrderService {
 	OrderItem getOrderItemById(UUID id);
 	List<Order> getAllOrders();
+	Order createOrder(Order order);
+	Order getOrderById(UUID id);
 }

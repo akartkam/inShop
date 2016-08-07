@@ -1,6 +1,7 @@
 
 package com.akartkam.inShop.domain.order;
 
+import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.Email;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.NumberFormat;
@@ -20,6 +21,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -91,7 +93,7 @@ public class Order extends AbstractDomainObjectOrdering {
     }
 
 
-    @ManyToOne(optional=false)
+    @ManyToOne(optional=false, cascade=CascadeType.ALL)
     @JoinColumn(name = "customer_id", nullable = false)
     public Customer getCustomer() {
         return customer;
@@ -131,7 +133,6 @@ public class Order extends AbstractDomainObjectOrdering {
     public void setName(String name) {
         this.name = name;
     }
-
 
     @Column(name = "order_number")
     public String getOrderNumber() {

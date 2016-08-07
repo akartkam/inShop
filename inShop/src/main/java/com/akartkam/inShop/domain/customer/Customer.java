@@ -102,6 +102,9 @@ public class Customer extends AbstractDomainObject {
 		this.account = account;
 	}
 	@Transient
-	public String getFullName() { return firstName + " " + middleName + " " + lastName; }	
+	public String getFullName() { return firstName != null ? firstName : "" + " " + 
+	                                     middleName != null ? middleName : "" + " " + 
+	                                     lastName != null ? lastName : ""  ;
+	}	
 
 }

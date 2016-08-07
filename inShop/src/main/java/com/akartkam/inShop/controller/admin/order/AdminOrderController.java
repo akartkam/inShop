@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.http.HttpStatus;
 
+import com.akartkam.inShop.domain.customer.Customer;
 import com.akartkam.inShop.domain.order.Order;
 import com.akartkam.inShop.domain.order.OrderItem;
 import com.akartkam.inShop.domain.product.ProductStatus;
@@ -35,6 +36,7 @@ import com.akartkam.inShop.domain.product.option.ProductOptionValue;
 import com.akartkam.inShop.exception.SkuNotFoundException;
 import com.akartkam.inShop.formbean.ItemsForJSON;
 import com.akartkam.inShop.formbean.SkuForJSON;
+import com.akartkam.inShop.service.customer.CustomerService;
 import com.akartkam.inShop.service.order.OrderService;
 import com.akartkam.inShop.service.product.ProductService;
 
@@ -49,10 +51,19 @@ public class AdminOrderController {
 	  @Autowired
 	  OrderService orderService;
 	  
+	  @Autowired
+	  CustomerService customerService; 
+	  
 	  @ModelAttribute("allOrders")
 	  public List<Order> getAllOrders() {
 		  return orderService.getAllOrders();
 	  }
+
+	  @ModelAttribute("allCustomers")
+	  public List<Customer> getAllCustomers() {
+		  return customerService.getAllCustomer();
+	  }
+	  
 	  
 	  @InitBinder
 	  public void initBinder(WebDataBinder binder) {

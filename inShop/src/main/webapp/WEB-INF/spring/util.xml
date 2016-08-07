@@ -8,7 +8,12 @@
         http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
         http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
-	<bean id="orderNumberGenerator" class="com.akartkam.inShop.util.Random10OrderNumberGenerator">
-	        <property name="prefix" value="#{shopProperties['orderNumberPrefix']}"/>
+	<bean id="orderNumberGenerator" class="com.akartkam.inShop.util.OrderNumberGeneratorFactoryBean">
+        <property name="parameters">
+          <props>
+            <prop key="orderNumberPrefix">#{shopProperties['orderNumberPrefix']}</prop>
+            <prop key="useAutogenerateOrderNumber">#{shopProperties['useAutogenerateOrderNumber']}</prop>
+          </props>
+        </property>
 	</bean>
 </beans>	
