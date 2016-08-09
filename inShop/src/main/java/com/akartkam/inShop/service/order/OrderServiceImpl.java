@@ -3,8 +3,10 @@ package com.akartkam.inShop.service.order;
 import java.util.List;
 import java.util.UUID;
 
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,9 +21,12 @@ import com.akartkam.inShop.util.OrderNumberGenerator;
 public class OrderServiceImpl implements OrderService{
 	
 	@Autowired
+	private ApplicationContext appContext;
+	@Autowired
 	private OrderDAO orderDAO;
 	@Autowired
 	private OrderItemDAO orderItemDAO;	
+
 	
 	public OrderItem getOrderItemById(UUID id) {
 		return orderItemDAO.get(id);
@@ -35,6 +40,11 @@ public class OrderServiceImpl implements OrderService{
 	@Override
 	@Transactional(readOnly = false)
 	public Order createOrder(Order order) {
+		if (order.getOrderNumber() == null || "".equals(order.getOrderNumber())) {
+			OrderNumberGenerator onGen = (OrderNumberGenerator)appContext.getBean("orderNumberGenerator");
+			String on = onGen.generateOrderNumber();
+			order.setOrderNumber(on);
+		}
 		return orderDAO.create(order);
 	}
 

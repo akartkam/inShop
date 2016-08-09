@@ -14,9 +14,20 @@
 
     <util:properties id="appProperties" 
                     location="classpath:application.properties"/>
+    <util:properties id="shopProperties" 
+                    location="classpath:shop.properties"/>                    
 	<context:annotation-config />
 	<context:component-scan base-package="com.akartkam.inShop.dao;com.akartkam.inShop.service;com.akartkam.inShop.controller;" />
 	<tx:annotation-driven transaction-manager="transactionManager" />
+	
+	<bean id="orderNumberGenerator" class="com.akartkam.inShop.util.OrderNumberGeneratorFactoryBean">
+        <property name="parameters">
+          <props>
+            <prop key="orderNumberPrefix">#{shopProperties['orderNumberPrefix']}</prop>
+            <prop key="useAutogenerateOrderNumber">#{shopProperties['useAutogenerateOrderNumber']}</prop>
+          </props>
+        </property>
+	</bean>
 	
 	<bean id="propertyConfigurer"
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
