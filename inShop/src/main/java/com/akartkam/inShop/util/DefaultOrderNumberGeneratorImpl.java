@@ -2,15 +2,11 @@ package com.akartkam.inShop.util;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 public class DefaultOrderNumberGeneratorImpl implements OrderNumberGenerator {
 	private static final Log LOG = LogFactory.getLog(DefaultOrderNumberGeneratorImpl.class);
 	protected String prefix; 
-	
-	@Value("T(com.akartkam.inShop.util.Сonstants).SELECT_ORDER_NUMBER_GENERATOR_TEST")
 	private String sql; 
 	
 	
@@ -19,6 +15,11 @@ public class DefaultOrderNumberGeneratorImpl implements OrderNumberGenerator {
 	
 	public DefaultOrderNumberGeneratorImpl (String prefix) {
 		this.prefix = prefix;
+	}
+	
+	public DefaultOrderNumberGeneratorImpl (String prefix, String sql) {
+		this.prefix = prefix;
+		this.sql = sql;
 	}
 	
 	@Override

@@ -23,12 +23,14 @@ public class OrderNumberGeneratorFactoryBean extends AbstractFactoryBean<OrderNu
 	}
 
 	@Override
-	protected OrderNumberGenerator createInstance() throws Exception {
+	protected OrderNumberGenerator createInstance() throws Exception { 
 		String prefix = parameters.getProperty("orderNumberPrefix");
 		if (parameters.containsKey("useAutogenerateOrderNumber") && Boolean.parseBoolean(parameters.getProperty("useAutogenerateOrderNumber"))) {
 			return new Random10OrderNumberGeneratorImpl(prefix);
 		} else {
-			return new DefaultOrderNumberGeneratorImpl(prefix);
+			String sql = parameters.getProperty("sql");
+			if (sql == null || "".equals(sql)) throw new IllegalStateException("sql parameter is null for DefaultOrderNumberGeneratorImpl");
+			return new DefaultOrderNumberGeneratorImpl(prefix, sql);
 		}
 	}
 

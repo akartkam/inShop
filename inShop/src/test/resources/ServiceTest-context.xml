@@ -22,9 +22,10 @@
 	
 	<bean id="orderNumberGenerator" class="com.akartkam.inShop.util.OrderNumberGeneratorFactoryBean">
         <property name="parameters">
-          <props>
+        <props>
             <prop key="orderNumberPrefix">#{shopProperties['orderNumberPrefix']}</prop>
             <prop key="useAutogenerateOrderNumber">#{shopProperties['useAutogenerateOrderNumber']}</prop>
+            <prop key="sql">#{T(com.akartkam.inShop.util.Constants).SELECT_ORDER_NUMBER_GENERATOR_HSQL}</prop>
           </props>
         </property>
 	</bean>
