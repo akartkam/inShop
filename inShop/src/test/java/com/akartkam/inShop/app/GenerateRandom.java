@@ -21,7 +21,7 @@ public class GenerateRandom {
 		}*/
 		Random10OrderNumberGeneratorImpl r = new Random10OrderNumberGeneratorImpl();
 		r.setPrefix("M-");
-		System.out.println(r.generateOrderNumber());
+		System.out.println(r.generateOrderNumber(null));
 		//for (int i = 0; i < 1000; i++) {
 		  //System.out.print(new Random().nextInt(999999999)+100000000L);
 		  //System.out.print("--");

@@ -7,6 +7,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,7 +27,8 @@ public class OrderServiceImpl implements OrderService{
 	private OrderDAO orderDAO;
 	@Autowired
 	private OrderItemDAO orderItemDAO;	
-
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
 	
 	public OrderItem getOrderItemById(UUID id) {
 		return orderItemDAO.get(id);
@@ -42,7 +44,7 @@ public class OrderServiceImpl implements OrderService{
 	public Order createOrder(Order order) {
 		if (order.getOrderNumber() == null || "".equals(order.getOrderNumber())) {
 			OrderNumberGenerator onGen = (OrderNumberGenerator)appContext.getBean("orderNumberGenerator");
-			String on = onGen.generateOrderNumber();
+			String on = onGen.generateOrderNumber(jdbcTemplate);
 			order.setOrderNumber(on);
 		}
 		return orderDAO.create(order);

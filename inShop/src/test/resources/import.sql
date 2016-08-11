@@ -1,3 +1,5 @@
+CREATE SEQUENCE order_number_generator;
+
 ALTER TABLE account ADD COLUMN password CHARACTER VARYING(255);
 
 INSERT INTO account (id, username, first_name, last_name, middle_name, password, email, enabled, createby, createddate, version) 

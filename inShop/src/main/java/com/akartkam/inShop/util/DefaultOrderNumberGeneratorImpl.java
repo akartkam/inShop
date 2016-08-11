@@ -3,17 +3,16 @@ package com.akartkam.inShop.util;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 public class DefaultOrderNumberGeneratorImpl implements OrderNumberGenerator {
 	private static final Log LOG = LogFactory.getLog(DefaultOrderNumberGeneratorImpl.class);
 	protected String prefix; 
 	
-	private static final String SELECT_ORDER_NUMBER_GENERATOR =
-			"SELECT nextval ('order_number_generator') as nextval";
+	@Value("T(com.akartkam.inShop.util.Сonstants).SELECT_ORDER_NUMBER_GENERATOR_TEST")
+	private String sql; 
 	
-	@Autowired
-	private JdbcTemplate jdbcTemplate;
 	
 	public DefaultOrderNumberGeneratorImpl() {		 
 	}
@@ -28,8 +27,8 @@ public class DefaultOrderNumberGeneratorImpl implements OrderNumberGenerator {
 	}
 	
 	@Override
-	public String generateOrderNumber() {		
-		 Long n = jdbcTemplate.queryForObject(SELECT_ORDER_NUMBER_GENERATOR, Long.class);
+	public String generateOrderNumber(JdbcTemplate jdbcTemplate) {		
+		 Long n = jdbcTemplate.queryForObject(sql, Long.class);
 		 String on = prefix + String.format("%d", n);
 		 LOG.debug("Generated Order Number: " + on);
 		 return on;
