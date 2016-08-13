@@ -44,6 +44,7 @@ public class OrderServiceTest extends AbstractTest {
 		sessionFactory.getCurrentSession().flush();
 		Order or1 = orderService.getOrderById(orId);
 		assertNotNull(or1);
+		assertEquals(or, or1);
 		logger.info(or1.getOrderNumber());
 	}
 

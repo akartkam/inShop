@@ -1,4 +1,5 @@
 CREATE SEQUENCE order_number_generator;
+ALTER SEQUENCE order_number_generator RESTART WITH 1001;
 
 ALTER TABLE account ADD COLUMN password CHARACTER VARYING(255);
 

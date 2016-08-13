@@ -48,8 +48,16 @@
 	                <!-- Tab panes -->
 	                <div class="tab-content">
 	                    <div class="tab-pane fade" th:classappend="${tabactive=='main'}? 'in active'" id="main">
-						    <div class="field-box" th:class="${#fields.hasErrors('customer')}? has-error: field-box">
+						    <div class="field-box">
 							  <input type="hidden" th:field="*{id}"/>	                              
+				    		  <label>
+					    	  	 <span th:text="#{admin.order.number}">Order number</span>
+					   		  </label>
+							  <label class="form-control">
+					   		   	 <span style="font-style: italic;" th:text="${order.number != null ? order.number : 'Новый'}">1234567890</span>
+							  </label>
+				   		    </div>
+						    <div class="field-box" th:class="${#fields.hasErrors('customer')}? has-error: field-box">
 				    		  <label>
 					    	  	 <span th:text="#{admin.customer.customer}">Customer</span>
 					   		  </label>
@@ -63,15 +71,15 @@
 							  </select>
 					   		  <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('customer')}" th:errors="*{customer}">Incorrect customer</p>
 				   		    </div>
-						    <div class="field-box" th:class="${#fields.hasErrors('label')}? has-error: field-box">
-				    		  <label>
-					    	  	 <span th:text="#{admin.catalog.productOption.edit.label}">Product option label 1</span>
-					   		  </label>
-					   		  <input type="text" class="form-control" th:field="*{label}"/>
-					   		  <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('label')}" th:errors="*{label}">Incorrect label</p>
-				   		    </div>
 	             		</div>
 	                    <div class="tab-pane fade" th:classappend="${tabactive=='content'}? 'in active'" id="content">
+							<div class="field-box">
+							    <select class="js-search-sku form-control">
+    							</select>
+    							<a href='#' class="input-group-addon add-new-sku">
+						            <i class="fa fa-plus-circle"></i>
+						        </a>
+							</div>							
 							<div class="container-fluid">	                    
 							    <div class="row clearfix">
 									<div class="col-md-12 column">
@@ -151,6 +159,7 @@
    <th:block layout:fragment="scriptEditModal"> 
 	   <script type="text/javascript">
 	      //<![CDATA[
+	         var $ajax = $(".js-search-sku");
 		     $(document).ready(function() {
 		    	 $("#editModal").modal({
 		    		    backdrop: 'static',
@@ -179,6 +188,38 @@
 	    		});
 
 			});
+     	    $ajax.select2({
+      	      ajax: {
+      	        url: /*[[@{/order/product-search}]]*/'',
+      	        dataType: 'json',
+      	        delay: 250,
+      	        data: function (params) {
+      	          return {
+      	            q: params.term, // search term
+      	            page: params.page
+      	          };
+      	        },
+      	        processResults: function (data, params) {
+      	          // parse the results into the format expected by Select2
+      	          // since we are using custom formatting functions we do not need to
+      	          // alter the remote JSON data, except to indicate that infinite
+      	          // scrolling can be used
+      	          params.page = params.page || 1;
+
+      	          return {
+      	            results: data.items,
+      	            pagination: {
+      	              more: (params.page * 30) < data.itemsCount
+      	            }
+      	          };
+      	        },
+      	        cache: true
+      	      },
+      	      escapeMarkup: function (markup) { return markup; },
+      	      minimumInputLength: 3,
+      	      templateResult: formatRepo,
+      	      templateSelection: formatRepoSelection
+      	    });		     
 		// ]]>	  
 	   </script>
    </th:block>
