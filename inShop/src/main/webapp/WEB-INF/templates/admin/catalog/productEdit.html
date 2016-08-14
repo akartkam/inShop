@@ -78,42 +78,42 @@
 							   		  <input type="text" class="form-control" th:field="*{url}"/>
 						   		   </div>
 <!-- 						   		   <div class="container-fluid" style="width:100%;">						   		    -->
-									   <div class="row">
-								   		   <div class="col-md-3">
-											   <div class="field-box">	                              
-									    		  <label>
-										    	  	 <span th:text="#{admin.catalog.product.articul}">Articul</span>
-										   		  </label>
-										   		  <input type="text" class="form-control" th:field="*{defaultSku.code}"/>
-									   		   </div>
-											</div>
-								   		   <div class="col-md-3">
-											   <div class="field-box" th:class="${#fields.hasErrors('defaultSku.retailPrice')}? has-error: field-box">	                              
-									    		  <label>
-										    	  	 <span th:text="#{admin.catalog.product.retailPrice}">retail price</span>
-										   		  </label>
-										   		  <input type="text" class="form-control" th:field="*{defaultSku.retailPrice}"/>
-										   		  <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('defaultSku.retailPrice')}" th:errors="*{defaultSku.retailPrice}">Incorrect retailPrice</p>
-									   		   </div>						   		   
+								   <div class="row">
+							   		   <div class="col-md-3">
+										   <div class="field-box">	                              
+								    		  <label>
+									    	  	 <span th:text="#{admin.catalog.product.articul}">Articul</span>
+									   		  </label>
+									   		  <input type="text" class="form-control" th:field="*{defaultSku.code}"/>
 								   		   </div>
-								   		   <div class="col-md-3">
-											   <div class="field-box">	                              
-									    		  <label>
-										    	  	 <span th:text="#{admin.catalog.product.salePrice}">sale price</span>
-										   		  </label>
-										   		  <input type="text" class="form-control" th:field="*{defaultSku.salePrice}"/>
-									   		   </div>						   		   
-								   		   </div>
-								   		   <div class="col-md-3">
-											   <div class="field-box">	                              
-									    		  <label>
-										    	  	 <span th:text="#{admin.catalog.product.costPrice}">cost price</span>
-										   		  </label>
-										   		  <input type="text" class="form-control" th:field="*{defaultSku.costPrice}"/>
-									   		   </div>						   		   
-								   		   </div>
+										</div>
+							   		   <div class="col-md-3">
+										   <div class="field-box" th:class="${#fields.hasErrors('defaultSku.retailPrice')}? has-error: field-box">	                              
+								    		  <label>
+									    	  	 <span th:text="#{admin.catalog.product.retailPrice}">retail price</span>
+									   		  </label>
+									   		  <input type="text" class="form-control" th:field="*{defaultSku.retailPrice}"/>
+									   		  <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('defaultSku.retailPrice')}" th:errors="*{defaultSku.retailPrice}">Incorrect retailPrice</p>
+								   		   </div>						   		   
+							   		   </div>
+							   		   <div class="col-md-3">
+										   <div class="field-box">	                              
+								    		  <label>
+									    	  	 <span th:text="#{admin.catalog.product.salePrice}">sale price</span>
+									   		  </label>
+									   		  <input type="text" class="form-control" th:field="*{defaultSku.salePrice}"/>
+								   		   </div>						   		   
+							   		   </div>
+							   		   <div class="col-md-3">
+										   <div class="field-box">	                              
+								    		  <label>
+									    	  	 <span th:text="#{admin.catalog.product.costPrice}">cost price</span>
+									   		  </label>
+									   		  <input type="text" class="form-control" th:field="*{defaultSku.costPrice}"/>
+								   		   </div>						   		   
+							   		   </div>
 <!-- 										</div>			 -->
-									</div>			   		   
+								   </div>			   		   
 						   		   <div class="field-box">
 			 			    		  <label>
 							    	  	<span th:text="#{admin.catalog.product.edit.description}">Description Product1</span>

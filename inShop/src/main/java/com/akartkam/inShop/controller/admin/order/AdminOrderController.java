@@ -3,6 +3,7 @@ package com.akartkam.inShop.controller.admin.order;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 import java.beans.PropertyEditorSupport;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
@@ -29,6 +30,7 @@ import org.springframework.http.HttpStatus;
 import com.akartkam.inShop.domain.customer.Customer;
 import com.akartkam.inShop.domain.order.Order;
 import com.akartkam.inShop.domain.order.OrderItem;
+import com.akartkam.inShop.domain.order.OrderStatus;
 import com.akartkam.inShop.domain.product.ProductStatus;
 import com.akartkam.inShop.domain.product.Sku;
 import com.akartkam.inShop.domain.product.option.ProductOption;
@@ -64,6 +66,10 @@ public class AdminOrderController {
 		  return customerService.getAllCustomer();
 	  }
 	  
+	  @ModelAttribute("allOrderStatus")
+	  public List<OrderStatus> getAllOrderStatus() {
+	      return Arrays.asList(OrderStatus.ALL);
+	  }
 	  
 	  @InitBinder
 	  public void initBinder(WebDataBinder binder) {

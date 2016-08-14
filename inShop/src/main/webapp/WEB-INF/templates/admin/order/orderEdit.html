@@ -23,7 +23,7 @@
 	</head>
 <body>
   <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true" layout:fragment="editForm">
-    <div class="modal-dialog" style="width:60vw; overflow:auto">
+    <div class="modal-dialog" style="width:40vw; overflow:auto">
 	  <div class="modal-content" id="editModalContent" >
 	   <form method="post" class="form-horizontal" id="poform" role="form" action="#" th:action="@{/admin/order/edit}" th:object="${order}" th:fragment="editOrderForm">
 		   <div class="modal-header">
@@ -71,32 +71,72 @@
 							  </select>
 					   		  <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('customer')}" th:errors="*{customer}">Incorrect customer</p>
 				   		    </div>
+				   		    <div class="row">
+				   		      <div class="col-md-4">
+					   		    <div class="field-box">
+		 			    		  <label>
+						    	  	<span th:text="#{admin.email}">Email</span>
+						   		   </label>
+						   		   <input type="email" class="form-control" th:field="*{email}"/>
+						   		   <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Incorrect email</p>
+					   		    </div>
+					   		  </div>
+					   		  <div class="col-md-4">
+					            <div class="field-box">
+					                <label>
+					    	   	        <span th:text="#{admin.order.date}">Submit date</span>
+					   		        </label>
+					                <div class="input-group date datetimepicker">
+					                    <input type="text" class="form-control datetimepicker-input" 
+						                       th:field="*{{submitDate}}"/>
+					                    <span class="input-group-addon">
+					                        <span class="fa fa-calendar"></span>
+					                    </span>						                
+					                </div>
+					            </div>
+					          </div>
+					          <div class="col-md-4">
+					            <div class="field-box" th:class="${#fields.hasErrors('customer')}? has-error: field-box">
+					                <label>
+					    	   	        <span th:text="#{admin.order.status}">Order status</span>
+					   		        </label>				            
+			                        <select class="form-control" th:field="*{status}">
+	            						<option th:each="status : ${allOrderStatus}" th:value="${status}" th:text="#{${'order.status.' + status}}">NEW</option>
+						            </select>
+						            <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('status')}" th:errors="*{status}">Empty status</p>
+						        </div>
+						      </div>
+					        </div> 
 	             		</div>
 	                    <div class="tab-pane fade" th:classappend="${tabactive=='content'}? 'in active'" id="content">
+	                      <div class="col-md-8">
 							<div class="field-box">
-							    <select class="js-search-sku form-control">
-    							</select>
-    							<a href='#' class="input-group-addon add-new-sku">
-						            <i class="fa fa-plus-circle"></i>
-						        </a>
-							</div>							
+								<div class="input-group">							
+								    <select class="js-search-sku form-control">
+	    							</select>
+	    							<a href='#' class="input-group-addon add-new-sku">
+							            <i class="fa fa-plus-circle"></i>
+							        </a>
+							    </div>
+							</div>
+						  </div>							
 							<div class="container-fluid">	                    
 							    <div class="row clearfix">
 									<div class="col-md-12 column">
-				                       	 <table class="table table-bordered table-hover" id="poValDataTable" data-checkid="">
+				                       	 <table class="table table-bordered table-hover" id="orderItemsDT" data-checkid="">
 				                       	    <thead >
 					                       	   <tr >
-									              <th class="col-md-6 text-center" th:text="#{admin.catalog.productOptionValue.value}">Value</th>
-									              <th class="col-md-2 text-center" th:text="#{admin.catalog.productOptionValue.priceAdjustment}">Price adjustment</th>
-									              <th class="col-md-2 text-center" th:text="#{admin.catalog.productOption.ordering}">Ordering</th>
-									              <th class="col-md-1 text-center" th:text="#{admin.catalog.productOption.enabled}">Enabled?</th>
+									              <th class="col-md-6 text-center" th:text="#{admin.catalog.product}">Product</th>
+									              <th class="col-md-2 text-center" th:text="#{admin.catalog.price}">Price</th>
+									              <th class="col-md-2 text-center" th:text="#{admin.quantity}">Quantity</th>
+									              <th class="col-md-1 text-center" th:text="#{admin.cost}">Cost</th>
 									              <th class="col-md-1 text-center"><span>         </span></th>
 										  	   </tr>
 									  	    </thead >
 									  	    <tbody>
-									  	       <tr th:each="pov, povStat : *{productOptionValues}" th:class="${!pov.enabled} ? 'text-muted'">
+									  	       <tr th:each="oi, oiStat : *{orderItems}">
 									  	       	  <td>
-									  	       	      <input type="hidden" th:field="*{productOptionValues[__${povStat.index}__].id}"/>
+									  	       	      <input type="hidden" th:field="*{orderItems[__${oiStat.index}__].id}"/>
 							  	       	      		  <input type="text" class="form-control input-md" th:field="*{productOptionValues[__${povStat.index}__].optionValue}" />
 									  	       	  </td>
 									  	       	  <td>
@@ -111,10 +151,6 @@
 									  	       	  </td>
 									  	       	  <td >
 			  				            	  		 <div class="btn-group edit-btn-group" role="group" > 
-						                                  <button type="button" class="btn btn-outline btn-default btn-xs add-new-pov" 
-						                                           th:value="${pov.id}" th:attr="data-path=@{/admin/catalog/po/pov/add}">
-						                                    <i class="fa fa-copy"></i>
-						                                  </button>
 						                                  <button type="button" data-toggle="modal" data-target="#deleteModalPov" 
 							                                      class="open-deleteDialog btn btn-outline btn-default btn-xs"
 							                                      th:attr="data-id=${pov.id}, data-name=${#objects.nullSafe(pov.optionValue,'')}, data-canremove=${pov.canRemove()}">
@@ -188,6 +224,38 @@
 	    		});
 
 			});
+            function formatRepo (repo) {
+        	      if (repo.loading) return repo.text;
+        	      var markup = "<div class='select2-result-repository clearfix'>" +
+        	       "<div class='a-photo-out'>"+
+        	        "<div class='photo-block'><img src='" + (repo.images[0]) + "' /></div></div>" +
+        	        "<div class='select2-result-repository__meta'>" +
+        	          "<div class='select2-result-repository__title'>" + repo.name + "</div>";
+      	          markup += "<div class='select2-result-repository__description'>" + (repo.code ? "Артикул:" + repo.code : "") + 
+      	        		    (repo.optionValues.length ? (repo.code ? "&nbsp;<span style='display: inline-block; color: #aaa; font-size: 11px;'>&#9679;</span>&nbsp;": "")  + 
+      	        		    "Вариант:" + repo.optionValues.join()  : "") + 
+      	        		    (repo.quantityAvailable ? (repo.optionValues.length ? "&nbsp;<span style='display: inline-block; color: #aaa; font-size: 11px;'>&#9679;</span>&nbsp;" : "" )  +
+      	        		    "Остаток:" + repo.quantityAvailable  : "") +
+      	        		    "</div>";
+        	      markup += "<div class='select2-result-repository__additional-info'>" +
+        	        "<div class='select2-result-repository__additional'><i class='fa fa-rub'></i> " + (repo.salePrice ? "<span style='text-decoration: line-through;'>"+repo.retailPrice.toFixed(2)+"</span> <span>"+ repo.salePrice.toFixed(2) +"</span>" : repo.retailPrice.toFixed(2))+"</div>"
+        	      if (repo.model) {  
+        	    	  markup += "<div class='select2-result-repository__additional'><i class='fa fa-gears'></i> " + repo.model + "</div>"
+        	      }
+        	      if (repo.brand) {  
+        	    	  markup += "<div class='select2-result-repository__additional'><i class='fa fa-star-o'></i> " + repo.brand + "</div>"
+        	      }
+        	      for(i=0;i<repo.productStatus.length;i++){  
+        	      	markup += "<div class='select2-result-repository__additional'><i class='"+repo.productStatus[i].productStatusIcon+"'></i> " + repo.productStatus[i].productStatusDisplayName + "</div>"
+           		  }
+           		  markup += "</div></div></div>";
+        	      
+        	      return markup;
+        	    }
+
+        	    function formatRepoSelection (repo) {
+        	      return repo.name;
+        	    }		     
      	    $ajax.select2({
       	      ajax: {
       	        url: /*[[@{/order/product-search}]]*/'',
@@ -200,12 +268,7 @@
       	          };
       	        },
       	        processResults: function (data, params) {
-      	          // parse the results into the format expected by Select2
-      	          // since we are using custom formatting functions we do not need to
-      	          // alter the remote JSON data, except to indicate that infinite
-      	          // scrolling can be used
       	          params.page = params.page || 1;
-
       	          return {
       	            results: data.items,
       	            pagination: {
