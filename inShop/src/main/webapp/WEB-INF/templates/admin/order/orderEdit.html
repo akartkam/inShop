@@ -136,8 +136,17 @@
 									  	    <tbody>
 									  	       <tr th:each="oi, oiStat : *{orderItems}">
 									  	       	  <td>
-									  	       	      <input type="hidden" th:field="*{orderItems[__${oiStat.index}__].id}"/>
-							  	       	      		  <input type="text" class="form-control input-md" th:field="*{productOptionValues[__${povStat.index}__].optionValue}" />
+									  	       	     <input type="hidden" th:name="orderItems[__${oiStat.index}__]" th:value="${order.orderItems[__${oiStat.index}__].id}"/>
+									  	       	     <input type="hidden" th:name="orderItems[__${oiStat.index}__].sku" th:value="${order.orderItems[__${oiStat.index}__].sku.id}"/>
+												     <div class="a-photo-out">
+		                                                <span class="photo-block">
+		                                                   <span class="helper"></span>
+		                                                   <img th:src="@{${!#lists.isEmpty(oi.sku.getImages())? oi.sku.getImages()[0]: ''}}"  th:onerror="'this.src=\'' + @{/resources/img/noimage.png} + '\';'"/>
+		                                                </span>
+												        <span th:text="${oi.sku.name}">name</span>
+												        <br/>
+												        <span style="font-size: 9pt;" th:text="#{admin.catalog.product.articul}+': '+${oi.sku.code}">code</span>
+												     </div>																	  	       	      		  
 									  	       	  </td>
 									  	       	  <td>
   							  	       	               <input type="text"  class="form-control input-md" th:field="*{productOptionValues[__${povStat.index}__].priceAdjustment}" />

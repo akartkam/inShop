@@ -77,7 +77,6 @@
 							        <tr th:each="oi, oiStat : *{orderItems}" >
 							            <td>
 							               <input type="hidden" th:name="orderItems[__${oiStat.index}__]" th:value="${order.orderItems[__${oiStat.index}__].id}"/>
-							               <input type="hidden" th:field="*{orderItems[__${oiStat.index}__].id}"/>
 							               <input type="hidden" th:name="orderItems[__${oiStat.index}__].sku" th:value="${order.orderItems[__${oiStat.index}__].sku.id}"/>
 							               <input type="hidden" th:field="*{orderItems[__${oiStat.index}__].product.id}"/>
 										   <input type="hidden" th:each="pov,povStat : ${oi.sku.productOptionValuesList}" 
