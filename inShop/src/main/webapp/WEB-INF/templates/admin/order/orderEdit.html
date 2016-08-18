@@ -146,25 +146,28 @@
 												        <span th:text="${oi.sku.name}">name</span>
 												        <br/>
 												        <span style="font-size: 9pt;" th:text="${oi.sku.code}">code</span>&nbsp;
-												        <span th:if="" style='display: inline-block; color: #aaa; font-size: 11px;'>&#9679;</span>&nbsp;
+												        <span th:if="${oi.sku.code != null}" style='display: inline-block; color: #aaa; font-size: 11px;'>&#9679;</span>&nbsp;
 												        <span style="font-size: 9pt;" th:text="${oi.sku.сommaDelemitedPOVL}">sku</span>
 												     </div>																	  	       	      		  
 									  	       	  </td>
-									  	       	  <td>
-  							  	       	               <input type="text"  class="form-control input-md" th:field="*{productOptionValues[__${povStat.index}__].priceAdjustment}" />
-									  	       	  </td>
-									  	       	  <td>
- 									  	       	       <input type="text"  class="form-control input-md" th:field="*{productOptionValues[__${povStat.index}__].ordering}" />
+												  <td style="font-size: 8pt;">
+												      <span th:style="${oi.salePrice != null &amp;&amp; oi.salePrice != 0? 'text-decoration: line-through;': ''}" 
+												            style="text-decoration: line-through;"
+												            th:text="${{oi.retailPrice}}">10.00</span>
+												      <br/>
+												      <span th:text="${{oi.salePrice}}">9.00</span>
+												  </td>									  	       	  
+												  <td>
+ 									  	       	       <input type="text"  class="form-control input-md" th:field="*{orderItems[__${oiStat.index}__].quantity}" />
 									  	       	  </td>
 									  	       	  <td class="text-center">
-									  	       	  		<input type="checkbox" th:field="*{productOptionValues[__${povStat.index}__].enabled}" th:checked="${pov.enabled}"/>
-<!-- 									  	       	       <i th:class="${pov.enabled} ? 'fa fa-check-circle'"></i> -->
+									  	       	  		
 									  	       	  </td>
 									  	       	  <td >
 			  				            	  		 <div class="btn-group edit-btn-group" role="group" > 
-						                                  <button type="button" data-toggle="modal" data-target="#deleteModalPov" 
+						                                  <button type="button" data-toggle="modal" data-target="#deleteOi" 
 							                                      class="open-deleteDialog btn btn-outline btn-default btn-xs"
-							                                      th:attr="data-id=${pov.id}, data-name=${#objects.nullSafe(pov.optionValue,'')}, data-canremove=${pov.canRemove()}">
+							                                      th:attr="data-id=${oi.id}">
 							                                <i class="fa fa-trash-o"></i>
 							                              </button>	
 					                            	 </div>
@@ -174,12 +177,6 @@
 				                       	 </table>
 									   </div>
 									 </div>
-				                     <button type="button"  value="new" class="btn btn-outline btn-default btn-sm pull-left add-new-pov" 
-				                             id="addPov" th:attr="data-path=@{/admin/catalog/po/pov/add}"> 
-			                            <i class="fa fa-plus-circle"></i>
-			                            <span> </span>
-									    <span th:text="#{button.add.caption}">Добавить</span>
-		                             </button>	
 		                     </div>        						  	   	
                        	  </div>  
  	                    </div> 
@@ -215,26 +212,24 @@
 		    	 $('#editModal').on( 'shown.bs.modal', function ( event ) {
 
 		    	 });
-		        $(".add-new-pov").on("click", function () { 
-		        	var id = $(this).val();
-	    			var form = $("#poform");
-	    			var path= $(this).data("path");
-	    			var formser;
-	    			if (form != "undefined" && form != null) formser = form.serialize();
-	    			$("#editModalContent").text("");
-                    $.ajax({
-                    	type: "POST",
-                        url: path,
-                        data: formser+((id != null)?"&copyid="+id:""),
-                        cache: false
-                    }).done(function (html) {
-                                $("#editModalContent").append(html);
-           			    	    var s = $("#poValDataTable tbody > tr:last-child").position();
-        			    	    $("#editModalBody" ).scrollTop( s.top );
-                    });
-	    		});
-
 			});
+	        $(".add-new-sku").on("click", function () { 
+	        	var id = $ajax.val();
+    			var form = $("#oform");
+    			var formser;
+    			if (form != "undefined" && form != null) formser = form.serialize();
+    			$("#loadableContentContainer").text("");
+                   $.ajax({
+                   	type: "POST",
+                       url: /*[[@{/order/add-item}]]*/'',
+                       data: formser+"&id="+id,
+                       cache: false
+                   }).done(function (html) {
+                               $("#loadableContentContainer").append(html);
+          			    	    //var s = $("#poValDataTable tbody > tr:last-child").position();
+       			    	    //$("#editModalBody" ).scrollTop( s.top );
+                   });
+    		});		     
             function formatRepo (repo) {
         	      if (repo.loading) return repo.text;
         	      var markup = "<div class='select2-result-repository clearfix'>" +
