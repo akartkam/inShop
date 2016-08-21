@@ -18,7 +18,9 @@
 	    <!-- Custom Fonts -->
     	<link href="../../../../resources/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/font-awesome/css/font-awesome.min.css}"/>
 		<link href="../../../../resources/bower_components/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/bootstrap/dist/css/bootstrap-theme.min.css}"></link>    	
-    	<link href="../../../../resources/css/sb-admin-2.css" rel="stylesheet" th:href="@{/resources/css/sb-admin-2.css}"/>   	
+    	<link href="../../../../resources/css/sb-admin-2.css" rel="stylesheet" th:href="@{/resources/css/sb-admin-2.css}"/>
+    	<!-- Select2 -->		 	
+		<link href="../../../../resources/css/select2.min.css" rel="stylesheet" th:href="@{/resources/css/select2.min.css}"/>   	
       </th:block>
 	</head>
 <body>
@@ -108,19 +110,19 @@
 						      </div>
 					        </div> 
 	             		</div>
-	                    <div class="tab-pane fade" th:classappend="${tabactive=='content'}? 'in active'" id="content">
-	                      <div class="col-md-8">
-							<div class="field-box">
-								<div class="input-group">							
-								    <select class="js-search-sku form-control">
-	    							</select>
-	    							<a href='#' class="input-group-addon add-new-sku">
-							            <i class="fa fa-plus-circle"></i>
-							        </a>
-							    </div>
-							</div>
-						  </div>							
-							<div class="container-fluid">	                    
+	                    <div class="tab-pane " th:classappend="${tabactive=='content'}? 'in active'" id="content">							
+							<div class="container-fluid">
+							   <div class="row clearfix" style="margin-bottom:10px;">
+								  <div class="col-md-8">
+									<div class="input-group">							
+									    <select class="js-search-sku form-control">
+		    							</select>
+		    							<a href='#' class="input-group-addon add-new-sku">
+								            <i class="fa fa-plus-circle"></i>
+								        </a>
+								    </div>
+								  </div>
+								</div>									                    
 							    <div class="row clearfix">
 									<div class="col-md-12 column">
 				                       	 <table class="table table-bordered table-hover" id="orderItemsDT" data-checkid="">
@@ -158,7 +160,7 @@
 												      <span th:text="${{oi.salePrice}}">9.00</span>
 												  </td>									  	       	  
 												  <td>
- 									  	       	       <input type="text"  class="form-control input-md" th:field="*{orderItems[__${oiStat.index}__].quantity}" />
+ 									  	       	       <input type="number" min="0" class="form-control input-md " th:field="*{orderItems[__${oiStat.index}__].quantity}" />
 									  	       	  </td>
 									  	       	  <td class="text-center">
 									  	       	  		
@@ -200,6 +202,9 @@
    <!-- DataTables JavaScript -->
    <script src="../../../../resources/bower_components/datatables/media/js/jquery.dataTables.min.js" th:src="@{/resources/bower_components/datatables/media/js/jquery.dataTables.min.js}"></script>
    <script src="../../../../resources/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js" th:src="@{/resources/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js}"></script>
+    <!-- Select2 -->
+    <script src="../../../../resources/js/select2.full.min.js" th:src="@{/resources/js/select2.full.min.js}"></script>
+    <script src="../../../../resources/js/ru.js" th:src="@{/resources/js/ru.js}"></script>   
    <th:block layout:fragment="scriptEditModal"> 
 	   <script type="text/javascript">
 	      //<![CDATA[
@@ -263,6 +268,7 @@
         	      return repo.name;
         	    }		     
      	    $ajax.select2({
+     	      width: '100%',
       	      ajax: {
       	        url: /*[[@{/order/product-search}]]*/'',
       	        dataType: 'json',

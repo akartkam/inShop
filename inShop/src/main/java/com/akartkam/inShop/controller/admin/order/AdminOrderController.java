@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.http.HttpStatus;
 
+import com.akartkam.inShop.domain.Account;
 import com.akartkam.inShop.domain.customer.Customer;
 import com.akartkam.inShop.domain.order.Order;
 import com.akartkam.inShop.domain.order.OrderItem;
@@ -36,6 +37,7 @@ import com.akartkam.inShop.domain.product.Sku;
 import com.akartkam.inShop.domain.product.option.ProductOption;
 import com.akartkam.inShop.domain.product.option.ProductOptionValue;
 import com.akartkam.inShop.exception.SkuNotFoundException;
+import com.akartkam.inShop.formbean.AccountForm;
 import com.akartkam.inShop.formbean.ItemsForJSON;
 import com.akartkam.inShop.formbean.SkuForJSON;
 import com.akartkam.inShop.service.customer.CustomerService;
@@ -124,10 +126,28 @@ public class AdminOrderController {
 		  
 	  }
 	  
-	  @RequestMapping(value="/test", method= RequestMethod.GET)
-	  public String testOrder(final Order order) {
-		  return "/productsForOrder";		  
+	  @RequestMapping("/edit")
+	  public String orderEdit(@RequestParam(value = "ID", required = true) String orderID, Model model,
+			   				  @RequestHeader(value = "X-Requested-With", required = false) String requestedWith) {
+		  if(!model.containsAttribute("order")) {
+			 Order order = orderService.getOrderById(UUID.fromString(orderID));
+		     model.addAttribute("order", order);
+		  }
+          if ("XMLHttpRequest".equals(requestedWith)) {
+              return "/admin/order/orderEdit :: editForm";
+            }		  
+          return "/admin/order/orderEdit";		  
 	  }
+	  
+	  @RequestMapping("/add")
+	  public String accountAdd(Model model, @RequestHeader(value = "X-Requested-With", required = false) String requestedWith) {
+		  Order order = new Order();
+ 	      model.addAttribute("order", order);
+          if ("XMLHttpRequest".equals(requestedWith)) {
+              return "/admin/order/orderEdit :: editForm";
+            } 	      
+          return "/admin/order/orderEdit";		  
+	  }	  
 
 	  @RequestMapping(value="/add-item", method = RequestMethod.POST )
 	  public String addNewItem(

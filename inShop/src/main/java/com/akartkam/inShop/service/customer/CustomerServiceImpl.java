@@ -62,22 +62,29 @@ public class CustomerServiceImpl implements CustomerService{
 	public Errors mergeWithExistingAndUpdateOrCreate(CustomerForm customerForm,
 			BindingResult errors , boolean createAccount) throws IllegalAccessException , InvocationTargetException {
 		if (customerForm == null) return errors;
+		BindingResult nerrors = new BeanPropertyBindingResult(errors.getTarget(), errors.getObjectName());
+		if (!createAccount) {
+			for (ObjectError oe: errors.getGlobalErrors()) nerrors.addError(oe);
+			for (FieldError fe: errors.getFieldErrors()) if (!"username".equals(fe.getField())) nerrors.addError(fe);			
+		}
 		Customer customer = getCustomerById(customerForm.getId());
-		if (customer != null && !errors.hasErrors()) {
-			customer.setAddress(customerForm.getAddress());
-			customer.setEmail(customerForm.getEmail());
-			customer.setEnabled(customerForm.isEnabled());
-			customer.setFirstName(customerForm.getFirstName());
-			customer.setLastName(customerForm.getLastName());
-			customer.setMiddleName(customerForm.getMiddleName());
-			customer.setPhone(customerForm.getPhone());
-			customer.setBirthdate(customerForm.getBirthdate());
-			return errors;
+		if (customer != null) {
+			if (!nerrors.hasErrors()) {
+				customer.setAddress(customerForm.getAddress());
+				customer.setEmail(customerForm.getEmail());
+				customer.setEnabled(customerForm.isEnabled());
+				customer.setFirstName(customerForm.getFirstName());
+				customer.setLastName(customerForm.getLastName());
+				customer.setMiddleName(customerForm.getMiddleName());
+				customer.setPhone(customerForm.getPhone());
+				customer.setBirthdate(customerForm.getBirthdate());
+			}
+			return nerrors;
 		} else {
 			BeanUtilsBean bu = new NullAwareBeanUtilsBean();
 			Account account = null;
 			if (createAccount) {
-				if (accountService.checkAccountableForm(customerForm, errors)) {
+				if (accountService.checkAccountableForm(customerForm, nerrors)) {
 					account = new Account();
 					bu.copyProperties(account, customerForm);
 					Role role = roleService.getRoleByRoletype(customerForm.getRoletype());
@@ -87,24 +94,18 @@ public class CustomerServiceImpl implements CustomerService{
 						account.setRoles(sr);
 					}
 				} else {
-					return errors;
+					return nerrors;
 				}
-			} else if (errors.hasFieldErrors()) {
-				BindingResult nerrors = new BeanPropertyBindingResult(errors.getTarget(), errors.getObjectName());
-				for (ObjectError oe: errors.getGlobalErrors()) nerrors.addError(oe);
-				for (FieldError fe: errors.getFieldErrors()) if (!"username".equals(fe.getField())) nerrors.addError(fe);
-				return nerrors;
 			}
-			if (errors.hasErrors()) return errors; 
-			if (createAccount && account != null) accountService.registerAccount(account, customerForm.getPassword());
-			customer = new Customer();
-			bu.copyProperties(customer, customerForm);
-			if (createAccount && account != null) customer.setAccount(account); 
-			customerDAO.create(customer);
-			return errors;
+			if (!nerrors.hasErrors()) { 
+				if (createAccount && account != null) accountService.registerAccount(account, customerForm.getPassword());
+				customer = new Customer();
+				bu.copyProperties(customer, customerForm);
+				if (createAccount && account != null) customer.setAccount(account); 
+				customerDAO.create(customer);
+			}
+			return nerrors;
 		}
-				
-		
 	}
 
 	@Override

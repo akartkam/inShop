@@ -27,7 +27,33 @@
 			<!-- summernote -->
 			<link href="../../../../resources/css/summernote.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/summernote.css}"></link>
 			<!-- style.css -->
-    		<link href="../../../../resources/css/style.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/style.css}"/>	    				
+    		<link href="../../../../resources/css/style.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/style.css}"/>
+			<style type="text/css">			
+				body {
+				    margin:0;     /* This is used to reset any browser-default margins */
+				    height:100vh; /* This is needed to overcome a Chrome bug. */
+				    width:100vw;  /* As above. */
+				}
+			 	table { table-layout: fixed; }
+ 				/*table th, table td { overflow: hidden; }*/
+				td.domain-col {
+				    overflow: hidden;
+				    text-overflow: ellipsis;
+				    white-space: nowrap;
+				 }
+				tfoot {
+				    display: table-header-group;
+				}
+				tfoot input {
+			        width: 100%;
+			        padding: 3px;
+			        box-sizing: border-box;			        
+			    } 		
+				.table-responsive {
+				  overflow-x: visible !important;
+				  overflow-y: visible !important;
+				}			    	    
+			</style>			  			    				
 	</head>
 <body>
    <th:block layout:fragment="breadcrumb">
@@ -134,7 +160,7 @@
 					                                          data-backdrop="static" data-keyboard="false"> 
 					                                    <i class="fa fa-pencil"></i>
 					                                  </button>	
-						                              <button th:disabled="${!po.enabled}" type="button" data-toggle="modal" data-target="#deleteModal" 
+						                              <button type="button" data-toggle="modal" data-target="#deleteModal" 
 						                                      class="open-deleteDialog btn btn-outline btn-default btn-xs"
 						                                      th:attr="data-id=${o.id}, data-number=${o.orderNumber}"> 
 						                                <i class="fa fa-trash-o"></i>
@@ -181,7 +207,7 @@
 	      //<![CDATA[
 	           var ee;
 	           $(document).ready(function() {
-    		     $("#oDataTable").dataTable( {
+	        	   var table = $("#oDataTable").DataTable( {
 		            	"language": {
 		                   	"processing": "Подождите...",
 		                   	  "search": "Поиск:",
@@ -203,9 +229,7 @@
 		                   	    "sortAscending": ": активировать для сортировки столбца по возрастанию",
 		                   	    "sortDescending": ": активировать для сортировки столбца по убыванию"
 		                   	  }
-		                  },
-		                responsive: true,
-		                ordering:  false
+		                  }
     				});
 	                $('#oDataTable tfoot th').each( function () {
 	  	            	 if ($(this).is(":first-child") || $(this).is(":last-child")) return;
@@ -221,24 +245,23 @@
 	  	                   
 	  	               });
 	  	           });    		     
-	    			$("body").on("click",".add-new", function () { 
-	    				var id = $(this).val();
-    	    			var form = $("#poform");
-    	    			var path= $(this).data("path");
-    	    			var formser;
-    	    			if (form != "undefined" && form != null) formser = form.serialize();
-    	    			$("#editModalContent").text("");
-                        $.ajax({
-                        	type: "POST",
-                            url: path,
-                            data: formser+((id != null)?"&copyid="+id:""),
-                            cache: false
-                        }).done(function (html) {
-                                    $("#editModalContent").append(html);
-               			    	    var s = $("#poValDataTable tbody > tr:last-child").position();
-            			    	    $("#editModalBody" ).scrollTop( s.top );
-                        });
-    	    		});	    			
+   			       $(document).on("click", ".open-editDialog", function () {
+   			          var id = $(this).data("id");
+   			          var path = $(this).data("path");
+   			    	  if (typeof id == 'undefined') id=null;  
+   	  		          $("#editModalContent").html("");
+   	                  $.ajax({
+   	                    url: path+((id != null)?"?ID="+id:"") ,
+   	                    cache: false
+   	                  }).done(function (html) {
+   	                            $("#editModalContent").html(html);
+   	                            $(".selectpicker").selectpicker();
+   		  	                    $(".datetimepicker").datetimepicker({
+   		  	                        locale: "ru",
+   		  	                        format: "DD.MM.YYYY"
+   		  	                    }); 
+   	                  });
+   			    	});	    			
 		            //Открытие окна удаления
 			        $("body").on("click",".open-deleteDialog", function () {
 			    	     var Id = $(this).data("id");
@@ -253,27 +276,6 @@
 			    	    	 if (checkRemove != "undefined" && checkRemove !=null) checkRemove.attr("disabled", !canRemove);
 			    	     }
 			    	});
-			        $("body").on("click","#IDPov", function () { 
-		    			$("#deleteModalPov").modal("hide");
-			        	var id = $("#deleteModalPov").find(".btn-primary").val();
-		    			var path= $("#deleteModalPov").data("path");
-		    			var canRemove = false;
-		    			var checkRemove = $("#deleteModalPov").find("#phisycalDeletePov");
-		    			if (checkRemove != "undefined" && checkRemove !=null) canRemove = checkRemove.is(":checked");
-		    			var form = $("#poform");
-		    			var formser;
-		    			if (form != "undefined" && form != null) formser = form.serialize();
-		    			$("#editModalContent").text("");
-	                    $.ajax({
-	                    	type: "POST",
-	                        url: path,
-	                        data: formser+"&"+((id != null)?"idpov="+id+"&":"")+"phisycalDelete="+canRemove,
-	                        cache: false
-	                    }).done(function (html) {
-	                                $("#editModalContent").append(html);
-	                    });
-		    		});	    		
-    		     
 	            });
   		        //Открытие окна редактированя
 	    		$("#editModal").on("show.bs.modal", function (e) {
@@ -290,20 +292,6 @@
 	                    });
 					}  
                 });   
-        	    		
-		        $(".open-editDialog").on("click", function () {
-		          var Id = $(this).data("id");
-		          var path = $(this).data("path");
-		    	  if (typeof Id != 'undefined') {
-		    	  	$("#editModal").data("id",Id);
-		    	  } else {
-		    		$("#editModal").data("id",null);  
-		    	  }
-		    	  $("#editModal").data("allowed","true");
-		    	  $("#editModal").data("path",path);
-		    	}); 
-		        
-		        
 		   // ]]>
 	     </script>
 	     <th:block layout:fragment="scriptEditModal">

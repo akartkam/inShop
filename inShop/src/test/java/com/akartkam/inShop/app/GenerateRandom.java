@@ -20,7 +20,7 @@ public class GenerateRandom {
 					rand.nextInt(20), rand.nextLong(), rand.nextFloat(), rand.nextDouble()));
 		}*/
 		Random10OrderNumberGeneratorImpl r = new Random10OrderNumberGeneratorImpl();
-		r.setPrefix("M-");
+		r.setPrefix("T-");
 		System.out.println(r.generateOrderNumber(null));
 		//for (int i = 0; i < 1000; i++) {
 		  //System.out.print(new Random().nextInt(999999999)+100000000L);
