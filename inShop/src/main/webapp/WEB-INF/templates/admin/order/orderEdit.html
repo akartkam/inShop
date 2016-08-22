@@ -20,12 +20,14 @@
 		<link href="../../../../resources/bower_components/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/bootstrap/dist/css/bootstrap-theme.min.css}"></link>    	
     	<link href="../../../../resources/css/sb-admin-2.css" rel="stylesheet" th:href="@{/resources/css/sb-admin-2.css}"/>
     	<!-- Select2 -->		 	
-		<link href="../../../../resources/css/select2.min.css" rel="stylesheet" th:href="@{/resources/css/select2.min.css}"/>   	
+		<link href="../../../../resources/css/select2.min.css" rel="stylesheet" th:href="@{/resources/css/select2.min.css}"/>
+		<!-- bootstrap-datetimepicker -->
+		<link href="../../../../resources/css/bootstrap-datetimepicker.min.css" rel="stylesheet" th:href="@{/resources/css/bootstrap-datetimepicker.min.css}"/>			      			    	
       </th:block>
 	</head>
 <body>
   <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true" layout:fragment="editForm">
-    <div class="modal-dialog" style="width:40vw; overflow:auto">
+    <div class="modal-dialog" style="width:50vw; overflow:auto">
 	  <div class="modal-content" id="editModalContent" >
 	   <form method="post" class="form-horizontal" id="poform" role="form" action="#" th:action="@{/admin/order/edit}" th:object="${order}" th:fragment="editOrderForm">
 		   <div class="modal-header">
@@ -202,10 +204,15 @@
    <!-- DataTables JavaScript -->
    <script src="../../../../resources/bower_components/datatables/media/js/jquery.dataTables.min.js" th:src="@{/resources/bower_components/datatables/media/js/jquery.dataTables.min.js}"></script>
    <script src="../../../../resources/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js" th:src="@{/resources/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js}"></script>
-    <!-- Select2 -->
-    <script src="../../../../resources/js/select2.full.min.js" th:src="@{/resources/js/select2.full.min.js}"></script>
-    <script src="../../../../resources/js/ru.js" th:src="@{/resources/js/ru.js}"></script>   
+   
    <th:block layout:fragment="scriptEditModal"> 
+	   <!-- Select2 -->
+	   <script src="../../../../resources/js/select2.full.min.js" th:src="@{/resources/js/select2.full.min.js}"></script>
+	   <script src="../../../../resources/js/ru.js" th:src="@{/resources/js/ru.js}"></script>   
+	   <!-- moment -->		  
+	   <script src="../../../../resources/js/moment-with-locales.min.js" th:src="@{/resources/js/moment-with-locales.min.js}"></script>
+	   <!-- bootstrap-datetimepicker -->		  
+	   <script src="../../../../resources/js/bootstrap-datetimepicker.min.js" th:src="@{/resources/js/bootstrap-datetimepicker.min.js}"></script>					 	
 	   <script type="text/javascript">
 	      //<![CDATA[
 	         var $ajax = $(".js-search-sku");
@@ -214,9 +221,9 @@
 		    		    backdrop: 'static',
 		    		    keyboard: false
 		    		});		
-		    	 $('#editModal').on( 'shown.bs.modal', function ( event ) {
-
-		    	 });
+	             $(".datetimepicker").datetimepicker({
+	                   locale: "ru"
+	             });
 			});
 	        $(".add-new-sku").on("click", function () { 
 	        	var id = $ajax.val();
