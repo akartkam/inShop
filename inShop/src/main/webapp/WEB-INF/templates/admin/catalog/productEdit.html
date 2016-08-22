@@ -385,40 +385,39 @@
    <!-- jQuery -->
    <script src="../../../../resources/bower_components/jquery/dist/jquery.min.js" th:src="@{/resources/bower_components/jquery/dist/jquery.min.js}"></script>
    <!-- Bootstrap Core JavaScript -->
-   <script src="../../../../resources/bower_components/bootstrap/dist/js/bootstrap.min.js" th:src="@{/resources/bower_components/bootstrap/dist/js/bootstrap.min.js}"></script>
- 
-	   <th:block th:fragment="scriptEditModal">
-		   <!-- Bootstrap bootstrap-wysiwyg.js -->
-		   <script src="../../../../resources/js/summernote.js" th:src="@{/resources/js/summernote.js}"></script>
-		   <script src="../../../../resources/js/summernote-ru-RU.js" th:src="@{/resources/js/summernote-ru-RU.js}"></script> 
-		    <!-- bootstrap-select -->
-		   <script src="../../../../resources/js/bootstrap-select.min.js" th:src="@{/resources/js/bootstrap-select.min.js}"></script>
-		   <script src="../../../../resources/js/defaults-ru_RU.js" th:src="@{/resources/js/defaults-ru_RU.js}"></script>
-		    <!-- moment -->		  
-		   <script src="../../../../resources/js/moment-with-locales.min.js" th:src="@{/resources/js/moment-with-locales.min.js}"></script>
-		    <!-- bootstrap-datetimepicker -->		  
-		   <script src="../../../../resources/js/bootstrap-datetimepicker.min.js" th:src="@{/resources/js/bootstrap-datetimepicker.min.js}"></script>					 	
-		   
-	   </th:block>
-   		<th:block layout:fragment="scriptEditModal"> 
-	   	   <script type="text/javascript">
-		     //<![CDATA[
-		     $(document).ready(function() {
-	 	    	$("#editModal").modal({
-	    		    backdrop: 'static',
-	    		    keyboard: false
-	    		});
-                $("#summernote").summernote({
-				    lang: "ru-RU"
-				     });
-                $(".selectpicker").selectpicker();
-                $(".datetimepicker").datetimepicker({
-                    locale: "ru"
-                });
-                $("#name").focus();
-		     });
-	 		 // ]]>
-		   </script>
-		 </th:block>  
+   <script src="../../../../resources/bower_components/bootstrap/dist/js/bootstrap.min.js" th:src="@{/resources/bower_components/bootstrap/dist/js/bootstrap.min.js}"></script> 
+   <th:block th:fragment="scriptEditModal">
+	   <!-- Bootstrap bootstrap-wysiwyg.js -->
+	   <script src="../../../../resources/js/summernote.js" th:src="@{/resources/js/summernote.js}"></script>
+	   <script src="../../../../resources/js/summernote-ru-RU.js" th:src="@{/resources/js/summernote-ru-RU.js}"></script> 
+	    <!-- bootstrap-select -->
+	   <script src="../../../../resources/js/bootstrap-select.min.js" th:src="@{/resources/js/bootstrap-select.min.js}"></script>
+	   <script src="../../../../resources/js/defaults-ru_RU.js" th:src="@{/resources/js/defaults-ru_RU.js}"></script>
+	    <!-- moment -->		  
+	   <script src="../../../../resources/js/moment-with-locales.min.js" th:src="@{/resources/js/moment-with-locales.min.js}"></script>
+	    <!-- bootstrap-datetimepicker -->		  
+	   <script src="../../../../resources/js/bootstrap-datetimepicker.min.js" th:src="@{/resources/js/bootstrap-datetimepicker.min.js}"></script>					 	
+	   
+    </th:block>
+  	<th:block layout:fragment="scriptEditModal"> 
+   	   <script type="text/javascript">
+	     //<![CDATA[
+	     $(document).ready(function() {
+ 	    	$("#editModal").modal({
+    		    backdrop: 'static',
+    		    keyboard: false
+    		});
+               $("#summernote").summernote({
+			    lang: "ru-RU"
+			     });
+               $(".selectpicker").selectpicker();
+               $(".datetimepicker").datetimepicker({
+                   locale: "ru"
+               });
+               $("#name").focus();
+	     });
+ 		 // ]]>
+	   </script>
+	 </th:block>  
 </body>
 </html>
