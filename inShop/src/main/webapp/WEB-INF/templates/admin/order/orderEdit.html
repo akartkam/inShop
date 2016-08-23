@@ -117,7 +117,7 @@
 							   <div class="row clearfix" style="margin-bottom:10px;">
 								  <div class="col-md-8">
 									<div class="input-group">							
-									    <select class="js-search-sku form-control">
+									    <select id="slSearchSku" class="form-control">
 		    							</select>
 		    							<a href='#' class="input-group-addon add-new-sku">
 								            <i class="fa fa-plus-circle"></i>
@@ -211,7 +211,8 @@
 	   <!-- moment -->		  
 	   <script src="../../../../resources/js/moment-with-locales.min.js" th:src="@{/resources/js/moment-with-locales.min.js}"></script>
 	   <!-- bootstrap-datetimepicker -->		  
-	   <script src="../../../../resources/js/bootstrap-datetimepicker.min.js" th:src="@{/resources/js/bootstrap-datetimepicker.min.js}"></script>					 	   
+	   <script src="../../../../resources/js/bootstrap-datetimepicker.min.js" th:src="@{/resources/js/bootstrap-datetimepicker.min.js}"></script>
+       <script src="../../../../resources/js/orderEdit.js" th:src="@{/resources/js/orderEdit.js}"></script>	   					 	   
    </th:block>
    <th:block layout:fragment="scriptEditModal"> 
 	   <script type="text/javascript">
@@ -224,6 +225,7 @@
 	             $(".datetimepicker").datetimepicker({
 	                   locale: "ru"
 	             });
+	             makeSkuSelect2 ($("#slSearchSku"));
 			});
 		// ]]>	  
 	   </script>

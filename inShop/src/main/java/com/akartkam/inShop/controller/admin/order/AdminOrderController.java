@@ -140,7 +140,7 @@ public class AdminOrderController {
 	  }
 	  
 	  @RequestMapping("/add")
-	  public String accountAdd(Model model, @RequestHeader(value = "X-Requested-With", required = false) String requestedWith) {
+	  public String orderAdd(Model model, @RequestHeader(value = "X-Requested-With", required = false) String requestedWith) {
 		  Order order = new Order();
  	      model.addAttribute("order", order);
           if ("XMLHttpRequest".equals(requestedWith)) {
