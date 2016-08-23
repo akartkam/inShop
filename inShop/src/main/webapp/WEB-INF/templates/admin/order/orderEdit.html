@@ -26,7 +26,7 @@
       </th:block>
 	</head>
 <body>
-  <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true" layout:fragment="editForm">
+  <div class="modal fade" id="editModal" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true" layout:fragment="editForm">
     <div class="modal-dialog" style="width:50vw; overflow:auto">
 	  <div class="modal-content" id="editModalContent" >
 	   <form method="post" class="form-horizontal" id="poform" role="form" action="#" th:action="@{/admin/order/edit}" th:object="${order}" th:fragment="editOrderForm">
@@ -58,7 +58,7 @@
 					    	  	 <span th:text="#{admin.order.number}">Order number</span>
 					   		  </label>
 							  <label class="form-control">
-					   		   	 <span style="font-style: italic;" th:text="${order.number != null ? order.number : 'Новый'}">1234567890</span>
+					   		   	 <span style="font-style: italic;" th:text="${order.orderNumber != null ? order.orderNumber : 'Новый'}">1234567890</span>
 							  </label>
 				   		    </div>
 						    <div class="field-box" th:class="${#fields.hasErrors('customer')}? has-error: field-box">
@@ -81,8 +81,8 @@
 		 			    		  <label>
 						    	  	<span th:text="#{admin.email}">Email</span>
 						   		   </label>
-						   		   <input type="email" class="form-control" th:field="*{email}"/>
-						   		   <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Incorrect email</p>
+						   		   <input type="email" class="form-control" th:field="*{emailAddress}"/>
+						   		   <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('emailAddress')}" th:errors="*{emailAddress}">Incorrect email</p>
 					   		    </div>
 					   		  </div>
 					   		  <div class="col-md-4">
@@ -216,6 +216,7 @@
    </th:block>
    <th:block layout:fragment="scriptEditModal"> 
 	   <script type="text/javascript">
+	      var $urlSkuSelec2 = /*[[@{/order/product-search}]]*/;
 	      //<![CDATA[
 		     $(document).ready(function() {
 		    	 $("#editModal").modal({
@@ -225,7 +226,7 @@
 	             $(".datetimepicker").datetimepicker({
 	                   locale: "ru"
 	             });
-	             makeSkuSelect2 ($("#slSearchSku"));
+	             makeSkuSelect2 ($("#slSearchSku"), $urlSkuSelec2);
 			});
 		// ]]>	  
 	   </script>

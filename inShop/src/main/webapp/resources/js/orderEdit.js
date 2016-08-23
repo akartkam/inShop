@@ -31,11 +31,11 @@ function formatRepo (repo) {
       return repo.name;
  }
  
- function makeSkuSelect2 ($ajax) {  
+ function makeSkuSelect2 ($ajax, $url) {  
 	 $ajax.select2({
 	   width: '100%',
 	   ajax: {
-	        url: /*[[@{/order/product-search}]]*/'',
+	        url: $url,
 	        dataType: 'json',
 	        delay: 250,
 	        data: function (params) {

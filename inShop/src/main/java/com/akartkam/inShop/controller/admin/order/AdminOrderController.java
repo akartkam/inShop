@@ -134,7 +134,7 @@ public class AdminOrderController {
 		     model.addAttribute("order", order);
 		  }
           if ("XMLHttpRequest".equals(requestedWith)) {
-              return "/admin/order/orderEdit :: editForm";
+              return "/admin/order/orderEdit :: editOrderForm";
             }		  
           return "/admin/order/orderEdit";		  
 	  }
@@ -144,7 +144,7 @@ public class AdminOrderController {
 		  Order order = new Order();
  	      model.addAttribute("order", order);
           if ("XMLHttpRequest".equals(requestedWith)) {
-              return "/admin/order/orderEdit :: editForm";
+              return "/admin/order/orderEdit :: editOrderForm";
             } 	      
           return "/admin/order/orderEdit";		  
 	  }	  
