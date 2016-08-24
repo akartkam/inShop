@@ -34,6 +34,8 @@ function formatRepo (repo) {
  function makeSkuSelect2 ($ajax, $url) {  
 	 $ajax.select2({
 	   width: '100%',
+	   placeholder: "Select a state",
+	   allowClear: true,
 	   ajax: {
 	        url: $url,
 	        dataType: 'json',

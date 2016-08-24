@@ -116,13 +116,18 @@
 							<div class="container-fluid">
 							   <div class="row clearfix" style="margin-bottom:10px;">
 								  <div class="col-md-8">
-									<div class="input-group">							
-									    <select id="slSearchSku" class="form-control">
-		    							</select>
-		    							<a href='#' class="input-group-addon add-new-sku">
-								            <i class="fa fa-plus-circle"></i>
-								        </a>
-								    </div>
+								    <div class="field-box">
+						               <label>
+						    	   	      <span th:text="#{admin.order.edit.addOrderItem}">Add order item</span>
+						   		       </label>								    
+									   <div class="input-group">							
+										    <select id="slSearchSku" class="form-control">
+			    							</select>
+			    							<a href='#' class="input-group-addon add-new-sku">
+									            <i class="fa fa-plus-circle"></i>
+									        </a>
+									   </div>
+									</div>
 								  </div>
 								</div>									                    
 							    <div class="row clearfix">
@@ -134,7 +139,7 @@
 									              <th class="col-md-2 text-center" th:text="#{admin.catalog.price}">Price</th>
 									              <th class="col-md-2 text-center" th:text="#{admin.quantity}">Quantity</th>
 									              <th class="col-md-1 text-center" th:text="#{admin.cost}">Cost</th>
-									              <th class="col-md-1 text-center"><span>         </span></th>
+									              <th class="col-md-1 text-center"></th>
 										  	   </tr>
 									  	    </thead >
 									  	    <tbody>
@@ -215,8 +220,7 @@
        <script src="../../../../resources/js/orderEdit.js" th:src="@{/resources/js/orderEdit.js}"></script>	   					 	   
    </th:block>
    <th:block layout:fragment="scriptEditModal"> 
-	   <script type="text/javascript">
-	      var $urlSkuSelec2 = /*[[@{/order/product-search}]]*/;
+	   <script th:inline="javascript" type="text/javascript">
 	      //<![CDATA[
 		     $(document).ready(function() {
 		    	 $("#editModal").modal({
@@ -226,7 +230,7 @@
 	             $(".datetimepicker").datetimepicker({
 	                   locale: "ru"
 	             });
-	             makeSkuSelect2 ($("#slSearchSku"), $urlSkuSelec2);
+	             makeSkuSelect2 ($("#slSearchSku"), /*[[@{/order/product-search}]]*/'');
 			});
 		// ]]>	  
 	   </script>
