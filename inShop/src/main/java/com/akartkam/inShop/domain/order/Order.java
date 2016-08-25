@@ -2,6 +2,7 @@
 package com.akartkam.inShop.domain.order;
 
 import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.NumberFormat;
 import org.springframework.format.annotation.NumberFormat.Style;
@@ -27,6 +28,8 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Digits;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 
 @Entity
 @Table(name = "Customer_order")
@@ -82,6 +85,7 @@ public class Order extends AbstractDomainObjectOrdering {
 
 	@DateTimeFormat(pattern="${date.format}")
     @Column(name = "submit_date")
+	@Past
     public Date getSubmitDate() {
         return submitDate;
     }
@@ -93,6 +97,7 @@ public class Order extends AbstractDomainObjectOrdering {
 
     @ManyToOne(optional=false, cascade=CascadeType.ALL)
     @JoinColumn(name = "customer_id", nullable = false)
+    @NotNull
     public Customer getCustomer() {
         return customer;
     }
@@ -100,8 +105,10 @@ public class Order extends AbstractDomainObjectOrdering {
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }
+    
     @Column(name = "order_status")
     @Enumerated(EnumType.STRING)
+    @NotNull
     public OrderStatus getStatus() {
         return status;
     }
@@ -110,6 +117,7 @@ public class Order extends AbstractDomainObjectOrdering {
         this.status = status;
     }
 
+    @NotEmpty
     @OneToMany(mappedBy = "order", cascade = {CascadeType.ALL})
     public List<OrderItem> getOrderItems() {
         return orderItems;
@@ -143,6 +151,7 @@ public class Order extends AbstractDomainObjectOrdering {
 
 	@Email
     @Column(name = "email_address")
+	@NotNull
     public String getEmailAddress() {
         return emailAddress;
     }

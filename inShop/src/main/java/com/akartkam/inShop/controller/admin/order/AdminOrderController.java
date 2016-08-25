@@ -2,10 +2,15 @@ package com.akartkam.inShop.controller.admin.order;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
+import java.beans.PropertyEditor;
 import java.beans.PropertyEditorSupport;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
 import javax.validation.Valid;
@@ -13,6 +18,7 @@ import javax.validation.Valid;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -32,6 +38,7 @@ import com.akartkam.inShop.domain.customer.Customer;
 import com.akartkam.inShop.domain.order.Order;
 import com.akartkam.inShop.domain.order.OrderItem;
 import com.akartkam.inShop.domain.order.OrderStatus;
+import com.akartkam.inShop.domain.product.Category;
 import com.akartkam.inShop.domain.product.ProductStatus;
 import com.akartkam.inShop.domain.product.Sku;
 import com.akartkam.inShop.domain.product.option.ProductOption;
@@ -73,6 +80,9 @@ public class AdminOrderController {
 	      return Arrays.asList(OrderStatus.ALL);
 	  }
 	  
+	  @Autowired
+	  private MessageSource messageSource;
+	  
 	  @InitBinder
 	  public void initBinder(WebDataBinder binder) {
 			binder.registerCustomEditor(OrderItem.class,"orderItems", new PropertyEditorSupport() {
@@ -107,7 +117,37 @@ public class AdminOrderController {
 			    		setValue(null);	
 			    	}
 			    }
-			    });			
+			    });		
+
+			binder.registerCustomEditor(Customer.class, "customer", new PropertyEditorSupport() {
+			    @Override
+			    public void setAsText(String text) {
+			    	if (!"".equals(text)) {
+			    		Customer cs = customerService.loadCustomerById(UUID.fromString(text), false);
+			            setValue(cs);
+			    	}			    
+			    }
+			    });
+			
+			PropertyEditor pe = new PropertyEditorSupport() {
+			    @Override
+			    public void setAsText(String text) {
+			    	if (!"".equals(text)) {
+			    		SimpleDateFormat formatter = new SimpleDateFormat(messageSource.getMessage("date.format", null, Locale.getDefault()));
+			    		try {
+			    			Date date = formatter.parse(text);
+				            setValue(date);
+			    		} catch (ParseException e) {
+			    			LOG.error(e);
+			    		}			    		
+
+			    	} else {
+			    		setValue(null);
+			    	}
+			    }
+			    };
+
+			binder.registerCustomEditor(java.util.Date.class,"submitDate", pe);
 						
 
 	  }

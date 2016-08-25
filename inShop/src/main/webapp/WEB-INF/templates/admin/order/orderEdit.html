@@ -66,6 +66,7 @@
 					    	  	 <span th:text="#{admin.customer.customer}">Customer</span>
 					   		  </label>
 							  <select class="form-control selectpicker" id="selCustomer" th:field="*{customer}" data-live-search="true">
+							        <option value="">&nbsp;</option>
 								    <option th:each="oc: ${allCustomers}" 
 								            th:text="${oc.fullName+'('+oc.email+')'}"
 								            th:if="${oc.enabled}"
@@ -156,7 +157,7 @@
 												        <br/>
 												        <span style="font-size: 9pt;" th:text="${oi.sku.code}">code</span>&nbsp;
 												        <span th:if="${oi.sku.code != null}" style='display: inline-block; color: #aaa; font-size: 11px;'>&#9679;</span>&nbsp;
-												        <span style="font-size: 9pt;" th:text="${oi.sku.сommaDelemitedPOVL}">sku</span>
+												        <span style="font-size: 9pt;" th:text="${oi.sku.commaDelemitedPOVL}">sku</span>
 												     </div>																	  	       	      		  
 									  	       	  </td>
 												  <td style="font-size: 8pt;">
