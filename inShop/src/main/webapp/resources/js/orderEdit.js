@@ -28,13 +28,29 @@ function formatRepo (repo) {
  }
 
  function formatRepoSelection (repo) {
-      return repo.name;
+	  if (repo.id == "") return repo.text;
+	  var price = "", retailPrice = "", salePrice = "";
+	  var sku="";
+	  if (repo.optionValues && repo.optionValues.length) {
+		sku ="<span style='font-size: 8pt;'>"+repo.optionValues.join()+"</span>"; 
+	  }
+	  if(repo.retailPrice) {
+		  retailPrice = "<span style='font-size: 8pt;'>"+repo.retailPrice.toFixed(2)+"</span>";
+		  price = retailPrice;
+		  if (repo.salePrice) {
+			  retailPrice = "<span style='font-size: 8pt; text-decoration: line-through;'>"+repo.retailPrice.toFixed(2)+"</span>";
+			  salePrice = retailPrice + " <span style='font-size: 8pt;'>"+repo.salePrice.toFixed(2)+"</span>"; 
+			  price = salePrice;
+		  }
+	  }
+	  if (price != "" && sku != "") price = " | " + price;
+      return repo.name+"("+sku+price+")" ;
  }
  
  function makeSkuSelect2 ($ajax, $url) {  
 	 $ajax.select2({
 	   width: '100%',
-	   placeholder: "Select a state",
+	   placeholder: 'Введите часть наименования товара',
 	   allowClear: true,
 	   ajax: {
 	        url: $url,

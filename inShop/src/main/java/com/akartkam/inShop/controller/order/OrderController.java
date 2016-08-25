@@ -108,7 +108,7 @@ public class OrderController {
 			                   final BindingResult bindingResult,
 			                   final Model model
 			                         ) throws CloneNotSupportedException {
-		   if (!"XMLHttpRequest".equals(requestedWith)) throw new IllegalStateException("The povDelete method can be called only via ajax!");
+		   if (!"XMLHttpRequest".equals(requestedWith)) throw new IllegalStateException("The addNewItem method can be called only via ajax!");
            Sku sku = productService.getSkuById(UUID.fromString(skuID)); 
 		   if (sku == null ) throw new SkuNotFoundException("The sku id="+skuID+" is empty!");
 		   if (!order.isContainsSku(sku)) {

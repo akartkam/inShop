@@ -149,9 +149,9 @@
 										    <input class="checkCategory" type="checkbox" th:id="${'check-'+o.id}" th:value="${o.id}"/>
 									    </td>
 										<td ><span th:text="${o.orderNumber}">Order1</span></td>
-							            <td ><span th:text="${{o.submitDate}}">01.08.2016</span></td>
-							            <td ><span th:text="${o.customer.fullName}">Alex F.J.</span></td>
-							            <td ><span th:text="${o.emailAddress}">alex@foo.com</span></td>
+							            <td class="mightOverflow domain-col"><span style="font-size: 9pt;" th:text="${{o.submitDate}}">01.08.2016</span></td>
+							            <td class="mightOverflow domain-col"><span th:text="${o.customer.fullName}">Alex F.J.</span></td>
+							            <td class="mightOverflow domain-col"><span style="font-size: 9pt;" th:text="${o.emailAddress}">alex-johnson@foo.com</span></td>
 							            <td ><span th:text="${{o.total}}">$100</span></td>
 						            	<td class="text-center"><span th:text="#{${'order.status.' + o.status}}"></span></td>
 						            	<td class="text-center">
@@ -294,23 +294,30 @@
 	                    });
 					}  
                 }); 
-		        $(".add-new-sku").on("click", function () { 
-		        	var id = $ajax.val();
-	    			var form = $("#oform");
+	    		$("body").on("click", ".add-new-sku", function () { 
+		        	var id = $("#slSearchSku").val();
+		        	if (id == "undefined") return;
+	    			var form = $("#oeform");
 	    			var formser;
 	    			if (form != "undefined" && form != null) formser = form.serialize();
-	    			$("#loadableContentContainer").text("");
+	    			$("#editModalContent").text("");
 	                   $.ajax({
 	                   	type: "POST",
-	                       url: /*[[@{/order/add-item}]]*/'',
-	                       data: formser+"&id="+id,
+	                       url: /*[[@{/admin/order/add-item}]]*/'',
+	                       data: formser+"&skuId="+id,
 	                       cache: false
 	                   }).done(function (html) {
-	                               $("#loadableContentContainer").append(html);
+	                               $("#editModalContent").append(html);
 	          			    	    //var s = $("#poValDataTable tbody > tr:last-child").position();
 	       			    	    //$("#editModalBody" ).scrollTop( s.top );
 	                   });
-	    		});		     		       		        
+	    		});
+  		        $(document).on("mouseenter", ".mightOverflow", function() { 
+  		        	var $t = $(this); 
+  		        	var title = $t.attr("title");
+  		        	if (!title){ if (this.offsetWidth < this.scrollWidth) $t.attr("title", $t.text()) } 
+  		        	else { if (this.offsetWidth >= this.scrollWidth && title == $t.text()) $t.removeAttr("title")}});	
+
 		   // ]]>
 	     </script>
 	     <th:block layout:fragment="scriptEditModal">

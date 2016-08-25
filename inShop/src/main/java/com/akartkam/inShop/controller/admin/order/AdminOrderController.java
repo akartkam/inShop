@@ -151,13 +151,13 @@ public class AdminOrderController {
 
 	  @RequestMapping(value="/add-item", method = RequestMethod.POST )
 	  public String addNewItem(
-			   				   final @RequestParam(value = "id", required = true) String skuID,
+			   				   final @RequestParam(value = "skuId", required = true) String skuID,
 			   				         @RequestHeader(value = "X-Requested-With", required = true) String requestedWith,
 			   				   final @ModelAttribute("order") @Valid Order order,
 			                   final BindingResult bindingResult,
 			                   final Model model
 			                         ) throws CloneNotSupportedException {
-		   if (!"XMLHttpRequest".equals(requestedWith)) throw new IllegalStateException("The povDelete method can be called only via ajax!");
+		   if (!"XMLHttpRequest".equals(requestedWith)) throw new IllegalStateException("The addNewItem method can be called only via ajax!");
            Sku sku = productService.getSkuById(UUID.fromString(skuID)); 
 		   if (sku == null ) throw new SkuNotFoundException("The sku id="+skuID+" is empty!");
 		   if (!order.isContainsSku(sku)) {
@@ -169,7 +169,7 @@ public class AdminOrderController {
 			   order.getOrderItems().add(oi);
 		   }
 		   model.addAttribute("order", order);
-	       return "/productsForOrder :: editOrderForm";
+	       return "/admin/order/orderEdit :: editOrderForm";
 	   }	   
 
 
