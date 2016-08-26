@@ -1,6 +1,11 @@
 
 package com.akartkam.inShop.domain.order;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -10,11 +15,8 @@ import org.springframework.format.annotation.NumberFormat.Style;
 import com.akartkam.inShop.domain.AbstractDomainObjectOrdering;
 import com.akartkam.inShop.domain.customer.Customer;
 import com.akartkam.inShop.domain.product.Sku;
-
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import com.akartkam.inShop.presentation.admin.AdminPresentation;
+import com.akartkam.inShop.presentation.admin.EditTab;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -26,6 +28,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.Valid;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
@@ -82,10 +85,10 @@ public class Order extends AbstractDomainObjectOrdering {
     public void setTotal(BigDecimal orderTotal) {
         this.total = orderTotal;
     }
-
-	@DateTimeFormat(pattern="${date.format}")
+  
+    @Past
+	@DateTimeFormat(pattern="dd.MM.yyyy")
     @Column(name = "submit_date")
-	@Past
     public Date getSubmitDate() {
         return submitDate;
     }
@@ -117,6 +120,8 @@ public class Order extends AbstractDomainObjectOrdering {
         this.status = status;
     }
 
+    @AdminPresentation(tab=EditTab.CONTENT)
+    @Valid
     @NotEmpty
     @OneToMany(mappedBy = "order", cascade = {CascadeType.ALL})
     public List<OrderItem> getOrderItems() {

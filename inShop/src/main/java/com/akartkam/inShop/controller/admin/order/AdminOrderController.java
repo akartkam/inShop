@@ -133,7 +133,7 @@ public class AdminOrderController {
 			    @Override
 			    public void setAsText(String text) {
 			    	if (!"".equals(text)) {
-			    		SimpleDateFormat formatter = new SimpleDateFormat(messageSource.getMessage("date.format", null, Locale.getDefault()));
+			    		SimpleDateFormat formatter = new SimpleDateFormat(messageSource.getMessage("date.formatshort", null, Locale.getDefault()));
 			    		try {
 			    			Date date = formatter.parse(text);
 				            setValue(date);
@@ -193,7 +193,7 @@ public class AdminOrderController {
 	  public String addNewItem(
 			   				   final @RequestParam(value = "skuId", required = true) String skuID,
 			   				         @RequestHeader(value = "X-Requested-With", required = true) String requestedWith,
-			   				   final @ModelAttribute("order") @Valid Order order,
+			   				   final @ModelAttribute("order") Order order,
 			                   final BindingResult bindingResult,
 			                   final Model model
 			                         ) throws CloneNotSupportedException {
@@ -209,6 +209,7 @@ public class AdminOrderController {
 			   order.getOrderItems().add(oi);
 		   }
 		   model.addAttribute("order", order);
+		   model.addAttribute("tabactive","content");
 	       return "/admin/order/orderEdit :: editOrderForm";
 	   }	   
 

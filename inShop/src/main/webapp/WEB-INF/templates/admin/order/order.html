@@ -259,7 +259,7 @@
    	                            $(".selectpicker").selectpicker();
    		  	                    $(".datetimepicker").datetimepicker({
    		  	                        locale: "ru",
-   		  	                        format: "DD.MM.YYYY"
+   		  	                        format: /*[[#{date.formatshort}]]*/''
    		  	                    });
    		  	                   makeSkuSelect2 ($("#slSearchSku"), /*[[@{/order/product-search}]]*/'');
    	                  });
@@ -280,7 +280,7 @@
 			    	});
 	            });
   		        //Открытие окна редактированя
-	    		$("#editModal").on("show.bs.modal", function (e) {
+	    		/*$("#editModal").on("show.bs.modal", function (e) {
 	    			var id = $("#editModal").data("id");
 					if ($("#editModal").data("allowed") == "true") {    			
 	    		        $("#editModalContent").text("");
@@ -293,7 +293,7 @@
 	        	                    $("#name").focus();
 	                    });
 					}  
-                }); 
+                });*/ 
 	    		$("body").on("click", ".add-new-sku", function () { 
 		        	var id = $("#slSearchSku").val();
 		        	if (id == "undefined") return;
@@ -308,8 +308,12 @@
 	                       cache: false
 	                   }).done(function (html) {
 	                               $("#editModalContent").append(html);
-	          			    	    //var s = $("#poValDataTable tbody > tr:last-child").position();
-	       			    	    //$("#editModalBody" ).scrollTop( s.top );
+	   	                           $(".selectpicker").selectpicker();
+	   		  	                   $(".datetimepicker").datetimepicker({
+	   		  	                        locale: "ru",
+	   		  	                        format: /*[[#{date.formatshort}]]*/''
+	   		  	                    });
+	   		  	                   makeSkuSelect2 ($("#slSearchSku"), /*[[@{/order/product-search}]]*/'');
 	                   });
 	    		});
   		        $(document).on("mouseenter", ".mightOverflow", function() { 

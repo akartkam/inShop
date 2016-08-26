@@ -91,9 +91,10 @@
 					                <label>
 					    	   	        <span th:text="#{admin.order.date}">Submit date</span>
 					   		        </label>
+					   		        <input type="hidden" name="submitDate1" th:value="${{order.submitDate}}"/>
 					                <div class="input-group date datetimepicker">
-					                    <input type="text" class="form-control datetimepicker-input" 
-						                       th:field="*{{submitDate}}"/>
+					                    <input type="text" class="form-control datetimepicker-input"
+					                           name="submitDate" th:value="${{order.submitDate}}"/>
 					                    <span class="input-group-addon">
 					                        <span class="fa fa-calendar"></span>
 					                    </span>						                
@@ -229,8 +230,10 @@
 		    		    keyboard: false
 		    		});		
 	             $(".datetimepicker").datetimepicker({
-	                   locale: "ru"
+	                   locale: "ru",
+	                   format: /*[[#{date.formatshort}]]*/''
 	             });
+	             $(".selectpicker").selectpicker();
 	             makeSkuSelect2 ($("#slSearchSku"), /*[[@{/order/product-search}]]*/'');
 			});
 		// ]]>	  
