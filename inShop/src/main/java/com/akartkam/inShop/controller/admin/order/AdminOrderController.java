@@ -52,7 +52,7 @@ import com.akartkam.inShop.service.order.OrderService;
 import com.akartkam.inShop.service.product.ProductService;
 
 @Controller
-@RequestMapping("admin/order")
+@RequestMapping("/admin/order")
 public class AdminOrderController {
 	  private static final Log LOG = LogFactory.getLog(AdminOrderController.class);
 
@@ -85,6 +85,7 @@ public class AdminOrderController {
 	  
 	  @InitBinder
 	  public void initBinder(WebDataBinder binder) {
+		    binder.setAllowedFields(new String[] {"id", "customer", "status", "submitDate", "orderNumber", "emailAddress", "orderItems*" });
 			binder.registerCustomEditor(OrderItem.class,"orderItems", new PropertyEditorSupport() {
 			    @Override
 			    public void setAsText(String text) {

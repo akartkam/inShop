@@ -55,6 +55,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.akartkam.inShop.domain.order.Order;
 import com.akartkam.inShop.domain.product.Brand;
 import com.akartkam.inShop.domain.product.Category;
 import com.akartkam.inShop.domain.product.Product;
@@ -67,6 +68,7 @@ import com.akartkam.inShop.domain.product.attribute.AttributeType;
 import com.akartkam.inShop.domain.product.attribute.SimpleAttributeFactory;
 import com.akartkam.inShop.domain.product.option.ProductOption;
 import com.akartkam.inShop.domain.product.option.ProductOptionValue;
+import com.akartkam.inShop.service.order.OrderService;
 import com.akartkam.inShop.service.product.AttributeCategoryService;
 import com.akartkam.inShop.service.product.BrandService;
 import com.akartkam.inShop.service.product.CategoryService;
@@ -100,6 +102,9 @@ public class AdminProductController {
 	  
 	  @Autowired(required=false)
 	  private ImageUtil imageUtil;
+	  
+	  @Autowired
+	  private OrderService orderService;
 
 	  
 	  @Value("#{appProperties['inShop.imagesPath']}")
@@ -134,6 +139,12 @@ public class AdminProductController {
 	  public List<ProductStatus> getAllProdStatus() {
 	      return Arrays.asList(ProductStatus.ALL);
 	  }	  
+	  
+	  @ModelAttribute("order")
+	  public Order getOrder() {
+	      return orderService.getOrderById(UUID.fromString("defaa18d-4d73-4e40-940c-731bb8cbed11"));
+	  }	  
+
 	  
 	  
 	  @InitBinder

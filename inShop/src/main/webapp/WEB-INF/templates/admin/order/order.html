@@ -258,8 +258,7 @@
    	                            $("#editModalContent").html(html);
    	                            $(".selectpicker").selectpicker();
    		  	                    $(".datetimepicker").datetimepicker({
-   		  	                        locale: "ru",
-   		  	                        format: /*[[#{date.formatshort}]]*/''
+   		  	                        locale: "ru"
    		  	                    });
    		  	                   makeSkuSelect2 ($("#slSearchSku"), /*[[@{/order/product-search}]]*/'');
    	                  });
@@ -310,10 +309,9 @@
 	                               $("#editModalContent").append(html);
 	   	                           $(".selectpicker").selectpicker();
 	   		  	                   $(".datetimepicker").datetimepicker({
-	   		  	                        locale: "ru",
-	   		  	                        format: /*[[#{date.formatshort}]]*/''
+	   		  	                        locale: "ru"
 	   		  	                    });
-	   		  	                   makeSkuSelect2 ($("#slSearchSku"), /*[[@{/order/product-search}]]*/'');
+	   		  	                   makeSkuSelect2 ($("#slSearchSku"), /*[[@{/admin/order/product-search}]]*/'');
 	                   });
 	    		});
   		        $(document).on("mouseenter", ".mightOverflow", function() { 
