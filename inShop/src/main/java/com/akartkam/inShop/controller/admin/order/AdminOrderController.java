@@ -80,19 +80,21 @@ public class AdminOrderController {
 	  @ModelAttribute("allOrderStatus")
 	  public List<OrderStatus> getAllOrderStatus() {
 	      return Arrays.asList(OrderStatus.ALL);
-	  }
-	  
-	  @ModelAttribute("product")
-	  public ProductForm getProduct() {
-	      return new ProductForm(productService.getProductById(UUID.fromString("e55c788a-f9a5-467e-a975-c0b3a2736634")));
 	  }		  
 	  
 	  @Autowired
 	  private MessageSource messageSource;
 	  
+	  
 	  @InitBinder
 	  public void initBinder(WebDataBinder binder) {
 		    binder.setAllowedFields(new String[] {"id", "customer", "status", "submitDate", "orderNumber", "emailAddress", "orderItems*" });
+		    binder.registerCustomEditor(UUID.class, "id", new PropertyEditorSupport() {
+			    @Override
+			    public void setAsText(String text) {
+			    	 setValue(UUID.fromString(text));
+			    }
+			    });
 			binder.registerCustomEditor(OrderItem.class,"orderItems", new PropertyEditorSupport() {
 			    @Override
 			    public void setAsText(String text) {
@@ -136,7 +138,7 @@ public class AdminOrderController {
 			    	}			    
 			    }
 			    });
-			
+		/*	
 			PropertyEditor pe = new PropertyEditorSupport() {
 			    @Override
 			    public void setAsText(String text) {
@@ -156,7 +158,7 @@ public class AdminOrderController {
 			    };
 
 			binder.registerCustomEditor(java.util.Date.class,"submitDate", pe);
-						
+			*/			
 
 	  }
 	  

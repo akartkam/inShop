@@ -258,7 +258,8 @@
    	                            $("#editModalContent").html(html);
    	                            $(".selectpicker").selectpicker();
    		  	                    $(".datetimepicker").datetimepicker({
-   		  	                        locale: "ru"
+   		  	                        locale: "ru",
+   		  	                        format: /*[[#{date.formatshort}]]*/''
    		  	                    });
    		  	                   makeSkuSelect2 ($("#slSearchSku"), /*[[@{/admin/order/product-search}]]*/'');
    	                  });
@@ -309,7 +310,8 @@
 	                               $("#editModalContent").append(html);
 	   	                           $(".selectpicker").selectpicker();
 	   		  	                   $(".datetimepicker").datetimepicker({
-	   		  	                        locale: "ru"
+	   		  	                        locale: "ru",
+	   		  	                        format: /*[[#{date.formatshort}]]*/''
 	   		  	                    });
 	   		  	                   makeSkuSelect2 ($("#slSearchSku"), /*[[@{/admin/order/product-search}]]*/'');
 	                   });

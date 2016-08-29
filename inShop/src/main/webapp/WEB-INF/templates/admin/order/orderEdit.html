@@ -90,9 +90,8 @@
 					   		  <div class="col-md-4">
 					            <div class="field-box">
 					                <label>
-					    	   	        <!--  <span th:text="#{admin.order.date}">Submit date</span> -->
-					    	   	        <span style="font-size: 9pt;" th:text="${{ord.submitDate}}">01.08.2016</span>
-					   		        </label>
+					    	   	        <span th:text="#{admin.order.date}">Submit date</span>			   		        
+					    	   	    </label>
 					                <div class="input-group date datetimepicker">
 					                    <input type="text" class="form-control datetimepicker-input" id="order-submit-date-input" 
 						                       name="submitDate" th:field="${{ord.submitDate}}"/>
@@ -100,13 +99,6 @@
 					                        <span class="fa fa-calendar"></span>
 					                    </span>						                
 					                </div>
-					                <div class="input-group date datetimepicker">
-					                    <input type="text" class="form-control datetimepicker-input" id="active-start-date-input" 
-					                           name="defaultSku.activeStartDate" th:value="${{product.defaultSku.activeStartDate}}"/>
-						                    <span class="input-group-addon">
-						                        <span class="fa fa-calendar"></span>
-						                    </span>
-									</div>					                
 					            </div>
 					          </div>
 					          <div class="col-md-4">
@@ -239,7 +231,8 @@
 		    		    keyboard: false
 		    		});		
 	             $(".datetimepicker").datetimepicker({
-	                   locale: "ru"
+	                   locale: "ru",
+	                   format: /*[[#{date.formatshort}]]*/''
 	             });
 	             $(".selectpicker").selectpicker();
 	             makeSkuSelect2 ($("#slSearchSku"), /*[[@{/order/product-search}]]*/'');
