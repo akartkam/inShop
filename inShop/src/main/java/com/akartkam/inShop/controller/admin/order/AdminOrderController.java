@@ -39,6 +39,7 @@ import com.akartkam.inShop.domain.order.Order;
 import com.akartkam.inShop.domain.order.OrderItem;
 import com.akartkam.inShop.domain.order.OrderStatus;
 import com.akartkam.inShop.domain.product.Category;
+import com.akartkam.inShop.domain.product.Product;
 import com.akartkam.inShop.domain.product.ProductStatus;
 import com.akartkam.inShop.domain.product.Sku;
 import com.akartkam.inShop.domain.product.option.ProductOption;
@@ -46,6 +47,7 @@ import com.akartkam.inShop.domain.product.option.ProductOptionValue;
 import com.akartkam.inShop.exception.SkuNotFoundException;
 import com.akartkam.inShop.formbean.AccountForm;
 import com.akartkam.inShop.formbean.ItemsForJSON;
+import com.akartkam.inShop.formbean.ProductForm;
 import com.akartkam.inShop.formbean.SkuForJSON;
 import com.akartkam.inShop.service.customer.CustomerService;
 import com.akartkam.inShop.service.order.OrderService;
@@ -79,6 +81,11 @@ public class AdminOrderController {
 	  public List<OrderStatus> getAllOrderStatus() {
 	      return Arrays.asList(OrderStatus.ALL);
 	  }
+	  
+	  @ModelAttribute("product")
+	  public ProductForm getProduct() {
+	      return new ProductForm(productService.getProductById(UUID.fromString("e55c788a-f9a5-467e-a975-c0b3a2736634")));
+	  }		  
 	  
 	  @Autowired
 	  private MessageSource messageSource;
@@ -134,7 +141,7 @@ public class AdminOrderController {
 			    @Override
 			    public void setAsText(String text) {
 			    	if (!"".equals(text)) {
-			    		SimpleDateFormat formatter = new SimpleDateFormat(messageSource.getMessage("date.formatshort", null, Locale.getDefault()));
+			    		SimpleDateFormat formatter = new SimpleDateFormat(messageSource.getMessage("date.format", null, Locale.getDefault()));
 			    		try {
 			    			Date date = formatter.parse(text);
 				            setValue(date);
@@ -168,11 +175,11 @@ public class AdminOrderController {
 	  }
 	  
 	  @RequestMapping("/edit")
-	  public String orderEdit(@RequestParam(value = "ID", required = true) String orderID, Model model,
+	  public String orderEdit(@RequestParam(value = "ID", required = false) String orderID, Model model,
 			   				  @RequestHeader(value = "X-Requested-With", required = false) String requestedWith) {
-		  if(!model.containsAttribute("order")) {
+		  if(!model.containsAttribute("ord")) {
 			 Order order = orderService.getOrderById(UUID.fromString(orderID));
-		     model.addAttribute("order", order);
+		     model.addAttribute("ord", order);
 		  }
           if ("XMLHttpRequest".equals(requestedWith)) {
               return "/admin/order/orderEdit :: editOrderForm";
@@ -183,7 +190,7 @@ public class AdminOrderController {
 	  @RequestMapping("/add")
 	  public String orderAdd(Model model, @RequestHeader(value = "X-Requested-With", required = false) String requestedWith) {
 		  Order order = new Order();
- 	      model.addAttribute("order", order);
+ 	      model.addAttribute("ord", order);
           if ("XMLHttpRequest".equals(requestedWith)) {
               return "/admin/order/orderEdit :: editOrderForm";
             } 	      
@@ -209,7 +216,7 @@ public class AdminOrderController {
 			   oi.setOrder(order);
 			   order.getOrderItems().add(oi);
 		   }
-		   model.addAttribute("order", order);
+		   model.addAttribute("ord", order);
 		   model.addAttribute("tabactive","content");
 	       return "/admin/order/orderEdit :: editOrderForm";
 	   }	   

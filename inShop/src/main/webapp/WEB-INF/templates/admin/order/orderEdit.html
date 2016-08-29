@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ru" xmlns:th="http://www.thymeleaf.org" 
                 xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-                layout:decorator="admin/catalog/po">
+                layout:decorator="admin/order/order">
 	<head>
 	  <th:block th:remove="all">
 		<title>inShop Admin Order edit</title>
@@ -29,13 +29,13 @@
   <div class="modal fade" id="editModal" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true" layout:fragment="editForm">
     <div class="modal-dialog" style="width:50vw; overflow:auto">
 	  <div class="modal-content" id="editModalContent" >
-	   <form method="post" class="form-horizontal" id="oeform" role="form" action="#" th:action="@{/admin/order/edit}" th:object="${order}" th:fragment="editOrderForm">
+	   <form method="post" class="form-horizontal" id="oeform" role="form" action="#" th:action="@{/admin/order/edit}" th:object="${ord}" th:fragment="editOrderForm">
 		   <div class="modal-header">
 	 			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				<h4 class="modal-title"  th:text="${!order.new}? #{admin.order.edit.title.edit}: #{admin.order.edit.title.add}">Edit Order</h4>
+				<h4 class="modal-title"  th:text="${!ord.new}? #{admin.order.edit.title.edit}: #{admin.order.edit.title.add}">Edit Order</h4>
 	 	   </div>
 		 <!-- /modal-header -->
-		    <div class="modal-body" style ="height:50vh; overflow:auto" id="editModalBody">
+		   <div class="modal-body" style ="height:50vh; overflow:auto" id="editModalBody">
 		          <div  th:if="${#fields.hasErrors('*')}" class="alert alert-danger alert-dismissable">
 		          	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                     <span th:text="#{admin.edit.existsErrors}">There is some errors in the form</span>
@@ -53,19 +53,20 @@
 	                <div class="tab-content">
 	                    <div class="tab-pane fade" th:classappend="${tabactive=='main'}? 'in active'" id="main">
 						    <div class="field-box">
-							  <input type="hidden" th:field="*{id}"/>	                              
+							 <!--   <input type="hidden" th:field="*{id}"/>
+							  <input type="hidden" th:field="*{customer.id}"/> -->	                              
 				    		  <label>
 					    	  	 <span th:text="#{admin.order.number}">Order number</span>
 					   		  </label>
-							  <label class="form-control">
+							<!-- <label class="form-control">
 					   		   	 <span style="font-style: italic;" th:text="${order.orderNumber != null ? order.orderNumber : 'Новый'}">1234567890</span>
-							  </label>
+							  </label> -->
 				   		    </div>
-						    <div class="field-box" th:class="${#fields.hasErrors('customer')}? has-error: field-box">
+						    <div class="field-box">
 				    		  <label>
 					    	  	 <span th:text="#{admin.customer.customer}">Customer</span>
 					   		  </label>
-							  <select class="form-control selectpicker" id="selCustomer" th:field="*{customer}" data-live-search="true">
+							<!--  <select class="form-control selectpicker" id="selCustomer" th:field="*{customer}" data-live-search="true">
 							        <option value="">&nbsp;</option>
 								    <option th:each="oc: ${allCustomers}" 
 								            th:text="${oc.fullName+'('+oc.email+')'}"
@@ -73,8 +74,8 @@
 								            th:selected="${order.customer.equals(oc)}"
 								            th:value="${oc.id}">
 								    </option>      
-							  </select>
-					   		  <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('customer')}" th:errors="*{customer}">Incorrect customer</p>
+							  </select> 
+					   		  <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('customer')}" th:errors="*{customer}">Incorrect customer</p> -->
 				   		    </div>
 				   		    <div class="row">
 				   		      <div class="col-md-4">
@@ -82,39 +83,47 @@
 		 			    		  <label>
 						    	  	<span th:text="#{admin.email}">Email</span>
 						   		   </label>
-						   		   <input type="email" class="form-control" th:field="*{emailAddress}"/>
-						   		   <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('emailAddress')}" th:errors="*{emailAddress}">Incorrect email</p>
+						   		 <!--  <input type="email" class="form-control" th:field="*{emailAddress}"/> 
+						   		   <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('emailAddress')}" th:errors="*{emailAddress}">Incorrect email</p> -->
 					   		    </div>
 					   		  </div>
 					   		  <div class="col-md-4">
 					            <div class="field-box">
 					                <label>
-					    	   	        <span th:text="#{admin.order.date}">Submit date</span>
+					    	   	        <!--  <span th:text="#{admin.order.date}">Submit date</span> -->
+					    	   	        <span style="font-size: 9pt;" th:text="${{ord.submitDate}}">01.08.2016</span>
 					   		        </label>
 					                <div class="input-group date datetimepicker">
 					                    <input type="text" class="form-control datetimepicker-input" id="order-submit-date-input" 
-						                        name="submitDate" th:value="${{order.submitDate}}"/>
+						                       name="submitDate" th:field="${{ord.submitDate}}"/>
 					                    <span class="input-group-addon">
 					                        <span class="fa fa-calendar"></span>
 					                    </span>						                
 					                </div>
+					                <div class="input-group date datetimepicker">
+					                    <input type="text" class="form-control datetimepicker-input" id="active-start-date-input" 
+					                           name="defaultSku.activeStartDate" th:value="${{product.defaultSku.activeStartDate}}"/>
+						                    <span class="input-group-addon">
+						                        <span class="fa fa-calendar"></span>
+						                    </span>
+									</div>					                
 					            </div>
 					          </div>
 					          <div class="col-md-4">
-					            <div class="field-box" th:class="${#fields.hasErrors('customer')}? has-error: field-box">
+					            <div class="field-box">
 					                <label>
 					    	   	        <span th:text="#{admin.order.status}">Order status</span>
 					   		        </label>				            
-			                        <select class="form-control" th:field="*{status}">
+			                       <!-- <select class="form-control" th:field="*{status}">
 	            						<option th:each="status : ${allOrderStatus}" th:value="${status}" th:text="#{${'order.status.' + status}}">NEW</option>
-						            </select>
-						            <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('status')}" th:errors="*{status}">Empty status</p>
+						            </select> 
+						            <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('status')}" th:errors="*{status}">Empty status</p> -->
 						        </div>
 						      </div>
 					        </div> 
 	             		</div>
 	                    <div class="tab-pane " th:classappend="${tabactive=='content'}? 'in active'" id="content">							
-							<div class="container-fluid">
+					        <!-- <div class="container-fluid">
 							   <div class="row clearfix" style="margin-bottom:10px;">
 								  <div class="col-md-8">
 								    <div class="field-box">
@@ -132,7 +141,7 @@
 								  </div>
 								</div>									                    
 							    <div class="row clearfix">
-									<div class="col-md-12 column">
+								   <div class="col-md-12 column">
 				                       	 <table class="table table-bordered table-hover" id="orderItemsDT" data-checkid="">
 				                       	    <thead >
 					                       	   <tr >
@@ -168,7 +177,7 @@
 												      <span th:text="${{oi.salePrice}}">9.00</span>
 												  </td>									  	       	  
 												  <td>
- 									  	       	       <input type="number" min="0" class="form-control input-md " th:field="*{orderItems[__${oiStat.index}__].quantity}" />
+ 									  	       	       <input type="number" min="1" class="form-control input-md " th:field="*{orderItems[__${oiStat.index}__].quantity}" />
 									  	       	  </td>
 									  	       	  <td class="text-center">
 									  	       	  		
@@ -186,18 +195,18 @@
 									  	    </tbody>
 				                       	 </table>
 									   </div>
-									 </div>
-		                     </div>        						  	   	
+								 </div>
+		                     </div> -->       						  	   	
                        	  </div>  
  	                    </div> 
  	                 </div>      
 		 <!-- /modal-body -->
-	 	    <div class="modal-footer">
-	 		  <button type="button" class="btn btn-default"  
+	 	     <div class="modal-footer">
+	 		   <button type="button" class="btn btn-default"  
 	 		          th:text="#{admin.catalog.category.edit.button.close}"
 	 		          data-dismiss="modal">Close</button>
-			  <button type="submit" class="btn btn-primary" th:text="#{admin.catalog.attribute.edit.button.save}">Save changes</button>
-		    </div>  
+			   <button type="submit" class="btn btn-primary" th:text="#{admin.catalog.attribute.edit.button.save}">Save changes</button>
+		     </div>  
 		 <!-- /modal-footer -->
 	     </form>	
       </div> 
@@ -218,7 +227,8 @@
 	   <script src="../../../../resources/js/moment-with-locales.min.js" th:src="@{/resources/js/moment-with-locales.min.js}"></script>
 	   <!-- bootstrap-datetimepicker -->		  
 	   <script src="../../../../resources/js/bootstrap-datetimepicker.min.js" th:src="@{/resources/js/bootstrap-datetimepicker.min.js}"></script>
-       <script src="../../../../resources/js/orderEdit.js" th:src="@{/resources/js/orderEdit.js}"></script>	   					 	   
+       <script src="../../../../resources/js/orderEdit.js" th:src="@{/resources/js/orderEdit.js}"></script>
+      	   					 	   
    </th:block>
    <th:block layout:fragment="scriptEditModal"> 
 	   <script th:inline="javascript" type="text/javascript">

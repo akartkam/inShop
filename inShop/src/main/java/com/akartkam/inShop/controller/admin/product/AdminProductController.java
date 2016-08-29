@@ -95,6 +95,9 @@ public class AdminProductController {
 	  BrandService brandService;
 	  
 	  @Autowired
+	  OrderService orderService;	  
+	  
+	  @Autowired
 	  AttributeCategoryService attributeCategoryService;
 
 	  @Autowired
@@ -102,9 +105,6 @@ public class AdminProductController {
 	  
 	  @Autowired(required=false)
 	  private ImageUtil imageUtil;
-	  
-	  @Autowired
-	  private OrderService orderService;
 
 	  
 	  @Value("#{appProperties['inShop.imagesPath']}")
@@ -145,8 +145,7 @@ public class AdminProductController {
 	      return orderService.getOrderById(UUID.fromString("defaa18d-4d73-4e40-940c-731bb8cbed11"));
 	  }	  
 
-	  
-	  
+	  	  
 	  @InitBinder
 	  public void initBinder(WebDataBinder binder) {
 			binder.setAllowedFields(new String[] { "*id", "*name", "url", "*description", "*longDescription", 
@@ -260,8 +259,6 @@ public class AdminProductController {
 	  @RequestMapping("/edit")
 	  public String productEdit(@RequestParam(value = "ID", required = false) String ID, Model model,
 			   				    @RequestHeader(value = "X-Requested-With", required = false) String requestedWith) throws ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException {
-
-		  
 		  if(!model.containsAttribute("product")) {
 			  if ("".equals(ID)) throw new ProductNotFoundException("ID Product is empty.");
 		      Product product = productService.getProductById(UUID.fromString(ID)); 

@@ -97,7 +97,7 @@ public class Order extends AbstractDomainObjectOrdering {
         this.submitDate = submitDate;
     }
 
-
+    @Valid
     @ManyToOne(optional=false, cascade=CascadeType.ALL)
     @JoinColumn(name = "customer_id", nullable = false)
     @NotNull
