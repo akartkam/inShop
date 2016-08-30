@@ -162,17 +162,18 @@
 												     </div>																	  	       	      		  
 									  	       	  </td>
 												  <td style="font-size: 8pt;">
-												      <span th:style="${oi.salePrice != null &amp;&amp; oi.salePrice != 0? 'text-decoration: line-through;': ''}" 
+												      <span id="spanRetailPrice" th:style="${oi.salePrice != null &amp;&amp; oi.salePrice != 0? 'text-decoration: line-through;': ''}" 
 												            style="text-decoration: line-through;"
 												            th:text="${{oi.retailPrice}}">10.00</span>
 												      <br/>
-												      <span th:text="${{oi.salePrice}}">9.00</span>
+												      <span id="spanSalePrice" th:text="${{oi.salePrice}}">9.00</span>
 												  </td>									  	       	  
 												  <td>
- 									  	       	       <input type="number" min="1" class="form-control input-md " th:field="*{orderItems[__${oiStat.index}__].quantity}" />
+ 									  	       	       <input type="number" min="1" class="form-control input-md " th:field="*{orderItems[__${oiStat.index}__].quantity}" 
+ 									  	       	              onchange="if(this.value &lt;= 0) this.value=0; $('#spanRowTotal').innerText=parseFloat($('#spanRetailPrice').text())*parseInt(this.value)"/>
 									  	       	  </td>
 									  	       	  <td class="text-center">
-									  	       	  		
+									  	       	  	  <span id="spanRowTotal">9.00</span>	
 									  	       	  </td>
 									  	       	  <td >
 			  				            	  		 <div class="btn-group edit-btn-group" role="group" > 

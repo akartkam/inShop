@@ -138,26 +138,6 @@ public class AdminOrderController {
 			    	}			    
 			    }
 			    });
-			
-			/*PropertyEditor pe = new PropertyEditorSupport() {
-			    @Override
-			    public void setAsText(String text) {
-			    	if (!"".equals(text)) {
-			    		SimpleDateFormat formatter = new SimpleDateFormat(messageSource.getMessage("date.formatshort", null, Locale.getDefault()));
-			    		try {
-			    			Date date = formatter.parse(text);
-				            setValue(date);
-			    		} catch (ParseException e) {
-			    			LOG.error(e);
-			    		}			    		
-
-			    	} else {
-			    		setValue(null);
-			    	}
-			    }
-			    };
-
-			binder.registerCustomEditor(java.util.Date.class,"submitDate", pe);*/
 	  }
 	  
 	  @RequestMapping(method=GET)
@@ -214,6 +194,7 @@ public class AdminOrderController {
 			   oi.setPrice(sku.getSalePrice() != null ? sku.getSalePrice() : sku.getRetailPrice());
 			   oi.setProduct(sku.getDefaultProduct() != null ? sku.getDefaultProduct() : sku.getProduct());
 			   oi.setOrder(order);
+			   oi.setQuantity(1);
 			   order.getOrderItems().add(oi);
 		   }
 		   model.addAttribute("ord", order);
