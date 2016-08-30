@@ -93,10 +93,7 @@ public class AdminProductController {
 	  
 	  @Autowired
 	  BrandService brandService;
-	  
-	  @Autowired
-	  OrderService orderService;	  
-	  
+	   
 	  @Autowired
 	  AttributeCategoryService attributeCategoryService;
 
@@ -140,12 +137,7 @@ public class AdminProductController {
 	      return Arrays.asList(ProductStatus.ALL);
 	  }	  
 	  
-	  @ModelAttribute("order")
-	  public Order getOrder() {
-	      return orderService.getOrderById(UUID.fromString("defaa18d-4d73-4e40-940c-731bb8cbed11"));
-	  }	  
-
-	  	  
+  	  
 	  @InitBinder
 	  public void initBinder(WebDataBinder binder) {
 			binder.setAllowedFields(new String[] { "*id", "*name", "url", "*description", "*longDescription", 
@@ -225,7 +217,7 @@ public class AdminProductController {
 			    	}			    
 			    }
 			    });
-			
+			/*
 			PropertyEditor pe = new PropertyEditorSupport() {
 			    @Override
 			    public void setAsText(String text) {
@@ -246,7 +238,7 @@ public class AdminProductController {
 
 			binder.registerCustomEditor(java.util.Date.class,"defaultSku.activeStartDate", pe);
 			binder.registerCustomEditor(java.util.Date.class,"defaultSku.activeEndDate", pe);
-	  
+	  */
 	  }
 
 	  

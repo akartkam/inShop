@@ -13,7 +13,7 @@
 	    <!-- Bootstrap Core CSS -->
 	    <link href="../../../../resources/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" th:href="@{/resources/bower_components/bootstrap/dist/css/bootstrap.min.css}"/>
 	    <!-- DataTables CSS -->
-<!--    		<link href="../../../../resources/bower_components/datatables-responsive/css/dataTables.responsive.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/datatables-responsive/css/dataTables.responsive.css}"/>	    	 -->
+   		<link href="../../../../resources/bower_components/datatables-responsive/css/dataTables.responsive.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/datatables-responsive/css/dataTables.responsive.css}"/>
 	    <link href="../../../../resources/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css" rel="stylesheet" th:href="@{/resources/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css}"/>	    		
 	    <!-- Custom Fonts -->
     	<link href="../../../../resources/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/font-awesome/css/font-awesome.min.css}"/>
@@ -53,29 +53,29 @@
 	                <div class="tab-content">
 	                    <div class="tab-pane fade" th:classappend="${tabactive=='main'}? 'in active'" id="main">
 						    <div class="field-box">
-							 <!--   <input type="hidden" th:field="*{id}"/>
-							  <input type="hidden" th:field="*{customer.id}"/> -->	                              
+							  <input type="hidden" th:field="*{id}"/>
+							  <input type="hidden" th:field="*{customer.id}"/>	                              
 				    		  <label>
 					    	  	 <span th:text="#{admin.order.number}">Order number</span>
 					   		  </label>
-							<!-- <label class="form-control">
-					   		   	 <span style="font-style: italic;" th:text="${order.orderNumber != null ? order.orderNumber : 'Новый'}">1234567890</span>
-							  </label> -->
+							  <label class="form-control">
+					   		   	 <span style="font-style: italic;" th:text="${ord.orderNumber != null ? ord.orderNumber : 'Новый'}">1234567890</span>
+							  </label> 
 				   		    </div>
 						    <div class="field-box">
 				    		  <label>
 					    	  	 <span th:text="#{admin.customer.customer}">Customer</span>
 					   		  </label>
-							<!--  <select class="form-control selectpicker" id="selCustomer" th:field="*{customer}" data-live-search="true">
+							  <select class="form-control selectpicker" id="selCustomer" th:field="*{customer}" data-live-search="true">
 							        <option value="">&nbsp;</option>
 								    <option th:each="oc: ${allCustomers}" 
 								            th:text="${oc.fullName+'('+oc.email+')'}"
 								            th:if="${oc.enabled}"
-								            th:selected="${order.customer.equals(oc)}"
+								            th:selected="${ord.customer.equals(oc)}"
 								            th:value="${oc.id}">
 								    </option>      
 							  </select> 
-					   		  <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('customer')}" th:errors="*{customer}">Incorrect customer</p> -->
+					   		  <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('customer')}" th:errors="*{customer}">Incorrect customer</p>
 				   		    </div>
 				   		    <div class="row">
 				   		      <div class="col-md-4">
@@ -83,8 +83,8 @@
 		 			    		  <label>
 						    	  	<span th:text="#{admin.email}">Email</span>
 						   		   </label>
-						   		 <!--  <input type="email" class="form-control" th:field="*{emailAddress}"/> 
-						   		   <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('emailAddress')}" th:errors="*{emailAddress}">Incorrect email</p> -->
+						   		   <input type="email" class="form-control" th:field="*{emailAddress}"/> 
+						   		   <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('emailAddress')}" th:errors="*{emailAddress}">Incorrect email</p>
 					   		    </div>
 					   		  </div>
 					   		  <div class="col-md-4">
@@ -106,16 +106,16 @@
 					                <label>
 					    	   	        <span th:text="#{admin.order.status}">Order status</span>
 					   		        </label>				            
-			                       <!-- <select class="form-control" th:field="*{status}">
+			                        <select class="form-control" th:field="*{status}">
 	            						<option th:each="status : ${allOrderStatus}" th:value="${status}" th:text="#{${'order.status.' + status}}">NEW</option>
 						            </select> 
-						            <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('status')}" th:errors="*{status}">Empty status</p> -->
+						            <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('status')}" th:errors="*{status}">Empty status</p>
 						        </div>
 						      </div>
 					        </div> 
 	             		</div>
 	                    <div class="tab-pane " th:classappend="${tabactive=='content'}? 'in active'" id="content">							
-					        <!-- <div class="container-fluid">
+					        <div class="container-fluid">
 							   <div class="row clearfix" style="margin-bottom:10px;">
 								  <div class="col-md-8">
 								    <div class="field-box">
@@ -188,7 +188,7 @@
 				                       	 </table>
 									   </div>
 								 </div>
-		                     </div> -->       						  	   	
+		                     </div>       						  	   	
                        	  </div>  
  	                    </div> 
  	                 </div>      
@@ -231,11 +231,10 @@
 		    		    keyboard: false
 		    		});		
 	             $(".datetimepicker").datetimepicker({
-	                   locale: "ru",
-	                   format: /*[[#{date.formatshort}]]*/''
+	                   format: /*[[${#strings.toUpperCase(#messages.msg('date.formatshort'))}]]*/''
 	             });
 	             $(".selectpicker").selectpicker();
-	             makeSkuSelect2 ($("#slSearchSku"), /*[[@{/order/product-search}]]*/'');
+	             makeSkuSelect2 ($("#slSearchSku"), /*[[@{/admin/order/product-search}]]*/'');
 			});
 		// ]]>	  
 	   </script>

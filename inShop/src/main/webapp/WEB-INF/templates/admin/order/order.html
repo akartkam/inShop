@@ -258,8 +258,7 @@
    	                            $("#editModalContent").html(html);
    	                            $(".selectpicker").selectpicker();
    		  	                    $(".datetimepicker").datetimepicker({
-   		  	                        locale: "ru",
-   		  	                        format: /*[[#{date.formatshort}]]*/''
+   		  	                        format: /*[[${#strings.toUpperCase(#messages.msg('date.formatshort'))}]]*/''
    		  	                    });
    		  	                   makeSkuSelect2 ($("#slSearchSku"), /*[[@{/admin/order/product-search}]]*/'');
    	                  });
@@ -310,8 +309,7 @@
 	                               $("#editModalContent").append(html);
 	   	                           $(".selectpicker").selectpicker();
 	   		  	                   $(".datetimepicker").datetimepicker({
-	   		  	                        locale: "ru",
-	   		  	                        format: /*[[#{date.formatshort}]]*/''
+	   		  	                        format: /*[[${#strings.toUpperCase(#messages.msg('date.formatshort'))}]]*/''
 	   		  	                    });
 	   		  	                   makeSkuSelect2 ($("#slSearchSku"), /*[[@{/admin/order/product-search}]]*/'');
 	                   });

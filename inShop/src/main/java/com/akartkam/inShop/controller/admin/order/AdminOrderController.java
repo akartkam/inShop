@@ -138,12 +138,12 @@ public class AdminOrderController {
 			    	}			    
 			    }
 			    });
-		/*	
-			PropertyEditor pe = new PropertyEditorSupport() {
+			
+			/*PropertyEditor pe = new PropertyEditorSupport() {
 			    @Override
 			    public void setAsText(String text) {
 			    	if (!"".equals(text)) {
-			    		SimpleDateFormat formatter = new SimpleDateFormat(messageSource.getMessage("date.format", null, Locale.getDefault()));
+			    		SimpleDateFormat formatter = new SimpleDateFormat(messageSource.getMessage("date.formatshort", null, Locale.getDefault()));
 			    		try {
 			    			Date date = formatter.parse(text);
 				            setValue(date);
@@ -157,9 +157,7 @@ public class AdminOrderController {
 			    }
 			    };
 
-			binder.registerCustomEditor(java.util.Date.class,"submitDate", pe);
-			*/			
-
+			binder.registerCustomEditor(java.util.Date.class,"submitDate", pe);*/
 	  }
 	  
 	  @RequestMapping(method=GET)
