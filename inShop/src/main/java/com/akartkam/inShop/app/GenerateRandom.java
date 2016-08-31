@@ -1,5 +1,7 @@
 package com.akartkam.inShop.app;
 
+import java.math.BigDecimal;
+
 import com.akartkam.inShop.util.Random10OrderNumberGeneratorImpl;
 
 public class GenerateRandom {
@@ -22,6 +24,8 @@ public class GenerateRandom {
 		Random10OrderNumberGeneratorImpl r = new Random10OrderNumberGeneratorImpl();
 		r.setPrefix("T-");
 		System.out.println(r.generateOrderNumber(null));
+		BigDecimal b = new BigDecimal("-398769097766554478.");
+		System.out.println (b.toPlainString());
 		//for (int i = 0; i < 1000; i++) {
 		  //System.out.print(new Random().nextInt(999999999)+100000000L);
 		  //System.out.print("--");

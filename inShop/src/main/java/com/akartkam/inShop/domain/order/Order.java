@@ -133,7 +133,10 @@ public class Order extends AbstractDomainObjectOrdering {
     }
 
     public void addOrderItem(OrderItem orderItem) {
-        orderItems.add(orderItem);
+    	if (orderItem != null) {
+            orderItems.add(orderItem);
+            orderItem.setOrder(this);
+    	}
     }
 
 	@Column(name = "name")

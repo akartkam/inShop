@@ -137,10 +137,10 @@
 				                       	 <table class="table table-bordered table-hover" id="orderItemsDT" data-checkid="">
 				                       	    <thead >
 					                       	   <tr >
-									              <th class="col-md-6 text-center" th:text="#{admin.catalog.product}">Product</th>
+									              <th class="col-md-5 text-center" th:text="#{admin.catalog.product}">Product</th>
 									              <th class="col-md-2 text-center" th:text="#{admin.catalog.price}">Price</th>
 									              <th class="col-md-2 text-center" th:text="#{admin.quantity}">Quantity</th>
-									              <th class="col-md-1 text-center" th:text="#{admin.cost}">Cost</th>
+									              <th class="col-md-2 text-center" th:text="#{admin.cost}">Cost</th>
 									              <th class="col-md-1 text-center"></th>
 										  	   </tr>
 									  	    </thead >
@@ -161,19 +161,17 @@
 												        <span style="font-size: 9pt;" th:text="${oi.sku.commaDelemitedPOVL}">sku</span>
 												     </div>																	  	       	      		  
 									  	       	  </td>
-												  <td style="font-size: 8pt;">
-												      <span id="spanRetailPrice" th:style="${oi.salePrice != null &amp;&amp; oi.salePrice != 0? 'text-decoration: line-through;': ''}" 
-												            style="text-decoration: line-through;"
-												            th:text="${{oi.retailPrice}}">10.00</span>
+												  <td >
+												      <input type="hidden" id="inpPrice" th:value="${oi.price}"/>
+												      <span style="font-size: 9pt;" th:text="${#numbers.formatDecimal(oi.price,1,2)}">10.00</span>
 												      <br/>
-												      <span id="spanSalePrice" th:text="${{oi.salePrice}}">9.00</span>
 												  </td>									  	       	  
 												  <td>
- 									  	       	       <input type="number" min="1" class="form-control input-md " th:field="*{orderItems[__${oiStat.index}__].quantity}" 
- 									  	       	              onchange="if(this.value &lt;= 0) this.value=0; $('#spanRowTotal').innerText=parseFloat($('#spanRetailPrice').text())*parseInt(this.value)"/>
+ 									  	       	      <input type="number" min="1" class="form-control input-md " th:field="*{orderItems[__${oiStat.index}__].quantity}" 
+ 									  	       	              oninput="calcRowTotal(this)"/>
 									  	       	  </td>
 									  	       	  <td class="text-center">
-									  	       	  	  <span id="spanRowTotal">9.00</span>	
+									  	       	  	  <span style="font-size: 9pt;" id="spanRowTotal" th:text="${#numbers.formatDecimal((oi.price*oi.quantity),1,2)}">10.00</span>	
 									  	       	  </td>
 									  	       	  <td >
 			  				            	  		 <div class="btn-group edit-btn-group" role="group" > 
@@ -187,7 +185,7 @@
 									  	       </tr>
 									  	    </tbody>
 				                       	 </table>
-									   </div>
+									  </div>
 								 </div>
 		                     </div>       						  	   	
                        	  </div>  

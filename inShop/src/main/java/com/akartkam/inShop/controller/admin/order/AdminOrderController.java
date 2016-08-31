@@ -4,6 +4,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 import java.beans.PropertyEditor;
 import java.beans.PropertyEditorSupport;
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -192,10 +193,11 @@ public class AdminOrderController {
 			   OrderItem oi=new OrderItem();
 			   oi.setSku(sku);
 			   oi.setPrice(sku.getSalePrice() != null ? sku.getSalePrice() : sku.getRetailPrice());
+			   oi.setRetailPrice(new BigDecimal(sku.getRetailPrice().toPlainString()));
+			   oi.setSalePrice(sku.getSalePrice() != null ? new BigDecimal(sku.getSalePrice().toPlainString()) : null);
 			   oi.setProduct(sku.getDefaultProduct() != null ? sku.getDefaultProduct() : sku.getProduct());
-			   oi.setOrder(order);
 			   oi.setQuantity(1);
-			   order.getOrderItems().add(oi);
+			   order.addOrderItem(oi);
 		   }
 		   model.addAttribute("ord", order);
 		   model.addAttribute("tabactive","content");

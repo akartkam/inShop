@@ -49,12 +49,12 @@ function formatRepo (repo) {
  
  function makeSkuSelect2 ($ajax, $url) {  
 	 $ajax.select2({
-	   width: '100%',
-	   placeholder: 'Введите часть наименования товара',
+	   width: "100%",
+	   placeholder: "Введите часть наименования товара",
 	   allowClear: true,
 	   ajax: {
 	        url: $url,
-	        dataType: 'json',
+	        dataType: "json",
 	        delay: 250,
 	        data: function (params) {
 	          return {
@@ -78,4 +78,13 @@ function formatRepo (repo) {
 	      templateResult: formatRepo,
 	      templateSelection: formatRepoSelection
 	 });
+ }
+ 
+ function calcRowTotal(input) {
+	if($(input).val() <= 0) $(input).val(1);
+	var price = parseFloat($("#inpPrice").val());
+	var quant = parseInt($(input).val());
+	if (!isNaN(price) && !isNaN(quant)) {
+		$("#spanRowTotal").html((price*quant).toFixed(2));
+	}
  }
