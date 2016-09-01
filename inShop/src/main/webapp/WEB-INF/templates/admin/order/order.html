@@ -278,21 +278,6 @@
 			    	     }
 			    	});
 	            });
-  		        //Открытие окна редактированя
-	    		/*$("#editModal").on("show.bs.modal", function (e) {
-	    			var id = $("#editModal").data("id");
-					if ($("#editModal").data("allowed") == "true") {    			
-	    		        $("#editModalContent").text("");
-	                    $.ajax({
-	                        url: $("#editModal").data("path")+((id != null)?"?ID="+id:"") ,
-	                        cache: false
-	                    }).done(function (html) {
-	                                $("#editModalContent").append(html);
-	                                $("#editModal").data("allowed","false");
-	        	                    $("#name").focus();
-	                    });
-					}  
-                });*/ 
 	    		$("body").on("click", ".add-new-sku", function () { 
 		        	var id = $("#slSearchSku").val();
 		        	if (id == "undefined") return;
@@ -301,17 +286,30 @@
 	    			if (form != "undefined" && form != null) formser = form.serialize();
 	    			$("#editModalContent").text("");
 	                   $.ajax({
-	                   	type: "POST",
+	                   	   type: "POST",
 	                       url: /*[[@{/admin/order/add-item}]]*/'',
 	                       data: formser+"&skuId="+id,
 	                       cache: false
 	                   }).done(function (html) {
-	                               $("#editModalContent").append(html);
-	   	                           $(".selectpicker").selectpicker();
-	   		  	                   $(".datetimepicker").datetimepicker({
-	   		  	                        format: /*[[${#strings.toUpperCase(#messages.msg('date.formatshort'))}]]*/''
-	   		  	                    });
-	   		  	                   makeSkuSelect2 ($("#slSearchSku"), /*[[@{/admin/order/product-search}]]*/'');
+                               $("#editModalContent").append(html);
+   	                           $(".selectpicker").selectpicker();
+   		  	                   $(".datetimepicker").datetimepicker({
+   		  	                        format: /*[[${#strings.toUpperCase(#messages.msg('date.formatshort'))}]]*/''
+   		  	                    });
+   		  	                   makeSkuSelect2 ($("#slSearchSku"), /*[[@{/admin/order/product-search}]]*/'');
+	                   });
+	    		});
+	    		$("body").on("change", ".order-item-quantity", function () { 
+	    			var form = $("#oeform");
+	    			var formser;
+	    			if (form != "undefined" && form != null) formser = form.serialize();
+                    $.ajax({
+                   	   type: "POST",
+                       url: /*[[@{/admin/order/update-oitable}]]*/'',
+                       data: formser,
+                       cache: false
+                     }).done(function (html) {
+                              $("#dOrderItemTable").html(html);
 	                   });
 	    		});
   		        $(document).on("mouseenter", ".mightOverflow", function() { 

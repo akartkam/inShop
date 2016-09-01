@@ -21,7 +21,6 @@ package com.akartkam.inShop.domain.order;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.hibernate.annotations.Index;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 import org.springframework.format.annotation.NumberFormat;
@@ -81,16 +80,7 @@ public class OrderItem extends AbstractDomainObjectOrdering {
 	@DecimalMin("0.01")	
 	@Digits(fraction = 5, integer = 14)    
     public BigDecimal getSalePrice() {
-        if (salePrice != null) {
-        	BigDecimal returnPrice = salePrice;
-            if (retailPrice != null && returnPrice.compareTo(getRetailPrice())==1) {
-                return getRetailPrice();
-            } else {
-                return returnPrice;
-            }
-        } else {
-            return getRetailPrice();
-        }
+    	return salePrice;
     }
 
     public void setSalePrice(BigDecimal salePrice) {
@@ -102,12 +92,13 @@ public class OrderItem extends AbstractDomainObjectOrdering {
 	@DecimalMin("0.01")	
 	@Digits(fraction = 5, integer = 14)    
     public BigDecimal getPrice() {
-        return getAveragePrice();
+    	if (price == null) {
+    		setPrice(new BigDecimal(sku.getSalePrice() != null ? sku.getSalePrice().toPlainString() : sku.getRetailPrice().toPlainString()));
+    	}
+        return this.price;
     }
 
     public void setPrice(BigDecimal finalPrice) {
-        setRetailPrice(finalPrice);
-        setSalePrice(finalPrice);
         setDiscountingAllowed(false);
         this.price = finalPrice;
     }
@@ -185,23 +176,12 @@ public class OrderItem extends AbstractDomainObjectOrdering {
     }
 
     @Transient
-    public BigDecimal getAveragePrice() {
-        if (quantity == 0) {
-            return price;
-        }
-        BigDecimal value = BigDecimal.valueOf(quantity);
-        return getTotalPrice().divide(value, RoundingMode.CEILING);
-    }
-
-    @Transient
-    public BigDecimal getTotalPrice() {
+    public BigDecimal getRowTotal() {
     	BigDecimal returnValue = BigDecimal.ZERO;
-    	BigDecimal value = BigDecimal.valueOf(quantity);
+    	BigDecimal quant = BigDecimal.valueOf(quantity);
         if (price != null) {
-            returnValue = price.multiply(value);
-        } else {
-            return getSalePrice().multiply(value);
-        }
+            returnValue = price.multiply(quant);
+        } 
         return returnValue;
     }
 

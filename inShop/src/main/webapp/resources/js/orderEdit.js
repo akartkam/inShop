@@ -80,11 +80,6 @@ function formatRepo (repo) {
 	 });
  }
  
- function calcRowTotal(input) {
-	if($(input).val() <= 0) $(input).val(1);
-	var price = parseFloat($("#inpPrice").val());
-	var quant = parseInt($(input).val());
-	if (!isNaN(price) && !isNaN(quant)) {
-		$("#spanRowTotal").html((price*quant).toFixed(2));
-	}
+ function updateOrderItemTablwRow() {
+
  }

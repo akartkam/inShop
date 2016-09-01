@@ -133,8 +133,8 @@
 								  </div>
 								</div>									                    
 							    <div class="row clearfix">
-								   <div class="col-md-12 column">
-				                       	 <table class="table table-bordered table-hover" id="orderItemsDT" data-checkid="">
+								   <div class="col-md-12 column" id="dOrderItemTable">
+				                       	 <table class="table table-bordered table-hover" id="orderItemsDT" data-checkid="" th:object="${ord}" th:fragment="orderItemTable">
 				                       	    <thead >
 					                       	   <tr >
 									              <th class="col-md-5 text-center" th:text="#{admin.catalog.product}">Product</th>
@@ -162,16 +162,14 @@
 												     </div>																	  	       	      		  
 									  	       	  </td>
 												  <td >
-												      <input type="hidden" id="inpPrice" th:value="${oi.price}"/>
 												      <span style="font-size: 9pt;" th:text="${#numbers.formatDecimal(oi.price,1,2)}">10.00</span>
 												      <br/>
 												  </td>									  	       	  
 												  <td>
- 									  	       	      <input type="number" min="1" class="form-control input-md " th:field="*{orderItems[__${oiStat.index}__].quantity}" 
- 									  	       	              oninput="calcRowTotal(this)"/>
+ 									  	       	      <input type="number" min="1" class="form-control input-md order-item-quantity" th:field="*{orderItems[__${oiStat.index}__].quantity}" />
 									  	       	  </td>
 									  	       	  <td class="text-center">
-									  	       	  	  <span style="font-size: 9pt;" id="spanRowTotal" th:text="${#numbers.formatDecimal((oi.price*oi.quantity),1,2)}">10.00</span>	
+									  	       	  	  <span style="font-size: 9pt;" th:text="${#numbers.formatDecimal((oi.rowTotal),1,2)}">10.00</span>	
 									  	       	  </td>
 									  	       	  <td >
 			  				            	  		 <div class="btn-group edit-btn-group" role="group" > 

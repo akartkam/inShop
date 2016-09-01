@@ -67,7 +67,7 @@ public class Order extends AbstractDomainObjectOrdering {
     public BigDecimal calculateSubTotal() {
     	BigDecimal calculatedSubTotal = BigDecimal.ZERO;
         for (OrderItem orderItem : orderItems) {
-            calculatedSubTotal = calculatedSubTotal.add(orderItem.getTotalPrice());
+            calculatedSubTotal = calculatedSubTotal.add(orderItem.getRowTotal());
         }
         return calculatedSubTotal;
     }

@@ -4,6 +4,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 import java.beans.PropertyEditor;
 import java.beans.PropertyEditorSupport;
+import java.io.File;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -32,6 +33,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.http.HttpStatus;
 
 import com.akartkam.inShop.domain.Account;
@@ -202,7 +204,20 @@ public class AdminOrderController {
 		   model.addAttribute("ord", order);
 		   model.addAttribute("tabactive","content");
 	       return "/admin/order/orderEdit :: editOrderForm";
-	   }	   
+	   }	
+	  
+	   
+	   @RequestMapping(value="/update-oitable", method = RequestMethod.POST )
+	   public String addNewImage(final @ModelAttribute Order order,
+			   				   @RequestHeader(value = "X-Requested-With", required = false) String requestedWith,
+			                   final BindingResult bindingResult,
+			                   final Model model
+			                         ) throws CloneNotSupportedException {
+		   if (!"XMLHttpRequest".equals(requestedWith)) throw new IllegalStateException("The addNewImage method can be called only via ajax!");   
+		   model.addAttribute("ord", order);
+		   model.addAttribute("tabactive","content");
+	       return "/admin/order/orderEdit :: orderItemTable";
+	    }	  
 
 
 }
