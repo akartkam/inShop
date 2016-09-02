@@ -1,6 +1,8 @@
 package com.akartkam.inShop.app;
 
 import java.math.BigDecimal;
+import java.util.Currency;
+import java.util.Locale;
 
 import com.akartkam.inShop.util.Random10OrderNumberGeneratorImpl;
 
@@ -26,6 +28,10 @@ public class GenerateRandom {
 		System.out.println(r.generateOrderNumber(null));
 		BigDecimal b = new BigDecimal("-398769097766554478.");
 		System.out.println (b.toPlainString());
+		Currency currentCurrency = Currency.getInstance(Locale.getDefault());
+		System.out.println(currentCurrency.getDisplayName());
+		System.out.println(currentCurrency.getSymbol());
+		System.out.println(currentCurrency.getCurrencyCode());
 		//for (int i = 0; i < 1000; i++) {
 		  //System.out.print(new Random().nextInt(999999999)+100000000L);
 		  //System.out.print("--");

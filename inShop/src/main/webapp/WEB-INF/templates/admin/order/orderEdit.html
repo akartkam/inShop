@@ -22,12 +22,21 @@
     	<!-- Select2 -->		 	
 		<link href="../../../../resources/css/select2.min.css" rel="stylesheet" th:href="@{/resources/css/select2.min.css}"/>
 		<!-- bootstrap-datetimepicker -->
-		<link href="../../../../resources/css/bootstrap-datetimepicker.min.css" rel="stylesheet" th:href="@{/resources/css/bootstrap-datetimepicker.min.css}"/>			      			    	
+		<link href="../../../../resources/css/bootstrap-datetimepicker.min.css" rel="stylesheet" th:href="@{/resources/css/bootstrap-datetimepicker.min.css}"/>
+		<style type="text/css">			
+		 	table { table-layout: fixed; }
+			td.domain-col {
+			    overflow: hidden;
+			    text-overflow: ellipsis;
+			    white-space: nowrap;
+			 }
+			td.domain-col .price-val {width: 70px;}
+		</style>					      			    	
       </th:block>
 	</head>
 <body>
   <div class="modal fade" id="editModal" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true" layout:fragment="editForm">
-    <div class="modal-dialog" style="width:50vw; overflow:auto">
+    <div class="modal-dialog" style="width:65vw; overflow:auto">
 	  <div class="modal-content" id="editModalContent" >
 	   <form method="post" class="form-horizontal" id="oeform" role="form" action="#" th:action="@{/admin/order/edit}" th:object="${ord}" th:fragment="editOrderForm">
 		   <div class="modal-header">
@@ -35,7 +44,7 @@
 				<h4 class="modal-title"  th:text="${!ord.new}? #{admin.order.edit.title.edit}: #{admin.order.edit.title.add}">Edit Order</h4>
 	 	   </div>
 		 <!-- /modal-header -->
-		   <div class="modal-body" style ="height:50vh; overflow:auto" id="editModalBody">
+		   <div class="modal-body" style ="height:55vh; overflow:auto" id="editModalBody">
 		          <div  th:if="${#fields.hasErrors('*')}" class="alert alert-danger alert-dismissable">
 		          	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                     <span th:text="#{admin.edit.existsErrors}">There is some errors in the form</span>
@@ -147,8 +156,8 @@
 									  	    <tbody>
 									  	       <tr th:each="oi, oiStat : *{orderItems}">
 									  	       	  <td>
-									  	       	     <input type="hidden" th:name="orderItems[__${oiStat.index}__]" th:value="${order.orderItems[__${oiStat.index}__].id}"/>
-									  	       	     <input type="hidden" th:name="orderItems[__${oiStat.index}__].sku" th:value="${order.orderItems[__${oiStat.index}__].sku.id}"/>
+									  	       	     <input type="hidden" th:name="orderItems[__${oiStat.index}__]" th:value="${ord.orderItems[__${oiStat.index}__].id}"/>
+									  	       	     <input type="hidden" th:name="orderItems[__${oiStat.index}__].sku" th:value="${ord.orderItems[__${oiStat.index}__].sku.id}"/>
 												     <div class="a-photo-out">
 		                                                <span class="photo-block">
 		                                                   <span class="helper"></span>
@@ -161,15 +170,17 @@
 												        <span style="font-size: 9pt;" th:text="${oi.sku.commaDelemitedPOVL}">sku</span>
 												     </div>																	  	       	      		  
 									  	       	  </td>
-												  <td >
-												      <span style="font-size: 9pt;" th:text="${#numbers.formatDecimal(oi.price,1,2)}">10.00</span>
-												      <br/>
+												  <td class="domain-col">
+ 									  	       	      <input type="text" class="form-control input-md price-val row-count-changer" style="display: inline-block; font-size: 9pt;" 
+ 									  	       	             th:name="orderItems[__${oiStat.index}__]" th:value="${ord.orderItems[__${oiStat.index}__].price}" />											  
+												      <span style="font-size: 9pt;" th:text="${T(java.util.Currency).getInstance(#locale.getDefault()).getSymbol()}">руб.</span>
 												  </td>									  	       	  
 												  <td>
- 									  	       	      <input type="number" min="1" class="form-control input-md order-item-quantity" th:field="*{orderItems[__${oiStat.index}__].quantity}" />
+ 									  	       	      <input type="number" min="1" class="form-control input-md row-count-changer" th:field="*{orderItems[__${oiStat.index}__].quantity}" />
 									  	       	  </td>
 									  	       	  <td class="text-center">
 									  	       	  	  <span style="font-size: 9pt;" th:text="${#numbers.formatDecimal((oi.rowTotal),1,2)}">10.00</span>	
+									  	       	  	  <span style="font-size: 9pt; display: " th:text="${T(java.util.Currency).getInstance(#locale.getDefault()).getSymbol()}">руб.</span>
 									  	       	  </td>
 									  	       	  <td >
 			  				            	  		 <div class="btn-group edit-btn-group" role="group" > 

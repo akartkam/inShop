@@ -202,8 +202,7 @@ public class AdminOrderController {
 			   order.addOrderItem(oi);
 		   }
 		   model.addAttribute("ord", order);
-		   model.addAttribute("tabactive","content");
-	       return "/admin/order/orderEdit :: editOrderForm";
+	       return "/admin/order/orderEdit :: orderItemTable";
 	   }	
 	  
 	   

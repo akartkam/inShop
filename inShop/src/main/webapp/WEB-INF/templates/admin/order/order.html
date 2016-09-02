@@ -37,12 +37,12 @@
 				    width:100vw;  /* As above. */
 				}
 			 	table { table-layout: fixed; }
- 				/*table th, table td { overflow: hidden; }*/
 				td.domain-col {
 				    overflow: hidden;
 				    text-overflow: ellipsis;
 				    white-space: nowrap;
 				 }
+				td.domain-col .price-val {width: 70px;}
 				tfoot {
 				    display: table-header-group;
 				}
@@ -54,7 +54,8 @@
 				.table-responsive {
 				  overflow-x: visible !important;
 				  overflow-y: visible !important;
-				}			    	    
+				}
+							    	    
 			</style>			  			    				
 	</head>
 <body>
@@ -92,13 +93,13 @@
 		</div>
 	</th:block>	
     <div class="modal fade" id="editModal" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true" layout:fragment="editForm">
-	  <div class="modal-dialog" style="width:60vw; overflow:auto">
+	  <div class="modal-dialog" style="width:65vw; overflow:auto">
 	    <div class="modal-content" id="editModalContent">
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
               <h4 class="modal-title" id="myModalLabel">Modal title</h4>
             </div>
-            <div class="modal-body" style ="height:50vh; overflow:auto">
+            <div class="modal-body" style ="height:55vh; overflow:auto">
                 <h3>Modal Body</h3>
             </div>
             <div class="modal-footer">
@@ -284,19 +285,13 @@
 	    			var form = $("#oeform");
 	    			var formser;
 	    			if (form != "undefined" && form != null) formser = form.serialize();
-	    			$("#editModalContent").text("");
 	                   $.ajax({
 	                   	   type: "POST",
 	                       url: /*[[@{/admin/order/add-item}]]*/'',
 	                       data: formser+"&skuId="+id,
 	                       cache: false
 	                   }).done(function (html) {
-                               $("#editModalContent").append(html);
-   	                           $(".selectpicker").selectpicker();
-   		  	                   $(".datetimepicker").datetimepicker({
-   		  	                        format: /*[[${#strings.toUpperCase(#messages.msg('date.formatshort'))}]]*/''
-   		  	                    });
-   		  	                   makeSkuSelect2 ($("#slSearchSku"), /*[[@{/admin/order/product-search}]]*/'');
+	                	   $("#dOrderItemTable").html(html);
 	                   });
 	    		});
 	    		$("body").on("change", ".order-item-quantity", function () { 
