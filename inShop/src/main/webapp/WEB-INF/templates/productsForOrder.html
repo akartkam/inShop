@@ -131,7 +131,7 @@
 		        	var id = $ajax.val();
 	    			var form = $("#oform");
 	    			var formser;
-	    			if (form != "undefined" && form != null) formser = form.serialize();
+	    			if (typeof form != "undefined" && form != null) formser = form.serialize();
 	    			$("#loadableContentContainer").text("");
                     $.ajax({
                     	type: "POST",

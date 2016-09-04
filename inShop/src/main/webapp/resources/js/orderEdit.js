@@ -79,7 +79,3 @@ function formatRepo (repo) {
 	      templateSelection: formatRepoSelection
 	 });
  }
- 
- function updateOrderItemTablwRow() {
-
- }

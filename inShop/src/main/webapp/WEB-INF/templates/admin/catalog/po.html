@@ -262,7 +262,7 @@
     	    			var form = $("#poform");
     	    			var path= $(this).data("path");
     	    			var formser;
-    	    			if (form != "undefined" && form != null) formser = form.serialize();
+    	    			if (typeof form != "undefined" && form != null) formser = form.serialize();
     	    			$("#editModalContent").text("");
                         $.ajax({
                         	type: "POST",
@@ -279,14 +279,14 @@
 			        $("body").on("click",".open-deleteDialog", function () {
 			    	     var Id = $(this).data("id");
 			    	     var poName = $(this).data("name");
-			    	     if (poName == "undefined" || poName ==null) poName = '';
+			    	     if (typeof poName == "undefined" || poName ==null) poName = '';
 			    	     var modalName = $(this).data("target");
 			    	     $(modalName).find(".modal-footer .btn-primary").val(Id);
 			    	     $(modalName).find(".modal-body .objname").html(poName);
 			    	     if (modalName == "#deleteModalPov") {
 			    	    	 var canRemove = $(this).data("canremove");
 			    	    	 var checkRemove = $(modalName).find("#phisycalDeletePov")
-			    	    	 if (checkRemove != "undefined" && checkRemove !=null) checkRemove.attr("disabled", !canRemove);
+			    	    	 if (typeof checkRemove != "undefined" && checkRemove !=null) checkRemove.attr("disabled", !canRemove);
 			    	     }
 			    	});
 			        $("body").on("click","#IDPov", function () { 
@@ -295,10 +295,10 @@
 		    			var path= $("#deleteModalPov").data("path");
 		    			var canRemove = false;
 		    			var checkRemove = $("#deleteModalPov").find("#phisycalDeletePov");
-		    			if (checkRemove != "undefined" && checkRemove !=null) canRemove = checkRemove.is(":checked");
+		    			if (typeof checkRemove != "undefined" && checkRemove !=null) canRemove = checkRemove.is(":checked");
 		    			var form = $("#poform");
 		    			var formser;
-		    			if (form != "undefined" && form != null) formser = form.serialize();
+		    			if (typeof form != "undefined" && form != null) formser = form.serialize();
 		    			$("#editModalContent").text("");
 	                    $.ajax({
 	                    	type: "POST",
@@ -312,7 +312,7 @@
     		     
 	            });
   		        //Открытие окна редактированя
-	    		/*$("#editModal").on("show.bs.modal", function (e) {
+	    		$("#editModal").on("show.bs.modal", function (e) {
 	    			var id = $("#editModal").data("id");
 					if ($("#editModal").data("allowed") == "true") {    			
 	    		        $("#editModalContent").text("");
@@ -337,7 +337,7 @@
 		    	  }
 		    	  $("#editModal").data("allowed","true");
 		    	  $("#editModal").data("path",path);
-		    	});*/ 
+		    	}); 
 		        
 		        
 		   // ]]>

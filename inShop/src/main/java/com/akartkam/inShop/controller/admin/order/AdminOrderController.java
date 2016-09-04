@@ -183,7 +183,7 @@ public class AdminOrderController {
 	  @RequestMapping(value="/add-item", method = RequestMethod.POST )
 	  public String addNewItem(
 			   				   final @RequestParam(value = "skuId", required = true) String skuID,
-			   				         @RequestHeader(value = "X-Requested-With", required = true) String requestedWith,
+			   				   final @RequestHeader(value = "X-Requested-With", required = true) String requestedWith,
 			   				   final @ModelAttribute("order") Order order,
 			                   final BindingResult bindingResult,
 			                   final Model model
@@ -204,19 +204,18 @@ public class AdminOrderController {
 		   model.addAttribute("ord", order);
 	       return "/admin/order/orderEdit :: orderItemTable";
 	   }	
-	  
 	   
-	   @RequestMapping(value="/update-oitable", method = RequestMethod.POST )
-	   public String addNewImage(final @ModelAttribute Order order,
-			   				   @RequestHeader(value = "X-Requested-With", required = false) String requestedWith,
-			                   final BindingResult bindingResult,
-			                   final Model model
-			                         ) throws CloneNotSupportedException {
-		   if (!"XMLHttpRequest".equals(requestedWith)) throw new IllegalStateException("The addNewImage method can be called only via ajax!");   
+	  @RequestMapping(value="/del-item", method = RequestMethod.POST )
+	  public String delItem ( 
+							 final @RequestParam(value = "ID", required = true) String oiID,
+							 final @RequestHeader(value = "X-Requested-With", required = true) String requestedWith,
+							 final @ModelAttribute("order") Order order,
+					         final BindingResult bindingResult,
+					         final Model model ) {
+		   if (!"XMLHttpRequest".equals(requestedWith)) throw new IllegalStateException("The addNewItem method can be called only via ajax!");
+		   order.removeOrderItem(UUID.fromString(oiID));
 		   model.addAttribute("ord", order);
-		   model.addAttribute("tabactive","content");
-	       return "/admin/order/orderEdit :: orderItemTable";
-	    }	  
-
-
+		   return "/admin/order/orderEdit :: orderItemTable";
+	  }
+          
 }

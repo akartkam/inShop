@@ -338,7 +338,7 @@
 			    			var form = new FormData(document.forms.pform);
 			    			var path= $(this).data("path");
 			    			var formser;
-			    			if (form != "undefined" && form != null) formser = form;
+			    			if (typeof form != "undefined" && form != null) formser = form;
 		                    $.ajax({
 		                    	type: "POST",
 		                        url: path,

@@ -55,6 +55,8 @@
     <div layout:fragment="modals" th:remove="tag" >
     </div>
     <input type="hidden" id="currentContextName" th:value="@{/}"/>
+    <input type="hidden" id="currencySymbol" th:value="${T(java.util.Currency).getInstance(#locale.getDefault()).getSymbol()}"/>
+
     <!-- Navigation -->
     <nav class="navbar navbar-default navbar-static-top" style="margin-bottom: 0" role="navigation">
 <!--           <div class="container"> -->
@@ -262,7 +264,7 @@
 	    				var path = $(this).data("path");
     	    			var form = $("#accountEditForm");
     	    			var formser;
-    	    			if (form != "undefined" && form != null) formser = form.serialize();
+    	    			if (typeof form != "undefined" && form != null) formser = form.serialize();
     	    			$("#editModalAccountContent").text("");
                         $.ajax({
                         	type: "POST",

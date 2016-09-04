@@ -265,7 +265,7 @@
 	            });
 	            events.on("onReloadMainDataTableNeed", function() {
 	            	var path = $("#accountDataTableContainer").data("path")
-	            	if (path == 'undefined') return;
+	            	if (typeof path == 'undefined') return;
 	    			$("#accountDataTableContainer").text("");
                     $.ajax({
                     	type: "GET",

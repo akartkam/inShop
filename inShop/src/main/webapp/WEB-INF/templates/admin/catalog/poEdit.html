@@ -182,7 +182,7 @@
 	    			var form = $("#poform");
 	    			var path= $(this).data("path");
 	    			var formser;
-	    			if (form != "undefined" && form != null) formser = form.serialize();
+	    			if (typeof form != "undefined" && form != null) formser = form.serialize();
 	    			$("#editModalContent").text("");
                     $.ajax({
                     	type: "POST",

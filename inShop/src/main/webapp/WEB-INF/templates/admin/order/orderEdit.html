@@ -30,7 +30,7 @@
 			    text-overflow: ellipsis;
 			    white-space: nowrap;
 			 }
-			td.domain-col .price-val {width: 70px;}
+			td.domain-col .price-val {width: 80px;}
 		</style>					      			    	
       </th:block>
 	</head>
@@ -44,7 +44,7 @@
 				<h4 class="modal-title"  th:text="${!ord.new}? #{admin.order.edit.title.edit}: #{admin.order.edit.title.add}">Edit Order</h4>
 	 	   </div>
 		 <!-- /modal-header -->
-		   <div class="modal-body" style ="height:55vh; overflow:auto" id="editModalBody">
+		   <div class="modal-body" style ="height:70vh; overflow:auto" id="editModalBody">
 		          <div  th:if="${#fields.hasErrors('*')}" class="alert alert-danger alert-dismissable">
 		          	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                     <span th:text="#{admin.edit.existsErrors}">There is some errors in the form</span>
@@ -125,7 +125,7 @@
 	             		</div>
 	                    <div class="tab-pane " th:classappend="${tabactive=='content'}? 'in active'" id="content">							
 					        <div class="container-fluid">
-							   <div class="row clearfix" style="margin-bottom:10px;">
+							   <div class="row clearfix" style="margin-bottom:5px;">
 								  <div class="col-md-8">
 								    <div class="field-box">
 						               <label>
@@ -156,7 +156,7 @@
 									  	    <tbody>
 									  	       <tr th:each="oi, oiStat : *{orderItems}">
 									  	       	  <td>
-									  	       	     <input type="hidden" th:name="orderItems[__${oiStat.index}__]" th:value="${ord.orderItems[__${oiStat.index}__].id}"/>
+									  	       	     <input type="hidden" th:field="*{orderItems[__${oiStat.index}__].id}"/>
 									  	       	     <input type="hidden" th:name="orderItems[__${oiStat.index}__].sku" th:value="${ord.orderItems[__${oiStat.index}__].sku.id}"/>
 												     <div class="a-photo-out">
 		                                                <span class="photo-block">
@@ -166,26 +166,28 @@
 												        <span th:text="${oi.sku.name}">name</span>
 												        <br/>
 												        <span style="font-size: 9pt;" th:text="${oi.sku.code}">code</span>&nbsp;
-												        <span th:if="${oi.sku.code != null}" style='display: inline-block; color: #aaa; font-size: 11px;'>&#9679;</span>&nbsp;
+												        <span th:if="${oi.sku.code != null &amp;&amp; !''.equals(oi.sku.commaDelemitedPOVL)}" style='display: inline-block; color: #aaa; font-size: 11px;'>&#9679;</span>&nbsp;
 												        <span style="font-size: 9pt;" th:text="${oi.sku.commaDelemitedPOVL}">sku</span>
 												     </div>																	  	       	      		  
 									  	       	  </td>
 												  <td class="domain-col">
- 									  	       	      <input type="text" class="form-control input-md price-val row-count-changer" style="display: inline-block; font-size: 9pt;" 
- 									  	       	             th:name="orderItems[__${oiStat.index}__]" th:value="${ord.orderItems[__${oiStat.index}__].price}" />											  
+ 									  	       	      <input type="text" class="form-control input-md price-val row-total-changer" th:attr="data-id=${oi.id}" 
+ 									  	       	             style="display: inline-block; font-size: 9pt;" th:id="${'price_'+oi.id}" 
+ 									  	       	             th:name="orderItems[__${oiStat.index}__].price" th:value="${#numbers.formatDecimal(ord.orderItems[__${oiStat.index}__].price,1,2)}" />											  
 												      <span style="font-size: 9pt;" th:text="${T(java.util.Currency).getInstance(#locale.getDefault()).getSymbol()}">руб.</span>
 												  </td>									  	       	  
 												  <td>
- 									  	       	      <input type="number" min="1" class="form-control input-md row-count-changer" th:field="*{orderItems[__${oiStat.index}__].quantity}" />
+ 									  	       	      <input type="number" min="1" class="form-control input-md row-total-changer" th:attr="data-id=${oi.id}" 
+ 									  	       	             th:id="${'quantity_'+oi.id}" th:field="*{orderItems[__${oiStat.index}__].quantity}" />
 									  	       	  </td>
 									  	       	  <td class="text-center">
-									  	       	  	  <span style="font-size: 9pt;" th:text="${#numbers.formatDecimal((oi.rowTotal),1,2)}">10.00</span>	
-									  	       	  	  <span style="font-size: 9pt; display: " th:text="${T(java.util.Currency).getInstance(#locale.getDefault()).getSymbol()}">руб.</span>
+									  	       	  	  <span style="font-size: 9pt;" th:id="${'rowTotal_'+oi.id}" th:text="${#numbers.formatDecimal(oi.rowTotal,1,2)}">10.00</span>	
+									  	       	  	  <span style="font-size: 9pt;" th:text="${T(java.util.Currency).getInstance(#locale.getDefault()).getSymbol()}">руб.</span>
 									  	       	  </td>
 									  	       	  <td >
 			  				            	  		 <div class="btn-group edit-btn-group" role="group" > 
 						                                  <button type="button" data-toggle="modal" data-target="#deleteOi" 
-							                                      class="open-deleteDialog btn btn-outline btn-default btn-xs"
+							                                      class="open-deleteDialog-oi btn btn-outline btn-default btn-xs"
 							                                      th:attr="data-id=${oi.id}">
 							                                <i class="fa fa-trash-o"></i>
 							                              </button>	
@@ -193,6 +195,22 @@
 									  	       	  </td>
 									  	       </tr>
 									  	    </tbody>
+									  	    <tfoot>
+									  	    	<tr>
+									  	    		<td colspan="6">
+											  	    	<div style="float: right;">
+											  	    	  <p><span th:text="#{admin.order.subTotal}"></span>: 
+											  	    	     <span style="font-weight: bold;" id="subTotal" th:text="${#numbers.formatDecimal(ord.subTotal == null? 0 : ord.subTotal,1,2)}"></span>
+											  	    	     <span style="font-weight: bold;" th:text="${T(java.util.Currency).getInstance(#locale.getDefault()).getSymbol()}">руб.</span>
+											  	    	  </p>
+											  	    	  <p><span th:text="#{admin.order.total}"></span>: 
+											  	    	     <span style="font-weight: bold;" id="total" th:text="${#numbers.formatDecimal(ord.total == null? 0 : ord.total,1,2)}"></span>
+											  	    	     <span style="font-weight: bold;" th:text="${T(java.util.Currency).getInstance(#locale.getDefault()).getSymbol()}">руб.</span>
+											  	    	  </p>
+											  	    	</div>
+									  	    		</td>
+									  	    	</tr>
+									  	    </tfoot>
 				                       	 </table>
 									  </div>
 								 </div>

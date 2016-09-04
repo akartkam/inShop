@@ -5,7 +5,9 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
+import org.hibernate.annotations.Cascade;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -124,6 +126,7 @@ public class Order extends AbstractDomainObjectOrdering {
     @Valid
     @NotEmpty
     @OneToMany(mappedBy = "order", cascade = {CascadeType.ALL})
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
     public List<OrderItem> getOrderItems() {
         return orderItems;
     }
@@ -137,6 +140,27 @@ public class Order extends AbstractDomainObjectOrdering {
             orderItems.add(orderItem);
             orderItem.setOrder(this);
     	}
+    }
+    
+    public void removeOrderItem(OrderItem orderItem) {
+    	if (orderItem != null) {
+    		List<OrderItem> oil = getOrderItems();
+    		oil.remove(orderItem);
+    	}
+    }
+    
+    public void removeOrderItem(UUID id) {
+    	OrderItem oi = getOrderItem(id);    		
+    	removeOrderItem(oi);
+    }
+    
+    @Transient
+    public OrderItem getOrderItem (UUID id) {
+    	if (id == null) return null;
+    	for (OrderItem oi : getOrderItems()) {
+    		if (id.equals(oi.getId())) return oi;
+    	}
+    	return null;
     }
 
 	@Column(name = "name")

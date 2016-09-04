@@ -42,7 +42,7 @@
 				    text-overflow: ellipsis;
 				    white-space: nowrap;
 				 }
-				td.domain-col .price-val {width: 70px;}
+				td.domain-col .price-val {width: 80px;}
 				tfoot {
 				    display: table-header-group;
 				}
@@ -99,7 +99,7 @@
               <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
               <h4 class="modal-title" id="myModalLabel">Modal title</h4>
             </div>
-            <div class="modal-body" style ="height:55vh; overflow:auto">
+            <div class="modal-body" style ="height:60vh; overflow:auto">
                 <h3>Modal Body</h3>
             </div>
             <div class="modal-footer">
@@ -268,23 +268,23 @@
 			        $("body").on("click",".open-deleteDialog", function () {
 			    	     var Id = $(this).data("id");
 			    	     var poName = $(this).data("name");
-			    	     if (poName == "undefined" || poName ==null) poName = '';
+			    	     if (typeof poName == "undefined" || poName ==null) poName = '';
 			    	     var modalName = $(this).data("target");
 			    	     $(modalName).find(".modal-footer .btn-primary").val(Id);
 			    	     $(modalName).find(".modal-body .objname").html(poName);
 			    	     if (modalName == "#deleteModalPov") {
 			    	    	 var canRemove = $(this).data("canremove");
 			    	    	 var checkRemove = $(modalName).find("#phisycalDeletePov")
-			    	    	 if (checkRemove != "undefined" && checkRemove !=null) checkRemove.attr("disabled", !canRemove);
+			    	    	 if (typeof checkRemove != "undefined" && checkRemove !=null) checkRemove.attr("disabled", !canRemove);
 			    	     }
 			    	});
 	            });
 	    		$("body").on("click", ".add-new-sku", function () { 
 		        	var id = $("#slSearchSku").val();
-		        	if (id == "undefined") return;
+		        	if (typeof id == "undefined") return;
 	    			var form = $("#oeform");
 	    			var formser;
-	    			if (form != "undefined" && form != null) formser = form.serialize();
+	    			if (typeof form != "undefined" && form != null) formser = form.serialize();
 	                   $.ajax({
 	                   	   type: "POST",
 	                       url: /*[[@{/admin/order/add-item}]]*/'',
@@ -292,21 +292,52 @@
 	                       cache: false
 	                   }).done(function (html) {
 	                	   $("#dOrderItemTable").html(html);
+	                	   updateTotals();
 	                   });
 	    		});
-	    		$("body").on("change", ".order-item-quantity", function () { 
+	    		$("body").on("click", ".open-deleteDialog-oi", function () { 
+		        	var id = $(this).data("id");
+		        	if (typeof id == "undefined") return;
 	    			var form = $("#oeform");
 	    			var formser;
-	    			if (form != "undefined" && form != null) formser = form.serialize();
-                    $.ajax({
-                   	   type: "POST",
-                       url: /*[[@{/admin/order/update-oitable}]]*/'',
-                       data: formser,
-                       cache: false
-                     }).done(function (html) {
-                              $("#dOrderItemTable").html(html);
+	    			if (typeof form != "undefined" && form != null) formser = form.serialize();
+	                   $.ajax({
+	                   	   type: "POST",
+	                       url: /*[[@{/admin/order/del-item}]]*/'',
+	                       data: formser+"&ID="+id,
+	                       cache: false
+	                   }).done(function (html) {
+	                	   $("#dOrderItemTable").html(html);
+	                	   updateTotals();
 	                   });
+	    		});	    			    		
+	    		$("body").on("input", ".row-total-changer", function (event) { 
+						var id = $(event.target).data("id");
+						if (typeof id == "undefined" || id == null) return;
+						var $price = $("#price_"+id).val();
+						var $quant = $("#quantity_"+id).val();
+						$price = parseFloat($price);
+						$quant = parseInt($quant);
+						if (isNaN($price) || isNaN($quant)) {
+							$("#rowTotal_"+id).html("0");
+							return;
+						};
+						var $rowTotal = $price * $quant;
+						$("#rowTotal_"+id).html($rowTotal.toFixed(2));
+						updateTotals();
 	    		});
+	    		function updateTotals() {
+	    			var $subTotal = 0;
+	    			var $total = 0;
+	    			var pn;
+	    			$("table#orderItemsDT>tbody>tr>td>span[id^=rowTotal_]").each(function(){
+	    				pn = parseFloat($(this).html());
+	    				if (!isNaN(pn)) $subTotal = $subTotal + pn;
+	    			});
+	    			$total = $subTotal;
+	    			$("#subTotal").html($subTotal.toFixed(2));
+	    			$("#total").html($total.toFixed(2));
+	    		}
   		        $(document).on("mouseenter", ".mightOverflow", function() { 
   		        	var $t = $(this); 
   		        	var title = $t.attr("title");
