@@ -312,8 +312,7 @@
 	                   });
 	    		});	    			    		
 	    		$("body").on("input", ".row-total-changer", function (event) { 
-	    			    /*^(?:(?=\d{1,6}\.{1})(\d{1,6}\.\d?\d?)|(\d{1,6}))$*/
-	    			    formatNumberTo6dot2(event.target);
+	    			    formatInputNumber(event.target);
 						var id = $(event.target).data("id");
 						if (typeof id == "undefined" || id == null) return;
 						

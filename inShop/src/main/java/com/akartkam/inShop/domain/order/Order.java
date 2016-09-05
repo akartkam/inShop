@@ -88,6 +88,7 @@ public class Order extends AbstractDomainObjectOrdering {
         this.total = orderTotal;
     }
   
+    @NotNull
     @DateTimeFormat(pattern="${date.formatshort}")
     @Column(name = "submit_date")
     @Past

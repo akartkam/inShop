@@ -34,6 +34,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.http.HttpStatus;
 
 import com.akartkam.inShop.domain.Account;
@@ -177,9 +178,25 @@ public class AdminOrderController {
           if ("XMLHttpRequest".equals(requestedWith)) {
               return "/admin/order/orderEdit :: editOrderForm";
             } 	      
-          return "/admin/order/orderEdit";		  
-	  }	  
+          return "/admin/order/orderEdit";	
+	  }	 
 
+	   @RequestMapping(value="/edit", method = RequestMethod.POST )
+	   public String saveOrder(
+			                   @Valid Order order,
+				   			   final BindingResult bindingResult,
+			                   final RedirectAttributes ra
+			                         ) {
+		   if (bindingResult.hasErrors()) {
+	        	ra.addFlashAttribute("ord", order);
+	        	ra.addFlashAttribute("org.springframework.validation.BindingResult.ord", bindingResult);
+	            return "redirect:/admin/order/edit";
+	        }
+
+	        orderService.mergeWithExistingAndUpdateOrCreate(order);	       
+	        return "redirect:/admin/order";
+	    }
+	  
 	  @RequestMapping(value="/add-item", method = RequestMethod.POST )
 	  public String addNewItem(
 			   				   final @RequestParam(value = "skuId", required = true) String skuID,

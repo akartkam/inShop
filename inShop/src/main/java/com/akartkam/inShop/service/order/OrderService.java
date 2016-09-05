@@ -11,4 +11,5 @@ public interface OrderService {
 	List<Order> getAllOrders();
 	Order createOrder(Order order);
 	Order getOrderById(UUID id);
+	void mergeWithExistingAndUpdateOrCreate(Order order);
 }

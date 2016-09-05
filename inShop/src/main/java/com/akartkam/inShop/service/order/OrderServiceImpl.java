@@ -1,5 +1,6 @@
 package com.akartkam.inShop.service.order;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
@@ -53,5 +54,24 @@ public class OrderServiceImpl implements OrderService{
 	@Override
 	public Order getOrderById(UUID id) {
 		return orderDAO.get(id);
+	}
+
+	@Override
+	@Transactional(readOnly = false)
+	public void mergeWithExistingAndUpdateOrCreate(Order order) {
+		if (order == null) return;
+		Order existingOrder = getOrderById(order.getId());
+		if (existingOrder != null) {
+			existingOrder.setCustomer(order.getCustomer());
+			existingOrder.setEmailAddress(order.getEmailAddress());
+			Iterator<OrderItem> ioi = existingOrder.getOrderItems().iterator();
+			while (ioi.hasNext()) {
+				OrderItem oi = ioi.next();
+				
+			}
+		} else {
+			
+		}
+		
 	}
 }

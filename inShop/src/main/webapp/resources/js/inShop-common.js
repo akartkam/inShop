@@ -29,10 +29,15 @@ $.urlParam = function(name){
     }
 }
 
-function formatNumberTo6dot2 (input) {
+function formatInputNumber (input) {
+	var reg;
+	if ($(input).hasClass("price-val")) {
+		reg = /^(?:(?=\d{0,6}\.{1})(\d{0,6}\.\d?\d?)|(\d{0,6}))$/gi; 
+	} else if ($(input).hasClass("quantity-val")) {
+		reg = /^\d{0,6}$/;
+	}
 	var txt = $(input).val(); 
 	var oldTxt = $(input).data("oldtext"); 
-	var reg = /^(?:(?=\d{1,6}\.{1})(\d{1,6}\.\d?\d?)|(\d{1,6}))$/gi; 
 	if (!reg.test(txt)) {
 		$(input).val(oldTxt);
 	} else {
