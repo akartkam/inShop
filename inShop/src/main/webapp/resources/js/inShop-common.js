@@ -28,3 +28,14 @@ $.urlParam = function(name){
        return results[1] || 0;
     }
 }
+
+function formatNumberTo6dot2 (input) {
+	var txt = $(input).val(); 
+	var oldTxt = $(input).data("oldtext"); 
+	var reg = /^(?:(?=\d{1,6}\.{1})(\d{1,6}\.\d?\d?)|(\d{1,6}))$/gi; 
+	if (!reg.test(txt)) {
+		$(input).val(oldTxt);
+	} else {
+		$(input).data("oldtext", txt);
+	}
+}

@@ -36,7 +36,7 @@
 	</head>
 <body>
   <div class="modal fade" id="editModal" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true" layout:fragment="editForm">
-    <div class="modal-dialog" style="width:65vw; overflow:auto">
+    <div class="modal-dialog" style="width:75vw; overflow:auto">
 	  <div class="modal-content" id="editModalContent" >
 	   <form method="post" class="form-horizontal" id="oeform" role="form" action="#" th:action="@{/admin/order/edit}" th:object="${ord}" th:fragment="editOrderForm">
 		   <div class="modal-header">
@@ -44,7 +44,7 @@
 				<h4 class="modal-title"  th:text="${!ord.new}? #{admin.order.edit.title.edit}: #{admin.order.edit.title.add}">Edit Order</h4>
 	 	   </div>
 		 <!-- /modal-header -->
-		   <div class="modal-body" style ="height:70vh; overflow:auto" id="editModalBody">
+		   <div class="modal-body" style ="height:65vh; overflow:auto" id="editModalBody">
 		          <div  th:if="${#fields.hasErrors('*')}" class="alert alert-danger alert-dismissable">
 		          	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                     <span th:text="#{admin.edit.existsErrors}">There is some errors in the form</span>
@@ -171,13 +171,13 @@
 												     </div>																	  	       	      		  
 									  	       	  </td>
 												  <td class="domain-col">
- 									  	       	      <input type="text" class="form-control input-md price-val row-total-changer" th:attr="data-id=${oi.id}" 
+ 									  	       	      <input type="text" class="form-control input-md price-val row-total-changer" th:attr="data-id=${oi.id}" data-oldtext="" 
  									  	       	             style="display: inline-block; font-size: 9pt;" th:id="${'price_'+oi.id}" 
  									  	       	             th:name="orderItems[__${oiStat.index}__].price" th:value="${#numbers.formatDecimal(ord.orderItems[__${oiStat.index}__].price,1,2)}" />											  
 												      <span style="font-size: 9pt;" th:text="${T(java.util.Currency).getInstance(#locale.getDefault()).getSymbol()}">руб.</span>
 												  </td>									  	       	  
 												  <td>
- 									  	       	      <input type="number" min="1" class="form-control input-md row-total-changer" th:attr="data-id=${oi.id}" 
+ 									  	       	      <input type="number" min="1" class="form-control input-md row-total-changer" th:attr="data-id=${oi.id}" data-oldtext=""  
  									  	       	             th:id="${'quantity_'+oi.id}" th:field="*{orderItems[__${oiStat.index}__].quantity}" />
 									  	       	  </td>
 									  	       	  <td class="text-center">
