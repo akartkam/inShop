@@ -14,6 +14,7 @@ import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
@@ -103,7 +104,7 @@ public class Sku extends AbstractDomainObjectOrdering {
 		this.longDescription = longDescription;
 	}		
 	
-    @ElementCollection
+    @ElementCollection(fetch=FetchType.EAGER)
     @CollectionTable(name="lnk_sku_image")
     @OrderColumn(name="ordering")
     public List<String> getImages() {

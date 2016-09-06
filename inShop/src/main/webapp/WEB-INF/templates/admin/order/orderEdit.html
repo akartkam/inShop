@@ -173,7 +173,7 @@
 												  <td class="domain-col">
  									  	       	      <input type="text" class="form-control input-md price-val row-total-changer" th:attr="data-id=${oi.id}" data-oldtext="" 
  									  	       	             style="display: inline-block; font-size: 9pt;" th:id="${'price_'+oi.id}" 
- 									  	       	             th:name="orderItems[__${oiStat.index}__].price" th:value="${#numbers.formatDecimal(ord.orderItems[__${oiStat.index}__].price,1,2)}" />											  
+ 									  	       	             th:name="orderItems[__${oiStat.index}__].price" th:value="${#numbers.formatDecimal(ord.orderItems[__${oiStat.index}__].price,1,2,'POINT')}" />											  
 												      <span style="font-size: 9pt;" th:text="${T(java.util.Currency).getInstance(#locale.getDefault()).getSymbol()}">руб.</span>
 												  </td>									  	       	  
 												  <td>
@@ -181,7 +181,7 @@
  									  	       	             th:id="${'quantity_'+oi.id}" th:field="*{orderItems[__${oiStat.index}__].quantity}" />
 									  	       	  </td>
 									  	       	  <td class="text-center">
-									  	       	  	  <span style="font-size: 9pt;" th:id="${'rowTotal_'+oi.id}" th:text="${#numbers.formatDecimal(oi.rowTotal,1,2)}">10.00</span>	
+									  	       	  	  <span style="font-size: 9pt;" th:id="${'rowTotal_'+oi.id}" th:text="${#numbers.formatDecimal(oi.rowTotal,1,2,'POINT')}">10.00</span>	
 									  	       	  	  <span style="font-size: 9pt;" th:text="${T(java.util.Currency).getInstance(#locale.getDefault()).getSymbol()}">руб.</span>
 									  	       	  </td>
 									  	       	  <td >

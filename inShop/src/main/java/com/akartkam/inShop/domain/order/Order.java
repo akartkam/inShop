@@ -74,7 +74,13 @@ public class Order extends AbstractDomainObjectOrdering {
         return calculatedSubTotal;
     }
 
-
+    @Transient
+    public BigDecimal calculateTotal() {
+    	//To-do Add dicount e.t.c
+        return calculateSubTotal();
+    }
+   
+    
     @Column(name = "order_total", precision=19, scale=5)
 	@NumberFormat(style=Style.CURRENCY)
 	@DecimalMin("0.01")	

@@ -1,5 +1,7 @@
 package com.akartkam.inShop.service.order;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
@@ -16,6 +18,7 @@ import com.akartkam.inShop.dao.order.OrderDAO;
 import com.akartkam.inShop.dao.order.OrderItemDAO;
 import com.akartkam.inShop.domain.order.Order;
 import com.akartkam.inShop.domain.order.OrderItem;
+import com.akartkam.inShop.domain.product.Product;
 import com.akartkam.inShop.util.OrderNumberGenerator;
 
 @Service("OrderService")
@@ -64,13 +67,36 @@ public class OrderServiceImpl implements OrderService{
 		if (existingOrder != null) {
 			existingOrder.setCustomer(order.getCustomer());
 			existingOrder.setEmailAddress(order.getEmailAddress());
+			existingOrder.setSubmitDate(order.getSubmitDate());
+			existingOrder.setStatus(order.getStatus());
+			List<OrderItem> loif = new ArrayList<OrderItem>(order.getOrderItems());
 			Iterator<OrderItem> ioi = existingOrder.getOrderItems().iterator();
 			while (ioi.hasNext()) {
 				OrderItem oi = ioi.next();
-				
+				int idx = loif.indexOf(oi);
+				if (idx != -1) {
+					OrderItem oif = loif.get(idx);
+					oi.setPrice(new BigDecimal(oif.getPrice().toPlainString()));
+					oi.setQuantity(oif.getQuantity());
+					loif.remove(idx);
+				} else {
+				    ioi.remove();
+				}
 			}
+			for(OrderItem oi1: loif) existingOrder.addOrderItem(oi1); 
+			if (existingOrder.calculateSubTotal() != existingOrder.getSubTotal()) existingOrder.setSubTotal(existingOrder.calculateSubTotal());
+			if (existingOrder.calculateTotal() != existingOrder.getTotal()) existingOrder.setTotal(existingOrder.calculateTotal());
 		} else {
-			
+			for (OrderItem oi : order.getOrderItems()) {
+				Product p = oi.getSku().getDefaultProduct() != null ? oi.getSku().getDefaultProduct() : oi.getSku().getProduct();
+				oi.setProduct(p);
+				oi.setCategory(p.getCategory());
+				oi.setRetailPrice(oi.getSku().getRetailPrice());
+				oi.setSalePrice(oi.getSku().getSalePrice());
+			}
+			if (order.calculateSubTotal() != order.getSubTotal()) order.setSubTotal(order.calculateSubTotal());
+			if (order.calculateTotal() != order.getTotal()) order.setTotal(order.calculateTotal());
+			createOrder(order);
 		}
 		
 	}

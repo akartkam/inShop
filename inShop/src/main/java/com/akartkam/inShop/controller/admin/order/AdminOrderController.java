@@ -212,9 +212,6 @@ public class AdminOrderController {
 			   OrderItem oi=new OrderItem();
 			   oi.setSku(sku);
 			   oi.setPrice(sku.getSalePrice() != null ? sku.getSalePrice() : sku.getRetailPrice());
-			   oi.setRetailPrice(new BigDecimal(sku.getRetailPrice().toPlainString()));
-			   oi.setSalePrice(sku.getSalePrice() != null ? new BigDecimal(sku.getSalePrice().toPlainString()) : null);
-			   oi.setProduct(sku.getDefaultProduct() != null ? sku.getDefaultProduct() : sku.getProduct());
 			   oi.setQuantity(1);
 			   order.addOrderItem(oi);
 		   }
