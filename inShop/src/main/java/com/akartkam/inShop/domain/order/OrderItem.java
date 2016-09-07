@@ -42,6 +42,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Digits;
+import javax.validation.constraints.NotNull;
 
 
 @Entity
@@ -103,6 +104,8 @@ public class OrderItem extends AbstractDomainObjectOrdering {
         this.price = finalPrice;
     }
 
+    @NotNull
+    @DecimalMin("1")
     @Column(name = "quantity", nullable = false)
     public int getQuantity() {
         return quantity;
@@ -125,7 +128,7 @@ public class OrderItem extends AbstractDomainObjectOrdering {
     }
 
     @ManyToOne
-    @JoinColumn(name = "order_id")
+    @JoinColumn(name = "order_id", nullable=false)
     //@Index(name="orderitem_order_index", columnNames={"order_id"})    
     public Order getOrder() {
         return order;

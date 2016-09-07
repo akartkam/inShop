@@ -106,7 +106,6 @@ public class Order extends AbstractDomainObjectOrdering {
         this.submitDate = submitDate;
     }
 
-    @Valid
     @ManyToOne(optional=false, cascade=CascadeType.ALL)
     @JoinColumn(name = "customer_id", nullable = false)
     @NotNull
@@ -190,7 +189,7 @@ public class Order extends AbstractDomainObjectOrdering {
 
 	@Email
     @Column(name = "email_address")
-	@NotNull
+	@NotEmpty
     public String getEmailAddress() {
         return emailAddress;
     }

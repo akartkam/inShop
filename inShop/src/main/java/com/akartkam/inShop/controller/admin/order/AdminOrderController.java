@@ -99,12 +99,12 @@ public class AdminOrderController {
 			    	 setValue(UUID.fromString(text));
 			    }
 			    });
-			binder.registerCustomEditor(OrderItem.class,"orderItems", new PropertyEditorSupport() {
+			binder.registerCustomEditor(Order.class,"orderItems.order", new PropertyEditorSupport() {
 			    @Override
 			    public void setAsText(String text) {
-			    	if (!"".equals(text)) {
-			    		OrderItem oi =  orderService.getOrderItemById(UUID.fromString(text)); 
-			            setValue(oi);
+			    	if (text != null && !"".equals(text)) {
+			    		Order o =  orderService.getOrderById(UUID.fromString(text)); 
+			            setValue(o);
 			    	} else {
 			    		setValue(null);	
 			    	}
@@ -113,7 +113,7 @@ public class AdminOrderController {
 			binder.registerCustomEditor(Sku.class,"orderItems.sku", new PropertyEditorSupport() {
 			    @Override
 			    public void setAsText(String text) {
-			    	if (!"".equals(text)) {
+			    	if (text != null && !"".equals(text)) {
 			    		Sku sku =  productService.getSkuById(UUID.fromString(text)); 
 			            setValue(sku);
 			    	} else {
@@ -124,7 +124,7 @@ public class AdminOrderController {
 			binder.registerCustomEditor(ProductOptionValue.class,"orderItems.sku.productOptionValuesList", new PropertyEditorSupport() {
 			    @Override
 			    public void setAsText(String text) {
-			    	if (!"".equals(text)) {
+			    	if (text != null && !"".equals(text)) {
 			    		ProductOptionValue pov =  productService.getPOVById(UUID.fromString(text)); 
 			            setValue(pov);
 			    	} else {
@@ -136,7 +136,7 @@ public class AdminOrderController {
 			binder.registerCustomEditor(Customer.class, "customer", new PropertyEditorSupport() {
 			    @Override
 			    public void setAsText(String text) {
-			    	if (!"".equals(text)) {
+			    	if (text != null && !"".equals(text)) {
 			    		Customer cs = customerService.loadCustomerById(UUID.fromString(text), false);
 			            setValue(cs);
 			    	}			    
