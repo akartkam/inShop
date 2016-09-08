@@ -188,7 +188,6 @@ public class ProductServiceImpl implements ProductService {
 				existingPo.getProductOptionValues().add(pov);
 			}
 			poFromPost.getProductOptionValues().clear();
-        //updatePO(existingPo);
 		} else {
 			for (ProductOptionValue pov: poFromPost.getProductOptionValues()) pov.setProductOption(poFromPost);
 			createPO(poFromPost);

@@ -131,7 +131,7 @@ public class Order extends AbstractDomainObjectOrdering {
     @AdminPresentation(tab=EditTab.CONTENT)
     @Valid
     @NotEmpty
-    @OneToMany(mappedBy = "order", cascade = {CascadeType.ALL})
+    @OneToMany(mappedBy = "order", cascade = {CascadeType.ALL}, orphanRemoval=true) 
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
     public List<OrderItem> getOrderItems() {
         return orderItems;

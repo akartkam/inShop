@@ -83,7 +83,14 @@ public class OrderServiceImpl implements OrderService{
 				    ioi.remove();
 				}
 			}
-			for(OrderItem oi1: loif) existingOrder.addOrderItem(oi1); 
+			for(OrderItem oi1: loif) {
+				Product p = oi1.getSku().getDefaultProduct() != null ? oi1.getSku().getDefaultProduct() : oi1.getSku().getProduct();
+				oi1.setProduct(p);
+				oi1.setCategory(p.getCategory());
+				oi1.setRetailPrice(oi1.getSku().getRetailPrice());
+				oi1.setSalePrice(oi1.getSku().getSalePrice());
+				existingOrder.addOrderItem(oi1); 
+			}
 			if (existingOrder.calculateSubTotal() != existingOrder.getSubTotal()) existingOrder.setSubTotal(existingOrder.calculateSubTotal());
 			if (existingOrder.calculateTotal() != existingOrder.getTotal()) existingOrder.setTotal(existingOrder.calculateTotal());
 		} else {
@@ -93,6 +100,7 @@ public class OrderServiceImpl implements OrderService{
 				oi.setCategory(p.getCategory());
 				oi.setRetailPrice(oi.getSku().getRetailPrice());
 				oi.setSalePrice(oi.getSku().getSalePrice());
+				oi.setOrder(order);
 			}
 			if (order.calculateSubTotal() != order.getSubTotal()) order.setSubTotal(order.calculateSubTotal());
 			if (order.calculateTotal() != order.getTotal()) order.setTotal(order.calculateTotal());
