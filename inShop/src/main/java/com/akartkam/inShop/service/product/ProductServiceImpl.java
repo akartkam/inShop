@@ -259,6 +259,9 @@ public class ProductServiceImpl implements ProductService {
 			existingProduct.getDefaultSku().setLongDescription(productFromPost.getDefaultSku().getLongDescription());
 			existingProduct.getDefaultSku().setActiveStartDate(productFromPost.getDefaultSku().getActiveStartDate());
 			existingProduct.getDefaultSku().setActiveEndDate(productFromPost.getDefaultSku().getActiveEndDate());
+			Integer qa = productFromPost.getDefaultSku().getQuantityAvailable();
+			if (qa != null) existingProduct.getDefaultSku().setQuantityAvailable(new Integer(qa));
+			existingProduct.getDefaultSku().setInventoryType(productFromPost.getDefaultSku().getInventoryType());
 			existingProduct.setEnabled(productFromPost.isEnabled());
 			existingProduct.setCanSellWithoutOptions(productFromPost.isCanSellWithoutOptions());
 			if (!existingProduct.getCategory().equals(productFromPost.getCategory())) {
@@ -344,6 +347,9 @@ public class ProductServiceImpl implements ProductService {
 			sku.setEnabled(skuFromPost.isEnabled());
 			sku.setActiveStartDate(skuFromPost.getActiveStartDate());
 			sku.setActiveEndDate(skuFromPost.getActiveEndDate());
+			Integer qa = skuFromPost.getQuantityAvailable();
+			if (qa != null) sku.setQuantityAvailable(new Integer(qa));
+			
 	        //Images
 			sku.getImages().clear();
 			for (String i : skuFromPost.getImages()) sku.getImages().add(i);

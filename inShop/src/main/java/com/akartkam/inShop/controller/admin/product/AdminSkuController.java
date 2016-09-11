@@ -78,7 +78,7 @@ public class AdminSkuController {
 	  public void initBinder(WebDataBinder binder) {
 			binder.setAllowedFields(new String[] { "*id", "*name", "url", "*description", "*longDescription", 
 					 							   "*code", "ordering", "*images*", "enabled", "*retailPrice", "productOptionValuesList*", 
-					 							   "*salePrice", "*costPrice", "*activeStartDate", "*activeEndDate", "*productOptions*"});
+					 							   "*salePrice", "*costPrice", "*activeStartDate", "*activeEndDate", "*productOptions*","quantityAvailable"});
 			binder.registerCustomEditor(UUID.class, "id", new PropertyEditorSupport() {
 			    @Override
 			    public void setAsText(String text) {

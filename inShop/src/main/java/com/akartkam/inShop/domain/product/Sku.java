@@ -24,6 +24,8 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Digits;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -114,6 +116,7 @@ public class Sku extends AbstractDomainObjectOrdering {
 		this.images = images;
 	}	
 	
+	@Min(0)
 	@Column(name = "quantity_avable")
 	public Integer getQuantityAvailable() {
 		return quantityAvailable;
@@ -133,6 +136,7 @@ public class Sku extends AbstractDomainObjectOrdering {
 		this.productStatus = productStatus;
 	}
 	
+	@NotNull
 	@Enumerated(EnumType.STRING)
 	@Column(name = "inventory_type")
 	public InventoryType getInventoryType() {
@@ -217,7 +221,7 @@ public class Sku extends AbstractDomainObjectOrdering {
 		this.costPrice = costPrice;
 	}
 	
-	@ManyToMany	
+	@ManyToMany
     @JoinTable(name = "lnk_sku_option_value", 
         joinColumns = @JoinColumn(name = "sku_id"), 
         inverseJoinColumns = @JoinColumn(name = "product_option_value_id"))
@@ -342,6 +346,16 @@ public class Sku extends AbstractDomainObjectOrdering {
 	    return ret;
 	}
 	
+	/*@Transient
+	public boolean isAvailable() {
+		if (getInventoryType() == InventoryType.UNAVAILABLE) return false;
+		if (getDefaultProduct() != null) {
+			return getDefaultProduct().isCanSellWithoutOptions();
+		} else if (getInventoryType() == InventoryType.ALWAYS_AVAILABLE) return true;
+		if ()
+		
+	}*/
+	
 	@Override
 	@Transient
 	public Sku clone() throws CloneNotSupportedException {
@@ -351,10 +365,8 @@ public class Sku extends AbstractDomainObjectOrdering {
 		if (getCode() != null) sku.setCode(new String(getCode()));
 		if (getDescription() != null) sku.setDescription(new String(getDescription()));
 		if (getLongDescription() != null) sku.setLongDescription(new String(getLongDescription()));
-		sku.setQuantityAvailable(new Integer(getQuantityAvailable()));
 		sku.setProduct(getProduct());
 		sku.setProductStatus(new HashSet<ProductStatus>(getProductStatus()));
-		sku.setInventoryType(getInventoryType());
 		sku.setActiveStartDate(getActiveStartDate() != null ? new Date(getActiveStartDate().getTime()) : null);
 		sku.setActiveEndDate(getActiveEndDate() != null ? new Date(getActiveEndDate().getTime()): null);
 		sku.setSalePrice(getSalePrice() != null ? new BigDecimal(getSalePrice().toPlainString()): null);

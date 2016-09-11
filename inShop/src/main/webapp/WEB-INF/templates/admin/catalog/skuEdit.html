@@ -100,7 +100,17 @@
 									   		  <input type="text" class="form-control" th:field="*{costPrice}"/>
 								   		   </div>						   		   
 							   		   </div>
-  								   </div>			   		   
+  								   </div>
+  								   <div class="row">
+	  								   <div class="col-md-4">
+										   <div class="field-box">	                              
+								    		   <label>
+									    	  	 <span th:text="#{admin.catalog.product.quantity}">Quantity aval.</span>
+									   		   </label>
+									   		   <input type="number" min="0" class="form-control" th:field="*{quantityAvailable}"/>
+								   		   </div>
+							   		   </div>
+						   		   </div>
 						   		   <div class="field-box">
 			 			    		  <label>
 							    	  	<span th:text="#{admin.catalog.product.edit.description}">Description Product1</span>

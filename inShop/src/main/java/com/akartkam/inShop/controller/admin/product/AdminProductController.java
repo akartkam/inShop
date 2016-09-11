@@ -58,6 +58,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.akartkam.inShop.domain.order.Order;
 import com.akartkam.inShop.domain.product.Brand;
 import com.akartkam.inShop.domain.product.Category;
+import com.akartkam.inShop.domain.product.InventoryType;
 import com.akartkam.inShop.domain.product.Product;
 import com.akartkam.inShop.domain.product.ProductStatus;
 import com.akartkam.inShop.domain.product.Sku;
@@ -137,6 +138,10 @@ public class AdminProductController {
 	      return Arrays.asList(ProductStatus.ALL);
 	  }	  
 	  
+	  @ModelAttribute("allInventoryTypes")
+	  public List<InventoryType> getAllInventoryTypes() {
+	      return Arrays.asList(InventoryType.ALL);
+	  }	  
   	  
 	  @InitBinder
 	  public void initBinder(WebDataBinder binder) {
@@ -144,7 +149,8 @@ public class AdminProductController {
 					 							   "*code", "category", "brand", "*model", "attributeValues*", "ordering", 
 					 							   "*productOptions", "canSellWithoutOptions", "*images*", "enabled",
 					 							   "*retailPrice", "*salePrice", "*costPrice", "*value", "*productStatus*", 
-					 							   "*productOptionsForForm*","*activeStartDate", "*activeEndDate"});
+					 							   "*productOptionsForForm*","*activeStartDate", "*activeEndDate", "*quantityAvailable",
+					 							   "*inventoryType"});
 			binder.registerCustomEditor(UUID.class, "id", new PropertyEditorSupport() {
 			    @Override
 			    public void setAsText(String text) {

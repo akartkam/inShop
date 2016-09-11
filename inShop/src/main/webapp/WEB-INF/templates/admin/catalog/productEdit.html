@@ -77,7 +77,6 @@
 							   		  </label>
 							   		  <input type="text" class="form-control" th:field="*{url}"/>
 						   		   </div>
-<!-- 						   		   <div class="container-fluid" style="width:100%;">						   		    -->
 								   <div class="row">
 							   		   <div class="col-md-3">
 										   <div class="field-box">	                              
@@ -112,7 +111,28 @@
 									   		  <input type="text" class="form-control" th:field="*{defaultSku.costPrice}"/>
 								   		   </div>						   		   
 							   		   </div>
-<!-- 										</div>			 -->
+								   </div>
+								   <div class="row">
+							   		   <div class="col-md-3">
+										   <div class="field-box">	                              
+								    		  <label>
+									    	  	 <span th:text="#{admin.catalog.product.quantity}">Quantity aval.</span>
+									   		  </label>
+									   		  <input type="number" min="0" class="form-control" th:field="*{defaultSku.quantityAvailable}"/>
+								   		   </div>
+										</div>								   
+							   		   <div class="col-md-3">
+										   <div class="field-box">	                              
+								                <label>
+								    	   	        <span th:text="#{admin.catalog.product.inventoryType}">Inventory type</span>
+								   		        </label>				            
+						                        <select class="form-control" th:field="*{defaultSku.inventoryType}">
+						                            <option value="">&nbsp;</option>
+				            						<option th:each="it : ${allInventoryTypes}" th:value="${it}" th:text="#{${'product.inventoryType.' + it}}">ALWAYS_AVAILABLE</option>
+									            </select> 
+									            <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('defaultSku.inventoryType')}" th:errors="*{defaultSku.inventoryType}">Empty inventory type</p>
+								   		   </div>
+									   </div>								   
 								   </div>			   		   
 						   		   <div class="field-box">
 			 			    		  <label>
@@ -133,11 +153,13 @@
 						  	  	<span th:text="#{admin.catalog.category}">Category</span>
 						       </label>
 							   <select class="form-control" id="category" th:field="*{category}" th:attr="data-previd=${!product.new &amp;&amp; product.category != null? product.category.id: ''}">
-								<option th:each="scategory : ${allCategory}" 
-								        th:value="${scategory.id}"
-									    th:text="${scategory.name}"
-									    th:class="${!scategory.enabled} ? 'text-muted'">Category 1</option>
+								  <option value="">&nbsp;</option>
+								  <option th:each="scategory : ${allCategory}" 
+								          th:value="${scategory.id}"
+									      th:text="${scategory.name}"
+									      th:class="${!scategory.enabled} ? 'text-muted'">Category 1</option>
 							   </select>
+							   <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('category')}" th:errors="*{category}">Empty category</p>
 						     </div>
 						     <div class="row">
 								<div class="col-md-3">

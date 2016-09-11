@@ -67,6 +67,7 @@ public class Product extends AbstractDomainObjectOrdering {
 	public void setCanSellWithoutOptions(boolean canSellWithoutOptions) {
 		this.canSellWithoutOptions = canSellWithoutOptions;
 	}
+	
 	@NotNull
 	@ManyToOne
 	@JoinColumn(nullable=false)

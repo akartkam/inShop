@@ -42,6 +42,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Digits;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 
@@ -56,7 +57,7 @@ public class OrderItem extends AbstractDomainObjectOrdering {
     private Category category;
     private Order order;
     private BigDecimal price;
-    private int quantity;
+    private Integer quantity;
     private BigDecimal retailPrice;
     private BigDecimal salePrice;
     private String name;    
@@ -105,13 +106,13 @@ public class OrderItem extends AbstractDomainObjectOrdering {
     }
 
     @NotNull
-    @DecimalMin("1")
+    @Min(1)
     @Column(name = "quantity", nullable = false)
-    public int getQuantity() {
+    public Integer getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(Integer quantity) {
         this.quantity = quantity;
     }
 
