@@ -26,6 +26,7 @@ public interface ProductService {
 	Product getProductById(UUID id);
 	ProductOptionValue getPOVById(UUID id);
 	ProductOption getPOById(UUID id);
+	ProductOption getPOByIdForForm(UUID id);
 	ProductOption clonePOById(UUID id) throws CloneNotSupportedException;
 	Product cloneProductById(UUID id) throws CloneNotSupportedException;
 	ProductOption loadPOById(UUID id, Boolean lock);

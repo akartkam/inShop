@@ -15,6 +15,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.Transformer;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.MessageSource;
@@ -93,12 +94,22 @@ public class ProductServiceImpl implements ProductService {
 	public ProductOption getPOById(UUID id) {
 		return productOptionDAO.get(id);
 	}
+	
+	@Override
+	public ProductOption getPOByIdForForm(UUID id) {
+		ProductOption po = getPOById(id);
+		if (po != null) {
+			Hibernate.initialize(po.getProductOptionValues());
+		}
+		return null;
+	}
 
 	@Override
 	public ProductOptionValue getPOVById(UUID id) {
 		return productOptionValueDAO.get(id);
 	}
 
+	
 	@Override
 	public List<Product> getProductsByName(String name) {
 		return productDAO.findProductsByName(name);
@@ -381,6 +392,7 @@ public class ProductServiceImpl implements ProductService {
 		return skuDAO.get(id);
 	}
 	
+
 	@Override
 	public Sku cloneSkuById(UUID id) throws CloneNotSupportedException {
 		Sku sku = getSkuById(id);
@@ -603,7 +615,6 @@ public class ProductServiceImpl implements ProductService {
 		
 		return ret;
 	}
-	
 
 }
 

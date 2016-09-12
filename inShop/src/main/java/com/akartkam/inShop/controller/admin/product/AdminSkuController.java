@@ -112,7 +112,7 @@ public class AdminSkuController {
 			    @Override
 			    public void setAsText(String text) {
 			    	if (!"".equals(text)) {
-			    		ProductOption po = productService.loadPOById(UUID.fromString(text), false);			    		
+			    		ProductOption po = productService.getPOByIdForForm(UUID.fromString(text));			    		
 			            setValue(po);
 			    	}			    
 			    }
