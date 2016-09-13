@@ -40,7 +40,7 @@ public interface ProductService {
 	void updatePO(ProductOption po);
 	void mergeWithExistingSkuAndUpdateOrCreate(final Sku sku, Errors errors);
 	void mergeWithExistingPOAndUpdateOrCreate(final ProductOption poFromForm, Errors errors);
-	void mergeWithExistingAndUpdateOrCreate(final ProductForm productFromPost);
+	void mergeWithExistingAndUpdateOrCreate(final ProductForm productFromPost, Errors errors);
 	Product generateSkusFromProduct(UUID productId);
 	Sku getSkuById(UUID id);
 	Sku cloneSkuById(UUID id) throws CloneNotSupportedException;

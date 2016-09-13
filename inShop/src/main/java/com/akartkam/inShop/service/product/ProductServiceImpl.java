@@ -101,7 +101,7 @@ public class ProductServiceImpl implements ProductService {
 		if (po != null) {
 			Hibernate.initialize(po.getProductOptionValues());
 		}
-		return null;
+		return po;
 	}
 
 	@Override
@@ -252,8 +252,9 @@ public class ProductServiceImpl implements ProductService {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	@Transactional(readOnly = false)
-	public void mergeWithExistingAndUpdateOrCreate(final ProductForm productFromPost) {
+	public void mergeWithExistingAndUpdateOrCreate(final ProductForm productFromPost, Errors errors) {
 		if (productFromPost == null) return;
+		if (!checkProduct(productFromPost, errors)) return;
 		final Product existingProduct = getProductById(productFromPost.getId());
 		if (existingProduct != null) {
 			existingProduct.getDefaultSku().setName(productFromPost.getDefaultSku().getName());
@@ -338,6 +339,18 @@ public class ProductServiceImpl implements ProductService {
 		}
 	}
 	
+	private boolean checkProduct(final ProductForm productFromPost, Errors errors) {
+		if (productFromPost != null) {
+			if (productFromPost.getDefaultSku() != null) {
+				if (productFromPost.getDefaultSku().getInventoryType() == null) {
+					errors.rejectValue("defaultSku.inventoryType", "error.null", 
+						   new String[]{messageSource.getMessage("admin.catalog.product.inventoryType",null, Locale.getDefault())}, null);
+				}
+			}			
+		}
+		return !errors.hasErrors();
+	}	
+	
 	//Sku
 	@Override
 	@Transactional(readOnly = false)
@@ -360,7 +373,7 @@ public class ProductServiceImpl implements ProductService {
 			sku.setActiveEndDate(skuFromPost.getActiveEndDate());
 			Integer qa = skuFromPost.getQuantityAvailable();
 			if (qa != null) sku.setQuantityAvailable(new Integer(qa));
-			
+	
 	        //Images
 			sku.getImages().clear();
 			for (String i : skuFromPost.getImages()) sku.getImages().add(i);

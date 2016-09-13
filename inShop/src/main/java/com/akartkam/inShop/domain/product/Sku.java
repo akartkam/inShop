@@ -136,7 +136,6 @@ public class Sku extends AbstractDomainObjectOrdering {
 		this.productStatus = productStatus;
 	}
 	
-	@NotNull
 	@Enumerated(EnumType.STRING)
 	@Column(name = "inventory_type")
 	public InventoryType getInventoryType() {
@@ -221,7 +220,7 @@ public class Sku extends AbstractDomainObjectOrdering {
 		this.costPrice = costPrice;
 	}
 	
-	@ManyToMany
+	@ManyToMany()
     @JoinTable(name = "lnk_sku_option_value", 
         joinColumns = @JoinColumn(name = "sku_id"), 
         inverseJoinColumns = @JoinColumn(name = "product_option_value_id"))
@@ -231,12 +230,15 @@ public class Sku extends AbstractDomainObjectOrdering {
 	}
 	public void setProductOptionValues(Set<ProductOptionValue> productOptionValues) {
 		this.productOptionValues = productOptionValues;
-		this.productOptionValuesList = new ArrayList<ProductOptionValue>(productOptionValues);
+		this.productOptionValuesList = null;
 	}
 	
 	@Transient
 	@AdminPresentation(tab=EditTab.ADDITIONAL)
 	public List<ProductOptionValue> getProductOptionValuesList() {
+		if (productOptionValuesList == null) { 
+			productOptionValuesList = new ArrayList<ProductOptionValue>(getProductOptionValues());
+		}
 		return productOptionValuesList;
 	}
 
@@ -328,15 +330,6 @@ public class Sku extends AbstractDomainObjectOrdering {
         }        
         return returnPrice;
     }
-	
-	@Transient
-	public List<ProductOption> getProductOptionsFromPOVL() {
-		List<ProductOption> lpo = new ArrayList<ProductOption>();
-		for (ProductOptionValue pov : productOptionValuesList) {
-			lpo.add(pov.getProductOption());
-		}
-		return lpo;
-	}
 	
 	@Transient
 	public String getCommaDelemitedPOVL() {
