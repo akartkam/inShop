@@ -381,6 +381,7 @@ public class ProductServiceImpl implements ProductService {
 			sku.setOrdering(skuFromPost.getOrdering());
 			
 		} else {
+			skuFromPost.setProductOptionValuesFromList();
 			createSku(skuFromPost);
 		}
 	}
@@ -390,6 +391,9 @@ public class ProductServiceImpl implements ProductService {
 		if (product == null) {
 			LOG.error("Product "+skuFromPost.getProduct().getId()+" not found!");
 			throw new ProductNotFoundException("Product "+skuFromPost.getProduct().getId()+" not found!");
+		}
+		if (skuFromPost.getProductOptionValuesList() == null || skuFromPost.getProductOptionValuesList().isEmpty()) {
+			errors.rejectValue("productOptionValuesList", "error.empty.optionValue");
 		}
 		for (Sku lsku : product.getAdditionalSku()) {
 			if (lsku.equals(skuFromPost)) continue;

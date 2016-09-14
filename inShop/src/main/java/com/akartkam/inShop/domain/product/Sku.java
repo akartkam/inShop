@@ -233,6 +233,7 @@ public class Sku extends AbstractDomainObjectOrdering {
 		this.productOptionValuesList = null;
 	}
 	
+	@NotEmpty
 	@Transient
 	@AdminPresentation(tab=EditTab.ADDITIONAL)
 	public List<ProductOptionValue> getProductOptionValuesList() {
@@ -348,6 +349,10 @@ public class Sku extends AbstractDomainObjectOrdering {
 		if ()
 		
 	}*/
+	
+	public void setProductOptionValuesFromList() {
+		setProductOptionValues(new HashSet<ProductOptionValue>(getProductOptionValuesList()));
+	}
 	
 	@Override
 	@Transient
