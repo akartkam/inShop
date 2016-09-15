@@ -37,6 +37,7 @@ import com.akartkam.inShop.domain.product.option.ProductOptionValue;
 import com.akartkam.inShop.exception.ProductNotFoundException;
 import com.akartkam.inShop.formbean.ProductForm;
 import com.akartkam.inShop.formbean.SkuForJSON;
+import com.akartkam.inShop.formbean.SkuForm;
 import com.akartkam.inShop.util.NullAwareBeanUtilsBean;
 
 @Service("ProductService")
@@ -354,7 +355,7 @@ public class ProductServiceImpl implements ProductService {
 	//Sku
 	@Override
 	@Transactional(readOnly = false)
-	public void mergeWithExistingSkuAndUpdateOrCreate(final Sku skuFromPost, Errors errors) {
+	public void mergeWithExistingSkuAndUpdateOrCreate(final SkuForm skuFromPost, Errors errors) {
 		if (skuFromPost == null) return;
 		if (!checkSku(skuFromPost, errors)) return;
 		Sku sku = getSkuById(skuFromPost.getId());
@@ -381,26 +382,26 @@ public class ProductServiceImpl implements ProductService {
 			sku.setOrdering(skuFromPost.getOrdering());
 			
 		} else {
-			///////////skuFromPost.setProductOptionValuesFromList();
+			skuFromPost.setProductOptionValuesFromList();
 			createSku(skuFromPost);
 		}
 	}
 	
-	private boolean checkSku(final Sku skuFromPost, Errors errors) {
+	private boolean checkSku(final SkuForm skuFromPost, Errors errors) {
 		Product product = getProductById(skuFromPost.getProduct().getId());
 		if (product == null) {
 			LOG.error("Product "+skuFromPost.getProduct().getId()+" not found!");
 			throw new ProductNotFoundException("Product "+skuFromPost.getProduct().getId()+" not found!");
 		}
-	/*	if (skuFromPost.getProductOptionValuesList() == null || skuFromPost.getProductOptionValuesList().isEmpty()) {
+		if (skuFromPost.getProductOptionValuesList() == null || skuFromPost.getProductOptionValuesList().isEmpty()) {
 			errors.rejectValue("productOptionValuesList", "error.empty.optionValue");
 		}
 		for (Sku lsku : product.getAdditionalSku()) {
 			if (lsku.equals(skuFromPost)) continue;
-			if (isSamePermutation(lsku.getProductOptionValuesList() , skuFromPost.getProductOptionValuesList())) {
+			if (isSamePermutation(new ArrayList<ProductOptionValue>(lsku.getProductOptionValues()) , skuFromPost.getProductOptionValuesList())) {
 				errors.rejectValue("productOptionValuesList", "error.duplicate.optionValue");
 			}
-		} */
+		} 
 		return !errors.hasErrors();
 	}
 	

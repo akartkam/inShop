@@ -47,6 +47,7 @@ import com.akartkam.inShop.service.product.AttributeCategoryService;
 import com.akartkam.inShop.service.product.ProductService;
 import com.akartkam.inShop.util.ImageUtil;
 import com.akartkam.inShop.exception.ProductNotFoundException;
+import com.akartkam.inShop.formbean.SkuForm;
 
 @Controller
 @RequestMapping("/admin/catalog/sku")
@@ -87,28 +88,6 @@ public class AdminSkuController {
 			    }
 			    });
 			
-			/*
-			PropertyEditor pe = new PropertyEditorSupport() {
-			    @Override
-			    public void setAsText(String text) {
-			    	if (!"".equals(text)) {
-			    		SimpleDateFormat formatter = new SimpleDateFormat(messageSource.getMessage("date.format", null, Locale.getDefault()));
-			    		try {
-			    			Date date = formatter.parse(text);
-				            setValue(date);
-			    		} catch (ParseException e) {
-			    			LOG.error(e);
-			    		}			    		
-
-			    	} else {
-			    		setValue(null);
-			    	}
-			    }
-			    };
-
-			binder.registerCustomEditor(java.util.Date.class,"activeStartDate", pe);
-			binder.registerCustomEditor(java.util.Date.class,"activeEndDate", pe);
-			*/
 			
 			binder.registerCustomEditor(ProductOption.class,"product.productOptionsList", new PropertyEditorSupport() {
 			    @Override
@@ -157,7 +136,7 @@ public class AdminSkuController {
 				  LOG.error("Sku ID="+ID+" not found!");
 				  throw new ProductNotFoundException("Sku ID="+ID+" not found!");
 			  }		      
-		      model.addAttribute("sku", sku);
+		      model.addAttribute("sku", new SkuForm(sku));
 		      product = sku.getProduct();
 		  }
 		  if (product == null) {
@@ -186,7 +165,7 @@ public class AdminSkuController {
 				  product.addAdditionalSku(sku);
 			  }
 		  }		  
- 	      model.addAttribute("sku", sku);
+ 	      model.addAttribute("sku", new SkuForm(sku));
 	      model.addAttribute("product", sku.getProduct()); 	      
           if ("XMLHttpRequest".equals(requestedWith)) {
               return "/admin/catalog/skuEdit :: editSkuForm";
@@ -204,7 +183,7 @@ public class AdminSkuController {
 			  if(sku.canRemove() && authorities.contains(new SimpleGrantedAuthority("ADMIN"))) {
 				  productService.deleteSku(sku);   
 			  } else {
-				  ra.addFlashAttribute("errormessage", this.messageSource.getMessage("admin.error.cannotdelete.message", new String[] {"������� ������"} , Locale.getDefault()));
+				  ra.addFlashAttribute("errormessage", this.messageSource.getMessage("admin.error.cannotdelete.message", new String[] {"Can't remove the sku."} , Locale.getDefault()));
 				  ra.addAttribute("error", true);
 			  }
 
@@ -216,7 +195,7 @@ public class AdminSkuController {
 	
 	   @RequestMapping(value="/edit", method = RequestMethod.POST )
 	   public String saveProduct(
-			                   @Valid Sku sku,
+			                   @Valid SkuForm sku,
 				   			   final BindingResult bindingResult,
 			                   final RedirectAttributes ra
 			                         ) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
@@ -232,7 +211,7 @@ public class AdminSkuController {
 	   
 	   
 	   @RequestMapping(value="/image/add", method = RequestMethod.POST )
-	   public String addNewImage(final @ModelAttribute Sku sku,
+	   public String addNewImage(final @ModelAttribute SkuForm sku,
 			   				   @RequestHeader(value = "X-Requested-With", required = false) String requestedWith,
 			   				   @RequestParam(value = "newImage", required = false)	MultipartFile image,
 			                   final BindingResult bindingResult,

@@ -12,6 +12,7 @@ import com.akartkam.inShop.domain.product.option.ProductOption;
 import com.akartkam.inShop.domain.product.option.ProductOptionValue;
 import com.akartkam.inShop.formbean.ProductForm;
 import com.akartkam.inShop.formbean.SkuForJSON;
+import com.akartkam.inShop.formbean.SkuForm;
 
 
 public interface ProductService {
@@ -38,7 +39,7 @@ public interface ProductService {
 	void softDeleteProductById(UUID id);
 	void deleteProduct(Product product);
 	void updatePO(ProductOption po);
-	void mergeWithExistingSkuAndUpdateOrCreate(final Sku sku, Errors errors);
+	void mergeWithExistingSkuAndUpdateOrCreate(final SkuForm sku, Errors errors);
 	void mergeWithExistingPOAndUpdateOrCreate(final ProductOption poFromForm, Errors errors);
 	void mergeWithExistingAndUpdateOrCreate(final ProductForm productFromPost, Errors errors);
 	Product generateSkusFromProduct(UUID productId);
