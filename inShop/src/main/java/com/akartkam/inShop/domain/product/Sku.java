@@ -67,8 +67,6 @@ public class Sku extends AbstractDomainObjectOrdering {
     private List<String> images = new ArrayList<String>();
     private Product defaultProduct;   
     private Product product;
-    //for form
-    private List<ProductOptionValue> productOptionValuesList = new ArrayList<ProductOptionValue>();
 
     @AdminPresentation(tab=EditTab.MAIN)
 	@NotEmpty
@@ -230,20 +228,9 @@ public class Sku extends AbstractDomainObjectOrdering {
 	}
 	public void setProductOptionValues(Set<ProductOptionValue> productOptionValues) {
 		this.productOptionValues = productOptionValues;
-		this.productOptionValuesList = null;
 	}
 	
-	@NotEmpty
-	@Transient
-	@AdminPresentation(tab=EditTab.ADDITIONAL)
-	public List<ProductOptionValue> getProductOptionValuesList() {
-		if (productOptionValuesList == null) { 
-			productOptionValuesList = new ArrayList<ProductOptionValue>(getProductOptionValues());
-		}
-		return productOptionValuesList;
-	}
 
-	
 	@ManyToOne
 	@JoinColumn
 	public Product getProduct() {
@@ -259,16 +246,6 @@ public class Sku extends AbstractDomainObjectOrdering {
 	}
 	public void setDefaultProduct(Product defaultProduct) {
 		this.defaultProduct = defaultProduct;
-	}
-	
-	@Transient
-	public ProductOptionValue getProductOptionValueByPO(ProductOption po) {
-		for (ProductOptionValue pov: getProductOptionValuesList()) {
-			if (pov == null) continue;
-			ProductOption poc = pov.getProductOption();
-			if (poc != null && poc.equals(po)) return pov; 
-		}
-		return null;
 	}
 	
 	@Transient
@@ -349,10 +326,6 @@ public class Sku extends AbstractDomainObjectOrdering {
 		if ()
 		
 	}*/
-	
-	public void setProductOptionValuesFromList() {
-		setProductOptionValues(new HashSet<ProductOptionValue>(getProductOptionValuesList()));
-	}
 	
 	@Override
 	@Transient

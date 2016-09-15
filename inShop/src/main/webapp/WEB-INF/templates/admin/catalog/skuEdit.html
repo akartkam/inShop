@@ -190,15 +190,17 @@
 								  	       	    <span th:text="${po.name}"></span>
 								  	       	    <input type="hidden" th:name="product.productOptionsList[__${poStat.index}__]" th:value="${po.id}"/>
 								  	       	  </td>
-								  	       	  <td th:class="${#fields.hasErrors('productOptionValuesList')}? has-error">
-												<select class="form-control" th:field="*{productOptionValuesList[__${poStat.index}__]}">
-												        <option value="">&nbsp;</option>
-													    <option th:each="pov, povStat: ${po.productOptionValues}" 
-													    		th:text="${pov.optionValue}"
-													            th:selected="${po.equals(sku.productOptionValuesList[__${poStat.index}__].productOption)}"
-													            th:value="${pov.id}">  
-													    </option>      
-												</select>								  	       	  	
+								  	       	  <td>
+												<div th:class="${#fields.hasErrors('productOptionValuesList')}? has-error">
+													<select class="form-control" th:field="*{productOptionValuesList[__${poStat.index}__]}">
+													        <option value="">&nbsp;</option>
+														    <option th:each="pov, povStat: ${po.productOptionValues}" 
+														    		th:text="${pov.optionValue}"
+														            th:selected="${po.equals(sku.productOptionValuesList[__${poStat.index}__].productOption)}"
+														            th:value="${pov.id}">  
+														    </option>      
+													</select>
+												</div>								  	       	  	
 								  	       	  </td>
 								  	        </tr> 
 								  	    </tbody>

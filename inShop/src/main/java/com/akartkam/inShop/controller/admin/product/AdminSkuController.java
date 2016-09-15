@@ -87,7 +87,7 @@ public class AdminSkuController {
 			    }
 			    });
 			
-			
+			/*
 			PropertyEditor pe = new PropertyEditorSupport() {
 			    @Override
 			    public void setAsText(String text) {
@@ -108,7 +108,8 @@ public class AdminSkuController {
 
 			binder.registerCustomEditor(java.util.Date.class,"activeStartDate", pe);
 			binder.registerCustomEditor(java.util.Date.class,"activeEndDate", pe);
-				
+			*/
+			
 			binder.registerCustomEditor(ProductOption.class,"product.productOptionsList", new PropertyEditorSupport() {
 			    @Override
 			    public void setAsText(String text) {

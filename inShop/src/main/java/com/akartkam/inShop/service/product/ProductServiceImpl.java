@@ -381,7 +381,7 @@ public class ProductServiceImpl implements ProductService {
 			sku.setOrdering(skuFromPost.getOrdering());
 			
 		} else {
-			skuFromPost.setProductOptionValuesFromList();
+			///////////skuFromPost.setProductOptionValuesFromList();
 			createSku(skuFromPost);
 		}
 	}
@@ -392,7 +392,7 @@ public class ProductServiceImpl implements ProductService {
 			LOG.error("Product "+skuFromPost.getProduct().getId()+" not found!");
 			throw new ProductNotFoundException("Product "+skuFromPost.getProduct().getId()+" not found!");
 		}
-		if (skuFromPost.getProductOptionValuesList() == null || skuFromPost.getProductOptionValuesList().isEmpty()) {
+	/*	if (skuFromPost.getProductOptionValuesList() == null || skuFromPost.getProductOptionValuesList().isEmpty()) {
 			errors.rejectValue("productOptionValuesList", "error.empty.optionValue");
 		}
 		for (Sku lsku : product.getAdditionalSku()) {
@@ -400,7 +400,7 @@ public class ProductServiceImpl implements ProductService {
 			if (isSamePermutation(lsku.getProductOptionValuesList() , skuFromPost.getProductOptionValuesList())) {
 				errors.rejectValue("productOptionValuesList", "error.duplicate.optionValue");
 			}
-		}
+		} */
 		return !errors.hasErrors();
 	}
 	
