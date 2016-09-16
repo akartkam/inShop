@@ -383,6 +383,13 @@ public class ProductServiceImpl implements ProductService {
 			
 		} else {
 			skuFromPost.setProductOptionValuesFromList();
+			Sku skuC = new Sku();
+			BeanUtilsBean bu = new NullAwareBeanUtilsBean();
+			try {
+				bu.copyProperties(skuC, skuFromPost);
+			} catch (IllegalAccessException | InvocationTargetException e) {
+				LOG.error(e);
+			}			
 			createSku(skuFromPost);
 		}
 	}

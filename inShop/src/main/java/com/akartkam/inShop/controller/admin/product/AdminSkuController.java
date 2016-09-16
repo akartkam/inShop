@@ -95,7 +95,9 @@ public class AdminSkuController {
 			    	if (!"".equals(text)) {
 			    		ProductOption po = productService.getPOByIdForForm(UUID.fromString(text));			    		
 			            setValue(po);
-			    	}			    
+			    	} else {
+			    		setValue(null);
+			    	}
 			    }
 			    });				
 			
@@ -105,10 +107,12 @@ public class AdminSkuController {
 			    	if (!"".equals(text)) {
 			    		ProductOptionValue pov = productService.getPOVById(UUID.fromString(text));			    		
 			            setValue(pov);
-			    	}			    
+			    	} else {
+			    		setValue(null);
+			    	}
 			    }
 			    });			
-	  
+	         
 	  }
 
 	  
