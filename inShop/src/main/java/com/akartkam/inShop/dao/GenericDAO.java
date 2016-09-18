@@ -12,5 +12,6 @@ public interface GenericDAO<T extends DomainObject<ID>, ID extends Serializable>
 	public void update(T object);
 	public void deleteById(ID id);
 	public void delete(T object);
+	public void refresh(T object);
 	public List<T> list();
 }

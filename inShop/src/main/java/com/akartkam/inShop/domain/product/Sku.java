@@ -256,12 +256,12 @@ public class Sku extends AbstractDomainObjectOrdering {
     }
 	
 	@Transient
-    private boolean hasDefaultSku() {
+    public boolean hasDefaultSku() {
         return (product != null && product.getDefaultSku() != null && !getId().equals(product.getDefaultSku().getId()));
     }
 
 	@Transient
-    private Sku lookupDefaultSku() {
+	public Sku lookupDefaultSku() {
         if (product != null && product.getDefaultSku() != null) {
             return product.getDefaultSku();
         } else {
@@ -317,16 +317,7 @@ public class Sku extends AbstractDomainObjectOrdering {
 	    return ret;
 	}
 	
-	/*@Transient
-	public boolean isAvailable() {
-		if (getInventoryType() == InventoryType.UNAVAILABLE) return false;
-		if (getDefaultProduct() != null) {
-			return getDefaultProduct().isCanSellWithoutOptions();
-		} else if (getInventoryType() == InventoryType.ALWAYS_AVAILABLE) return true;
-		if ()
-		
-	}*/
-	
+
 	@Override
 	@Transient
 	public Sku clone() throws CloneNotSupportedException {

@@ -79,6 +79,11 @@ public abstract class AbstractGenericDAO<T extends DomainObject<UUID>> implement
 	}
 	
 	@Override
+	public void refresh(T object){
+		currentSession().refresh(object);
+	}
+	
+	@Override
 	public List<T> list(){
 		Criteria criteria = currentSession().createCriteria(domainClass);
 		if (AbstractDomainObjectOrdering.class.isAssignableFrom(domainClass)) 

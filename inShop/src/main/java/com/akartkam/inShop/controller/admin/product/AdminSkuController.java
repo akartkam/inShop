@@ -79,7 +79,7 @@ public class AdminSkuController {
 	  public void initBinder(WebDataBinder binder) {
 			binder.setAllowedFields(new String[] { "*id", "*name", "url", "*description", "*longDescription", 
 					 							   "*code", "ordering", "*images*", "enabled", "*retailPrice", "productOptionValuesList*", 
-					 							   "*salePrice", "*costPrice", "*activeStartDate", "*activeEndDate", "product.productOptionsList*",
+					 							   "*salePrice", "*costPrice", "*activeStartDate", "*activeEndDate", "productOptionsList*",
 					 							   "quantityAvailable"});
 			binder.registerCustomEditor(UUID.class, "id", new PropertyEditorSupport() {
 			    @Override
@@ -89,7 +89,7 @@ public class AdminSkuController {
 			    });
 			
 			
-			binder.registerCustomEditor(ProductOption.class,"product.productOptionsList", new PropertyEditorSupport() {
+			binder.registerCustomEditor(ProductOption.class,"productOptionsList", new PropertyEditorSupport() {
 			    @Override
 			    public void setAsText(String text) {
 			    	if (!"".equals(text)) {
@@ -165,7 +165,7 @@ public class AdminSkuController {
 		  if (sku == null) {
 			  sku = new Sku();
 			  if (productID !=null && !"".equals(productID)) {
-				  Product product = productService.loadProductById(UUID.fromString(productID), false);
+				  Product product = productService.getProductById(UUID.fromString(productID));
 				  product.addAdditionalSku(sku);
 			  }
 		  }		  

@@ -357,8 +357,8 @@ public class ProductServiceImpl implements ProductService {
 	@Transactional(readOnly = false)
 	public void mergeWithExistingSkuAndUpdateOrCreate(final SkuForm skuFromPost, Errors errors) {
 		if (skuFromPost == null) return;
-		if (!checkSku(skuFromPost, errors)) return;
 		Sku sku = getSkuById(skuFromPost.getId());
+		if (!checkSku(skuFromPost, errors, (sku == null))) return;
 		if (sku != null) {
 			sku.setName(skuFromPost.getName());
 			sku.setActiveEndDate(skuFromPost.getActiveEndDate());
@@ -373,8 +373,7 @@ public class ProductServiceImpl implements ProductService {
 			sku.setActiveStartDate(skuFromPost.getActiveStartDate());
 			sku.setActiveEndDate(skuFromPost.getActiveEndDate());
 			Integer qa = skuFromPost.getQuantityAvailable();
-			if (qa != null) sku.setQuantityAvailable(new Integer(qa));
-	
+			if (qa != null) sku.setQuantityAvailable(new Integer(qa));	
 	        //Images
 			sku.getImages().clear();
 			for (String i : skuFromPost.getImages()) sku.getImages().add(i);
@@ -390,25 +389,27 @@ public class ProductServiceImpl implements ProductService {
 			} catch (IllegalAccessException | InvocationTargetException e) {
 				LOG.error(e);
 			}			
-			createSku(skuFromPost);
+			createSku(skuC);
 		}
 	}
 	
-	private boolean checkSku(final SkuForm skuFromPost, Errors errors) {
+	private boolean checkSku(final SkuForm skuFromPost, Errors errors, boolean isNew) {
 		Product product = getProductById(skuFromPost.getProduct().getId());
 		if (product == null) {
 			LOG.error("Product "+skuFromPost.getProduct().getId()+" not found!");
 			throw new ProductNotFoundException("Product "+skuFromPost.getProduct().getId()+" not found!");
 		}
-		if (skuFromPost.getProductOptionValuesList() == null || skuFromPost.getProductOptionValuesList().isEmpty()) {
-			errors.rejectValue("productOptionValuesList", "error.empty.optionValue");
+		if (!errors.hasFieldErrors("productOptionValuesList") && skuFromPost.getProductOptionValuesList().size() != skuFromPost.getProductOptionsList().size()) {
+			errors.rejectValue("productOptionValuesList", "error.incomplete.optionValue");
 		}
-		for (Sku lsku : product.getAdditionalSku()) {
-			if (lsku.equals(skuFromPost)) continue;
-			if (isSamePermutation(new ArrayList<ProductOptionValue>(lsku.getProductOptionValues()) , skuFromPost.getProductOptionValuesList())) {
-				errors.rejectValue("productOptionValuesList", "error.duplicate.optionValue");
-			}
-		} 
+		if (isNew) {
+			for (Sku lsku : product.getAdditionalSku()) {
+				if (lsku.equals(skuFromPost)) continue;
+				if (isSamePermutation(new ArrayList<ProductOptionValue>(lsku.getProductOptionValues()) , skuFromPost.getProductOptionValuesList())) {
+					errors.rejectValue("productOptionValuesList", "error.duplicate.optionValue");
+				}
+			} 
+		}
 		return !errors.hasErrors();
 	}
 	

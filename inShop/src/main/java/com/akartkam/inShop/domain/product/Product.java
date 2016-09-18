@@ -52,13 +52,6 @@ public class Product extends AbstractDomainObjectOrdering {
     private List<Sku> additionalSku = new ArrayList<Sku>();	
     private Set<ProductOption> productOptions = new HashSet<ProductOption>();
     private boolean canSellWithoutOptions = true;
-	//for Form
-    private List<ProductOption> productOptionsList = new ArrayList<ProductOption>();
-    
-    @Transient
-	public List<ProductOption> getProductOptionsList() {
-		return productOptionsList;
-	}
 	
 	@Column(name = "can_sell_without_options")
 	public boolean isCanSellWithoutOptions() {
@@ -164,7 +157,6 @@ public class Product extends AbstractDomainObjectOrdering {
 	
 	public void setProductOptions(Set<ProductOption> productOption) {
 		this.productOptions = productOption;
-		this.productOptionsList = new ArrayList<ProductOption>(productOption);
 	}
 	
     public void addProductOption(ProductOption productOption) {
