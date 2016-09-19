@@ -24,7 +24,7 @@ public class InventoryServiceImpl implements InventoryService {
 	public boolean isQuantityAvailable(Sku sku, Integer quantity) {
 		if (sku == null) return false;
 		//try to refresh to know exact value of balance
-		skuDAO.refresh(sku);
+		//skuDAO.refresh(sku);
 		if (InventoryType.UNAVAILABLE.equals(sku.getInventoryType())) return false;
 		InventoryType it;
 		if (sku.hasDefaultSku() ) {

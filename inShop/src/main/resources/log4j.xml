@@ -55,10 +55,13 @@
 <!-- 		<level value="info" /> -->
 <!-- 	</logger> -->
 
-	<!-- Root Logger -->
+	<!-- Log all SQL DML statements as they are executed "org.hibernate.SQL" -->
+	<!-- Log all SQL DDL statements as they are executed "org.hibernate.tool.hbm2ddl" -->
+	<logger name="org.hibernate.tool.hbm2ddl">
+	    <level value="INFO" />
+	    <appender-ref ref="file"/>
+	</logger>
 	<root>
-<!-- 		<priority value="warn" /> -->
-<!-- 		<appender-ref ref="console" /> -->
 		<level value="INFO" />
 		<appender-ref ref="console" />
 		<appender-ref ref="file" />
