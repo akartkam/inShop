@@ -268,6 +268,18 @@ public class Sku extends AbstractDomainObjectOrdering {
             return null;
         }
     }
+	
+	@Transient
+	//check the basic availability of current sku
+	public boolean isAvailable() {
+		if (!isEnabled() || InventoryType.UNAVAILABLE.equals(getInventoryType())) return false;
+		if (hasDefaultSku()) {
+			if (!getDefaultProduct().isCanSellWithoutOptions()) return false;
+		} else {
+			if (InventoryType.UNAVAILABLE.equals(lookupDefaultSku().getInventoryType())) return false;
+		}
+		return true;
+	}
     
 	@Transient
     public BigDecimal getProductOptionValueAdjustments() {

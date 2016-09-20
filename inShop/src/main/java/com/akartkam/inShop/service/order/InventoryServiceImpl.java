@@ -21,31 +21,23 @@ public class InventoryServiceImpl implements InventoryService {
 	}
 
 	@Override
-	public boolean isQuantityAvailable(Sku sku, Integer quantity) {
+	public boolean isQuantityAvailable(Sku sku, int quantity) {
 		if (sku == null) return false;
-		//try to refresh to know exact value of balance
-		//skuDAO.refresh(sku);
-		if (InventoryType.UNAVAILABLE.equals(sku.getInventoryType())) return false;
+        if (quantity < 1) {
+            throw new IllegalArgumentException("Quantity " + quantity + " is not valid. Must be greater than zero.");
+        }
+        if (!sku.isAvailable()) return false;
 		InventoryType it;
 		if (sku.hasDefaultSku() ) {
 			it = sku.getInventoryType();
-			if (sku.getDefaultProduct().isCanSellWithoutOptions()) {
-			    if (InventoryType.CHECK_QUANTITY.equals(it)) {
-			    	return sku.getQuantityAvailable() >= quantity;
-			    } else if (InventoryType.ALWAYS_AVAILABLE.equals(it)) {
-			    	return true;
-			    }
-			} else {
-				return false;
-			}
 		} else {
-			it = sku.lookupDefaultSku().getInventoryType();
-		    if (InventoryType.CHECK_QUANTITY.equals(it)) {
-		    	return sku.getQuantityAvailable() >= quantity;
-		    } else if (InventoryType.ALWAYS_AVAILABLE.equals(it)) {
-		    	return true;
-		    }			
+			it = sku.lookupDefaultSku().getInventoryType();		
 		}
+	    if (InventoryType.CHECK_QUANTITY.equals(it)) {
+	    	return sku.getQuantityAvailable() >= quantity;
+	    } else if (InventoryType.ALWAYS_AVAILABLE.equals(it)) {
+	    	return true;
+	    }
 		return true;		
 	}
 
