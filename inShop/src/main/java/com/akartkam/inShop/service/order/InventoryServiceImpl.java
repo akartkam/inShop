@@ -76,9 +76,9 @@ public class InventoryServiceImpl implements InventoryService {
         if (!sku.isAvailable()) return false;
 		InventoryType it;
 		if (sku.hasDefaultSku() ) {
-			it = sku.getInventoryType();
-		} else {
 			it = sku.lookupDefaultSku().getInventoryType();		
+		} else {
+			it = sku.getInventoryType();
 		}
 	    if (InventoryType.CHECK_QUANTITY.equals(it)) {
             Integer quantityAvailable = retrieveQuantityAvailable(sku);

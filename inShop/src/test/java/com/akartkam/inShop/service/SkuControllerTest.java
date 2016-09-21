@@ -34,15 +34,15 @@ public class SkuControllerTest extends AbstractTest {
 	private SessionFactory sessionFactory;
 	
 
-	private List<String> ids = new ArrayList();
+	private List<String> ids = new ArrayList<String>();
 	
 	@Before
 	public void before() {
 		ids.add("4c080065-250d-4386-876c-fc0bf6c71e52");
-		ids.add("4ea061cf-dbaf-485b-873d-c92924e3c4f2");
-		ids.add("952e14b6-e0d8-4606-897d-a310b677b20f");
-		ids.add("d6120190-1591-4207-868c-853aea97efa1");
-		ids.add("c640d72a-f94d-46cb-8cf8-9242e04e6813");		
+		//ids.add("4ea061cf-dbaf-485b-873d-c92924e3c4f2");
+		//ids.add("952e14b6-e0d8-4606-897d-a310b677b20f");
+		//ids.add("d6120190-1591-4207-868c-853aea97efa1");
+		//ids.add("c640d72a-f94d-46cb-8cf8-9242e04e6813");		
 	}
 	
 

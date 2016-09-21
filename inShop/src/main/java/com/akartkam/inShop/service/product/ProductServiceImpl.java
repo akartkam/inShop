@@ -38,6 +38,7 @@ import com.akartkam.inShop.exception.ProductNotFoundException;
 import com.akartkam.inShop.formbean.ProductForm;
 import com.akartkam.inShop.formbean.SkuForJSON;
 import com.akartkam.inShop.formbean.SkuForm;
+import com.akartkam.inShop.service.order.InventoryService;
 import com.akartkam.inShop.util.NullAwareBeanUtilsBean;
 
 @Service("ProductService")
@@ -47,19 +48,22 @@ public class ProductServiceImpl implements ProductService {
 	private static final Log LOG = LogFactory.getLog(ProductServiceImpl.class);
 	
 	@Autowired
-	ProductOptionDAO productOptionDAO;
+	private ProductOptionDAO productOptionDAO;
 
 	@Autowired
-	ProductOptionValueDAO productOptionValueDAO;	
+	private ProductOptionValueDAO productOptionValueDAO;	
 	
 	@Autowired
-	ProductDAO productDAO;
+	private ProductDAO productDAO;
 	
 	@Autowired
-	SkuDAO skuDAO;
+	private SkuDAO skuDAO;
 		
 	@Autowired
-	CategoryService categoryService; 
+	private CategoryService categoryService; 
+	
+	@Autowired
+	private InventoryService inventoryService;
 	
 	@Autowired
 	private ApplicationContext appContext;
@@ -561,6 +565,7 @@ public class ProductServiceImpl implements ProductService {
 		Integer quantityAvailable;
 		BigDecimal retailPrice, salePrice;
 		for (Sku sku: skus) {
+			if (!inventoryService.isAvailable(sku)) continue;
 			pname = sku.getName();
 			images = new String[0];
 			if (sku.getImages() != null && sku.getImages().size() != 0) {

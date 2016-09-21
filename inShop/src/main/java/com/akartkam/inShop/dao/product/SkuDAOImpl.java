@@ -38,10 +38,10 @@ public class SkuDAOImpl extends AbstractGenericDAO<Sku> implements SkuDAO {
 
 	@Override
 	public Map<UUID, Integer> findMapSkuIdQuantityAvailable(Collection<Sku> skus) {
-		List<String> ids = new ArrayList<String>();
+		List<UUID> ids = new ArrayList<UUID>();
 		Object[] obj = null;
 		Map<UUID, Integer> resMap = new HashMap<UUID, Integer>();
-		for (Sku sku : skus) ids.add(sku.getId().toString());
+		for (Sku sku : skus) ids.add(sku.getId());
 		List<?> res = currentSession()
 				        .createSQLQuery("SELECT id, quantity_avable FROM sku WHERE id in :ids")
 						.addScalar("id", StringType.INSTANCE)

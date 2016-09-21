@@ -274,9 +274,9 @@ public class Sku extends AbstractDomainObjectOrdering {
 	public boolean isAvailable() {
 		if (!isEnabled() || InventoryType.UNAVAILABLE.equals(getInventoryType())) return false;
 		if (hasDefaultSku()) {
-			if (!getDefaultProduct().isCanSellWithoutOptions()) return false;
-		} else {
 			if (InventoryType.UNAVAILABLE.equals(lookupDefaultSku().getInventoryType())) return false;
+		} else {
+			if (!getDefaultProduct().isCanSellWithoutOptions()) return false;			
 		}
 		return true;
 	}
