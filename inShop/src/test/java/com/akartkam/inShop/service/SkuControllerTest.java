@@ -2,7 +2,10 @@ package com.akartkam.inShop.service;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.apache.commons.logging.Log;
@@ -11,6 +14,9 @@ import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.type.IntegerType;
+import org.hibernate.type.StringType;
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -18,6 +24,7 @@ import com.akartkam.inShop.common.AbstractTest;
 import com.akartkam.inShop.domain.product.Sku;
 import com.akartkam.inShop.service.product.ProductService;
 
+@SuppressWarnings({ "rawtypes", "unchecked" })
 public class SkuControllerTest extends AbstractTest {
 	private static final Log LOG = LogFactory.getLog(SkuControllerTest.class);
 	
@@ -26,15 +33,22 @@ public class SkuControllerTest extends AbstractTest {
 	@Autowired
 	private SessionFactory sessionFactory;
 	
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+
+	private List<String> ids = new ArrayList();
+	
+	@Before
+	public void before() {
+		ids.add("4c080065-250d-4386-876c-fc0bf6c71e52");
+		ids.add("4ea061cf-dbaf-485b-873d-c92924e3c4f2");
+		ids.add("952e14b6-e0d8-4606-897d-a310b677b20f");
+		ids.add("d6120190-1591-4207-868c-853aea97efa1");
+		ids.add("c640d72a-f94d-46cb-8cf8-9242e04e6813");		
+	}
+	
+
 	@Test
-	public void getSkusByListOfIds() {
-		List ids = new ArrayList();
-		ids.add(UUID.fromString("4c080065-250d-4386-876c-fc0bf6c71e52"));
-		ids.add(UUID.fromString("4ea061cf-dbaf-485b-873d-c92924e3c4f2"));
-		ids.add(UUID.fromString("952e14b6-e0d8-4606-897d-a310b677b20f"));
-		ids.add(UUID.fromString("d6120190-1591-4207-868c-853aea97efa1"));
-		ids.add(UUID.fromString("c640d72a-f94d-46cb-8cf8-9242e04e6813"));
+	public void getSkusByListOfIds_criteria() {
+	
 		/*
 		Query query = sessionFactory.getCurrentSession().
 				   createQuery("from Sku where id in :ids");
@@ -48,4 +62,22 @@ public class SkuControllerTest extends AbstractTest {
 		LOG.info(res);
 	}
 
+	@Test
+	public void getSkusByListOfIds_sql() {
+		LOG.info("executing getSkusByListOfIds_sql");
+		List<?> res = sessionFactory.getCurrentSession().createSQLQuery("select id, quantity_avable from sku where id in :ids")
+						.addScalar("id", StringType.INSTANCE)
+						.addScalar("quantity_avable", IntegerType.INSTANCE)
+				        .setParameterList("ids", ids)
+				        .list();
+		Object[] obj = null;
+		Map<UUID, Integer> resMap = new HashMap<UUID, Integer>();
+		for (Iterator<?> iter = res.iterator(); iter.hasNext();) {
+			obj = (Object[]) iter.next();
+			resMap.put(UUID.fromString((String)obj[0]), (Integer)obj[1]);
+		}
+		LOG.info(resMap);
+	}
+	
+	
 }

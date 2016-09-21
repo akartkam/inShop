@@ -1,12 +1,20 @@
 package com.akartkam.inShop.dao.product;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.Predicate;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.type.IntegerType;
+import org.hibernate.type.StringType;
 import org.springframework.stereotype.Repository;
 
 import com.akartkam.inShop.dao.AbstractGenericDAO;
@@ -25,14 +33,25 @@ public class SkuDAOImpl extends AbstractGenericDAO<Sku> implements SkuDAO {
 		criteria.setCacheable(true);
 		criteria.setCacheRegion("query.Catalog");
 		List<Sku> skus = criteria.list();
-		CollectionUtils.filter(skus, new Predicate<Sku>() {
-			@Override
-			public boolean evaluate(Sku object) {
-				boolean ret = object.getDefaultProduct() != null ? object.getDefaultProduct().isCanSellWithoutOptions() : true;
-				return ret;
-			}
-			
-		});
         return skus; 	
+	}
+
+	@Override
+	public Map<UUID, Integer> findMapSkuIdQuantityAvailable(Collection<Sku> skus) {
+		List<String> ids = new ArrayList<String>();
+		Object[] obj = null;
+		Map<UUID, Integer> resMap = new HashMap<UUID, Integer>();
+		for (Sku sku : skus) ids.add(sku.getId().toString());
+		List<?> res = currentSession()
+				        .createSQLQuery("SELECT id, quantity_avable FROM sku WHERE id in :ids")
+						.addScalar("id", StringType.INSTANCE)
+						.addScalar("quantity_avable", IntegerType.INSTANCE)
+				        .setParameterList("ids", ids)
+				        .list();
+		for (Iterator<?> iter = res.iterator(); iter.hasNext();) {
+			obj = (Object[]) iter.next();
+			resMap.put(UUID.fromString((String)obj[0]), (Integer)obj[1]);
+		}
+		return resMap;
 	}
 }
