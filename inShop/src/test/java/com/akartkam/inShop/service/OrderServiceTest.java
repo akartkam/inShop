@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.akartkam.inShop.common.AbstractTest;
 import com.akartkam.inShop.domain.customer.Customer;
 import com.akartkam.inShop.domain.order.Order;
+import com.akartkam.inShop.domain.order.OrderItem;
+import com.akartkam.inShop.domain.order.OrderStatus;
 import com.akartkam.inShop.service.customer.CustomerService;
 import com.akartkam.inShop.service.order.OrderService;
 
@@ -39,6 +41,8 @@ public class OrderServiceTest extends AbstractTest {
 		or.setCustomer(cs);
 		or.setEmailAddress(cs.getEmail());
 		or.setSubmitDate(new Date());
+		or.setStatus(OrderStatus.NEW);
+		//or.addOrderItem(new OrderItem());
 		UUID orId = or.getId();
 		orderService.createOrder(or);
 		sessionFactory.getCurrentSession().flush();
