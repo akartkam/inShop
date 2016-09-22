@@ -172,7 +172,7 @@
 						  	      </tr>
 						 	    </tfoot>
 						 	    <tbody>      
-							        <tr th:each="pr : ${allProduct}" th:class="${!pr.enabled} ? 'text-muted'">
+							        <tr th:each="pr : ${allProduct}" th:class="${!pr.enabled || T(com.akartkam.inShop.domain.product.InventoryType).UNAVAILABLE.equals(pr.defaultSku.inventoryType)} ? 'text-muted'">
 							            <td class="text-center">						
 										    <input class="checkCategory" type="checkbox" th:id="${'check-'+pr.id}" th:value="${pr.id}"/>
 									    </td>

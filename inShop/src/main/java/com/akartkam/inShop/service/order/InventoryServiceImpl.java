@@ -17,13 +17,13 @@ import com.akartkam.inShop.exception.ProductNotFoundException;
 import com.akartkam.inShop.util.CommonUtil;
 
 @Service("InventoryService")
-@Transactional(readOnly = true)
 public class InventoryServiceImpl implements InventoryService {
 
 	@Autowired
 	private SkuDAO skuDAO; 
 	
 	@Override
+	@Transactional(readOnly = true)
 	public Map<Sku, Integer> retrieveQuantitiesAvailable(Collection<Sku> skus) {
 		Map<Sku, Integer> inventories = new HashMap<Sku, Integer>();
         //Get the current sku quantity available
@@ -75,10 +75,10 @@ public class InventoryServiceImpl implements InventoryService {
         }
         if (!sku.isAvailable()) return false;
 		InventoryType it;
-		if (sku.hasDefaultSku() ) {
-			it = sku.lookupDefaultSku().getInventoryType();		
-		} else {
+		if (sku.isDefaultSku()) {
 			it = sku.getInventoryType();
+		} else {
+			it = sku.lookupDefaultSku().getInventoryType();		
 		}
 	    if (InventoryType.CHECK_QUANTITY.equals(it)) {
             Integer quantityAvailable = retrieveQuantityAvailable(sku);

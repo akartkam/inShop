@@ -23,10 +23,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.akartkam.inShop.common.AbstractTest;
 import com.akartkam.inShop.domain.product.Sku;
 import com.akartkam.inShop.service.product.ProductService;
+import com.akartkam.inShop.util.Constants;
 
 @SuppressWarnings({ "rawtypes", "unchecked" })
-public class SkuControllerTest extends AbstractTest {
-	private static final Log LOG = LogFactory.getLog(SkuControllerTest.class);
+public class ProductSkuServiceTest extends AbstractTest {
+	private static final Log LOG = LogFactory.getLog(ProductSkuServiceTest.class);
 	
 	@Autowired
 	private ProductService  productService;
@@ -65,7 +66,7 @@ public class SkuControllerTest extends AbstractTest {
 	@Test
 	public void getSkusByListOfIds_sql() {
 		LOG.info("executing getSkusByListOfIds_sql");
-		List<?> res = sessionFactory.getCurrentSession().createSQLQuery("select id, quantity_avable from sku where id in :ids")
+		List<?> res = sessionFactory.getCurrentSession().createSQLQuery(Constants.SELECT_SKU_MAP_ID_QUANTITY_AVAILABLE)
 						.addScalar("id", StringType.INSTANCE)
 						.addScalar("quantity_avable", IntegerType.INSTANCE)
 				        .setParameterList("ids", ids)
@@ -77,6 +78,7 @@ public class SkuControllerTest extends AbstractTest {
 			resMap.put(UUID.fromString((String)obj[0]), (Integer)obj[1]);
 		}
 		LOG.info(resMap);
+		
 	}
 	
 	

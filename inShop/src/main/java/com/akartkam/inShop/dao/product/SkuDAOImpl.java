@@ -19,6 +19,7 @@ import org.springframework.stereotype.Repository;
 
 import com.akartkam.inShop.dao.AbstractGenericDAO;
 import com.akartkam.inShop.domain.product.Sku;
+import com.akartkam.inShop.util.Constants;
 
 @Repository
 public class SkuDAOImpl extends AbstractGenericDAO<Sku> implements SkuDAO {
@@ -38,12 +39,12 @@ public class SkuDAOImpl extends AbstractGenericDAO<Sku> implements SkuDAO {
 
 	@Override
 	public Map<UUID, Integer> findMapSkuIdQuantityAvailable(Collection<Sku> skus) {
-		List<UUID> ids = new ArrayList<UUID>();
+		List<String> ids = new ArrayList<String>();
 		Object[] obj = null;
 		Map<UUID, Integer> resMap = new HashMap<UUID, Integer>();
-		for (Sku sku : skus) ids.add(sku.getId());
+		for (Sku sku : skus) ids.add(sku.getId().toString());
 		List<?> res = currentSession()
-				        .createSQLQuery("SELECT id, quantity_avable FROM sku WHERE id in :ids")
+				        .createSQLQuery(Constants.SELECT_SKU_MAP_ID_QUANTITY_AVAILABLE)
 						.addScalar("id", StringType.INSTANCE)
 						.addScalar("quantity_avable", IntegerType.INSTANCE)
 				        .setParameterList("ids", ids)
@@ -53,5 +54,6 @@ public class SkuDAOImpl extends AbstractGenericDAO<Sku> implements SkuDAO {
 			resMap.put(UUID.fromString((String)obj[0]), (Integer)obj[1]);
 		}
 		return resMap;
+		
 	}
 }

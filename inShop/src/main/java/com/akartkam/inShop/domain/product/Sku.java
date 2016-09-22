@@ -256,16 +256,22 @@ public class Sku extends AbstractDomainObjectOrdering {
     }
 	
 	@Transient
-    public boolean hasDefaultSku() {
+    private boolean hasDefaultSku() {
         return (product != null && product.getDefaultSku() != null && !getId().equals(product.getDefaultSku().getId()));
     }
+	
+	@Transient
+	public boolean isDefaultSku() {
+		return (getDefaultProduct() != null);
+	}
 
 	@Transient
 	public Sku lookupDefaultSku() {
+		if (isDefaultSku()) return this;
         if (product != null && product.getDefaultSku() != null) {
             return product.getDefaultSku();
         } else {
-            return null;
+            throw new IllegalStateException("The sku is not default but does not have parent Product or default Sku");
         }
     }
 	
