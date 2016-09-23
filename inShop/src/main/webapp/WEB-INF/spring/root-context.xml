@@ -21,15 +21,12 @@
     <util:properties id="shopProperties" 
                     location="classpath:shop.properties"/>
 	<!-- Root Context: defines shared resources visible to all other web components -->	
-	<!-- Включаем опцию использования конфигурационных аннотаций (@Annotation-based configuration)-->
 	<context:annotation-config />
 
-	<!-- Определяем папки, в которых будем автоматически искать бины-компоненты (@Component, @Service) -->  
-	<context:component-scan base-package="com.akartkam.inShop.dao;com.akartkam.inShop.service" />
+	<context:component-scan base-package="com.akartkam.inShop.dao;com.akartkam.inShop.service;com.akartkam.inShop.formbean.managed" />
+
 	<import resource="util.xml" />
-	<!-- Файл с настройками ресурсов для работы с данными (Data Access Resources) -->
 	<import resource="data.xml" />	
-	
 	<import resource="inshop-security.xml" />
 	
 

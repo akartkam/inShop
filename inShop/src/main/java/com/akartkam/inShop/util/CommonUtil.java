@@ -1,5 +1,7 @@
 package com.akartkam.inShop.util;
 
+import javax.servlet.http.HttpServletRequest;
+
 public class CommonUtil {
 	  
 	private CommonUtil () {};
@@ -9,4 +11,9 @@ public class CommonUtil {
 		if (value != null) res = value;
 		return res;
 	}
+	
+    public static void removeCartFromSession(HttpServletRequest request) {
+        request.getSession().removeAttribute("cartForm");
+    }
+ 
 }

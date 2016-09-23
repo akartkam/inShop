@@ -1,5 +1,7 @@
 package com.akartkam.inShop.formbean;
 
-public class CartItemForm {
+import java.io.Serializable;
+
+public class CartItemForm implements Serializable  {
 
 }
