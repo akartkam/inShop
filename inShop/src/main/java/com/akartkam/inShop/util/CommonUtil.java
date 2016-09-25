@@ -12,8 +12,5 @@ public class CommonUtil {
 		return res;
 	}
 	
-    public static void removeCartFromSession(HttpServletRequest request) {
-        request.getSession().removeAttribute("cartForm");
-    }
  
 }

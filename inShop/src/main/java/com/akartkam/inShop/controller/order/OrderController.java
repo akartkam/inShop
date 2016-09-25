@@ -1,15 +1,22 @@
 package com.akartkam.inShop.controller.order;
 
 import java.beans.PropertyEditorSupport;
+import java.io.IOException;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.UUID;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.http.HttpStatus;
 
 import com.akartkam.inShop.domain.order.Order;
@@ -31,10 +39,12 @@ import com.akartkam.inShop.domain.product.Sku;
 import com.akartkam.inShop.domain.product.option.ProductOption;
 import com.akartkam.inShop.domain.product.option.ProductOptionValue;
 import com.akartkam.inShop.exception.SkuNotFoundException;
+import com.akartkam.inShop.formbean.CartForm;
 import com.akartkam.inShop.formbean.ItemsForJSON;
 import com.akartkam.inShop.formbean.SkuForJSON;
 import com.akartkam.inShop.service.order.OrderService;
 import com.akartkam.inShop.service.product.ProductService;
+import com.akartkam.inShop.util.CommonUtil;
 
 @Controller
 @RequestMapping("/order")
@@ -42,10 +52,11 @@ public class OrderController {
 	  private static final Log LOG = LogFactory.getLog(OrderController.class);
 
 	  @Autowired
-	  ProductService productService;
+	  private ProductService productService;
 
 	  @Autowired
-	  OrderService orderService;
+	  private OrderService orderService;
+	 
 	  
 	  @InitBinder
 	  public void initBinder(WebDataBinder binder) {
@@ -99,7 +110,31 @@ public class OrderController {
 	  public String testOrder(final Order order) {
 		  return "/productsForOrder";		  
 	  }
+	  
+	  @RequestMapping(value="/test-cart-session", method= RequestMethod.GET)
+	  public void testCartSessionExists(HttpServletRequest request, HttpServletResponse response, HttpSession httpSession) throws IOException {
+        StringBuilder b = new StringBuilder();		  
+          CartForm cf = (CartForm)httpSession.getAttribute("scopedTarget.cartForm");
+		  for (Enumeration<String> e = httpSession.getAttributeNames(); e.hasMoreElements();)
+			  b.append(e.nextElement()).append(", ");
+		  b.append(cf);
+		  response.getWriter().print(b.toString());
+	  }	  
 
+	  @RequestMapping(value="/test-cart-session-remove", method= RequestMethod.GET)
+	  public void testCartSessionRemove(HttpServletRequest request, HttpServletResponse response, 
+			                            HttpSession httpSession, SessionStatus sessionStatus) throws IOException {
+		  httpSession.invalidate();
+		  /*StringBuilder b = new StringBuilder();		  
+          CartForm cf = (CartForm)httpSession.getAttribute("scopedTarget.cartForm");
+		  for (Enumeration<String> e = httpSession.getAttributeNames(); e.hasMoreElements();)
+			  b.append(e.nextElement()).append(", ");
+		  b.append(cf);
+		  b.append(cartForm.date);
+		  response.getWriter().print(b.toString());*/
+	  }	  
+
+	  
 	  @RequestMapping(value="/add-item", method = RequestMethod.POST )
 	  public String addNewItem(
 			   				   final @RequestParam(value = "id", required = true) String skuID,
