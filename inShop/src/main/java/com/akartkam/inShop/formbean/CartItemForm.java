@@ -10,21 +10,21 @@ public class CartItemForm implements Serializable  {
 	 * 
 	 */
 	private static final long serialVersionUID = 8806912685052493247L;
-	private UUID code;
-	private SkuForm skuForm;
+	private UUID itemCode;
+	private SkuForm sku;
 	private int quantity;
-	public UUID getCode() {
-		return code;
+	public UUID getItemCode() {
+		return itemCode;
 	}
-	public void setCode(UUID code) {
-		this.code = code;
+	public void setItemCode(UUID code) {
+		this.itemCode = code;
 	}
 	public SkuForm getSkuForm() {
-		return skuForm;
+		return sku;
 	}
-	public void setSkuForm(SkuForm skuForm) {
-		this.skuForm = skuForm;
-		this.code = skuForm.getId();
+	public void setSkuForm(SkuForm sku) {
+		this.sku = sku;
+		this.itemCode = sku.getId();
 	}
 	public int getQuantity() {
 		return quantity;
