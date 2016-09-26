@@ -206,5 +206,13 @@ public class Order extends AbstractDomainObjectOrdering {
     	}
     	return false;
     }
+    
+    @Transient
+    public OrderItem findOrderItem(Sku sku) {
+    	for (OrderItem oi :  getOrderItems()) {
+    		if (oi.getSku().equals(sku)) return oi;
+    	}
+    	return null;
+    }
 
 }

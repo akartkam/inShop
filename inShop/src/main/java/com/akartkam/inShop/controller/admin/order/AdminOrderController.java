@@ -208,12 +208,15 @@ public class AdminOrderController {
 		   if (!"XMLHttpRequest".equals(requestedWith)) throw new IllegalStateException("The addNewItem method can be called only via ajax!");
            Sku sku = productService.getSkuById(UUID.fromString(skuID)); 
 		   if (sku == null ) throw new SkuNotFoundException("The sku id="+skuID+" is empty!");
-		   if (!order.isContainsSku(sku)) {
+		   OrderItem foi = order.findOrderItem(sku);
+		   if (foi == null) {
 			   OrderItem oi=new OrderItem();
 			   oi.setSku(sku);
 			   oi.setPrice(sku.getSalePrice() != null ? sku.getSalePrice() : sku.getRetailPrice());
 			   oi.setQuantity(1);
 			   order.addOrderItem(oi);
+		   } else {
+			   foi.setQuantity(foi.getQuantity()+1);
 		   }
 		   model.addAttribute("ord", order);
 	       return "/admin/order/orderEdit :: orderItemTable";
