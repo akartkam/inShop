@@ -30,7 +30,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.akartkam.inShop.domain.product.option.ProductOption;
 import com.akartkam.inShop.domain.product.option.ProductOptionValue;
 import com.akartkam.inShop.service.product.ProductService;
-import com.akartkam.inShop.validator.ProductOptionValidator;
 
 @Controller
 @RequestMapping("/admin/catalog/po")

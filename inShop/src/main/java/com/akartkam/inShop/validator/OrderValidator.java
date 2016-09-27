@@ -3,6 +3,7 @@ package com.akartkam.inShop.validator;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
@@ -11,6 +12,7 @@ import com.akartkam.inShop.domain.order.OrderItem;
 import com.akartkam.inShop.domain.product.Sku;
 import com.akartkam.inShop.service.order.InventoryService;
 
+@Component
 public class OrderValidator implements Validator {
 	
 	@Autowired

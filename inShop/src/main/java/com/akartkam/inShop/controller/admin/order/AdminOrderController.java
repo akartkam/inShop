@@ -65,13 +65,16 @@ public class AdminOrderController {
 	  private static final Log LOG = LogFactory.getLog(AdminOrderController.class);
 
 	  @Autowired
-	  ProductService productService;
+	  private ProductService productService;
 
 	  @Autowired
-	  OrderService orderService;
+	  private OrderService orderService;
 	  
 	  @Autowired
-	  CustomerService customerService; 
+	  private CustomerService customerService; 
+	  
+	  @Autowired
+	  private OrderValidator orderValidator;
 	  
 	  @ModelAttribute("allOrders")
 	  public List<Order> getAllOrders() {
@@ -146,7 +149,6 @@ public class AdminOrderController {
 			    }
 			    });
 			if (target != null && target.getClass() == Order.class) {
-				Validator orderValidator = new OrderValidator();
 				binder.setValidator(orderValidator);
 			}
 	  }

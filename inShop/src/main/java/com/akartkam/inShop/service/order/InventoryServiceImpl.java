@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +30,9 @@ public class InventoryServiceImpl implements InventoryService {
         //Get the current sku quantity available
         Map<UUID, Integer> skusMap = skuDAO.findMapSkuIdQuantityAvailable(skus);
         for (Sku sku : skus) {
-        	if (skusMap.containsKey(sku.getId().toString())) {   
-            	if (CommonUtil.nullSafeIntegerToPrimitive(sku.getQuantityAvailable()) !=  CommonUtil.nullSafeIntegerToPrimitive(skusMap.get(sku.getId().toString()))) {
+        	Set<UUID> keySet = skusMap.keySet();
+        	if (keySet.contains(sku.getId())) {   
+            	if (CommonUtil.nullSafeIntegerToPrimitive(sku.getQuantityAvailable()) !=  CommonUtil.nullSafeIntegerToPrimitive(skusMap.get(sku.getId()))) {
             		skuDAO.refresh(sku);
             	}
             } else {
