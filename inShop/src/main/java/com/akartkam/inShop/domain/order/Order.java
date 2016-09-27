@@ -76,7 +76,7 @@ public class Order extends AbstractDomainObjectOrdering {
 
     @Transient
     public BigDecimal calculateTotal() {
-    	//To-do Add dicount e.t.c
+    	//To-do Add discount e.t.c
         return calculateSubTotal();
     }
    
@@ -213,6 +213,15 @@ public class Order extends AbstractDomainObjectOrdering {
     		if (oi.getSku().equals(sku)) return oi;
     	}
     	return null;
+    }
+    
+    @Transient
+    public List<Sku> getSkusFromOrderItems() {
+    	List<Sku> skus = new ArrayList<Sku>();
+    	for (OrderItem oi : getOrderItems()) {
+    		skus.add(oi.getSku());
+    	}
+    	return skus;
     }
 
 }

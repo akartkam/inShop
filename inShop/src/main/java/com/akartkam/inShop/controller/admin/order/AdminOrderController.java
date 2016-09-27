@@ -24,6 +24,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -56,6 +57,7 @@ import com.akartkam.inShop.formbean.SkuForJSON;
 import com.akartkam.inShop.service.customer.CustomerService;
 import com.akartkam.inShop.service.order.OrderService;
 import com.akartkam.inShop.service.product.ProductService;
+import com.akartkam.inShop.validator.OrderValidator;
 
 @Controller
 @RequestMapping("/admin/order")
@@ -92,6 +94,7 @@ public class AdminOrderController {
 	  
 	  @InitBinder
 	  public void initBinder(WebDataBinder binder) {
+		    Object target = binder.getTarget();
 		    binder.setAllowedFields(new String[] {"id", "customer", "status", "submitDate", "orderNumber", "emailAddress", "orderItems*" });
 		    binder.registerCustomEditor(UUID.class, "id", new PropertyEditorSupport() {
 			    @Override
@@ -142,6 +145,10 @@ public class AdminOrderController {
 			    	}			    
 			    }
 			    });
+			if (target != null && target.getClass() == Order.class) {
+				Validator orderValidator = new OrderValidator();
+				binder.setValidator(orderValidator);
+			}
 	  }
 	  
 	  @RequestMapping(method=GET)
