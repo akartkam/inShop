@@ -25,6 +25,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -95,10 +96,10 @@ public class AdminOrderController {
 	  private MessageSource messageSource;
 	  
 	  
-	  @InitBinder
+	  @InitBinder({"ord","customer","sku"})
 	  public void initBinder(WebDataBinder binder) {
-		    Object target = binder.getTarget();
-		    binder.setAllowedFields(new String[] {"id", "customer", "status", "submitDate", "orderNumber", "emailAddress", "orderItems*" });
+		    binder.setAllowedFields(new String[] {"id", "customer", "status", "submitDate", "orderNumber", "emailAddress", 
+		    		                              "orderItems*", "createdDate" });
 		    binder.registerCustomEditor(UUID.class, "id", new PropertyEditorSupport() {
 			    @Override
 			    public void setAsText(String text) {
@@ -120,25 +121,13 @@ public class AdminOrderController {
 			    @Override
 			    public void setAsText(String text) {
 			    	if (text != null && !"".equals(text)) {
-			    		Sku sku =  productService.getSkuById(UUID.fromString(text)); 
+			    		Sku sku =  productService.getSkuByIdForForm(UUID.fromString(text)); 
 			            setValue(sku);
 			    	} else {
 			    		setValue(null);	
 			    	}
 			    }
 			    });			  
-			binder.registerCustomEditor(ProductOptionValue.class,"orderItems.sku.productOptionValuesList", new PropertyEditorSupport() {
-			    @Override
-			    public void setAsText(String text) {
-			    	if (text != null && !"".equals(text)) {
-			    		ProductOptionValue pov =  productService.getPOVById(UUID.fromString(text)); 
-			            setValue(pov);
-			    	} else {
-			    		setValue(null);	
-			    	}
-			    }
-			    });		
-
 			binder.registerCustomEditor(Customer.class, "customer", new PropertyEditorSupport() {
 			    @Override
 			    public void setAsText(String text) {
@@ -148,9 +137,6 @@ public class AdminOrderController {
 			    	}			    
 			    }
 			    });
-			if (target != null && target.getClass() == Order.class) {
-				binder.setValidator(orderValidator);
-			}
 	  }
 	  
 	  @RequestMapping(method=GET)
@@ -192,10 +178,11 @@ public class AdminOrderController {
 
 	   @RequestMapping(value="/edit", method = RequestMethod.POST )
 	   public String saveOrder(
-			                   @Valid Order order,
+			                   @Validated Order order,
 				   			   final BindingResult bindingResult,
 			                   final RedirectAttributes ra
 			                         ) {
+		   orderValidator.validate(order, bindingResult);
 		   if (bindingResult.hasErrors()) {
 	        	ra.addFlashAttribute("ord", order);
 	        	ra.addFlashAttribute("org.springframework.validation.BindingResult.ord", bindingResult);

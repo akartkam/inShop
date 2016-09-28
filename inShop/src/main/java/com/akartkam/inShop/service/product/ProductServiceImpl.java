@@ -422,7 +422,16 @@ public class ProductServiceImpl implements ProductService {
 		return skuDAO.get(id);
 	}
 	
+	@Override
+	public Sku getSkuByIdForForm(UUID id) {
+		Sku sku = getSkuById(id);
+		if (sku != null) {
+			Hibernate.initialize(sku.getProductOptionValues());
+		}
+		return sku;
+	}
 
+	
 	@Override
 	public Sku cloneSkuById(UUID id) throws CloneNotSupportedException {
 		Sku sku = getSkuById(id);

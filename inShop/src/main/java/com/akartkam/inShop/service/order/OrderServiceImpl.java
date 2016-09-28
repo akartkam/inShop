@@ -2,13 +2,14 @@ package com.akartkam.inShop.service.order;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
-import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -54,6 +55,7 @@ public class OrderServiceImpl implements OrderService{
 		return orderDAO.create(order);
 	}
 
+	
 	@Override
 	public Order getOrderById(UUID id) {
 		return orderDAO.get(id);
@@ -108,4 +110,15 @@ public class OrderServiceImpl implements OrderService{
 		}
 		
 	}
+	
+	@Override
+	public Map<OrderItem, Integer> retrieveOrderItemQuantities(Collection<OrderItem> orderItems) {
+		Map<OrderItem, Integer> quantities = new HashMap<OrderItem, Integer>();
+        Map<UUID, Integer> orderItemsMap = orderItemDAO.findMapOrderItemIdQuantity(orderItems);
+        for (OrderItem orderItem : orderItems) {
+        	quantities.put(orderItem, orderItemsMap.get(orderItem.getId()));
+        }
+        return quantities;
+	}
+	
 }

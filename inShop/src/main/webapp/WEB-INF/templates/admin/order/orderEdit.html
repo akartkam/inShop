@@ -63,7 +63,8 @@
 	                    <div class="tab-pane fade" th:classappend="${tabactive=='main'}? 'in active'" id="main">
 						    <div class="field-box">
 							  <input type="hidden" th:field="*{id}"/>
-							  <input type="hidden" th:field="*{customer.id}"/>	                              
+							  <input type="hidden" th:field="*{customer.id}"/>
+							  <input type="hidden" th:field="*{createdDate}"/>	                              
 				    		  <label>
 					    	  	 <span th:text="#{admin.order.number}">Order number</span>
 					   		  </label>
@@ -179,9 +180,9 @@
  									  	       	             th:name="orderItems[__${oiStat.index}__].price" th:value="${#numbers.formatDecimal((ord.orderItems[__${oiStat.index}__].price == null ? 0 : ord.orderItems[__${oiStat.index}__].price),1,2,'POINT')}" />											  
 												      <span style="font-size: 9pt;" th:text="${T(java.util.Currency).getInstance(#locale.getDefault()).getSymbol()}">руб.</span>
 												  </td>									  	       	  
-												  <td>
+												  <td th:class="${#fields.hasErrors('orderItems[__${oiStat.index}__].quantity')}? has-error: ''">
  									  	       	      <input type="number" min="1" class="form-control quantity-val input-md row-total-changer" th:attr="data-id=${oi.id}" data-oldtext=""  
- 									  	       	             th:id="${'quantity_'+oi.id}" th:field="*{orderItems[__${oiStat.index}__].quantity}" th:errorclass="has-error"/>
+ 									  	       	             th:id="${'quantity_'+oi.id}" th:field="*{orderItems[__${oiStat.index}__].quantity}"/>
  									  	       	      <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('orderItems[__${oiStat.index}__].quantity')}" th:errors="*{orderItems[__${oiStat.index}__].quantity}">Incorrect quantity</p>
 									  	       	  </td>
 									  	       	  <td class="text-center">

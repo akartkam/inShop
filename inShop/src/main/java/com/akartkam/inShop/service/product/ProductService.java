@@ -44,6 +44,7 @@ public interface ProductService {
 	void mergeWithExistingAndUpdateOrCreate(final ProductForm productFromPost, Errors errors);
 	Product generateSkusFromProduct(UUID productId);
 	Sku getSkuById(UUID id);
+	Sku getSkuByIdForForm(UUID id);
 	Sku cloneSkuById(UUID id) throws CloneNotSupportedException;
 	Sku loadSkuById(UUID id, Boolean lock);
 	void deleteSku(Sku sku);
