@@ -96,7 +96,7 @@ public class AdminOrderController {
 	  private MessageSource messageSource;
 	  
 	  
-	  @InitBinder({"ord","customer","sku"})
+	  @InitBinder()
 	  public void initBinder(WebDataBinder binder) {
 		    binder.setAllowedFields(new String[] {"id", "customer", "status", "submitDate", "orderNumber", "emailAddress", 
 		    		                              "orderItems*", "createdDate" });

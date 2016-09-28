@@ -89,7 +89,7 @@
 				   		    </div>
 				   		    <div class="row">
 				   		      <div class="col-md-4">
-					   		    <div class="field-box">
+					   		    <div class="field-box" th:class="${#fields.hasErrors('emailAddress')}? has-error: 'field-box'">
 		 			    		  <label>
 						    	  	<span th:text="#{admin.email}">Email</span>
 						   		   </label>
