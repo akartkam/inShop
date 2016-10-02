@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.akartkam.inShop.formbean.CartForm;
 import com.akartkam.inShop.util.CartUtil;
 
-@Controller("/cart")
+//@Controller("/cart")
 public class CartController {
 	private static final Log LOG = LogFactory.getLog(CartController.class);
 	private static String cartView = "cart/cart";

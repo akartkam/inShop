@@ -17,7 +17,7 @@
     <util:properties id="shopProperties" 
                     location="classpath:shop.properties"/>                                      
 	<context:annotation-config />
-	<context:component-scan base-package="com.akartkam.inShop.dao;com.akartkam.inShop.service;com.akartkam.inShop.controller;" />
+	<context:component-scan base-package="com.akartkam.inShop.dao;com.akartkam.inShop.service;com.akartkam.inShop.controller;com.akartkam.inShop.validator;" />
 	<tx:annotation-driven transaction-manager="transactionManager" />
 	
 	<bean id="orderNumberGenerator" class="com.akartkam.inShop.util.OrderNumberGeneratorFactoryBean">

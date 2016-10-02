@@ -15,4 +15,5 @@ public interface OrderService {
 	Order getOrderById(UUID id);
 	void mergeWithExistingAndUpdateOrCreate(Order order);
 	Map<OrderItem, Integer> retrieveOrderItemQuantities(Collection<OrderItem> orderItems);
+	
 }

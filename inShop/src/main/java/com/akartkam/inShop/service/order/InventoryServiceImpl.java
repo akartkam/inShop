@@ -4,21 +4,28 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.UUID;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.akartkam.inShop.controller.order.CartController;
 import com.akartkam.inShop.dao.product.SkuDAO;
 import com.akartkam.inShop.domain.product.InventoryType;
 import com.akartkam.inShop.domain.product.Sku;
 import com.akartkam.inShop.exception.ProductNotFoundException;
+import com.akartkam.inShop.exception.InventoryUnavailableException;
 import com.akartkam.inShop.util.CommonUtil;
 
 @Service("InventoryService")
 public class InventoryServiceImpl implements InventoryService {
+	
+	private static final Log LOG = LogFactory.getLog(InventoryServiceImpl.class);
 
 	@Autowired
 	private SkuDAO skuDAO; 
@@ -61,8 +68,7 @@ public class InventoryServiceImpl implements InventoryService {
     @Override
     public Integer retrieveQuantityAvailable(Sku sku) {
         return retrieveQuantitiesAvailable(Arrays.asList(sku)).get(sku);
-    }
-	
+    }	
 	
 	@Override
 	public boolean isAvailable(Sku sku) {
@@ -89,6 +95,62 @@ public class InventoryServiceImpl implements InventoryService {
 	    	return true;
 	    }
 		return true;		
+	}
+
+	@Override
+	@Transactional( rollbackFor={InventoryUnavailableException.class})
+	public void decrementInventory(Map<Sku, Integer> skuQuantities) throws InventoryUnavailableException {
+		Map<Sku, Integer> skuQuantAvailable = retrieveQuantitiesAvailable(skuQuantities.keySet());
+        for (Entry<Sku, Integer> entry : skuQuantities.entrySet()) {
+            Sku sku = entry.getKey();
+            Integer quantity = entry.getValue();
+            if (quantity == null || quantity < 1) {
+                throw new IllegalArgumentException("Quantity " + quantity + " is not valid. Must be greater than zero and not null.");
+            }
+            if (sku.isAvailable()) {
+            	if (InventoryType.CHECK_QUANTITY.equals(sku.getInventoryType())) {
+            		Integer inventoryAvailable = skuQuantAvailable.get(sku);
+                    if (inventoryAvailable == null) {
+                        return;
+                    }
+                    if (inventoryAvailable < quantity) {
+                        throw new InventoryUnavailableException(
+                                "There was not enough inventory to fulfill this request.", sku.getId(), quantity, inventoryAvailable);
+                    }
+                    int newInventory = inventoryAvailable - quantity;
+                    sku.setQuantityAvailable(newInventory);
+                    skuDAO.update(sku);                    
+            	} else {
+            		LOG.info("Not decrementing inventory as the Sku has been marked as always available");
+            	}
+            } else {
+                throw new InventoryUnavailableException("The Sku has been marked as unavailable", sku.getId(), quantity, 0);
+            }
+        } 
+		
+	}
+
+	@Override
+	public void incrementInventory(Map<Sku, Integer> skuQuantities) {
+		Map<Sku, Integer> skuQuantAvailable = retrieveQuantitiesAvailable(skuQuantities.keySet());
+        for (Entry<Sku, Integer> entry : skuQuantities.entrySet()) {
+            Sku sku = entry.getKey();
+            Integer quantity = entry.getValue();
+            if (quantity == null || quantity < 1) {
+                throw new IllegalArgumentException("Quantity " + quantity + " is not valid. Must be greater than zero and not null.");
+            }
+        	if (InventoryType.CHECK_QUANTITY.equals(sku.getInventoryType())) {
+        		Integer inventoryAvailable = skuQuantAvailable.get(sku);
+                if (inventoryAvailable == null) {
+                    return;
+                }
+                int newInventory = inventoryAvailable + quantity;
+                sku.setQuantityAvailable(newInventory);
+                skuDAO.update(sku);                    
+        	} else {
+        		LOG.info("Not incrementing inventory as the Sku has been marked as always available");
+        	}
+        } 
 	}
 
 }
