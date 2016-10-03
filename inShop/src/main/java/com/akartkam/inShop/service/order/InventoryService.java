@@ -13,4 +13,6 @@ public interface InventoryService {
 	Integer retrieveQuantityAvailable(Sku sku);
 	void decrementInventory(Map<Sku, Integer> skuQuantities) throws InventoryUnavailableException;
 	void incrementInventory(Map<Sku, Integer> skuQuantities);
+	void incrementInventory(Sku sku, int quant);
+	void decrementInventory(Sku sku, int quant) throws InventoryUnavailableException;
 }

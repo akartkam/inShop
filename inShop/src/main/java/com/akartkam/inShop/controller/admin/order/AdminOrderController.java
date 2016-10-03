@@ -50,6 +50,7 @@ import com.akartkam.inShop.domain.product.ProductStatus;
 import com.akartkam.inShop.domain.product.Sku;
 import com.akartkam.inShop.domain.product.option.ProductOption;
 import com.akartkam.inShop.domain.product.option.ProductOptionValue;
+import com.akartkam.inShop.exception.InventoryUnavailableException;
 import com.akartkam.inShop.exception.SkuNotFoundException;
 import com.akartkam.inShop.formbean.AccountForm;
 import com.akartkam.inShop.formbean.ItemsForJSON;
@@ -181,7 +182,7 @@ public class AdminOrderController {
 			                   @Validated Order order,
 				   			   final BindingResult bindingResult,
 			                   final RedirectAttributes ra
-			                         ) {
+			                         ) throws InventoryUnavailableException {
 		   orderValidator.validate(order, bindingResult);
 		   if (bindingResult.hasErrors()) {
 	        	ra.addFlashAttribute("ord", order);
@@ -189,7 +190,8 @@ public class AdminOrderController {
 	            return "redirect:/admin/order/edit";
 	        }
 
-	        orderService.mergeWithExistingAndUpdateOrCreate(order);	       
+	        Order nOrder = orderService.mergeWithExistingAndUpdateOrCreate(order);	
+	        orderService.adjustInventory(nOrder);
 	        return "redirect:/admin/order";
 	    }
 	  

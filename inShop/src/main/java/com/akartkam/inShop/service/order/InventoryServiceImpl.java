@@ -131,6 +131,7 @@ public class InventoryServiceImpl implements InventoryService {
 	}
 
 	@Override
+	@Transactional
 	public void incrementInventory(Map<Sku, Integer> skuQuantities) {
 		Map<Sku, Integer> skuQuantAvailable = retrieveQuantitiesAvailable(skuQuantities.keySet());
         for (Entry<Sku, Integer> entry : skuQuantities.entrySet()) {
@@ -152,5 +153,20 @@ public class InventoryServiceImpl implements InventoryService {
         	}
         } 
 	}
+	
+	@Override
+	public void incrementInventory(Sku sku, int quant) {
+		Map<Sku, Integer> qMap = new HashMap<Sku, Integer>();
+		qMap.put(sku, Integer.valueOf(quant));
+		incrementInventory(qMap);
+	}
 
+	@Override
+	public void decrementInventory(Sku sku, int quant) throws InventoryUnavailableException {
+		Map<Sku, Integer> qMap = new HashMap<Sku, Integer>();
+		qMap.put(sku, Integer.valueOf(quant));	
+		decrementInventory(qMap);
+	}
+	
+	
 }

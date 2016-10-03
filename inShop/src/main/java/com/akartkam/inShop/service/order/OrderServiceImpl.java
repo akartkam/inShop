@@ -20,6 +20,8 @@ import com.akartkam.inShop.dao.order.OrderItemDAO;
 import com.akartkam.inShop.domain.order.Order;
 import com.akartkam.inShop.domain.order.OrderItem;
 import com.akartkam.inShop.domain.product.Product;
+import com.akartkam.inShop.domain.product.Sku;
+import com.akartkam.inShop.exception.InventoryUnavailableException;
 import com.akartkam.inShop.util.OrderNumberGenerator;
 
 @Service("OrderService")
@@ -34,6 +36,8 @@ public class OrderServiceImpl implements OrderService{
 	private OrderItemDAO orderItemDAO;	
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
+	@Autowired
+	private InventoryService inventoryService;
 	
 	public OrderItem getOrderItemById(UUID id) {
 		return orderItemDAO.get(id);
@@ -63,8 +67,8 @@ public class OrderServiceImpl implements OrderService{
 
 	@Override
 	@Transactional(readOnly = false)
-	public void mergeWithExistingAndUpdateOrCreate(Order order) {
-		if (order == null) return;
+	public Order mergeWithExistingAndUpdateOrCreate(Order order) {
+		if (order == null) return null;
 		Order existingOrder = getOrderById(order.getId());
 		if (existingOrder != null) {
 			existingOrder.setCustomer(order.getCustomer());
@@ -95,6 +99,7 @@ public class OrderServiceImpl implements OrderService{
 			}
 			if (existingOrder.calculateSubTotal() != existingOrder.getSubTotal()) existingOrder.setSubTotal(existingOrder.calculateSubTotal());
 			if (existingOrder.calculateTotal() != existingOrder.getTotal()) existingOrder.setTotal(existingOrder.calculateTotal());
+			return existingOrder;
 		} else {
 			for (OrderItem oi : order.getOrderItems()) {
 				Product p = oi.getSku().getDefaultProduct() != null ? oi.getSku().getDefaultProduct() : oi.getSku().getProduct();
@@ -106,7 +111,8 @@ public class OrderServiceImpl implements OrderService{
 			}
 			if (order.calculateSubTotal() != order.getSubTotal()) order.setSubTotal(order.calculateSubTotal());
 			if (order.calculateTotal() != order.getTotal()) order.setTotal(order.calculateTotal());
-			createOrder(order);
+			Order newOrder = createOrder(order);
+			return newOrder;
 		}
 		
 	}
@@ -120,5 +126,23 @@ public class OrderServiceImpl implements OrderService{
         }
         return quantities;
 	}
+
+	@Override
+	@Transactional(readOnly = false)
+	public void adjustInventory(Order order) throws InventoryUnavailableException {
+		Map<OrderItem, Integer> orderItemQuantitiesFromDb = retrieveOrderItemQuantities(order.getOrderItems());
+		for (OrderItem orderItem : order.getOrderItems()) {
+			Integer orderItemQuantFromDb = orderItemQuantitiesFromDb.get(orderItem);
+			if (orderItemQuantFromDb == null) orderItemQuantFromDb = 0;
+			int quant = orderItem.getQuantity() - orderItemQuantFromDb;
+			if (quant < 0) {
+				inventoryService.incrementInventory(orderItem.getSku(), Math.abs(quant));
+			} else if (quant > 0) {
+				inventoryService.decrementInventory(orderItem.getSku(), quant);
+			}
+		}
+	}
+	
+	
 	
 }

@@ -6,8 +6,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import javax.validation.constraints.AssertTrue;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.Before;
@@ -18,7 +16,6 @@ import org.mockito.Mock;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
-import static org.mockito.Matchers.*;
 
 import org.mockito.MockitoAnnotations;
 
