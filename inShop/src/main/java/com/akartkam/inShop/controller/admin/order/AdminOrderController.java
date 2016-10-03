@@ -190,8 +190,7 @@ public class AdminOrderController {
 	            return "redirect:/admin/order/edit";
 	        }
 
-	        Order nOrder = orderService.mergeWithExistingAndUpdateOrCreate(order);	
-	        orderService.adjustInventory(nOrder);
+	        orderService.mergeWithExistingAndUpdateOrCreate(order);	
 	        return "redirect:/admin/order";
 	    }
 	  

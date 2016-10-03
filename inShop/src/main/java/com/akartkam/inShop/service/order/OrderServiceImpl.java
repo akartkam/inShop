@@ -67,8 +67,11 @@ public class OrderServiceImpl implements OrderService{
 
 	@Override
 	@Transactional(readOnly = false)
-	public Order mergeWithExistingAndUpdateOrCreate(Order order) {
-		if (order == null) return null;
+	public void mergeWithExistingAndUpdateOrCreate(Order order) throws InventoryUnavailableException {
+		//This maps for adjusting the skus quantity
+		Map<Sku, Integer> incrMapQuant = new HashMap<Sku, Integer>();
+		Map<Sku, Integer> decrMapQuant = new HashMap<Sku, Integer>();
+		if (order == null) return ;
 		Order existingOrder = getOrderById(order.getId());
 		if (existingOrder != null) {
 			existingOrder.setCustomer(order.getCustomer());
@@ -83,9 +86,15 @@ public class OrderServiceImpl implements OrderService{
 				if (idx != -1) {
 					OrderItem oif = loif.get(idx);
 					oi.setPrice(new BigDecimal(oif.getPrice().toPlainString()));
-					oi.setQuantity(oif.getQuantity());
+					int diffQuant = oif.getQuantity() - oi.getQuantity();
+					if (diffQuant != 0) {
+						if (diffQuant < 0) incrMapQuant.put(oi.getSku(), Integer.valueOf(Math.abs(diffQuant)));
+						else if (diffQuant > 0) decrMapQuant.put(oi.getSku(), Integer.valueOf(diffQuant));
+						oi.setQuantity(oif.getQuantity());						
+					}
 					loif.remove(idx);
 				} else {
+					incrMapQuant.put(oi.getSku(), oi.getQuantity());
 				    ioi.remove();
 				}
 			}
@@ -96,10 +105,12 @@ public class OrderServiceImpl implements OrderService{
 				oi1.setRetailPrice(oi1.getSku().getRetailPrice());
 				oi1.setSalePrice(oi1.getSku().getSalePrice());
 				existingOrder.addOrderItem(oi1); 
+				decrMapQuant.put(oi1.getSku(), oi1.getQuantity());
 			}
 			if (existingOrder.calculateSubTotal() != existingOrder.getSubTotal()) existingOrder.setSubTotal(existingOrder.calculateSubTotal());
 			if (existingOrder.calculateTotal() != existingOrder.getTotal()) existingOrder.setTotal(existingOrder.calculateTotal());
-			return existingOrder;
+			if (incrMapQuant.size() > 0) inventoryService.incrementInventory(incrMapQuant);
+			if (decrMapQuant.size() > 0) inventoryService.decrementInventory(decrMapQuant);
 		} else {
 			for (OrderItem oi : order.getOrderItems()) {
 				Product p = oi.getSku().getDefaultProduct() != null ? oi.getSku().getDefaultProduct() : oi.getSku().getProduct();
@@ -108,11 +119,12 @@ public class OrderServiceImpl implements OrderService{
 				oi.setRetailPrice(oi.getSku().getRetailPrice());
 				oi.setSalePrice(oi.getSku().getSalePrice());
 				oi.setOrder(order);
+				decrMapQuant.put(oi.getSku(), oi.getQuantity());
 			}
 			if (order.calculateSubTotal() != order.getSubTotal()) order.setSubTotal(order.calculateSubTotal());
 			if (order.calculateTotal() != order.getTotal()) order.setTotal(order.calculateTotal());
-			Order newOrder = createOrder(order);
-			return newOrder;
+			createOrder(order);
+			if (decrMapQuant.size() > 0) inventoryService.decrementInventory(decrMapQuant);
 		}
 		
 	}
@@ -127,22 +139,4 @@ public class OrderServiceImpl implements OrderService{
         return quantities;
 	}
 
-	@Override
-	@Transactional(readOnly = false)
-	public void adjustInventory(Order order) throws InventoryUnavailableException {
-		Map<OrderItem, Integer> orderItemQuantitiesFromDb = retrieveOrderItemQuantities(order.getOrderItems());
-		for (OrderItem orderItem : order.getOrderItems()) {
-			Integer orderItemQuantFromDb = orderItemQuantitiesFromDb.get(orderItem);
-			if (orderItemQuantFromDb == null) orderItemQuantFromDb = 0;
-			int quant = orderItem.getQuantity() - orderItemQuantFromDb;
-			if (quant < 0) {
-				inventoryService.incrementInventory(orderItem.getSku(), Math.abs(quant));
-			} else if (quant > 0) {
-				inventoryService.decrementInventory(orderItem.getSku(), quant);
-			}
-		}
-	}
-	
-	
-	
 }

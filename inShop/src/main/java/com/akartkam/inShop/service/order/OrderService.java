@@ -14,7 +14,6 @@ public interface OrderService {
 	List<Order> getAllOrders();
 	Order createOrder(Order order);
 	Order getOrderById(UUID id);
-	Order mergeWithExistingAndUpdateOrCreate(Order order);
+	void mergeWithExistingAndUpdateOrCreate(Order order) throws InventoryUnavailableException;
 	Map<OrderItem, Integer> retrieveOrderItemQuantities(Collection<OrderItem> orderItems);
-	void adjustInventory(Order order) throws InventoryUnavailableException;
 }
