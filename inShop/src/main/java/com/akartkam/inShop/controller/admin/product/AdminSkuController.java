@@ -11,8 +11,10 @@ import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
 
@@ -39,6 +41,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.akartkam.inShop.domain.product.InventoryType;
 import com.akartkam.inShop.domain.product.Product;
 import com.akartkam.inShop.domain.product.Sku;
 import com.akartkam.inShop.domain.product.option.ProductOption;
@@ -46,6 +49,7 @@ import com.akartkam.inShop.domain.product.option.ProductOptionValue;
 import com.akartkam.inShop.service.product.AttributeCategoryService;
 import com.akartkam.inShop.service.product.ProductService;
 import com.akartkam.inShop.util.ImageUtil;
+import com.akartkam.inShop.validator.SkuValidator;
 import com.akartkam.inShop.exception.ProductNotFoundException;
 import com.akartkam.inShop.formbean.SkuForm;
 
@@ -55,11 +59,11 @@ public class AdminSkuController {
 	  private static final Log LOG = LogFactory.getLog(AdminSkuController.class);
 	  	
 	  @Autowired
-	  ProductService productService;
+	  private ProductService productService;
 	  
 	  
 	  @Autowired
-	  AttributeCategoryService attributeCategoryService;
+	  private AttributeCategoryService attributeCategoryService;
 
 	  @Autowired
 	  private MessageSource messageSource;
@@ -67,6 +71,8 @@ public class AdminSkuController {
 	  @Autowired(required=false)
 	  private ImageUtil imageUtil;
 
+	  @Autowired
+	  private SkuValidator skuValidator;
 	  
 	  @Value("#{appProperties['inShop.imagesPath']}")
 	  private String imagePath;
@@ -74,13 +80,17 @@ public class AdminSkuController {
 	  @Value("#{appProperties['inShop.imagesUrl']}")
 	  private String imageUrl;
 	  	  	  	  
-	  
+	  @ModelAttribute("allInventoryTypes")
+	  public List<InventoryType> getAllInventoryTypes() {
+	      return Arrays.asList(InventoryType.ALL);
+	  }	  
+
 	  @InitBinder
 	  public void initBinder(WebDataBinder binder) {
 			binder.setAllowedFields(new String[] { "*id", "*name", "url", "*description", "*longDescription", 
 					 							   "*code", "ordering", "*images*", "enabled", "*retailPrice", "productOptionValuesList*", 
 					 							   "*salePrice", "*costPrice", "*activeStartDate", "*activeEndDate", "productOptionsList*",
-					 							   "quantityAvailable"});
+					 							   "quantityAvailable", "inventoryType"});
 			binder.registerCustomEditor(UUID.class, "id", new PropertyEditorSupport() {
 			    @Override
 			    public void setAsText(String text) {
@@ -203,6 +213,7 @@ public class AdminSkuController {
 				   			   final BindingResult bindingResult,
 			                   final RedirectAttributes ra
 			                         ) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
+		   skuValidator.validate(sku, bindingResult);
 		   productService.mergeWithExistingSkuAndUpdateOrCreate(sku, bindingResult);
 		   if (bindingResult.hasErrors()) {
 	        	ra.addFlashAttribute("sku", sku);

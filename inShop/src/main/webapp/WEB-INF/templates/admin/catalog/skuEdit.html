@@ -103,13 +103,26 @@
   								   </div>
   								   <div class="row">
 	  								   <div class="col-md-4">
-										   <div class="field-box">	                              
+										   <div class="field-box" th:class="${#fields.hasErrors('quantityAvailable')}? has-error: field-box">	                              
 								    		   <label>
 									    	  	 <span th:text="#{admin.catalog.product.quantity}">Quantity aval.</span>
 									   		   </label>
 									   		   <input type="number" min="0" class="form-control" th:field="*{quantityAvailable}"/>
+									   		   <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('quantityAvailable')}" th:errors="*{quantityAvailable}">Invalid quantity</p>
 								   		   </div>
 							   		   </div>
+							   		   <div class="col-md-4">
+										   <div class="field-box" th:class="${#fields.hasErrors('inventoryType')}? has-error: field-box">	                              
+								                <label>
+								    	   	        <span th:text="#{admin.catalog.product.inventoryType}">Inventory type</span>
+								   		        </label>				            
+						                        <select class="form-control" th:field="*{inventoryType}">
+						                            <option value="">&nbsp;</option>
+				            						<option th:each="it : ${allInventoryTypes}" th:value="${it}" th:text="#{${'product.inventoryType.' + it}}">ALWAYS_AVAILABLE</option>
+									            </select> 
+									            <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('inventoryType')}" th:errors="*{inventoryType}">Empty inventory type</p>
+								   		   </div>
+									   </div>								   							   		   
 						   		   </div>
 						   		   <div class="field-box">
 			 			    		  <label>

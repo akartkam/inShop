@@ -114,23 +114,24 @@
 								   </div>
 								   <div class="row">
 							   		   <div class="col-md-3">
-										   <div class="field-box">	                              
+										   <div class="field-box" th:class="${#fields.hasErrors('defaultSku.quantityAvailable')}? has-error: field-box">	                              
 								    		  <label>
 									    	  	 <span th:text="#{admin.catalog.product.quantity}">Quantity aval.</span>
 									   		  </label>
 									   		  <input type="number" min="0" class="form-control" th:field="*{defaultSku.quantityAvailable}"/>
+									   		  <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('defaultSku.quantityAvailable')}" th:errors="*{defaultSku.quantityAvailable}">Invalid quantity</p>
 								   		   </div>
 										</div>								   
 							   		   <div class="col-md-3">
-										   <div class="field-box">	                              
-								                <label>
-								    	   	        <span th:text="#{admin.catalog.product.inventoryType}">Inventory type</span>
-								   		        </label>				            
-						                        <select class="form-control" th:field="*{defaultSku.inventoryType}">
-						                            <option value="">&nbsp;</option>
-				            						<option th:each="it : ${allInventoryTypes}" th:value="${it}" th:text="#{${'product.inventoryType.' + it}}">ALWAYS_AVAILABLE</option>
-									            </select> 
-									            <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('defaultSku.inventoryType')}" th:errors="*{defaultSku.inventoryType}">Empty inventory type</p>
+										   <div class="field-box" th:class="${#fields.hasErrors('defaultSku.inventoryType')}? has-error: field-box">	                              
+							                 <label>
+							    	   	         <span th:text="#{admin.catalog.product.inventoryType}">Inventory type</span>
+							   		         </label>				            
+					                         <select class="form-control" th:field="*{defaultSku.inventoryType}">
+					                            <option value="">&nbsp;</option>
+			            						<option th:each="it : ${allInventoryTypes}" th:value="${it}" th:text="#{${'product.inventoryType.' + it}}">ALWAYS_AVAILABLE</option>
+								             </select> 
+								             <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('defaultSku.inventoryType')}" th:errors="*{defaultSku.inventoryType}">Empty inventory type</p>
 								   		   </div>
 									   </div>								   
 								   </div>			   		   

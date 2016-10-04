@@ -376,6 +376,7 @@ public class ProductServiceImpl implements ProductService {
 			sku.setEnabled(skuFromPost.isEnabled());
 			sku.setActiveStartDate(skuFromPost.getActiveStartDate());
 			sku.setActiveEndDate(skuFromPost.getActiveEndDate());
+			sku.setInventoryType(skuFromPost.getInventoryType());
 			Integer qa = skuFromPost.getQuantityAvailable();
 			if (qa != null) sku.setQuantityAvailable(new Integer(qa));	
 	        //Images

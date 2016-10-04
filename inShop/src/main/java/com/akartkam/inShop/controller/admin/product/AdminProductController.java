@@ -76,6 +76,7 @@ import com.akartkam.inShop.service.product.CategoryService;
 import com.akartkam.inShop.service.product.ProductService;
 import com.akartkam.inShop.util.ImageUtil;
 import com.akartkam.inShop.util.NullAwareBeanUtilsBean;
+import com.akartkam.inShop.validator.SkuValidator;
 import com.akartkam.inShop.exception.ImageUploadException;
 import com.akartkam.inShop.exception.ProductNotFoundException;
 import com.akartkam.inShop.formbean.ProductForm;
@@ -87,22 +88,25 @@ public class AdminProductController {
 	  private static final Log LOG = LogFactory.getLog(AdminProductController.class);
 	  	
 	  @Autowired
-	  ProductService productService;
+	  private ProductService productService;
 	  
 	  @Autowired
-	  CategoryService categoryService;
+	  private CategoryService categoryService;
 	  
 	  @Autowired
-	  BrandService brandService;
+	  private BrandService brandService;
 	   
 	  @Autowired
-	  AttributeCategoryService attributeCategoryService;
+	  private AttributeCategoryService attributeCategoryService;
 
 	  @Autowired
 	  private MessageSource messageSource;
 	  
 	  @Autowired(required=false)
 	  private ImageUtil imageUtil;
+	  
+	  @Autowired
+	  private SkuValidator skuValidator;
 
 	  
 	  @Value("#{appProperties['inShop.imagesPath']}")
@@ -318,6 +322,7 @@ public class AdminProductController {
 				   			   final BindingResult bindingResult,
 			                   final RedirectAttributes ra
 			                         ) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
+		   skuValidator.validate(product.getDefaultSku(), bindingResult);
 	       productService.mergeWithExistingAndUpdateOrCreate(product, bindingResult);	       
 		   if (bindingResult.hasErrors()) {
 	        	ra.addFlashAttribute("product", product);
