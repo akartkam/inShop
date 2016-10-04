@@ -82,16 +82,10 @@ public class InventoryServiceImpl implements InventoryService {
             throw new IllegalArgumentException("Quantity " + quantity + " is not valid. Must be greater than zero.");
         }
         if (!sku.isAvailable()) return false;
-		InventoryType it;
-		if (sku.isDefaultSku()) {
-			it = sku.getInventoryType();
-		} else {
-			it = sku.lookupDefaultSku().getInventoryType();		
-		}
-	    if (InventoryType.CHECK_QUANTITY.equals(it)) {
+	    if (InventoryType.CHECK_QUANTITY.equals(sku.getInventoryType())) {
             Integer quantityAvailable = retrieveQuantityAvailable(sku);
             return quantityAvailable != null && quantity <= quantityAvailable;
-	    } else if (InventoryType.ALWAYS_AVAILABLE.equals(it)) {
+	    } else if (InventoryType.ALWAYS_AVAILABLE.equals(sku.getInventoryType())) {
 	    	return true;
 	    }
 		return true;		

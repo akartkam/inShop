@@ -26,9 +26,8 @@ public class SkuValidator implements Validator {
 		if (InventoryType.CHECK_QUANTITY.equals(sku.getInventoryType())) {
 			if (sku.getQuantityAvailable() == null) {
 				String objName = errors.getObjectName();
-				String fieldName;
+				String fieldName = "quantityAvailable";
 				if (objName != null && objName.contains("product")) fieldName = "defaultSku.quantityAvailable";
-				else fieldName = "quantityAvailable";
 				errors.rejectValue(fieldName, "error.null.checkQuantity.quantityAvailable");
 			}
 		}
