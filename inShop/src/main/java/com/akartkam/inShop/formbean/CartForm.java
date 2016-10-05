@@ -32,6 +32,10 @@ public class CartForm implements Serializable {
         }
         return null;
     }
+    
+    public int getCartItemsCount() {
+    	return getCartItems().size();
+    }
 	
 	public void addCartItem(SkuForm sku, int quantity) {
 		CartItemForm item = this.findItemByCode(sku.getId()); 
