@@ -26,9 +26,9 @@ public class CartForm implements Serializable {
 	
     private CartItemForm findItemByCode(UUID code) {
         for (CartItemForm item : getCartItems()) {
-            if (item.getItemCode().equals(code)) {
+            /*if (item.getItemCode().equals(code)) {
                 return item;
-            }
+            }*/
         }
         return null;
     }
@@ -38,7 +38,7 @@ public class CartForm implements Serializable {
         if (item == null) {
         	item = new CartItemForm();
         	item.setQuantity(1);
-        	item.setSkuForm(sku);
+        	//item.setSkuForm(sku);
             getCartItems().add(item);
         }
         int newQuantity = item.getQuantity() + quantity;
@@ -67,7 +67,7 @@ public class CartForm implements Serializable {
     public BigDecimal getTotal() {
     	BigDecimal returnValue = BigDecimal.ZERO;
         for (CartItemForm item : getCartItems()) {
-        	returnValue = returnValue.add(item.getRowTotal());
+        	//returnValue = returnValue.add(item.getRowTotal());
         }
         return returnValue;
     }	
