@@ -11,6 +11,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -43,7 +44,8 @@ public class CartController {
 	
     @RequestMapping(value = "/add", produces = "application/json")
     public @ResponseBody Map<String, Object> addJson(HttpServletRequest request, HttpServletResponse response, 
-    		                                         Model model, @ModelAttribute("cartItemForm") CartItemForm cartItemForm) {
+    		                                         @ModelAttribute("cartItemForm") CartItemForm cartItemForm,
+    		                                         final BindingResult bindingResult, final Model model) {
         Map<String, Object> responseMap = new HashMap<String, Object>();
        /* try {
 
