@@ -12,10 +12,11 @@ public class CartItemForm implements Serializable  {
 	 * 
 	 */
 	private static final long serialVersionUID = 8806912685052493247L;
-	private UUID productId;
-	private UUID skuId;
+	private String productId;
+	private String skuId;
 	private int quantity;
 	private Map<String,String> itemAttributes = new HashMap<String,String>();
+	private String productName;
 
 	public int getQuantity() {
 		return quantity;
@@ -23,10 +24,10 @@ public class CartItemForm implements Serializable  {
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
-	public UUID getProductId() {
+	public String getProductId() {
 		return productId;
 	}
-	public void setProductId(UUID productId) {
+	public void setProductId(String productId) {
 		this.productId = productId;
 	}
 	public Map<String, String> getItemAttributes() {
@@ -35,15 +36,19 @@ public class CartItemForm implements Serializable  {
 	public void setItemAttributes(Map<String, String> itemAttributes) {
 		this.itemAttributes = itemAttributes;
 	}
-	public UUID getSkuId() {
+	public String getSkuId() {
 		return skuId;
 	}
-	public void setSkuId(UUID skuId) {
+	public void setSkuId(String skuId) {
 		this.skuId = skuId;
 	}
+	public String getProductName() {
+		return productName;
+	}
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
 	
-	
-
 	
 
 }
