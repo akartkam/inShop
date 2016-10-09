@@ -194,6 +194,17 @@ public class Product extends AbstractDomainObjectOrdering {
 		this.additionalSku = additionalSku;
 	}
 	
+    @Transient
+    public List<Sku> getSkus() {
+        List<Sku> skus = new ArrayList<Sku>();
+        for (Sku sku : getAdditionalSku()) {
+            if (sku.isEnabled()) {
+                skus.add(sku);
+            }
+        }
+        return skus;
+    }	
+	
 	@Override
 	@Transient
 	public Product clone() throws CloneNotSupportedException {

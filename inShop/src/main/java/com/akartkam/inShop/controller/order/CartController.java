@@ -2,6 +2,7 @@ package com.akartkam.inShop.controller.order;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,6 +23,7 @@ import com.akartkam.inShop.formbean.CartForm;
 import com.akartkam.inShop.formbean.CartItemForm;
 import com.akartkam.inShop.service.product.ProductService;
 import com.akartkam.inShop.util.CartUtil;
+import com.akartkam.inShop.validator.CartItemValidator;
 
 //@Controller("/cart")
 public class CartController {
@@ -32,6 +34,9 @@ public class CartController {
 	
 	@Autowired
 	private ProductService productService;
+	
+	@Autowired
+	private CartItemValidator cartItemValidator;
 	
 	@RequestMapping("")
     public String cart(HttpServletRequest request, HttpServletResponse response, Model model) {
@@ -47,14 +52,15 @@ public class CartController {
     		                                         @ModelAttribute("cartItemForm") CartItemForm cartItemForm,
     		                                         final BindingResult bindingResult, final Model model) {
         Map<String, Object> responseMap = new HashMap<String, Object>();
-       /* try {
-
-        	if (cartItemForm.getItemAttributes() == null || cartItemForm.getItemAttributes().size() == 0) {
-                responseMap.put("productId", cartItemForm.getProductId());
-            }
-            responseMap.put("productName", productService.getProductById(cartItemForm.getProductId()).getDefaultSku().getName());
-            responseMap.put("quantityAdded", cartItemForm.getQuantity());
-            responseMap.put("cartItemCount", String.valueOf(CartUtil.getCartFromSession(request).getCartItemsCount()));
+        /*try {
+        	cartItemValidator.validate(cartItemForm, bindingResult);
+        	if (!bindingResult.hasErrors()) {
+            	CartForm cart = CartUtil.getCartFromSession(request);
+            	cart.addCartItem(cartItemForm);
+                responseMap.put("productName", cartItemForm.getProductName());
+                responseMap.put("quantityAdded", cartItemForm.getQuantity());
+                responseMap.put("cartItemCount", String.valueOf(CartUtil.getCartFromSession(request).getCartItemsCount()));        		
+        	}
         } catch (AddToCartException e) {
             if (e.getCause() instanceof RequiredAttributeNotProvidedException) {
                 responseMap.put("error", "allOptionsRequired");
@@ -70,7 +76,6 @@ public class CartController {
                 throw e;
             }
         }*/
-        
         return responseMap;
     }	
 	

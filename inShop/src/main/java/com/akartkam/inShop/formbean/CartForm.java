@@ -24,40 +24,25 @@ public class CartForm implements Serializable {
 		return Id;
 	}
 	
-    private CartItemForm findItemByCode(UUID code) {
-        for (CartItemForm item : getCartItems()) {
-            /*if (item.getItemCode().equals(code)) {
-                return item;
-            }*/
-        }
-        return null;
-    }
     
     public int getCartItemsCount() {
     	return getCartItems().size();
     }
 	
-	public void addCartItem(SkuForm sku, int quantity) {
-		CartItemForm item = this.findItemByCode(sku.getId()); 
-        if (item == null) {
-        	item = new CartItemForm();
-        	item.setQuantity(1);
-        	//item.setSkuForm(sku);
-            getCartItems().add(item);
+	public void addCartItem(CartItemForm cartItem) {
+        if (cartItem == null) return;
+        int index = getCartItems().indexOf(cartItem);
+        if (index >= 0) {
+        	CartItemForm exCartItem = getCartItems().get(index);
+        	exCartItem.setQuantity(exCartItem.getQuantity()+cartItem.getQuantity());
+        	return;
         }
-        int newQuantity = item.getQuantity() + quantity;
-        if (newQuantity <= 0) {
-            getCartItems().remove(item);
-        } else {
-            item.setQuantity(newQuantity);
-        }
-	}
+        getCartItems().add(cartItem);
+ 	}
 	
-	public void removeCartItem(SkuForm sku) {
-		CartItemForm item = findItemByCode(sku.getId());
-        if (item != null) {
-            getCartItems().remove(item);
-        }
+	public void removeCartItem(CartItemForm cartItem) {
+		if (cartItem == null) return;
+		getCartItems().remove(cartItem);
 	}
 	
     public int getQuantityTotal() {
@@ -71,7 +56,7 @@ public class CartForm implements Serializable {
     public BigDecimal getTotal() {
     	BigDecimal returnValue = BigDecimal.ZERO;
         for (CartItemForm item : getCartItems()) {
-        	//returnValue = returnValue.add(item.getRowTotal());
+        	returnValue = returnValue.add(item.getCartItemTotal());
         }
         return returnValue;
     }	
