@@ -15,6 +15,10 @@
 
 	<global-method-security pre-post-annotations="enabled" />
 	
+<!--     <beans:bean name="requestDataValueProcessor"  -->
+<!--        class="org.springframework.security.web.servlet.support.csrf.CsrfRequestDataValueProcessor"/> -->
+	
+	
 	<beans:bean id="passwordEncoder" 
 		class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
 		<beans:constructor-arg name="strength" value="11" />
