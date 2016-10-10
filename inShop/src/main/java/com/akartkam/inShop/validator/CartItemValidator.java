@@ -15,6 +15,8 @@ import com.akartkam.inShop.domain.product.Product;
 import com.akartkam.inShop.domain.product.Sku;
 import com.akartkam.inShop.domain.product.option.ProductOption;
 import com.akartkam.inShop.domain.product.option.ProductOptionValue;
+import com.akartkam.inShop.exception.AddToCartException;
+import com.akartkam.inShop.exception.InventoryUnavailableException;
 import com.akartkam.inShop.exception.RequiredAttributeNotProvidedException;
 import com.akartkam.inShop.formbean.CartItemForm;
 import com.akartkam.inShop.service.order.InventoryService;
@@ -54,25 +56,31 @@ public class CartItemValidator implements Validator {
 		} else {
 			error.rejectValue("productId", "error.bad.cartItemForm.productId");
 		}
-		if (product != null) {
-			Sku sku = determineSku(product, cartItem.getItemAttributes());
-	        if (sku == null) {
-	            StringBuilder sb = new StringBuilder();
-	            for (Entry<String, String> entry : cartItem.getItemAttributes().entrySet()) {
-	                sb.append(entry.toString());
-	            }
-	            throw new IllegalArgumentException("Could not find SKU for :" +
-	                    " productId: " + (product == null ? "null" : product.getId()) + 
-	                    " skuId: " + cartItem.getSkuId() + 
-	                    " attributes: " + sb.toString());
-	        } else if (!sku.isEnabled()) {
-	            throw new IllegalArgumentException("The requested skuId of " + sku.getId() + " is no longer active");
-	        } else {
+		try{	
+			if (product != null) {
+				Sku sku = determineSku(product, cartItem.getItemAttributes());
+		        if (sku == null) {
+		            StringBuilder sb = new StringBuilder();
+		            for (Entry<String, String> entry : cartItem.getItemAttributes().entrySet()) {
+		                sb.append(entry.toString());
+		            }
+		            throw new IllegalArgumentException("Could not find SKU for :" +
+		                    " productId: " + (product == null ? "null" : product.getId()) + 
+		                    " skuId: " + cartItem.getSkuId() + 
+		                    " attributes: " + sb.toString());
+		        };
+		        boolean isAvailable = inventoryService.isQuantityAvailable(sku, cartItem.getQuantity());
+		        if (!isAvailable) 
+		        	throw new InventoryUnavailableException("The referenced Sku " + sku.getId() + " is marked as unavailable, or an insufficient amount",
+		        			                                 sku.getId(), cartItem.getQuantity(), inventoryService.retrieveQuantityAvailable(sku));
 	        	cartItem.setSkuId(sku.getId().toString());
 	        	cartItem.setProductName(sku.getName());
 	        	cartItem.setPrice(sku.getPrice());
-	        }
+			}
+		} catch (RequiredAttributeNotProvidedException | IllegalArgumentException | InventoryUnavailableException e) {
+			throw new AddToCartException("Could not add to cart", e);
 		}
+
 
     }
 	

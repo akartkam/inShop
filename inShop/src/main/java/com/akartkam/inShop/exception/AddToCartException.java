@@ -1,6 +1,6 @@
 package com.akartkam.inShop.exception;
 
-public class AddToCartException extends Exception {
+public class AddToCartException extends RuntimeException {
 
 
     /**
