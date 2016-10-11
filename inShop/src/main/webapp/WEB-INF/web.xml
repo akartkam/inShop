@@ -9,6 +9,9 @@
 	        <welcome-file>home.html</welcome-file>
 	</welcome-file-list>
 	
+	<session-config>
+	  <session-timeout>5</session-timeout>
+	</session-config>
 
 	<!-- Mimetype needed for tomcat to serve favicon images -->
 	<mime-mapping>
@@ -42,20 +45,6 @@
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 	
-		
-    <!--<start id="filter_security" />-->
-    <filter>
-        <filter-name>springSecurityFilterChain</filter-name>
-        <filter-class>
-            org.springframework.web.filter.DelegatingFilterProxy
-        </filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>springSecurityFilterChain</filter-name>
-        <url-pattern>/*</url-pattern>
-    </filter-mapping>
-
-	
 	<!-- Фильтр для перекодировки в utf8 -->
 	<filter>
 		<filter-name>charsetFilter</filter-name>
@@ -72,6 +61,19 @@
     <filter-mapping>
         <filter-name>charsetFilter</filter-name>
         <url-pattern>/*</url-pattern>
+    </filter-mapping> 
+    		
+    <!--<start id="filter_security" />-->
+    <filter>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <filter-class>
+            org.springframework.web.filter.DelegatingFilterProxy
+        </filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <url-pattern>/*</url-pattern>
     </filter-mapping>
+
 
 </web-app>

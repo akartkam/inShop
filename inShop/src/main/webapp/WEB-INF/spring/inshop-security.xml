@@ -15,8 +15,8 @@
 
 	<global-method-security pre-post-annotations="enabled" />
 	
-<!--     <beans:bean name="requestDataValueProcessor"  -->
-<!--        class="org.springframework.security.web.servlet.support.csrf.CsrfRequestDataValueProcessor"/> -->
+    <beans:bean name="requestDataValueProcessor" 
+       class="org.springframework.security.web.servlet.support.csrf.CsrfRequestDataValueProcessor"/>
 	
 	
 	<beans:bean id="passwordEncoder" 
@@ -34,7 +34,8 @@
 		<headers>
             <xss-protection  />
         </headers>
-<!-- 	  	<csrf />  -->
+	  	<csrf /> 
+
 	</http>	
 	
 <!--  
