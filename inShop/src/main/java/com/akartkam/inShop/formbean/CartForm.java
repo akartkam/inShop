@@ -29,20 +29,20 @@ public class CartForm implements Serializable {
     	return getCartItems().size();
     }
 	
-	public void addCartItem(CartItemForm cartItem) {
-        if (cartItem == null) return;
+	public boolean addCartItem(CartItemForm cartItem) {
+        if (cartItem == null) return false;
         int index = getCartItems().indexOf(cartItem);
         if (index >= 0) {
         	CartItemForm exCartItem = getCartItems().get(index);
         	exCartItem.setQuantity(exCartItem.getQuantity()+cartItem.getQuantity());
-        	return;
+        	return true;
         }
-        getCartItems().add(cartItem);
+        return getCartItems().add(cartItem);
  	}
 	
-	public void removeCartItem(CartItemForm cartItem) {
-		if (cartItem == null) return;
-		getCartItems().remove(cartItem);
+	public boolean removeCartItem(CartItemForm cartItem) {
+		if (cartItem == null) return false;
+		return getCartItems().remove(cartItem);
 	}
 	
     public int getQuantityTotal() {

@@ -1,14 +1,17 @@
 package com.akartkam.inShop.controller.order;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
@@ -26,7 +29,9 @@ import com.akartkam.inShop.formbean.CartForm;
 import com.akartkam.inShop.formbean.CartItemForm;
 import com.akartkam.inShop.service.product.ProductService;
 import com.akartkam.inShop.util.CartUtil;
-import com.akartkam.inShop.validator.CartItemValidator;
+import com.akartkam.inShop.validator.CartItemAddValidator;
+
+import static com.akartkam.inShop.util.CommonUtil.isAjaxRequest;;
 
 //@Controller("/cart")
 public class CartController {
@@ -39,7 +44,7 @@ public class CartController {
 	private ProductService productService;
 	
 	@Autowired
-	private CartItemValidator cartItemValidator;
+	private CartItemAddValidator cartItemValidator;
 	
 	@Autowired
 	private MessageSource messageSource;
@@ -88,7 +93,23 @@ public class CartController {
         }
         if (!errorsMap.isEmpty()) responseMap.put("errors", errorsMap);
         return responseMap;
-    }	
+    }
+    
+    @RequestMapping("/remove")
+    public String remove(HttpServletRequest request, HttpServletResponse response, Model model,
+    		@ModelAttribute("cartItemForm") CartItemForm cartItemForm) throws IOException  {
+    	CartForm cart = CartUtil.getCartFromSession(request);
+    	cart.removeCartItem(cartItemForm);        
+        if (isAjaxRequest(request)) {
+            Map<String, Object> extraData = new HashMap<String, Object>();
+            extraData.put("cartItemCount", cart.getCartItemsCount());
+            extraData.put("productId", cartItemForm.getProductId());
+            model.addAttribute("extradata", new ObjectMapper().writeValueAsString(extraData));
+            return getCartView();
+        } else {
+            return getCartPageRedirect();
+        }
+    }
 	
 	public static String getCartView() {
 		return cartView;

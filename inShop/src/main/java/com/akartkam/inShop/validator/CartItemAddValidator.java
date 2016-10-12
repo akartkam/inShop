@@ -23,7 +23,7 @@ import com.akartkam.inShop.service.order.InventoryService;
 import com.akartkam.inShop.service.product.ProductService;
 
 @Component
-public class CartItemValidator implements Validator {
+public class CartItemAddValidator implements Validator {
 	
 	@Autowired
 	private ProductService productService;
