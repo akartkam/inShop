@@ -115,7 +115,7 @@ public class CartController {
             extraData.put("cartItemCount", cart.getCartItemsCount());
             extraData.put("productId", cartItemForm.getProductId());
             model.addAttribute("extradata", new ObjectMapper().writeValueAsString(extraData));
-            return getCartView();
+            return getCartView() + " :: ajax";
         } else {
             return getCartPageRedirect();
         }
@@ -124,24 +124,28 @@ public class CartController {
     @RequestMapping("/updateQuantity")
     public String updateQuantity(HttpServletRequest request, HttpServletResponse response, Model model,
     							 @ModelAttribute("cartItemForm") CartItemForm cartItemForm,
-    		                     final BindingResult bindingResult) {
+    		                     final BindingResult bindingResult) throws IOException {
         Map<String, Object> responseMap = new HashMap<String, Object>();
-        Map<String, String> errorsMap = new HashMap<String, String>();    	
-    	cartItemUpdateValidator.validate(cartItemForm, bindingResult);
-    	if (bindingResult.hasErrors()) {
-    		
-    	}
+        Map<String, String> errorsMap = new HashMap<String, String>();
     	CartForm cart = CartUtil.getCartFromSession(request);
-
-       // cart = orderService.updateItemQuantity(cart.getId(), itemRequest, true);
-       // cart = orderService.save(cart, false);
-        
+        if (cartItemForm.getQuantity() == 0) {
+        	if (!cart.removeCartItem(cartItemForm)){
+        		errorsMap.put("error", messageSource.getMessage("error.remove.cartItemForm", null, null));
+        		LOG.error("During update zero quantity of cart item could not remove the cart item with productId = "+cartItemForm.getProductId() +" , skuId = "+cartItemForm.getSkuId());
+        	}
+        } else {
+	    	cartItemUpdateValidator.validate(cartItemForm, bindingResult);
+	    	if (bindingResult.hasErrors()) {
+	    		
+	    	}
+        }
         if (isAjaxRequest(request)) {
             Map<String, Object> extraData = new HashMap<String, Object>();
-         //   extraData.put("productId", itemRequest.getProductId());
-         //   extraData.put("cartItemCount", cart.getItemCount());
-         //   model.addAttribute("blcextradata", new ObjectMapper().writeValueAsString(extraData));
-            return getCartView();
+            extraData.put("productId", cartItemForm.getProductId());
+            extraData.put("cartItemCount", cart.getCartItemsCount());
+            model.addAttribute("extradata", new ObjectMapper().writeValueAsString(extraData));
+            if (errorsMap.size() > 0) model.addAttribute("errors", new ObjectMapper().writeValueAsString(errorsMap)); 
+            return getCartView() + " :: ajax";
         } else {
             return getCartPageRedirect();
         }
