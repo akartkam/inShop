@@ -51,6 +51,7 @@ import com.akartkam.inShop.service.product.ProductService;
 import com.akartkam.inShop.util.ImageUtil;
 import com.akartkam.inShop.validator.SkuValidator;
 import com.akartkam.inShop.exception.ProductNotFoundException;
+import com.akartkam.inShop.exception.SkuNotFoundException;
 import com.akartkam.inShop.formbean.SkuForm;
 
 @Controller
@@ -143,12 +144,12 @@ public class AdminSkuController {
 		  if(!model.containsAttribute("sku")) {
 			  if ("".equals(ID)) {
 				  LOG.error("ID Sku is empty.");
-				  throw new ProductNotFoundException("ID Sku is empty.");
+				  throw new SkuNotFoundException("ID Sku is empty.");
 			  }
 		      sku = productService.getSkuById(UUID.fromString(ID));
 			  if (sku == null) {
 				  LOG.error("Sku ID="+ID+" not found!");
-				  throw new ProductNotFoundException("Sku ID="+ID+" not found!");
+				  throw new SkuNotFoundException("Sku ID="+ID+" not found!");
 			  }		      
 		      model.addAttribute("sku", new SkuForm(sku));
 		      product = sku.getProduct();
@@ -229,8 +230,8 @@ public class AdminSkuController {
 	   public String addNewImage(final @ModelAttribute SkuForm sku,
 			   				   @RequestHeader(value = "X-Requested-With", required = false) String requestedWith,
 			   				   @RequestParam(value = "newImage", required = false)	MultipartFile image,
-			                   final BindingResult bindingResult,
-			                   final Model model
+			   				   final Model model,
+			   				   final BindingResult bindingResult
 			                         ) throws CloneNotSupportedException {
 		   if (!"XMLHttpRequest".equals(requestedWith)) throw new IllegalStateException("The addNewImage method can be called only via ajax!");
 	       String fileName="";

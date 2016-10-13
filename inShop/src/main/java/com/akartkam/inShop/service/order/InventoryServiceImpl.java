@@ -20,6 +20,7 @@ import com.akartkam.inShop.domain.product.InventoryType;
 import com.akartkam.inShop.domain.product.Sku;
 import com.akartkam.inShop.exception.ProductNotFoundException;
 import com.akartkam.inShop.exception.InventoryUnavailableException;
+import com.akartkam.inShop.exception.SkuNotFoundException;
 import com.akartkam.inShop.util.CommonUtil;
 
 @Service("InventoryService")
@@ -43,7 +44,7 @@ public class InventoryServiceImpl implements InventoryService {
             		skuDAO.refresh(sku);
             	}
             } else {
-        	   throw new ProductNotFoundException("The Sku with id " + sku.getId().toString() + " does not exists.");
+        	   throw new SkuNotFoundException("The Sku with id " + sku.getId().toString() + " does not exists.");
             }		        	
             if (sku.isAvailable()) {
                 if (InventoryType.CHECK_QUANTITY.equals(sku.getInventoryType())) {

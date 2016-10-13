@@ -1,6 +1,6 @@
 package com.akartkam.inShop.exception;
 
-public class SkuNotFoundException extends BusinessException {
+public class SkuNotFoundException extends RuntimeException {
 		
 	 /**
 	 * 

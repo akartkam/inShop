@@ -17,7 +17,9 @@ import com.akartkam.inShop.domain.product.option.ProductOption;
 import com.akartkam.inShop.domain.product.option.ProductOptionValue;
 import com.akartkam.inShop.exception.AddToCartException;
 import com.akartkam.inShop.exception.InventoryUnavailableException;
+import com.akartkam.inShop.exception.ProductNotFoundException;
 import com.akartkam.inShop.exception.RequiredAttributeNotProvidedException;
+import com.akartkam.inShop.exception.SkuNotFoundException;
 import com.akartkam.inShop.formbean.CartItemForm;
 import com.akartkam.inShop.service.order.InventoryService;
 import com.akartkam.inShop.service.product.ProductService;
@@ -47,9 +49,6 @@ public class CartItemAddValidator implements Validator {
 		if (producrId != null && "".equals(producrId.trim())) {
 			try {
 				product = productService.getProductById(UUID.fromString(producrId));
-				if (product == null) {
-					error.rejectValue("productId", "error.productNotFound.cartItemForm.productId", new String[] {producrId}, null);
-				}
 			} catch (IllegalArgumentException e) {
 				error.rejectValue("productId", "error.bad.cartItemForm.productId", new String[] {producrId}, null);
 			}
@@ -64,7 +63,7 @@ public class CartItemAddValidator implements Validator {
 		            for (Entry<String, String> entry : cartItem.getItemAttributes().entrySet()) {
 		                sb.append(entry.toString());
 		            }
-		            throw new IllegalArgumentException("Could not find SKU for :" +
+		            throw new SkuNotFoundException("Could not find SKU for :" +
 		                    " productId: " + (product == null ? "null" : product.getId()) + 
 		                    " skuId: " + cartItem.getSkuId() + 
 		                    " attributes: " + sb.toString());
@@ -76,8 +75,10 @@ public class CartItemAddValidator implements Validator {
 	        	cartItem.setSkuId(sku.getId().toString());
 	        	cartItem.setProductName(sku.getName());
 	        	cartItem.setPrice(sku.getPrice());
+			} else {
+				throw new ProductNotFoundException("The referenced Product "+producrId+" could not found.");
 			}
-		} catch (RequiredAttributeNotProvidedException | IllegalArgumentException | InventoryUnavailableException e) {
+		} catch (ProductNotFoundException | RequiredAttributeNotProvidedException | SkuNotFoundException | InventoryUnavailableException e) {
 			throw new AddToCartException("Could not add to cart", e);
 		}
 

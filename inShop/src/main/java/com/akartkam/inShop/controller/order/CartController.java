@@ -24,12 +24,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.akartkam.inShop.exception.AddToCartException;
 import com.akartkam.inShop.exception.InventoryUnavailableException;
+import com.akartkam.inShop.exception.ProductNotFoundException;
 import com.akartkam.inShop.exception.RequiredAttributeNotProvidedException;
+import com.akartkam.inShop.exception.SkuNotFoundException;
 import com.akartkam.inShop.formbean.CartForm;
 import com.akartkam.inShop.formbean.CartItemForm;
 import com.akartkam.inShop.service.product.ProductService;
 import com.akartkam.inShop.util.CartUtil;
 import com.akartkam.inShop.validator.CartItemAddValidator;
+import com.akartkam.inShop.validator.CartItemUpdateValidator;
 
 import static com.akartkam.inShop.util.CommonUtil.isAjaxRequest;;
 
@@ -44,7 +47,10 @@ public class CartController {
 	private ProductService productService;
 	
 	@Autowired
-	private CartItemAddValidator cartItemValidator;
+	private CartItemAddValidator cartItemAddValidator;
+
+	@Autowired
+	private CartItemUpdateValidator cartItemUpdateValidator;	
 	
 	@Autowired
 	private MessageSource messageSource;
@@ -59,13 +65,13 @@ public class CartController {
     }
 	
     @RequestMapping(value = "/add", produces = "application/json")
-    public @ResponseBody Map<String, Object> addJson(HttpServletRequest request, HttpServletResponse response, 
+    public @ResponseBody Map<String, Object> addJson(HttpServletRequest request, HttpServletResponse response, final Model model,
     		                                         @ModelAttribute("cartItemForm") CartItemForm cartItemForm,
-    		                                         final BindingResult bindingResult, final Model model) {
+    		                                         final BindingResult bindingResult ) {
         Map<String, Object> responseMap = new HashMap<String, Object>();
         Map<String, String> errorsMap = new HashMap<String, String>();
         try {
-        	cartItemValidator.validate(cartItemForm, bindingResult);
+        	cartItemAddValidator.validate(cartItemForm, bindingResult);
         	if (!bindingResult.hasErrors()) {
             	CartForm cart = CartUtil.getCartFromSession(request);
             	cart.addCartItem(cartItemForm);
@@ -83,7 +89,11 @@ public class CartController {
         	}
         } catch (AddToCartException e) {
         	LOG.error("Runtime exception has occurred during to add to cart", e);
-            if (e.getCause() instanceof RequiredAttributeNotProvidedException) {
+        	if (e.getCause() instanceof ProductNotFoundException){
+        		errorsMap.put("criticalError", "productNotFound");
+        	} else if (e.getCause() instanceof SkuNotFoundException) {
+            	errorsMap.put("criticalError", "skuNotFound");
+        	} else if (e.getCause() instanceof RequiredAttributeNotProvidedException) {
             	errorsMap.put("criticalError", "allOptionsRequired");
             } else if (e.getCause() instanceof InventoryUnavailableException) {
             	errorsMap.put("criticalError", "inventoryUnavailable");
@@ -96,8 +106,8 @@ public class CartController {
     }
     
     @RequestMapping("/remove")
-    public String remove(HttpServletRequest request, HttpServletResponse response, Model model,
-    		@ModelAttribute("cartItemForm") CartItemForm cartItemForm) throws IOException  {
+    public String remove(HttpServletRequest request, HttpServletResponse response, 
+    		@ModelAttribute("cartItemForm") CartItemForm cartItemForm, Model model) throws IOException  {
     	CartForm cart = CartUtil.getCartFromSession(request);
     	cart.removeCartItem(cartItemForm);        
         if (isAjaxRequest(request)) {
@@ -110,6 +120,32 @@ public class CartController {
             return getCartPageRedirect();
         }
     }
+    
+    @RequestMapping("/updateQuantity")
+    public String updateQuantity(HttpServletRequest request, HttpServletResponse response, Model model,
+    							 @ModelAttribute("cartItemForm") CartItemForm cartItemForm,
+    		                     final BindingResult bindingResult) {
+        Map<String, Object> responseMap = new HashMap<String, Object>();
+        Map<String, String> errorsMap = new HashMap<String, String>();    	
+    	cartItemUpdateValidator.validate(cartItemForm, bindingResult);
+    	if (bindingResult.hasErrors()) {
+    		
+    	}
+    	CartForm cart = CartUtil.getCartFromSession(request);
+
+       // cart = orderService.updateItemQuantity(cart.getId(), itemRequest, true);
+       // cart = orderService.save(cart, false);
+        
+        if (isAjaxRequest(request)) {
+            Map<String, Object> extraData = new HashMap<String, Object>();
+         //   extraData.put("productId", itemRequest.getProductId());
+         //   extraData.put("cartItemCount", cart.getItemCount());
+         //   model.addAttribute("blcextradata", new ObjectMapper().writeValueAsString(extraData));
+            return getCartView();
+        } else {
+            return getCartPageRedirect();
+        }
+    }    
 	
 	public static String getCartView() {
 		return cartView;

@@ -45,6 +45,17 @@ public class CartForm implements Serializable {
 		return getCartItems().remove(cartItem);
 	}
 	
+	public boolean updateQuantityOnCartItem(CartItemForm cartItem) {
+		if (cartItem == null) return false;
+	    int index = getCartItems().indexOf(cartItem);
+	    if (index >= 0) {
+	    	CartItemForm exCartItem = getCartItems().get(index);
+	    	exCartItem.setQuantity(cartItem.getQuantity());
+	    	return true;
+	    }
+	    return false;
+	}
+	
     public int getQuantityTotal() {
         int quantity = 0;
         for (CartItemForm item : getCartItems()) {
