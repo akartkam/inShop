@@ -9,8 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -27,6 +25,7 @@ import com.akartkam.inShop.exception.InventoryUnavailableException;
 import com.akartkam.inShop.exception.ProductNotFoundException;
 import com.akartkam.inShop.exception.RequiredAttributeNotProvidedException;
 import com.akartkam.inShop.exception.SkuNotFoundException;
+import com.akartkam.inShop.exception.UpdateCartException;
 import com.akartkam.inShop.formbean.CartForm;
 import com.akartkam.inShop.formbean.CartItemForm;
 import com.akartkam.inShop.service.product.ProductService;
@@ -36,7 +35,8 @@ import com.akartkam.inShop.validator.CartItemUpdateValidator;
 
 import static com.akartkam.inShop.util.CommonUtil.isAjaxRequest;;
 
-//@Controller("/cart")
+@Controller
+@RequestMapping("/cart")
 public class CartController {
 	private static final Log LOG = LogFactory.getLog(CartController.class);
 	private static String cartView = "cart/cart";
@@ -55,7 +55,7 @@ public class CartController {
 	@Autowired
 	private MessageSource messageSource;
 	
-	@RequestMapping("")
+	@RequestMapping()
     public String cart(HttpServletRequest request, HttpServletResponse response, Model model) {
         CartForm cart = CartUtil.getCartFromSession(request);
         if (cart != null) {
@@ -107,15 +107,22 @@ public class CartController {
     
     @RequestMapping("/remove")
     public String remove(HttpServletRequest request, HttpServletResponse response, 
-    		@ModelAttribute("cartItemForm") CartItemForm cartItemForm, Model model) throws IOException  {
+    		@ModelAttribute("cartItemForm") CartItemForm cartItemForm, Model model,
+    		final BindingResult bindingResult) throws IOException  {
+        Map<String, String> errorsMap = new HashMap<String, String>();
     	CartForm cart = CartUtil.getCartFromSession(request);
-    	cart.removeCartItem(cartItemForm);        
+    	if (!cart.removeCartItem(cartItemForm)){
+    		bindingResult.reject("error.remove.cartItemForm");
+    		errorsMap.put("error", messageSource.getMessage("error.remove.cartItemForm", null, null));
+    		LOG.error("During update zero quantity, could not remove the cart item with productId = "+cartItemForm.getProductId() +" , skuId = "+cartItemForm.getSkuId());
+    	} 
         if (isAjaxRequest(request)) {
             Map<String, Object> extraData = new HashMap<String, Object>();
             extraData.put("cartItemCount", cart.getCartItemsCount());
             extraData.put("productId", cartItemForm.getProductId());
             model.addAttribute("extradata", new ObjectMapper().writeValueAsString(extraData));
-            return getCartView() + " :: ajax";
+        	if (errorsMap.size() > 0) model.addAttribute("errors", new ObjectMapper().writeValueAsString(errorsMap));
+            return getCartView();
         } else {
             return getCartPageRedirect();
         }
@@ -125,16 +132,25 @@ public class CartController {
     public String updateQuantity(HttpServletRequest request, HttpServletResponse response, Model model,
     							 @ModelAttribute("cartItemForm") CartItemForm cartItemForm,
     		                     final BindingResult bindingResult) throws IOException {
-        Map<String, Object> responseMap = new HashMap<String, Object>();
         Map<String, String> errorsMap = new HashMap<String, String>();
     	CartForm cart = CartUtil.getCartFromSession(request);
         if (cartItemForm.getQuantity() == 0) {
         	if (!cart.removeCartItem(cartItemForm)){
+        		bindingResult.reject("error.remove.cartItemForm");
         		errorsMap.put("error", messageSource.getMessage("error.remove.cartItemForm", null, null));
-        		LOG.error("During update zero quantity of cart item could not remove the cart item with productId = "+cartItemForm.getProductId() +" , skuId = "+cartItemForm.getSkuId());
+        		LOG.error("During update cart item with zero quantity, could not remove the cart item with productId = "+cartItemForm.getProductId() +" , skuId = "+cartItemForm.getSkuId());
         	}
         } else {
-	    	cartItemUpdateValidator.validate(cartItemForm, bindingResult);
+        	try {
+        		cartItemUpdateValidator.validate(cartItemForm, bindingResult);
+        	} catch (UpdateCartException e) {
+            	LOG.error("Runtime exception has occurred during update the cart", e);
+            	if (e.getCause() instanceof SkuNotFoundException){
+            		errorsMap.put("criticalError", "skuNotFound");
+            	} else if (e.getCause() instanceof InventoryUnavailableException) {
+            		errorsMap.put("criticalError", "inventoryUnavailable");
+            	}
+        	}
 	    	if (bindingResult.hasErrors()) {
 	    		
 	    	}
@@ -145,7 +161,7 @@ public class CartController {
             extraData.put("cartItemCount", cart.getCartItemsCount());
             model.addAttribute("extradata", new ObjectMapper().writeValueAsString(extraData));
             if (errorsMap.size() > 0) model.addAttribute("errors", new ObjectMapper().writeValueAsString(errorsMap)); 
-            return getCartView() + " :: ajax";
+            return getCartView();
         } else {
             return getCartPageRedirect();
         }
