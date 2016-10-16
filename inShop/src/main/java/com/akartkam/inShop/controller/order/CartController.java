@@ -77,7 +77,7 @@ public class CartController {
             	cart.addCartItem(cartItemForm);
                 responseMap.put("productName", cartItemForm.getProductName());
                 responseMap.put("quantityAdded", cartItemForm.getQuantity());
-                responseMap.put("cartItemCount", String.valueOf(CartUtil.getCartFromSession(request).getCartItemsCount()));        		
+                responseMap.put("cartItemCount", CartUtil.getCartFromSession(request).getCartItemsCount());        		
         	} else {
         		if (bindingResult.hasFieldErrors()) {
         			for (FieldError fe : bindingResult.getFieldErrors()){

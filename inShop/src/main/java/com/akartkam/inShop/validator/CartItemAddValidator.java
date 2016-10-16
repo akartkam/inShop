@@ -46,7 +46,7 @@ public class CartItemAddValidator implements Validator {
 		}
 		String producrId = cartItem.getProductId();
 		Product product = null;
-		if (producrId != null && "".equals(producrId.trim())) {
+		if (producrId != null && !"".equals(producrId.trim())) {
 			try {
 				product = productService.getProductById(UUID.fromString(producrId));
 			} catch (IllegalArgumentException e) {
