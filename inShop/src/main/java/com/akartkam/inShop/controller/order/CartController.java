@@ -64,7 +64,7 @@ public class CartController {
         return getCartView();
     }
 	
-    @RequestMapping(value = "/add", produces = "application/json")
+    @RequestMapping(value = "/add", produces = "application/json;charset=UTF-8")
     public @ResponseBody Map<String, Object> addJson(HttpServletRequest request, HttpServletResponse response, final Model model,
     		                                         @ModelAttribute("cartItemForm") CartItemForm cartItemForm,
     		                                         final BindingResult bindingResult ) {
