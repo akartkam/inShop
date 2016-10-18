@@ -36,8 +36,6 @@ import com.akartkam.inShop.dao.product.ProductDAO;
 import com.akartkam.inShop.domain.product.Product;
 import com.akartkam.inShop.domain.product.Sku;
 import com.akartkam.inShop.domain.product.option.ProductOption;
-import com.akartkam.inShop.exception.AddToCartException;
-import com.akartkam.inShop.exception.RequiredAttributeNotProvidedException;
 import com.akartkam.inShop.formbean.CartForm;
 import com.akartkam.inShop.formbean.CartItemForm;
 import com.akartkam.inShop.service.order.InventoryService;
@@ -215,4 +213,35 @@ public class CartControllerTest extends AbstractTest {
 		        .andDo(print());		
 	}	
 
+	@Test
+	public void cartAddJson_skuNotFound() throws Exception {
+		when(productService.getProductById(any(UUID.class))).thenReturn(productMock);
+		when(inventoryService.isQuantityAvailable(any(Sku.class), anyInt())).thenReturn(true);	
+		when(productMock.getId()).thenReturn(UUID.fromString("159c5c82-3b8f-4473-a965-046604f8e56d"));
+		when(productMock.getDefaultSku()).thenReturn(null);
+		when(productOptionMock.getRequired()).thenReturn(false);
+		when(productOptionMock.getName()).thenReturn("Some Product Option");
+		mockMvc.perform(get("/cart/add")
+				.accept(MediaType.APPLICATION_JSON)
+		        .param("productId", "159c5c82-3b8f-4473-a965-046604f8e56d").param("quantity", "1").param("itemAttributes['ColorBWG']", "Черный")
+		        .header("X-Requested-With", "XMLHttpRequest")
+		        .header("charset", "utf-8"))
+		        .andExpect(status().isOk())
+		        .andExpect(content().contentType("application/json;charset=UTF-8"))
+		        .andExpect(jsonPath("$.errors").exists())
+		        .andExpect(jsonPath("$.errors.criticalError", is("skuNotFound")))
+		        .andExpect(jsonPath("$.productName").doesNotExist())
+		        .andExpect(jsonPath("$.quantityAdded").doesNotExist())
+		        .andExpect(jsonPath("$.cartItemCount").doesNotExist())		        
+		        .andDo(new ResultHandler() {
+			                @Override
+			                public void handle(MvcResult result) throws Exception {
+			                	CartForm cart = (CartForm) result.getRequest().getSession().getAttribute(Constants.CART_BEAN_NAME);
+			                	assertNull(cart);
+			                }
+		        		})		        
+		        .andDo(print());		
+	}	
+	
+	
 }
