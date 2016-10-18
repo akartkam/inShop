@@ -8,6 +8,10 @@ import static org.mockito.Mockito.*;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import org.junit.Before;
@@ -31,6 +35,9 @@ import com.akartkam.inShop.controller.order.CartController;
 import com.akartkam.inShop.dao.product.ProductDAO;
 import com.akartkam.inShop.domain.product.Product;
 import com.akartkam.inShop.domain.product.Sku;
+import com.akartkam.inShop.domain.product.option.ProductOption;
+import com.akartkam.inShop.exception.AddToCartException;
+import com.akartkam.inShop.exception.RequiredAttributeNotProvidedException;
 import com.akartkam.inShop.formbean.CartForm;
 import com.akartkam.inShop.formbean.CartItemForm;
 import com.akartkam.inShop.service.order.InventoryService;
@@ -42,14 +49,16 @@ import com.akartkam.inShop.validator.CartItemUpdateValidator;
 public class CartControllerTest extends AbstractTest {
 	
 	@Mock
+	private Product productMock;
+	
+	@Mock
+	private ProductOption productOptionMock;
+	
+	@Mock
 	private ProductService productService;
 	
 	@Mock
 	private InventoryService inventoryService;
-	
-	
-//	@Mock
-//	private MessageSource messageSource;	
 	
 	@Spy @InjectMocks
 	private CartItemAddValidator cartItemAddValidator;
@@ -68,7 +77,7 @@ public class CartControllerTest extends AbstractTest {
 	private ApplicationContext applicationContext;
 	
 	@Spy
-	private MessageSource messageSource; //= (MessageSource) applicationContext.getBean("messageSource");
+	private MessageSource messageSource;
 	
 	@Before
 	public void setUp() throws Exception {
@@ -97,7 +106,7 @@ public class CartControllerTest extends AbstractTest {
 		        .param("productId", "159c5c82-3b8f-4473-a965-046604f8e56d").param("quantity", "1").param("itemAttributes['ColorBWG']", "Черный")
 		        .header("X-Requested-With", "XMLHttpRequest"))
 		        .andExpect(status().isOk())
-		        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+		        .andExpect(content().contentType("application/json;charset=UTF-8"))
 		        .andExpect(jsonPath("$.errors").doesNotExist())
 		        .andExpect(jsonPath("$.productName", is("Panasonic RP-HX550")))
 		        .andExpect(jsonPath("$.quantityAdded", is(1)))
@@ -120,7 +129,7 @@ public class CartControllerTest extends AbstractTest {
 		
 	}
 
-	@Test //(expected = AddToCartException.class)
+	@Test 
 	public void cartAddJsonTest_bad_quantity() throws Exception {
 		Product product = productDAO.get(UUID.fromString("159c5c82-3b8f-4473-a965-046604f8e56d"));
 		when(productService.getProductById(any(UUID.class))).thenReturn(product);
@@ -134,9 +143,76 @@ public class CartControllerTest extends AbstractTest {
 		        .andExpect(content().contentType("application/json;charset=UTF-8"))
 		        .andExpect(jsonPath("$.errors").exists())
 		        .andExpect(jsonPath("$.errors.quantity", is("Неверное количество: -1")))
+		        .andExpect(jsonPath("$.productName").doesNotExist())
+		        .andExpect(jsonPath("$.quantityAdded").doesNotExist())
+		        .andExpect(jsonPath("$.cartItemCount").doesNotExist())
+		        .andDo(new ResultHandler() {
+			                @Override
+			                public void handle(MvcResult result) throws Exception {
+			                	CartForm cart = (CartForm) result.getRequest().getSession().getAttribute(Constants.CART_BEAN_NAME);
+			                	assertNull(cart);
+			                }
+		        		})		        
 		        .andDo(print());
 		
 	}
 	
+	@Test
+	public void cartAddJson_productNotFound() throws Exception {
+		when(productService.getProductById(any(UUID.class))).thenReturn(null);
+		when(inventoryService.isQuantityAvailable(any(Sku.class), anyInt())).thenReturn(true);	
+		mockMvc.perform(get("/cart/add")
+				.accept(MediaType.APPLICATION_JSON)
+		        .param("productId", "159c5c82-3b8f-4473-a965-046604f8e56d").param("quantity", "1").param("itemAttributes['ColorBWG']", "Черный")
+		        .header("X-Requested-With", "XMLHttpRequest")
+		        .header("charset", "utf-8"))
+		        .andExpect(status().isOk())
+		        .andExpect(content().contentType("application/json;charset=UTF-8"))
+		        .andExpect(jsonPath("$.errors").exists())
+		        .andExpect(jsonPath("$.errors.criticalError", is("productNotFound")))
+		        .andExpect(jsonPath("$.productName").doesNotExist())
+		        .andExpect(jsonPath("$.quantityAdded").doesNotExist())
+		        .andExpect(jsonPath("$.cartItemCount").doesNotExist())		        
+		        .andDo(new ResultHandler() {
+			                @Override
+			                public void handle(MvcResult result) throws Exception {
+			                	CartForm cart = (CartForm) result.getRequest().getSession().getAttribute(Constants.CART_BEAN_NAME);
+			                	assertNull(cart);
+			                }
+		        		})		        
+		        .andDo(print());		
+	}
+	
+	@Test
+	public void cartAddJson_RequiredAttributeNotProvidedException() throws Exception {
+		when(productService.getProductById(any(UUID.class))).thenReturn(productMock);
+		when(inventoryService.isQuantityAvailable(any(Sku.class), anyInt())).thenReturn(true);	
+		when(productMock.getId()).thenReturn(UUID.fromString("159c5c82-3b8f-4473-a965-046604f8e56d"));
+		when(productOptionMock.getRequired()).thenReturn(true);
+		when(productOptionMock.getName()).thenReturn("Some Product Option");
+		Set<ProductOption> sp = new HashSet<ProductOption>();
+		sp.add(productOptionMock);
+		when(productMock.getProductOptions()).thenReturn(sp);
+		mockMvc.perform(get("/cart/add")
+				.accept(MediaType.APPLICATION_JSON)
+		        .param("productId", "159c5c82-3b8f-4473-a965-046604f8e56d").param("quantity", "1").param("itemAttributes['ColorBWG']", "Черный")
+		        .header("X-Requested-With", "XMLHttpRequest")
+		        .header("charset", "utf-8"))
+		        .andExpect(status().isOk())
+		        .andExpect(content().contentType("application/json;charset=UTF-8"))
+		        .andExpect(jsonPath("$.errors").exists())
+		        .andExpect(jsonPath("$.errors.criticalError", is("allOptionsRequired")))
+		        .andExpect(jsonPath("$.productName").doesNotExist())
+		        .andExpect(jsonPath("$.quantityAdded").doesNotExist())
+		        .andExpect(jsonPath("$.cartItemCount").doesNotExist())		        
+		        .andDo(new ResultHandler() {
+			                @Override
+			                public void handle(MvcResult result) throws Exception {
+			                	CartForm cart = (CartForm) result.getRequest().getSession().getAttribute(Constants.CART_BEAN_NAME);
+			                	assertNull(cart);
+			                }
+		        		})		        
+		        .andDo(print());		
+	}	
 
 }
