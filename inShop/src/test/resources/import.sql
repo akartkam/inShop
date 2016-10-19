@@ -13,6 +13,12 @@ INSERT INTO role (id, name, role, enabled, createby, createddate, version)
 
 INSERT INTO account_role (account_id, role_id) 
     VALUES('0b90130d-2c19-4001-b61a-ef100d7b950e', '53a5c8ce-4f56-4c79-acb3-e47d76e580df');
+    
+/*Attributes categorys*/    
+INSERT INTO attribute_category(
+            id, createby, createddate, enabled, updatedby, updateddate, version, ordering, name)
+    VALUES ('a08bb3cd-907d-45ea-b5b6-eaf4b0b17887', 'akartkam', DATE '2016-06-26', true, null, null, 0, 0, 'Аудио (наушники)');
+            
 /*Categorys*/	
 INSERT INTO category(
 	    id, createddate, enabled, updateddate, version, ordering, description, 

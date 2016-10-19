@@ -162,15 +162,15 @@ public class CategoryServiceTest extends AbstractTest {
 	@Test
 	public void addAttributeTest() throws ClassNotFoundException, InstantiationException, IllegalAccessException {
 		logger.info("*********Begin addAttributeTes*********");
-		jdbcTemplate.execute("select del_attribute('AutoTestAddAttribute')");
-		Category found = categoryService.getCategoryByName("Test_Category5.1").get(0);
-		AttributeCategory attributeCategory = attributeCategoryService.getAttributeCategoryByName("��������� ��������� 1");
+		Category found = categoryService.getCategoryByName("Test_Category3").get(0);
+		AttributeCategory attributeCategory =  attributeCategoryService.getAttributeCategoryById(UUID.fromString("a08bb3cd-907d-45ea-b5b6-eaf4b0b17887")); 
+		attributeCategory.setName("Some attribute category");
 		AbstractAttribute attribute = SimpleAttributeFactory.createAttribute(AttributeType.DECIMAL);
 		attribute.setName("AutoTestAddAttributeDecimal1");
 		attribute.setAttributeCategory(attributeCategory);
 		found.addAttribute(attribute);
-		categoryDAO.update(found);
-		Category found1 = categoryService.getCategoryByName("Test_Category5.1").get(0);
+		sessionFactory.getCurrentSession().flush();
+		Category found1 = categoryService.getCategoryByName("Test_Category3").get(0);
 		Set<AbstractAttribute> foundAttributes = found1.getAttributes();
 		Iterator<AbstractAttribute> foundAttributeIter = foundAttributes.iterator();
 		while (foundAttributeIter.hasNext()) 
@@ -262,24 +262,6 @@ public class CategoryServiceTest extends AbstractTest {
 		
 	}
 
-	@Test
-	public void addProductImage() {
-		Product p = productService.getProductsByName("Test_product1").get(0);
-		List<String> pi = new ArrayList<String>();
-
-		pi.add(0, "/images/i1.jpg");
-	    pi.add("/images/i2.jpg");
-		pi.add(1,"/images/i3.jpg");
-		//p.setImages(pi);
-		
-	}
-	
-	@Test
-	public void searchSku() {
-		List<Sku> skus = productService.getSkusByName("Panasonic%");
-		assertTrue(skus.size()>0);
-		LOG.info(skus);
-	}
 	
 	private Category createTestCategory(String name) {
 		Category ctg = new Category();

@@ -151,8 +151,12 @@ public class CartController {
             		errorsMap.put("criticalError", "inventoryUnavailable");
             	}
         	}
-	    	if (bindingResult.hasErrors()) {
-	    		
+	    	if (!bindingResult.hasErrors()) {
+	    		if (!cart.updateQuantityOnCartItem(cartItemForm)) {
+	        		bindingResult.reject("error.updateQuantity.cartItemForm");
+	        		errorsMap.put("error", messageSource.getMessage("error.updateQuantity.cartItemForm", null, null));
+	        		LOG.error("Error occurred during update cart item quantity, productId = "+cartItemForm.getProductId() +" , skuId = "+cartItemForm.getSkuId() +", quantity = "+cartItemForm.getQuantity());	    			
+	    		}
 	    	}
         }
         if (isAjaxRequest(request)) {

@@ -302,8 +302,69 @@ public class CartControllerTest extends AbstractTest {
 	}	
 	
 	@Test
-	public void cartUpdateItem_expect_successful() throws Exception {	
+	public void cartUpdateItem_succsess_zero_quantity_ajax() throws Exception {	
+		CartForm cart = new CartForm();
+		CartItemForm cartItem = new CartItemForm();
+		cartItem.setProductId("159c5c82-3b8f-4473-a965-046604f8e56d");
+		cartItem.setSkuId("0fa89e22-46e1-4b68-acb9-d5df82f37823");
+		cartItem.setQuantity(1);
+		cart.addCartItem(cartItem);
+		mockMvc.perform(get("/cart/updateQuantity")
+		        .param("productId", "159c5c82-3b8f-4473-a965-046604f8e56d")
+		        .param("skuId","0fa89e22-46e1-4b68-acb9-d5df82f37823")
+		        .param("quantity", "0")
+		        .param("itemAttributes['ColorBWG']", "Черный")
+		        .header("X-Requested-With", "XMLHttpRequest")
+		        .sessionAttr(Constants.CART_BEAN_NAME, cart))
+		        .andExpect(status().isOk())
+		        .andExpect(request().sessionAttribute(Constants.CART_BEAN_NAME, cart))
+		        .andExpect(model().attributeDoesNotExist("errors"))
+		        .andExpect(model().attributeExists("extradata"))
+		        .andExpect(model().attribute("extradata", "{\"productId\":\"159c5c82-3b8f-4473-a965-046604f8e56d\",\"cartItemCount\":0}"))
+		        .andExpect(view().name("cart/cart"))
+		        .andDo(new ResultHandler() {
+			                @Override
+			                public void handle(MvcResult result) throws Exception {
+			                	CartForm cart = (CartForm) result.getRequest().getSession().getAttribute(Constants.CART_BEAN_NAME);
+			                	assertTrue(cart.getCartItems().isEmpty());
+			                }
+		        		});
 		
 	}
 	
+	@Test
+	public void cartUpdateItem_succsess_ajax() throws Exception {	
+		when(inventoryService.isQuantityAvailable(any(Sku.class), anyInt())).thenReturn(false);	
+		CartForm cart = new CartForm();
+		CartItemForm cartItem = new CartItemForm();
+		cartItem.setProductId("159c5c82-3b8f-4473-a965-046604f8e56d");
+		cartItem.setSkuId("0fa89e22-46e1-4b68-acb9-d5df82f37823");
+		cartItem.setQuantity(1);
+		cart.addCartItem(cartItem);
+		mockMvc.perform(get("/cart/updateQuantity")
+		        .param("productId", "159c5c82-3b8f-4473-a965-046604f8e56d")
+		        .param("skuId","0fa89e22-46e1-4b68-acb9-d5df82f37823")
+		        .param("quantity", "2")
+		        .param("itemAttributes['ColorBWG']", "Черный")
+		        .header("X-Requested-With", "XMLHttpRequest")
+		        .sessionAttr(Constants.CART_BEAN_NAME, cart))
+		        .andExpect(status().isOk())
+		        .andExpect(request().sessionAttribute(Constants.CART_BEAN_NAME, cart))
+		        .andExpect(model().attributeDoesNotExist("errors"))
+		        .andExpect(model().attributeExists("extradata"))
+		        .andExpect(model().attribute("extradata", "{\"productId\":\"159c5c82-3b8f-4473-a965-046604f8e56d\",\"cartItemCount\":1}"))
+		        .andExpect(view().name("cart/cart"))
+		        .andDo(new ResultHandler() {
+			                @Override
+			                public void handle(MvcResult result) throws Exception {
+			                	CartForm cart = (CartForm) result.getRequest().getSession().getAttribute(Constants.CART_BEAN_NAME);
+			                	assertNotNull(cart);
+			                	assertTrue(cart.getCartItems().size() == 1);
+			                	assertTrue(cart.getCartItems().get(0).getQuantity() == 2);
+			                }
+		        		});
+		
+	}
+
+
 }
