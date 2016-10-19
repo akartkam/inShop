@@ -242,6 +242,68 @@ public class CartControllerTest extends AbstractTest {
 		        		})		        
 		        .andDo(print());		
 	}	
+
+	@Test
+	public void cartAddJson_InventoryUnavailableException() throws Exception {
+		Product product = productDAO.get(UUID.fromString("159c5c82-3b8f-4473-a965-046604f8e56d"));
+		when(productService.getProductById(any(UUID.class))).thenReturn(product);
+		when(inventoryService.isQuantityAvailable(any(Sku.class), anyInt())).thenReturn(false);	
+		mockMvc.perform(get("/cart/add")
+				.accept(MediaType.APPLICATION_JSON)
+		        .param("productId", "159c5c82-3b8f-4473-a965-046604f8e56d").param("quantity", "1").param("itemAttributes['ColorBWG']", "Черный")
+		        .header("X-Requested-With", "XMLHttpRequest")
+		        .header("charset", "utf-8"))
+		        .andExpect(status().isOk())
+		        .andExpect(content().contentType("application/json;charset=UTF-8"))
+		        .andExpect(jsonPath("$.errors").exists())
+		        .andExpect(jsonPath("$.errors.criticalError", is("inventoryUnavailable")))
+		        .andExpect(jsonPath("$.productName").doesNotExist())
+		        .andExpect(jsonPath("$.quantityAdded").doesNotExist())
+		        .andExpect(jsonPath("$.cartItemCount").doesNotExist())		        
+		        .andDo(new ResultHandler() {
+			                @Override
+			                public void handle(MvcResult result) throws Exception {
+			                	CartForm cart = (CartForm) result.getRequest().getSession().getAttribute(Constants.CART_BEAN_NAME);
+			                	assertNull(cart);
+			                }
+		        		})		        
+		        .andDo(print());		
+	}	
 	
+	@Test
+	public void cartRemoveItem_expect_successful_ajax() throws Exception {
+		CartForm cart = new CartForm();
+		CartItemForm cartItem = new CartItemForm();
+		cartItem.setProductId("159c5c82-3b8f-4473-a965-046604f8e56d");
+		cartItem.setSkuId("0fa89e22-46e1-4b68-acb9-d5df82f37823");
+		cartItem.setQuantity(1);
+		cart.addCartItem(cartItem);
+		mockMvc.perform(get("/cart/remove")
+		        .param("productId", "159c5c82-3b8f-4473-a965-046604f8e56d")
+		        .param("skuId","0fa89e22-46e1-4b68-acb9-d5df82f37823")
+		        .param("quantity", "1")
+		        .param("itemAttributes['ColorBWG']", "Черный")
+		        .header("X-Requested-With", "XMLHttpRequest")
+		        .sessionAttr(Constants.CART_BEAN_NAME, cart))
+		        .andExpect(status().isOk())
+		        .andExpect(request().sessionAttribute(Constants.CART_BEAN_NAME, cart))
+		        .andExpect(model().attributeDoesNotExist("errors"))
+		        .andExpect(model().attributeExists("extradata"))
+		        .andExpect(model().attribute("extradata", "{\"productId\":\"159c5c82-3b8f-4473-a965-046604f8e56d\",\"cartItemCount\":0}"))
+		        .andExpect(view().name("cart/cart"))
+		        .andDo(new ResultHandler() {
+			                @Override
+			                public void handle(MvcResult result) throws Exception {
+			                	CartForm cart = (CartForm) result.getRequest().getSession().getAttribute(Constants.CART_BEAN_NAME);
+			                	assertTrue(cart.getCartItems().isEmpty());
+			                }
+		        		});
+		
+	}	
+	
+	@Test
+	public void cartUpdateItem_expect_successful() throws Exception {	
+		
+	}
 	
 }
