@@ -95,7 +95,7 @@ public class CategoryServiceTest extends AbstractTest {
 		logger.info("*********Begin getRootCategoryHierarchyTest*********");
 		List<Category> rootCategory = categoryService.getRootCategories(true);
 		assertNotNull(rootCategory);
-		assertEquals(2, rootCategory.size());
+		assertTrue(rootCategory.size()>0);
 		logger.info("*********End getRootCategoryHierarchyTest*********");		
 	}
 	
@@ -140,18 +140,13 @@ public class CategoryServiceTest extends AbstractTest {
 		subCategory  = found.getSubCategory();
 		assertEquals(1, subCategory.size());
 		assertEquals(found, subCategory.get(0).getParent());
-		List<Category> subCategory1  = subCategory.get(0).getSubCategory();
-		assertEquals(1, subCategory1.size());
-		assertEquals(subCategory.get(0), subCategory1.get(0).getParent());		
-		logger.info(subCategory);
-		logger.info(subCategory1);
 		logger.info("*********End subCategoryTest*********");
 	}
 	
 	@Test
 	public void allProductsTest(){
 		logger.info("*********Begin allProductsTest*********");
-		Category found = categoryService.getCategoryByName("Test_Root_Category1").get(0);
+		Category found = categoryService.getCategoryById(UUID.fromString("b2b0d75c-9dfb-45ee-ada2-a61d7f890780"));
 		List<Product> allProducts = null;
 		allProducts  = found.getAllProducts(allProducts);
 		assertTrue(allProducts.size() > 0);
@@ -181,27 +176,21 @@ public class CategoryServiceTest extends AbstractTest {
 	@Test
 	public void addProductTest() {
 		logger.info("*********Begin addProductTest*********");
-		jdbcTemplate.execute("select del_product('AutoTestAddProduct')");
-		Category found = categoryService.getCategoryByName("Test_Category4").get(0);
+		Category found = categoryService.getCategoryByName("Test_Category3").get(0);
 		Product product = new Product();
-		//product.setName("AutoTestAddProduct1");
-		//product.setManufacturer("Manufacturer1");
 		product.setModel("Model1");
 		found.addProduct(product);
-		categoryDAO.update(found);
-		Category found1 = categoryService.getCategoryByName("Test_Category5").get(0);
+		sessionFactory.getCurrentSession().flush();
+		Category found1 = categoryService.getCategoryByName("Test_Category3").get(0);
 		Product product1 = new Product();
-		//product1.setName("AutoTestAddProduct2");
-		//product1.setManufacturer("Manufacturer2");
 		product1.setModel("Model2");
 		found1.addProduct(product1);
-		categoryDAO.update(found1);
-		Category found2 = categoryService.getCategoryByName("Test_Category4").get(0);
-		Category found3 = categoryService.getCategoryByName("Test_Category5").get(0);
-		Product fproduct1 = productService.getProductsByName("AutoTestAddProduct1").get(0);
-		Product fproduct2 = productService.getProductsByName("AutoTestAddProduct2").get(0);
+		sessionFactory.getCurrentSession().flush();
+		Category found2 = categoryService.getCategoryByName("Test_Category3").get(0);
+		Product fproduct1 = productService.getProductById(product.getId());
+		Product fproduct2 = productService.getProductById(product1.getId());
 		assertEquals(found2, fproduct1.getCategory());
-		assertEquals(found3, fproduct2.getCategory());
+		assertEquals(found2, fproduct2.getCategory());
 		logger.info("*********End addProductTest*********");
 	}
 

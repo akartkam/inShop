@@ -46,23 +46,6 @@ public class ProductSkuServiceTest extends AbstractTest {
 		//ids.add("c640d72a-f94d-46cb-8cf8-9242e04e6813");		
 	}
 	
-
-	@Test
-	public void getSkusByListOfIds_criteria() {
-	
-		/*
-		Query query = sessionFactory.getCurrentSession().
-				   createQuery("from Sku where id in :ids");
-		query.setParameterList("ids", ids);
-		List res = query.list();
-		*/
-		List<Sku> res = sessionFactory.getCurrentSession().createCriteria(Sku.class)
-				        .add(Restrictions.in("id", ids))
-				        .setResultTransformer(CriteriaSpecification.ALIAS_TO_ENTITY_MAP)
-				        .list();
-		LOG.info(res);
-	}
-
 	@Test
 	public void getSkusByListOfIds_sql() {
 		LOG.info("executing getSkusByListOfIds_sql");
