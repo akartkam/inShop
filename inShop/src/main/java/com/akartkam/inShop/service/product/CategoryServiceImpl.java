@@ -39,8 +39,6 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public List<Category> getRootCategories(Boolean useDisabled) {
 		List<Category> rcategories = categoryDAO.readRootCategories(useDisabled);
-		//list() now can sort if class i assignable from AbstractDomainObjectOrdering
-		//Collections.sort(rcategories);
 		return rcategories;
 	}
 
@@ -107,7 +105,6 @@ public class CategoryServiceImpl implements CategoryService {
 	        existingCategory.setLongDescription(categoryFromPost.getLongDescription());
 	        existingCategory.setOrdering(categoryFromPost.getOrdering());
 	        existingCategory.setEnabled(categoryFromPost.isEnabled());
-	        //updateCategory(existingCategory);
 		} else {
 	        for (AbstractAttribute attr : categoryFromPost.getAttributesForForm()) {
 	        	categoryFromPost.addAttribute(attr);

@@ -319,8 +319,8 @@ public class Category extends AbstractDomainObjectOrdering {
 		category.setUpdatedBy(null);
 		category.setUpdatedDate(null);
 		category.setAttributes(new HashSet<AbstractAttribute>());
-		category.setDescription(new String(getDescription()));
-		category.setLongDescription(new String(getLongDescription()));
+		category.setDescription(getDescription() != null? new String(getDescription()): null);
+		category.setLongDescription(getLongDescription() != null? new String(getLongDescription()): null);
 		category.setProducts(new ArrayList<Product>());
 		category.setSubCategory(new ArrayList<Category>());
 		return category;

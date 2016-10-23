@@ -55,32 +55,37 @@
 	                <!-- Tab panes -->
 	                <div class="tab-content">
 	                    <div class="tab-pane fade in active" id="main">
-								   <div class="field-box" th:class="${#fields.hasErrors('name')}? has-error: field-box">
-									  <input type="hidden" th:field="*{id}"/>	                             
-						    		  <label>
-							    	  	 <span th:text="#{admin.catalog.category.edit.name}">Category1</span>
-							   		  </label>
-							   		  <input type="text" class="form-control" th:field="*{name}"/>
-							   		  <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Incorrect name</p>
-						   		   </div>
-								   <div class="field-box">	                              
-						    		  <label>
-							    	  	 <span th:text="#{admin.catalog.category.edit.url}">url</span>
-							   		  </label>
-							   		  <input type="text" class="form-control" th:field="*{url}"/>
-						   		   </div>						   		   
-						   		   <div class="field-box">
-			 			    		  <label>
-							    	  	<span th:text="#{admin.catalog.category.edit.description}">Description Category1</span>
-							   		   </label>
-							   		   <input type="text" class="form-control" th:field="*{description}"/>
-						   		   </div>
-						   		   <div class="field-box">
-			 			    		   <label>
-							    	  	<span th:text="#{admin.catalog.category.edit.longDescription}">Description Category1</span>
-							   		   </label>
-								       <textarea id="summernote" class="textarea form-control" placeholder="Введите текст..." th:field="*{longDescription}"></textarea>
-		  						   </div>
+						   <div class="field-box" th:class="${#fields.hasErrors('name')}? has-error: field-box">
+							  <input type="hidden" th:field="*{id}"/>	                             
+				    		  <label>
+					    	  	 <span th:text="#{admin.catalog.category.edit.name}">Category1</span>
+					   		  </label>
+					   		  <input type="text" class="form-control" th:field="*{name}"/>
+					   		  <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Incorrect name</p>
+				   		   </div>
+						   <div class="field-box">	
+				    		  <label>
+					    	  	 <span th:text="#{admin.catalog.category.edit.url}">url</span>
+					   		  </label>
+						      <div class="input-group">                              
+						   		  <input type="text" class="form-control" th:field="*{url}"/>
+							      <span class="input-group-btn">
+							        <button class="btn btn-default" id="urlRefreshBtn" type="button"  th:title="#{button.autogenerate}"><i class="fa fa-refresh"></i></button>
+							      </span>						   		  
+						      </div>
+				   		   </div>						   		   
+				   		   <div class="field-box">
+	 			    		  <label>
+					    	  	<span th:text="#{admin.catalog.category.edit.description}">Description Category1</span>
+					   		   </label>
+					   		   <input type="text" class="form-control" th:field="*{description}"/>
+				   		   </div>
+				   		   <div class="field-box">
+	 			    		   <label>
+					    	  	<span th:text="#{admin.catalog.category.edit.longDescription}">Description Category1</span>
+					   		   </label>
+						       <textarea id="summernote" class="textarea form-control" placeholder="Введите текст..." th:field="*{longDescription}"></textarea>
+  						   </div>
 	             		</div>
 	                    <div class="tab-pane fade" id="additional">
 	                      <div class="field-box">
@@ -128,7 +133,6 @@
 								            th:value="${attribute.id}"
 								            th:attr="data-subtext=#{${'attribute.type.' + attribute.attributeType}}">
 								    </option>      
-<!-- th:disabled="${#lists.contains(allAttributes, attribute) &amp;&amp; !#lists.contains(category.attributesForForm, attribute)}" -->
 								</optgroup>
 							 </select>
 						   </div>	                    	
@@ -168,13 +172,13 @@
 		    		    backdrop: 'static',
 		    		    keyboard: false
 		    		});
+                 $('#summernote').summernote({
+					    lang: "ru-RU"
+				     });
+                 $(".selectpicker").selectpicker();
+                 $("#productAttributes").change();
+                 $("#name").focus();                 
 			 });
-	 		 $("#editModal").on("show.bs.modal", function (e) {
-	                            $('#summernote').summernote({
-	        					    lang: "ru-RU"
-	          				     });
-	                            $(".selectpicker").selectpicker();
-	                   });
 		   </script>
 		 </th:block>  
 </body>

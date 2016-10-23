@@ -44,3 +44,28 @@ function formatInputNumber (input) {
 		$(input).data("oldtext", txt);
 	}
 }
+
+function slugify(str) {
+    str = str.replace(/^\s+|\s+$/g, ''); // trim
+    str = str.toLowerCase();
+
+    var from = "абвгдеё жзийклмнопрстуфхцч ш щ ыэю я ·/_,:;";
+    var to   = "abvgdeyojziiklmnoprstufhcchshshyeyuya------";
+    var curFrom, curTo;
+    for (var i=0, l=from.length ; i<l ; i++) {
+       curFrom = from.charAt(i);
+       if (from.charAt(i+1)==" ") {
+    	  curTo = to.substr(i,2);
+    	  i++;
+       } else {
+    	  curTo = to.charAt(i); 
+       }
+    	   
+       str = str.replace(new RegExp(curFrom, 'g'), curTo);
+    }
+    str = str.replace(/[^a-z0-9 -]/g, '') 
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-');
+
+    return str;
+};
