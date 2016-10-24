@@ -65,7 +65,7 @@ $(function(){
 			
 	 });
 	 $("body").on("click", "#urlRefreshBtn", function() {
-		 $("#url").val(slugify($("#name").val()));
+		 $("#urlForForm").val(slugify($("#name").val()));
 	 });
      
 });

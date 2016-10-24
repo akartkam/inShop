@@ -22,6 +22,7 @@ import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.BatchSize;
@@ -29,8 +30,7 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.ForeignKey;
 import org.hibernate.annotations.Index;
 import org.hibernate.annotations.Type;
-import org.hibernate.validator.constraints.SafeHtml;
-import org.hibernate.validator.constraints.SafeHtml.WhiteListType;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import com.akartkam.inShop.domain.AbstractDomainObjectOrdering;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
@@ -71,6 +71,7 @@ public class Category extends AbstractDomainObjectOrdering {
 	private String url;
 	//for form
 	private List<AbstractAttribute> attributesForForm = new ArrayList<AbstractAttribute>();
+	private String urlForForm; 
 	
 	@AdminPresentation(tab=EditTab.MAIN)
 	@NotNull
@@ -100,6 +101,10 @@ public class Category extends AbstractDomainObjectOrdering {
 	}
 	public void setUrl(String url) {
 		this.url = url;
+		if (url != null && !"".equals(url)) {
+			String[] splitedUrl = url.split("/"); 
+			urlForForm = splitedUrl[splitedUrl.length-1];		
+		}
 	}
 	
 	@OneToMany(mappedBy="parent", cascade = CascadeType.ALL, orphanRemoval=true)
@@ -184,7 +189,6 @@ public class Category extends AbstractDomainObjectOrdering {
 	public void addAttribute (AbstractAttribute attribute) {
 		if (attribute == null) throw new IllegalArgumentException("Null attribute!");
 		attributes.add(attribute);
-		//attribute.getCategory().add(this);
 	}
 	
 	public void removeAttribute (AbstractAttribute attribute) {
@@ -192,7 +196,16 @@ public class Category extends AbstractDomainObjectOrdering {
 		attributes.remove(attribute);
 		attribute.getCategory().remove(this);
 	}
-
+	
+	public void buildFullLink(String shortUrl) {
+		if (shortUrl == null || "".equals(shortUrl)) return;
+		if (shortUrl.startsWith("/")) shortUrl = shortUrl.substring(1);     
+        StringBuilder linkBuffer = new StringBuilder(50);
+        if (this.hasSubCategory()) linkBuffer.append(this.getParent().getUrl()).append("/").append(shortUrl);
+        else linkBuffer.append("/").append(shortUrl);
+        setUrl(linkBuffer.toString());		
+	}
+	
 	@Transient
 	public List<Category> buildCategoryHierarchy(List<Category> currentHierarchy) {
         if (currentHierarchy == null) {
@@ -224,7 +237,8 @@ public class Category extends AbstractDomainObjectOrdering {
             }
         }
         return currentHierarchy;		
-	}	
+	}
+	
 	
 	@Transient
 	public boolean hasSubCategory() {
@@ -337,6 +351,12 @@ public class Category extends AbstractDomainObjectOrdering {
 		return attributesForForm;
 	}
 	
+	@Transient
+	@NotEmpty
+	@Pattern(regexp="^[a-z0-9-]*$", message="{error.bad.urlForForm}")
+	public String getUrlForForm() {
+		return urlForForm;
+	}
 	
 	
 }

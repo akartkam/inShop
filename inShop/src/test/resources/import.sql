@@ -22,9 +22,9 @@ INSERT INTO attribute_category(
 /*Categorys*/	
 INSERT INTO category(
 	    id, createddate, enabled, updateddate, version, ordering, description, 
-	    long_description, name, createby, updatedby, parent_id)
+	    long_description, name, createby, updatedby, parent_id, url)
     VALUES('786a9240-aa8a-4ff0-9684-ed55963d1a89', current_timestamp, true, null, 0, 1, 'Test description 1', 
-	    'Test long description 1', 'Test_Root_Category1', '0b90130d-2c19-4001-b61a-ef100d7b950e', null, null);
+	    'Test long description 1', 'Test_Root_Category1', '0b90130d-2c19-4001-b61a-ef100d7b950e', null, null,'/test_root_category1');
 INSERT INTO category(
 	    id, createddate, enabled, updateddate, version, ordering, description, 
 	    long_description, name, createby, updatedby, parent_id)
