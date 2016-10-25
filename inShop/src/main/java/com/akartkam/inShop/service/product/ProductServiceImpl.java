@@ -264,8 +264,8 @@ public class ProductServiceImpl implements ProductService {
 		if (existingProduct != null) {
 			existingProduct.getDefaultSku().setName(productFromPost.getDefaultSku().getName());
 			existingProduct.getDefaultSku().setCode(productFromPost.getDefaultSku().getCode());
-			String url = productFromPost.getUrl();
-			existingProduct.setUrl(url);
+			productFromPost.buildFullLink(productFromPost.getUrlForForm());
+			existingProduct.setUrl(productFromPost.getUrl());
 			existingProduct.setOrdering(productFromPost.getOrdering());
 			existingProduct.setBrand(productFromPost.getBrand());
 			existingProduct.setModel(productFromPost.getModel());
@@ -330,6 +330,7 @@ public class ProductServiceImpl implements ProductService {
 		} else {
 			productFromPost.setProductStatusFromList();
 			productFromPost.setProductOptionFromList();
+			productFromPost.buildFullLink(productFromPost.getUrlForForm());
 			Product product = new Product();
 			Sku sku = new Sku();
 			BeanUtilsBean bu = new NullAwareBeanUtilsBean();

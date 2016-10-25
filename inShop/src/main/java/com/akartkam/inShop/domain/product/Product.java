@@ -205,6 +205,14 @@ public class Product extends AbstractDomainObjectOrdering {
         return skus;
     }	
 	
+	public void buildFullLink(String shortUrl) {
+		if (shortUrl == null || "".equals(shortUrl)) return;
+		if (shortUrl.startsWith("/")) shortUrl = shortUrl.substring(1);     
+        StringBuilder linkBuffer = new StringBuilder(50);
+        linkBuffer.append(this.getCategory().getUrl()).append("/").append(shortUrl);
+        setUrl(linkBuffer.toString());		
+	}    
+    
 	@Override
 	@Transient
 	public Product clone() throws CloneNotSupportedException {
@@ -220,8 +228,7 @@ public class Product extends AbstractDomainObjectOrdering {
 		product.setUpdatedBy(null);
 		product.setUpdatedDate(null);
 		return product;
-	}   
-
+	}  
 	
 	public static class AVComparer implements Comparator<AbstractAttributeValue> {
 

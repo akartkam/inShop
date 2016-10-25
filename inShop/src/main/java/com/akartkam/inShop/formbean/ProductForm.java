@@ -20,7 +20,7 @@ public class ProductForm extends Product {
 	private static final long serialVersionUID = -4758849266803696007L;
     private List<ProductStatus> productStatus = new ArrayList<ProductStatus>();
     private List<ProductOption> productOptionsForForm = new ArrayList<ProductOption>();
-    
+    private String urlForForm;
     
 	public ProductForm() {};
 	
@@ -41,6 +41,7 @@ public class ProductForm extends Product {
 			this.setCreatedDate(product.getCreatedDate());
 			productStatus = new ArrayList<ProductStatus>(product.getDefaultSku().getProductStatus());
 			productOptionsForForm = new ArrayList<ProductOption>(product.getProductOptions());
+			buildShortUrl();
 		}
 	};
 	
@@ -83,7 +84,21 @@ public class ProductForm extends Product {
 				 }
 			 }
 	  }
-	
+
+	public String getUrlForForm() {
+		return urlForForm;
+	}
+
+	public void setUrlForForm(String urlForForm) {
+		this.urlForForm = urlForForm;
+	}
+
+	private void buildShortUrl() {
+		if (getUrl() != null && !"".equals(getUrl())) {
+			String[] splitedUrl = getUrl().split("/"); 
+			urlForForm = splitedUrl[splitedUrl.length-1];
+		}	
+	}	
 	
 	
 }

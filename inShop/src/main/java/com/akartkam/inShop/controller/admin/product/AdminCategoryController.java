@@ -31,6 +31,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.akartkam.inShop.domain.product.Category;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
 import com.akartkam.inShop.domain.product.attribute.AttributeCategory;
+import com.akartkam.inShop.exception.CategoryNotFoundException;
+import com.akartkam.inShop.exception.ProductNotFoundException;
+import com.akartkam.inShop.formbean.CategoryForm;
 import com.akartkam.inShop.service.product.AttributeCategoryService;
 import com.akartkam.inShop.service.product.CategoryService;
 
@@ -79,13 +82,13 @@ public class AdminCategoryController {
 	  
 	  @InitBinder
 	  public void initBinder(WebDataBinder binder) {
-			binder.setAllowedFields(new String[] { "id", "name", "parent", "urlForForm",
+			binder.setAllowedFields(new String[] { "id", "name", "parent", "urlForForm", 
 					"description", "longDescription", "ordering", "enabled", "*attributesForForm*"});
 			binder.registerCustomEditor(Category.class, "parent", new PropertyEditorSupport() {
 			    @Override
 			    public void setAsText(String text) {
 			    	if (!"".equals(text)) {
-			    		Category ch = categoryService.loadCategoryById(UUID.fromString(text), false);
+			    		Category ch = categoryService.getCategoryById(UUID.fromString(text));
 			            setValue(ch);
 			    	}    
 			    }
@@ -119,7 +122,8 @@ public class AdminCategoryController {
 			   					 @RequestHeader(value = "X-Requested-With", required = false) String requestedWith) {
 		  if(!model.containsAttribute("category")) {
 			 Category category = categoryService.getCategoryById(UUID.fromString(categoryID));
-		     model.addAttribute("category", category);
+			 if (category == null) throw new CategoryNotFoundException("Category with ID="+categoryID+" not found");
+		     model.addAttribute("category", new CategoryForm(category));
 		  }
           if ("XMLHttpRequest".equals(requestedWith)) {
               return "/admin/catalog/categoryEdit :: editCategoryForm";
@@ -130,9 +134,13 @@ public class AdminCategoryController {
 	  @RequestMapping("/add")
 	  public String categoryAdd(@RequestParam(value = "categoryID", required = false) String copyCategoryID, Model model,
 				                @RequestHeader(value = "X-Requested-With", required = false) String requestedWith) throws CloneNotSupportedException {
-		  Category category;
-		  if (copyCategoryID != null && !"".equals(copyCategoryID)) category = categoryService.cloneCategoryById(UUID.fromString(copyCategoryID)); 
-		  else category = new Category();
+		  Category category = null;
+		  CategoryForm categoryForm = null;
+		  if (copyCategoryID != null && !"".equals(copyCategoryID)) {
+			  category = categoryService.cloneCategoryById(UUID.fromString(copyCategoryID));
+			  if (category != null) categoryForm = new CategoryForm(category);  
+		  }
+		  if (categoryForm == null) category = new CategoryForm();
  	      model.addAttribute("category", category);
           if ("XMLHttpRequest".equals(requestedWith)) {
               return "/admin/catalog/categoryEdit :: editCategoryForm";
@@ -164,7 +172,7 @@ public class AdminCategoryController {
 	  
 
 	   @RequestMapping(value="/edit", method = RequestMethod.POST )
-	   public String saveCategory(   @ModelAttribute @Valid Category category,
+	   public String saveCategory(   @ModelAttribute @Valid CategoryForm category,
 			                         final BindingResult bindingResult,
 			                         final RedirectAttributes ra
 			                         ) {

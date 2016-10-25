@@ -73,9 +73,9 @@
 						   		   </div>					   		   
 								   <div class="field-box">	                              
 						    		  <label>
-							    	  	 <span th:text="#{admin.catalog.url}">Url</span>
+							    	  	 <span th:text="${#messages.msg('admin.catalog.url') + (!#strings.isEmpty(product.category.url)? ' ('+product.category.url+'/)':'')}">Url</span>
 							   		  </label>
-							   		  <input type="text" class="form-control" th:field="*{url}"/>
+							   		  <input type="text" class="form-control" th:field="*{urlForForm}"/>
 						   		   </div>
 								   <div class="row">
 							   		   <div class="col-md-3">

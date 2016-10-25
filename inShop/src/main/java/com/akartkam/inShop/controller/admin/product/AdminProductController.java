@@ -149,7 +149,7 @@ public class AdminProductController {
   	  
 	  @InitBinder
 	  public void initBinder(WebDataBinder binder) {
-			binder.setAllowedFields(new String[] { "*id", "*name", "url", "*description", "*longDescription", 
+			binder.setAllowedFields(new String[] { "*id", "*name", "urlForForm", "*description", "*longDescription", 
 					 							   "*code", "category", "brand", "*model", "attributeValues*", "ordering", 
 					 							   "*productOptions", "canSellWithoutOptions", "*images*", "enabled",
 					 							   "*retailPrice", "*salePrice", "*costPrice", "*value", "*productStatus*", 

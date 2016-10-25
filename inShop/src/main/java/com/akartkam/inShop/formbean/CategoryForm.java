@@ -4,12 +4,11 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
-import javax.persistence.Transient;
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotEmpty;
-
 import com.akartkam.inShop.domain.product.Category;
+import com.akartkam.inShop.domain.product.Product;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
 
 public class CategoryForm extends Category {
@@ -27,17 +26,18 @@ public class CategoryForm extends Category {
 		this.setId(category.getId());
 		this.setCreatedDate(category.getCreatedDate());
 		this.setAttributes(new HashSet<AbstractAttribute>(category.getAttributes()));
+		this.setDescription(category.getDescription());
+		this.setEnabled(category.isEnabled());
+		this.setLongDescription(category.getLongDescription());
+		this.setName(category.getName());
+		this.setOrdering(category.getOrdering());
+		this.setParent(category.getParent());
+		this.setProducts(new ArrayList<Product>(category.getProducts()));
+		this.setSubCategory(category.getSubCategory());
+		this.setUrl(category.getUrl());
+		this.attributesForForm = new ArrayList<AbstractAttribute>(getAttributes());
+		buildShortUrl();
 	}
-	
-	/*if (url != null && !"".equals(url)) {
-		String[] splitedUrl = url.split("/"); 
-		urlForForm = splitedUrl[splitedUrl.length-1];		
-	}*/
-
-	
-	//this.attributesForForm = new ArrayList<AbstractAttribute>(attributes);
-	
-	//for form
 
 	public List<AbstractAttribute> getAttributesForForm() {
 		return attributesForForm;
@@ -54,7 +54,14 @@ public class CategoryForm extends Category {
 	}
 	public void setUrlForForm(String urlForForm) {
 		this.urlForForm = urlForForm;
-	}	
+	}
+	
+	private void buildShortUrl() {
+		if (getUrl() != null && !"".equals(getUrl())) {
+			String[] splitedUrl = getUrl().split("/"); 
+			urlForForm = splitedUrl[splitedUrl.length-1];
+		}	
+	}
 	
 	
 }

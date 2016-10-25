@@ -194,7 +194,7 @@ public class Category extends AbstractDomainObjectOrdering {
 		if (shortUrl == null || "".equals(shortUrl)) return;
 		if (shortUrl.startsWith("/")) shortUrl = shortUrl.substring(1);     
         StringBuilder linkBuffer = new StringBuilder(50);
-        if (this.hasSubCategory()) linkBuffer.append(this.getParent().getUrl()).append("/").append(shortUrl);
+        if (this.hasParentCategory()) linkBuffer.append(this.getParent().getUrl()).append("/").append(shortUrl);
         else linkBuffer.append("/").append(shortUrl);
         setUrl(linkBuffer.toString());		
 	}
@@ -337,6 +337,5 @@ public class Category extends AbstractDomainObjectOrdering {
 	public boolean canRemove() {
 		return (!hasSubCategory() && attributes.isEmpty() && products.isEmpty());
 	}
-	
 	
 }

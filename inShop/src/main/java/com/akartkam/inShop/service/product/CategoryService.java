@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import com.akartkam.inShop.domain.product.Category;
 import com.akartkam.inShop.domain.product.Product;
+import com.akartkam.inShop.formbean.CategoryForm;
 
 public interface CategoryService {
 	/*
@@ -19,6 +20,6 @@ public interface CategoryService {
 	void updateCategory(Category category);
 	void deleteCategory(Category category);
 	void softDeleteCategoryById(UUID id);
-	void mergeWithExistingAndUpdateOrCreate(final Category categoryFromPost);
+	void mergeWithExistingAndUpdateOrCreate(final CategoryForm categoryFromPost);
 	Category cloneCategoryById(UUID id) throws CloneNotSupportedException;
 }

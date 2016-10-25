@@ -15,6 +15,7 @@ import com.akartkam.inShop.dao.product.attribute.AttributeDAO;
 import com.akartkam.inShop.domain.product.Category;
 import com.akartkam.inShop.domain.product.Product;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
+import com.akartkam.inShop.formbean.CategoryForm;
 
 
 @Service("CategoryService")
@@ -71,12 +72,13 @@ public class CategoryServiceImpl implements CategoryService {
 	
 	@Override
 	@Transactional(readOnly = false)
-	public void mergeWithExistingAndUpdateOrCreate(final Category categoryFromPost) {
+	public void mergeWithExistingAndUpdateOrCreate(final CategoryForm categoryFromPost) {
 		if (categoryFromPost == null) return;
 		final Category existingCategory = getCategoryById(categoryFromPost.getId());
 		if (existingCategory != null) {
 	        // set here explicitly what must/can be overwritten by the html form POST
 	        existingCategory.setName(categoryFromPost.getName());
+	        categoryFromPost.buildFullLink(categoryFromPost.getUrlForForm());
 	        existingCategory.setUrl(categoryFromPost.getUrl());
 	        Category parentCategory = categoryFromPost.getParent();
 	        if (parentCategory != null){
@@ -109,6 +111,7 @@ public class CategoryServiceImpl implements CategoryService {
 	        for (AbstractAttribute attr : categoryFromPost.getAttributesForForm()) {
 	        	categoryFromPost.addAttribute(attr);
 	        }
+	        categoryFromPost.buildFullLink(categoryFromPost.getUrlForForm());
 			createCategory(categoryFromPost);
 		}
     }
