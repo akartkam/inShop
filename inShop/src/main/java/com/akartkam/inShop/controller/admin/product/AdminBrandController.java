@@ -67,7 +67,7 @@ public class AdminBrandController {
 	  
 	  @InitBinder
 	  public void initBinder(WebDataBinder binder) {
-			binder.setAllowedFields(new String[] { "id", "name", "url", "description", "logoUrl", "enabled"});
+			binder.setAllowedFields(new String[] { "id", "name", "urlForForm", "description", "logoUrl", "enabled"});
 			binder.registerCustomEditor(UUID.class, "id", new PropertyEditorSupport() {
 			    @Override
 			    public void setAsText(String text) {

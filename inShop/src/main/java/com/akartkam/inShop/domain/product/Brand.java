@@ -41,6 +41,7 @@ public class Brand extends AbstractDomainObject {
 	private String url;
 	private String logoUrl;
 	private List<Product> products = new ArrayList<Product>();
+	private String urlForForm;
 	
 	@AdminPresentation(tab=EditTab.MAIN)
 	@NotNull
@@ -113,5 +114,25 @@ public class Brand extends AbstractDomainObject {
 	public boolean canRemove(){
 		return getProducts().isEmpty();
 	}
+	
+	@Transient
+	@NotEmpty
+	@Pattern(regexp="^[a-z0-9-]*$", message="{error.bad.urlForForm}")
+	public String getUrlForForm() {
+		if (urlForForm == null) {
+			buildShortUrl();
+		}
+		return urlForForm;
+	}
+	public void setUrlForForm(String urlForForm) {
+		this.urlForForm = urlForForm;
+	}
+
+	private void buildShortUrl() {
+		if (getUrl() != null && !"".equals(getUrl())) {
+			urlForForm = getUrl().replace("/", ""); 
+		}	
+	}
+
 
 }
