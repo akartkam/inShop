@@ -27,11 +27,12 @@ public class ImageUtil {
 		String allowedFileType = "image/jpeg,image/png,image/gif";
 		if (image == null || image.isEmpty() || (allowedFileType.indexOf(image.getContentType()) < 0)) {
 			errors.rejectValue(fieldName, "error.image.contentType");
-		}
+	    } else {
 		long size = Long.parseLong(imagesMaxUploadSize);
 		if (image.getSize() > size) {
 			errors.rejectValue(fieldName, "error.image.size", new String[] {imagesMaxUploadSize}, null);		
 		}
+	    }
 	}
 	
 	public void saveImage(String filePath, MultipartFile image)

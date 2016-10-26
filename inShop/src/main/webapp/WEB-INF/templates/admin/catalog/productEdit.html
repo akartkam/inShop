@@ -75,7 +75,12 @@
 						    		  <label>
 							    	  	 <span th:text="${#messages.msg('admin.catalog.url') + (!#strings.isEmpty(product.category.url)? ' ('+product.category.url+'/)':'')}">Url</span>
 							   		  </label>
+							      <div class="input-group">                              
 							   		  <input type="text" class="form-control" th:field="*{urlForForm}"/>
+								      <span class="input-group-btn">
+								        <button class="btn btn-default" id="urlRefreshBtn" type="button"  th:title="#{button.autogenerate}"><i class="fa fa-refresh"></i></button>
+								      </span>						   		  
+							      </div>
 						   		   </div>
 								   <div class="row">
 							   		   <div class="col-md-3">

@@ -13,6 +13,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.Index;
@@ -64,6 +65,8 @@ public class Brand extends AbstractDomainObject {
 		this.description = description;
 	}
 	
+	@NotEmpty
+	@Pattern(regexp="^[a-z0-9-]*$", message="{error.bad.urlForForm}")
     @Column(name = "url")
     @Index(name="brand_url_index", columnNames={"url"})	
 	public String getUrl() {

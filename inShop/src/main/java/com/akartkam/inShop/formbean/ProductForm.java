@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
+import javax.validation.constraints.Pattern;
+
+import org.hibernate.validator.constraints.NotEmpty;
+
 import com.akartkam.inShop.domain.product.Category;
 import com.akartkam.inShop.domain.product.Product;
 import com.akartkam.inShop.domain.product.ProductStatus;
@@ -85,6 +89,8 @@ public class ProductForm extends Product {
 			 }
 	  }
 
+	@NotEmpty
+	@Pattern(regexp="^[a-z0-9-]*$", message="{error.bad.urlForForm}")
 	public String getUrlForForm() {
 		return urlForForm;
 	}
