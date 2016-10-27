@@ -22,6 +22,7 @@ public interface ProductService {
 	List<ProductOption> getAllPO();
 	List<Product> getAllProduct();
 	List<Product> getProductsByName(String name);
+	Product getProductByUrl(String url);
 	List<Sku> getSkusByName(String name);
 	List<SkuForJSON> getSkusForJSONByName(String name); 
 	Product getProductById(UUID id);

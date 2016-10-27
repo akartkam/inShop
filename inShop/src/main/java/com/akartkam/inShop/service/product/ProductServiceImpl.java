@@ -121,6 +121,11 @@ public class ProductServiceImpl implements ProductService {
 	}
 	
 	@Override
+	public Product getProductByUrl(String url) {
+		return productDAO.findByUrl(url);
+	}	
+	
+	@Override
 	public List<Sku> getSkusByName(String name) {
 		return skuDAO.findSkusByName(name);
 	}
@@ -259,12 +264,12 @@ public class ProductServiceImpl implements ProductService {
 	@Transactional(readOnly = false)
 	public void mergeWithExistingAndUpdateOrCreate(final ProductForm productFromPost, Errors errors) {
 		if (productFromPost == null) return;
+		productFromPost.buildFullLink(productFromPost.getUrlForForm());
 		if (!checkProduct(productFromPost, errors)) return;
 		final Product existingProduct = getProductById(productFromPost.getId());
 		if (existingProduct != null) {
 			existingProduct.getDefaultSku().setName(productFromPost.getDefaultSku().getName());
 			existingProduct.getDefaultSku().setCode(productFromPost.getDefaultSku().getCode());
-			productFromPost.buildFullLink(productFromPost.getUrlForForm());
 			existingProduct.setUrl(productFromPost.getUrl());
 			existingProduct.setOrdering(productFromPost.getOrdering());
 			existingProduct.setBrand(productFromPost.getBrand());
@@ -352,7 +357,10 @@ public class ProductServiceImpl implements ProductService {
 					errors.rejectValue("defaultSku.inventoryType", "error.null", 
 						   new String[]{messageSource.getMessage("admin.catalog.product.inventoryType",null, Locale.getDefault())}, null);
 				}
-			}			
+			}
+			if (!errors.hasFieldErrors("urlForForm") && getProductByUrl(productFromPost.getUrl()) != null) {
+				errors.rejectValue("urlForForm", "error.duplicate");				
+			}
 		}
 		return !errors.hasErrors();
 	}	

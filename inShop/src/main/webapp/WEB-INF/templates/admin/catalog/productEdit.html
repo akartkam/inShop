@@ -71,7 +71,7 @@
 							   		  <input type="text" class="form-control" th:field="*{defaultSku.name}"/>
 							   		  <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('defaultSku.name')}" th:errors="*{defaultSku.name}">Incorrect name</p>
 						   		   </div>					   		   
-								   <div class="field-box">	                              
+								   <div class="field-box" th:class="${#fields.hasErrors('urlForForm')}? has-error: field-box">	                              
 						    		  <label>
 							    	  	 <span th:text="${#messages.msg('admin.catalog.url') + (!#strings.isEmpty(product.category.url)? ' ('+product.category.url+'/)':'')}">Url</span>
 							   		  </label>
@@ -79,7 +79,8 @@
 							   		  <input type="text" class="form-control" th:field="*{urlForForm}"/>
 								      <span class="input-group-btn">
 								        <button class="btn btn-default" id="urlRefreshBtn" type="button"  th:title="#{button.autogenerate}"><i class="fa fa-refresh"></i></button>
-								      </span>						   		  
+								      </span>	
+								      <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('urlForForm')}" th:errors="*{urlForForm}">Incorrect url</p>					   		  
 							      </div>
 						   		   </div>
 								   <div class="row">

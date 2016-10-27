@@ -55,14 +55,15 @@ public abstract class AbstractGenericDAO<T extends DomainObject<UUID>> implement
 	public T findByUrl(String url){
 		Method methodGetUrl = null;
 		try {
-			methodGetUrl = domainClass.getMethod("getUrl", (Class<?>) null);
+			methodGetUrl = domainClass.getMethod("getUrl", null);
 		} catch (NoSuchMethodException | SecurityException e) {
-
+			e.printStackTrace();
 		}
 		if (methodGetUrl != null) {
 			Criteria criteria = currentSession().createCriteria(domainClass);
 			criteria.add(Restrictions.eq("url", url));
- 			return (T)criteria.uniqueResult();
+			List<T> res = criteria.list();
+ 			return !res.isEmpty()? res.get(0): null;
 		}
 		return null;
 	}
