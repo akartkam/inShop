@@ -62,7 +62,7 @@
         <filter-name>charsetFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping> 
-    <!-- Multipart filter (<Context allowCasualMultipartParsing="true"> required in context.xml) -->
+    <!-- Multipart filter (<Context allowCasualMultipartParsing="true"> required in context.xml) --> 
     <filter>
         <filter-name>MultipartFilter</filter-name>
         <filter-class>
@@ -72,8 +72,8 @@
 	<filter-mapping>
 	    <filter-name>MultipartFilter</filter-name>
 	    <url-pattern>/*</url-pattern>
-	</filter-mapping>   		
-    <!--<start id="filter_security" />-->
+	</filter-mapping>  		
+    <!--<start id="filter_security" /> -->
     <filter>
         <filter-name>springSecurityFilterChain</filter-name>
         <filter-class>

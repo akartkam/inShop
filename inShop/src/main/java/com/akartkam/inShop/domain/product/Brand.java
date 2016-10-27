@@ -66,8 +66,6 @@ public class Brand extends AbstractDomainObject {
 		this.description = description;
 	}
 	
-	@NotEmpty
-	@Pattern(regexp="^[a-z0-9-]*$", message="{error.bad.urlForForm}")
     @Column(name = "url")
     @Index(name="brand_url_index", columnNames={"url"})	
 	public String getUrl() {
@@ -133,6 +131,14 @@ public class Brand extends AbstractDomainObject {
 			urlForForm = getUrl().replace("/", ""); 
 		}	
 	}
+	
+	public void buildFullLink(String shortUrl) {
+		if (shortUrl == null || "".equals(shortUrl)) return;
+		if (shortUrl.startsWith("/")) return;
+        StringBuilder linkBuffer = new StringBuilder(50);
+        linkBuffer.append("/").append(shortUrl);
+        setUrl(linkBuffer.toString());		
+	} 	
 
 
 }

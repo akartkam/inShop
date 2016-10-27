@@ -34,7 +34,7 @@
 		<headers>
             <xss-protection  />
         </headers>
-	  	<csrf /> 
+	    <csrf /> 
 
 	</http>	
 	

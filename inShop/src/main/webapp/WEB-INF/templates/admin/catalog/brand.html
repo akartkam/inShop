@@ -289,7 +289,11 @@
 		    	  }
 		    	  $("#editModal").data("allowed","true");
 		    	  $("#editModal").data("path",path);
-		    	});  		        
+		    	});
+		        
+		   	 $("body").on("click", "#urlRefreshBtn", function() {
+				 $("#urlForForm").val(slugify($("#name").val()));
+			 });
 	            
 		   // ]]>
 	     </script>

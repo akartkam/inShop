@@ -16,6 +16,11 @@
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
+		
+	<bean id="filterMultipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+  	        <property name="maxUploadSize" value="100000000"/> 
+	</bean> 
+
     <util:properties id="appProperties" 
                     location="classpath:application.properties"/>
     <util:properties id="shopProperties" 

@@ -65,7 +65,12 @@
 				    		  <label>
 					    	  	 <span th:text="#{admin.catalog.brand.edit.url}">URL</span>
 					   		  </label>
-					   		  <input type="text" class="form-control" th:field="*{urlForForm}"/>
+						      <div class="input-group">                              
+						   		  <input type="text" class="form-control" th:field="*{urlForForm}"/>
+							      <span class="input-group-btn">
+							        <button class="btn btn-default" id="urlRefreshBtn" type="button"  th:title="#{button.autogenerate}"><i class="fa fa-refresh"></i></button>
+							      </span>						   		  
+						      </div>
 				   		   </div>
 				   		   <div class="field-box">
 	 			    		   <label>

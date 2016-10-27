@@ -81,13 +81,12 @@ public class BrandServiceImpl implements BrandService {
 	public void mergeWithExistingAndUpdateOrCreate(Brand brandFromPost) {
 		if (brandFromPost == null) return;
 		final Brand existingBrand = getBrandById(brandFromPost.getId());
+		brandFromPost.buildFullLink(brandFromPost.getUrlForForm());
 		if (existingBrand != null) {
 			existingBrand.setName(brandFromPost.getName());
-			existingBrand.setLogoUrl(brandFromPost.getLogoUrl());
 			existingBrand.setUrl(brandFromPost.getUrl());
 			existingBrand.setDescription(brandFromPost.getDescription());
 			existingBrand.setEnabled(brandFromPost.isEnabled());
-	        //updateBrand(existingBrand);
 		} else {
 			createBrand(brandFromPost);
 		}

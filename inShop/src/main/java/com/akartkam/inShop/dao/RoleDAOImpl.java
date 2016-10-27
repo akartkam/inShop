@@ -4,8 +4,6 @@
  */
 package com.akartkam.inShop.dao;
 
-import java.util.UUID;
-
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 

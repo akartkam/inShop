@@ -3,6 +3,7 @@ package com.akartkam.inShop.dao;
 import com.akartkam.inShop.domain.AbstractDomainObjectOrdering;
 import com.akartkam.inShop.domain.DomainObject;
 
+import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
 import java.util.UUID;
@@ -12,6 +13,7 @@ import org.hibernate.LockOptions;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
@@ -47,6 +49,22 @@ public abstract class AbstractGenericDAO<T extends DomainObject<UUID>> implement
             entity = (T) currentSession().load(getDomainClass(), id);
 
         return entity;
+	}
+	
+	@Override
+	public T findByUrl(String url){
+		Method methodGetUrl = null;
+		try {
+			methodGetUrl = domainClass.getMethod("getUrl", (Class<?>) null);
+		} catch (NoSuchMethodException | SecurityException e) {
+
+		}
+		if (methodGetUrl != null) {
+			Criteria criteria = currentSession().createCriteria(domainClass);
+			criteria.add(Restrictions.eq("url", url));
+ 			return (T)criteria.uniqueResult();
+		}
+		return null;
 	}
 
 	@Override
