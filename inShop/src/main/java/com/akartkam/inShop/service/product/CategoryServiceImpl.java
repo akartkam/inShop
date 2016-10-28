@@ -48,6 +48,10 @@ public class CategoryServiceImpl implements CategoryService {
 		return categoryDAO.findCategoryByName(name);
 	}
 
+	@Override
+	public Category getCategoryByUrl(String url) {
+		return categoryDAO.findByUrl(url);
+	}	
 
 	@Override
 	public List<Category> getAllCategoryHierarchy(Boolean useDisabled) {
@@ -75,10 +79,10 @@ public class CategoryServiceImpl implements CategoryService {
 	public void mergeWithExistingAndUpdateOrCreate(final CategoryForm categoryFromPost) {
 		if (categoryFromPost == null) return;
 		final Category existingCategory = getCategoryById(categoryFromPost.getId());
+        // no need to call categoryFromPost.buildFullLink. It calling in validator
 		if (existingCategory != null) {
 	        // set here explicitly what must/can be overwritten by the html form POST
 	        existingCategory.setName(categoryFromPost.getName());
-	        categoryFromPost.buildFullLink(categoryFromPost.getUrlForForm());
 	        existingCategory.setUrl(categoryFromPost.getUrl());
 	        Category parentCategory = categoryFromPost.getParent();
 	        if (parentCategory != null){
@@ -111,7 +115,6 @@ public class CategoryServiceImpl implements CategoryService {
 	        for (AbstractAttribute attr : categoryFromPost.getAttributesForForm()) {
 	        	categoryFromPost.addAttribute(attr);
 	        }
-	        categoryFromPost.buildFullLink(categoryFromPost.getUrlForForm());
 			createCategory(categoryFromPost);
 		}
     }
@@ -152,5 +155,7 @@ public class CategoryServiceImpl implements CategoryService {
 			categoryDAO.delete(category);
 		}
 	}
+
+
 
 }

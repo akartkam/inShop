@@ -36,6 +36,7 @@ import com.akartkam.inShop.exception.ProductNotFoundException;
 import com.akartkam.inShop.formbean.CategoryForm;
 import com.akartkam.inShop.service.product.AttributeCategoryService;
 import com.akartkam.inShop.service.product.CategoryService;
+import com.akartkam.inShop.validator.CategoryValidator;
 
 @Controller
 @RequestMapping("/admin/catalog/category")
@@ -43,13 +44,16 @@ public class AdminCategoryController {
 	
 
 	  @Autowired
-	  CategoryService categoryService;
+	  private CategoryService categoryService;
 	  
 	  @Autowired
 	  private MessageSource messageSource;
 	  
 	  @Autowired
-	  AttributeCategoryService attributeCategoryService;
+	  private AttributeCategoryService attributeCategoryService;
+	  
+	  @Autowired
+	  private CategoryValidator categoryValidator;
 	  
 	  @ModelAttribute("allCategories")
 	  public List<Category> getAllCategories() {
@@ -176,13 +180,14 @@ public class AdminCategoryController {
 			                         final BindingResult bindingResult,
 			                         final RedirectAttributes ra
 			                         ) {
-	        if (bindingResult.hasErrors()) {
+		   categoryValidator.validate(category, bindingResult);
+	       if (bindingResult.hasErrors()) {
 	        	ra.addFlashAttribute("category", category);
 	        	ra.addFlashAttribute("org.springframework.validation.BindingResult.category", bindingResult);
 	            return "redirect:/admin/catalog/category/edit?categoryID="+category.getId();
-	        }
-	        categoryService.mergeWithExistingAndUpdateOrCreate(category);
-	        return "redirect:/admin/catalog/category";
+	       }
+	       categoryService.mergeWithExistingAndUpdateOrCreate(category);
+	       return "redirect:/admin/catalog/category";
 	    }
 	  
 }

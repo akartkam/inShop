@@ -63,7 +63,7 @@
 					   		  <input type="text" class="form-control" th:field="*{name}"/>
 					   		  <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Incorrect name</p>
 				   		   </div>
-						   <div class="field-box">	
+						   <div class="field-box" th:class="${#fields.hasErrors('urlForForm')}? has-error: field-box">	
 				    		  <label>
 					    	  	 <span th:text="${#messages.msg('admin.catalog.category.edit.url') + (category.parent != null? ' ('+category.parent.url+'/)':'')}">url</span>
 					   		  </label>
@@ -73,6 +73,7 @@
 							        <button class="btn btn-default" id="urlRefreshBtn" type="button"  th:title="#{button.autogenerate}"><i class="fa fa-refresh"></i></button>
 							      </span>						   		  
 						      </div>
+							  <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('urlForForm')}" th:errors="*{urlForForm}">Incorrect url</p>						      
 				   		   </div>						   		   
 				   		   <div class="field-box">
 	 			    		  <label>

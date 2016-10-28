@@ -17,6 +17,7 @@ public interface CategoryService {
 	List<Category> getAllCategoryHierarchy(Boolean useDisabled);
 	Category loadCategoryById(UUID id, Boolean lock);
 	Category getCategoryById(UUID id);
+	Category getCategoryByUrl(String url);
 	void updateCategory(Category category);
 	void deleteCategory(Category category);
 	void softDeleteCategoryById(UUID id);
