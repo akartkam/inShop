@@ -2,27 +2,27 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
  
-<head>
-   <title>Wellcome to inShop</title>
-   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-   <link rel="icon" type="image/png" th:href="@{/favicon.png}" />
-   <link rel="stylesheet" type="text/css" media="all" href="../resources/css/style.css" th:href="@{/resources/css/style.css}"/>
-</head>
-<body>
-    <header layout:replace="fragments/header :: header">
-    <!--  
-		<div th:replace="fragments/header :: header">
-		    Header
+	<head>
+	   <title>Wellcome to inShop</title>
+	   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	   <link rel="icon" type="image/png" th:href="@{/favicon.png}" />
+	   <link rel="stylesheet" type="text/css" media="all" href="../resources/css/style.css" th:href="@{/resources/css/style.css}"/>
+	</head>
+	<body>
+	    <header layout:replace="fragments/header :: header">
+	    <!--  
+			<div th:replace="fragments/header :: header">
+			    Header
+			</div>
+		-->	
+	    </header>	
+		<div layout:fragment="content">
+		    Content
 		</div>
-	-->	
-    </header>	
-	<div layout:fragment="content">
-	    Content
-	</div>
-	<footer>
-		<div layout:include="fragments/footer :: footer" th:remove="tag">
-		    Footer
-		</div>
-	</footer>
-</body>
+		<footer>
+			<div layout:include="fragments/footer :: footer" th:remove="tag">
+			    Footer
+			</div>
+		</footer>
+	</body>
 </html>
