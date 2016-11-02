@@ -25,8 +25,6 @@
 			<!-- DataTables Responsive CSS -->
     		<link href="../../../../resources/bower_components/datatables-responsive/css/dataTables.responsive.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/datatables-responsive/css/dataTables.responsive.css}"/>	    	
 	    	<link href="../../../../resources/bower_components/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/bootstrap/dist/css/bootstrap-theme.min.css}"/>
-			<!-- style.css -->
-    		<link href="../../../../resources/css/style.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/style.css}"/>
 	    	<!-- bootstrap-select -->
 			<link href="../../../../resources/css/bootstrap-select.min.css" rel="stylesheet" th:href="@{/resources/css/bootstrap-select.min.css}"/>
 	    	<!-- bootstrap-datetimepicker -->
@@ -172,7 +170,7 @@
 						            	<td class="text-center"><i th:class="${ac.enabled} ? 'fa fa-check-circle'"></i></td>
 						            	<td class="text-center">
 											  <!--  data-toggle="modal" data-target="#editModal" -->
-	  				            	  		 <div class="btn-group edit-btn-group" role="group" > 
+	  				            	  		 <div class="btn-group" role="group" > 
 				                                  <button type="button" class="open-editDialog btn btn-outline btn-default btn-xs" 
 				                                          data-toggle="modal" data-target="#editModal" data-operation="edit" 
 				                                          th:attr="data-id=${ac.id}, data-path=@{/admin/customer/customer/edit}"

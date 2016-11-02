@@ -25,8 +25,8 @@
 	    	<link href="../../../../resources/bower_components/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/bootstrap/dist/css/bootstrap-theme.min.css}"/>
 			<!-- summernote -->
 			<link href="../../../../resources/css/summernote.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/summernote.css}"></link>
-			<!-- style.css -->
-    		<link href="../../../../resources/css/style.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/style.css}"/>
+			<!-- admin-style.css -->
+    		<link href="../../../../resources/css/admin/admin-style.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/admin/admin-style.css}"/>
 	    	<!-- bootstrap-select -->
 			<link href="../../../../resources/css/bootstrap-select.min.css" rel="stylesheet" th:href="@{/resources/css/bootstrap-select.min.css}"/>
 	    	<!-- bootstrap-datetimepicker -->
@@ -239,7 +239,7 @@
 									<td class="text-center" th:text="${sku.ordering}"></td>
 					            	<td class="text-center"><i th:class="${sku.enabled} ? 'fa fa-check-circle'"></i></td>
 					                <td class="text-center">
-  				            	  		 <div class="btn-group edit-btn-group" role="group" > 
+  				            	  		 <div class="btn-group" role="group" > 
 			                                  <button type="button" class="open-editDialog btn btn-outline btn-default btn-xs" 
 			                                          data-toggle="modal" data-target="#editModal" data-operation="edit" 
 			                                          th:attr="data-path=@{${'/admin/catalog/sku/edit?ID='+sku.id}}"

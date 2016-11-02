@@ -24,8 +24,6 @@
     		<link href="../../../../resources/bower_components/datatables-responsive/css/dataTables.responsive.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/datatables-responsive/css/dataTables.responsive.css}"/>	    	
 
 	    	<link href="../../../../resources/bower_components/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/bootstrap/dist/css/bootstrap-theme.min.css}"/>
-			<!-- style.css -->
-    		<link href="../../../../resources/css/style.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/style.css}"/>
 	    	<!-- Select2 -->		 	
 			<link href="../../../../resources/css/select2.min.css" rel="stylesheet" th:href="@{/resources/css/select2.min.css}"/>
 			<!-- bootstrap-datetimepicker -->
@@ -156,7 +154,7 @@
 							            <td ><span th:text="${{o.total}}">$100</span></td>
 						            	<td class="text-center"><span th:text="#{${'order.status.' + o.status}}"></span></td>
 						            	<td class="text-center">
-		  				            	  		 <div class="btn-group edit-btn-group" role="group" > 
+		  				            	  		 <div class="btn-group" role="group" > 
 					                                  <button type="button" class="open-editDialog btn btn-outline btn-default btn-xs" 
 					                                          data-toggle="modal" data-target="#editModal" data-operation="edit" 
 					                                          th:attr="data-id=${o.id}, data-path=@{/admin/order/edit}"

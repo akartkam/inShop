@@ -5,10 +5,6 @@
       version="3.0">
 	<!-- The definition of the Root Spring Container shared by all Servlets and Filters -->
 	
-<!--  	<welcome-file-list> -->
-<!-- 	        <welcome-file>home.html</welcome-file> -->
-<!-- 	</welcome-file-list> -->
-	
 	<session-config>
 	  <session-timeout>5</session-timeout>
 	</session-config>

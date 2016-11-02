@@ -140,7 +140,7 @@
 					              <td class="mightOverflow domain-col"><span class="for-search" th:text="${ct.url}">url</span></td>
 					              <td class="text-center"><i th:class="${{ct.enabled} ? 'fa fa-check-circle' : ''}"></i></td>
 					              <td class="text-center">
-  				            	  		 <div class="btn-group edit-btn-group" role="group" > 	
+  				            	  		 <div class="btn-group" role="group" > 	
 				                              <button type="button" class="open-editDialog btn btn-outline btn-default btn-xs" 
 				                                      data-toggle="modal" data-target="#editModal" data-operation="edit" 
 				                                      th:attr="data-path=@{${'/admin/catalog/category/edit?categoryID='+ct.id}}" data-backdrop="static" data-keyboard="false"> 
@@ -247,7 +247,7 @@
 			         </div> 
 			         <div class="panel-footer">
 				      <div class="btn-toolbar" role="toolbar" aria-label="...">
-	 			   		  <div class="btn-group edit-btn-group" role="group" aria-label="..."> 
+	 			   		  <div class="btn-group" role="group" aria-label="..."> 
 					        <button type="button" class="btn btn-outline btn-default btn-sm" onclick="$('#categoryDataTable').treegrid('expandAll');">
 					          <i class="fa fa-expand"></i>
 					        </button>
@@ -255,7 +255,7 @@
 					          <i class="fa fa-compress"></i>
 					        </button>
 					      </div>
-					      <div class="btn-group edit-btn-group" role="group" aria-label="...">
+					      <div class="btn-group" role="group" aria-label="...">
                             <button type="button" class="open-editDialog btn btn-outline btn-default btn-sm" 
                                     data-toggle="modal" data-target="#editModal" data-operation="add" data-backdrop="static" data-keyboard="false"
                                     th:attr="data-path=@{'/admin/catalog/category/add'}"> 

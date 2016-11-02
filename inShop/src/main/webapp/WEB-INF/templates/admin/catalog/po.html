@@ -26,8 +26,6 @@
 	    	<link href="../../../../resources/bower_components/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/bootstrap/dist/css/bootstrap-theme.min.css}"/>
 			<!-- summernote -->
 			<link href="../../../../resources/css/summernote.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/summernote.css}"></link>
-			<!-- style.css -->
-    		<link href="../../../../resources/css/style.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/style.css}"/>	    				
 	</head>
 <body>
    <th:block layout:fragment="breadcrumb">
@@ -145,7 +143,7 @@
 							            <td class="text-center"><i th:class="${po.useInSkuGeneration} ? 'fa fa-check-circle'"></i></td>
 						            	<td class="text-center"><i th:class="${po.enabled} ? 'fa fa-check-circle'"></i></td>
 						            	<td class="text-center">
-		  				            	  		 <div class="btn-group edit-btn-group" role="group" > 
+		  				            	  		 <div class="btn-group" role="group" > 
 					                                  <button type="button" class="open-editDialog btn btn-outline btn-default btn-xs" 
 					                                          data-toggle="modal" data-target="#editModal" data-operation="edit" 
 					                                          th:attr="data-id=${po.id}, data-path=@{/admin/catalog/po/edit}"

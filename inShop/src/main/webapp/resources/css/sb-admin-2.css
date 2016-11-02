@@ -361,10 +361,3 @@ table.dataTable thead .sorting:after {
 .panel-yellow a:hover {
     color: #df8a13;
 }
-
-/* my css update
-  „тобы предотвратить перенос внутри грида */
-
-.edit-btn-group {
-	display: flex;
-}
