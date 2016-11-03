@@ -73,7 +73,7 @@
 						   		   </div>					   		   
 								   <div class="field-box" th:class="${#fields.hasErrors('urlForForm')}? has-error: field-box">	                              
 						    		  <label>
-							    	  	 <span th:text="${#messages.msg('admin.catalog.url') + (!#strings.isEmpty(product.category.url)? ' ('+product.category.url+'/)':'')}">Url</span>
+							    	  	 <span th:text="${#messages.msg('admin.catalog.url') + (!#strings.isEmpty(product.category)? ' ('+product.category.url+'/)':'')}">Url</span>
 							   		  </label>
 								      <div class="input-group">                              
 								   		  <input type="text" class="form-control" th:field="*{urlForForm}"/>
