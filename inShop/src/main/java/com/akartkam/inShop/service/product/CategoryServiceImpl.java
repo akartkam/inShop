@@ -1,10 +1,14 @@
 package com.akartkam.inShop.service.product;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
+import org.apache.commons.beanutils.BeanUtilsBean;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,11 +20,14 @@ import com.akartkam.inShop.domain.product.Category;
 import com.akartkam.inShop.domain.product.Product;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
 import com.akartkam.inShop.formbean.CategoryForm;
+import com.akartkam.inShop.util.NullAwareBeanUtilsBean;
 
 
 @Service("CategoryService")
 @Transactional(readOnly = true)
 public class CategoryServiceImpl implements CategoryService {
+	
+	private static final Log LOG = LogFactory.getLog(CategoryServiceImpl.class);
 	
 	@Autowired
 	private CategoryDAO categoryDAO;
@@ -90,7 +97,7 @@ public class CategoryServiceImpl implements CategoryService {
 	        } else { 
 	        	if (existingCategory.getParent() != null)  existingCategory.getParent().removeSubCategory(existingCategory);
 	        }
-	        Iterator<AbstractAttribute> ati = existingCategory.getAllAttributes(true).iterator();
+	        Iterator<AbstractAttribute> ati = existingCategory.getAttributes().iterator();
 	        while(ati.hasNext()){
 	        	AbstractAttribute at = ati.next();
 	        	if (categoryFromPost.getAttributesForForm().contains(at)) {
@@ -115,7 +122,14 @@ public class CategoryServiceImpl implements CategoryService {
 	        for (AbstractAttribute attr : categoryFromPost.getAttributesForForm()) {
 	        	categoryFromPost.addAttribute(attr);
 	        }
-			createCategory(categoryFromPost);
+	        Category category = new Category();
+			BeanUtilsBean bu = new NullAwareBeanUtilsBean();
+			try {
+				bu.copyProperties(category, categoryFromPost);
+			} catch (IllegalAccessException | InvocationTargetException e) {
+				LOG.error(e);
+			}
+			createCategory(category);
 		}
     }
 

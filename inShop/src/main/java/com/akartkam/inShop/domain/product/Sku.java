@@ -30,6 +30,8 @@ import javax.validation.constraints.NotNull;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.annotations.BatchSize;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Index;
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -105,6 +107,7 @@ public class Sku extends AbstractDomainObjectOrdering {
 	}		
 	
     @ElementCollection(fetch=FetchType.EAGER)
+    @Fetch(FetchMode.SUBSELECT)
     @CollectionTable(name="lnk_sku_image")
     @OrderColumn(name="ordering")
     public List<String> getImages() {

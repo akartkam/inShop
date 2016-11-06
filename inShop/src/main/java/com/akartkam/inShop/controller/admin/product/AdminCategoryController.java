@@ -144,8 +144,8 @@ public class AdminCategoryController {
 			  category = categoryService.cloneCategoryById(UUID.fromString(copyCategoryID));
 			  if (category != null) categoryForm = new CategoryForm(category);  
 		  }
-		  if (categoryForm == null) category = new CategoryForm();
- 	      model.addAttribute("category", category);
+		  if (categoryForm == null) categoryForm = new CategoryForm();
+ 	      model.addAttribute("category", categoryForm);
           if ("XMLHttpRequest".equals(requestedWith)) {
               return "/admin/catalog/categoryEdit :: editCategoryForm";
             } 	      

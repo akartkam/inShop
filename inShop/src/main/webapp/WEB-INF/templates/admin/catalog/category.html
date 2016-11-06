@@ -12,21 +12,21 @@
 		    <meta name="description" content=""/>
 		    <meta name="author" content=""/>
 		    <!-- Bootstrap Core CSS -->
-		    <link href="../../../../resources/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" th:href="@{/resources/bower_components/bootstrap/dist/css/bootstrap.min.css}"/>
+		    <link href="../../../../resources/css/lib/bootstrap.min.css" rel="stylesheet" th:href="@{/resources/css/lib/bootstrap.min.css}"/>
 		    <!-- MetisMenu CSS --> 
-		    <link href="../../../../resources/bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet" th:href="@{/resources/bower_components/metisMenu/dist/metisMenu.min.css}"/>
+		    <link href="../../../../resources/css/lib/metisMenu.min.css" rel="stylesheet" th:href="@{/resources/css/lib/metisMenu.min.css}"/>
 			<!-- Custom css -->	    
-	    	<link href="../../../../resources/css/sb-admin-2.css" rel="stylesheet" th:href="@{/resources/css/sb-admin-2.css}"/>
+	    	<link href="../../../../resources/css/admin/sb-admin-2.css" rel="stylesheet" th:href="@{/resources/css/admin/sb-admin-2.css}"/>
 		    <!-- Custom Fonts -->
-	    	<link href="../../../../resources/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/font-awesome/css/font-awesome.min.css}"/>
+	    	<link href="../../../../resources/css/lib/font-awesome.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/lib/font-awesome.min.css}"/>
     	</th:block>
-    	<link href="../../../../resources/bower_components/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/bootstrap/dist/css/bootstrap-theme.min.css}"/>    	
+    	<link href="../../../../resources/css/lib/bootstrap-theme.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/lib/bootstrap-theme.min.css}"/>    	
 		<!-- Treegrid -->
-	 	<link href="../../../../resources/css/jquery.treegrid.css" rel="stylesheet" th:href="@{/resources/css/jquery.treegrid.css}"/>
+	 	<link href="../../../../resources/css/lib/jquery.treegrid.css" rel="stylesheet" th:href="@{/resources/css/lib/jquery.treegrid.css}"/>
 		<!-- summernote -->
-		<link href="../../../../resources/css/summernote.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/summernote.css}"></link>
+		<link href="../../../../resources/css/lib/summernote.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/lib/summernote.css}"></link>
     	<!-- bootstrap-select -->
-		<link href="../../../../resources/css/bootstrap-select.min.css" rel="stylesheet" th:href="@{/resources/css/bootstrap-select.min.css}"/>		 	
+		<link href="../../../../resources/css/lib/bootstrap-select.min.css" rel="stylesheet" th:href="@{/resources/css/lib/bootstrap-select.min.css}"/>		 	
 		<style type="text/css">
 			body {
 			    margin:0;     /* This is used to reset any browser-default margins */
@@ -123,8 +123,9 @@
 						      <tr >
 						         <th class="col-md-1"> </th>
 					             <th class="col-md-3" th:text="#{admin.catalog.category.name}">Name</th>
-					             <th class="col-md-3" th:text="#{admin.catalog.category.description}">Description</th>
-					             <th class="col-md-3" th:text="#{admin.catalog.category.url}">URL</th>
+					             <th class="col-md-2" th:text="#{admin.catalog.category.description}">Description</th>
+					             <th class="col-md-2" th:text="#{admin.catalog.category.url}">URL</th>
+					             <th class="col-md-2" th:text="#{admin.catalog.category.order}">Order</th>
 					             <th class="col-md-1 text-center" th:text="#{admin.catalog.category.enabled}">Enabled?</th>
 					             <th class="col-md-1" th:text="#{admin.catalog.category.actions}">Actions</th>
 					  	      </tr>
@@ -138,6 +139,7 @@
 								  <td class="mightOverflow domain-col"><span class="for-search" th:text="${ct.name}">Root category 1</span></td>
 					              <td class="mightOverflow domain-col"><span class="for-search" th:text="${ct.description}">Root category description 1</span></td>
 					              <td class="mightOverflow domain-col"><span class="for-search" th:text="${ct.url}">url</span></td>
+					              <td class="mightOverflow domain-col"><span class="for-search" th:text="${ct.ordering}">1</span></td>
 					              <td class="text-center"><i th:class="${{ct.enabled} ? 'fa fa-check-circle' : ''}"></i></td>
 					              <td class="text-center">
   				            	  		 <div class="btn-group" role="group" > 	
@@ -277,18 +279,18 @@
 		    </div>
 		  </div> 
     <!-- jQuery -->
-    <script src="../../../../resources/bower_components/jquery/dist/jquery.min.js" th:src="@{/resources/bower_components/jquery/dist/jquery.min.js}"></script>
+    <script src="../../../../resources/js/lib/jquery.min.js" th:src="@{/resources/js/lib/jquery.min.js}"></script>
     <!-- Bootstrap Core JavaScript -->
-    <script src="../../../../resources/bower_components/bootstrap/dist/js/bootstrap.min.js" th:src="@{/resources/bower_components/bootstrap/dist/js/bootstrap.min.js}"></script>
+    <script src="../../../../resources/js/lib/bootstrap.min.js" th:src="@{/resources/js/lib/bootstrap.min.js}"></script>
     <!-- Metis Menu Plugin JavaScript -->
-    <script src="../../../../resources/bower_components/metisMenu/dist/metisMenu.min.js" th:src="@{/resources/bower_components/metisMenu/dist/metisMenu.min.js}"></script>
+    <script src="../../../../resources/js/lib/metisMenu.min.js" th:src="@{/resources/js/lib/metisMenu.min.js}"></script>
     <th:block layout:fragment="script"> 
 	    <!-- category.js -->
-	    <script src="../../../../resources/js/category.js" th:src="@{/resources/js/category.js}"></script>
+	    <script src="../../../../resources/js/admin/category.js" th:src="@{/resources/js/admin/category.js}"></script>
 		<!-- Treegrid -->
-	    <script src="../../../../resources/bower_components/jquery/dist/jquery.treegrid.min.js" th:src="@{/resources/bower_components/jquery/dist/jquery.treegrid.min.js}"></script>
-	    <script src="../../../../resources/bower_components/jquery/dist/jquery.cookie.js" th:src="@{/resources/bower_components/jquery/dist/jquery.cookie.js}"></script>
-		<script src="../../../../resources/bower_components/jquery/dist/jquery.treegrid.bootstrap3.js" th:src="@{/resources/bower_components/jquery/dist/jquery.treegrid.bootstrap3.js}"></script>
+	    <script src="../../../../resources/js/lib/jquery.treegrid.min.js" th:src="@{/resources/js/lib/jquery.treegrid.min.js}"></script>
+	    <script src="../../../../resources/js/lib/jquery.cookie.js" th:src="@{/resources/js/lib/jquery.cookie.js}"></script>
+		<script src="../../../../resources/js/lib/jquery.treegrid.bootstrap3.js" th:src="@{/resources/js/lib/jquery.treegrid.bootstrap3.js}"></script>
         <!-- Tree grid search -->
         <script src="../../../../resources/js/inShop-treegrid-search.js" th:src="@{/resources/js/inShop-treegrid-search.js}"></script>		
 	    <!-- <th:block layout:fragment="scriptEditModal"> -->

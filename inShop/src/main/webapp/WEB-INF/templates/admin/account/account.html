@@ -261,7 +261,7 @@
 	  	           });
     		     	
 	            });
-	            events.on("onReloadMainDataTableNeed", function() {
+	            events.on("onReloadMainDataTableRequired", function() {
 	            	var path = $("#accountDataTableContainer").data("path")
 	            	if (typeof path == 'undefined') return;
 	    			$("#accountDataTableContainer").text("");

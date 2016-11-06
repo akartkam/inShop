@@ -29,7 +29,8 @@ public class CategoryValidator implements Validator {
 		
 		if (!errors.hasFieldErrors("urlForForm")) {
 			category.buildFullLink(category.getUrlForForm());
-			if (categoryService.getCategoryByUrl(category.getUrl()) != null) {
+			Category exCategory = categoryService.getCategoryByUrl(category.getUrl());
+			if (exCategory != null && !exCategory.getId().equals(category.getId())) {
 				errors.rejectValue("urlForForm", "error.duplicate");
 			}	
 		}

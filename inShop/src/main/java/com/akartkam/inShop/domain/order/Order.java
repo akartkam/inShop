@@ -55,7 +55,6 @@ public class Order extends AbstractDomainObjectOrdering {
 
     @Column(name = "order_subtotal", precision=19, scale=5)
 	@NumberFormat(style=Style.CURRENCY)
-	@DecimalMin("0.01")	
 	@Digits(fraction = 5, integer = 14)
     public BigDecimal getSubTotal() {
         return subTotal;
@@ -82,8 +81,7 @@ public class Order extends AbstractDomainObjectOrdering {
    
     
     @Column(name = "order_total", precision=19, scale=5)
-	@NumberFormat(style=Style.CURRENCY)
-	@DecimalMin("0.01")	
+	@NumberFormat(style=Style.CURRENCY)	
 	@Digits(fraction = 5, integer = 14)
     public BigDecimal getTotal() {
         return total;
@@ -130,7 +128,6 @@ public class Order extends AbstractDomainObjectOrdering {
 
     @AdminPresentation(tab=EditTab.CONTENT)
     @Valid
-    @NotEmpty
     @OneToMany(mappedBy = "order", cascade = {CascadeType.ALL}, orphanRemoval=true) 
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
     public List<OrderItem> getOrderItems() {

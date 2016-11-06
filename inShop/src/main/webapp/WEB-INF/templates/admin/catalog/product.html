@@ -12,25 +12,25 @@
 		    <meta name="description" content=""/>
 		    <meta name="author" content=""/>
 		    <!-- Bootstrap Core CSS -->
-		    <link href="../../../../resources/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" th:href="@{/resources/bower_components/bootstrap/dist/css/bootstrap.min.css}"/>
+		    <link href="../../../../resources/css/lib/bootstrap.min.css" rel="stylesheet" th:href="@{/resources/css/lib/bootstrap.min.css}"/>
 			<!-- Custom css -->	    
-	    	<link href="../../../../resources/css/sb-admin-2.css" rel="stylesheet" th:href="@{/resources/css/sb-admin-2.css}"/>
+	    	<link href="../../../../resources/css/admin/sb-admin-2.css" rel="stylesheet" th:href="@{/resources/css/admin/sb-admin-2.css}"/>
 		    <!-- Custom Fonts -->
-	    	<link href="../../../../resources/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/font-awesome/css/font-awesome.min.css}"/>
+	    	<link href="../../../../resources/css/lib/font-awesome.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/lib/font-awesome.min.css}"/>
     	</th:block>
 		    <!-- DataTables CSS -->
-		    <link href="../../../../resources/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css" rel="stylesheet" th:href="@{/resources/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css}"/>	    	
+		    <link href="../../../../resources/css/lib/dataTables.bootstrap.css" rel="stylesheet" th:href="@{/resources/css/lib/dataTables.bootstrap.css}"/>	    	
 			<!-- DataTables Responsive CSS -->
-    		<link href="../../../../resources/bower_components/datatables-responsive/css/dataTables.responsive.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/datatables-responsive/css/dataTables.responsive.css}"/>	    	
-	    	<link href="../../../../resources/bower_components/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/bootstrap/dist/css/bootstrap-theme.min.css}"/>
+    		<link href="../../../../resources/css/lib/dataTables.responsive.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/lib/dataTables.responsive.css}"/>	    	
+	    	<link href="../../../../resources/css/lib/bootstrap-theme.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/lib/bootstrap-theme.min.css}"/>
 			<!-- summernote -->
-			<link href="../../../../resources/css/summernote.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/summernote.css}"></link>
+			<link href="../../../../resources/css/lib/summernote.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/lib/summernote.css}"></link>
 			<!-- admin-style.css -->
     		<link href="../../../../resources/css/admin/admin-style.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/admin/admin-style.css}"/>
 	    	<!-- bootstrap-select -->
-			<link href="../../../../resources/css/bootstrap-select.min.css" rel="stylesheet" th:href="@{/resources/css/bootstrap-select.min.css}"/>
+			<link href="../../../../resources/css/lib/bootstrap-select.min.css" rel="stylesheet" th:href="@{/resources/css/lib/bootstrap-select.min.css}"/>
 	    	<!-- bootstrap-datetimepicker -->
-  			<link href="../../../../resources/css/bootstrap-datetimepicker.min.css" rel="stylesheet" th:href="@{/resources/css/bootstrap-datetimepicker.min.css}"/>			      			    	    			    	
+  			<link href="../../../../resources/css/lib/bootstrap-datetimepicker.min.css" rel="stylesheet" th:href="@{/resources/css/lib/bootstrap-datetimepicker.min.css}"/>			      			    	    			    	
 			<style type="text/css">			
 				body {
 				    margin:0;     /* This is used to reset any browser-default margins */
@@ -177,7 +177,7 @@
 										    <input class="checkCategory" type="checkbox" th:id="${'check-'+pr.id}" th:value="${pr.id}"/>
 									    </td>
 										<td class="mightOverflow domain-col">
-										    <div class="a-photo-out">
+										      <div class="a-photo-out">
                                                <span class="photo-block">
                                                  <span class="helper"></span>
                                                  <img th:src="@{${!#lists.isEmpty(pr.getDefaultSku().getImages())? pr.getDefaultSku().getImages()[0]: ''}}"  th:onerror="'this.src=\'' + @{/resources/img/noimage.png} + '\';'"/>
@@ -185,7 +185,7 @@
 										       <span th:text="${pr.defaultSku.name}">name</span>
 										       <br/>
 										       <span style="font-size: 9pt;" th:text="#{admin.catalog.product.articul}+': '+${pr.defaultSku.code}">code</span>
-										    </div>										
+										    </div> 										
 										</td>
 										<td class="mightOverflow domain-col"><span th:text="${pr.category!=null? pr.category.name: ''}">Category Category Category Category Category Category Category</span></td>
 										<td class="mightOverflow domain-col"><span th:text="${pr.url}">URL</span></td>
@@ -254,15 +254,15 @@
 	    </div>
     </div> 
     <!-- jQuery -->
-    <script src="../../../../resources/bower_components/jquery/dist/jquery.min.js" th:src="@{/resources/bower_components/jquery/dist/jquery.min.js}"></script>
+    <script src="../../../../resources/js/lib/jquery.min.js" th:src="@{/resources/js/lib/jquery.min.js}"></script>
     <!-- Bootstrap Core JavaScript -->
-    <script src="../../../../resources/bower_components/bootstrap/dist/js/bootstrap.min.js" th:src="@{/resources/bower_components/bootstrap/dist/js/bootstrap.min.js}"></script>
+    <script src="../../../../resources/js/lib/bootstrap.min.js" th:src="@{/resources/js/lib/bootstrap.min.js}"></script>
     <th:block layout:fragment="script"> 
     	<!-- product.js -->
-    	<script th:inline="javascript" src="../../../../resources/js/product.js" th:src="@{/resources/js/product.js}"></script>
+    	<script th:inline="javascript" src="../../../../resources/js/admin/product.js" th:src="@{/resources/js/admin/product.js}"></script>
 	    <!-- DataTables JavaScript -->
-	    <script src="../../../../resources/bower_components/datatables/media/js/jquery.dataTables.min.js" th:src="@{/resources/bower_components/datatables/media/js/jquery.dataTables.min.js}"></script>
-	    <script src="../../../../resources/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js" th:src="@{/resources/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js}"></script>
+	    <script src="../../../../resources/js/lib/jquery.dataTables.min.js" th:src="@{/resources/js/lib/jquery.dataTables.min.js}"></script>
+	    <script src="../../../../resources/js/lib/dataTables.bootstrap.min.js" th:src="@{/resources/js/lib/dataTables.bootstrap.min.js}"></script>
 	    <script src="../../../../resources/js/inShop-common.js" th:src="@{/resources/js/inShop-common.js}"></script>
 	    <th:block th:include="/admin/catalog/productEdit :: scriptEditModal">
         </th:block>	    

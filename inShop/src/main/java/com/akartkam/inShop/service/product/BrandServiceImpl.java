@@ -98,4 +98,9 @@ public class BrandServiceImpl implements BrandService {
 		return brandDAO.create(brand);
 	}
 
+	@Override
+	public Brand getBrandByUrl(String url) {
+		return brandDAO.findByUrl(url);
+	}
+
 }

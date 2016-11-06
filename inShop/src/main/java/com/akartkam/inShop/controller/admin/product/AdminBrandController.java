@@ -36,6 +36,7 @@ import com.akartkam.inShop.domain.product.Brand;
 import com.akartkam.inShop.service.product.BrandService;
 import com.akartkam.inShop.service.product.ProductServiceImpl;
 import com.akartkam.inShop.util.ImageUtil;
+import com.akartkam.inShop.validator.BrandValidator;
 
 @Controller
 @RequestMapping("/admin/catalog/brand")
@@ -49,7 +50,9 @@ public class AdminBrandController {
 	  
 	  @Autowired(required=false)
 	  private ImageUtil imageUtil;
-
+	  
+	  @Autowired
+	  private BrandValidator brandValidator;
 	  
 	  @Value("#{appProperties['inShop.imagesPath']}")
 	  private String imagePath;
@@ -153,6 +156,7 @@ public class AdminBrandController {
 			                   @RequestParam(value = "mainLogo", required = false)	MultipartFile image,
 			                   final RedirectAttributes ra
 			                         ) {
+		    brandValidator.validate(brand, bindingResult);
 	        if (bindingResult.hasErrors()) {
 	        	ra.addFlashAttribute("brand", brand);
 	        	ra.addFlashAttribute("org.springframework.validation.BindingResult.brand", bindingResult);
@@ -167,7 +171,6 @@ public class AdminBrandController {
 	        	imageUtil.saveImage(filePath, image);		        
 		        brand.setLogoUrl(imageUrl+fileName);
 	        }
-	        
  
 	        brandService.mergeWithExistingAndUpdateOrCreate(brand);	        
 	        

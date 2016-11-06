@@ -11,6 +11,7 @@ public interface BrandService {
 	List<Brand> getAllBrand();
 	List<Brand> getAllBrand(Boolean useDisabled);
 	Brand getBrandById(UUID id);
+	Brand getBrandByUrl(String url);
 	Brand cloneBrandById(UUID id) throws CloneNotSupportedException;
 	Brand loadBrandById(UUID id, Boolean lock);
 	void softDeleteBrandById(UUID id);

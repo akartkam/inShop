@@ -358,7 +358,8 @@ public class ProductServiceImpl implements ProductService {
 						   new String[]{messageSource.getMessage("admin.catalog.product.inventoryType",null, Locale.getDefault())}, null);
 				}
 			}
-			if (!errors.hasFieldErrors("urlForForm") && getProductByUrl(productFromPost.getUrl()) != null) {
+			Product exProduct = getProductByUrl(productFromPost.getUrl());
+			if (!errors.hasFieldErrors("urlForForm") && exProduct != null && !exProduct.getId().equals(productFromPost.getId())) {
 				errors.rejectValue("urlForForm", "error.duplicate");				
 			}
 		}

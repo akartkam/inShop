@@ -13,13 +13,13 @@
 		    <meta name="author" content=""/>
 		
 		    <!-- Bootstrap Core CSS -->
-		    <link href="../../../../resources/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" th:href="@{/resources/bower_components/bootstrap/dist/css/bootstrap.min.css}"/>
+		    <link href="../../../../resources/css/lib/bootstrap.min.css" rel="stylesheet" th:href="@{/resources/css/lib/bootstrap.min.css}"/>
 			<!-- bootstrap select -->
-			<link href="../../../../resources/css/bootstrap-select.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/bootstrap-select.min.css}"></link>
+			<link href="../../../../resources/css/lib/bootstrap-select.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/lib/bootstrap-select.min.css}"></link>
 		    <!-- Custom Fonts -->
-	    	<link href="../../../../resources/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/font-awesome/css/font-awesome.min.css}"/>
-			<link href="../../../../resources/bower_components/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/bower_components/bootstrap/dist/css/bootstrap-theme.min.css}"></link>    	
-	    	<link href="../../../../resources/css/sb-admin-2.css" rel="stylesheet" th:href="@{/resources/css/sb-admin-2.css}"/>
+	    	<link href="../../../../resources/css/lib/font-awesome.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/lib/font-awesome.min.css}"/>
+			<link href="../../../../resources/css/lib/bootstrap-theme.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/lib/bootstrap-theme.min.css}"></link>    	
+	    	<link href="../../../../resources/css/admin/sb-admin-2.css" rel="stylesheet" th:href="@{/resources/css/admin/sb-admin-2.css}"/>
 	    </th:block>
 	</head>
 <body>
@@ -159,30 +159,30 @@
       </div> 
     </div> 
   </div>	    
-   <!-- jQuery -->
-   <script src="../../../../resources/bower_components/jquery/dist/jquery.min.js" th:src="@{/resources/bower_components/jquery/dist/jquery.min.js}"></script>
-   <!-- Bootstrap Core JavaScript -->
-   <script src="../../../../resources/bower_components/bootstrap/dist/js/bootstrap.min.js" th:src="@{/resources/bower_components/bootstrap/dist/js/bootstrap.min.js}"></script>
- 
-	   <th:block th:fragment="scriptEditModal">
-	       <!-- bootstrap-select -->
-		   <script src="../../../../resources/js/bootstrap-select.min.js" th:src="@{/resources/js/bootstrap-select.min.js}"></script>
-		   <script src="../../../../resources/js/defaults-ru_RU.js" th:src="@{/resources/js/defaults-ru_RU.js}"></script>
-	   </th:block>
-   		<th:block layout:fragment="scriptEditModal"> 
-	   	   <script type="text/javascript">
-		     $(document).ready(function() {
-		    	 $("#editModal").modal({
-		    		    backdrop: 'static',
-		    		    keyboard: false
-		    		});
-                 $(".selectpicker").selectpicker();
-                 $(document).ready(function(){
-                	    $('[data-toggle="tooltip"]').tooltip();   
-                 });
-             });
-		   </script>
-		 </th:block>  
+  <!-- jQuery -->
+  <script src="../../../../resources/js/lib/jquery.min.js" th:src="@{/resources/js/lib/jquery.min.js}"></script>
+  <!-- Bootstrap Core JavaScript -->
+  <script src="../../../../resources/js/lib/bootstrap.min.js" th:src="@{/resources/js/lib/bootstrap.min.js}"></script>
+  <script type="text/javascript">
+      $(document).ready(function() {
+	   	    $("#editModalAccount").modal({
+	   		    backdrop: 'static',
+	   		    keyboard: false
+	   		});
+	              $(".selectpicker").selectpicker();
+	              $(document).ready(function(){
+	             	    $('[data-toggle="tooltip"]').tooltip();   
+	              });
+      });
+  </script>
+  <th:block th:fragment="scriptEditModal">
+     <!-- bootstrap-select -->
+	 <script src="../../../../resources/js/lib/bootstrap-select.min.js" th:src="@{/resources/js/lib/bootstrap-select.min.js}"></script>
+	 <script src="../../../../resources/js/lib/defaults-ru_RU.js" th:src="@{/resources/js/lib/defaults-ru_RU.js}"></script>
+   </th:block>
+   <th:block layout:fragment="scriptEditModal"> 
+   </th:block>
+     
 </body>
 </html>
 

@@ -165,8 +165,7 @@ public class Category extends AbstractDomainObjectOrdering {
 	}
 	
 	@ManyToMany(cascade = CascadeType.ALL)
-	@Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE,
-		      org.hibernate.annotations.CascadeType.DELETE})
+	@Cascade({org.hibernate.annotations.CascadeType.ALL})
 	@JoinTable(name = "lnk_category_attribute", joinColumns = { 
 			@JoinColumn(name = "CATEGORY_ID", nullable = false, updatable = false) }, 
 			inverseJoinColumns = { @JoinColumn(name = "ATTRIBUTE_ID", 

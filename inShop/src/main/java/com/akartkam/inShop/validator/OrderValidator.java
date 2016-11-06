@@ -31,6 +31,8 @@ public class OrderValidator implements Validator {
 	@Override
 	public void validate(Object target, Errors errors) {
 		Order order = (Order) target;
+		
+		if (order.getOrderItems().isEmpty()) return;
 	 	Map<Sku, Integer> mapOfQuants = inventoryService.retrieveQuantitiesAvailable(order.getSkusFromOrderItems());
 	 	Map<OrderItem, Integer> mapOfOrderItemQuants = orderService.retrieveOrderItemQuantities(order.getOrderItems());
 	 	int oiQuant;
