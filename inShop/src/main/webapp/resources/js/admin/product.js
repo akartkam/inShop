@@ -160,12 +160,6 @@ $(function(){
                     $("#name").focus();
           });
     	});  
-        $("body").on("mouseenter", ".mightOverflow", function() { 
-        	var $t = $(this); 
-        	var title = $t.attr("title");
-        	if (!title){ if (this.offsetWidth < this.scrollWidth) $t.attr("title", $t.text()) } 
-        	else { if (this.offsetWidth >= this.scrollWidth && title == $t.text()) $t.removeAttr("title")}});	
-
    	    $("body").on("click", "#urlRefreshBtn", function() {
 		   $("#urlForForm").val(slugify($("#defaultSku\\.name").val()));
 	    });

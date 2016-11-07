@@ -103,6 +103,7 @@ public class Product extends AbstractDomainObjectOrdering {
 		
 	@OneToMany(mappedBy="product", cascade = CascadeType.ALL, orphanRemoval=true)
 	@Cascade(org.hibernate.annotations.CascadeType.ALL)
+	@BatchSize(size = 20)
 	public List<AbstractAttributeValue> getAttributeValues() {
 		return attributeValues;
 	}

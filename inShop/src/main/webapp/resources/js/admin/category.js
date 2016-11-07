@@ -5,14 +5,13 @@ $(function(){
 	}); 
     $("body").on("change", "#productAttributes", function(e){
 		$("#productAttributesIc").find("input").each(function(i,v){$(v).remove()});    		 			
-	        $(this).find("option:selected").each(function(i, v){
-	          $("<input>").attr({
-	        	    type: "hidden",
-	        	    name: "attributesForForm["+i+"]",
-	        	    value: $(v).val()
-	        	}).appendTo("#productAttributesIc");								    		 		            
-	        });     		 			
-	
+        $(this).find("option:selected:not(:disabled)").each(function(i, v){
+          $("<input>").attr({
+        	    type: "hidden",
+        	    name: "attributesForForm["+i+"]",
+        	    value: $(v).val()
+        	}).appendTo("#productAttributesIc");								    		 		            
+        });     		 			
      });
      //Открытие окна удаления
      $("body").on("click", ".open-deleteDialog", function () {
@@ -38,12 +37,6 @@ $(function(){
                 $("#name").focus();
            });
      });
-     $("body").on("mouseenter", ".mightOverflow", function() { 
-       	 var $t = $(this); 
-    	 var title = $t.attr("title");
-    	 if (!title){ if (this.offsetWidth < this.scrollWidth) $t.attr("title", $t.text()) } 
-    	 else { if (this.offsetWidth >= this.scrollWidth && title == $t.text()) $t.removeAttr("title")}
-	 });
 	 $("body").on("click", ".checkCategory", function() {
 	 	 var checkId = $("#categoryDataTable").data("checkid");
 		 var thisId = $(this).attr("value");

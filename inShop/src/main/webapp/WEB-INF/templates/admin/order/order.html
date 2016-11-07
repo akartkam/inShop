@@ -343,12 +343,6 @@
 	    			$("#subTotal").html($subTotal.toFixed(2));
 	    			$("#total").html($total.toFixed(2));
 	    		}
-  		        $(document).on("mouseenter", ".mightOverflow", function() { 
-  		        	var $t = $(this); 
-  		        	var title = $t.attr("title");
-  		        	if (!title){ if (this.offsetWidth < this.scrollWidth) $t.attr("title", $t.text()) } 
-  		        	else { if (this.offsetWidth >= this.scrollWidth && title == $t.text()) $t.removeAttr("title")}});	
-
 		   // ]]>
 	     </script>
 	     <th:block layout:fragment="scriptEditModal">

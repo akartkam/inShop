@@ -25,8 +25,6 @@
 	    	<link href="../../../../resources/css/lib/bootstrap-theme.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/lib/bootstrap-theme.min.css}"/>
 			<!-- summernote -->
 			<link href="../../../../resources/css/lib/summernote.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/lib/summernote.css}"></link>
-			<!-- admin-style.css -->
-    		<link href="../../../../resources/css/admin/admin-style.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/admin/admin-style.css}"/>
 	    	<!-- bootstrap-select -->
 			<link href="../../../../resources/css/lib/bootstrap-select.min.css" rel="stylesheet" th:href="@{/resources/css/lib/bootstrap-select.min.css}"/>
 	    	<!-- bootstrap-datetimepicker -->
@@ -37,21 +35,6 @@
 				    height:100vh; /* This is needed to overcome a Chrome bug. */
 				    width:100vw;  /* As above. */
 				}
-			 	table { table-layout: fixed; }
- 				/*table th, table td { overflow: hidden; }*/
-				td.domain-col {
-				    overflow: hidden;
-				    text-overflow: ellipsis;
-				    white-space: nowrap;
-				 }
-				tfoot {
-				    display: table-header-group;
-				}
-				tfoot input {
-			        width: 100%;
-			        padding: 3px;
-			        box-sizing: border-box;			        
-			    } 
 			    textarea:required:invalid, input:required:invalid {
 			            background-color: lightyellow;
 			    }		
@@ -176,8 +159,8 @@
 							            <td class="text-center">						
 										    <input class="checkCategory" type="checkbox" th:id="${'check-'+pr.id}" th:value="${pr.id}"/>
 									    </td>
-										<td class="mightOverflow domain-col">
-										      <div class="a-photo-out">
+										<td>
+										    <div class="a-photo-out mightOverflow domain-col" th:attr="data-title=${pr.defaultSku.name + (!#strings.isEmpty(pr.defaultSku.code)? '('+pr.defaultSku.code+')':'')}">
                                                <span class="photo-block">
                                                  <span class="helper"></span>
                                                  <img th:src="@{${!#lists.isEmpty(pr.getDefaultSku().getImages())? pr.getDefaultSku().getImages()[0]: ''}}"  th:onerror="'this.src=\'' + @{/resources/img/noimage.png} + '\';'"/>

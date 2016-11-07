@@ -282,12 +282,6 @@
 		    	     $("#delete-modal-footer #ID").val(Id);
 		    	     $("#delete-modal-body #prName").html(prName);
 		    	});    	    
-  		        $(document).on("mouseenter", ".mightOverflow", function() { 
-  		        	var $t = $(this); 
-  		        	var title = $t.attr("title");
-  		        	if (!title){ if (this.offsetWidth < this.scrollWidth) $t.attr("title", $t.text()) } 
-  		        	else { if (this.offsetWidth >= this.scrollWidth && title == $t.text()) $t.removeAttr("title")}});	
-
 		   // ]]>
 	     </script>
 	     <!-- <th:block layout:include="/admin/catalog/attributeCategoryEdit :: scriptEditModal"> -->

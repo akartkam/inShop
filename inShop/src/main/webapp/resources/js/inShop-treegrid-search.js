@@ -3,9 +3,9 @@
  * 
  */
 	 function clearSearchableDataTable() {
+		$(".searchableDataTable span.for-search").closest('td').css("background", "");
 	    $(".searchableDataTable span.for-search:has(mark)").each(function () {
 	        var col = $($(this)[0]);
-	        col.css("background", "");
 	        col.html(col.html().replace("<mark>", ""));
 	        col.html(col.html().replace("</mark>", ""));
 	    });

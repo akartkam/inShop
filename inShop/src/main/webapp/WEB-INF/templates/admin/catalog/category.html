@@ -33,13 +33,7 @@
 			    height:100vh; /* This is needed to overcome a Chrome bug. */
 			    width:100vw;  /* As above. */
 			}
-		 	table { table-layout: fixed; }
-				table th, table td { overflow: hidden; }
-			td.domain-col {
-			    overflow: hidden;
-			    text-overflow: ellipsis;
-			    white-space: nowrap;
-			 }
+			table th, table td { overflow: hidden; }
 		</style>
 	</head>
 <body>
@@ -122,10 +116,10 @@
 					        <thead >
 						      <tr >
 						         <th class="col-md-1"> </th>
-					             <th class="col-md-3" th:text="#{admin.catalog.category.name}">Name</th>
+					             <th class="col-md-4" th:text="#{admin.catalog.category.name}">Name</th>
 					             <th class="col-md-2" th:text="#{admin.catalog.category.description}">Description</th>
 					             <th class="col-md-2" th:text="#{admin.catalog.category.url}">URL</th>
-					             <th class="col-md-2" th:text="#{admin.catalog.category.order}">Order</th>
+					             <th class="col-md-1" th:text="#{admin.catalog.category.order}">Order</th>
 					             <th class="col-md-1 text-center" th:text="#{admin.catalog.category.enabled}">Enabled?</th>
 					             <th class="col-md-1" th:text="#{admin.catalog.category.actions}">Actions</th>
 					  	      </tr>
