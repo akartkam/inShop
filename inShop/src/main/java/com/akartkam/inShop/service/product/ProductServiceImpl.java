@@ -264,7 +264,7 @@ public class ProductServiceImpl implements ProductService {
 	@Transactional(readOnly = false)
 	public void mergeWithExistingAndUpdateOrCreate(final ProductForm productFromPost, Errors errors) {
 		if (productFromPost == null) return;
-		productFromPost.buildFullLink(productFromPost.getUrlForForm());
+		if (!errors.hasFieldErrors("category")) productFromPost.buildFullLink(productFromPost.getUrlForForm());
 		if (!checkProduct(productFromPost, errors)) return;
 		final Product existingProduct = getProductById(productFromPost.getId());
 		if (existingProduct != null) {
@@ -358,9 +358,11 @@ public class ProductServiceImpl implements ProductService {
 						   new String[]{messageSource.getMessage("admin.catalog.product.inventoryType",null, Locale.getDefault())}, null);
 				}
 			}
-			Product exProduct = getProductByUrl(productFromPost.getUrl());
-			if (!errors.hasFieldErrors("urlForForm") && exProduct != null && !exProduct.getId().equals(productFromPost.getId())) {
-				errors.rejectValue("urlForForm", "error.duplicate");				
+			if (productFromPost.getUrl() != null && "".equals(productFromPost.getUrl())) {
+				Product exProduct = getProductByUrl(productFromPost.getUrl());
+				if (!errors.hasFieldErrors("urlForForm") && exProduct != null && !exProduct.getId().equals(productFromPost.getId())) {
+					errors.rejectValue("urlForForm", "error.duplicate");				
+				}				
 			}
 		}
 		return !errors.hasErrors();
