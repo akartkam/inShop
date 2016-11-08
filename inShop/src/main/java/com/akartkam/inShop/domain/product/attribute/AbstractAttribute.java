@@ -66,7 +66,8 @@ public abstract class AbstractAttribute extends AbstractDomainObjectOrdering {
 	@Transient
 	public abstract AttributeType getAttributeType();
 	
-	@OneToMany(mappedBy="attribute")
+	@OneToMany(mappedBy="attribute", cascade = CascadeType.ALL)
+	@Cascade(org.hibernate.annotations.CascadeType.ALL)
 	public List<AbstractAttributeValue> getAttributeValues() {
 		return attributeValues;
 	}	
@@ -86,8 +87,7 @@ public abstract class AbstractAttribute extends AbstractDomainObjectOrdering {
 		this.attributeCategory = attributeCategory;
 	}	
 
-	@ManyToMany(mappedBy = "attributes", cascade = CascadeType.ALL)
-	@Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
+	@ManyToMany(mappedBy = "attributes")
 	public Set<Category> getCategory() {
 		return category;
 	}
@@ -121,10 +121,15 @@ public abstract class AbstractAttribute extends AbstractDomainObjectOrdering {
 		return attribute;
 	}	
 	
+	@Transient
+	public boolean hasAttributeValues(){
+		return !getAttributeValues().isEmpty();
+	}
+	
 	@Override
 	@Transient
 	public boolean canRemove() {
-		return (attributeValues.isEmpty() && category.isEmpty());
+		return (!hasAttributeValues() && category.isEmpty());
 	}
 	
 }

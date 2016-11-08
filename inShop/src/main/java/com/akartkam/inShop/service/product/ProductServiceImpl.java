@@ -304,7 +304,11 @@ public class ProductServiceImpl implements ProductService {
 				AbstractAttributeValue av = avi.next();
 				int idx = lavfp.indexOf(av);
 				if (lavfp.contains(av)) {
-					av.setValue(lavfp.get(idx).getValue());
+					if (lavfp.get(idx).getValue() == null || "".equals(lavfp.get(idx).getValue())) {
+						avi.remove();
+					} else {
+						av.setValue(lavfp.get(idx).getValue());						
+					}
 					lavfp.remove(idx);
 				} else {
 					avi.remove();

@@ -215,7 +215,7 @@ public class AdminProductController {
 								LOG.error(e);
 							}
 			            setValue(av);
-			    	}			    
+			    	}
 			    }
 			    });	
 			binder.registerCustomEditor(AbstractAttribute.class,"attributeValues.attribute", new PropertyEditorSupport() {

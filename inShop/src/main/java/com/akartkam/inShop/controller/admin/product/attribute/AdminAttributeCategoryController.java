@@ -6,6 +6,7 @@ import java.beans.PropertyEditorSupport;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 import java.util.UUID;
 
@@ -14,6 +15,7 @@ import javax.validation.Valid;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -41,6 +43,9 @@ public class AdminAttributeCategoryController {
 	
 	  @Autowired
 	  AttributeCategoryService attributeCategoryService;
+	  
+	  @Autowired
+	  private MessageSource messageSource;
 	  
 	  @SuppressWarnings("rawtypes")
 	  @ModelAttribute("allAttributeCategoriesHierarchy")
@@ -185,7 +190,9 @@ public class AdminAttributeCategoryController {
 			  if(category.canRemove() && authorities.contains(new SimpleGrantedAuthority("ADMIN"))) {
 				  attributeCategoryService.deleteAttributeCategory(category);   
 			  } else {
-				  ra.addFlashAttribute("errormessage", "Нельзя удалить категорию. Имеются ссылки на другие сущности, либо недостаточно прав.");
+				  ra.addFlashAttribute("errormessage", this.messageSource.getMessage("admin.error.cannotdelete.message", 
+				            new String[] {messageSource.getMessage("admin.attribute.attribute", null, Locale.getDefault())} , null));
+
 				  ra.addAttribute("error", true);
 			  }
 		  } else {
@@ -200,11 +207,13 @@ public class AdminAttributeCategoryController {
 			  						final RedirectAttributes ra) {
 		  Collection<? extends GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
 		  if (phisycalDelete != null && phisycalDelete)  { 
-			  AbstractAttribute attribute = attributeCategoryService.loadAttributeById(UUID.fromString(ID), false);
+			  AbstractAttribute attribute = attributeCategoryService.getAttributeById(UUID.fromString(ID));
 			  if (attribute.canRemove() && authorities.contains(new SimpleGrantedAuthority("ADMIN"))){
 				  attributeCategoryService.deleteAttribute(attribute); 
 			  } else {
-				  ra.addFlashAttribute("errormessage", "Нельзя удалить атрибут. Имеются ссылки на другие сущности, либо недостаточно прав.");
+				  ra.addFlashAttribute("errormessage", this.messageSource.getMessage("admin.error.cannotdelete.message", 
+				            new String[] {messageSource.getMessage("admin.attribute.attribute", null, Locale.getDefault())} , null));
+
 				  ra.addAttribute("error", true);
 			  }
 		  } else {

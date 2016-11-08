@@ -3,6 +3,7 @@ package com.akartkam.inShop.domain.product.attribute;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
@@ -14,6 +15,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.ForeignKey;
 
 import com.akartkam.inShop.domain.AbstractDomainObject;
@@ -77,6 +79,12 @@ public abstract class AbstractAttributeValue<T extends Serializable> extends Abs
 
 	public void setProduct(Product product) {
 		this.product = product;
+	}
+	
+	@Override
+	@Transient
+	public boolean canRemove() {
+		return (product == null);
 	}
 
 

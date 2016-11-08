@@ -65,7 +65,7 @@ public class AdminCategoryController {
 	      return attributeCategoryService.getAllAttributeCategory();
 	  }
  
-	  /*@ModelAttribute("allAttributes")
+	  @ModelAttribute("allAttributes")
 	  public List<AbstractAttribute> getAllAttributes(@RequestParam(value = "categoryID", required = false) String categoryID) {
 		  List<AbstractAttribute> al = new ArrayList<AbstractAttribute>(0);
           if (categoryID == null || "".equals(categoryID)) return al;
@@ -73,8 +73,8 @@ public class AdminCategoryController {
     	  if (category != null) al = category.getAllAttributes(null, true);
 	      return al;
 	  }
-	 */
-	 /* @ModelAttribute("selfAttributes")
+	 
+	  @ModelAttribute("selfAttributes")
 	  public List<AbstractAttribute> getSelfAttributes(@RequestParam(value = "categoryID", required = false) String categoryID) {
 		  List<AbstractAttribute> al = new ArrayList<AbstractAttribute>(0);
           if (categoryID == null || "".equals(categoryID)) return al;
@@ -82,8 +82,7 @@ public class AdminCategoryController {
     	  if (category != null) al = new ArrayList<AbstractAttribute>(category.getAttributes()); 
 	      return al;
 	  }
-	 */
-	  
+	 
 	  @InitBinder
 	  public void initBinder(WebDataBinder binder) {
 			binder.setAllowedFields(new String[] { "id", "name", "parent", "urlForForm", 

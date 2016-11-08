@@ -167,7 +167,7 @@
                                                </span>
 										       <span th:text="${pr.defaultSku.name}">name</span>
 										       <br/>
-										       <span style="font-size: 9pt;" th:text="#{admin.catalog.product.articul}+': '+${pr.defaultSku.code}">code</span>
+										       <span style="font-size: 9pt;" th:if="${!#lists.isEmpty(pr.skuCodes)}" th:text="#{admin.catalog.product.articul}+': '+${#strings.listJoin(pr.skuCodes,', ') }">code</span>
 										    </div> 										
 										</td>
 										<td class="mightOverflow domain-col"><span th:text="${pr.category!=null? pr.category.name: ''}">Category Category Category Category Category Category Category</span></td>

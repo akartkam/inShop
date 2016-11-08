@@ -212,7 +212,17 @@ public class Product extends AbstractDomainObjectOrdering {
         StringBuilder linkBuffer = new StringBuilder(50);
         linkBuffer.append(this.getCategory().getUrl()).append("/").append(shortUrl);
         setUrl(linkBuffer.toString());		
-	}    
+	} 
+	
+	@Transient
+	public List<String> getSkuCodes() {
+		List<String> ret = new ArrayList<String>();
+		if (getDefaultSku().getCode() != null && !"".equals(getDefaultSku().getCode())) ret.add(getDefaultSku().getCode());
+		for(Sku sku : getSkus()) {
+			if (sku.getCode() != null && !"".equals(sku.getCode())) ret.add(sku.getCode());
+		}
+		return ret;
+	}
     
 	@Override
 	@Transient
