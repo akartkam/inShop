@@ -51,7 +51,6 @@ public abstract class AbstractAttribute extends AbstractDomainObjectOrdering {
 	protected List<AbstractAttributeValue> attributeValues = new ArrayList<AbstractAttributeValue>(0);
 
 	
-	
 	@NotNull
 	@Size(min = 1, max = 50)
 	@Column(name = "name", unique=true, nullable=false)

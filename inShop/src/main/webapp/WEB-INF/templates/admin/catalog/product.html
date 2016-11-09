@@ -41,7 +41,9 @@
 				.table-responsive {
 				  overflow-x: visible !important;
 				  overflow-y: visible !important;
-				}			    	    
+				}	
+  				.zoomContainer{ z-index: 9999;}
+				.zoomWindow{ z-index: 9999;}
 			</style>			
 	</head>
 <body>
@@ -160,7 +162,7 @@
 										    <input class="checkCategory" type="checkbox" th:id="${'check-'+pr.id}" th:value="${pr.id}"/>
 									    </td>
 										<td>
-										    <div class="a-photo-out mightOverflow domain-col" th:attr="data-title=${pr.defaultSku.name + (!#strings.isEmpty(pr.defaultSku.code)? '('+pr.defaultSku.code+')':'')}">
+										    <div class="a-photo-out mightOverflow domain-col" th:attr="data-title=${pr.defaultSku.name + (!#strings.isEmpty(pr.skuCodes)? '('+#strings.listJoin(pr.skuCodes,', ')+')':'')}">
                                                <span class="photo-block">
                                                  <span class="helper"></span>
                                                  <img th:src="@{${!#lists.isEmpty(pr.getDefaultSku().getImages())? pr.getDefaultSku().getImages()[0]: ''}}"  th:onerror="'this.src=\'' + @{/resources/img/noimage.png} + '\';'"/>

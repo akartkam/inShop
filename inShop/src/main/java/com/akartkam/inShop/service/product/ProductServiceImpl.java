@@ -307,7 +307,8 @@ public class ProductServiceImpl implements ProductService {
 					if (lavfp.get(idx).getValue() == null || "".equals(lavfp.get(idx).getValue())) {
 						avi.remove();
 					} else {
-						av.setValue(lavfp.get(idx).getValue());						
+						av.setValue(lavfp.get(idx).getValue());
+						if (av.getCategory() == null) av.setCategory(existingProduct.getCategory());
 					}
 					lavfp.remove(idx);
 				} else {
@@ -340,6 +341,9 @@ public class ProductServiceImpl implements ProductService {
 			productFromPost.setProductStatusFromList();
 			productFromPost.setProductOptionFromList();
 			productFromPost.buildFullLink(productFromPost.getUrlForForm());
+			for(AbstractAttributeValue av : productFromPost.getAttributeValues()) {
+				av.setCategory(productFromPost.getCategory());
+			}
 			Product product = new Product();
 			Sku sku = new Sku();
 			BeanUtilsBean bu = new NullAwareBeanUtilsBean();

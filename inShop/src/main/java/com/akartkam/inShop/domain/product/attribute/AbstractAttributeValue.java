@@ -19,6 +19,7 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.ForeignKey;
 
 import com.akartkam.inShop.domain.AbstractDomainObject;
+import com.akartkam.inShop.domain.product.Category;
 import com.akartkam.inShop.domain.product.Product;
 
 @Entity
@@ -34,6 +35,7 @@ public abstract class AbstractAttributeValue<T extends Serializable> extends Abs
 	 */
 	private static final long serialVersionUID = -6088345502855127691L;
 	protected AbstractAttribute attribute;
+	protected Category category;
 	protected Product product;
 	protected T attributeValue;
 	
@@ -61,7 +63,7 @@ public abstract class AbstractAttributeValue<T extends Serializable> extends Abs
 	
 	@ManyToOne
 	@JoinColumn(nullable = false)
-	@ForeignKey(name = "fk_attribute_id")
+	@ForeignKey(name = "fk_attributevalue_attribute_id")
 	public AbstractAttribute getAttribute() {
 		return attribute;
 	}
@@ -72,7 +74,7 @@ public abstract class AbstractAttributeValue<T extends Serializable> extends Abs
 	
 	@ManyToOne
 	@JoinColumn(nullable=false)
-	@ForeignKey(name = "fk_product_id")
+	@ForeignKey(name = "fk_attributevalue_product_id")
 	public Product getProduct() {
 		return product;
 	}
@@ -81,6 +83,16 @@ public abstract class AbstractAttributeValue<T extends Serializable> extends Abs
 		this.product = product;
 	}
 	
+	@ManyToOne
+	@ForeignKey(name = "fk_attributevalue_category_id")
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
+	}
+
 	@Override
 	@Transient
 	public boolean canRemove() {

@@ -332,9 +332,16 @@ public class Category extends AbstractDomainObjectOrdering {
 		return category;
 	}
 	
+	
+	@Transient
+	public boolean hasAttributes() {
+		return !getAttributes().isEmpty();
+	}
+	
+	@Transient
 	@Override
 	public boolean canRemove() {
-		return (!hasSubCategory() && attributes.isEmpty() && products.isEmpty());
+		return (!hasSubCategory() && !hasAttributes() && products.isEmpty());
 	}
 	
 }

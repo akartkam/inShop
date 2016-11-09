@@ -8,15 +8,19 @@ import java.util.UUID;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.Transformer;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Errors;
 
+import com.akartkam.inShop.controller.admin.product.AdminProductController;
 import com.akartkam.inShop.dao.product.attribute.AttributeCategoryDAO;
 import com.akartkam.inShop.dao.product.attribute.AttributeDAO;
 import com.akartkam.inShop.dao.product.attribute.AttributeValueDAO;
+import com.akartkam.inShop.domain.product.Category;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttributeValue;
 import com.akartkam.inShop.domain.product.attribute.AttributeCategory;
@@ -29,6 +33,8 @@ import com.akartkam.inShop.formbean.AttributeForm;
 @Service("AttributeCategoryService")
 @Transactional(readOnly = true)
 public class AttributeCategoryServiceImpl implements AttributeCategoryService {
+	
+	private static final Log LOG = LogFactory.getLog(AttributeCategoryServiceImpl.class);
 	
 	@Autowired
 	private AttributeCategoryDAO attributeCategoryDAO;
@@ -281,6 +287,13 @@ public class AttributeCategoryServiceImpl implements AttributeCategoryService {
 	@Override
 	public AbstractAttributeValue getAttributeValueById(UUID id) {
 		return attributeValueDAO.get(id);
+	}
+
+	@Override
+	public boolean isExistsAttributeValue(Category category) {
+		if (category == null) return false;
+		LOG.info("Check for existance attribute values of category <"+category.getName()+">");
+		return attributeValueDAO.isExistsAttributeValues(category);
 	}
 	
 	

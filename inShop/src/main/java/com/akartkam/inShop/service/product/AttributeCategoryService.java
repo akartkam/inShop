@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import org.springframework.validation.Errors;
 
+import com.akartkam.inShop.domain.product.Category;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttributeValue;
 import com.akartkam.inShop.domain.product.attribute.AttributeCategory;
@@ -38,5 +39,5 @@ public interface AttributeCategoryService {
 	AbstractAttribute getAttributeByIdForForm(UUID id);
 	AttributeCategory cloneAttributeCategoryById(UUID id) throws CloneNotSupportedException;
 	AbstractAttribute cloneAttributeById(UUID id) throws CloneNotSupportedException;
-	
+	boolean isExistsAttributeValue(Category category);
 }

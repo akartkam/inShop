@@ -12,6 +12,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import com.akartkam.inShop.dao.product.CategoryDAO;
 import com.akartkam.inShop.dao.product.ProductDAO;
@@ -119,6 +120,19 @@ public class CategoryServiceImpl implements CategoryService {
 	        existingCategory.setOrdering(categoryFromPost.getOrdering());
 	        existingCategory.setEnabled(categoryFromPost.isEnabled());
 		} else {
+			//remove attributes of parent categories from this category (because parent attrs nested)
+			Category parentCategory = categoryFromPost.getParent();
+			//categoryDAO.refresh(parentCategory);
+			if (parentCategory != null) {
+				List<AbstractAttribute> allParentAttr = parentCategory.getAllAttributes(true);
+				Iterator<AbstractAttribute> ati = categoryFromPost.getAttributesForForm().iterator();
+				while(ati.hasNext()){
+					AbstractAttribute at = ati.next();
+					if (allParentAttr.contains(at)) {
+						ati.remove();
+					}
+				}
+			}
 	        for (AbstractAttribute attr : categoryFromPost.getAttributesForForm()) {
 	        	categoryFromPost.addAttribute(attr);
 	        }

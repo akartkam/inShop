@@ -26,7 +26,12 @@
 			<!-- admin-style.css -->
     		<link href="../../../../resources/css/admin/admin-style.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/admin/admin-style.css}"/>
 	    	<!-- bootstrap-datetimepicker -->
-  			<link href="../../../../resources/css/lib/bootstrap-datetimepicker.min.css" rel="stylesheet" th:href="@{/resources/css/lib/bootstrap-datetimepicker.min.css}"/>			      			    	
+  			<link href="../../../../resources/css/lib/bootstrap-datetimepicker.min.css" rel="stylesheet" th:href="@{/resources/css/lib/bootstrap-datetimepicker.min.css}"/>
+  			<style type="text/css">	
+  				.zoomContainer{ z-index: 9999;}
+				.zoomWindow{ z-index: 9999;}
+  			</style>
+  			
 	    </th:block>
 	</head>
 <body>
@@ -290,7 +295,7 @@
 													  <div class="media-left media-middle">
 													    <div class="photo-block"> 
 							                                <span class="helper"></span>
-							                                <img id="image" src="../../../../resources/img/logo/asus.png" style="width: 100px;"
+							                                <img class="zoomed-image" src="../../../../resources/img/logo/asus.png" style="width: 100px;"
 							                                     th:src="@{${{image!=null}? image: '/resources/img/noimage.png'}}" th:onerror="'this.src=\'' + @{/resources/img/noimage.png} + '\';'"/>
 						                                </div> 
 						                              </div>
@@ -416,14 +421,15 @@
 	   <!-- Bootstrap bootstrap-wysiwyg.js -->
 	   <script src="../../../../resources/js/lib/summernote.js" th:src="@{/resources/js/lib/summernote.js}"></script>
 	   <script src="../../../../resources/js/lib/summernote-ru-RU.js" th:src="@{/resources/js/lib/summernote-ru-RU.js}"></script> 
-	    <!-- bootstrap-select -->
+	   <!-- bootstrap-select -->
 	   <script src="../../../../resources/js/lib/bootstrap-select.min.js" th:src="@{/resources/js/lib/bootstrap-select.min.js}"></script>
 	   <script src="../../../../resources/js/lib/defaults-ru_RU.js" th:src="@{/resources/js/lib/defaults-ru_RU.js}"></script>
-	    <!-- moment -->		  
+	   <!-- moment -->		  
 	   <script src="../../../../resources/js/lib/moment-with-locales.min.js" th:src="@{/resources/js/lib/moment-with-locales.min.js}"></script>
-	    <!-- bootstrap-datetimepicker -->		  
+	   <!-- bootstrap-datetimepicker -->		  
 	   <script src="../../../../resources/js/lib/bootstrap-datetimepicker.min.js" th:src="@{/resources/js/lib/bootstrap-datetimepicker.min.js}"></script>					 	
-	   
+	   <!-- jquery.elevateZoom-3.0.8.min.js -->
+	   <script src="../../../../resources/js/lib/jquery.elevateZoom-3.0.8.min.js" th:src="@{/resources/js/lib/jquery.elevateZoom-3.0.8.min.js}"></script>					 	
     </th:block>
   	<th:block layout:fragment="scriptEditModal"> 
    	   <script type="text/javascript">
@@ -440,6 +446,7 @@
                $(".datetimepicker").datetimepicker({
                    locale: "ru"
                });
+               $(".zoomed-image").elevateZoom();
                $("#name").focus();
 	     });
  		 // ]]>
