@@ -156,7 +156,7 @@ $(function(){
                     $(".datetimepicker").datetimepicker({
                         locale: "ru"
                     });
-                    $(".zoomed-image").elevateZoom();
+                    $(".zoomed-image").elevateZoom({cursor: "crosshair", zoomType: "lens"});
                     //$('#active-start-date').data("DateTimePicker").date($("active-start-date-input").val());
                     $("#name").focus();
           });
