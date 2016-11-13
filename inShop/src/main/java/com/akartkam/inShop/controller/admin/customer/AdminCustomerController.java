@@ -1,4 +1,4 @@
-package com.akartkam.inShop.controller.customer;
+package com.akartkam.inShop.controller.admin.customer;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 

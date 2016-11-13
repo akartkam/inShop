@@ -20,12 +20,22 @@
  	<view-controller path="/login" view-name="authentication/login" />
     <view-controller path="/" view-name="forward:/home.html" />
     <view-controller path="/index.html"/>
-    <view-controller path="/home.html" />
+<!--     <view-controller path="/home.html" /> -->
     <view-controller path="/favicon.png" view-name="forward:/resources/img/favicon.png" />
 
 
 	<resources mapping="/resources/**" location="/resources/" />
 	<resources mapping="#{appProperties['inShop.imagesUrl']}**" location="file:///#{appProperties['inShop.imagesPath']}" />
+ 
+     <beans:bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+        <beans:property name="order" value="-10" />
+        <beans:property name="mappings">
+            <beans:props>
+                <beans:prop key="/">homeController</beans:prop>
+                <beans:prop key="/home">homeController</beans:prop>
+            </beans:props>
+        </beans:property>
+    </beans:bean>
     
     <beans:bean id="templateResolver"
         class="org.thymeleaf.templateresolver.ServletContextTemplateResolver">

@@ -1,34 +1,60 @@
-<div class="header-area"> 
-    <div class="container">
-        <div class="row">
-            <div class="col-md-8">
-                <div class="user-menu">
-                    <ul>
-                        <li><a href="#"><i class="fa fa-user"></i>О компании</a></li>
-                        <li><a href="#"><i class="fa fa-heart"></i>Покупателям</a></li>
-                        <li><a href="cart.html"><i class="fa fa-user"></i>Корзина</a></li>
-                    </ul>
+<header>
+	<div class="header-area"> 
+	    <div class="container">
+	        <div class="row">
+	            <div class="col-md-8">
+	                <div class="user-menu">
+	                    <ul>
+	                        <li><a href="#"><i class="fa fa-user"></i>О компании</a></li>
+	                        <li><a href="#"><i class="fa fa-heart"></i>Покупателям</a></li>
+	                        <li><a href="cart.html"><i class="fa fa-user"></i>Корзина</a></li>
+	                    </ul>
+	                </div>
+	            </div>
+	            <div class="col-md-4">
+	            </div>
+	        </div>
+	    </div>
+	</div> <!-- End header area -->
+	<div class="site-branding-area">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-2">
+                    <div class="logo">
+                        <h1><a href="./"><img src="../../../../resources/img/forpost_logo.png" th:src="@{/images/common/forpost_logo.png}"/></a></h1>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+					<div class="company-phones">
+						<span class="glyphicon glyphicon-earphone" aria-hidden="true"></span>
+						<span>8(831) 217-09-97</span><br/>
+						<span>8(831) 217-09-98</span>
+					</div>						
+					<div class="phone-callback">
+						<a href="#">Заказать звонок</a>
+					</div>
+				</div>                
+                <div class="col-sm-2">
+					<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+					<div class="">
+						<span>г.Нижний Новгород,</span> 
+						<span>ул.Нартова, д.6, 603104</span>
+						<span>E-mail:forpost1998@mail.ru</span>
+					</div>						
+                </div>                
+                <div class="col-sm-4">
+						<div class="form-group input-group ">
+							<input type="text" style="width: 100%" placeholder="Поиск товара..."/>
+							<div class="input-group-btn search-button">
+								<button  class="btn btn-outline btn-primary" ><i class="fa fa-search"></i></button>
+							</div>
+						</div>                        
+                </div>
+                <div class="col-sm-2">
+                    <div class="shopping-item">
+                        <a href="cart.html">Корзина - <span class="cart-amunt">250 р.</span> <i class="fa fa-shopping-cart"></i> <span class="product-count">2</span></a>
+                    </div>
                 </div>
             </div>
-            <div class="col-md-4">
-            </div>
-        </div>
-    </div>
-</div> <!-- End header area -->
-<div class="site-branding-area">
-    <div class="container clearfix">
-        <div class="row">
-            <div class="col-sm-6">
-                <div class="logo">
-                    <h1><a href="./"><img src="img/logo.png"></a></h1>
-                </div>
-            </div>
-            
-            <div class="col-sm-6">
-                <div class="shopping-item">
-                    <a href="cart.html">Cart - <span class="cart-amunt">$100</span> <i class="fa fa-shopping-cart"></i> <span class="product-count">5</span></a>
-                </div>
-            </div>
-        </div>
-    </div>
-</div> <!-- End site branding area -->
+        </div>	</div> <!-- End site branding area -->
+</header>
