@@ -23,17 +23,46 @@
 	}
 }
 
+.vertical-align {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.vertical-align > [class^="col-"],
+.vertical-align > [class*=" col-"] {
+  display: flex;
+  align-items: center;
+  justify-content: center; 
+}
+
+
+.search-button {
+    background: none repeat scroll 0 0 #fff;
+    border: 1px solid #ddd;
+    color: #666;
+    padding: 10px 20px;
+    text-transform: uppercase;
+}
+
+.search-button:hover {
+    background: none repeat scroll 0 0 #5a88ca;
+    border-color: #5a88ca;
+    color: #fff;
+    text-decoration: none;	
+}
+
 .company-phones{
-    font: bold 18px Arial;
+    font-size: 14px;
     color: #5a88ca;
 }
 
-.company-phones  > .glyphicon{
-   float: left;
-   padding-right: 15px;   
+.company-address{
+    font-size: 14px;
+    color: #5a88ca;
 }
 
-.phone-callback a{
+.header-callback a{
 	font-size: 12px;
     color: #fead53 !important;
     text-decoration: underline;
@@ -87,7 +116,7 @@ h6 {
     margin: 0 0 15px;
 }
 body { font-family:Arial, Helvetica, sans-serif; }
-
+/*body { font-family: Open Sans, Arial, Helvetica, Ubuntu, sans-serif;}*/
 
 
 .header-area {
@@ -134,9 +163,10 @@ body { font-family:Arial, Helvetica, sans-serif; }
 }
 
 .mainmenu-area {
-	background: none repeat scroll 0 0 #fbfbfb; 
+	/*background: none repeat scroll 0 0 #fbfbfb; */
+	background: none repeat scroll 0 0 #f4f4f4;
 	font-family: Arial, Helvetica, sans-serif;
-	text-transform: capitalize;
+	text-transform: uppercase;
 	width: 100%;
 	z-index: 999;
 }
@@ -144,7 +174,7 @@ body { font-family:Arial, Helvetica, sans-serif; }
 .sidemenu-area {
 	background: none repeat scroll 0 0 #fbfbfb; 
 	font-family: Arial, Helvetica, sans-serif;
-	text-transform: capitalize;
+	text-transform: uppercase;
 	width: 100%;
 	z-index: 999;	
 }
@@ -164,8 +194,7 @@ body { font-family:Arial, Helvetica, sans-serif; }
 .shopping-item {
     border: 1px solid #ddd;
     float: right;
-    font-size: 16px;
-    margin-top: 24px;
+    font-size: 14px;
     padding: 10px;
     position: relative;
 }
