@@ -16,8 +16,16 @@
 	  <ul class="nav navbar-nav navbar-right sm-vertical" th:if="${not #lists.isEmpty(rootCategorys)}">
 	  	<li th:each="rootCategory : ${rootCategorys}">
             <a th:href="@{${rootCategory.url}}" >
-                <span th:utext="${rootCategory.name}"></span>
-            </a>	  	
+                <span th:utext="${rootCategory.name}"></span><!--  
+                --><span th:if="${rootCategory.hasSubCategory()}" class="caret-right"></span>
+            </a>
+            <ul th:if="${rootCategory.hasSubCategory()}" class="dropdown-menu">
+            	<li th:each="subCategory : ${rootCategory.getSubCategory()}">
+            	   <a th:href="@{${subCategory.url}}" >
+                     <span th:utext="${subCategory.name}"></span>
+                   </a>
+            	</li>
+            </ul>
 	  	</li>
 	  	<th:block th:remove="all">
 			<li><a href="#">One</a></li>

@@ -81,10 +81,12 @@
 
 .navbar-sidebar-title {
     color: #fead53;
-    font-size: 25px;
+    font-size: 12pt;
     margin-bottom: 5px;
     margin-top: 5px;
-    text-align: center;
+    margin-left: 10px;
+    text-align: left;
+    text-decoration: underline;
 }
 
 .floatleft { float: left }
