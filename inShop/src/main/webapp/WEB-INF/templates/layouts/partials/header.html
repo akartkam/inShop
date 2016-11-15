@@ -48,12 +48,10 @@
                 </div>                
                 <div class="col-sm-4">
 			    <!--style="position: relative; transform: translateY(50%);"-->
-						<div class="input-group">
-							<input type="text" style="width: 100%" placeholder="Поиск товара..."/>
-							<div class="input-group-btn ">
-								<button type="button" class="search-button btn btn-default" ><i class="fa fa-search"></i></button>
-							</div>
-						</div>                        
+                      <form style="white-space: nowrap;" id="product-search" action="#" th:action="@{/product-search}" method="GET">
+                          	<input type="text" style="width: 100%" placeholder="Поиск товара..."/>
+                          	<button type="submit" style="overflow: hidden;"><i class="fa fa-search"></i></button>
+                      </form>			    
                 </div>
                 <div class="col-sm-2" style="justify-content: flex-end;">
                     <div class="shopping-item">

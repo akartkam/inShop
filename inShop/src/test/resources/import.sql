@@ -91,7 +91,11 @@ INSERT INTO sku(
             description, inventory_type, long_description, name, retail_price, 
             sale_price, product_id, quantity_avable)
     VALUES ('de203b2a-8f93-4094-a103-033b2186e32d','akartkam',current_timestamp,TRUE,'akartkam',current_timestamp,6,0,null,null,'189076-99',1690.00000,'Отличное предложение для любителей хорошего звука',null,'<p>Мониторные наушники Panasonic RP-HX550 – это идеальное звучание и невероятно стильный дизайн. Модель выполнена в трех вариантах расцветок: помимо классического черного, это элегантный белый и изысканный золотой. Обратите внимание: провод сделан в той же цветовой гамме, что и наушники, что придает Panasonic RP-HX550 еще более привлекательный вид.</p><p>В конструкции использованы вставки из настоящего метала, поэтому наушники RP-HX550 – не только красивые, но и прочные. Мягкое оголовье легко регулируется по размеру головы, провод оптимальной длины в 1,2 метра крепится только к одной, левой чашечке, что создает дополнительные удобства при прослушивании музыки. Частотный диапазон 8-26(Гц – кГц) и размер динамиков 40 мм – залог чистого и мощного звука.</p>','Panasonic RP-HX550',4190.00000,3190.00000,null,null);
-    
+
+INSERT INTO lnk_product_status(sku_id, pstatus) VALUES ('de203b2a-8f93-4094-a103-033b2186e32d', 'NEW');    
+INSERT INTO lnk_product_status(sku_id, pstatus) VALUES ('de203b2a-8f93-4094-a103-033b2186e32d', 'HIT');    
+INSERT INTO lnk_product_status(sku_id, pstatus) VALUES ('4ea061cf-dbaf-485b-873d-c92924e3c4f2', 'NEW');    
+INSERT INTO lnk_product_status(sku_id, pstatus) VALUES ('4ea061cf-dbaf-485b-873d-c92924e3c4f2', 'HIT');    
     
 /*Products*/
 INSERT INTO product(

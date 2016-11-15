@@ -1,5 +1,6 @@
 <div id="navbar-sidebar" class="sidemenu-area" >
-  <h2 class="navbar-sidebar-title">Каталог</h2>
+   
+  <h2 class="navbar-sidebar-title"><i class="fa fa-bars"></i> Каталог</h2>
   <div class="container-fluid">
 
 	<div class="navbar-header">
@@ -16,14 +17,23 @@
 	  <ul class="nav navbar-nav navbar-right sm-vertical" th:if="${not #lists.isEmpty(rootCategorys)}">
 	  	<li th:each="rootCategory : ${rootCategorys}">
             <a th:href="@{${rootCategory.url}}" >
-                <span th:utext="${rootCategory.name}"></span><!--  
+                <span th:utext="${rootCategory.name}"></span>&nbsp;<!--  
                 --><span th:if="${rootCategory.hasSubCategory()}" class="caret-right"></span>
             </a>
             <ul th:if="${rootCategory.hasSubCategory()}" class="dropdown-menu">
             	<li th:each="subCategory : ${rootCategory.getSubCategory()}">
             	   <a th:href="@{${subCategory.url}}" >
-                     <span th:utext="${subCategory.name}"></span>
+                     <span th:utext="${subCategory.name}"></span>&nbsp;<!--  
+                --><span th:if="${subCategory.hasSubCategory()}" class="caret-right"></span>
                    </a>
+		           <ul th:if="${subCategory .hasSubCategory()}" class="dropdown-menu">
+		            	<li th:each="subSubCategory : ${subCategory.getSubCategory()}">
+		            	   <a th:href="@{${subSubCategory .url}}" >
+		                     <span th:utext="${subSubCategory .name}"></span>
+		                   </a>
+		                   
+		            	</li>
+		           </ul>
             	</li>
             </ul>
 	  	</li>

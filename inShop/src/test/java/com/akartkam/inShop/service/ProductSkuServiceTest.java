@@ -3,9 +3,11 @@ package com.akartkam.inShop.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import org.apache.commons.logging.Log;
@@ -21,6 +23,9 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.akartkam.inShop.common.AbstractTest;
+import com.akartkam.inShop.dao.product.ProductDAO;
+import com.akartkam.inShop.domain.product.Product;
+import com.akartkam.inShop.domain.product.ProductStatus;
 import com.akartkam.inShop.domain.product.Sku;
 import com.akartkam.inShop.service.product.ProductService;
 import com.akartkam.inShop.util.Constants;
@@ -33,6 +38,8 @@ public class ProductSkuServiceTest extends AbstractTest {
 	private ProductService  productService;
 	@Autowired
 	private SessionFactory sessionFactory;
+	@Autowired
+	private ProductDAO productDAO;
 	
 
 	private List<String> ids = new ArrayList<String>();
@@ -62,6 +69,14 @@ public class ProductSkuServiceTest extends AbstractTest {
 		}
 		LOG.info(resMap);
 		
+	}
+	
+	@Test
+	public void findProductsByProductStatus_Test(){
+		Set<ProductStatus> ps = new HashSet<ProductStatus>();
+		ps.add(ProductStatus.NEW);
+		List<Product> pl = productDAO.findProductsByProductStatus(ProductStatus.NEW);
+		LOG.info(pl);
 	}
 	
 	
