@@ -677,6 +677,11 @@ public class ProductServiceImpl implements ProductService {
 		return ret;
 	}
 
+	@Override
+	public List<Product> getProductsByProductStatus(ProductStatus productStatus) {
+		return productDAO.findProductsByProductStatus(productStatus);
+	}
+
 }
 
 //}

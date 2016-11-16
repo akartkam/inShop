@@ -73,10 +73,13 @@ public class ProductSkuServiceTest extends AbstractTest {
 	
 	@Test
 	public void findProductsByProductStatus_Test(){
+		LOG.info("********** findProductsByProductStatus_Test Start **********");
 		Set<ProductStatus> ps = new HashSet<ProductStatus>();
 		ps.add(ProductStatus.NEW);
 		List<Product> pl = productDAO.findProductsByProductStatus(ProductStatus.NEW);
 		LOG.info(pl);
+		LOG.info("********** findProductsByProductStatus_Test End **********");
+
 	}
 	
 	

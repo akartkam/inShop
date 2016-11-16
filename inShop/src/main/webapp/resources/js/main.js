@@ -12,8 +12,8 @@ jQuery(document).ready(function($){
     $('.product-carousel').owlCarousel({
         loop:true,
         nav:true,
+        navText:["<",">"],
         margin:20,
-        responsiveClass:true,
         responsive:{
             0:{
                 items:1,
@@ -30,8 +30,8 @@ jQuery(document).ready(function($){
     $('.related-products-carousel').owlCarousel({
         loop:true,
         nav:true,
+        navText:["<",">"],
         margin:20,
-        responsiveClass:true,
         responsive:{
             0:{
                 items:1,
@@ -51,8 +51,8 @@ jQuery(document).ready(function($){
     $('.brand-list').owlCarousel({
         loop:true,
         nav:true,
+        navText:["<",">"],
         margin:20,
-        responsiveClass:true,
         responsive:{
             0:{
                 items:1,

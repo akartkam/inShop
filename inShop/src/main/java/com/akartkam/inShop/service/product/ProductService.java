@@ -7,6 +7,7 @@ import java.util.UUID;
 import org.springframework.validation.Errors;
 
 import com.akartkam.inShop.domain.product.Product;
+import com.akartkam.inShop.domain.product.ProductStatus;
 import com.akartkam.inShop.domain.product.Sku;
 import com.akartkam.inShop.domain.product.option.ProductOption;
 import com.akartkam.inShop.domain.product.option.ProductOptionValue;
@@ -50,5 +51,6 @@ public interface ProductService {
 	Sku loadSkuById(UUID id, Boolean lock);
 	void deleteSku(Sku sku);
 	void softDeleteSkuById(UUID id);
+	List<Product> getProductsByProductStatus(ProductStatus productStatus);
 
 }
