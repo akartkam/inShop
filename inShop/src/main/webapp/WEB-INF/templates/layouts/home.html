@@ -102,11 +102,11 @@
 													<img th:src="@{${!#lists.isEmpty(newProduct.defaultSku.images)? newProduct.defaultSku.images[0]: ''}}" alt=""/>
 													<div class="product-hover">
 														<a href="#" class="add-to-cart-link"><i class="fa fa-shopping-cart"></i> В корзину</a>
-														<a th:href="@{/product'+${newProduct.url}}" class="view-details-link"><i class="fa fa-link"></i>Подробнее</a>
+														<a th:href="@{'/product'+${newProduct.url}}" class="view-details-link"><i class="fa fa-link"></i>Подробнее</a>
 													</div>
 												</div>
 												
-												<h2><a th:href="@{/product'+${newProduct.url}}"><span th:utext="${newProduct.defaultSku.name}">Samsung Galaxy s5- 2015</span></a></h2>
+												<h2><a th:href="@{'/product'+${newProduct.url}}"><span th:utext="${newProduct.defaultSku.name}">Samsung Galaxy s5- 2015</span></a></h2>
 												
 												<div class="product-carousel-price">
 													<ins th:if="${newProduct.defaultSku.salePrice != null &amp;&amp; newProduct.defaultSku.salePrice != 0}" 

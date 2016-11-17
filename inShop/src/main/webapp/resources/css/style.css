@@ -258,7 +258,7 @@ body { font-family: Open Sans, Arial, Helvetica, sans-serif;}
 .mainmenu-area ul.navbar-nav li a {
     color: #6e6a6a;
     font-size: 14px;
-    padding: 20px;
+    padding: 20px 40px 20px 40px;
 }
 
 .sidemenu-area ul.navbar-nav li a {
@@ -500,7 +500,7 @@ body { font-family: Open Sans, Arial, Helvetica, sans-serif;}
 
 .product-f-image {
     position: relative;
-    height: 220px;
+    height: 290px;
     overflow: hidden;
     z-index: 10;    
 }
@@ -581,9 +581,7 @@ body { font-family: Open Sans, Arial, Helvetica, sans-serif;}
     font-weight: 700;
 }
 
-.single-product {
-  overflow: hidden;
-}
+
 .single-product:hover {}
 .single-product:hover .product-hover a.add-to-cart-link {top: 20%;}
 .single-product:hover .product-hover a.view-details-link {bottom: 20%;}
@@ -630,7 +628,7 @@ body { font-family: Open Sans, Arial, Helvetica, sans-serif;}
 }
 
 .owl-carousel .owl-item img {
-	height: 100%;
+	height: auto;
 }
 
 .main-page-product .owl-nav {
@@ -729,7 +727,7 @@ body { font-family: Open Sans, Arial, Helvetica, sans-serif;}
 .footer-top-area .zigzag-bottom{background: #f4f4f4}
 .footer-top-area {background: none repeat scroll 0 0 #333;
 color: #999;
-padding: 35px 0 180px;}
+padding: 35px 0 20px;}
 
 
 .footer-bottom-area {background: #000;color: #fff}
@@ -738,8 +736,9 @@ padding: 35px 0 180px;}
 }
 .footer-wid-title {
   font-family: raleway;
-  font-size: 30px;
-  font-weight: 100;color: #fff
+  font-size: 20px;
+  font-weight: 100;
+  color: #fff
 }
 
 .footer-about-us h2 {
@@ -783,7 +782,6 @@ padding: 35px 0 180px;}
     border: medium none;
     margin-bottom: 10px;
     padding: 10px;
-    width: 100%;
 }
 .newsletter-form input[type="submit"] {
     background: none repeat scroll 0 0 #5a88ca;
@@ -803,7 +801,6 @@ a:hover, a:focus {color: #17a78b}
 .footer-bottom-area {
   background: none repeat scroll 0 0 #000;
   color: #fff;
-  padding-bottom: 40px;
 }
 
 
