@@ -500,9 +500,9 @@ body { font-family: Open Sans, Arial, Helvetica, sans-serif;}
 
 .product-f-image {
     position: relative;
-    height: 290px;
+    /*height: 290px;
     overflow: hidden;
-    z-index: 10;    
+    z-index: 10;*/    
 }
 
 .product-f-image img {
@@ -526,7 +526,8 @@ body { font-family: Open Sans, Arial, Helvetica, sans-serif;}
   opacity: 0.6;
   position: absolute;
   top: 0;
-  width: 100%;transition: .4s;
+  width: 100%;
+  transition: .4s;
 }
 
 .product-hover a {
@@ -542,7 +543,9 @@ body { font-family: Open Sans, Arial, Helvetica, sans-serif;}
     text-align: center;
     text-transform: uppercase;
     border: 1px solid #5a88ca;
-    width: 80%;z-index: 99;transition: .4s;
+    width: 80%;
+    z-index: 99;
+    transition: .4s;
 }
 .product-hover a:hover {
   background: #000;
@@ -564,6 +567,7 @@ body { font-family: Open Sans, Arial, Helvetica, sans-serif;}
 }
 .product-hover a.add-to-cart-link {top: -30%;}
 .product-hover a.view-details-link { bottom: -30%;}
+.product-hover a.info-about-product-link { left: -80%; bottom: 41%;}
 .single-product h2 {
     font-size: 14px;
     line-height: 20px;
@@ -583,8 +587,9 @@ body { font-family: Open Sans, Arial, Helvetica, sans-serif;}
 
 
 .single-product:hover {}
-.single-product:hover .product-hover a.add-to-cart-link {top: 20%;}
-.single-product:hover .product-hover a.view-details-link {bottom: 20%;}
+.single-product:hover .product-hover a.add-to-cart-link {top: 1%;}
+.single-product:hover .product-hover a.view-details-link {bottom: 1%;}
+.single-product:hover .product-hover a.info-about-product-link  {left: 10%;}
 .single-product:hover .product-hover:after{left: 0}
 
 

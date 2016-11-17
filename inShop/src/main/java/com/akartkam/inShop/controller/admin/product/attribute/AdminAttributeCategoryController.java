@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.akartkam.inShop.domain.Unit;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
 import com.akartkam.inShop.domain.product.attribute.AttributeCategory;
 import com.akartkam.inShop.domain.product.attribute.AttributeType;
@@ -64,10 +65,14 @@ public class AdminAttributeCategoryController {
 	      return Arrays.asList(AttributeType.ALL);
 	  }
 	  	  
+	  @ModelAttribute("allUnits")
+	  public List<Unit> getAllUnits() {
+	      return Arrays.asList(Unit.ALL);
+	  }
 	  
 	  @InitBinder
 	  public void initBinder(WebDataBinder binder) {
-			binder.setAllowedFields(new String[] { "id", "name", "ordering", "enabled", 
+			binder.setAllowedFields(new String[] { "id", "name", "ordering", "enabled", "unit",
 					                               "attributeType", "attributeCategory", "items", "createdDate"});
 			binder.registerCustomEditor(UUID.class, "id", new PropertyEditorSupport() {
 			    @Override

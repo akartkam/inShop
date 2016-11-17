@@ -12,6 +12,8 @@ import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
@@ -29,6 +31,7 @@ import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Cascade;
 
 import com.akartkam.inShop.domain.AbstractDomainObjectOrdering;
+import com.akartkam.inShop.domain.Unit;
 import com.akartkam.inShop.domain.product.Category;
 
 
@@ -49,7 +52,7 @@ public abstract class AbstractAttribute extends AbstractDomainObjectOrdering {
 	private AttributeCategory attributeCategory;
 	private Set<Category> category = new HashSet<Category>(0);
 	protected List<AbstractAttributeValue> attributeValues = new ArrayList<AbstractAttributeValue>(0);
-
+	private Unit unit;
 	
 	@NotNull
 	@Size(min = 1, max = 50)
@@ -60,6 +63,16 @@ public abstract class AbstractAttribute extends AbstractDomainObjectOrdering {
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+    @Column(name = "unit")
+    @Enumerated(EnumType.STRING)
+    public Unit getUnit() {
+    	return unit;
+    }
+    
+    public void setUnit(Unit unit) {
+    	this.unit = unit;
+    }
 	
 	@NotNull
 	@Transient

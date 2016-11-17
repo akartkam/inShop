@@ -6,7 +6,7 @@ jQuery(document).ready(function($){
 	$(".sticky-menu").stick_in_parent({parent : $("body")});
 	$(".sidemenu-area").stick_in_parent({
 	                               parent : $(".sidemenu-sticky-parent"), 
-								   offset_top : $(".navbar-sidebar-title").height() + $(".mainmenu-area").height() - 20
+								   offset_top : $(".navbar-sidebar-title").height() + $(".mainmenu-area").height() - 10
 								   });
     
     $('.product-carousel').owlCarousel({

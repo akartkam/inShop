@@ -8,6 +8,8 @@ import java.util.UUID;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
@@ -20,6 +22,7 @@ import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Cascade;
 
 import com.akartkam.inShop.domain.AbstractDomainObjectOrdering;
+import com.akartkam.inShop.domain.Unit;
 import com.akartkam.inShop.domain.product.Product;
 import com.akartkam.inShop.domain.product.Sku;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttributeValue;
@@ -38,6 +41,7 @@ public class ProductOption extends AbstractDomainObjectOrdering {
 	private Boolean required;
 	private Boolean useInSkuGeneration;
 	private List<ProductOptionValue> productOptionValues = new ArrayList<ProductOptionValue>();
+	private Unit unit; 
 	
 	@AdminPresentation(tab=EditTab.MAIN)
 	@NotNull
@@ -49,6 +53,16 @@ public class ProductOption extends AbstractDomainObjectOrdering {
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+    @Column(name = "unit")
+    @Enumerated(EnumType.STRING)
+    public Unit getUnit() {
+    	return unit;
+    }
+    
+    public void setUnit(Unit unit) {
+    	this.unit = unit;
+    }
 	
 	@AdminPresentation(tab=EditTab.MAIN)
 	@NotNull

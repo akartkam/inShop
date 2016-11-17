@@ -121,6 +121,7 @@ public class AttributeCategoryServiceImpl implements AttributeCategoryService {
 			existingAttribute.setName(attributeFromPost.getName());
 			existingAttribute.setOrdering(attributeFromPost.getOrdering());
 			existingAttribute.setEnabled(attributeFromPost.isEnabled());
+			existingAttribute.setUnit(attributeFromPost.getUnit());
 			if (existingAttribute instanceof Selectable)
 				((Selectable)existingAttribute).setStringItems(attributeFromPost.getItems());
 			AttributeCategory attributeCategoryFromPost = attributeFromPost.getAttributeCategory();
@@ -132,6 +133,7 @@ public class AttributeCategoryServiceImpl implements AttributeCategoryService {
 			attributeNew.setName(attributeFromPost.getName());
 			attributeNew.setOrdering(attributeFromPost.getOrdering());
 			attributeNew.setEnabled(attributeFromPost.isEnabled());
+			attributeNew.setUnit(attributeFromPost.getUnit());
 			if (attributeNew instanceof Selectable)
 				((Selectable)attributeNew).setStringItems(attributeFromPost.getItems());
 			AttributeCategory attributeCategoryFromPost = attributeFromPost.getAttributeCategory();
