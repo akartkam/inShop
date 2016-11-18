@@ -1,0 +1,20 @@
+<div th:each="product : ${products}" class="single-product" th:fragment="smallSingleProduct(products,badge)">
+	<div class="${badge}">New!</div>
+	<div class="product-f-image">
+		<img th:src="@{${!#lists.isEmpty(product.defaultSku.images)? product.defaultSku.images[0]: ''}}" alt=""/>
+		<div class="product-hover">
+			<a href="#" class="add-to-cart-link"><i class="fa fa-shopping-cart"></i> В корзину</a>
+			<a href="javascript:;" class="info-about-product-link"><i class="fa fa-list-alt"></i> Параметры</a>
+			<a th:href="@{'/product'+${product.url}}" class="view-details-link"><i class="fa fa-info"></i> Подробнее</a>
+		</div>
+	</div>
+	
+	<h2><a th:href="@{'/product'+${product.url}}"><span th:utext="${product.defaultSku.name}">Samsung Galaxy s5- 2015</span></a></h2>
+	
+	<div class="product-carousel-price">
+		<ins th:if="${product.defaultSku.salePrice != null &amp;&amp; product.defaultSku.salePrice != 0}" 
+		     th:utext="${{product.defaultSku.salePrice}}">$700.00</ins>
+		<ins th:unless="${product.defaultSku.salePrice != null &amp;&amp; product.defaultSku.salePrice != 0}" 
+		     th:utext="${{product.defaultSku.retailPrice}}">$700.00</ins> <del th:if="${product.defaultSku.salePrice != null &amp;&amp; product.defaultSku.salePrice != 0}" th:utext="${{product.defaultSku.retailPrice}}">$100.00</del>
+	</div> 
+</div>

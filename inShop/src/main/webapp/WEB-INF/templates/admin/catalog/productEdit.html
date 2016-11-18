@@ -373,26 +373,29 @@
 									  	       	    <input type="hidden" th:name="attributeValues[__${avStat.index}__].attribute" th:value="${product.attributeValues[__${avStat.index}__].attribute.id}"/>
 									  	       	  </td>
 									  	       	  <td>
-									  	       	    <span th:if="${av.attribute.attributeType.name=='DECIMAL'}">
-										  	       	    <input type="hidden" th:field="*{attributeValues[__${avStat.index}__].id}"/>
-										  	       	  	<input type="text" class="form-control input-md" th:field="*{attributeValues[__${avStat.index}__].value}" 
-										  	       	  		   data-oldtext=""
-										  	       	  		   oninput="(function(e) {var txt = e.target.value; var oldTxt = e.target.dataset.oldtext; var reg = /^(?:(?=\d{1,6}\.{1})(\d{1,6}\.\d?\d?)|(\d{1,6}))$/gi; if (!reg.test(txt)) e.target.value = oldTxt; else e.target.dataset.oldtext = txt ;})(event)"/>
-									  	       	  	</span>	
-									  	       	  	<span th:if="${av.attribute.attributeType.name=='STRING'}">   
-										  	       	  	<input type="hidden" th:field="*{attributeValues[__${avStat.index}__].id}"/>
-										  	       	  	<input type="text" class="form-control input-md" th:field="*{attributeValues[__${avStat.index}__].value}"/>
-													</span> 
-													<span th:if="${av.attribute.attributeType.name=='SLIST'}">
-														<input type="hidden" th:field="*{attributeValues[__${avStat.index}__].id}"/>
-														<select class="form-control" th:field="*{attributeValues[__${avStat.index}__].value}">
-														        <option value="">&nbsp;</option>
-															    <option th:each="avsl: ${av.attribute.items}" th:text="${avsl}"
-															            th:selected="${avsl == av.value}"
-															            th:value="${avsl}">
-															    </option>      
-														</select>
-													</span>									  	       	  	
+									  	       	  	<div class="input-group" th:remove="${(av.attribute.unit == null)? 'tag': 'none'}">
+										  	       	    <th:block th:if="${av.attribute.attributeType.name=='DECIMAL'}" th:remove="tag">
+											  	       	    <input type="hidden" th:field="*{attributeValues[__${avStat.index}__].id}"/>
+											  	       	  	<input type="text" class="form-control input-md" th:field="*{attributeValues[__${avStat.index}__].value}" 
+											  	       	  		   data-oldtext=""
+											  	       	  		   oninput="(function(e) {var txt = e.target.value; var oldTxt = e.target.dataset.oldtext; var reg = /^(?:(?=\d{1,6}\.{1})(\d{1,6}\.\d?\d?)|(\d{1,6}))$/gi; if (!reg.test(txt)) e.target.value = oldTxt; else e.target.dataset.oldtext = txt ;})(event)"/>
+										  	       	  	</th:block>	
+										  	       	  	<th:block th:if="${av.attribute.attributeType.name=='STRING'}" th:remove="tag">   
+											  	       	  	<input type="hidden" th:field="*{attributeValues[__${avStat.index}__].id}"/>
+											  	       	  	<input type="text" class="form-control input-md"  th:field="*{attributeValues[__${avStat.index}__].value}"/>
+														</th:block> 
+														<th:block th:if="${av.attribute.attributeType.name=='SLIST'}" th:remove="tag">
+															<input type="hidden" th:field="*{attributeValues[__${avStat.index}__].id}"/>
+															<select class="form-control" th:field="*{attributeValues[__${avStat.index}__].value}">
+															        <option value="">&nbsp;</option>
+																    <option th:each="avsl: ${av.attribute.items}" th:text="${avsl}"
+																            th:selected="${avsl == av.value}"
+																            th:value="${avsl}">
+																    </option>      
+															</select>
+														</th:block>
+														<span class="input-group-addon" th:if="${av.attribute.unit != null}" th:utext="#{${'unit.' + av.attribute.unit}}"></span>
+													</div>
 									  	       	  </td>
 									  	        </tr> 
 									  	    </tbody>

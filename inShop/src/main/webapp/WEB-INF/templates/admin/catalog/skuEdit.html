@@ -204,7 +204,7 @@
 								  	       	    <input type="hidden" th:name="productOptionsList[__${poStat.index}__]" th:value="${po.id}"/>
 								  	       	  </td>
 								  	       	  <td>
-												<div th:class="${#fields.hasErrors('productOptionValuesList')}? has-error">
+												<div th:class="${#fields.hasErrors('productOptionValuesList')}? has-error" th:classappend="${(po.unit != null)? 'input-group': ''}">
 													<select class="form-control" th:field="*{productOptionValuesList[__${poStat.index}__]}">
 													        <option value="">&nbsp;</option>
 														    <option th:each="pov, povStat: ${po.productOptionValues}" 
@@ -213,6 +213,7 @@
 														            th:value="${pov.id}">  
 														    </option>      
 													</select>
+													<span class="input-group-addon" th:if="${po.unit != null}" th:utext="#{${'unit.' + po.unit}}"></span>
 												</div>								  	       	  	
 								  	       	  </td>
 								  	        </tr> 

@@ -188,6 +188,7 @@ public class ProductServiceImpl implements ProductService {
 			existingPo.setRequired(poFromPost.getRequired());
 			existingPo.setOrdering(poFromPost.getOrdering());
 			existingPo.setEnabled(poFromPost.isEnabled());
+			existingPo.setUnit(poFromPost.getUnit());
 			existingPo.setUseInSkuGeneration(poFromPost.getUseInSkuGeneration());
 			Iterator<ProductOptionValue> povi = existingPo.getProductOptionValues().iterator();
 			while(povi.hasNext()){

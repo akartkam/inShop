@@ -3,6 +3,7 @@ package com.akartkam.inShop.controller.admin.product;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 import java.beans.PropertyEditorSupport;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
@@ -27,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.akartkam.inShop.domain.Unit;
 import com.akartkam.inShop.domain.product.option.ProductOption;
 import com.akartkam.inShop.domain.product.option.ProductOptionValue;
 import com.akartkam.inShop.service.product.ProductService;
@@ -51,10 +53,15 @@ public class AdminProductOptionController {
 	      return productService.getAllPO();
 	  }
 	  
+	  @ModelAttribute("allUnits")
+	  public List<Unit> getAllUnits() {
+	      return Arrays.asList(Unit.ALL);
+	  }	  
+	  
 	  @InitBinder
 	  public void initBinder(WebDataBinder binder) {
 			binder.setAllowedFields(new String[] { "*id", "name", "label", "required", "useInSkuGeneration", "*optionValue",
-												   "*priceAdjustment", "*ordering", "*enabled"});
+												   "unit", "*priceAdjustment", "*ordering", "*enabled"});
 			
 			binder.registerCustomEditor(UUID.class, "id", new PropertyEditorSupport() {
 			    @Override

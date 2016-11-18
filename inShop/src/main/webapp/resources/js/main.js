@@ -94,6 +94,7 @@ jQuery(document).ready(function($){
 		$('.sidemenu-area ul.navbar-nav li, .mainmenu-area ul.navbar-nav li').removeClass("active");
 		$(this).addClass("active");
 	});
-	
+    
+
 });
 

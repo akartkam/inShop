@@ -38,11 +38,14 @@ public class HomeController extends AbstractController {
 	@Override
 	protected ModelAndView handleRequestInternal(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
+		ModelAndView model = new ModelAndView();
+		/*model.setViewName("redirect:/admin");
+		return model;*/
 		List<Category> rootCategorys = categoryService.getRootCategories(false);
 		List<Product> newProducts = productService.getProductsByProductStatus(ProductStatus.NEW);
 		List<Product> actionProducts = productService.getProductsByProductStatus(ProductStatus.ACTION);
 		List<Brand> brands = brandService.getAllBrand(false);
-		ModelAndView model = new ModelAndView("/layouts/home");
+		model.setViewName("/layouts/home");
 		model.addObject("rootCategorys", rootCategorys);
 		model.addObject("newProducts", newProducts);
 		model.addObject("actionProducts", actionProducts);

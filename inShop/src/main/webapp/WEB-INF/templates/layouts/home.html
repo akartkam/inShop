@@ -96,13 +96,14 @@
 									<div class="main-page-product">
 										<h2 class="section-title">Новинки</h2>
 										<div class="product-carousel">
-											<div th:each="newProduct : ${newProducts}" class="single-product">
+										  <div th:replace="catalog/partials/smallSingleProduct::smallSingleProduct(products=${newProducts},badge=${'new_badge'})"></div>
+											<!--  <div th:each="newProduct : ${newProducts}" class="single-product">
 												<div class="new_badge">New!</div>
 												<div class="product-f-image">
 													<img th:src="@{${!#lists.isEmpty(newProduct.defaultSku.images)? newProduct.defaultSku.images[0]: ''}}" alt=""/>
 													<div class="product-hover">
 														<a href="#" class="add-to-cart-link"><i class="fa fa-shopping-cart"></i> В корзину</a>
-														<a href="#" class="info-about-product-link"><i class="fa fa-list-alt"></i> Параметры</a>
+														<a href="javascript:;" class="info-about-product-link"><i class="fa fa-list-alt"></i> Параметры</a>
 														<a th:href="@{'/product'+${newProduct.url}}" class="view-details-link"><i class="fa fa-info"></i> Подробнее</a>
 													</div>
 												</div>
@@ -116,6 +117,7 @@
 													     th:utext="${{newProduct.defaultSku.retailPrice}}">$700.00</ins> <del th:if="${newProduct.defaultSku.salePrice != null &amp;&amp; newProduct.defaultSku.salePrice != 0}" th:utext="${{newProduct.defaultSku.retailPrice}}">$100.00</del>
 												</div> 
 											</div>
+											-->	
 										</div>
 									</div>
 								</div>
@@ -131,7 +133,7 @@
 													<img th:src="@{${!#lists.isEmpty(actionProduct.defaultSku.images)? actionProduct.defaultSku.images[0]: ''}}" alt=""/>
 													<div class="product-hover">
 														<a href="#" class="add-to-cart-link"><i class="fa fa-shopping-cart"></i> В корзину</a>
-														<a href="#" class="info-about-product-link"><i class="fa fa-list-alt"></i> Параметры</a>
+														<a href="javascript:;" class="info-about-product-link"><i class="fa fa-list-alt"></i> Параметры</a>
 														<a th:href="@{'/product'+${actionProduct.url}}" class="view-details-link"><i class="fa fa-info"></i>Подробнее</a>
 													</div>
 												</div>
