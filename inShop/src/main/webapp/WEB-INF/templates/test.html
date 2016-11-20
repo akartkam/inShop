@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>test page</title>
+	<!-- Bootstrap Core CSS -->
+    <link href="../../resources/css/lib/bootstrap.min.css" rel="stylesheet" th:href="@{/resources/css/lib/bootstrap.min.css}"/>
+	<link href="../../resources/css/lib/lightbox.min.css" rel="stylesheet" th:href="@{/resources/css/lib/lightbox.min.css}"/>
+	<style type="text/css">
+		.zoom-wrapper{
+			border-radius: 10px;
+			border: 1px solid #E0E0E0;
+			padding: 10px;
+			background-color: #F7F7F7;
+		}
+		.zoom-left{
+		  float:left;
+		  width:150px;
+		
+		  }
+		.zoom-right{
+		  float:left;
+		  width:320px;
+		  padding:20px;
+		}
+		/*set a border on the images to prevent shifting*/
+		 #gallery_01 a img{border:2px solid white;}
+		 
+		 /*Change the colour*/
+		 .active img{border:2px solid #333 !important;}
+		 
+		 .quick-review-product-attributes table th, .quick-review-product-attributes table td {
+		    border-left: 1px solid #ddd;
+		    border-top: 1px solid #ddd;
+		    padding: 3px;
+		 }		 	
+		 .quick-review-product-attributes table {
+		    border-bottom: 1px solid #ddd;
+		    border-right: 1px solid #ddd;
+		 }	
+		 .quick-review-product-attributes table th {
+    		background: none repeat scroll 0 0 #f4f4f4;
+		 }	 
+		 	  		
+	</style>	
+</head>
+<body>
+	<div id="lightbox-controller" style="display: none">
+	</div>
+	<div class="media">
+		<div class="media-left">
+			<div class="zoom-left media-object">
+				<img style="border:1px solid #e8e8e6;" id="zoom_03" src="D:/Projects/myprj/webcontent/images/КалоприемникФлексимаКоло.png" 
+					 data-zoom-image="D:/Projects/myprj/webcontent/images/КалоприемникФлексимаКоло.png"
+					 width="150"  />	
+				<div id="gallery_01" style="width:170px; float:left; ">
+					<a  href="D:/Projects/myprj/webcontent/images/КалоприемникАлмарисПреференсНеДрен.jpg" class="elevatezoom-gallery " data-update="" data-image="D:/Projects/myprj/webcontent/images/КалоприемникАлмарисПреференсНеДрен.jpg" 
+						data-zoom-image="D:/Projects/myprj/webcontent/images/КалоприемникАлмарисПреференсНеДрен.jpg">
+					<img src="D:/Projects/myprj/webcontent/images/КалоприемникАлмарисПреференсНеДрен.jpg" width="50"  /></a>		
+					<a  href="#" class="elevatezoom-gallery" data-update="" data-image="E:/url_uploaded_file_13287871234f33aeb3d0793.jpg" 
+						data-zoom-image="E:/url_uploaded_file_13287871234f33aeb3d0793.jpg">
+					<img src="E:/url_uploaded_file_13287871234f33aeb3d0793.jpg" width="50"  /></a>		
+					<a  href="#" class="elevatezoom-gallery" data-update="" data-image="E:/url_uploaded_file_13287871234f33aeb3d0793.jpg" 
+						data-zoom-image="E:/url_uploaded_file_13287871234f33aeb3d0793.jpg">
+					<img src="E:/url_uploaded_file_13287871234f33aeb3d0793.jpg" width="50"  /></a>		
+					<a  href="#" class="elevatezoom-gallery" data-update="" data-image="E:/url_uploaded_file_13287871234f33aeb3d0793.jpg" 
+						data-zoom-image="E:/url_uploaded_file_13287871234f33aeb3d0793.jpg">
+					<img src="E:/url_uploaded_file_13287871234f33aeb3d0793.jpg" width="50"  /></a>		
+					<a  href="#" class="elevatezoom-gallery" data-update="" data-image="E:/url_uploaded_file_13287871234f33aeb3d0793.jpg" 
+						data-zoom-image="E:/url_uploaded_file_13287871234f33aeb3d0793.jpg">
+					<img src="E:/url_uploaded_file_13287871234f33aeb3d0793.jpg" width="50"  /></a>		
+					<a  href="#" class="elevatezoom-gallery active" data-update="" data-image="D:/Projects/myprj/webcontent/images/КалоприемникФлексимаКоло.png" 
+						data-zoom-image="D:/Projects/myprj/webcontent/images/КалоприемникФлексимаКоло.png">
+					<img src="D:/Projects/myprj/webcontent/images/КалоприемникФлексимаКоло.png" width="50"  /></a>		
+				</div>
+			</div>
+		</div>
+		<div class="media-body quick-review-product-attributes">
+			<h4 class="media-heading">Параметры товара</h4>
+            <table cellspacing="0">
+                <tbody>
+                    <tr class="cart-subtotal">
+                        <th>Cart Subtotal</th>
+                        <td><span class="amount">£15.00</span></td>
+                    </tr>
+
+                    <tr class="shipping">
+                        <th>Shipping and Handling Shipping and Handling</th>
+                        <td>Free Shipping</td>
+                    </tr>
+
+                    <tr class="order-total">
+                        <th>Order Total</th>
+                        <td><strong><span class="amount">£15.00</span></strong> </td>
+                    </tr>
+                </tbody>
+            </table>
+		</div>
+	</div>
+	<!-- jQuery -->
+    <script src="../../resources/js/lib/jquery.min.js" th:src="@{/resources/js/lib/jquery.min.js}"></script>
+	<!-- jquery.elevateZoom-3.0.8.min.js -->
+	<script src="../../resources/js/lib/jquery.elevateZoom-3.0.8.min.js" th:src="@{/resources/js/lib/jquery.elevateZoom-3.0.8.min.js}"></script>					 	
+	<!-- lightbox.min.js -->
+	<script src="../../resources/js/lib/lightbox.min.js" th:src="@{/resources/js/lib/lightbox.min.js}"></script>					 	
+	<script type="text/javascript">
+		$(document).ready(function () {
+			$("#zoom_03").elevateZoom({gallery:"gallery_01", cursor: 'pointer', scrollZoom: "true", 
+				                       responsive: "true", galleryActiveClass: "active", easing : true}); 
+			
+			$("#zoom_03").bind("click", function(e) {  
+			  var ez =   $('#zoom_03').data('elevateZoom');
+			  ez.closeAll(); //NEW: This function force hides the lens, tint and window
+			  $("#lightbox-controller a").each(function(){$(this).remove()});
+			  $(ez.getGalleryList()).each(function(){
+		        	$("<a>").attr({
+		        	    href: this.href,
+		        	    "data-lightbox": "lightbox-gallery",
+		        	}).appendTo("#lightbox-controller");				  
+			  });
+			  $("#lightbox-controller a").eq(0).trigger("click");
+			  return false;
+			}); 
+		}); 
+	</script>
+</body>
+</html>

@@ -19,7 +19,7 @@
     <div class="site-branding-area">
         <div class="container-fluid">
             <div class="row vertical-align">
-                <div class="col-sm-2" style="justify-content: flex-start;">
+                <div class="col-md-2 col-sm-4" style="justify-content: flex-start;">
                     <div class="logo">
                         <h1><a href="./"><img src="images/common/forpost_logo.png"/></a></h1>
 						<!--<div>
@@ -27,7 +27,7 @@
 						</div>-->
                     </div>
                 </div>
-                <div class="col-sm-2">
+                <div class="col-md-2 col-sm-4" >
 					<div class="company-phones">
 						<span>&phone; 8(831) 217-09-97</span><br/>
 						<span>&phone; 8(831) 217-09-98</span>
@@ -36,7 +36,7 @@
 						</div>						
 					</div>						
 				</div>                
-                <div class="col-sm-2">
+                <div class="col-md-2 col-sm-4">
 					<div class="company-address">
 						<span class="glyphicon glyphicon-home" aria-hidden="true"></span>&nbsp;&nbsp;
 						<span>г.Нижний Новгород,</span> 
@@ -45,15 +45,17 @@
 							<a href="mailto:forpost1998@mail.ru">forpost1998@mail.ru</a>
 						</div>
 					</div>						
-                </div>                
-                <div class="col-sm-4">
+                </div>
+                <div class="clearfix visible-md-block visible-sm-block"></div>     
+                <div class="col-md-4 col-sm-12">
 			    <!--style="position: relative; transform: translateY(50%);"-->
                       <form style="white-space: nowrap;" id="product-search" action="#" th:action="@{/product-search}" method="GET">
                           	<input type="text" style="width: 100%" placeholder="Поиск товара..."/>
                           	<button type="submit" style="overflow: hidden;"><i class="fa fa-search"></i></button>
                       </form>			    
                 </div>
-                <div class="col-sm-2" style="justify-content: flex-end;">
+                <div class="clearfix visible-md-block visible-sm-block"></div>
+                <div class="col-md-2 col-sm-12" style="justify-content: flex-end;">
                     <div class="shopping-item">
                         <a href="cart.html">Корзина - <span class="cart-amunt">5369 р.</span> <i class="fa fa-shopping-cart"></i> <span class="product-count">2</span></a>
                     </div>
