@@ -76,5 +76,35 @@
 	
 	<!-- jQuery SmartMenus-->
 	<script type="text/javascript" src="../../../../resources/js/lib/jquery.smartmenus.js" th:src="@{/resources/js/lib/jquery.smartmenus.js}"></script>
-	<script type="text/javascript" src="../../../../resources/js/lib/jquery.smartmenus.bootstrap.js" th:src="@{/resources/js/lib/jquery.smartmenus.bootstrap.js}"></script>    
+	<script type="text/javascript" src="../../../../resources/js/lib/jquery.smartmenus.bootstrap.js" th:src="@{/resources/js/lib/jquery.smartmenus.bootstrap.js}"></script>
+	
+	<!-- jquery.modal.min.js-->
+	<script type="text/javascript" src="../../../../resources/js/lib/jquery.modal.min.js" th:src="@{/resources/js/lib/jquery.modal.min.js}"></script>
+		
+	<!-- jquery.elevateZoom-3.0.8.min.js -->
+	<script src="../../../../resources/js/lib/jquery.elevateZoom-3.0.8.min.js" th:src="@{/resources/js/lib/jquery.elevateZoom-3.0.8.min.js}"></script>					 	
+	<!-- lightbox.min.js -->
+	<script src="../../../../resources/js/lib/lightbox.min.js" th:src="@{/resources/js/lib/lightbox.min.js}"></script>					 	
+		
+		    
+	<script type="text/javascript">
+
+		$(function()
+		{
+			// Bind a click event to copy a hidden elements content into the modal window
+			$(document).on('click', '.quick-review-product-link', function(e)
+			{
+				e.preventDefault();
+		        $.ajax({ url: $(this).attr('href') }).done(function(data) {
+		            $.modal(data, {minWidth: 600, maxWidth: 600, minHeight: 300});
+		            $("#quick-review-product-zoom").elevateZoom({gallery:"quick-review-product-gallery", cursor: 'pointer', scrollZoom: "true", 
+	                       responsive: "true", galleryActiveClass: "active", easing : true}); 
+		            
+		        });
+
+		        return false;				
+			});
+		});
+
+	</script>
 </footer>

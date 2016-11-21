@@ -31,8 +31,8 @@
         <beans:property name="order" value="-10" />
         <beans:property name="mappings">
             <beans:props>
-                <beans:prop key="/">homeController</beans:prop>
-                <beans:prop key="/home">homeController</beans:prop>
+                <beans:prop key="/">mainController</beans:prop>
+                <beans:prop key="/home">mainController</beans:prop>
             </beans:props>
         </beans:property>
     </beans:bean>

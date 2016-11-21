@@ -96,5 +96,20 @@ jQuery(document).ready(function($){
 	});
     
 
+    //Quick review product zoom and galary
+	$("body").on("click", "#quick-review-product-zoom", function(e) {  
+	  var ez =   $('#quick-review-product-zoom').data('elevateZoom');
+	  ez.closeAll(); //NEW: This function force hides the lens, tint and window
+	  $("#lightbox-container a").each(function(){$(this).remove()});
+	  $(ez.getGalleryList()).each(function(){
+        	$("<a>").attr({
+        	    href: this.href,
+        	    "data-lightbox": "lightbox-container",
+        	}).appendTo("#lightbox-container");				  
+	  });
+	  $("#lightbox-container a").eq(0).trigger("click");
+	  return false;
+	}); 
+
 });
 

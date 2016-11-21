@@ -22,9 +22,9 @@ import com.akartkam.inShop.service.product.ProductService;
 
 
 @Controller
-public class HomeController extends AbstractController {
+public class MainController extends AbstractController {
 	
-	private static final Log LOG = LogFactory.getLog(HomeController.class);
+	private static final Log LOG = LogFactory.getLog(MainController.class);
 
 	@Autowired
 	private CategoryService categoryService;
@@ -36,10 +36,11 @@ public class HomeController extends AbstractController {
 	private BrandService brandService;
 	
 	@Override
-	protected ModelAndView handleRequestInternal(HttpServletRequest request,
+	public ModelAndView handleRequestInternal(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		ModelAndView model = new ModelAndView();
 		/*model.setViewName("redirect:/admin");
+		model.setViewName("/test");
 		return model;*/
 		List<Category> rootCategorys = categoryService.getRootCategories(false);
 		List<Product> newProducts = productService.getProductsByProductStatus(ProductStatus.NEW);
@@ -52,5 +53,7 @@ public class HomeController extends AbstractController {
 		model.addObject("brands", brands);
 		return model;
 	}
+	
+	
 
 }

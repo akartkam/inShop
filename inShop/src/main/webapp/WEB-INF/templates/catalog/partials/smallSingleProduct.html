@@ -4,7 +4,7 @@
 		<img th:src="@{${!#lists.isEmpty(product.defaultSku.images)? product.defaultSku.images[0]: ''}}" alt=""/>
 		<div class="product-hover">
 			<a href="#" class="add-to-cart-link"><i class="fa fa-shopping-cart"></i> В корзину</a>
-			<a href="javascript:;" class="quick-review-product-link"><i class="fa fa-list-alt"></i> Параметры</a>
+			<a th:href="@{${'/ajax-quick-review-product?ID='+product.id}}" class="quick-review-product-link"><i class="fa fa-list-alt"></i> Параметры</a>
 			<a th:href="@{'/product'+${product.url}}" class="view-details-link"><i class="fa fa-info"></i> Подробнее</a>
 		</div>
 	</div>
