@@ -97,9 +97,9 @@ jQuery(document).ready(function($){
     
 
     //Quick review product zoom and galary
-	$("body").on("click", "#quick-review-product-zoom", function(e) {  
+	/*$("body").on("click", "#quick-review-product-zoom", function(e) {  
 	  var ez =   $('#quick-review-product-zoom').data('elevateZoom');
-	  ez.closeAll(); //NEW: This function force hides the lens, tint and window
+	  ez.closeAll(); 
 	  $("#lightbox-container a").each(function(){$(this).remove()});
 	  $(ez.getGalleryList()).each(function(){
         	$("<a>").attr({
@@ -109,7 +109,39 @@ jQuery(document).ready(function($){
 	  });
 	  $("#lightbox-container a").eq(0).trigger("click");
 	  return false;
-	}); 
+	});*/
+	
+	$("body").on('click', '.quick-review-product-link', function(e)
+	{
+		e.preventDefault();
+        $.ajax({ url: $(this).attr('href') }).done(function(data) {
+            $.modal(data, { maxWidth: 600, maxHeight: 300});
+        	$("#simplemodal-container").css('height', 'auto');
+        	$.modal.update();
+            $("#quick-review-product-zoom").elevateZoom({gallery:"quick-review-product-gallery", cursor: 'pointer', scrollZoom: "true", 
+                   responsive: "true", galleryActiveClass: "active", easing : true}); 
+            
+        });
+
+        return false;				
+	});
+	
+	
+	//Show/Hide buttons on small product image
+	$("body").on("click", ".product-f-image", function(e) {
+		$(this).find("a.add-to-cart-link").css("top", "5%");
+	    $(this).find("a.view-details-link").css("bottom", "5%");
+	    $(this).find("a.quick-review-product-link").css("left", "10%");
+		return false;
+	});
+
+	$("body").on("mouseleave",".product-f-image", function(e) {
+		$(this).find("a.add-to-cart-link").css("top", "-50%");
+	    $(this).find("a.view-details-link").css("bottom", "-50%");
+	    $(this).find("a.quick-review-product-link").css("left", "-80%");
+		return false;
+	});
+
 
 });
 

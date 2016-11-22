@@ -23,6 +23,9 @@
 	}
 }
 
+.zoomContainer{ z-index: 9999;}
+.zoomWindow{ z-index: 9999;}
+
 @font-face {
 	font-family: 'Raleway';
 	font-style: normal;
@@ -515,11 +518,14 @@ body { font-family:Arial, Helvetica, sans-serif; }
     left: 0;
     position: absolute;
     top: 0;
-    width: 100%;overflow: hidden;border: 1px solid #ddd;
+    width: 100%;
+    overflow: hidden;
+    border: 1px solid #ddd;
+    cursor: pointer;
 }
 
 .product-hover:after {
-  /*background: none repeat scroll 0 0 #000;*/
+  /*background: none repeat scroll 0 0 #000;
   content: "";
   height: 100%;
   left: -100%;
@@ -527,14 +533,14 @@ body { font-family:Arial, Helvetica, sans-serif; }
   position: absolute;
   top: 0;
   width: 100%;
-  transition: .4s;
+  transition: .4s;*/
 }
 
 .product-hover a {
-    /*background: none repeat scroll 0 0 #5a88ca;*/
+    background: none repeat scroll 0 0 #5a88ca;
     border-radius: 5px;
-    /*color: #fff;*/
-    color: #5a88ca;
+    color: #fff;
+    /*color: #5a88ca;*/
     display: block;
     font-size: 10px;
     /*font-weight: bold;*/
@@ -550,11 +556,11 @@ body { font-family:Arial, Helvetica, sans-serif; }
     transition: .4s;
 }
 .product-hover a:hover {
-  /*background: #000;*/
-  background: #5a88ca;
+  background: #000;
+  /*background: #5a88ca;*/
   text-decoration: none;
-  sborder-color: #444;
-  color: #fff;
+  border-color: #444;
+  /*color: #fff;*/
 }
 
 .product-carousel-price{
@@ -595,12 +601,12 @@ body { font-family:Arial, Helvetica, sans-serif; }
 }
 
 
-.single-product:hover {}
+/*.single-product:hover{}
 .single-product:hover .product-hover a.add-to-cart-link {top: 5%;}
 .single-product:hover .product-hover a.view-details-link {bottom: 5%;}
 .single-product:hover .product-hover a.quick-review-product-link  {left: 10%;}
 .single-product:hover .product-hover:after{left: 0}
-
+*/
 
 .product-carousel {
   padding-top: 40px;
@@ -1325,6 +1331,7 @@ div.cart-collaterals ul.products li.product:hover .add_to_cart_button{background
     border-right: 1px solid #ddd;
     font-size: 12px;
     font-weight: bold;
+    width: 100%;
 }	
 .quick-review-product-attributes table th, .quick-review-product-attributes table td {
     border-left: 1px solid #ddd;

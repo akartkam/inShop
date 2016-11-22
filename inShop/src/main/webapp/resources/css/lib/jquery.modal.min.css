@@ -8,11 +8,10 @@
 
 #simplemodal-container {
 	background-color:white; 
-	border-radius:4px; 
-	padding:2px;
+	border-radius:4px;
 	-webkit-box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-	/*   -moz-box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-	        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);*/
+	   -moz-box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+	        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
 }
 
 .simplemodal-wrap {
