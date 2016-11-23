@@ -295,7 +295,7 @@
 													  <div class="media-left media-middle">
 													    <div class="photo-block"> 
 							                                <span class="helper"></span>
-							                                <img class="zoomed-image" src="../../../../resources/img/logo/asus.png" style="width: 100px;"
+							                                <img class="zoomed-image" src="../../../../resources/img/logo/asus.png" width="100"
 							                                     th:src="@{${{image!=null}? image: '/resources/img/noimage.png'}}" th:onerror="'this.src=\'' + @{/resources/img/noimage.png} + '\';'"/>
 						                                </div> 
 						                              </div>
@@ -431,8 +431,8 @@
 	   <script src="../../../../resources/js/lib/moment-with-locales.min.js" th:src="@{/resources/js/lib/moment-with-locales.min.js}"></script>
 	   <!-- bootstrap-datetimepicker -->		  
 	   <script src="../../../../resources/js/lib/bootstrap-datetimepicker.min.js" th:src="@{/resources/js/lib/bootstrap-datetimepicker.min.js}"></script>					 	
-	   <!-- jquery.elevateZoom-3.0.8.min.js -->
-	   <script src="../../../../resources/js/lib/jquery.elevateZoom-3.0.8.min.js" th:src="@{/resources/js/lib/jquery.elevateZoom-3.0.8.min.js}"></script>					 	
+	   <!-- zoomsl-3.0.js -->
+	   <script src="../../../../resources/js/lib/zoomsl-3.0.js" th:src="@{/resources/js/lib/zoomsl-3.0.js}"></script>					 	
 
     </th:block>
   	<th:block layout:fragment="scriptEditModal"> 
@@ -450,7 +450,11 @@
                $(".datetimepicker").datetimepicker({
                    locale: "ru"
                });
-               $(".zoomed-image").elevateZoom({cursor: "crosshair", zoomType: "lens"});
+               $(".zoomed-image").imagezoomsl({
+               	magnifiersize: [250, 250],
+               	zoomrange: [3,10],
+               	zoomstart: 4
+               });
                $("#name").focus();
 	     });
  		 // ]]>

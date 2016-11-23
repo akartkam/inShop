@@ -18,6 +18,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.Valid;
@@ -192,6 +193,7 @@ public class Product extends AbstractDomainObjectOrdering {
 	@OneToMany(mappedBy="product")
 	@Cascade(org.hibernate.annotations.CascadeType.ALL)
 	@BatchSize(size = 10)
+	@OrderBy("ordering")
 	public List<Sku> getAdditionalSku() {
 		return additionalSku;
 	}
@@ -217,6 +219,17 @@ public class Product extends AbstractDomainObjectOrdering {
         linkBuffer.append(this.getCategory().getUrl()).append("/").append(shortUrl);
         setUrl(linkBuffer.toString());		
 	} 
+	
+	@Transient
+	public List<String> getAllImages() {
+		List<String> ret = new ArrayList<String>();
+		for(String image: getDefaultSku().getImages()) ret.add(image);
+		for(Sku sku: getAdditionalSku()) {
+			for(String image: sku.getImages()) ret.add(image);
+		}
+		return ret;
+	}
+	
 	
 	@Transient
 	public List<String> getSkuCodes() {

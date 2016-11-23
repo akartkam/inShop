@@ -165,7 +165,7 @@
 										    <div class="a-photo-out mightOverflow domain-col" th:attr="data-title=${pr.defaultSku.name + (!#strings.isEmpty(pr.skuCodes)? '('+#strings.listJoin(pr.skuCodes,', ')+')':'')}">
                                                <span class="photo-block">
                                                  <span class="helper"></span>
-                                                 <img th:src="@{${!#lists.isEmpty(pr.getDefaultSku().getImages())? pr.getDefaultSku().getImages()[0]: ''}}"  th:onerror="'this.src=\'' + @{/resources/img/noimage.png} + '\';'"/>
+                                                 <img th:src="@{${!#lists.isEmpty(pr.allImages)? pr.allImages[0]: ''}}"  th:onerror="'this.src=\'' + @{/resources/img/noimage.png} + '\';'"/>
                                                </span>
 										       <span th:text="${pr.defaultSku.name}">name</span>
 										       <br/>

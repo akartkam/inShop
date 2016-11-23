@@ -907,14 +907,14 @@ input[type="text"], input[type="password"], input[type="email"], textarea {
     border: 1px solid #ddd;
     padding: 10px;
 }
-input[type="submit"], button[type=submit] {
+input[type="submit"], button {
     background: none repeat scroll 0 0 #5a88ca;
     border: medium none;
     color: #fff;
     padding: 11px 20px;
     text-transform: uppercase;
 }
-input[type="submit"]:hover, button[type=submit]:hover {background-color: #222}
+input[type="submit"]:hover, button:hover {background-color: #222}
 .single-sidebar input[type="text"] {
     margin-bottom: 10px;
     width: 100%;
@@ -1320,10 +1320,12 @@ div.cart-collaterals ul.products li.product:hover .add_to_cart_button{background
 
 /*Gallery*/
 /*set a border on the images to prevent shifting*/
-.gallery a img{border:2px solid white;}
+.gallery {margin-top: 5px;}
+
+.gallery img{border:1px solid white; cursor: pointer;}
  
 /*Change the colour*/
-.gallery .active img{border:2px solid #333 !important;}
+.gallery img.active {border:1px solid #333 !important;}
 
 /* Quick product view*/ 
 .quick-review-product-attributes table {
@@ -1344,6 +1346,16 @@ div.cart-collaterals ul.products li.product:hover .add_to_cart_button{background
 .quick-review-product-attributes table td{
  	font-weight: normal; !important;
     font-style: italic;
+}
+
+.quick-review-product-buttons {
+	margin-top: 5px;
+}
+
+/* for zoomsl-3.0*/
+.round-loupe{
+   border-radius: 75px;
+   border: 5px solid #F0F0F0;
 }
 
 

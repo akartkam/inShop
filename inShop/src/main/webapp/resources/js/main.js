@@ -97,6 +97,7 @@ jQuery(document).ready(function($){
     
 
     //Quick review product zoom and galary
+    
 	/*$("body").on("click", "#quick-review-product-zoom", function(e) {  
 	  var ez =   $('#quick-review-product-zoom').data('elevateZoom');
 	  ez.closeAll(); 
@@ -111,21 +112,42 @@ jQuery(document).ready(function($){
 	  return false;
 	});*/
 	
-	$("body").on('click', '.quick-review-product-link', function(e)
+	$("body").on("click", ".quick-review-product-link", function(e)
 	{
 		e.preventDefault();
-        $.ajax({ url: $(this).attr('href') }).done(function(data) {
-            $.modal(data, { maxWidth: 600, maxHeight: 300});
-        	$("#simplemodal-container").css('height', 'auto');
+        $.ajax({ url: $(this).attr("href") }).done(function(data) {
+            $.modal(data, { maxWidth: 600, maxHeight: 400});
+        	$("#simplemodal-container").css("height", "auto");
         	$.modal.update();
-            $("#quick-review-product-zoom").elevateZoom({gallery:"quick-review-product-gallery", cursor: 'pointer', scrollZoom: "true", 
-                   responsive: "true", galleryActiveClass: "active", easing : true}); 
+        	$(".quick-review-product-zoom").imagezoomsl({ 
+        			magnifiersize: [200, 250],
+                   	zoomrange: [3,8],
+                   	zoomstart: 4
+        	});
+        	//$("#quick-review-product-zoom").elevateZoom({gallery:"quick-review-product-gallery", cursor: 'pointer', scrollZoom: "true", 
+            //       responsive: "true", galleryActiveClass: "active", easing : true}); 
             
         });
 
         return false;				
 	});
 	
+	$("body").on("click", ".imzoom-gallery", function() {
+        var that = this;
+        if ($(this).hasClass("active")) return;
+        $(".gallery img.imzoom-gallery").removeClass("active");
+        $(this).addClass("active");
+        //копируем атрибуты из превью-картинки в контейнер-картинку
+        $(".quick-review-product-zoom").fadeOut(200, function(){
+            $(this).attr("src",              $(that).attr("src"))              // путь до small картинки
+                   .attr("data-large",       $(that).attr("data-large"))       // путь до big картинки
+                   //дополнительные атрибуты, если есть
+                   //.attr("data-title",       $(that).attr("data-title"))       // заголовок подсказки
+                   //.attr("data-help",        $(that).attr("data-help"))        // текст подсказки    
+                   //.attr("data-text-bottom", $(that).attr("data-text-bottom")) // текст снизу картинки
+                   .fadeIn(300);				
+          });		
+	}); 
 	
 	//Show/Hide buttons on small product image
 	$("body").on("click", ".product-f-image", function(e) {

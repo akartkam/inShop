@@ -71,7 +71,7 @@ $(function(){
 		});
 	 	$("body").on("change", "#inputSImg", function () {
 				// Get content from Summernote
-				var content = $("#summernote").code();
+				var content = $("#summernote").summernote("code");
 				// Add content from summernote to textarea
 				$("#summernote").html( content );    				
     			var form = new FormData(document.forms.pform);
@@ -156,7 +156,12 @@ $(function(){
                     $(".datetimepicker").datetimepicker({
                         locale: "ru"
                     });
-                    $(".zoomed-image").elevateZoom({cursor: "crosshair", zoomType: "lens"});
+                    $(".zoomed-image").imagezoomsl({
+                    	magnifiersize: [250, 250],
+                    	zoomrange: [3,10],
+                    	zoomstart: 4
+                    });                    
+                    //$(".zoomed-image").elevateZoom({cursor: "crosshair", zoomType: "lens"});
                     //$('#active-start-date').data("DateTimePicker").date($("active-start-date-input").val());
                     $("#name").focus();
           });
