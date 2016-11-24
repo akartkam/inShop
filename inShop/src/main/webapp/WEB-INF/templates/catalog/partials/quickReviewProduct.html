@@ -16,26 +16,60 @@
 						</div>
 					</div>
 				</div>
-				<div class="media-body quick-review-product-attributes">
+				<div class="media-body quick-review-product-info">
 				   <h4 class="media-heading"><a th:utext="${product.defaultSku.name}" th:href="${product.url}"></a></h4>
-		           <table cellspacing="0">
-		               <tbody>
-						   <tr>
-						   	   <th><span th:utext="#{brand.name}"></span></th>
-						   	   <td><a th:utext="${product.brand.name}" th:href="${product.brand.url}"></a></td>
-						   </tr>
-						   <tr>
-						   	   <th><span th:utext="#{product.articul}"></span></th>
-						   	   <td><span th:utext="${product.skuCodes}"></span></td>
-						   </tr>
-		                   <tr th:each="av : ${product.attributeValues}">
-		                       <th><span th:utext="${av.attribute.name}"></span></th>
-		                       <td><span th:utext="${av.value}"></span>&nbsp;<span th:if="${av.attribute.unit != null}" th:utext="#{${'unit.' + av.attribute.unit}}"></span></td>
-		                   </tr>
-		               </tbody>
-		           </table>
+				   <ul class="nav nav-pills">	
+				   	    <li class="active"><a href="#qr-product-attribute-tab" data-toggle="tab" ><span class="fa fa-tasks"></span> <span th:text="#{product.attributes}">Параметры товара</span></a>
+	                    </li>
+	                    <li th:if="${product.hasAdditionalSkus()}"><a href="#qr-product-skus-tab" data-toggle="tab"><span class="fa fa-tags"></span> <span th:text="#{product.skus}">Варианты и цены</span></a>
+	                    </li>
+	               </ul>
+			       <div class="tab-content" style ="overflow-y:auto">
+			       	  <div class="tab-pane fade in active" id="qr-product-attribute-tab">
+			            <table cellspacing="0">
+			               <tbody>
+							   <tr>
+							   	   <th><span th:utext="#{brand.name}"></span></th>
+							   	   <td><a th:utext="${product.brand.name}" th:href="${product.brand.url}"></a></td>
+							   </tr>
+							   <tr>
+							   	   <th><span th:utext="#{product.articuls}"></span></th>
+							   	   <td><span th:utext="${product.skuCodes}"></span></td>
+							   </tr>
+			                   <tr th:each="av : ${product.attributeValues}">
+			                       <th><span th:utext="${av.attribute.name}"></span></th>
+			                       <td><span th:utext="${av.value}"></span>&nbsp;<span th:if="${av.attribute.unit != null}" th:utext="#{${'unit.' + av.attribute.unit}}"></span></td>
+			                   </tr>
+			               </tbody>
+			            </table>
+			       </div>
+			       <div class="tab-pane fade" id="qr-product-skus-tab">
+			            <table cellspacing="0">
+			               <tbody>
+			                   <tr th:each="sku : ${product.skus}">
+			                       <th><span style="font-weight: normal; !important" th:utext="#{product.articul}"></span>: <span th:utext="${sku.code}"></span></th>
+			                       <td>
+			                          <th:block th:each="pov: ${#lists.toList(sku.productOptionValues)}"> 
+				                          <span  style="font-weight: normal; !important" th:utext="${pov.productOption.label}"></span>: <span th:utext="${pov.optionValue}"></span>&nbsp;
+				                          <span th:if="${pov.productOption.unit != null}" th:utext="#{${'unit.' + pov.productOption.unit}}"></span> 
+				                          <br/>
+								      </th:block>
+			                       </td>
+			                       <td>
+			                          <span th:style="${sku.salePrice != null &amp;&amp; sku.salePrice != 0? 'text-decoration: line-through;': ''}" 
+									        style="text-decoration: line-through;"
+									        th:text="${{sku.retailPrice}}">10.00</span>
+								      <span th:if="${sku.salePrice != null}" th:text="${{sku.salePrice}}">9.00</span>
+			                       </td>
+			                   </tr>
+			               </tbody>
+			            </table>
+			         </div>  
+			       </div>
 		           <div class="quick-review-product-buttons">
-		           		<button type="button" onclick="$.modal.close();" th:text="#{button.close}"></button>
+		           		<button type="button" th:text="#{button.toCart}"></button>
+		           		<button type="button" th:text="#{button.buy1click}"></button>
+		           		<button type="button" class="simplemodal-close" th:text="#{button.close}"></button>
 		           </div>
 				</div>
 			</div>

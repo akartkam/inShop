@@ -38,7 +38,7 @@ import com.akartkam.inShop.presentation.admin.EditTab;
 
 @NamedQuery(
 		name = "findProductByProductStatus",
-		query = "from Product as p where :productStatus in  elements(p.defaultSku.productStatus)")
+		query = "from Product as p where :productStatus in  elements(p.defaultSku.productStatus) and p.enabled=true")
 @Entity
 @Table(name = "Product")
 @SuppressWarnings("rawtypes")
@@ -210,7 +210,12 @@ public class Product extends AbstractDomainObjectOrdering {
             }
         }
         return skus;
-    }	
+    }
+    
+    @Transient
+    public boolean hasAdditionalSkus() {
+    	return !getSkus().isEmpty();
+    }
 	
 	public void buildFullLink(String shortUrl) {
 		if (shortUrl == null || "".equals(shortUrl)) return;
@@ -224,7 +229,7 @@ public class Product extends AbstractDomainObjectOrdering {
 	public List<String> getAllImages() {
 		List<String> ret = new ArrayList<String>();
 		for(String image: getDefaultSku().getImages()) ret.add(image);
-		for(Sku sku: getAdditionalSku()) {
+		for(Sku sku: getSkus()) {
 			for(String image: sku.getImages()) ret.add(image);
 		}
 		return ret;

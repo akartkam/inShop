@@ -27,6 +27,7 @@ public class AjaxController {
 		  try {
 			  UUID id = UUID.fromString(productID);
 			  Product product = productService.getProductById(id);
+			  if (product == null || !product.isEnabled()) return "/admin/Error";
 			  model.addAttribute("product", product);
 		  } catch (IllegalArgumentException e) {
 			 return "/admin/Error";	   

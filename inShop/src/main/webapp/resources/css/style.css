@@ -1320,7 +1320,7 @@ div.cart-collaterals ul.products li.product:hover .add_to_cart_button{background
 
 /*Gallery*/
 /*set a border on the images to prevent shifting*/
-.gallery {margin-top: 5px;}
+.gallery {margin-top: 10px;}
 
 .gallery img{border:1px solid white; cursor: pointer;}
  
@@ -1328,28 +1328,33 @@ div.cart-collaterals ul.products li.product:hover .add_to_cart_button{background
 .gallery img.active {border:1px solid #333 !important;}
 
 /* Quick product view*/ 
-.quick-review-product-attributes table {
+.quick-review-product-info table {
+	margin-top: 10px;
     border-bottom: 1px solid #ddd;
     border-right: 1px solid #ddd;
     font-size: 12px;
     font-weight: bold;
     width: 100%;
 }	
-.quick-review-product-attributes table th, .quick-review-product-attributes table td {
+.quick-review-product-info table th, .quick-review-product-info table td {
     border-left: 1px solid #ddd;
     border-top: 1px solid #ddd;
     padding: 3px;
 }		 	
-.quick-review-product-attributes table th {
+.quick-review-product-info table th {
   		background: none repeat scroll 0 0 #f4f4f4;
 }	 
-.quick-review-product-attributes table td{
+.quick-review-product-info table td{
  	font-weight: normal; !important;
     font-style: italic;
 }
 
 .quick-review-product-buttons {
 	margin-top: 5px;
+}
+
+.quick-review-product-buttons button {
+	margin-top: 10px;
 }
 
 /* for zoomsl-3.0*/
