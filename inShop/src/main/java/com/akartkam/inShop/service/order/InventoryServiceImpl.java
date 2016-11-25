@@ -32,6 +32,19 @@ public class InventoryServiceImpl implements InventoryService {
 	private SkuDAO skuDAO; 
 	
 	@Override
+	public Map<Sku, Boolean> retrieveIsAvailable(Collection<Sku> skus) {
+		Map<Sku, Integer> quantsavailable = retrieveQuantitiesAvailable(skus);
+		Map<Sku, Boolean> ret = new HashMap<Sku, Boolean>();
+		for (Entry<Sku, Integer> entry : quantsavailable.entrySet()) {
+            Sku sku = entry.getKey();
+            Boolean isAvailable = (entry.getValue() == null || entry.getValue() != 0);
+            ret.put(sku, isAvailable);
+		}
+		return ret;
+	}
+	
+	
+	@Override
 	@Transactional(readOnly = true)
 	public Map<Sku, Integer> retrieveQuantitiesAvailable(Collection<Sku> skus) {
 		Map<Sku, Integer> inventories = new HashMap<Sku, Integer>();

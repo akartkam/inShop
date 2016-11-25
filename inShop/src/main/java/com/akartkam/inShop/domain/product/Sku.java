@@ -19,6 +19,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.persistence.OrderBy;
 import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -226,6 +227,7 @@ public class Sku extends AbstractDomainObjectOrdering {
         joinColumns = @JoinColumn(name = "sku_id"), 
         inverseJoinColumns = @JoinColumn(name = "product_option_value_id"))
     @BatchSize(size = 50)	
+	@OrderBy("ordering")
 	public Set<ProductOptionValue> getProductOptionValues() {
 		return productOptionValues;
 	}

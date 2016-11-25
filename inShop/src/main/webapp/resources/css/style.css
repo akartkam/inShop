@@ -1318,6 +1318,16 @@ div.cart-collaterals ul.products li.product:hover .add_to_cart_button{background
   color: #5a88ca;
 }
 
+.in-stock{
+	color: #2ecc73;
+	font-weight: bold;
+}
+
+.out-of-stock{
+	color: #e74c3e;
+	font-weight: bold;
+}
+
 /*Gallery*/
 /*set a border on the images to prevent shifting*/
 .gallery {margin-top: 10px;}
@@ -1346,7 +1356,14 @@ div.cart-collaterals ul.products li.product:hover .add_to_cart_button{background
 }	 
 .quick-review-product-info table td{
  	font-weight: normal; !important;
-    font-style: italic;
+    /*font-style: italic;*/
+}
+
+.quick-review-product-info ins {
+    color: #5a88ca;
+    font-weight: bold;
+    font-size: 13px;
+    text-decoration: none;	
 }
 
 .quick-review-product-buttons {

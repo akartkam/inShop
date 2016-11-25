@@ -6,9 +6,10 @@ public enum Unit {
 	KG("KG","килограмм","кг"),
 	GR("GR","грамм","г."),
 	LT("LT","литр","л."),
+	ML("ML","миллилитр","мл"),
 	IT("IT","штук","шт");
 	
-	public static final Unit[] ALL = { MM, SM, KG, GR, LT, IT };
+	public static final Unit[] ALL = { MM, SM, KG, GR, LT, ML, IT };
 	
 	private final String name;
 	private final String fullNameR;

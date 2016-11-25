@@ -205,11 +205,12 @@
 								  	       	  </td>
 								  	       	  <td>
 												<div th:class="${#fields.hasErrors('productOptionValuesList')}? has-error" th:classappend="${(po.unit != null)? 'input-group': ''}">
-													<select class="form-control" th:field="*{productOptionValuesList[__${poStat.index}__]}">
+<!-- 													th:field="*{productOptionValuesList[__${poStat.index}__]}" -->
+													<select class="form-control" >
 													        <option value="">&nbsp;</option>
 														    <option th:each="pov, povStat: ${po.productOptionValues}" 
 														    		th:text="${pov.optionValue}"
-														            th:selected="${po.equals(sku.productOptionValuesList[__${poStat.index}__].productOption)}"
+														            th:selected="${#lists.contains(sku.productOptionValuesList, pov)}"
 														            th:value="${pov.id}">  
 														    </option>      
 													</select>
