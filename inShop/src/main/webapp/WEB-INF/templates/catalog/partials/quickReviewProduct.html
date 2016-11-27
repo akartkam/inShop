@@ -71,7 +71,7 @@
 			                       <td>
 									 <ins th:if="${sku.salePrice != null &amp;&amp; sku.salePrice != 0}" th:utext="${{sku.salePrice}}">$700.00</ins>
 									 <ins th:unless="${sku.salePrice != null &amp;&amp; sku.salePrice != 0}" 
-										  th:utext="${{product.defaultSku.retailPrice}}">$700.00</ins> <del th:if="${sku.salePrice != null &amp;&amp; product.defaultSku.salePrice != 0}" th:utext="${{sku.retailPrice}}">$100.00</del>
+										  th:utext="${{sku.retailPrice}}">$700.00</ins> <del th:if="${sku.salePrice != null &amp;&amp; sku.salePrice != 0}" th:utext="${{sku.retailPrice}}">$100.00</del>
 									 <br/>										  
                                      <span class="in-stock" th:if="${skuAvailableMap.get(sku)}" th:utext="#{sku.available}"></span>	
                                      <span class="out-of-stock" th:unless="${skuAvailableMap.get(sku)}" th:utext="#{sku.unAvailable}"></span>									  

@@ -49,8 +49,23 @@ public class SkuForm extends Sku {
 			this.setSalePrice(sku.getSalePrice());
 			this.setInventoryType(sku.getInventoryType());
 			this.setProductOptionValues(sku.getProductOptionValues());
-			this.productOptionValuesList = new ArrayList<ProductOptionValue>(sku.getProductOptionValues()); 
 			this.productOptionsList = new ArrayList<ProductOption>(sku.getProduct().getProductOptions());
+			this.setProductOptionValuesList(new ArrayList<ProductOptionValue>(sku.getProductOptionValues())); 
+
+		}
+	}
+	
+	//For synhronize right order of optionValues to ProductOptions 
+	private void setProductOptionValuesList(List<ProductOptionValue> skuProductOptionValues) {
+		if (productOptionsList.isEmpty()) return;
+		productOptionValuesList.clear();
+		for (ProductOption po : productOptionsList) {
+			for (ProductOptionValue pov :skuProductOptionValues) {
+				if (po.equals(pov.getProductOption())) { 
+					productOptionValuesList.add(pov);
+					break;
+				}
+			}
 		}
 	}
 	

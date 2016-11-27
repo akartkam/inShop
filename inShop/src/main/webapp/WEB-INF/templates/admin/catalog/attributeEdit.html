@@ -82,7 +82,16 @@
 									    th:text="${scategory.name}">Attribute category</option>
 							  </select>
 						   </div>	
-				            <div class="field-box">
+				           <div class="field-box">
+				                <label>
+				    	   	        <span th:text="#{admin.catalog.attribute.value.holder}">Holder values</span>
+				   		        </label>				            
+		                        <select class="form-control" th:field="*{attributeValuesHolder}">
+		                            <option value="">&nbsp;</option>
+            						<option th:each="avholder: ${allAttrValuesHolder}" th:value="${avholder}" th:text="#{${'attribute.values.holder.' + avholder}}">PRODUCT</option>
+					            </select> 
+					       </div>						    
+				           <div class="field-box">
 				                <label>
 				    	   	        <span th:text="#{unit}">Unit</span>
 				   		        </label>				            
@@ -90,7 +99,7 @@
 		                            <option value="">&nbsp;</option>
             						<option th:each="unit: ${allUnits}" th:value="${unit}" th:text="#{${'unit.' + unit}}">MM</option>
 					            </select> 
-					        </div>						    
+					       </div>						    
 	                       <div class="field-box">
 	 			    		  <label>
 					    	  	<span th:text="#{admin.catalog.attribute.edit.ordering}">Orderig</span>

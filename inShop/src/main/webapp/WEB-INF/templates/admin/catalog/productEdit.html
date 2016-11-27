@@ -168,7 +168,7 @@
 								  <option value="">&nbsp;</option>
 								  <option th:each="scategory : ${allCategory}" 
 								          th:value="${scategory.id}"
-									      th:text="${scategory.name}"
+									      th:utext="${scategory.tag}"
 									      th:class="${!scategory.enabled} ? 'text-muted'">Category 1</option>
 							   </select>
 							   <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('category')}" th:errors="*{category}">Empty category</p>

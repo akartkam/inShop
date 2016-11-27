@@ -11,6 +11,7 @@ import java.util.UUID;
 
 import javax.validation.Valid;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.security.core.GrantedAuthority;
@@ -57,7 +58,12 @@ public class AdminCategoryController {
 	  
 	  @ModelAttribute("allCategories")
 	  public List<Category> getAllCategories() {
-	      return categoryService.getAllCategoryHierarchy(true);
+		  List<Category> cats = categoryService.getAllCategoryHierarchy(true);
+		  for (Category cat : cats) {
+			 cat.tag = StringUtils.repeat("¦&nbsp;&nbsp;&nbsp;&nbsp;", cat.getDepthNesting()); 
+			 cat.tag = new StringBuilder(cat.tag).append(" ").append(cat.getName().trim()).toString();
+		  }
+		  return cats; 
 	  }	  
 	  
 	  @ModelAttribute("allAttributeCategories")

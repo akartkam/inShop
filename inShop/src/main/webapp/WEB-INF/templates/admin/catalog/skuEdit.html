@@ -205,8 +205,7 @@
 								  	       	  </td>
 								  	       	  <td>
 												<div th:class="${#fields.hasErrors('productOptionValuesList')}? has-error" th:classappend="${(po.unit != null)? 'input-group': ''}">
-<!-- 													th:field="*{productOptionValuesList[__${poStat.index}__]}" -->
-													<select class="form-control" >
+													<select class="form-control" th:field="*{productOptionValuesList[__${poStat.index}__]}">
 													        <option value="">&nbsp;</option>
 														    <option th:each="pov, povStat: ${po.productOptionValues}" 
 														    		th:text="${pov.optionValue}"

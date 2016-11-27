@@ -122,6 +122,7 @@ public class AttributeCategoryServiceImpl implements AttributeCategoryService {
 			existingAttribute.setOrdering(attributeFromPost.getOrdering());
 			existingAttribute.setEnabled(attributeFromPost.isEnabled());
 			existingAttribute.setUnit(attributeFromPost.getUnit());
+			existingAttribute.setAttributeValuesHolder(attributeFromPost.getAttributeValuesHolder());
 			if (existingAttribute instanceof Selectable)
 				((Selectable)existingAttribute).setStringItems(attributeFromPost.getItems());
 			AttributeCategory attributeCategoryFromPost = attributeFromPost.getAttributeCategory();
@@ -134,6 +135,7 @@ public class AttributeCategoryServiceImpl implements AttributeCategoryService {
 			attributeNew.setOrdering(attributeFromPost.getOrdering());
 			attributeNew.setEnabled(attributeFromPost.isEnabled());
 			attributeNew.setUnit(attributeFromPost.getUnit());
+			attributeNew.setAttributeValuesHolder(attributeFromPost.getAttributeValuesHolder());
 			if (attributeNew instanceof Selectable)
 				((Selectable)attributeNew).setStringItems(attributeFromPost.getItems());
 			AttributeCategory attributeCategoryFromPost = attributeFromPost.getAttributeCategory();
@@ -152,7 +154,7 @@ public class AttributeCategoryServiceImpl implements AttributeCategoryService {
 			  errors.rejectValue("name", "error.duplicate");
 		    }
 		} else {
-		if ((existingAttribute instanceof Selectable) && (!((Selectable)existingAttribute).getItems().isEmpty())) {
+		 if ((existingAttribute instanceof Selectable) && (!((Selectable)existingAttribute).getItems().isEmpty())) {
 			Collection<String> diffItems = CollectionUtils.disjunction(((Selectable)existingAttribute).getStringItems(), attributeFromPost.getItems());
 			List<String> diffItemsRes = new ArrayList<String>();
 			for (String diffItem: diffItems) {
@@ -165,6 +167,11 @@ public class AttributeCategoryServiceImpl implements AttributeCategoryService {
 				errors.rejectValue("items", "error.iteminuse", new String[] {diffItemsRes.toString()}, null);				
 			}
 			
+		 }
+		 if (!errors.hasFieldErrors("attributeValuesHolder") && 
+			 !existingAttribute.getAttributeValuesHolder().equals(attributeFromPost.getAttributeValuesHolder()) &&
+			 existingAttribute.hasAttributeValues()) {
+			 errors.rejectValue("attributeValuesHolder", "error.attributeValuesHolder");
 		 }
 		}
 		return errors.hasErrors();		

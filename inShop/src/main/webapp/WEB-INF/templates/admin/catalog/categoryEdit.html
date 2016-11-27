@@ -98,7 +98,7 @@
 								<option th:if="${scategory.id != category.id}" 
 								        th:each="scategory : ${allCategories}" 
 								        th:value="${scategory.id}"
-									    th:text="${scategory.name}"
+									    th:utext="${scategory.tag}"
 									    >option 1</option>
 							 </select>
 						   </div>	 

@@ -172,7 +172,7 @@
 										       <span style="font-size: 9pt;" th:if="${!#lists.isEmpty(pr.skuCodes)}" th:text="#{admin.catalog.product.articul}+': '+${#strings.listJoin(pr.skuCodes,', ') }">code</span>
 										    </div> 										
 										</td>
-										<td class="mightOverflow domain-col"><span th:text="${pr.category!=null? pr.category.name: ''}">Category Category Category Category Category Category Category</span></td>
+										<td class="mightOverflow domain-col" th:attr="data-title=${pr.category.buildFullName()}"><span th:text="${pr.category!=null? pr.category.buildFullName(): ''}">Category</span></td>
 										<td class="mightOverflow domain-col"><span th:text="${pr.url}">URL</span></td>
 										<td class="mightOverflow domain-col"><span th:text="${pr.brand!=null? pr.brand.name: ''}">Brand</span></td>
 										<td class="mightOverflow domain-col"><span th:text="${pr.model}">Model</span></td>

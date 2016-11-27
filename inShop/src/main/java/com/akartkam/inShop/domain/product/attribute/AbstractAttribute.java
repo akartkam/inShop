@@ -27,7 +27,6 @@ import javax.validation.constraints.Size;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.Transformer;
-import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Cascade;
 
 import com.akartkam.inShop.domain.AbstractDomainObjectOrdering;
@@ -52,6 +51,7 @@ public abstract class AbstractAttribute extends AbstractDomainObjectOrdering {
 	private AttributeCategory attributeCategory;
 	private Set<Category> category = new HashSet<Category>(0);
 	protected List<AbstractAttributeValue> attributeValues = new ArrayList<AbstractAttributeValue>(0);
+	private AttributeValuesHolderType attributeValuesHolder;
 	private Unit unit;
 	
 	@NotNull
@@ -107,7 +107,19 @@ public abstract class AbstractAttribute extends AbstractDomainObjectOrdering {
 	public void setCategory(Set<Category> category) {
 		this.category = category;
 	}
-	
+
+    @NotNull
+    @Column(name = "values_holder", nullable = false)
+    //, columnDefinition="character varying(255) default 'PRODUCT'"
+    @Enumerated(EnumType.STRING)	
+	public AttributeValuesHolderType getAttributeValuesHolder() {
+		return attributeValuesHolder;
+	}
+	public void setAttributeValuesHolder(
+			AttributeValuesHolderType attributeValuesHolder) {
+		this.attributeValuesHolder = attributeValuesHolder;
+	}
+
 	@Transient
 	public Collection<String> getStringAttributeValues() {
 		return CollectionUtils.collect(getAttributeValues(), new Transformer<AbstractAttributeValue, String>(){
@@ -129,6 +141,7 @@ public abstract class AbstractAttribute extends AbstractDomainObjectOrdering {
 		attribute.setUpdatedBy(null);
 		attribute.setUpdatedDate(null);
 		attribute.setCategory(new HashSet<Category>());
+		attribute.setUnit(getUnit());
 		attribute.setAttributeValues(new ArrayList<AbstractAttributeValue>());
 		return attribute;
 	}	

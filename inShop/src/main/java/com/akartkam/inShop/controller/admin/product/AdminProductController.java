@@ -30,6 +30,7 @@ import javax.validation.Valid;
 
 import org.apache.commons.beanutils.BeanUtilsBean;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -123,7 +124,12 @@ public class AdminProductController {
 	  
 	  @ModelAttribute("allCategory")
 	  public List<Category> getAllCategory() {
-	      return categoryService.getAllCategoryHierarchy(true);
+		  List<Category> cats = categoryService.getAllCategoryHierarchy(true);
+		  for (Category cat : cats) {
+			 cat.tag = StringUtils.repeat("¦&nbsp;&nbsp;&nbsp;&nbsp;", cat.getDepthNesting()); 
+			 cat.tag = new StringBuilder(cat.tag).append(" ").append(cat.getName().trim()).toString();
+		  }
+		  return cats; 
 	  }	  
 	  
 	  

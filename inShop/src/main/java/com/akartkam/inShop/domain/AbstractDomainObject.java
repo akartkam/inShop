@@ -4,8 +4,6 @@ import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
 import javax.persistence.Version;
@@ -22,11 +20,11 @@ public abstract class AbstractDomainObject implements DomainObject<UUID>, Clonea
     private UUID id = GeneratorId.createId();
     private Integer version=0;
     private boolean enabled=true;
-    private DateTime createdDate; //= DateTime.now();  
+    private DateTime createdDate;   
     private String createdBy;  
-	private DateTime updatedDate; //= DateTime.now();  
+	private DateTime updatedDate;  
     private String  updatedBy;      
-
+    public String tag; //not persistence, for common use
 
 	@Id
 	@Column(name="id")
@@ -145,4 +143,6 @@ public abstract class AbstractDomainObject implements DomainObject<UUID>, Clonea
 	public boolean canRemove(){
 		return true;
 	}
+	
+	
 }

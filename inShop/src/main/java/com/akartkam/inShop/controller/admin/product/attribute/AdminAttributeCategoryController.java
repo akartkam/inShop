@@ -35,6 +35,7 @@ import com.akartkam.inShop.domain.Unit;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
 import com.akartkam.inShop.domain.product.attribute.AttributeCategory;
 import com.akartkam.inShop.domain.product.attribute.AttributeType;
+import com.akartkam.inShop.domain.product.attribute.AttributeValuesHolderType;
 import com.akartkam.inShop.formbean.AttributeForm;
 import com.akartkam.inShop.service.product.AttributeCategoryService;
 
@@ -70,9 +71,16 @@ public class AdminAttributeCategoryController {
 	      return Arrays.asList(Unit.ALL);
 	  }
 	  
+	  @ModelAttribute("allAttrValuesHolder")
+	  public List<AttributeValuesHolderType> getAllAttrValuesHolder() {
+	      return Arrays.asList(AttributeValuesHolderType.ALL);
+	  }
+	  
+	  
+	  
 	  @InitBinder
 	  public void initBinder(WebDataBinder binder) {
-			binder.setAllowedFields(new String[] { "id", "name", "ordering", "enabled", "unit",
+			binder.setAllowedFields(new String[] { "id", "name", "ordering", "enabled", "unit", "attributeValuesHolder",
 					                               "attributeType", "attributeCategory", "items", "createdDate"});
 			binder.registerCustomEditor(UUID.class, "id", new PropertyEditorSupport() {
 			    @Override

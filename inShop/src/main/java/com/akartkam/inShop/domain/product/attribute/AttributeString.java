@@ -21,11 +21,4 @@ public class AttributeString extends AbstractAttribute {
 		return AttributeType.STRING;
 	}
 	
-	
-/*	@Override
-	@OneToMany(mappedBy="attribute", targetEntity=AttributeStringValue.class)
-	public List<AbstractAttributeValue> getAttributeValues() {
-		return attributeValues;
-	}*/
-
 }

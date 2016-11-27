@@ -23,12 +23,6 @@ public class AttributeDecimal extends AbstractAttribute {
 	}
 	
 
-	/*@Override
-	@OneToMany(mappedBy="attribute", targetEntity=AttributeDecimalValue.class)
-	public List<AbstractAttributeValue> getAttributeValues() {
-		return attributeValues;
-	}
-*/
-	
+
 
 }

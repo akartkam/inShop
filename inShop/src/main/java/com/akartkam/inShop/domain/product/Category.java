@@ -344,4 +344,27 @@ public class Category extends AbstractDomainObjectOrdering {
 		return (!hasSubCategory() && !hasAttributes() && products.isEmpty());
 	}
 	
+	@Transient
+	public int getDepthNesting() {
+		int depth = 0;
+		Category cat = this;
+		while (cat.hasParentCategory()) {
+			depth+=1;
+			cat = cat.getParent();
+		}
+		return depth;	
+	}
+	
+	@Transient
+	public String buildFullName() {
+		StringBuilder res= new StringBuilder(this.getName());
+		Category cat = this;
+		while (cat.hasParentCategory()) {
+			res.insert(0, "/");
+			res =  res.insert(0, cat.getParent().getName());
+			cat = cat.getParent();
+		}
+		return res.toString();		
+	}
+	
 }
