@@ -13,6 +13,7 @@ import com.akartkam.inShop.domain.product.Product;
 import com.akartkam.inShop.domain.product.ProductStatus;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttributeValue;
+import com.akartkam.inShop.domain.product.attribute.AttributeValuesHolderType;
 import com.akartkam.inShop.domain.product.option.ProductOption;
 
 
@@ -72,7 +73,7 @@ public class ProductForm extends Product {
 			 List<AbstractAttribute> at = new ArrayList<AbstractAttribute>();
 			 Category ct = getCategory();
 			 if (ct == null) return;
-			 at = ct.getAllAttributes(at, true);
+			 at = ct.getAllAttributes(at, true, AttributeValuesHolderType.PRODUCT);
 			 List<AbstractAttributeValue> av = getAttributeValues();
 			 boolean needAdd;
 			 for (AbstractAttribute cat : at) {

@@ -2,6 +2,7 @@ package com.akartkam.inShop.domain.product.attribute;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -156,5 +157,25 @@ public abstract class AbstractAttribute extends AbstractDomainObjectOrdering {
 	public boolean canRemove() {
 		return (!hasAttributeValues() && category.isEmpty());
 	}
+	
+	public static class AVComparer implements Comparator<AbstractAttributeValue> {
+
+		@Override
+		public int compare(AbstractAttributeValue arg0, AbstractAttributeValue arg1) {
+			AbstractAttribute at0 = (arg0!=null?arg0.getAttribute():null);
+			AbstractAttribute at1 = (arg1!=null?arg1.getAttribute():null);
+		    if (at0 == null ^ at1 == null) {
+		        return (at0 == null) ? -1 : 1;
+		    }
+
+		    if (at0 == null && at1 == null) {
+		        return 0;
+		    }
+
+			return at0.compareTo(at1) ;
+		}
+		  
+	}
+
 	
 }

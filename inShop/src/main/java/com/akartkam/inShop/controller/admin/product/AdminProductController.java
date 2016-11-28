@@ -126,7 +126,7 @@ public class AdminProductController {
 	  public List<Category> getAllCategory() {
 		  List<Category> cats = categoryService.getAllCategoryHierarchy(true);
 		  for (Category cat : cats) {
-			 cat.tag = StringUtils.repeat("¦&nbsp;&nbsp;&nbsp;&nbsp;", cat.getDepthNesting()); 
+			 cat.tag = StringUtils.repeat("|&nbsp;&nbsp;&nbsp;&nbsp;", cat.getDepthNesting()); 
 			 cat.tag = new StringBuilder(cat.tag).append(" ").append(cat.getName().trim()).toString();
 		  }
 		  return cats; 

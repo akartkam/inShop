@@ -88,7 +88,7 @@ public class AdminSkuController {
 
 	  @InitBinder
 	  public void initBinder(WebDataBinder binder) {
-			binder.setAllowedFields(new String[] { "*id", "*name", "url", "*description", "*longDescription", 
+			binder.setAllowedFields(new String[] { "*id", "*name", "url", "*description", "*longDescription", "attributeValues*",
 					 							   "*code", "ordering", "*images*", "enabled", "*retailPrice", "productOptionValuesList*", 
 					 							   "*salePrice", "*costPrice", "*activeStartDate", "*activeEndDate", "productOptionsList*",
 					 							   "quantityAvailable", "inventoryType"});
@@ -151,8 +151,10 @@ public class AdminSkuController {
 				  LOG.error("Sku ID="+ID+" not found!");
 				  throw new SkuNotFoundException("Sku ID="+ID+" not found!");
 			  }		      
+			  SkuForm skuForm = new SkuForm(sku);
+			  skuForm.complementNecessaryAttributes();
 		      model.addAttribute("sku", new SkuForm(sku));
-		      product = sku.getProduct();
+		      product = skuForm.getProduct();
 		  }
 		  if (product == null) {
 			  sku = (Sku) model.asMap().get("sku");

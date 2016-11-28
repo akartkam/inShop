@@ -16,11 +16,14 @@ import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.ForeignKey;
 
 import com.akartkam.inShop.domain.AbstractDomainObject;
 import com.akartkam.inShop.domain.product.Category;
 import com.akartkam.inShop.domain.product.Product;
+import com.akartkam.inShop.domain.product.Sku;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -37,6 +40,7 @@ public abstract class AbstractAttributeValue<T extends Serializable> extends Abs
 	protected AbstractAttribute attribute;
 	protected Category category;
 	protected Product product;
+	protected Sku sku;
 	protected T attributeValue;
 	
 	@Transient
@@ -73,7 +77,7 @@ public abstract class AbstractAttributeValue<T extends Serializable> extends Abs
 	}
 	
 	@ManyToOne
-	@JoinColumn(nullable=false)
+	@JoinColumn
 	@ForeignKey(name = "fk_attributevalue_product_id")
 	public Product getProduct() {
 		return product;
@@ -81,6 +85,17 @@ public abstract class AbstractAttributeValue<T extends Serializable> extends Abs
 
 	public void setProduct(Product product) {
 		this.product = product;
+	}
+	
+	@ManyToOne
+	@JoinColumn
+	@ForeignKey(name = "fk_attributevalue_sku_id")
+	public Sku getSku() {
+		return sku;
+	}
+
+	public void setSku(Sku sku) {
+		this.sku = sku;
 	}
 	
 	@ManyToOne

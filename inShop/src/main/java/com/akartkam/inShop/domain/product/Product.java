@@ -2,7 +2,6 @@ package com.akartkam.inShop.domain.product;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -11,6 +10,7 @@ import java.util.UUID;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -114,7 +114,7 @@ public class Product extends AbstractDomainObjectOrdering {
 	}
 	public void setAttributeValues(List<AbstractAttributeValue> attributeValues) {
 		this.attributeValues = attributeValues;
-		Collections.sort(attributeValues, new Product.AVComparer());
+		Collections.sort(attributeValues, new AbstractAttribute.AVComparer());
 	}	
 	
 	public void addAttributeValue (AbstractAttributeValue attributeValue) {
@@ -157,6 +157,7 @@ public class Product extends AbstractDomainObjectOrdering {
 			@JoinColumn(name = "product_id", nullable = false, updatable = false) }, 
 			inverseJoinColumns = { @JoinColumn(name = "product_option_id", 
 					nullable = false, updatable = false) })
+	@BatchSize(size=20)
 	public Set<ProductOption> getProductOptions() {
 		return productOptions;
 	}
@@ -190,7 +191,7 @@ public class Product extends AbstractDomainObjectOrdering {
 	        this.defaultSku = defaultSku;
 	}
 	
-	@OneToMany(mappedBy="product")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy="product")
 	@Cascade(org.hibernate.annotations.CascadeType.ALL)
 	@BatchSize(size = 10)
 	@OrderBy("ordering")
@@ -263,24 +264,6 @@ public class Product extends AbstractDomainObjectOrdering {
 		return product;
 	}  
 	
-	public static class AVComparer implements Comparator<AbstractAttributeValue> {
-
-		@Override
-		public int compare(AbstractAttributeValue arg0, AbstractAttributeValue arg1) {
-			AbstractAttribute at0 = (arg0!=null?arg0.getAttribute():null);
-			AbstractAttribute at1 = (arg1!=null?arg1.getAttribute():null);
-		    if (at0 == null ^ at1 == null) {
-		        return (at0 == null) ? -1 : 1;
-		    }
-
-		    if (at0 == null && at1 == null) {
-		        return 0;
-		    }
-
-			return at0.compareTo(at1) ;
-		}
-		  
-	}
 	
 
 }

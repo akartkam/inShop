@@ -7,7 +7,11 @@ import java.util.List;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+import com.akartkam.inShop.domain.product.Category;
 import com.akartkam.inShop.domain.product.Sku;
+import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
+import com.akartkam.inShop.domain.product.attribute.AbstractAttributeValue;
+import com.akartkam.inShop.domain.product.attribute.AttributeValuesHolderType;
 import com.akartkam.inShop.domain.product.option.ProductOption;
 import com.akartkam.inShop.domain.product.option.ProductOptionValue;
 import com.akartkam.inShop.presentation.admin.AdminPresentation;
@@ -51,9 +55,32 @@ public class SkuForm extends Sku {
 			this.setProductOptionValues(sku.getProductOptionValues());
 			this.productOptionsList = new ArrayList<ProductOption>(sku.getProduct().getProductOptions());
 			this.setProductOptionValuesList(new ArrayList<ProductOptionValue>(sku.getProductOptionValues())); 
-
 		}
 	}
+	
+	@SuppressWarnings("rawtypes")
+	public void complementNecessaryAttributes() throws ClassNotFoundException, InstantiationException, IllegalAccessException {			 
+			 List<AbstractAttribute> at = new ArrayList<AbstractAttribute>();
+			 
+			 Category ct = isDefaultSku()? getDefaultProduct().getCategory(): getProduct().getCategory();
+					 
+			 if (ct == null) return;
+			 at = ct.getAllAttributes(at, true, AttributeValuesHolderType.SKU);
+			 List<AbstractAttributeValue> av = getAttributeValues();
+			 boolean needAdd;
+			 for (AbstractAttribute cat : at) {
+				 needAdd = true;
+				 for (AbstractAttributeValue cav: av) {
+					 if (cat.equals(cav.getAttribute())) {
+						needAdd = false;
+						break;
+					 }
+				 }
+				 if (needAdd) {
+					 addAttributeValue(cat);
+				 }
+			 }
+	  }	
 	
 	//For synhronize right order of optionValues to ProductOptions 
 	private void setProductOptionValuesList(List<ProductOptionValue> skuProductOptionValues) {

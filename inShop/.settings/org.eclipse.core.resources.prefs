@@ -1,5 +1,6 @@
 eclipse.preferences.version=1
 encoding//src/main/java/com/akartkam/inShop/app/DiffSums.java=UTF-8
+encoding//src/main/java/com/akartkam/inShop/controller/admin/product/AdminProductController.java=UTF-8
 encoding//src/main/java/com/akartkam/inShop/controller/admin/product/attribute/AdminAttributeCategoryController.java=UTF-8
 encoding//src/main/java/com/akartkam/inShop/domain/product/InventoryType.java=UTF-8
 encoding//src/main/java/com/akartkam/inShop/service/aop/AdminRequestMappingAspect.java=UTF-8

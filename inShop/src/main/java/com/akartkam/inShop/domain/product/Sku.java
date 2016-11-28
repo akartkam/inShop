@@ -2,12 +2,14 @@ package com.akartkam.inShop.domain.product;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -18,6 +20,7 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
 import javax.persistence.OrderColumn;
@@ -31,6 +34,7 @@ import javax.validation.constraints.NotNull;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.annotations.BatchSize;
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Index;
@@ -43,6 +47,9 @@ import org.springframework.format.annotation.NumberFormat.Style;
 import javax.persistence.JoinColumn;
 
 import com.akartkam.inShop.domain.AbstractDomainObjectOrdering;
+import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
+import com.akartkam.inShop.domain.product.attribute.AbstractAttributeValue;
+import com.akartkam.inShop.domain.product.attribute.SimpleAttributeFactory;
 import com.akartkam.inShop.domain.product.option.ProductOption;
 import com.akartkam.inShop.domain.product.option.ProductOptionValue;
 import com.akartkam.inShop.presentation.admin.AdminPresentation;
@@ -70,6 +77,8 @@ public class Sku extends AbstractDomainObjectOrdering {
     private List<String> images = new ArrayList<String>();
     private Product defaultProduct;   
     private Product product;
+	private List<AbstractAttributeValue> attributeValues = new ArrayList<AbstractAttributeValue>();
+
 
     @AdminPresentation(tab=EditTab.MAIN)
 	@NotEmpty
@@ -252,6 +261,38 @@ public class Sku extends AbstractDomainObjectOrdering {
 	public void setDefaultProduct(Product defaultProduct) {
 		this.defaultProduct = defaultProduct;
 	}
+	
+	@OneToMany(mappedBy="sku", cascade = CascadeType.ALL, orphanRemoval=true)
+	@Cascade(org.hibernate.annotations.CascadeType.ALL)
+	@BatchSize(size = 20)
+	public List<AbstractAttributeValue> getAttributeValues() {
+		return attributeValues;
+	}
+	public void setAttributeValues(List<AbstractAttributeValue> attributeValues) {
+		this.attributeValues = attributeValues;
+		Collections.sort(attributeValues, new AbstractAttribute.AVComparer());
+	}	
+	
+	public void addAttributeValue (AbstractAttributeValue attributeValue) {
+		if (attributeValue == null) throw new IllegalArgumentException("Null attributeValue!");
+		attributeValue.setSku(this);
+		getAttributeValues().add(attributeValue);		
+	}
+
+	public void addAttributeValue (AbstractAttributeValue attributeValue, AbstractAttribute attribute) {
+		if (attributeValue == null) throw new IllegalArgumentException("Null attributeValue!");
+		if (attribute == null) throw new IllegalArgumentException("Null attribute!");
+		if (attribute.getAttributeType() != attributeValue.getAttributeValueType()) throw new IllegalArgumentException("The type of attribute and attributeValue is different!"); 
+		attributeValue.setAttribute(attribute);
+		addAttributeValue(attributeValue);
+	}	
+	
+	public void addAttributeValue (AbstractAttribute attribute) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
+		if (attribute == null) throw new IllegalArgumentException("Null attribute!");
+		AbstractAttributeValue attributeValue = SimpleAttributeFactory.createAttributeValue(attribute.getAttributeType());
+		addAttributeValue(attributeValue, attribute);
+	}
+	
 	
 	@Transient
 	public boolean isOnSale() {

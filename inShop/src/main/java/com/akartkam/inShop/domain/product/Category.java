@@ -35,6 +35,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import com.akartkam.inShop.domain.AbstractDomainObjectOrdering;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttributeValue;
+import com.akartkam.inShop.domain.product.attribute.AttributeValuesHolderType;
 import com.akartkam.inShop.presentation.admin.AdminPresentation;
 import com.akartkam.inShop.presentation.admin.EditTab;
 import com.akartkam.inShop.validator.HtmlSafe;
@@ -276,6 +277,24 @@ public class Category extends AbstractDomainObjectOrdering {
 	}
 	
 	@Transient
+	public List<AbstractAttribute> getAllAttributes (List<AbstractAttribute> currentHierarchy, AttributeValuesHolderType valueHolde) {
+        if (currentHierarchy == null) {
+            currentHierarchy = new ArrayList<AbstractAttribute>();
+        }	
+        if (currentHierarchy.isEmpty())        
+	        for (AbstractAttribute at: getAttributes()) {
+	        	if (!currentHierarchy.contains(at) && at.isEnabled() && at.getAttributeValuesHolder().equals(valueHolde)) currentHierarchy.add(at);        
+	        }
+        for(Category category : getSubCategory()) {
+			if (category.isEnabled()) {
+				for (AbstractAttribute at: category.getAttributes()) if (at.isEnabled() && at.getAttributeValuesHolder().equals(valueHolde)) currentHierarchy.add(at);
+				category.getAllAttributes(currentHierarchy, valueHolde);
+			}
+		}
+		return currentHierarchy;
+	}
+	
+	@Transient
 	public List<AbstractAttribute> getAllAttributes (List<AbstractAttribute> currentHierarchy, boolean up) {
         if (currentHierarchy == null) {
             currentHierarchy = new ArrayList<AbstractAttribute>();
@@ -292,6 +311,25 @@ public class Category extends AbstractDomainObjectOrdering {
         }
         return currentHierarchy;
 	}
+	
+	@Transient
+	public List<AbstractAttribute> getAllAttributes (List<AbstractAttribute> currentHierarchy, boolean up, AttributeValuesHolderType valueHolde) {
+        if (currentHierarchy == null) {
+            currentHierarchy = new ArrayList<AbstractAttribute>();
+        }
+        if (currentHierarchy.isEmpty())
+	        for (AbstractAttribute at: getAttributes()) {
+	        	if (!currentHierarchy.contains(at) && at.isEnabled() && at.getAttributeValuesHolder().equals(valueHolde)) currentHierarchy.add(at);        
+	        }
+        if (!up) return getAllAttributes(currentHierarchy);
+        Category parent = getParent();
+        if (parent!=null) {
+        	for (AbstractAttribute at: parent.getAttributes()) if (at.isEnabled()) currentHierarchy.add(at);
+        	parent.getAllAttributes(currentHierarchy, up, valueHolde);
+        }
+        return currentHierarchy;
+	}
+
 	
 	
 	@Transient
