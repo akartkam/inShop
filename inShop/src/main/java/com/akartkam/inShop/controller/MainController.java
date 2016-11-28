@@ -39,10 +39,10 @@ public class MainController extends AbstractController {
 	public ModelAndView handleRequestInternal(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		ModelAndView model = new ModelAndView();
-		model.setViewName("redirect:/admin");
+		//model.setViewName("redirect:/admin");
 		//model.setViewName("/test");
-		return model;
-		/*List<Category> rootCategorys = categoryService.getRootCategories(false);
+		//return model;
+		List<Category> rootCategorys = categoryService.getRootCategories(false);
 		List<Product> newProducts = productService.getProductsByProductStatus(ProductStatus.NEW);
 		List<Product> actionProducts = productService.getProductsByProductStatus(ProductStatus.ACTION);
 		List<Brand> brands = brandService.getAllBrand(false);
@@ -51,7 +51,7 @@ public class MainController extends AbstractController {
 		model.addObject("newProducts", newProducts);
 		model.addObject("actionProducts", actionProducts);
 		model.addObject("brands", brands);
-		return model;*/
+		return model;
 	}
 	
 	

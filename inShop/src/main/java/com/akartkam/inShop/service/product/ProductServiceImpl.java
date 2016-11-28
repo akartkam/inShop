@@ -378,6 +378,7 @@ public class ProductServiceImpl implements ProductService {
 	}	
 	
 	//Sku
+	@SuppressWarnings("rawtypes")
 	@Override
 	@Transactional(readOnly = false)
 	public void mergeWithExistingSkuAndUpdateOrCreate(final SkuForm skuFromPost, Errors errors) {
@@ -405,7 +406,26 @@ public class ProductServiceImpl implements ProductService {
 			for (String i : skuFromPost.getImages()) sku.getImages().add(i);
 			sku.setInventoryType(skuFromPost.getInventoryType());
 			sku.setOrdering(skuFromPost.getOrdering());
-			
+			//Attributes
+			List<AbstractAttributeValue> lavfp = skuFromPost.getAttributeValues();			
+			Iterator<AbstractAttributeValue> avi = sku.getAttributeValues().iterator();
+			while(avi.hasNext()) {
+				AbstractAttributeValue av = avi.next();
+				int idx = lavfp.indexOf(av);
+				if (lavfp.contains(av)) {
+					if (lavfp.get(idx).getValue() == null || "".equals(lavfp.get(idx).getValue())) {
+						avi.remove();
+					} else {
+						av.setValue(lavfp.get(idx).getValue());
+					}
+					lavfp.remove(idx);
+				} else {
+					avi.remove();
+				}
+			}
+			for (AbstractAttributeValue av1:lavfp) {
+				sku.addAttributeValue(av1);
+			}			
 		} else {
 			skuFromPost.setProductOptionValuesFromList();
 			Sku skuC = new Sku();

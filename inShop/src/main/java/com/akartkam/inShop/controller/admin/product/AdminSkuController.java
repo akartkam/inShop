@@ -44,6 +44,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.akartkam.inShop.domain.product.InventoryType;
 import com.akartkam.inShop.domain.product.Product;
 import com.akartkam.inShop.domain.product.Sku;
+import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
+import com.akartkam.inShop.domain.product.attribute.AbstractAttributeValue;
+import com.akartkam.inShop.domain.product.attribute.AttributeType;
+import com.akartkam.inShop.domain.product.attribute.SimpleAttributeFactory;
 import com.akartkam.inShop.domain.product.option.ProductOption;
 import com.akartkam.inShop.domain.product.option.ProductOptionValue;
 import com.akartkam.inShop.service.product.AttributeCategoryService;
@@ -122,7 +126,37 @@ public class AdminSkuController {
 			    		setValue(null);
 			    	}
 			    }
-			    });			
+			    });
+			
+			binder.registerCustomEditor(AbstractAttributeValue.class,"attributeValues", new PropertyEditorSupport() {
+			    @Override
+			    public void setAsText(String text) {
+			    	if (!"".equals(text)) {
+			    		String[] avv = text.split("_");
+			    		AbstractAttributeValue<?> av = attributeCategoryService.getAttributeValueById(UUID.fromString(avv[1]));
+			    		if (av == null)
+							try {
+								av = SimpleAttributeFactory.createAttributeValue(AttributeType.valueOf(avv[0]));
+							} catch (ClassNotFoundException
+									| InstantiationException
+									| IllegalAccessException e) {
+								// TODO Auto-generated catch block
+								LOG.error(e);
+							}
+			            setValue(av);
+			    	}
+			    }
+			    });	
+			binder.registerCustomEditor(AbstractAttribute.class,"attributeValues.attribute", new PropertyEditorSupport() {
+			    @Override
+			    public void setAsText(String text) {
+			    	if (!"".equals(text)) {
+			    		AbstractAttribute at = attributeCategoryService.getAttributeByIdForForm(UUID.fromString(text));			    		
+			            setValue(at);
+			    	}			    
+			    }
+			    });
+			
 	         
 	  }
 
@@ -153,7 +187,7 @@ public class AdminSkuController {
 			  }		      
 			  SkuForm skuForm = new SkuForm(sku);
 			  skuForm.complementNecessaryAttributes();
-		      model.addAttribute("sku", new SkuForm(sku));
+		      model.addAttribute("sku", skuForm);
 		      product = skuForm.getProduct();
 		  }
 		  if (product == null) {

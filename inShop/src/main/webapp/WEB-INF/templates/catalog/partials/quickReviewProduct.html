@@ -67,6 +67,10 @@
 				                          <span th:if="${pov.productOption.unit != null}" th:utext="#{${'unit.' + pov.productOption.unit}}"></span> 
 				                          <br/>
 								      </th:block>
+			                          <th:block th:each="av: ${sku.attributeValues}"> 
+					                      <span th:utext="${av.attribute.name}"></span>: <span style="font-weight: bold; !important" th:utext="${av.value}"></span>&nbsp;<span th:if="${av.attribute.unit != null}" th:utext="#{${'unit.' + av.attribute.unit}}"></span>
+				                          <br/>
+								      </th:block>
 			                       </td>
 			                       <td>
 									 <ins th:if="${sku.salePrice != null &amp;&amp; sku.salePrice != 0}" th:utext="${{sku.salePrice}}">$700.00</ins>
