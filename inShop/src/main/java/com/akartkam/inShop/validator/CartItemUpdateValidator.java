@@ -52,13 +52,13 @@ public class CartItemUpdateValidator implements Validator {
 			}
 		}
 		try {
-			if (sku != null) {
+			if (sku != null && sku.isEnabled()) {
 		        boolean isAvailable = inventoryService.isQuantityAvailable(sku, cartItem.getQuantity());
 		        if (!isAvailable) 
 		        	throw new InventoryUnavailableException("The referenced Sku " + sku.getId() + " is marked as unavailable, or an insufficient amount",
 		        			                                 sku.getId(), cartItem.getQuantity(), inventoryService.retrieveQuantityAvailable(sku));
 			} else {
-				throw new SkuNotFoundException("The referenced Sku "+cartItem.getSkuId()+" could not found.");			
+				throw new SkuNotFoundException("The referenced Sku "+cartItem.getSkuId()+" could not found or inactive.");			
 			}
 		
 		} catch (SkuNotFoundException | InventoryUnavailableException e) {

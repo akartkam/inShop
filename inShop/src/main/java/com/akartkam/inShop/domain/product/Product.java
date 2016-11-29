@@ -33,6 +33,7 @@ import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttributeValue;
 import com.akartkam.inShop.domain.product.attribute.SimpleAttributeFactory;
 import com.akartkam.inShop.domain.product.option.ProductOption;
+import com.akartkam.inShop.domain.product.option.ProductOptionValue;
 import com.akartkam.inShop.presentation.admin.AdminPresentation;
 import com.akartkam.inShop.presentation.admin.EditTab;
 
@@ -211,6 +212,17 @@ public class Product extends AbstractDomainObjectOrdering {
             }
         }
         return skus;
+    }
+    
+    @Transient
+    public List<ProductOptionValue> getPOVByPO(ProductOption productOption) {
+    	List<ProductOptionValue> pov = new ArrayList<ProductOptionValue>();
+    	for (Sku sku: getSkus()) {
+    		for(ProductOptionValue v: sku.getProductOptionValues()) {
+    			if (v.getProductOption().equals(productOption) && !pov.contains(v)) pov.add(v);
+    		}
+    	}
+    	return pov;
     }
     
     @Transient

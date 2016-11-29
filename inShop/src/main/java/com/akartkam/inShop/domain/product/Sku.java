@@ -374,7 +374,9 @@ public class Sku extends AbstractDomainObjectOrdering {
 	@Transient
 	public String getCommaDelemitedPOVL() {
 		String ret = "";
-	    for (ProductOptionValue pov : productOptionValues) ret = ret + pov.getOptionValue() + ", ";
+	    for (ProductOptionValue pov : productOptionValues) {
+	    	ret = ret + pov.getOptionValue() + (pov.getProductOption().getUnit() != null? " "+pov.getProductOption().getUnit().getShortNameR(): "") + ", ";
+	    }
 	    if (ret != "" && ret.trim().endsWith(",")) ret = ret.substring(0, ret.length()-2);
 	    return ret;
 	}
