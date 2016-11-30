@@ -56,15 +56,17 @@
 					   		  <input type="text" class="form-control" th:field="*{name}"/>
 					   		  <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Incorrect name</p>
 				   		    </div>
-	                        <div class="field-box">
+	                        <div class="field-box" th:class="${#fields.hasErrors('attributeType')}? has-error: field-box">
 	                          <label>
 						  	    <span th:text="#{admin.catalog.attribute.edit.type}">Type</span>
 						      </label>
 							  <select class="form-control" th:field="*{attributeType}" th:if="${attribute.new}">
+							    <option value="">&nbsp;</option>
 								<option th:each="type : ${allTypes}" 
 								        th:value="${type}"
 									    th:text="#{${'attribute.type.' + type}}">Decimal</option>
 							  </select>
+							  <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('attributeType')}" th:errors="*{attributeType}">Attribute type</p>
 							  <div th:unless="${attribute.new}" th:remove="tag"> 
 							     <input type="hidden" th:field="*{attributeType}"/>
 							     <p class="form-control-static"><span th:text="#{${'attribute.type.' + attribute.attributeType.toString()}}">Decimal</span></p>
@@ -72,15 +74,17 @@
 						    </div>
 	             		</div>
 	                    <div class="tab-pane fade" th:classappend="${tabactive=='additional'}? 'in active'" id="additional">
-	                       <div class="field-box">
+	                       <div class="field-box" th:class="${#fields.hasErrors('attributeCategory')}? has-error: field-box">
 	                          <label>
 						  	    	<span th:text="#{admin.catalog.attribute.edit.attributeCategory}">Attribute category</span>
 						      </label>
 							  <select class="form-control" th:field="*{attributeCategory}">
+							    <option value="">&nbsp;</option>
 								<option th:each="scategory : ${allAttributeCategories}" 
 								        th:value="${scategory.id}"
 									    th:text="${scategory.name}">Attribute category</option>
 							  </select>
+							  <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('attributeCategory')}" th:errors="*{attributeCategory}">Attribute category</p>
 						   </div>	
 				           <div class="field-box">
 				                <label>
@@ -111,7 +115,14 @@
 	 					    	<input type="checkbox" th:field="*{enabled}"/>
 							  	<span th:text="#{admin.catalog.attribute.enabled}">Active?</span>
 							 </label>
+						   </div>	
+						   <div class="field-box">
+	                         <label>
+	 					    	<input type="checkbox" th:field="*{isShowOnProductHeader}"/>
+							  	<span th:text="#{admin.catalog.attribute.isShowOnProductHeader}">isShowOnProductHeader?</span>
+							 </label>
 						   </div>	 
+						    
 	                    </div>
 	                    <div class="tab-pane fade" th:classappend="${tabactive=='content'}? 'in active'" id="content">
 	                       <div class="field-box" th:class="${#fields.hasErrors('items')}? has-error: field-box" th:if="${attribute.new || #strings.contains(attribute.attributeType.name,'LIST')}">

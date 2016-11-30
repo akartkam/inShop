@@ -43,6 +43,7 @@ public class AttributeForm extends AbstractAttribute {
 			this.setCreatedDate(attributeSource.getCreatedDate());
 			this.setEnabled(attributeSource.isEnabled());
 			this.setUnit(attributeSource.getUnit());
+			this.setIsShowOnProductHeader(attributeSource.getIsShowOnProductHeader());
 			this.setAttributeValuesHolder(attributeSource.getAttributeValuesHolder());
 			if (attributeSource instanceof Selectable)
 				this.setItems(((Selectable)attributeSource).getStringItems());

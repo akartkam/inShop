@@ -122,27 +122,26 @@ public class AttributeCategoryServiceImpl implements AttributeCategoryService {
 			existingAttribute.setOrdering(attributeFromPost.getOrdering());
 			existingAttribute.setEnabled(attributeFromPost.isEnabled());
 			existingAttribute.setUnit(attributeFromPost.getUnit());
+			existingAttribute.setIsShowOnProductHeader(attributeFromPost.getIsShowOnProductHeader());
 			existingAttribute.setAttributeValuesHolder(attributeFromPost.getAttributeValuesHolder());
 			if (existingAttribute instanceof Selectable)
 				((Selectable)existingAttribute).setStringItems(attributeFromPost.getItems());
 			AttributeCategory attributeCategoryFromPost = attributeFromPost.getAttributeCategory();
 	        if (attributeCategoryFromPost == null) throw new IllegalArgumentException("Attribute Category can not be null!");
 	        attributeCategoryFromPost.addAttribute(existingAttribute);
-	        //updateAttributeCategory(attributeCategoryFromPost);
 		} else {
 			AbstractAttribute attributeNew = SimpleAttributeFactory.createAttribute(attributeFromPost.getAttributeType());
 			attributeNew.setName(attributeFromPost.getName());
 			attributeNew.setOrdering(attributeFromPost.getOrdering());
 			attributeNew.setEnabled(attributeFromPost.isEnabled());
 			attributeNew.setUnit(attributeFromPost.getUnit());
+			attributeNew.setIsShowOnProductHeader(attributeFromPost.getIsShowOnProductHeader());
 			attributeNew.setAttributeValuesHolder(attributeFromPost.getAttributeValuesHolder());
 			if (attributeNew instanceof Selectable)
 				((Selectable)attributeNew).setStringItems(attributeFromPost.getItems());
 			AttributeCategory attributeCategoryFromPost = attributeFromPost.getAttributeCategory();
 	        if (attributeCategoryFromPost == null) throw new IllegalArgumentException("Attribute Category can not be null!");
 	        attributeCategoryFromPost.addAttribute(attributeNew);
-	        //updateAttributeCategory(attributeCategoryFromPost);
-	        //createAttribute(attributeNew);
 		}
     }
 	

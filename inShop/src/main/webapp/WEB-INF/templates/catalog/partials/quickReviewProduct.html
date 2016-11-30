@@ -18,111 +18,40 @@
 				</div>
 				<div class="media-body quick-review-product-info">
 				   <h4 class="media-heading"><a th:utext="${product.defaultSku.name}" th:href="${product.url}"></a></h4>
-				   <ul class="nav nav-pills">	
-				   	    <li class="active"><a href="#qr-product-attribute-tab" data-toggle="tab" ><span class="fa fa-tasks"></span> <span th:text="#{product.attributes}">Параметры товара</span></a>
-	                    </li>
-	                    <li th:if="${product.hasAdditionalSkus()}"><a href="#qr-product-skus-tab" data-toggle="tab"><span class="fa fa-tags"></span> <span th:text="#{product.skus}">Варианты и цены</span></a>
-	                    </li>
-	               </ul>
-			       <div class="tab-content" style ="overflow-y:auto">
-			       	  <div class="tab-pane fade in active" id="qr-product-attribute-tab">
-			            <table cellspacing="0">
-			               <tbody>
-							   <tr>
-							   	   <th><span th:utext="#{brand.name}"></span></th>
-							   	   <td><a th:utext="${product.brand.name}" th:href="${product.brand.url}"></a></td>
-							   </tr>
-							   <tr>
-							   	   <th><span th:utext="#{product.articuls}"></span></th>
-							   	   <td><span th:utext="${product.skuCodes}"></span></td>
-							   </tr>
-			                   <tr th:each="av : ${product.attributeValues}">
-			                       <th><span th:utext="${av.attribute.name}"></span></th>
-			                       <td><span th:utext="${av.value}"></span>&nbsp;<span th:if="${av.attribute.unit != null}" th:utext="#{${'unit.' + av.attribute.unit}}"></span></td>
-			                   </tr>
-			                   <th:block th:if="${!product.hasAdditionalSkus() || product.canSellWithoutOptions}">
-								   <tr>
-								   	   <th><span th:utext="#{sku.price}"></span></th>
-								   	   <td>
-										 <ins th:if="${product.defaultSku.salePrice != null &amp;&amp; product.defaultSku.salePrice != 0}" th:utext="${{product.defaultSku.salePrice}}">$700.00</ins>
-										 <ins th:unless="${product.defaultSku.salePrice != null &amp;&amp; product.defaultSku.salePrice != 0}" 
-											  th:utext="${{product.defaultSku.retailPrice}}">$700.00</ins> <del th:if="${product.defaultSku.salePrice != null &amp;&amp; product.defaultSku.salePrice != 0}" th:utext="${{product.defaultSku.retailPrice}}">$100.00</del>
-										 <br/>										  
-	                                     <span class="in-stock" th:if="${skuAvailableMap.get(product.defaultSku)}" th:utext="#{sku.available}"></span>	
-	                                     <span class="out-of-stock" th:unless="${skuAvailableMap.get(product.defaultSku)}" th:utext="#{sku.unAvailable}"></span>									  
-								   	   </td>
-								   </tr>
-			                   </th:block>
-			               </tbody>
-			            </table>
-			            <div class="quick-review-product-buttons">
-			               <th:block th:if="${!product.hasAdditionalSkus()}">
-				           		<button type="button" th:text="#{button.toCart}"></button>
-				           		<button type="button" th:text="#{button.buy1click}"></button>
-			           	   </th:block>
-	           			   <button type="button" class="simplemodal-close" th:text="#{button.close}"></button>
-			            </div>
-			       </div>
-			       <div th:if="${product.hasAdditionalSkus()}" class="tab-pane fade" id="qr-product-skus-tab">
-			            <table cellspacing="0">
-			               <tbody>
-			                   <tr>
-			                       <th>
-			                          <form>
-				                         <th:block th:each="po: ${#lists.toList(product.productOptions)}">
-										   <div class="form-group">
-										   	  <label><span th:utext="${po.label}"></span></label>
-										   	  <select class="form-control">
-										   	    <option th:each="pov, povStat: ${product.getPOVByPO(po)}" 
-											    		th:text="${pov.optionValue+(pov.productOption.unit != null?' ' + #messages.msg('unit.' + pov.productOption.unit):'')}"
-											            th:selected="${povStat.index==0}"
-											            th:value="${pov.id}">  
-											    </option>
-										   	  </select>
-										   </div>
-
-										<!--	<div class="radio">
-											  <label>
-											    <input type="radio" name="skuOptionSelected" th:value="${sku.id}" th:checked="${skuStat.index == 0}"/>
-				                          		<span style="font-weight: normal; !important" th:utext="#{product.articul}"></span>: <span style="font-weight: bold; !important" th:utext="${sku.code}"></span>
-				                          		<br/>
-												<span style="font-weight: bold; !important" th:utext="${sku.getCommaDelemitedPOVL()}"></span>
-											  </label>
-											</div>	-->	                          
-				                          </th:block>
-			                          </form>
-			                       </th>
-			                    <!--     <td>
-			                          <th:block th:each="pov: ${#lists.toList(sku.productOptionValues)}"> 
-				                          <span th:utext="${pov.productOption.label}"></span>: <span  style="font-weight: bold; !important" th:utext="${pov.optionValue}"></span>&nbsp;
-				                          <span th:if="${pov.productOption.unit != null}" th:utext="#{${'unit.' + pov.productOption.unit}}"></span> 
-				                          <br/>
-								      </th:block>
-			                          <th:block th:each="av: ${sku.attributeValues}"> 
-					                      <span th:utext="${av.attribute.name}"></span>: <span style="font-weight: bold; !important" th:utext="${av.value}"></span>&nbsp;<span th:if="${av.attribute.unit != null}" th:utext="#{${'unit.' + av.attribute.unit}}"></span>
-				                          <br/>
-								      </th:block>
-			                       </td>
-			                       <td>
-									 <ins th:if="${sku.salePrice != null &amp;&amp; sku.salePrice != 0}" th:utext="${{sku.salePrice}}">$700.00</ins>
-									 <ins th:unless="${sku.salePrice != null &amp;&amp; sku.salePrice != 0}" 
-										  th:utext="${{sku.retailPrice}}">$700.00</ins> <del th:if="${sku.salePrice != null &amp;&amp; sku.salePrice != 0}" th:utext="${{sku.retailPrice}}">$100.00</del>
-									 <br/>										  
-                                     <span class="in-stock" th:if="${skuAvailableMap.get(sku)}" th:utext="#{sku.available}"></span>	
-                                     <span class="out-of-stock" th:unless="${skuAvailableMap.get(sku)}" th:utext="#{sku.unAvailable}"></span>									  
-			                       </td> -->
-			                   </tr>
-			               </tbody>
-			            </table>
-			           <div class="quick-review-product-buttons">
-			           		<button type="button" th:text="#{button.toCart}"></button>
-			           		<button type="button" th:text="#{button.buy1click}"></button>
-		           			<button type="button" class="simplemodal-close" th:text="#{button.close}"></button>
-			           </div>
-			         </div>  
-			       </div>
-				</div>
-			</div>
+		           <table cellspacing="0">
+		               <tbody>
+						   <tr>
+						   	   <th><span th:utext="#{brand.name}"></span></th>
+						   	   <td><a th:utext="${product.brand.name}" th:href="${product.brand.url}"></a></td>
+						   </tr>
+						   <tr>
+						   	   <th><span th:utext="#{product.articuls}"></span></th>
+						   	   <td><span th:utext="${product.skuCodes}"></span></td>
+						   </tr>
+		                   <tr th:each="av : ${product.attributeValues}">
+		                       <th><span th:utext="${av.attribute.name}"></span></th>
+		                       <td><span th:utext="${av.value}"></span>&nbsp;<span th:if="${av.attribute.unit != null}" th:utext="#{${'unit.' + av.attribute.unit}}"></span></td>
+		                   </tr>
+						   <tr>
+						   	   <th><span th:utext="#{sku.price}"></span></th>
+						   	   <td>
+								 <ins th:if="${product.defaultSku.salePrice != null &amp;&amp; product.defaultSku.salePrice != 0}" th:utext="${{product.defaultSku.salePrice}}">$700.00</ins>
+								 <ins th:unless="${product.defaultSku.salePrice != null &amp;&amp; product.defaultSku.salePrice != 0}" 
+									  th:utext="${{product.defaultSku.retailPrice}}">$700.00</ins> <del th:if="${product.defaultSku.salePrice != null &amp;&amp; product.defaultSku.salePrice != 0}" th:utext="${{product.defaultSku.retailPrice}}">$100.00</del>
+								 <br/>										  
+                                    <span class="in-stock" th:if="${skuAvailableMap.get(product.defaultSku)}" th:utext="#{sku.available}"></span>	
+                                    <span class="out-of-stock" th:unless="${skuAvailableMap.get(product.defaultSku)}" th:utext="#{sku.unAvailable}"></span>									  
+						   	   </td>
+						   </tr>
+		               </tbody>
+		           </table>
+		           <div class="quick-review-product-buttons">
+		           	   <button type="button" th:text="#{button.toCart}"></button>
+		           	   <button type="button" th:text="#{button.buy1click}"></button>
+           			   <button type="button" class="simplemodal-close" th:text="#{button.close}"></button>
+		           </div>
+			    </div>
+  			</div>
 		</div>
 	</div>
 </div>

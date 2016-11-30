@@ -81,7 +81,7 @@ public class AdminAttributeCategoryController {
 	  @InitBinder
 	  public void initBinder(WebDataBinder binder) {
 			binder.setAllowedFields(new String[] { "id", "name", "ordering", "enabled", "unit", "attributeValuesHolder",
-					                               "attributeType", "attributeCategory", "items", "createdDate"});
+					                               "attributeType", "attributeCategory", "items", "createdDate", "isShowOnProductHeader"});
 			binder.registerCustomEditor(UUID.class, "id", new PropertyEditorSupport() {
 			    @Override
 			    public void setAsText(String text) {
@@ -100,7 +100,11 @@ public class AdminAttributeCategoryController {
 			binder.registerCustomEditor(AttributeType.class, "attributeType", new PropertyEditorSupport() {
 			    @Override
 			    public void setAsText(String text) {
-			    	 setValue(AttributeType.valueOf(text));
+			    	if (!"".equals(text)) {
+			    		setValue(AttributeType.valueOf(text));
+			    	} else {
+			    		setValue(null);
+			    	}
 			    }
 			    });			
 			binder.registerCustomEditor(Set.class, "items", new PropertyEditorSupport() {

@@ -54,8 +54,8 @@ public abstract class AbstractAttribute extends AbstractDomainObjectOrdering {
 	protected List<AbstractAttributeValue> attributeValues = new ArrayList<AbstractAttributeValue>(0);
 	private AttributeValuesHolderType attributeValuesHolder;
 	private Unit unit;
+	private Boolean isShowOnProductHeader;
 	
-	@NotNull
 	@Size(min = 1, max = 50)
 	@Column(name = "name", unique=true, nullable=false)
 	public String getName() {
@@ -120,7 +120,16 @@ public abstract class AbstractAttribute extends AbstractDomainObjectOrdering {
 			AttributeValuesHolderType attributeValuesHolder) {
 		this.attributeValuesHolder = attributeValuesHolder;
 	}
-
+	
+	@Column(name = "show_on_prod_header")
+	public Boolean getIsShowOnProductHeader() {
+		return isShowOnProductHeader;
+	}
+	public void setIsShowOnProductHeader(Boolean isShowOnProductHeader) {
+		this.isShowOnProductHeader = isShowOnProductHeader;
+	}
+	
+	
 	@Transient
 	public Collection<String> getStringAttributeValues() {
 		return CollectionUtils.collect(getAttributeValues(), new Transformer<AbstractAttributeValue, String>(){

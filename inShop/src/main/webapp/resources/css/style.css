@@ -213,7 +213,7 @@ body { font-family: Open Sans, Arial, Helvetica, sans-serif;}
 .shopping-item {
     border: 1px solid #ddd;
     float: right;
-    font-size: 14px;
+    font-size: 12px;
     padding: 10px;
     position: relative;
 }
@@ -644,7 +644,7 @@ body { font-family: Open Sans, Arial, Helvetica, sans-serif;}
 
 /* override the overflow: hidden*/
 .owl-carousel .owl-stage-outer {
-	overflow: visible; !important 
+	overflow: visible !important; 
 }
 
 .owl-carousel .owl-item img {
@@ -904,10 +904,10 @@ width: 10px;
     margin-bottom: 50px;
 }
 input[type="text"], input[type="password"], input[type="email"], textarea {
-    border: 1px solid #ddd;
-    padding: 10px;
+    border: 1px solid #ddd !important;
+    padding: 10px !important;
 }
-input[type="submit"], button {
+input[type="submit"] {
     background: none repeat scroll 0 0 #5a88ca;
     border: medium none;
     color: #fff;
@@ -1355,7 +1355,7 @@ div.cart-collaterals ul.products li.product:hover .add_to_cart_button{background
   		background: none repeat scroll 0 0 #f4f4f4;
 }	 
 .quick-review-product-info table td{
- 	font-weight: normal; !important;
+ 	font-weight: normal !important;
     /*font-style: italic;*/
 }
 
