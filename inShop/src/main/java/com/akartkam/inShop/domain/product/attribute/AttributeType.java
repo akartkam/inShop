@@ -7,11 +7,13 @@ public enum AttributeType {
 	STRING("STRING","com.akartkam.inShop.domain.product.attribute.AttributeString",
 					"com.akartkam.inShop.domain.product.attribute.AttributeStringValue"), 
     SLIST("SLIST","com.akartkam.inShop.domain.product.attribute.AttributeSList",
-    			  "com.akartkam.inShop.domain.product.attribute.AttributeSListValue");
+    			  "com.akartkam.inShop.domain.product.attribute.AttributeSListValue"),
+	INTEGER("INTEGER","com.akartkam.inShop.domain.product.attribute.AttributeInt",
+			  "com.akartkam.inShop.domain.product.attribute.AttributeIntValue");
     
     
     
-    public static final AttributeType[] ALL = {DECIMAL, STRING, SLIST};
+    public static final AttributeType[] ALL = {DECIMAL, STRING, SLIST, INTEGER};
     
     
     private final String name;
@@ -28,6 +30,8 @@ public enum AttributeType {
             return STRING;
         } else if (name.toUpperCase().equals("SLIST")) {
             return SLIST;
+	    } else if (name.toUpperCase().equals("INTEGER")) {
+            return INTEGER;
 	    }
         throw new IllegalArgumentException("Name \"" + name + "\" does not correspond to any AttributeType");
     }
