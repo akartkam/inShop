@@ -17,7 +17,7 @@
 					</div>
 				</div>
 				<div class="media-body quick-review-product-info">
-				   <h4 class="media-heading"><a th:utext="${product.defaultSku.name}" th:href="${product.url}"></a></h4>
+				   <h4 class="media-heading"><a th:utext="${product.displayName()}" th:href="${product.url}"></a></h4>
 		           <table cellspacing="0">
 		               <tbody>
 						   <tr>

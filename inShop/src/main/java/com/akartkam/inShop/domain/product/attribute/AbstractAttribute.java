@@ -33,6 +33,8 @@ import org.hibernate.annotations.Cascade;
 import com.akartkam.inShop.domain.AbstractDomainObjectOrdering;
 import com.akartkam.inShop.domain.Unit;
 import com.akartkam.inShop.domain.product.Category;
+import com.akartkam.inShop.presentation.admin.AdminPresentation;
+import com.akartkam.inShop.presentation.admin.EditTab;
 
 
 @Entity
@@ -48,7 +50,9 @@ public abstract class AbstractAttribute extends AbstractDomainObjectOrdering {
 	 * 
 	 */
 	private static final long serialVersionUID = -1978623223082601133L;
+	private String code;
 	private String name;
+	private String description;
 	private AttributeCategory attributeCategory;
 	private Set<Category> category = new HashSet<Category>(0);
 	protected List<AbstractAttributeValue> attributeValues = new ArrayList<AbstractAttributeValue>(0);
@@ -56,8 +60,17 @@ public abstract class AbstractAttribute extends AbstractDomainObjectOrdering {
 	private Unit unit;
 	private Boolean isShowOnProductHeader;
 	
+	
 	@Size(min = 1, max = 50)
-	@Column(name = "name", unique=true, nullable=false)
+	@Column(name = "code", unique=true, nullable=false)	
+	public String getCode() {
+		return code;
+	}
+	public void setCode(String code) {
+		this.code = code;
+	}
+	@Size(min = 1, max = 50)
+	@Column(name = "name", nullable=false)
 	public String getName() {
 		return name;
 	}
@@ -65,7 +78,14 @@ public abstract class AbstractAttribute extends AbstractDomainObjectOrdering {
 		this.name = name;
 	}
 	
-    @Column(name = "unit")
+	@Column(name = "description")
+    public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	@Column(name = "unit")
     @Enumerated(EnumType.STRING)
     public Unit getUnit() {
     	return unit;
@@ -89,7 +109,7 @@ public abstract class AbstractAttribute extends AbstractDomainObjectOrdering {
 		this.attributeValues = attributeValues;
 	}
 	
-	
+	@AdminPresentation(tab=EditTab.ADDITIONAL)
 	@NotNull
 	@ManyToOne
 	@JoinColumn(nullable = false)
@@ -123,7 +143,7 @@ public abstract class AbstractAttribute extends AbstractDomainObjectOrdering {
 	
 	@Column(name = "show_on_prod_header")
 	public Boolean getIsShowOnProductHeader() {
-		return isShowOnProductHeader;
+		return isShowOnProductHeader == null? false: isShowOnProductHeader;
 	}
 	public void setIsShowOnProductHeader(Boolean isShowOnProductHeader) {
 		this.isShowOnProductHeader = isShowOnProductHeader;

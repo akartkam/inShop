@@ -148,7 +148,7 @@ public class AttributeCategoryServiceImpl implements AttributeCategoryService {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private boolean checkAttribute (AbstractAttribute existingAttribute, AttributeForm attributeFromPost, Errors errors) {
 		if (existingAttribute == null) { 
-			AbstractAttribute dAttr = attributeDAO.findAttributeByName(attributeFromPost.getName());
+			AbstractAttribute dAttr = attributeDAO.findAttributeByCode(attributeFromPost.getCode());
 			if (dAttr != null) {
 			  errors.rejectValue("name", "error.duplicate");
 		    }
@@ -298,10 +298,10 @@ public class AttributeCategoryServiceImpl implements AttributeCategoryService {
 	}
 
 	@Override
-	public boolean isExistsAttributeValue(Category category) {
+	public boolean isExistsAttributeValue(AbstractAttribute at, Category category) {
 		if (category == null) return false;
 		LOG.info("Check for existance attribute values of category <"+category.getName()+">");
-		return attributeValueDAO.isExistsAttributeValues(category);
+		return attributeValueDAO.isExistsAttributeValues(at, category);
 	}
 	
 	

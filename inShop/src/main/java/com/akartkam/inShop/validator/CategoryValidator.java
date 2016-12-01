@@ -33,21 +33,22 @@ public class CategoryValidator implements Validator {
 	@Override
 	public void validate(Object arg0, Errors errors) {
 		CategoryForm category = (CategoryForm) arg0;
+		Category exCategory = null;
 		//url check
 		if (!errors.hasFieldErrors("urlForForm")) {
 			category.buildFullLink(category.getUrlForForm());
-			Category exCategory = categoryService.getCategoryByUrl(category.getUrl());
+			exCategory = categoryService.getCategoryByUrl(category.getUrl());
 			if (exCategory != null && !exCategory.getId().equals(category.getId())) {
 				errors.rejectValue("urlForForm", "error.duplicate");
 			}	
 		}
 		//check for existence of related products for deactivated attributes of this category
-		Category exCategory = categoryService.getCategoryById(category.getId());
+		if (exCategory == null) exCategory = categoryService.getCategoryById(category.getId());
 		if (exCategory != null) {
 			List<AbstractAttribute> errAttr = new ArrayList<AbstractAttribute>();
 			for (AbstractAttribute at : exCategory.getAttributes()) {
 				if (!category.getAttributesForForm().contains(at)) {
-					if (attributeCategoryService.isExistsAttributeValue(exCategory)) errAttr.add(at);
+					if (attributeCategoryService.isExistsAttributeValue(at,exCategory)) errAttr.add(at);
 				}
 			}
 			if (!errAttr.isEmpty()) {

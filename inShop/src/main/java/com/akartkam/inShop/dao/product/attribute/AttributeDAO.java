@@ -12,6 +12,6 @@ import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
 
 
 public interface AttributeDAO extends GenericDAO<AbstractAttribute, UUID> {
-	 AbstractAttribute findAttributeByName(String name);
+	 AbstractAttribute findAttributeByCode(String code);
 	 
 }

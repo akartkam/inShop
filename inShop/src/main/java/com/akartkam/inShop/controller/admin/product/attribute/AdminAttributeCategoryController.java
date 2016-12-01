@@ -80,7 +80,7 @@ public class AdminAttributeCategoryController {
 	  
 	  @InitBinder
 	  public void initBinder(WebDataBinder binder) {
-			binder.setAllowedFields(new String[] { "id", "name", "ordering", "enabled", "unit", "attributeValuesHolder",
+			binder.setAllowedFields(new String[] { "id", "name", "ordering", "enabled", "unit", "attributeValuesHolder", "code",
 					                               "attributeType", "attributeCategory", "items", "createdDate", "isShowOnProductHeader"});
 			binder.registerCustomEditor(UUID.class, "id", new PropertyEditorSupport() {
 			    @Override

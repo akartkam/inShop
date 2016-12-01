@@ -36,6 +36,7 @@ public class AttributeForm extends AbstractAttribute {
 	public AttributeForm(AbstractAttribute attributeSource) {
 		if (attributeSource != null) {
 			this.setId(attributeSource.getId());
+			this.setCode(attributeSource.getCode());
 			this.setName(attributeSource.getName());
 			this.setAttributeType(attributeSource.getAttributeType());
 			this.setOrdering(attributeSource.getOrdering());

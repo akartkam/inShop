@@ -39,5 +39,5 @@ public interface AttributeCategoryService {
 	AbstractAttribute getAttributeByIdForForm(UUID id);
 	AttributeCategory cloneAttributeCategoryById(UUID id) throws CloneNotSupportedException;
 	AbstractAttribute cloneAttributeById(UUID id) throws CloneNotSupportedException;
-	boolean isExistsAttributeValue(Category category);
+	boolean isExistsAttributeValue(AbstractAttribute at, Category category);
 }

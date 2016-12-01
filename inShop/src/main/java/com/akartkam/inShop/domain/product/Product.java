@@ -31,6 +31,7 @@ import org.hibernate.annotations.Index;
 import com.akartkam.inShop.domain.AbstractDomainObjectOrdering;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttributeValue;
+import com.akartkam.inShop.domain.product.attribute.AttributeValue;
 import com.akartkam.inShop.domain.product.attribute.SimpleAttributeFactory;
 import com.akartkam.inShop.domain.product.option.ProductOption;
 import com.akartkam.inShop.domain.product.option.ProductOptionValue;
@@ -257,6 +258,18 @@ public class Product extends AbstractDomainObjectOrdering {
 			if (sku.getCode() != null && !"".equals(sku.getCode())) ret.add(sku.getCode());
 		}
 		return ret;
+	}
+	
+	@Transient
+	public String displayName() {
+		StringBuilder ret = new StringBuilder(getDefaultSku().getName());
+		for (AbstractAttributeValue av: getAttributeValues()) {
+			if (av.getAttribute().getIsShowOnProductHeader()) {
+				ret.append(", <b>").append(av.getStringValue()).append("</b>");
+				if (av.getAttribute().getUnit() != null) ret.append(" ").append(av.getAttribute().getUnit().getShortNameR());
+			}
+		}
+		return ret.toString();
 	}
     
 	@Override

@@ -13,9 +13,9 @@ public class AttributeDAOImpl extends AbstractGenericDAO<AbstractAttribute> impl
 
 
 	//@Override
-	public AbstractAttribute findAttributeByName(String name) {
+	public AbstractAttribute findAttributeByCode(String code) {
 		Criteria criteria = currentSession().createCriteria(AbstractAttribute.class)
-				.add(Restrictions.eq("name", name));
+				.add(Restrictions.eq("code", code));
 		criteria.setCacheable(true);
 		criteria.setCacheRegion("query.Catalog");
         return (AbstractAttribute) criteria.uniqueResult();
