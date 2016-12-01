@@ -310,7 +310,7 @@
 											  	       	    <input type="hidden" th:field="*{attributeValues[__${avStat.index}__].id}"/>
 											  	       	  	<input type="text" class="form-control input-md" th:field="*{attributeValues[__${avStat.index}__].value}" 
 											  	       	  		   data-oldtext=""
-											  	       	  		   oninput="(function(e) {var txt = e.target.value; var oldTxt = e.target.dataset.oldtext; var reg = /^(?:(?=\d{1,6}\.{1})(\d{1,6}\.\d?\d?)|(\d{1,6}))$/gi; if (!reg.test(txt)) e.target.value = oldTxt; else e.target.dataset.oldtext = txt ;})(event)"/>
+											  	       	  		   oninput="(function(e) {var txt = e.target.value; var oldTxt = e.target.dataset.oldtext; var reg = /^(?:(?=\d{0,6}\.{1})(\d{0,6}\.\d?\d?)|(\d{0,6}))$/gi; if (!reg.test(txt)) e.target.value = oldTxt; else e.target.dataset.oldtext = txt ;})(event)"/>
 										  	       	  	</th:block>	
 										  	       	    <th:block th:if="${av.attribute.attributeType.name=='INTEGER'}" th:remove="tag">
 											  	       	    <input type="hidden" th:field="*{attributeValues[__${avStat.index}__].id}"/>

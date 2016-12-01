@@ -61,14 +61,15 @@ public abstract class AbstractAttribute extends AbstractDomainObjectOrdering {
 	private Boolean isShowOnProductHeader;
 	
 	
-	@Size(min = 1, max = 50)
-	@Column(name = "code", unique=true, nullable=false)	
+	@Size(max = 50)
+	@Column(name = "code", unique=true)	
 	public String getCode() {
 		return code;
 	}
 	public void setCode(String code) {
 		this.code = code;
 	}
+	
 	@Size(min = 1, max = 50)
 	@Column(name = "name", nullable=false)
 	public String getName() {
