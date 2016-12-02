@@ -11,7 +11,6 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.SystemUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -22,7 +21,6 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.akartkam.inShop.controller.admin.product.AdminBrandController;
 import com.akartkam.inShop.presentation.admin.AdminPresentation;
 import com.akartkam.inShop.presentation.admin.EditTab;
 import com.akartkam.inShop.util.SecurityTools;
@@ -31,7 +29,7 @@ import com.akartkam.inShop.validator.HtmlSafe;
 
 public class AdminRequestMappingAspect {
 	private static final Log LOG = LogFactory.getLog(AdminRequestMappingAspect.class);
-	/*Нижеследующий код для внедрения CustomEditor в IninBinder для XSS в полях description*/
+
 	public Object injectCustomEditorAntiXSS(ProceedingJoinPoint pjp) throws Throwable {
 		Object ret = pjp.proceed();
 		DataBinder db = getParam(pjp.getArgs(), WebDataBinder.class);
@@ -55,7 +53,6 @@ public class AdminRequestMappingAspect {
 		return ret;
 	}
 	
-	/*Нижеследующий код для аспекта определяющего правильную страницу tab в окне редактирования*/
 	public Object setEditTabMain(ProceedingJoinPoint pjp) throws Throwable {
 		Model m = getParam(pjp.getArgs(), Model.class);
 		if(m != null && !m.containsAttribute("tabactive")) m.addAttribute("tabactive", EditTab.MAIN.getName().toLowerCase());

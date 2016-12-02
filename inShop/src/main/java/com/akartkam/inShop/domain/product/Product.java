@@ -261,17 +261,16 @@ public class Product extends AbstractDomainObjectOrdering {
 	}
 	
 	@Transient
-	public String displayName() {
-		StringBuilder ret = new StringBuilder(getDefaultSku().getName());
-		for (AbstractAttributeValue av: getAttributeValues()) {
-			if (av.getAttribute().getIsShowOnProductHeader()) {
-				ret.append(", <b>").append(av.getStringValue()).append("</b>");
-				if (av.getAttribute().getUnit() != null) ret.append(" ").append(av.getAttribute().getUnit().getShortNameR());
-			}
-		}
-		return ret.toString();
+	public String getDisplayName() {
+		return getDefaultSku().getName();
 	}
     
+	@Transient
+	public String getLongDisplayName() {
+		return getDefaultSku().getDescription();
+	}
+		
+	
 	@Override
 	@Transient
 	public Product clone() throws CloneNotSupportedException {

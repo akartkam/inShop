@@ -13,7 +13,7 @@
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd">
 
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
-
+	<context:load-time-weaver/>
 	<annotation-driven validator="validator"/>
  	<default-servlet-handler/>
  	<!--<view-controller path="/admin" view-name="admin/admin" />-->

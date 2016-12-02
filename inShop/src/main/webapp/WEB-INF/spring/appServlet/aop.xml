@@ -7,10 +7,9 @@
      http://www.springframework.org/schema/aop
      http://www.springframework.org/schema/aop/spring-aop.xsd">
 
-  <bean id="adminRequestMappingAspect"
-      class="com.akartkam.inShop.service.aop.AdminRequestMappingAspect">
+  <bean id="adminRequestMappingAspect" class="com.akartkam.inShop.service.aop.AdminRequestMappingAspect">
   </bean>
-
+  
   <aop:config>
     <aop:aspect ref="adminRequestMappingAspect">
       <aop:pointcut id="injectCustomEditorAntiXSSForDescription" expression=
@@ -39,8 +38,6 @@
           method="setEditTabMain" />
 
     </aop:aspect>
-    
-    
   </aop:config>
 
 </beans>

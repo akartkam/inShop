@@ -9,7 +9,7 @@
 		</div>
 	</div>
 	
-	<h2><a th:href="@{'/product'+${product.url}}"><span th:utext="${product.displayName()}">Samsung Galaxy s5- 2015</span></a></h2>
+	<h2><a th:href="@{'/product'+${product.url}}"><span th:utext="${product.getDisplayName()}">Samsung Galaxy s5- 2015</span></a></h2>
 	
 	<div class="product-carousel-price">
 		<ins th:if="${product.defaultSku.salePrice != null &amp;&amp; product.defaultSku.salePrice != 0}" 

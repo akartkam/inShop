@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang.xsd">
+		http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
 	<bean id="orderNumberGenerator" class="com.akartkam.inShop.util.OrderNumberGeneratorFactoryBean">
         <property name="parameters">
@@ -12,5 +14,15 @@
             <prop key="sql">#{T(com.akartkam.inShop.util.Constants).SELECT_ORDER_NUMBER_GENERATOR_POSTGRES}</prop>
           </props>
         </property>
+	</bean>
+	
+	<bean id="productDisplayNameModificator" class="com.akartkam.inShop.service.extension.DefaultProductDisplayNameModificatorImpl">
+		<property name="allowedCategoriesId">
+			<util:list value-type="java.lang.String">
+				<value>d7cc11da-c38e-4858-a48d-e9cb4c20148b</value>
+				<value>94e1fb3f-ba95-427e-b146-18cd69ef419c</value>
+				<value>9a68bccb-26bc-443f-8a9b-a54de085249a</value>
+			</util:list>
+		</property>
 	</bean>
 </beans>
