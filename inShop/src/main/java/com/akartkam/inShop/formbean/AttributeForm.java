@@ -38,6 +38,7 @@ public class AttributeForm extends AbstractAttribute {
 			this.setId(attributeSource.getId());
 			this.setCode(attributeSource.getCode());
 			this.setName(attributeSource.getName());
+			this.setDescription(attributeSource.getDescription());
 			this.setAttributeType(attributeSource.getAttributeType());
 			this.setOrdering(attributeSource.getOrdering());
 			this.setAttributeCategory(attributeSource.getAttributeCategory());

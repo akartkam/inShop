@@ -53,15 +53,15 @@ public class DefaultProductDisplayNameModificatorImpl implements
 	}
 
 	@Override
-	public String getModifyedDisplayName() {
+	public String getModifyedDisplayName(String name) {
 		if (product == null) return null;
-		if (!allowedCategoriesId.contains(product.getCategory().getId().toString())) return product.getDisplayName();
-		return doModifyString(product.getDisplayName());
+		if (!allowedCategoriesId.contains(product.getCategory().getId().toString())) return name;
+		return doModifyString(name);
 	}
-	public String getModifyedLongDisplayName() {
+	public String getModifyedLongDisplayName(String name) {
 		if (product == null) return null;
-		if (!allowedCategoriesId.contains(product.getCategory().getId().toString())) return product.getLongDisplayName();
-		return doModifyString(product.getLongDisplayName());
+		if (!allowedCategoriesId.contains(product.getCategory().getId().toString())) return name;
+		return doModifyString(name);
 	}
 
 }

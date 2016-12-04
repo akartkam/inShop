@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.format.annotation.NumberFormat;
+import org.springframework.format.annotation.NumberFormat.Style;
+
 public class CartForm implements Serializable {
 	/**
 	 * 
@@ -64,6 +67,7 @@ public class CartForm implements Serializable {
         return quantity;
     }	
 	
+    @NumberFormat(style=Style.CURRENCY)
     public BigDecimal getTotal() {
     	BigDecimal returnValue = BigDecimal.ZERO;
         for (CartItemForm item : getCartItems()) {

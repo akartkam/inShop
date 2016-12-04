@@ -13,7 +13,8 @@
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd">
 
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
-	<context:load-time-weaver/>
+    
+
 	<annotation-driven validator="validator"/>
  	<default-servlet-handler/>
  	<!--<view-controller path="/admin" view-name="admin/admin" />-->
@@ -22,13 +23,71 @@
     <view-controller path="/index.html"/>
 <!--     <view-controller path="/home.html" /> -->
     <view-controller path="/favicon.png" view-name="forward:/resources/img/favicon.png" />
-    <view-controller path="/favicon.ico" view-name="forward:/resources/img/favicon.png" />
+    <view-controller path="favicon.ico" view-name="forward:/resources/img/favicon.png" />
 
 
 	<resources mapping="/resources/**" location="/resources/" />
 	<resources mapping="#{appProperties['inShop.imagesUrl']}**" location="file:///#{appProperties['inShop.imagesPath']}" />
  
-     <beans:bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+ 	<!-- My thymeleaf processors 
+       <beans:bean id="" class="com.akartkam.inShop.thymeleaf.processors.ProductDisplayNameModifyerProcessor" />
+    -->
+    <!-- beans for extension  --> 
+ 	<beans:bean id="orderNumberGenerator" class="com.akartkam.inShop.util.OrderNumberGeneratorFactoryBean">
+        <beans:property name="parameters">
+          <beans:props>
+            <beans:prop key="orderNumberPrefix">#{shopProperties['orderNumberPrefix']}</beans:prop>
+            <beans:prop key="useAutogenerateOrderNumber">#{shopProperties['useAutogenerateOrderNumber']}</beans:prop>
+            <beans:prop key="sql">#{T(com.akartkam.inShop.util.Constants).SELECT_ORDER_NUMBER_GENERATOR_POSTGRES}</beans:prop>
+          </beans:props>
+        </beans:property>
+	</beans:bean>
+	
+	<beans:bean id="productDisplayNameModificator" class="com.akartkam.inShop.service.extension.DefaultProductDisplayNameModificatorImpl">
+		<beans:property name="allowedCategoriesId">
+			<util:list value-type="java.lang.String">
+				<beans:value>d7cc11da-c38e-4858-a48d-e9cb4c20148b</beans:value>
+				<beans:value>94e1fb3f-ba95-427e-b146-18cd69ef419c</beans:value>
+				<beans:value>9a68bccb-26bc-443f-8a9b-a54de085249a</beans:value>
+			</util:list>
+		</beans:property>
+	</beans:bean>
+ 
+ 	<!-- Slider Banners -->
+ 	<util:map id="mainSliderBanner">
+ 		<beans:entry key="bbraun">
+ 			<beans:props>
+ 				<beans:prop key="imageUrl">images/banner/bbraun_image_girl.png</beans:prop>
+ 				<beans:prop key="targetUrl">brand/bbraun</beans:prop>
+ 			</beans:props>
+ 		</beans:entry>
+ 		<beans:entry key="convatec">
+ 			<beans:props>
+ 				<beans:prop key="imageUrl">images/banner/convatec_hug.png</beans:prop>
+ 				<beans:prop key="targetUrl">brand/convatec</beans:prop>
+ 			</beans:props>
+ 		</beans:entry>
+  		<beans:entry key="convatec1">
+ 			<beans:props>
+ 				<beans:prop key="imageUrl">images/banner/convatec_image.png</beans:prop>
+ 				<beans:prop key="targetUrl">brand/convatec</beans:prop>
+ 			</beans:props>
+ 		</beans:entry>
+ 		<beans:entry key="seni">
+ 			<beans:props>
+ 				<beans:prop key="imageUrl">images/banner/seni_image.png</beans:prop>
+ 				<beans:prop key="targetUrl">brand/seni</beans:prop>
+ 			</beans:props>
+ 		</beans:entry>
+ 		<beans:entry key="seni1">
+ 			<beans:props>
+ 				<beans:prop key="imageUrl">images/banner/seni_image2_2.png</beans:prop>
+ 				<beans:prop key="targetUrl">brand/seni</beans:prop>
+ 			</beans:props>
+ 		</beans:entry>
+ 	</util:map>
+ 
+    <beans:bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
         <beans:property name="order" value="-10" />
         <beans:property name="mappings">
             <beans:props>
@@ -57,6 +116,7 @@
 		    <beans:set>
 		      <beans:bean class="nz.net.ultraq.thymeleaf.LayoutDialect"/>
 		      <beans:bean class="org.thymeleaf.extras.springsecurity3.dialect.SpringSecurityDialect"/>
+		      <beans:bean class="com.akartkam.inShop.thymeleaf.dialects.AisDialect"></beans:bean>
 		    </beans:set>
 		  </beans:property>      
     </beans:bean>

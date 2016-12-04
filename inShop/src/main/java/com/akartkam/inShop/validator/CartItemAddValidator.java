@@ -101,7 +101,7 @@ public class CartItemAddValidator implements Validator {
     private Sku findMatchingSku(Product product, Map<String, String> attributeValues) {
         Map<String, String> attributeValuesForSku = new HashMap<String,String>();
         // Verify that required product-option values were set.
-        if (product != null && product.getProductOptions() != null && product.getProductOptions().size() > 0) {
+        if (product != null && product.getProductOptions().size() > 0) {
             for (ProductOption productOption : product.getProductOptions()) {
                 if (productOption.getRequired()) {
                     if (StringUtils.isEmpty(attributeValues.get(productOption.getName()))) {

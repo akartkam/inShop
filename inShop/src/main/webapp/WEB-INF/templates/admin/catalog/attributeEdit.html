@@ -56,6 +56,19 @@
 					   		  <input type="text" class="form-control" th:field="*{name}"/>
 					   		  <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Incorrect name</p>
 				   		    </div>
+						    <div class="field-box" th:class="${#fields.hasErrors('code')}? has-error: field-box">	                              
+				    		  <label>
+					    	  	 <span th:text="#{admin.catalog.attribute.edit.code}">Attribute1 Code</span>
+					   		  </label>
+					   		  <input type="text" class="form-control" th:field="*{code}"/>
+					   		  <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('code')}" th:errors="*{code}">Incorrect code</p>
+				   		    </div>
+						    <div class="field-box">	                              
+				    		  <label>
+					    	  	 <span th:text="#{admin.catalog.attribute.edit.description}">Attribute1 Description</span>
+					   		  </label>
+					   		  <input type="text" class="form-control" th:field="*{description}"/>
+				   		    </div>
 	                        <div class="field-box" th:class="${#fields.hasErrors('attributeType')}? has-error: field-box">
 	                          <label>
 						  	    <span th:text="#{admin.catalog.attribute.edit.type}">Type</span>

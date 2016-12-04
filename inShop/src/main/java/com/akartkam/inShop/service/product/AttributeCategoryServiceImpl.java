@@ -119,6 +119,8 @@ public class AttributeCategoryServiceImpl implements AttributeCategoryService {
 		if (existingAttribute != null) {
 	        // set here explicitly what must/can be overwritten by the html form POST
 			existingAttribute.setName(attributeFromPost.getName());
+			existingAttribute.setCode(attributeFromPost.getCode());
+			existingAttribute.setDescription(attributeFromPost.getDescription());
 			existingAttribute.setOrdering(attributeFromPost.getOrdering());
 			existingAttribute.setEnabled(attributeFromPost.isEnabled());
 			existingAttribute.setUnit(attributeFromPost.getUnit());
@@ -132,6 +134,8 @@ public class AttributeCategoryServiceImpl implements AttributeCategoryService {
 		} else {
 			AbstractAttribute attributeNew = SimpleAttributeFactory.createAttribute(attributeFromPost.getAttributeType());
 			attributeNew.setName(attributeFromPost.getName());
+			attributeNew.setCode(attributeFromPost.getCode());
+			attributeNew.setDescription(attributeFromPost.getDescription());
 			attributeNew.setOrdering(attributeFromPost.getOrdering());
 			attributeNew.setEnabled(attributeFromPost.isEnabled());
 			attributeNew.setUnit(attributeFromPost.getUnit());

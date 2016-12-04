@@ -18,68 +18,14 @@
 						<!-- Slider -->
 						<div class="block-slider block-slider4">
 							<ul class="" id="bxslider-home4">
-								<li>
-									<img src="images/banner/coloplast_image.png" alt="Slide"/>
+								<li th:each="banner: ${mainSliderBanner}">
+									<img th:src="@{${banner.value.imageUrl}}" alt="Slide"/>
 									<div class="caption-group">
 										<!--<h2 class="caption title">
 											Coloplast  <span class="primary">6 <strong>Plus</strong></span> 
 										</h2>-->
 										<!--<h4 class="caption subtitle">Dual SIM</h4> -->
-										<a class="caption button-radius" href="#"><span class="icon"></span>Показать</a>
-									</div>
-								</li>
-								<li><img src="images/banner/coloplast_image1.png" alt="Slide"/>
-									<div class="caption-group">
-										<!--<h2 class="caption title">
-											by one, get one <span class="primary">50% <strong>off</strong></span>
-										</h2>
-										<h4 class="caption subtitle">school supplies & backpacks.*</h4>-->
-										<a class="caption button-radius" href="#"><span class="icon"></span>Показать</a>
-									</div>
-								</li>
-								<li><img src="images/banner/convatec_hug.png" alt="Slide"/>
-									<div class="caption-group">
-										<!--<h2 class="caption title">
-											by one, get one <span class="primary">50% <strong>off</strong></span>
-										</h2>
-										<h4 class="caption subtitle">school supplies & backpacks.*</h4>-->
-										<a class="caption button-radius" href="#"><span class="icon"></span>Показать</a>
-									</div>
-								</li>
-								<li><img src="images/banner/convatec_image.png" alt="Slide"/>
-									<div class="caption-group">
-										<!--<h2 class="caption title">
-											by one, get one <span class="primary">50% <strong>off</strong></span>
-										</h2>
-										<h4 class="caption subtitle">school supplies & backpacks.*</h4>-->
-										<a class="caption button-radius" href="#"><span class="icon"></span>Показать</a>
-									</div>
-								</li>						
-								<li><img src="images/banner/seni_image.png" alt="Slide"/>
-									<div class="caption-group">
-										<!--<h2 class="caption title">
-											by one, get one <span class="primary">50% <strong>off</strong></span>
-										</h2>
-										<h4 class="caption subtitle">school supplies & backpacks.*</h4>-->
-										<a class="caption button-radius" href="#"><span class="icon"></span>Показать</a>
-									</div>
-								</li>
-								<li><img src="images/banner/seni_image2_2.png" alt="Slide"/>
-									<div class="caption-group">
-										<!--<h2 class="caption title">
-											by one, get one <span class="primary">50% <strong>off</strong></span>
-										</h2>
-										<h4 class="caption subtitle">school supplies & backpacks.*</h4>-->
-										<a class="caption button-radius" href="#"><span class="icon"></span>Показать</a>
-									</div>
-								</li>
-								<li><img src="images/banner/bbraun_image1.png" alt="Slide"/>
-									<div class="caption-group">
-										<!--<h2 class="caption title">
-											by one, get one <span class="primary">50% <strong>off</strong></span>
-										</h2>
-										<h4 class="caption subtitle">school supplies & backpacks.*</h4>-->
-										<a class="caption button-radius" href="#"><span class="icon"></span>Показать</a>
+										<a class="caption button-radius" th:href="@{${banner.value.targetUrl}}"><span class="icon"></span>Показать</a>
 									</div>
 								</li>
 							</ul>
@@ -93,9 +39,9 @@
 							<div class="row">
 								<div class="col-md-12">
 									<div class="main-page-product">
-										<h2 class="section-title">Новинки</h2>
+										<h2 class="section-title">Хиты!</h2>
 										<div class="product-carousel">
-										  <div th:replace="catalog/partials/smallSingleProduct::smallSingleProduct(products=${newProducts},badge='new_badge')"></div>
+										  <div th:replace="catalog/partials/smallSingleProduct::smallSingleProduct(products=${hitProducts},badge='hit_badge')"></div>
 										</div>
 									</div>
 								</div>
@@ -103,7 +49,7 @@
 							<div class="row">
 								<div class="col-md-12">
 									<div class="main-page-product">
-										<h2 class="section-title">Акции</h2>
+										<h2 class="section-title">Акции!</h2>
 										<div class="product-carousel">
 											<div th:replace="catalog/partials/smallSingleProduct::smallSingleProduct(products=${actionProducts},badge='action_badge')"></div>
 										</div>										
