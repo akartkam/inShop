@@ -188,6 +188,20 @@ public abstract class AbstractAttribute extends AbstractDomainObjectOrdering {
 		return (!hasAttributeValues() && category.isEmpty());
 	}
 	
+	@Transient
+	public String getDisplayName() {
+		StringBuilder res = new StringBuilder();
+		if (getCode() != null && !"".equals(getCode())){
+			res.append("<span style='font-size:8pt'>").append(getCode()).append("</span> ").append(getName());
+		} else {
+			res.append(getName());
+		}
+		if (getDescription() != null && !"".equals(getDescription().trim())){
+			res.append(" <span style='font-size:8pt'>(").append(getDescription()).append(")</span> ");
+		}
+		return res.toString();
+	}
+	
 	public static class AVComparer implements Comparator<AbstractAttributeValue> {
 
 		@Override

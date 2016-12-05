@@ -128,11 +128,15 @@
 								          th:each="attributeCategory: ${allAttributeCategories}"  
 								          th:label="${attributeCategory.name}">
 								    <option th:if="${attribute.enabled}"
-								            th:each="attribute: ${attributeCategory.attributes}" th:text="${attribute.name}"
+								            th:each="attribute: ${attributeCategory.attributes}" 
+								            th:title="${attribute.name}"
 								            th:selected="${#lists.contains(allAttributes, attribute)}"
 								            th:disabled="${#lists.contains(allAttributes, attribute) &amp;&amp; !#lists.contains(selfAttributes, attribute)}"
 								            th:value="${attribute.id}"
-								            th:attr="data-subtext=#{${'attribute.type.' + attribute.attributeType}}">
+								            th:attr="data-content=${'&lt;span style=&quot;font-size: 8pt&#59;&quot;&gt; (' + #messages.msg('attribute.type.' + attribute.attributeType) +') &lt;/span&gt;' +
+								                                    attribute.name + (!#strings.isEmpty(attribute.code) || !#strings.isEmpty(attribute.description)? '&lt;br&gt;': '') +
+								                                    (!#strings.isEmpty(attribute.code)?'&lt;span style=&quot;font-size: 8pt&#59;&quot;&gt;['+attribute.code + ']&lt;/span&gt;':'') + 
+								                                    (!#strings.isEmpty(attribute.description)? '&lt;span style=&quot;font-size: 8pt&#59;&quot;&gt; '+attribute.description+' &lt;/span&gt;':'')}">
 								    </option>      
 								</optgroup>
 							 </select>

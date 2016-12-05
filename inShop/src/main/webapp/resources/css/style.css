@@ -23,9 +23,6 @@
 	}
 }
 
-.zoomContainer{ z-index: 9999;}
-.zoomWindow{ z-index: 9999;}
-
 @font-face {
 	font-family: 'Raleway';
 	font-style: normal;
@@ -40,6 +37,15 @@
     font-style: normal;
     src: url('./fonts/open-sans400.woff') format('woff');
 }*/
+
+
+.form-search .input-group {
+	width: 100%;
+}
+
+.input-group input.form-control  {
+	height: 100% !important;
+}
 
 .vertical-align {
   display: flex;
