@@ -624,7 +624,7 @@ body { font-family: Open Sans, Arial, Helvetica, sans-serif;}
 .product-carousel .single-product .new_badge {
     width: 60px;
     height: 60px;
-    background: url(../img/New_bage_v3.png) no-repeat;
+    background: url(../img/3новинка.png) no-repeat;
     background-size: contain;
     text-indent: -9999px;
     position: absolute;
@@ -636,7 +636,7 @@ body { font-family: Open Sans, Arial, Helvetica, sans-serif;}
 .product-carousel .single-product .action_badge {
     width: 60px;
     height: 60px;
-    background: url(../img/Action_badge_v3.png) no-repeat;
+    background: url(../img/4акция.png) no-repeat;
     background-size: contain;
     text-indent: -9999px;
     position: absolute;
@@ -648,7 +648,7 @@ body { font-family: Open Sans, Arial, Helvetica, sans-serif;}
 .product-carousel .single-product .hit_badge {
     width: 60px;
     height: 60px;
-    background: url(../img/hit_badgev2.png) no-repeat;
+    background: url(../img/1хит.png) no-repeat;
     background-size: contain;
     text-indent: -9999px;
     position: absolute;

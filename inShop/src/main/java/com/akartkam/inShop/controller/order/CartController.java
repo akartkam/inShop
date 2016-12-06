@@ -30,7 +30,7 @@ import com.akartkam.inShop.formbean.CartForm;
 import com.akartkam.inShop.formbean.CartItemForm;
 import com.akartkam.inShop.service.product.ProductService;
 import com.akartkam.inShop.util.CartUtil;
-import com.akartkam.inShop.validator.CartItemAddValidator;
+import com.akartkam.inShop.validator.CartItemValidator;
 import com.akartkam.inShop.validator.CartItemUpdateValidator;
 
 import static com.akartkam.inShop.util.CommonUtil.isAjaxRequest;;
@@ -47,7 +47,7 @@ public class CartController {
 	private ProductService productService;
 	
 	@Autowired
-	private CartItemAddValidator cartItemAddValidator;
+	private CartItemValidator cartItemAddValidator;
 
 	@Autowired
 	private CartItemUpdateValidator cartItemUpdateValidator;	

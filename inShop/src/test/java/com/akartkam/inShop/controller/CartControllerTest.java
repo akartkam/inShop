@@ -41,7 +41,7 @@ import com.akartkam.inShop.formbean.CartItemForm;
 import com.akartkam.inShop.service.order.InventoryService;
 import com.akartkam.inShop.service.product.ProductService;
 import com.akartkam.inShop.util.Constants;
-import com.akartkam.inShop.validator.CartItemAddValidator;
+import com.akartkam.inShop.validator.CartItemValidator;
 import com.akartkam.inShop.validator.CartItemUpdateValidator;
 
 public class CartControllerTest extends AbstractTest {
@@ -59,7 +59,7 @@ public class CartControllerTest extends AbstractTest {
 	private InventoryService inventoryService;
 	
 	@Spy @InjectMocks
-	private CartItemAddValidator cartItemAddValidator;
+	private CartItemValidator cartItemAddValidator;
 
 	@Mock
 	private CartItemUpdateValidator cartItemUpdateValidator;	
