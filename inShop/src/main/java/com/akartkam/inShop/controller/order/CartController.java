@@ -47,7 +47,7 @@ public class CartController {
 	private ProductService productService;
 	
 	@Autowired
-	private CartItemValidator cartItemAddValidator;
+	private CartItemValidator cartItemValidator;
 
 	@Autowired
 	private CartItemUpdateValidator cartItemUpdateValidator;	
@@ -71,7 +71,7 @@ public class CartController {
         Map<String, Object> responseMap = new HashMap<String, Object>();
         Map<String, String> errorsMap = new HashMap<String, String>();
         try {
-        	cartItemAddValidator.validate(cartItemForm, bindingResult);
+        	cartItemValidator.validate(cartItemForm, bindingResult);
         	if (!bindingResult.hasErrors()) {
             	CartForm cart = CartUtil.getCartFromSession(request);
             	cart.addCartItem(cartItemForm);
