@@ -628,7 +628,6 @@ body { font-family: Open Sans, Arial, Helvetica, sans-serif;}
     background-size: contain;
     text-indent: -9999px;
     position: absolute;
-    top: -10px;
     left: -10px;
     z-index: 20;
 }
@@ -640,7 +639,6 @@ body { font-family: Open Sans, Arial, Helvetica, sans-serif;}
     background-size: contain;
     text-indent: -9999px;
     position: absolute;
-    top: -10px;
     left: -10px;
     z-index: 20;
 }
@@ -652,7 +650,6 @@ body { font-family: Open Sans, Arial, Helvetica, sans-serif;}
     background-size: contain;
     text-indent: -9999px;
     position: absolute;
-    top: -10px;
     left: -10px;
     z-index: 20;
 }

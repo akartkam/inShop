@@ -3,40 +3,46 @@
         <tr>
             <th class="product-remove">&nbsp;</th>
             <th class="product-thumbnail">&nbsp;</th>
-            <th class="product-name"><span >Product</span></th>
-            <th class="product-price">Price</th>
-            <th class="product-quantity">Quantity</th>
-            <th class="product-subtotal">Total</th>
+            <th class="product-name"><span th:utext="#{product.name}">Product</span></th>
+            <th class="product-price"><span th:utext="#{sku.price}">Price</span></th>  
+            <th class="product-quantity"><span th:utext="#{sku.quantity}">Quantity</span></th>
+            <th class="product-subtotal"><span th:utext="#{cart.total}">Total</span></th>
         </tr>
     </thead>
     <tbody>
-        <tr class="cart_item">
+        <tr th:each="ci : ${#httpSession.getAttribute(T(com.akartkam.inShop.util.Constants).CART_BEAN_NAME).cartItems}" class="cart_item">
             <td class="product-remove">
                 <a title="Remove this item" class="remove" href="#"></a> 
             </td>
 
             <td class="product-thumbnail">
-                <a href="single-product.html"><img width="145" height="145" alt="poster_1_up" class="shop_thumbnail" src="img/product-thumb-2.jpg"></a>
+			    <div class="a-photo-out">
+                   <span class="photo-block">
+                     <span class="helper"></span>
+                     <img th:src="@{${ci.imageUrl}}"  th:onerror="'this.src=\'' + @{/resources/img/noimage.png} + '\';'"/>
+                   </span>
+			    </div>            
+<!--                 <a href="single-product.html"><img width="145" height="145" alt="poster_1_up" class="shop_thumbnail" src="img/product-thumb-2.jpg"></a> -->
             </td>
 
             <td class="product-name">
-                <a href="single-product.html">Ship Your Idea</a> 
+                <a href="javascript:;" th:text="${ci.productName}"></a> 
             </td>
 
             <td class="product-price">
-                <span class="amount">£15.00</span> 
+                <span class="amount" th:text="${{ci.price}}">£15.00</span> 
             </td>
 
             <td class="product-quantity">
                 <div class="quantity buttons_added">
                     <input type="button" class="minus" value="-">
-                    <input type="number" size="4" class="input-text qty text" title="Qty" value="1" min="0" step="1">
+                    <input type="number" size="4" class="input-text qty text" title="Qty" th:value="${ci.quantity}" min="0" step="1">
                     <input type="button" class="plus" value="+">
                 </div>
             </td>
 
             <td class="product-subtotal">
-                <span class="amount">£15.00</span> 
+                <span class="amount" th:text="${ci.cartItemTotal}">£15.00</span> 
             </td>
         </tr>
         <tr>

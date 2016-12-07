@@ -41,7 +41,7 @@
 									<div class="main-page-product">
 										<h2 class="section-title">Хиты!</h2>
 										<div class="product-carousel">
-										  <div th:replace="catalog/partials/smallSingleProduct::smallSingleProduct(products=${hitProducts},badge='hit_badge')"></div>
+										  <div th:replace="catalog/partials/smallSingleProduct::smallSingleProduct(products=${hitProducts})"></div>
 										</div>
 									</div>
 								</div>
@@ -51,7 +51,7 @@
 									<div class="main-page-product">
 										<h2 class="section-title">Акции!</h2>
 										<div class="product-carousel">
-											<div th:replace="catalog/partials/smallSingleProduct::smallSingleProduct(products=${actionProducts},badge='action_badge')"></div>
+											<div th:replace="catalog/partials/smallSingleProduct::smallSingleProduct(products=${actionProducts})"></div>
 										</div>										
 									</div>
 								</div>

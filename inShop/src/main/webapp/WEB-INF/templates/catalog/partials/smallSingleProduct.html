@@ -1,5 +1,8 @@
-<div th:each="product : ${products}" class="single-product" th:fragment="smallSingleProduct(products,badge)">
-	<div th:class="${badge}">New!</div>
+<div th:each="product : ${products}" class="single-product" th:fragment="smallSingleProduct(products)">
+	<div th:each="ps, psStatus: ${#lists.toList(product.defaultSku.productStatus)}" th:class="#{${'product.status.class.'+ps}}" 
+	     th:style="${psStatus.index == 0?'top: -10px;': psStatus.index == 1? 'top: 33px;': 'top: 66px;'}">
+		
+	</div>
 	<div class="product-f-image">
 		<img th:src="@{${!#lists.isEmpty(product.defaultSku.images)? product.defaultSku.images[0]: ''}}" alt=""/>
 		<div class="product-hover">

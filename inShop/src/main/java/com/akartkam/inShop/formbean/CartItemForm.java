@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import com.akartkam.inShop.domain.product.Sku;
+
 public class CartItemForm implements Serializable  {
 
 	/**
@@ -14,6 +16,8 @@ public class CartItemForm implements Serializable  {
 	private static final long serialVersionUID = 8806912685052493247L;
 	private String productId;
 	private String skuId;
+	private String imageUrl;
+	private Sku sku;
 	private int quantity;
 	private BigDecimal price;
 	private Map<String,String> itemAttributes = new HashMap<String,String>();
@@ -43,13 +47,27 @@ public class CartItemForm implements Serializable  {
 	public void setSkuId(String skuId) {
 		this.skuId = skuId;
 	}
+	
+	public Sku getSku() {
+		return sku;
+	}
+	public void setSku(Sku sku) {
+		this.sku = sku;
+	}
+
 	public String getProductName() {
 		return productName;
 	}
 	public void setProductName(String productName) {
 		this.productName = productName;
 	}
-		
+	
+	public String getImageUrl() {
+		return imageUrl;
+	}
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
 	public BigDecimal getPrice() {
 		return price;
 	}

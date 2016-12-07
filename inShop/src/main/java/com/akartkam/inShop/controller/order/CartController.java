@@ -64,8 +64,8 @@ public class CartController {
         return getCartView();
     }
 	
-    @RequestMapping(value = "/add", produces = "application/json;charset=UTF-8")
-    public @ResponseBody Map<String, Object> addJson(HttpServletRequest request, HttpServletResponse response, final Model model,
+    @RequestMapping(value = "/add")
+    public String addJson(HttpServletRequest request, HttpServletResponse response, final Model model,
     		                                         @ModelAttribute("cartItemForm") CartItemForm cartItemForm,
     		                                         final BindingResult bindingResult ) {
         Map<String, Object> responseMap = new HashMap<String, Object>();
@@ -102,7 +102,8 @@ public class CartController {
             }
         }
         if (!errorsMap.isEmpty()) responseMap.put("errors", errorsMap);
-        return responseMap;
+        model.addAttribute("responseMap", responseMap);
+        return "";
     }
     
     @RequestMapping("/remove")
