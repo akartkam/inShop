@@ -103,7 +103,7 @@ public class CartController {
         }
         if (!errorsMap.isEmpty()) responseMap.put("errors", errorsMap);
         model.addAttribute("responseMap", responseMap);
-        return "";
+        return cartView + " :: ajax";
     }
     
     @RequestMapping("/remove")

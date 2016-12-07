@@ -1,6 +1,8 @@
 <meta charset="utf-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
+<meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
 
 <title th:unless="${pageTitle == 'TEMPLATE'}" th:utext="${#strings.isEmpty(pageTitle) ? 'ООО Форпост - технические средства реабилитации, ортопедические изделия, изделия медицинского назначения' : pageTitle}"></title>
 <title th:if="${pageTitle == 'TEMPLATE'}" th:remove="tag">
