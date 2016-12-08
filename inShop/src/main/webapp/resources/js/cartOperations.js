@@ -30,26 +30,3 @@ $(function(){
     });
 	
 });
-
-/*
-var token = $('#_csrf').attr('content');
-var header = $('#_csrf_header').attr('content');
-
-$.ajax({
-                        type: "POST",
-                        url: url,
-                        beforeSend: function(xhr) {
-                            xhr.setRequestHeader(header, token);
-                        },
-
-                        success: function(data, textStatus, jqXHR) {
-                            alert(status);
-                        },
-                        error: function(request, status, error) {
-                            alert(status);
-                        }
-                        
-                        
-                    });
-
-*/

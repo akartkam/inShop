@@ -87,8 +87,10 @@ public class CartController {
             	cart.addCartItem(cartItemForm);
                 responseMap.put("productName", cartItemForm.getProductName());
                 responseMap.put("quantityAdded", cartItemForm.getQuantity());
-                responseMap.put("cartItemCount", CartUtil.getCartFromSession(request).getCartItemsCount());  
-                responseMap.put("cartTotal", NumberFormat.getCurrencyInstance(Locale.getDefault()).format(CartUtil.getCartFromSession(request).getTotal()));
+                responseMap.put("cartItemCount", CartUtil.getCartFromSession(request).getCartItemsCount()); 
+                NumberFormat totalFormat = NumberFormat.getCurrencyInstance();
+                totalFormat.setMinimumFractionDigits(2);
+                responseMap.put("cartTotal", totalFormat.format(CartUtil.getCartFromSession(request).getTotal()));
         	} else {
         		if (bindingResult.hasFieldErrors()) {
         			for (FieldError fe : bindingResult.getFieldErrors()){
