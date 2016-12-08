@@ -1,7 +1,10 @@
 package com.akartkam.inShop.controller.order;
 
 import java.io.IOException;
+import java.text.NumberFormat;
+import java.util.Currency;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -9,7 +12,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.codehaus.jackson.map.ObjectMapper;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
@@ -18,7 +24,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.akartkam.inShop.exception.AddToCartException;
 import com.akartkam.inShop.exception.InventoryUnavailableException;
@@ -33,7 +38,9 @@ import com.akartkam.inShop.util.CartUtil;
 import com.akartkam.inShop.validator.CartItemValidator;
 import com.akartkam.inShop.validator.CartItemUpdateValidator;
 
-import static com.akartkam.inShop.util.CommonUtil.isAjaxRequest;;
+import static com.akartkam.inShop.util.CommonUtil.isAjaxRequest;
+
+
 
 @Controller
 @RequestMapping("/cart")
@@ -67,17 +74,21 @@ public class CartController {
     @RequestMapping(value = "/add")
     public String addJson(HttpServletRequest request, HttpServletResponse response, final Model model,
     		                                         @ModelAttribute("cartItemForm") CartItemForm cartItemForm,
-    		                                         final BindingResult bindingResult ) {
+    		                                         final BindingResult bindingResult ) throws IOException {
         Map<String, Object> responseMap = new HashMap<String, Object>();
         Map<String, String> errorsMap = new HashMap<String, String>();
+        String responseString = cartView;
+    	CartForm cart = CartUtil.getCartFromSession(request);
+    	int fullQuantity = cart.getCartItemFormQuantity(cartItemForm);
+  		cartItemForm.setFullQuantityOnCart(fullQuantity);
         try {
         	cartItemValidator.validate(cartItemForm, bindingResult);
         	if (!bindingResult.hasErrors()) {
-            	CartForm cart = CartUtil.getCartFromSession(request);
             	cart.addCartItem(cartItemForm);
                 responseMap.put("productName", cartItemForm.getProductName());
                 responseMap.put("quantityAdded", cartItemForm.getQuantity());
-                responseMap.put("cartItemCount", CartUtil.getCartFromSession(request).getCartItemsCount());        		
+                responseMap.put("cartItemCount", CartUtil.getCartFromSession(request).getCartItemsCount());  
+                responseMap.put("cartTotal", NumberFormat.getCurrencyInstance(Locale.getDefault()).format(CartUtil.getCartFromSession(request).getTotal()));
         	} else {
         		if (bindingResult.hasFieldErrors()) {
         			for (FieldError fe : bindingResult.getFieldErrors()){
@@ -103,7 +114,12 @@ public class CartController {
         }
         if (!errorsMap.isEmpty()) responseMap.put("errors", errorsMap);
         model.addAttribute("responseMap", responseMap);
-        return cartView + " :: ajax";
+        if (isAjaxRequest(request)) {
+        	model.addAttribute("ajaxExtraData", new ObjectMapper().writeValueAsString(responseMap));
+        	responseString+=" :: ajax";
+        }
+
+        return responseString;
     }
     
     @RequestMapping("/remove")

@@ -27,9 +27,25 @@ public class CartForm implements Serializable {
 		return Id;
 	}
 	
-    
     public int getCartItemsCount() {
     	return getCartItems().size();
+    }
+    
+    public CartItemForm getCartItemForm(CartItemForm cartItem) {
+    	for (CartItemForm exCartItem : getCartItems()) {
+    		if (exCartItem.equals(cartItem)) {
+    			return exCartItem;
+    		}
+    	} 
+    	return null;
+    }
+    
+    
+    public int getCartItemFormQuantity(CartItemForm cartItem) {
+    	int res = 0;
+    	CartItemForm exCartItem = getCartItemForm(cartItem);
+    	if (exCartItem != null) res = exCartItem.getQuantity();
+    	return res;
     }
 	
 	public boolean addCartItem(CartItemForm cartItem) {

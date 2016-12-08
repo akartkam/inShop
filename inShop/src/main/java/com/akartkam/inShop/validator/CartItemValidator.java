@@ -68,7 +68,7 @@ public class CartItemValidator implements Validator {
 		                    " skuId: " + cartItem.getSkuId() + 
 		                    " attributes: " + sb.toString());
 		        };
-		        boolean isAvailable = inventoryService.isQuantityAvailable(sku, cartItem.getQuantity());
+		        boolean isAvailable = inventoryService.isQuantityAvailable(sku, cartItem.getQuantity() + cartItem.getFullQuantityOnCart());
 		        if (!isAvailable) 
 		        	throw new InventoryUnavailableException("The referenced Sku " + sku.getId() + " is marked as unavailable, or an insufficient amount",
 		        			                                 sku.getId(), cartItem.getQuantity(), inventoryService.retrieveQuantityAvailable(sku));

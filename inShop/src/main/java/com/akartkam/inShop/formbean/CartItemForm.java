@@ -6,6 +6,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import org.springframework.format.annotation.NumberFormat;
+import org.springframework.format.annotation.NumberFormat.Style;
+
 import com.akartkam.inShop.domain.product.Sku;
 
 public class CartItemForm implements Serializable  {
@@ -19,6 +22,7 @@ public class CartItemForm implements Serializable  {
 	private String imageUrl;
 	private Sku sku;
 	private int quantity;
+	private int fullQuantityOnCart;
 	private BigDecimal price;
 	private Map<String,String> itemAttributes = new HashMap<String,String>();
 	private String productName;
@@ -28,6 +32,13 @@ public class CartItemForm implements Serializable  {
 	}
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
+	}
+	
+	public int getFullQuantityOnCart() {
+		return fullQuantityOnCart;
+	}
+	public void setFullQuantityOnCart(int fullQuantity) {
+		this.fullQuantityOnCart = fullQuantity;
 	}
 	public String getProductId() {
 		return productId;
@@ -68,6 +79,8 @@ public class CartItemForm implements Serializable  {
 	public void setImageUrl(String imageUrl) {
 		this.imageUrl = imageUrl;
 	}
+	
+	@NumberFormat(style=Style.CURRENCY)
 	public BigDecimal getPrice() {
 		return price;
 	}
@@ -78,6 +91,7 @@ public class CartItemForm implements Serializable  {
 		return (skuId != null && !"".equals(skuId));
 	}
 	
+	@NumberFormat(style=Style.CURRENCY)
 	public BigDecimal getCartItemTotal() {
 		BigDecimal res = BigDecimal.ZERO;
 		if (getPrice() != null) {

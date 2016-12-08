@@ -2,6 +2,8 @@
  * 
  */
 
+var extraDataDiv   = "ajax-extra-data";
+
 function getRootWebSitePath()
 {
     var _location = document.location.toString();
@@ -69,3 +71,28 @@ function slugify(str) {
 
     return str;
 };
+
+
+function getExtraData($data) {
+    return extractData($data, extraDataDiv);
+}
+
+function extractData($data, dataDivId) {
+    if (!($data instanceof jQuery)) {
+        return null;
+    }
+    
+	var extractedData = null;
+
+    var $dataDiv = $data.find('#' + dataDivId);
+	if ($dataDiv.length > 0) {
+	    try {
+	        extractedData = $.parseJSON($dataDiv.text());
+	    } catch (e) {
+	        console.log("Could not parse data as JSON: " + $dataDiv.text());
+	    }
+        $dataDiv.remove();
+	}
+
+    return extractedData;
+}

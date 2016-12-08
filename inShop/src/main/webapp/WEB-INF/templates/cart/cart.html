@@ -1,9 +1,10 @@
 <!-- <th:block layout:decorator="layout/fullPageLayout"> -->
 <!--     <head> -->
-<!--         <title>Корзина</title> -->
+<!--         <title>РљРѕСЂР·РёРЅР°</title> -->
 <!--     </head> -->
  <div id="cart" layout:fragment="content" th:fragment="ajax">
  	<table th:replace="cart/partials/cartProductsTable"></table>
+ 	<div id="ajax-extra-data" class="hidden" th:utext="${ajaxExtraData}" th:if="${!#strings.isEmpty(ajaxExtraData)}"></div>
  </div>   
     
     
