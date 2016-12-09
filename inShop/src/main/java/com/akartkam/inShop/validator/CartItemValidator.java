@@ -58,7 +58,7 @@ public class CartItemValidator implements Validator {
 		try{	
 			if (product != null) {
 				Sku sku = determineSku(product, cartItem.getItemAttributes());
-		        if (sku == null) {
+				if (sku == null) {
 		            StringBuilder sb = new StringBuilder();
 		            for (Entry<String, String> entry : cartItem.getItemAttributes().entrySet()) {
 		                sb.append(entry.toString());
@@ -73,6 +73,7 @@ public class CartItemValidator implements Validator {
 		        	throw new InventoryUnavailableException("The referenced Sku " + sku.getId() + " is marked as unavailable, or an insufficient amount",
 		        			                                 sku.getId(), cartItem.getQuantity(), inventoryService.retrieveQuantityAvailable(sku));
 	        	cartItem.setSkuId(sku.getId().toString());
+	        	cartItem.setProductUrl(product.getUrl());
 	        	cartItem.setProductName(sku.getName());
 	        	cartItem.setPrice(sku.getPrice());
 	        	cartItem.setImageUrl(!sku.getImages().isEmpty()? sku.getImages().get(0): null);

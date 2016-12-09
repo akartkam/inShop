@@ -50,6 +50,7 @@ public class Product extends AbstractDomainObjectOrdering {
 	 * 
 	 */
 	private static final long serialVersionUID = -583044339566068826L;
+	public static final String urlPrefix = "product";
 	private Category category;
 	private Brand brand;
 	private String model;
@@ -59,7 +60,7 @@ public class Product extends AbstractDomainObjectOrdering {
     private List<Sku> additionalSku = new ArrayList<Sku>();	
     private Set<ProductOption> productOptions = new HashSet<ProductOption>();
     private boolean canSellWithoutOptions = true;
-	
+    
 	@Column(name = "can_sell_without_options")
 	public boolean isCanSellWithoutOptions() {
 		return canSellWithoutOptions;
@@ -286,8 +287,6 @@ public class Product extends AbstractDomainObjectOrdering {
 		product.setUpdatedBy(null);
 		product.setUpdatedDate(null);
 		return product;
-	}  
-	
-	
+	}
 
 }

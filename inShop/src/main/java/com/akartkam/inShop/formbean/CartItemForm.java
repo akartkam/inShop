@@ -20,6 +20,7 @@ public class CartItemForm implements Serializable  {
 	private String productId;
 	private String skuId;
 	private String imageUrl;
+	private String ProductUrl;
 	private Sku sku;
 	private int quantity;
 	private int fullQuantityOnCart;
@@ -45,6 +46,13 @@ public class CartItemForm implements Serializable  {
 	}
 	public void setProductId(String productId) {
 		this.productId = productId;
+	}
+	
+	public String getProductUrl() {
+		return ProductUrl;
+	}
+	public void setProductUrl(String productUrl) {
+		ProductUrl = productUrl;
 	}
 	public Map<String, String> getItemAttributes() {
 		return itemAttributes;
