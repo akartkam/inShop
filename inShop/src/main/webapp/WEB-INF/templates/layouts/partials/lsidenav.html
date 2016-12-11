@@ -16,19 +16,19 @@
 	  <!-- start sidebar nav -->
 	  <ul class="nav navbar-nav navbar-right sm-vertical" th:if="${not #lists.isEmpty(rootCategorys)}">
 	  	<li th:each="rootCategory : ${rootCategorys}">
-            <a th:href="@{${!rootCategory.hasSubCategory()? rootCategory.url: 'javascript:;'}}" >
+            <a aid:phref="${!rootCategory.hasSubCategory()? rootCategory: 'javascript:;'}" >
                 <span th:utext="${rootCategory.name}"></span>&nbsp;<!--  
                 --><span th:if="${rootCategory.hasSubCategory()}" class="caret-right"></span>
             </a>
             <ul th:if="${rootCategory.hasSubCategory()}" class="dropdown-menu">
             	<li th:each="subCategory : ${rootCategory.getSubCategory()}">
-            	   <a th:href="@{${!subCategory.hasSubCategory()? subCategory.url: 'javascript:;'}}" >
+            	   <a aid:phref="${!subCategory.hasSubCategory()? subCategory: 'javascript:;'}" >
                      <span th:utext="${subCategory.name}"></span>&nbsp;<!--  
                 --><span th:if="${subCategory.hasSubCategory()}" class="caret-right"></span>
                    </a>
 		           <ul th:if="${subCategory .hasSubCategory()}" class="dropdown-menu">
 		            	<li th:each="subSubCategory : ${subCategory.getSubCategory()}">
-		            	   <a th:href="@{${subSubCategory .url}}" >
+		            	   <a aid:phref="${subSubCategory}" >
 		                     <span th:utext="${subSubCategory .name}"></span>
 		                   </a>
 		                   

@@ -7,6 +7,7 @@ import java.util.Set;
 import javax.annotation.Resource;
 
 import com.akartkam.inShop.service.extension.ProductDisplayNameModificator;
+import com.akartkam.inShop.thymeleaf.processors.EntityUrlPrefixHrefProcessor;
 import com.akartkam.inShop.thymeleaf.processors.ProductDisplayNameModifyerProcessor;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +39,10 @@ public class AisDialect extends AbstractDialect {
 		final Set<IProcessor> processors = new HashSet<IProcessor>();
 		ProductDisplayNameModifyerProcessor productDisplayNameModifyerProcessor = new ProductDisplayNameModifyerProcessor();
 		productDisplayNameModifyerProcessor.setProductDisplayNameModificator(productDisplayNameModificator);
+		EntityUrlPrefixHrefProcessor entityUrlPrefixHrefProcessor = new EntityUrlPrefixHrefProcessor();
+		entityUrlPrefixHrefProcessor.setUrlPrefixes(urlPrefixes);
 		processors.add(productDisplayNameModifyerProcessor);
+		processors.add(entityUrlPrefixHrefProcessor);
 		return processors;
 		
 	}

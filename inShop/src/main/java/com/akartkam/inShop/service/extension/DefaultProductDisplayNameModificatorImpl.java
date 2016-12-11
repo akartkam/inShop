@@ -32,7 +32,9 @@ public class DefaultProductDisplayNameModificatorImpl implements
 		StringBuilder ret = new StringBuilder(str);
 		for (AbstractAttributeValue av: product.getAttributeValues()) {
 			if (av.getAttribute().getIsShowOnProductHeader()) {
-				ret.append(", <b>").append(av.getStringValue()).append("</b>");
+				if (av.getStringValue() != null && !"".equals(av.getStringValue())) {
+					ret.append(", <span class='product-header-attribute'>").append(av.getStringValue()).append("</span>");					
+				}
 				if (av.getAttribute().getUnit() != null) {
 					String unit;
 					if (messageSource != null) {
@@ -40,7 +42,7 @@ public class DefaultProductDisplayNameModificatorImpl implements
 					} else {
 						unit = av.getAttribute().getUnit().getFullNameR();
 					}
-					ret.append(" ").append(unit);
+					ret.append("<span class='unit'>").append(unit).append("</span>");
 				}
 			}
 		}

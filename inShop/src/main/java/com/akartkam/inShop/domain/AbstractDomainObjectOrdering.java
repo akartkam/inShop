@@ -15,16 +15,16 @@ public abstract class AbstractDomainObjectOrdering  extends AbstractDomainObject
 	 * 
 	 */
 	private static final long serialVersionUID = -4923961082547539283L;
-	private int ordering;
+	private Integer ordering;
 
 	@AdminPresentation(tab=EditTab.ADDITIONAL)
 	@DecimalMin("0")
 	@Column(name="Ordering")
-	public int getOrdering() {
+	public Integer getOrdering() {
 		return ordering;
 	}
 
-	public void setOrdering(int ordering) {
+	public void setOrdering(Integer ordering) {
 		this.ordering = ordering;
 	}
 

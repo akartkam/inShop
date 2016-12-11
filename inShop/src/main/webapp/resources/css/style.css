@@ -575,11 +575,16 @@ body { font-family: Open Sans, Arial, Helvetica, sans-serif;}
 
 .product-carousel-price ins {
   color: #5a88ca;
-  font-weight: bold;
+  font-weight: 500;
   font-size: 12pt;
   font-family: Arial, Helvetica, sans-serif;
-  margin-right: 5px;
+/*   margin-right: 5px; */
   text-decoration: none;
+}
+
+.product-carousel-price del {
+  font-size: 9pt;
+  font-family: Arial, Helvetica, sans-serif;
 }
 .product-hover a i.fa {
     margin-right: 5px;
@@ -592,11 +597,13 @@ body { font-family: Open Sans, Arial, Helvetica, sans-serif;}
 	transform: translate(0, -50%);
 	}
 .single-product h2 {
-    font-size: 14px;
+    font-size: 13px;
     line-height: 20px;
-    margin-bottom: 5px;
+    margin-bottom: 15px;
     margin-top: 10px;
     text-align: center;
+    max-height: 32px;
+    height: 32px;
 }
 
 
@@ -1378,7 +1385,7 @@ div.cart-collaterals ul.products li.product:hover .add_to_cart_button{background
 
 .quick-review-product-info ins {
     color: #5a88ca;
-    font-weight: bold;
+    font-weight: 700;
     font-size: 12pt;
     font-family:Arial, Helvetica, sans-serif;   
     text-decoration: none;	
@@ -1391,6 +1398,48 @@ div.cart-collaterals ul.products li.product:hover .add_to_cart_button{background
 .quick-review-product-buttons button {
 	margin-top: 10px;
 }
+
+span.product-header-attribute {
+/* 	font-weight: bold; */
+	white-space: nowrap;
+}
+
+/* .price_unit:before, .price_unit_delemiter:before, .price_unit:after, .price_unit_delemiter:after {content: "\00a0 ";} */
+span.unit:before {content: "\00a0 ";}
+span.unit, span.price-piece-unit, span.price-piece-unit-delemiter {
+    color: #999;
+    font-weight: normal;
+    font-size: 12px;
+}
+
+span.price-piece-unit {
+    margin-right: 5px;
+}
+
+/* Quick product view*/ 
+.product-header-info table {
+	margin-top: 5px;
+	margin-bottom: 5px;
+  /*  border-bottom: 1px solid #ddd;
+    border-right: 1px solid #ddd; */
+    font-size: 8pt;
+    font-weight: bold;
+    width: 100%;
+}	
+.product-header-info table th, .product-header-info table td {
+   /* border-left: 1px solid #ddd;
+    border-top: 1px solid #ddd; */
+    padding: 3px;
+}		 	
+.product-header-info table th {
+  	/*	background: none repeat scroll 0 0 #f8f8f8; */
+}	 
+.product-header-info table td{
+ 	font-weight: normal !important;
+    font-style: italic;
+}
+
+
 
 /* for zoomsl-3.0*/
 .round-loupe{

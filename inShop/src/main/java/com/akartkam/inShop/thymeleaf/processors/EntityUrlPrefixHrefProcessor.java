@@ -10,6 +10,9 @@ import org.thymeleaf.processor.attr.AbstractAttributeModifierAttrProcessor;
 import org.thymeleaf.standard.expression.Expression;
 import org.thymeleaf.standard.expression.StandardExpressions;
 
+import com.akartkam.inShop.domain.AbstractWebDomainObject;
+import com.akartkam.inShop.domain.product.Product;
+
 public class EntityUrlPrefixHrefProcessor extends AbstractAttributeModifierAttrProcessor {
 
     private static final String PHREF = "phref";
@@ -17,7 +20,7 @@ public class EntityUrlPrefixHrefProcessor extends AbstractAttributeModifierAttrP
     
     private Properties urlPrefixes;
 	
-	protected EntityUrlPrefixHrefProcessor() {
+	public EntityUrlPrefixHrefProcessor() {
 		super(PHREF);
 	}
 	
@@ -42,19 +45,24 @@ public class EntityUrlPrefixHrefProcessor extends AbstractAttributeModifierAttrP
 		 Map<String, String> attrs = new HashMap<String, String>();
 	     Expression expression = (Expression) StandardExpressions.getExpressionParser(arguments.getConfiguration())
 	                .parseExpression(arguments.getConfiguration(), arguments, elementValue);
-	     
-		 Object entity = expression.execute(arguments.getConfiguration(), arguments);
-		 String currentPrefix = urlPrefixes.getProperty(entity.getClass().getCanonicalName(), "");
-		 StringBuilder prefixedPath = new StringBuilder();
-		 //prefixedPath.append(currentPrefix.startsWith("/")? currentPrefix: "/"+currentPrefix).
-		 //             append()
-		 
-	     
-	     String prefixedPath1 = (String) expression.execute(arguments.getConfiguration(), arguments);
+	    
+	     Object obj = expression.execute(arguments.getConfiguration(), arguments);
+	     String attrValue = "";
+	     if (obj instanceof AbstractWebDomainObject) {
+			 AbstractWebDomainObject entity =  (AbstractWebDomainObject) obj; 
+			 String currentPrefix = urlPrefixes.getProperty(entity.getClass().getCanonicalName(), "");
+			 StringBuilder prefixedPath = new StringBuilder();
+			 prefixedPath.append(currentPrefix.startsWith("/")? currentPrefix: "/"+currentPrefix).append(entity.getUrl());
+			 
+			 String fullPath = "@{"+prefixedPath.toString()+"}";
+			 expression = (Expression) StandardExpressions.getExpressionParser(arguments.getConfiguration())
+		                  .parseExpression(arguments.getConfiguration(), arguments, fullPath);	    
+			 attrValue = (String) expression.execute(arguments.getConfiguration(), arguments);
+	     } else {
+	         attrValue = obj.toString();
+	     }
 
-	     
-	     
-	     //attrs.put(HREF, prefixedPath);
+	     attrs.put(HREF, attrValue);
 	        
 	     return attrs;
 	}

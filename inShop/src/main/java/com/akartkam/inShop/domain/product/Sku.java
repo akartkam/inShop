@@ -40,6 +40,7 @@ import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Index;
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.NumberFormat;
 import org.springframework.format.annotation.NumberFormat.Style;
@@ -176,6 +177,7 @@ public class Sku extends AbstractDomainObjectOrdering {
 		this.activeEndDate = activeEndDate;
 	}
 	
+
 	@NumberFormat(style=Style.CURRENCY)
 	@DecimalMin("0.01")	
 	@Digits(fraction = 5, integer = 14)
@@ -349,6 +351,7 @@ public class Sku extends AbstractDomainObjectOrdering {
     }    
 	
 	@Transient
+	@NumberFormat(style=Style.CURRENCY)
     public BigDecimal getPrice() {
         return isOnSale() ? getSalePrice() : getRetailPrice();
     }

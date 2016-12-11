@@ -6,18 +6,35 @@
 	<div class="product-f-image">
 		<img th:src="@{${!#lists.isEmpty(product.defaultSku.images)? product.defaultSku.images[0]: ''}}" alt=""/>
 		<div class="product-hover">
-			<a href="#" class="add-to-cart-link"><i class="fa fa-shopping-cart"></i> В корзину</a>
+			<form method="POST" th:action="@{/cart/add}">
+				<input type="hidden" name="productId" th:value="${product.id}" />
+            	<input type="hidden" name="quantity" value="1" />
+				<a href="javascript:;" class="addToCart add-to-cart-link">
+				   <i class="fa fa-shopping-cart"></i>  
+				   <span th:text="#{button.toCart}">В корзину</span>
+				</a>
+			</form>	
 			<a th:href="@{${'/ajax-quick-review-product?ID='+product.id}}" class="quick-review-product-link"><i class="fa fa-list-alt"></i> Параметры</a>
 			<a th:href="@{'/product'+${product.url}}" class="view-details-link"><i class="fa fa-info"></i> Подробнее</a>
 		</div>
 	</div>
 	
-	<h2><a th:href="@{'/product'+${product.url}}"><span aid:product_modifyed_display_name_utext="${product}">Samsung Galaxy s5- 2015</span></a></h2>
-	
+<!-- 	<h2><a aid:phref="${product}"><span aid:product_modifyed_display_name_utext="${product}">Samsung Galaxy s5- 2015</span></a></h2> -->
+ 	<h2><a aid:phref="${product}"><span th:utext="${product.name}">Samsung Galaxy s5- 2015</span></a></h2>
 	<div class="product-carousel-price">
-		<ins th:if="${product.defaultSku.salePrice != null &amp;&amp; product.defaultSku.salePrice != 0}" 
-		     th:utext="${{product.defaultSku.salePrice}}">$700.00</ins>
-		<ins th:unless="${product.defaultSku.salePrice != null &amp;&amp; product.defaultSku.salePrice != 0}" 
-		     th:utext="${{product.defaultSku.retailPrice}}">$700.00</ins> <del th:if="${product.defaultSku.salePrice != null &amp;&amp; product.defaultSku.salePrice != 0}" th:utext="${{product.defaultSku.retailPrice}}">$100.00</del>
+		<ins th:utext="${{product.defaultSku.price}}">$700.00</ins>
+		<span class="price-piece-unit-delemiter" th:utext="#{product.default.pricePieceUnitDelemiter}"></span>
+		<span class="price-piece-unit" th:utext="#{product.default.pricePieceUnit}"></span> 
+		<del th:if="${product.defaultSku.isOnSale()}" th:utext="${{product.defaultSku.retailPrice}}">$100.00</del>
 	</div> 
+	<div class="product-header-info">
+       <table cellspacing="0">
+           <tbody>
+              <tr th:each="av : ${product.attributeValues}" th:if="${av.attribute.isShowOnProductHeader}">
+                  <th><span th:utext="${av.attribute.name}"></span></th>
+                  <td><span th:utext="${av.value}"></span>&nbsp;<span th:if="${av.attribute.unit != null}" th:utext="#{${'unit.' + av.attribute.unit}}"></span></td>
+              </tr>
+           </tbody>
+       </table>	
+	</div>	
 </div>

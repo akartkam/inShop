@@ -33,6 +33,7 @@ import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import com.akartkam.inShop.domain.AbstractDomainObjectOrdering;
+import com.akartkam.inShop.domain.AbstractWebDomainObject;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttributeValue;
 import com.akartkam.inShop.domain.product.attribute.AttributeValuesHolderType;
@@ -55,7 +56,7 @@ import com.akartkam.inShop.validator.HtmlSafe;
 })
 @Entity
 @Table(name = "Category")
-public class Category extends AbstractDomainObjectOrdering {
+public class Category extends AbstractWebDomainObject {
 
 	/**
 	 * 

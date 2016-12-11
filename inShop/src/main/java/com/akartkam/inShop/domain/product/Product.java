@@ -28,10 +28,9 @@ import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.Index;
 
-import com.akartkam.inShop.domain.AbstractDomainObjectOrdering;
+import com.akartkam.inShop.domain.AbstractWebDomainObject;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttributeValue;
-import com.akartkam.inShop.domain.product.attribute.AttributeValue;
 import com.akartkam.inShop.domain.product.attribute.SimpleAttributeFactory;
 import com.akartkam.inShop.domain.product.option.ProductOption;
 import com.akartkam.inShop.domain.product.option.ProductOptionValue;
@@ -44,13 +43,12 @@ import com.akartkam.inShop.presentation.admin.EditTab;
 @Entity
 @Table(name = "Product")
 @SuppressWarnings("rawtypes")
-public class Product extends AbstractDomainObjectOrdering {
+public class Product extends AbstractWebDomainObject {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -583044339566068826L;
-	public static final String urlPrefix = "product";
 	private Category category;
 	private Brand brand;
 	private String model;
@@ -60,6 +58,7 @@ public class Product extends AbstractDomainObjectOrdering {
     private List<Sku> additionalSku = new ArrayList<Sku>();	
     private Set<ProductOption> productOptions = new HashSet<ProductOption>();
     private boolean canSellWithoutOptions = true;
+
     
 	@Column(name = "can_sell_without_options")
 	public boolean isCanSellWithoutOptions() {
@@ -79,6 +78,7 @@ public class Product extends AbstractDomainObjectOrdering {
 		this.category = category;
 	}
 	
+	@Override
     @Column(name = "url")
     @Index(name="product_url_index", columnNames={"url"})	
 	public String getUrl() {
@@ -287,6 +287,12 @@ public class Product extends AbstractDomainObjectOrdering {
 		product.setUpdatedBy(null);
 		product.setUpdatedDate(null);
 		return product;
+	}
+
+	@Override
+	@Transient
+	public String getName() {
+		return defaultSku.getName();
 	}
 
 }

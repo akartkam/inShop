@@ -25,8 +25,8 @@
 						   	   <td><a th:utext="${product.brand.name}" th:href="${product.brand.url}"></a></td>
 						   </tr>
 						   <tr>
-						   	   <th><span th:utext="#{product.articuls}"></span></th>
-						   	   <td><span th:utext="${product.skuCodes}"></span></td>
+						   	   <th><span th:utext="#{product.articul}"></span></th>
+						   	   <td><span th:utext="${product.defaultSku.code}"></span></td>
 						   </tr>
 		                   <tr th:each="av : ${product.attributeValues}">
 		                       <th><span th:utext="${av.attribute.name}"></span></th>
@@ -35,9 +35,10 @@
 						   <tr>
 						   	   <th><span th:utext="#{sku.price}"></span></th>
 						   	   <td>
-								 <ins th:if="${product.defaultSku.salePrice != null &amp;&amp; product.defaultSku.salePrice != 0}" th:utext="${{product.defaultSku.salePrice}}">$700.00</ins>
-								 <ins th:unless="${product.defaultSku.salePrice != null &amp;&amp; product.defaultSku.salePrice != 0}" 
-									  th:utext="${{product.defaultSku.retailPrice}}">$700.00</ins> <del th:if="${product.defaultSku.salePrice != null &amp;&amp; product.defaultSku.salePrice != 0}" th:utext="${{product.defaultSku.retailPrice}}">$100.00</del>
+								 <ins th:utext="${{product.defaultSku.price}}">$700.00</ins>
+								 <span class="price-piece-unit-delemiter" th:utext="#{product.default.pricePieceUnitDelemiter}"></span>
+								 <span class="price-piece-unit" th:utext="#{product.default.pricePieceUnit}"></span> 
+								 <del th:if="${product.defaultSku.isOnSale()}" th:utext="${{product.defaultSku.retailPrice}}">$100.00</del>
 								 <br/>										  
                                     <span class="in-stock" th:if="${skuAvailableMap.get(product.defaultSku)}" th:utext="#{sku.available}"></span>	
                                     <span class="out-of-stock" th:unless="${skuAvailableMap.get(product.defaultSku)}" th:utext="#{sku.unAvailable}"></span>									  

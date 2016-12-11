@@ -5,7 +5,7 @@ $(function(){
 		$(".product-count").html(newCount);
 	}
 	
-    $("body").on("click", "button.addToCart", function() {
+    $("body").on("click", ".addToCart", function() {
     	var modalClick = $(this).parents('.simplemodal-wrap').length > 0;
     	var $form = $(this).closest("form");
     	var $url = $form.attr("action");

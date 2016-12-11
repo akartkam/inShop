@@ -17,7 +17,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 @MappedSuperclass
 public abstract class AbstractDomainObject implements DomainObject<UUID>, Cloneable {
 	
-    public static final String urlPrefix = "";
 	private UUID id = GeneratorId.createId();
     private Integer version=0;
     private boolean enabled=true;

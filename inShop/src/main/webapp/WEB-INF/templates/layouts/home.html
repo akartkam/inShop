@@ -65,7 +65,7 @@
 												<div class="col-md-12">
 													<div class="brand-wrapper">
 														<div class="brand-list">
-															<a th:each="brand : ${brands}" th:href="@{'/brand'+${brand.url}}"> 
+															<a th:each="brand : ${brands}" aid:phref="${brand}"> 
 																<img th:src="@{${brand.logoUrl}}" alt=""/>
 															</a> 
 														</div>

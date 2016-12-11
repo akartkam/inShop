@@ -1,11 +1,9 @@
 package com.akartkam.inShop.domain.product;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Lob;
@@ -15,22 +13,18 @@ import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
-import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.Index;
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotEmpty;
-import org.hibernate.validator.constraints.SafeHtml;
-import org.hibernate.validator.constraints.SafeHtml.WhiteListType;
 
-import com.akartkam.inShop.domain.AbstractDomainObject;
-import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
+import com.akartkam.inShop.domain.AbstractWebDomainObject;
 import com.akartkam.inShop.presentation.admin.AdminPresentation;
 import com.akartkam.inShop.presentation.admin.EditTab;
 import com.akartkam.inShop.validator.HtmlSafe;
 
 @Entity
 @Table(name = "Brand")
-public class Brand extends AbstractDomainObject {
+public class Brand extends AbstractWebDomainObject {
 
 	/**
 	 * 
