@@ -14,12 +14,6 @@ tfoot input {
        box-sizing: border-box;			        
 } 
 
-.domain-col {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
- }
-
 .btn-file {
     position: relative;
     overflow: hidden;

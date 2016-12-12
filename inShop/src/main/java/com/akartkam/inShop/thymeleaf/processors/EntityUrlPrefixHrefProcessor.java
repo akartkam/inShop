@@ -11,7 +11,7 @@ import org.thymeleaf.standard.expression.Expression;
 import org.thymeleaf.standard.expression.StandardExpressions;
 
 import com.akartkam.inShop.domain.AbstractWebDomainObject;
-import com.akartkam.inShop.domain.product.Product;
+
 
 public class EntityUrlPrefixHrefProcessor extends AbstractAttributeModifierAttrProcessor {
 

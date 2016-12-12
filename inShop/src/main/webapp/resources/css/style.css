@@ -597,13 +597,17 @@ body { font-family: Open Sans, Arial, Helvetica, sans-serif;}
 	transform: translate(0, -50%);
 	}
 .single-product h2 {
-    font-size: 13px;
-    line-height: 20px;
+	font-size: 13px;
+    line-height: normal;
     margin-bottom: 15px;
     margin-top: 10px;
     text-align: center;
-    max-height: 32px;
-    height: 32px;
+    max-height: 50px;
+    height: 50px;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;    
 }
 
 
@@ -1431,8 +1435,8 @@ span.price-piece-unit {
     border-top: 1px solid #ddd; */
     padding: 3px;
 }		 	
-.product-header-info table th {
-  	/*	background: none repeat scroll 0 0 #f8f8f8; */
+.product-header-info table th, .product-header-info table td {
+  	background: none repeat scroll 0 0 #f8f8f8;
 }	 
 .product-header-info table td{
  	font-weight: normal !important;

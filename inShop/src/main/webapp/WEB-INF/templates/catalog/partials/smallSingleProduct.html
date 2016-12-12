@@ -31,8 +31,8 @@
        <table cellspacing="0">
            <tbody>
               <tr th:each="av : ${product.attributeValues}" th:if="${av.attribute.isShowOnProductHeader}">
-                  <th><span th:utext="${av.attribute.name}"></span></th>
-                  <td><span th:utext="${av.value}"></span>&nbsp;<span th:if="${av.attribute.unit != null}" th:utext="#{${'unit.' + av.attribute.unit}}"></span></td>
+                  <th class="domain-col mightOverflow"><span th:utext="${av.attribute.name}"></span></th>
+                  <td class="domain-col mightOverflow"><span th:utext="${av.value}"></span>&nbsp;<span th:if="${av.attribute.unit != null}" th:utext="#{${'unit.' + av.attribute.unit}}"></span></td>
               </tr>
            </tbody>
        </table>	

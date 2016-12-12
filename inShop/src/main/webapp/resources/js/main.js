@@ -22,8 +22,8 @@ jQuery(document).ready(function($){
                 items:3,
             },
             1000:{
-                items:5,
-            }
+                items:4,
+            }            
         }
     });  
     
@@ -90,7 +90,7 @@ jQuery(document).ready(function($){
     }) 
 	
 	// Toggel the class "active" for main menubar
-	$('.sidemenu-area ul.navbar-nav li, .mainmenu-area ul.navbar-nav li').click(function(){
+	$('.sidemenu-area ul.navbar-nav li, .addmainmenu-area ul.navbar-nav li').click(function(){
 		$('.sidemenu-area ul.navbar-nav li, .mainmenu-area ul.navbar-nav li').removeClass("active");
 		$(this).addClass("active");
 	});
