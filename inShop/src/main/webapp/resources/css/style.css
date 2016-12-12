@@ -1380,7 +1380,7 @@ div.cart-collaterals ul.products li.product:hover .add_to_cart_button{background
     padding: 3px;
 }		 	
 .quick-review-product-info table th {
-  		background: none repeat scroll 0 0 #f4f4f4;
+  	background: none repeat scroll 0 0 #f4f4f4;
 }	 
 .quick-review-product-info table td{
  	font-weight: normal !important;
@@ -1428,6 +1428,7 @@ span.price-piece-unit {
     border-right: 1px solid #ddd; */
     font-size: 8pt;
     font-weight: bold;
+    table-layout: fixed;
     width: 100%;
 }	
 .product-header-info table th, .product-header-info table td {
@@ -1437,10 +1438,12 @@ span.price-piece-unit {
 }		 	
 .product-header-info table th, .product-header-info table td {
   	background: none repeat scroll 0 0 #f8f8f8;
+  	width: 65%;
 }	 
 .product-header-info table td{
  	font-weight: normal !important;
     font-style: italic;
+    width: 35%;
 }
 
 

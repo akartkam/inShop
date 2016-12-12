@@ -13,7 +13,7 @@ jQuery(document).ready(function($){
         loop:true,
         nav:true,
         navText:["<",">"],
-        margin:20,
+        margin:30,
         responsive:{
             0:{
                 items:1,
@@ -21,9 +21,12 @@ jQuery(document).ready(function($){
             600:{
                 items:3,
             },
-            1000:{
+            1200:{
                 items:4,
-            }            
+            },
+            1500:{
+            	items:5
+            }
         }
     });  
     
