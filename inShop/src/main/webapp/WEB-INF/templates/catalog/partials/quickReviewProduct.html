@@ -37,20 +37,27 @@
 		                   	   <td><span th:utext="${product.defaultSku.quantityPerPackage}"></span>&nbsp;<span class="price-piece-unit" th:utext="#{product.default.pricePieceUnit}"></span></td>
 		                   </tr>
 						   <tr>
-						   	   <th><span th:utext="#{sku.price}"></span></th>
-						   	   <td>
+						   	  <th rowspan="2"><span th:utext="#{sku.price}"></span></th>
+						   	  <td>
 								 <ins th:utext="${{product.defaultSku.price}}">$700.00</ins>
 								 <span class="price-piece-unit-delemiter" th:utext="#{product.default.pricePieceUnitDelemiter}"></span>
 								 <span class="price-piece-unit" th:utext="#{product.default.pricePieceUnit}"></span> 
 								 <del th:if="${product.defaultSku.isOnSale()}" th:utext="${{product.defaultSku.retailPrice}}">$100.00</del>
-								 <br/>
+							  </td>
+						   </tr>
+						   <tr>   
+							  <td>
 								 <ins th:utext="${{product.defaultSku.priceForPackage}}">$700.00</ins>
 								 <span class="price-piece-unit-delemiter" th:utext="#{product.default.pricePieceUnitDelemiter}"></span>
 								 <span class="price-piece-unit" th:utext="#{product.default.pricePackageUnit}"></span> 								 
-								 <br/>										  
+							  </td>
+						   </tr>
+						   <tr>	 
+						      <th><span th:utext="#{sku.availability}"></span></th>  
+							  <td>										  
                                  <span class="in-stock" th:if="${skuAvailableMap.get(product.defaultSku)}" th:utext="#{sku.available}"></span>	
                                  <span class="out-of-stock" th:unless="${skuAvailableMap.get(product.defaultSku)}" th:utext="#{sku.unAvailable}"></span>
-                               </td>  									  
+                              </td>  									  
 						   </tr>
 		               </tbody>
 		           </table>

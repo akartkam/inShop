@@ -19,10 +19,10 @@ public class Common {
 			NumberFormat df = NumberFormat.getCurrencyInstance();
 			DecimalFormatSymbols dfs = new DecimalFormatSymbols();
 			dfs.setCurrencySymbol("р.");
-			//dfs.setGroupingSeparator('.');
-			//dfs.setMonetaryDecimalSeparator('.');
+			dfs.setGroupingSeparator(' ');
+			dfs.setMonetaryDecimalSeparator(',');
 			((DecimalFormat)df).setDecimalFormatSymbols(dfs);
-			System.out.println(df.format(3333454));			
+			System.out.println(df.format(2567.56));			
 	}
 
 }

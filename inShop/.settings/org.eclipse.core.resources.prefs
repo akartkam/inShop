@@ -1,10 +1,12 @@
 eclipse.preferences.version=1
+encoding//src/main/java/com/akartkam/inShop/app/Common.java=UTF-8
 encoding//src/main/java/com/akartkam/inShop/app/DiffSums.java=UTF-8
 encoding//src/main/java/com/akartkam/inShop/controller/admin/product/AdminCategoryController.java=UTF-8
 encoding//src/main/java/com/akartkam/inShop/controller/admin/product/AdminProductController.java=UTF-8
 encoding//src/main/java/com/akartkam/inShop/controller/admin/product/attribute/AdminAttributeCategoryController.java=UTF-8
 encoding//src/main/java/com/akartkam/inShop/domain/Unit.java=UTF-8
 encoding//src/main/java/com/akartkam/inShop/domain/product/InventoryType.java=UTF-8
+encoding//src/main/java/com/akartkam/inShop/domain/product/Sku.java=UTF-8
 encoding//src/main/java/com/akartkam/inShop/service/aop/AdminRequestMappingAspect.java=UTF-8
 encoding//src/main/resources/META-INF/services/org.hibernate.integrator.spi.Integrator=UTF-8
 encoding//src/main/resources/ValidationMessages.properties=UTF-8
