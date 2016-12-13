@@ -282,6 +282,7 @@ public class ProductServiceImpl implements ProductService {
 			existingProduct.getDefaultSku().setLongDescription(productFromPost.getDefaultSku().getLongDescription());
 			existingProduct.getDefaultSku().setActiveStartDate(productFromPost.getDefaultSku().getActiveStartDate());
 			existingProduct.getDefaultSku().setActiveEndDate(productFromPost.getDefaultSku().getActiveEndDate());
+			existingProduct.getDefaultSku().setQuantityPerPackage(productFromPost.getDefaultSku().getQuantityPerPackage());
 			Integer qa = productFromPost.getDefaultSku().getQuantityAvailable();
 			if (qa != null) existingProduct.getDefaultSku().setQuantityAvailable(new Integer(qa));
 			existingProduct.getDefaultSku().setInventoryType(productFromPost.getDefaultSku().getInventoryType());
@@ -399,6 +400,7 @@ public class ProductServiceImpl implements ProductService {
 			sku.setActiveStartDate(skuFromPost.getActiveStartDate());
 			sku.setActiveEndDate(skuFromPost.getActiveEndDate());
 			sku.setInventoryType(skuFromPost.getInventoryType());
+			sku.setQuantityPerPackage(skuFromPost.getQuantityPerPackage());
 			Integer qa = skuFromPost.getQuantityAvailable();
 			if (qa != null) sku.setQuantityAvailable(new Integer(qa));	
 	        //Images

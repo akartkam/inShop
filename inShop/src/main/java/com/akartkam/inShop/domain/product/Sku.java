@@ -79,6 +79,7 @@ public class Sku extends AbstractDomainObjectOrdering {
     private Product defaultProduct;   
     private Product product;
 	private List<AbstractAttributeValue> attributeValues = new ArrayList<AbstractAttributeValue>();
+	private Integer quantityPerPackage;
 
 
     @AdminPresentation(tab=EditTab.MAIN)
@@ -295,7 +296,16 @@ public class Sku extends AbstractDomainObjectOrdering {
 		addAttributeValue(attributeValue, attribute);
 	}
 	
-	
+	@Column(name = "quant_per_package")
+	@NotNull
+	@DecimalMin("1")
+	public Integer getQuantityPerPackage() {
+		return quantityPerPackage;
+	}
+	public void setQuantityPerPackage(Integer quantityPerPackage) {
+		this.quantityPerPackage = quantityPerPackage;
+	}
+
 	@Transient
 	public boolean isOnSale() {
 		BigDecimal retailPrice = getRetailPrice();
@@ -351,7 +361,7 @@ public class Sku extends AbstractDomainObjectOrdering {
     }    
 	
 	@Transient
-	@NumberFormat(style=Style.CURRENCY)
+	@NumberFormat(pattern="#.00 р" )
     public BigDecimal getPrice() {
         return isOnSale() ? getSalePrice() : getRetailPrice();
     }
@@ -382,6 +392,24 @@ public class Sku extends AbstractDomainObjectOrdering {
 	    }
 	    if (ret != "" && ret.trim().endsWith(",")) ret = ret.substring(0, ret.length()-2);
 	    return ret;
+	}
+	
+	@Transient
+	//@NumberFormat(style=Style.CURRENCY)
+	@NumberFormat(pattern="#.00 р" )
+	public BigDecimal getPriceForPackage(){
+		BigDecimal res = null;
+		BigDecimal price = getPrice();
+		int quantPerPack = getQuantityPerPackage() == null? 0: getQuantityPerPackage();
+		if (price != null && price != BigDecimal.ZERO) {
+			if (quantPerPack != 0) {
+				res = new BigDecimal(quantPerPack);
+				res = price.multiply(res);
+			} else {
+				res = price;
+			}
+		}
+		return res;
 	}
 	
 

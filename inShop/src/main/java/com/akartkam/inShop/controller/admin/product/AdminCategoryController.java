@@ -60,7 +60,7 @@ public class AdminCategoryController {
 	  public List<Category> getAllCategories() {
 		  List<Category> cats = categoryService.getAllCategoryHierarchy(true);
 		  for (Category cat : cats) {
-			 cat.tag = StringUtils.repeat("¦&nbsp;&nbsp;&nbsp;&nbsp;", cat.getDepthNesting()); 
+			 cat.tag = StringUtils.repeat("|&nbsp;&nbsp;&nbsp;&nbsp;", cat.getDepthNesting()); 
 			 cat.tag = new StringBuilder(cat.tag).append(" ").append(cat.getName().trim()).toString();
 		  }
 		  return cats; 
@@ -91,7 +91,7 @@ public class AdminCategoryController {
 	 
 	  @InitBinder
 	  public void initBinder(WebDataBinder binder) {
-			binder.setAllowedFields(new String[] { "id", "name", "parent", "urlForForm", 
+			binder.setAllowedFields(new String[] { "id", "name", "parent", "urlForForm", "showQuanPerPackOnProductHeader", 
 					"description", "longDescription", "ordering", "enabled", "*attributesForForm*"});
 			binder.registerCustomEditor(Category.class, "parent", new PropertyEditorSupport() {
 			    @Override

@@ -95,7 +95,7 @@ public class AdminSkuController {
 			binder.setAllowedFields(new String[] { "*id", "*name", "url", "*description", "*longDescription", "attributeValues*",
 					 							   "*code", "ordering", "*images*", "enabled", "*retailPrice", "productOptionValuesList*", 
 					 							   "*salePrice", "*costPrice", "*activeStartDate", "*activeEndDate", "productOptionsList*",
-					 							   "quantityAvailable", "inventoryType"});
+					 							   "quantityAvailable", "inventoryType", "quantityPerPackage"});
 			binder.registerCustomEditor(UUID.class, "id", new PropertyEditorSupport() {
 			    @Override
 			    public void setAsText(String text) {

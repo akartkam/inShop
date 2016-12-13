@@ -27,11 +27,6 @@
     		<link href="../../../../resources/css/admin/admin-style.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/admin/admin-style.css}"/>
 	    	<!-- bootstrap-datetimepicker -->
   			<link href="../../../../resources/css/lib/bootstrap-datetimepicker.min.css" rel="stylesheet" th:href="@{/resources/css/lib/bootstrap-datetimepicker.min.css}"/>
-  			<style type="text/css">	
-  				.zoomContainer{ z-index: 9999;}
-				.zoomWindow{ z-index: 9999;}
-  			</style>
-  			
 	    </th:block>
 	</head>
 <body>
@@ -69,7 +64,8 @@
 	                    <div class="tab-pane fade" th:classappend="${tabactive=='main'}? 'in active'" id="main">
 								   <div class="field-box" th:class="${#fields.hasErrors('defaultSku.name')}? has-error: field-box">
 									  <input type="hidden" th:field="*{id}"/>	                     
-									  <input type="hidden" th:field="*{defaultSku.id}"/>	
+									  <input type="hidden" th:field="*{defaultSku.id}"/>
+									  <input type="hidden" th:field="*{createdDate}"/>	
 						    		  <label>
 							    	  	 <span th:text="#{admin.catalog.edit.name}">Product1</span>
 							   		  </label>
@@ -134,6 +130,15 @@
 								   		   </div>
 										</div>								   
 							   		   <div class="col-md-3">
+										   <div class="field-box" th:class="${#fields.hasErrors('defaultSku.quantityPerPackage')}? has-error: field-box">	                              
+							                 <label>
+							    	   	         <span th:text="#{sku.quantityPerPackage}">quantityPerPackage</span>
+							   		         </label>				            
+					                         <input type="number" min="1" class="form-control" th:field="*{defaultSku.quantityPerPackage}"/> 
+								             <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('defaultSku.quantityPerPackage')}" th:errors="*{defaultSku.quantityPerPackage}">Error quantityPerPackage</p>
+								   		   </div>
+									   </div>								   
+							   		   <div class="col-md-3">
 										   <div class="field-box" th:class="${#fields.hasErrors('defaultSku.inventoryType')}? has-error: field-box">	                              
 							                 <label>
 							    	   	         <span th:text="#{admin.catalog.product.inventoryType}">Inventory type</span>
@@ -144,7 +149,7 @@
 								             </select> 
 								             <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('defaultSku.inventoryType')}" th:errors="*{defaultSku.inventoryType}">Empty inventory type</p>
 								   		   </div>
-									   </div>								   
+									   </div>	
 								   </div>			   		   
 						   		   <div class="field-box">
 			 			    		  <label>

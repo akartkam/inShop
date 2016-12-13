@@ -54,6 +54,7 @@ public class SkuForm extends Sku {
 			this.setInventoryType(sku.getInventoryType());
 			this.setAttributeValues(sku.getAttributeValues());
 			this.setProductOptionValues(sku.getProductOptionValues());
+			this.setQuantityPerPackage(sku.getQuantityPerPackage());
 			this.productOptionsList = new ArrayList<ProductOption>(sku.getProduct().getProductOptions());
 			this.setProductOptionValuesList(new ArrayList<ProductOptionValue>(sku.getProductOptionValues())); 
 		}

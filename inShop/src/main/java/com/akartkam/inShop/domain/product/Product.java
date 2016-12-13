@@ -39,7 +39,7 @@ import com.akartkam.inShop.presentation.admin.EditTab;
 
 @NamedQuery(
 		name = "findProductByProductStatus",
-		query = "from Product as p where :productStatus in  elements(p.defaultSku.productStatus) and p.enabled=true")
+		query = "from Product as p where :productStatus in  elements(p.defaultSku.productStatus) and p.enabled=true order by ordering")
 @Entity
 @Table(name = "Product")
 @SuppressWarnings("rawtypes")

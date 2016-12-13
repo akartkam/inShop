@@ -71,6 +71,7 @@ public class Category extends AbstractWebDomainObject {
 	private String longDescription; 
 	private Set<AbstractAttribute> attributes = new HashSet<AbstractAttribute>(0);
 	private String url;
+	private Boolean showQuanPerPackOnProductHeader;
  
 	
 	@AdminPresentation(tab=EditTab.MAIN)
@@ -200,6 +201,14 @@ public class Category extends AbstractWebDomainObject {
         setUrl(linkBuffer.toString());		
 	}
 	
+	@Column(name = "show_quant_per_pack_on_prod_header")
+	public Boolean getShowQuanPerPackOnProductHeader() {
+		return showQuanPerPackOnProductHeader;
+	}
+	public void setShowQuanPerPackOnProductHeader(
+			Boolean isUseQuanPerPackOnProductHeader) {
+		this.showQuanPerPackOnProductHeader = isUseQuanPerPackOnProductHeader;
+	}
 	@Transient
 	public List<Category> buildCategoryHierarchy(List<Category> currentHierarchy) {
         if (currentHierarchy == null) {

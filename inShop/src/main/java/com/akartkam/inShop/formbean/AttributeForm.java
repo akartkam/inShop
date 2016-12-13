@@ -47,6 +47,7 @@ public class AttributeForm extends AbstractAttribute {
 			this.setUnit(attributeSource.getUnit());
 			this.setIsShowOnProductHeader(attributeSource.getIsShowOnProductHeader());
 			this.setAttributeValuesHolder(attributeSource.getAttributeValuesHolder());
+			this.setCategory(attributeSource.getCategory());
 			if (attributeSource instanceof Selectable)
 				this.setItems(((Selectable)attributeSource).getStringItems());
 		}

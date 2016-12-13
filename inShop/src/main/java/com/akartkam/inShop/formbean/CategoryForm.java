@@ -35,6 +35,7 @@ public class CategoryForm extends Category {
 		this.setProducts(new ArrayList<Product>(category.getProducts()));
 		this.setSubCategory(category.getSubCategory());
 		this.setUrl(category.getUrl());
+		this.setShowQuanPerPackOnProductHeader(category.getShowQuanPerPackOnProductHeader());
 		this.attributesForForm = new ArrayList<AbstractAttribute>(getAttributes());
 		buildShortUrl();
 	}
