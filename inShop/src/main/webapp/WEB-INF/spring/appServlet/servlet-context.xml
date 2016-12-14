@@ -15,7 +15,7 @@
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
     
 
-	<annotation-driven validator="validator"/>
+	<annotation-driven validator="validator" conversion-service="formattingConversionService"/>
  	<default-servlet-handler/>
  	<view-controller path="/login" view-name="authentication/login" />
     <view-controller path="/" view-name="forward:/home.html" />
@@ -105,6 +105,22 @@
         </beans:property>
     </beans:bean>
     
+    <!-- My own formatters -->
+    <beans:bean id="currencyFormatter" class="com.akartkam.inShop.formatter.CurrencyFormatAnnotationFormatterFactory">
+    	<beans:property name="currencySymbol" value="#{appProperties['inShop.currencySymbol']}"/>
+    	<beans:property name="groupingSeparator" value="#{appProperties['inShop.groupingSeparator']}"/>
+    	<beans:property name="monetaryDecimalSeparator" value="#{appProperties['inShop.monetaryDecimalSeparator']}"/>
+    </beans:bean>
+    
+	<beans:bean id="formattingConversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+	    <beans:property name="formatters">
+	      <beans:set>
+	        <beans:ref bean="currencyFormatter" />
+	      </beans:set>
+	    </beans:property>
+	</beans:bean>
+    
+	<!-- Thymeleaf -->
     <beans:bean id="templateResolver"
         class="org.thymeleaf.templateresolver.ServletContextTemplateResolver">
       <beans:property name="prefix" value="/WEB-INF/templates/" />
@@ -140,14 +156,6 @@
 <!-- JSR-303 validation-->
 	<beans:bean id ="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"
         p:validationMessageSource-ref="messageSource"/>	
-	
-<!-- 	<beans:bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean"> -->
-<!-- 	    <beans:property name="formatters"> -->
-<!-- 	      <beans:set> -->
-<!-- 	        <beans:bean class="com.akartkam.inShop.converter.DateFormatter" /> -->
-<!-- 	      </beans:set> -->
-<!-- 	    </beans:property> -->
-<!-- 	</beans:bean> -->
 	
 	<interceptors>
 	    <beans:bean class="org.springframework.orm.hibernate4.support.OpenSessionInViewInterceptor">

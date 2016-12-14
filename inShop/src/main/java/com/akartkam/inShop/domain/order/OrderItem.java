@@ -30,6 +30,7 @@ import com.akartkam.inShop.domain.AbstractDomainObjectOrdering;
 import com.akartkam.inShop.domain.product.Category;
 import com.akartkam.inShop.domain.product.Product;
 import com.akartkam.inShop.domain.product.Sku;
+import com.akartkam.inShop.formatter.CurrencyFormat;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -66,7 +67,7 @@ public class OrderItem extends AbstractDomainObjectOrdering {
     private Product product; 
 
     @Column(name = "retail_price", precision=19, scale=5)
-	@NumberFormat(style=Style.CURRENCY)
+    @CurrencyFormat
 	@DecimalMin("0.01")	
 	@Digits(fraction = 5, integer = 14)        
     public BigDecimal getRetailPrice() {
@@ -78,7 +79,7 @@ public class OrderItem extends AbstractDomainObjectOrdering {
     }
 
     @Column(name = "sale_price", precision=19, scale=5)
-	@NumberFormat(style=Style.CURRENCY)
+    @CurrencyFormat
 	@DecimalMin("0.01")	
 	@Digits(fraction = 5, integer = 14)    
     public BigDecimal getSalePrice() {
@@ -90,7 +91,7 @@ public class OrderItem extends AbstractDomainObjectOrdering {
     }
 
     @Column(name = "price", precision = 19, scale = 5)
-	@NumberFormat(style=Style.CURRENCY)
+    @CurrencyFormat
 	@DecimalMin("0.01")	
 	@Digits(fraction = 5, integer = 14)    
     public BigDecimal getPrice() {

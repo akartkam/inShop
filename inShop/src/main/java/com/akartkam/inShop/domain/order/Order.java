@@ -17,6 +17,7 @@ import org.springframework.format.annotation.NumberFormat.Style;
 import com.akartkam.inShop.domain.AbstractDomainObjectOrdering;
 import com.akartkam.inShop.domain.customer.Customer;
 import com.akartkam.inShop.domain.product.Sku;
+import com.akartkam.inShop.formatter.CurrencyFormat;
 import com.akartkam.inShop.presentation.admin.AdminPresentation;
 import com.akartkam.inShop.presentation.admin.EditTab;
 
@@ -54,7 +55,7 @@ public class Order extends AbstractDomainObjectOrdering {
 
 
     @Column(name = "order_subtotal", precision=19, scale=5)
-	@NumberFormat(style=Style.CURRENCY)
+	@CurrencyFormat
 	@Digits(fraction = 5, integer = 14)
     public BigDecimal getSubTotal() {
         return subTotal;
@@ -81,7 +82,7 @@ public class Order extends AbstractDomainObjectOrdering {
    
     
     @Column(name = "order_total", precision=19, scale=5)
-	@NumberFormat(style=Style.CURRENCY)	
+    @CurrencyFormat	
 	@Digits(fraction = 5, integer = 14)
     public BigDecimal getTotal() {
         return total;

@@ -10,6 +10,7 @@ import org.springframework.format.annotation.NumberFormat;
 import org.springframework.format.annotation.NumberFormat.Style;
 
 import com.akartkam.inShop.domain.product.Sku;
+import com.akartkam.inShop.formatter.CurrencyFormat;
 
 public class CartItemForm implements Serializable  {
 
@@ -20,7 +21,7 @@ public class CartItemForm implements Serializable  {
 	private String productId;
 	private String skuId;
 	private String imageUrl;
-	private String ProductUrl;
+	private String productUrl;
 	private Sku sku;
 	private int quantity;
 	private int fullQuantityOnCart;
@@ -49,10 +50,10 @@ public class CartItemForm implements Serializable  {
 	}
 	
 	public String getProductUrl() {
-		return ProductUrl;
+		return productUrl;
 	}
 	public void setProductUrl(String productUrl) {
-		ProductUrl = productUrl;
+		this.productUrl = productUrl;
 	}
 	public Map<String, String> getItemAttributes() {
 		return itemAttributes;
@@ -88,7 +89,7 @@ public class CartItemForm implements Serializable  {
 		this.imageUrl = imageUrl;
 	}
 	
-	@NumberFormat(style=Style.CURRENCY)
+	@CurrencyFormat
 	public BigDecimal getPrice() {
 		return price;
 	}
@@ -99,7 +100,7 @@ public class CartItemForm implements Serializable  {
 		return (skuId != null && !"".equals(skuId));
 	}
 	
-	@NumberFormat(style=Style.CURRENCY)
+	@CurrencyFormat
 	public BigDecimal getCartItemTotal() {
 		BigDecimal res = BigDecimal.ZERO;
 		if (getPrice() != null) {

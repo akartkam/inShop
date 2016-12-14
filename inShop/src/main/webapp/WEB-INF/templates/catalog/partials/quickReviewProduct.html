@@ -37,19 +37,20 @@
 		                   	   <td><span th:utext="${product.defaultSku.quantityPerPackage}"></span>&nbsp;<span class="price-piece-unit" th:utext="#{product.default.pricePieceUnit}"></span></td>
 		                   </tr>
 						   <tr>
-						   	  <th rowspan="2"><span th:utext="#{sku.price}"></span></th>
+						   	  <th><span th:utext="#{sku.price}"></span><span>, </span><span class="price-piece-unit" th:utext="#{product.default.pricePieceUnit}"></span></th>
 						   	  <td>
 								 <ins th:utext="${{product.defaultSku.price}}">$700.00</ins>
-								 <span class="price-piece-unit-delemiter" th:utext="#{product.default.pricePieceUnitDelemiter}"></span>
-								 <span class="price-piece-unit" th:utext="#{product.default.pricePieceUnit}"></span> 
+<!-- 								 <span class="price-piece-unit-delemiter" th:utext="#{product.default.pricePieceUnitDelemiter}"></span> -->
+<!-- 								 <span class="price-piece-unit" th:utext="#{product.default.pricePieceUnit}"></span>  -->
 								 <del th:if="${product.defaultSku.isOnSale()}" th:utext="${{product.defaultSku.retailPrice}}">$100.00</del>
 							  </td>
 						   </tr>
-						   <tr>   
+						   <tr th:if="${product.defaultSku.quantityPerPackage != 1}">   
+							  <th><span th:utext="#{sku.price}"></span><span>, </span><span class="price-piece-unit" th:utext="#{product.default.pricePackageUnit}"></span></th>
 							  <td>
-								 <ins th:utext="${{product.defaultSku.priceForPackage}}">$700.00</ins>
-								 <span class="price-piece-unit-delemiter" th:utext="#{product.default.pricePieceUnitDelemiter}"></span>
-								 <span class="price-piece-unit" th:utext="#{product.default.pricePackageUnit}"></span> 								 
+								<ins th:utext="${{product.defaultSku.priceForPackage}}">$700.00</ins>
+<!-- 								 <span class="price-piece-unit-delemiter" th:utext="#{product.default.pricePieceUnitDelemiter}"></span> -->
+<!-- 								 <span class="price-piece-unit" th:utext="#{product.default.pricePackageUnit}"></span> 								  -->
 							  </td>
 						   </tr>
 						   <tr>	 

@@ -9,6 +9,8 @@ import java.util.UUID;
 import org.springframework.format.annotation.NumberFormat;
 import org.springframework.format.annotation.NumberFormat.Style;
 
+import com.akartkam.inShop.formatter.CurrencyFormat;
+
 public class CartForm implements Serializable {
 	/**
 	 * 
@@ -83,7 +85,7 @@ public class CartForm implements Serializable {
         return quantity;
     }	
 	
-    @NumberFormat(style=Style.CURRENCY)
+    @CurrencyFormat
     public BigDecimal getTotal() {
     	BigDecimal returnValue = BigDecimal.ZERO;
         for (CartItemForm item : getCartItems()) {

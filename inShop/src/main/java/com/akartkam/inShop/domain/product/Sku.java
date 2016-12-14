@@ -53,6 +53,7 @@ import com.akartkam.inShop.domain.product.attribute.AbstractAttributeValue;
 import com.akartkam.inShop.domain.product.attribute.SimpleAttributeFactory;
 import com.akartkam.inShop.domain.product.option.ProductOption;
 import com.akartkam.inShop.domain.product.option.ProductOptionValue;
+import com.akartkam.inShop.formatter.CurrencyFormat;
 import com.akartkam.inShop.presentation.admin.AdminPresentation;
 import com.akartkam.inShop.presentation.admin.EditTab;
 
@@ -179,7 +180,7 @@ public class Sku extends AbstractDomainObjectOrdering {
 	}
 	
 
-	@NumberFormat(style=Style.CURRENCY)
+	@CurrencyFormat
 	@DecimalMin("0.01")	
 	@Digits(fraction = 5, integer = 14)
     @Column(name = "retail_price", precision = 19, scale = 5)	
@@ -195,7 +196,7 @@ public class Sku extends AbstractDomainObjectOrdering {
 		this.retailPrice = retailPrice;
 	}
 
-	@NumberFormat(style=Style.CURRENCY)
+	@CurrencyFormat
 	@Digits(fraction = 5, integer = 14)
 	@DecimalMin("0.01")
 	@Column(name = "sale_price", precision = 19, scale = 5)
@@ -223,7 +224,7 @@ public class Sku extends AbstractDomainObjectOrdering {
 		this.salePrice = salePrice;
 	}
 
-	@NumberFormat(style=Style.CURRENCY)
+	@CurrencyFormat
 	@Digits(fraction = 5, integer = 14)
 	@DecimalMin("0.01")
 	@Column(name = "cost_price", precision = 19, scale = 5)
@@ -361,7 +362,7 @@ public class Sku extends AbstractDomainObjectOrdering {
     }    
 	
 	@Transient
-	@NumberFormat(pattern="#.00 р" )
+	@CurrencyFormat
     public BigDecimal getPrice() {
         return isOnSale() ? getSalePrice() : getRetailPrice();
     }
@@ -395,8 +396,7 @@ public class Sku extends AbstractDomainObjectOrdering {
 	}
 	
 	@Transient
-	//@NumberFormat(style=Style.CURRENCY)
-	@NumberFormat(pattern="#.00 р" )
+	@CurrencyFormat
 	public BigDecimal getPriceForPackage(){
 		BigDecimal res = null;
 		BigDecimal price = getPrice();

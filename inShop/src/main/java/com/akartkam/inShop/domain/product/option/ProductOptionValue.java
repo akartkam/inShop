@@ -17,6 +17,7 @@ import org.springframework.format.annotation.NumberFormat;
 import org.springframework.format.annotation.NumberFormat.Style;
 
 import com.akartkam.inShop.domain.AbstractDomainObjectOrdering;
+import com.akartkam.inShop.formatter.CurrencyFormat;
 import com.akartkam.inShop.presentation.admin.AdminPresentation;
 import com.akartkam.inShop.presentation.admin.EditTab;
 
@@ -51,8 +52,7 @@ public class ProductOptionValue extends AbstractDomainObjectOrdering {
 		this.optionValue = optionValue;
 	}
 	
-	//@Pattern(regexp="^\\-{0,1}[0-9]*\\.{0,1}[0-9]*$")
-	@NumberFormat(style=Style.CURRENCY)
+	@CurrencyFormat
 	@Digits(fraction = 5, integer = 14)
     @Column(name = "price_adjustment", precision = 19, scale = 5)
 	public BigDecimal getPriceAdjustment() {
