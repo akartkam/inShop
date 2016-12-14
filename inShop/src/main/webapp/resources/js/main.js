@@ -3,11 +3,13 @@ jQuery(document).ready(function($){
     // jQuery sticky Menu
     
 	//$(".mainmenu-area").sticky({topSpacing:0});
-	$(".sticky-menu").stick_in_parent({parent : $("body")});
-	$(".sidemenu-area").stick_in_parent({
-	                               parent : $(".sidemenu-sticky-parent"), 
-								   offset_top : $(".navbar-sidebar-title").height() + $(".mainmenu-area").height() - 10
-								   });
+	if (window.screen.availWidth >= 600) {
+		$(".sticky-menu").stick_in_parent({parent : $("body")});
+		$(".sidemenu-area").stick_in_parent({
+		                               parent : $(".sidemenu-sticky-parent"), 
+									   offset_top : $(".navbar-sidebar-title").height() + $(".mainmenu-area").height() - 10
+									   });
+	}
     
     $('.product-carousel').owlCarousel({
         loop:true,

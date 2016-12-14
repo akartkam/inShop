@@ -1,27 +1,4 @@
-@media (min-width: 768px) {
-	.mainmenu-area {
-		line-height: 0;
-		text-align: center;
-	}
 
-	.navbar-nav {
-		display: inline-block;
-		float: none;
-		margin: 0;
-	}
-	
-	#navbar-sidebar .container-fluid,
-	#navbar-sidebar .navbar-collapse {
-		padding: 0;
-	}
-	#navbar-sidebar .navbar-right {
-		margin-right: 0;
-	}
-	#navbar-sidebar .nav > li {
-		width: 100%;
-		text-align: left;
-	}
-}
 
 @font-face {
 	font-family: 'Raleway';
@@ -599,7 +576,7 @@ body { font-family: Open Sans, Arial, Helvetica, sans-serif;}
 .single-product h2 {
 	font-size: 13px;
     line-height: normal;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
     margin-top: 10px;
     text-align: center;
     max-height: 50px;
@@ -1131,16 +1108,22 @@ table.shop_table th, table.shop_table td {
 }
 table.shop_table th {
     background: none repeat scroll 0 0 #f4f4f4;
-    font-size: 14px;
-    text-transform: capitalize;
+    font-size: 13px;
+    text-transform: none;
 }
 td.product-thumbnail img {
     height: auto;
     width: 70px;
 }
-td.product-name {
-    font-size: 14px;
+td.product-name, td.product-price, td.product-subtotal {
+    font-size: 12px;
 }
+
+td.cart-total {
+	font-weight: bold;
+}
+
+
 div.quantity input.plus, div.quantity input.minus, div.quantity input.refresh {
     background: none repeat scroll 0 0 #5a88ca;
     border: medium none;
@@ -1430,7 +1413,8 @@ span.price-piece-unit {
     font-weight: bold;
     table-layout: fixed;
     width: 100%;
-}	
+}
+	
 .product-header-info table th, .product-header-info table td {
    /* border-left: 1px solid #ddd;
     border-top: 1px solid #ddd; */
@@ -1441,6 +1425,7 @@ span.price-piece-unit {
   	width: 65%;
 }	 
 .product-header-info table td{
+	font-size: 9pt;
  	font-weight: normal !important;
     font-style: italic;
     width: 35%;

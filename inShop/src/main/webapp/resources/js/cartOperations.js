@@ -25,7 +25,9 @@ $(function(){
         	  if (modalClick) $.modal.close();
         	  var ajaxExtraData = getExtraData($(data));
         	  updateHeaderCartItems(ajaxExtraData.cartItemCount, ajaxExtraData.cartTotal);
-        	  $.modal(data, { maxWidth: 750, maxHeight: 450, minHeight: 350});
+        	  $.modal(data, { maxWidth: 650, maxHeight: 450, minHeight: 50});
+          	  $("#simplemodal-container").css("height", "auto");
+        	  $.modal.update();        	  
           });
     });
 	

@@ -21,6 +21,7 @@ encoding//src/main/webapp/WEB-INF/templates/layouts/partials/footer.html=UTF-8
 encoding//src/main/webapp/WEB-INF/templates/layouts/partials/header.html=UTF-8
 encoding//src/main/webapp/WEB-INF/templates/layouts/partials/lsidenav.html=UTF-8
 encoding//src/main/webapp/WEB-INF/templates/layouts/partials/topnav.html=UTF-8
+encoding//src/main/webapp/resources/css/style.css=UTF-8
 encoding//src/test/java/com/akartkam/inShop/controller/CartControllerTest.java=UTF-8
 encoding//src/test/java/com/akartkam/inShop/service/CategoryServiceTest.java=UTF-8
 encoding//src/test/resources/META-INF/services/org.hibernate.integrator.spi.Integrator=UTF-8

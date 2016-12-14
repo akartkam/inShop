@@ -37,7 +37,7 @@
 		                   	   <td><span th:utext="${product.defaultSku.quantityPerPackage}"></span>&nbsp;<span class="price-piece-unit" th:utext="#{product.default.pricePieceUnit}"></span></td>
 		                   </tr>
 						   <tr>
-						   	  <th><span th:utext="#{sku.price}"></span><span>, </span><span class="price-piece-unit" th:utext="#{product.default.pricePieceUnit}"></span></th>
+						   	  <th><span th:utext="#{sku.priceForUnit}"></span></th>
 						   	  <td>
 								 <ins th:utext="${{product.defaultSku.price}}">$700.00</ins>
 <!-- 								 <span class="price-piece-unit-delemiter" th:utext="#{product.default.pricePieceUnitDelemiter}"></span> -->
@@ -46,7 +46,7 @@
 							  </td>
 						   </tr>
 						   <tr th:if="${product.defaultSku.quantityPerPackage != 1}">   
-							  <th><span th:utext="#{sku.price}"></span><span>, </span><span class="price-piece-unit" th:utext="#{product.default.pricePackageUnit}"></span></th>
+							  <th><span th:utext="#{sku.priceForPackageUnit}"></span></th>
 							  <td>
 								<ins th:utext="${{product.defaultSku.priceForPackage}}">$700.00</ins>
 <!-- 								 <span class="price-piece-unit-delemiter" th:utext="#{product.default.pricePieceUnitDelemiter}"></span> -->
