@@ -287,6 +287,7 @@ public class ProductServiceImpl implements ProductService {
 			if (qa != null) existingProduct.getDefaultSku().setQuantityAvailable(new Integer(qa));
 			existingProduct.getDefaultSku().setInventoryType(productFromPost.getDefaultSku().getInventoryType());
 			existingProduct.setEnabled(productFromPost.isEnabled());
+			existingProduct.getDefaultSku().setEnabled(productFromPost.isEnabled());
 			existingProduct.setCanSellWithoutOptions(productFromPost.isCanSellWithoutOptions());
 			if (!existingProduct.getCategory().equals(productFromPost.getCategory())) {
 				//Check attributes for choosed category

@@ -18,6 +18,7 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.format.number.AbstractNumberFormatter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -62,6 +63,9 @@ public class CartController {
 	@Autowired
 	private MessageSource messageSource;
 	
+	@Autowired
+	private AbstractNumberFormatter currencyNumberFormatter;
+	
 	@RequestMapping()
     public String cart(HttpServletRequest request, HttpServletResponse response, Model model) {
         CartForm cart = CartUtil.getCartFromSession(request);
@@ -77,7 +81,7 @@ public class CartController {
     		                                         final BindingResult bindingResult ) throws IOException {
         Map<String, Object> responseMap = new HashMap<String, Object>();
         Map<String, String> errorsMap = new HashMap<String, String>();
-        String responseString = cartView;
+        String responseString = getCartView();
     	CartForm cart = CartUtil.getCartFromSession(request);
     	int fullQuantity = cart.getCartItemFormQuantity(cartItemForm);
   		cartItemForm.setFullQuantityOnCart(fullQuantity);
@@ -88,9 +92,10 @@ public class CartController {
                 responseMap.put("productName", cartItemForm.getProductName());
                 responseMap.put("quantityAdded", cartItemForm.getQuantity());
                 responseMap.put("cartItemCount", CartUtil.getCartFromSession(request).getCartItemsCount()); 
-                NumberFormat totalFormat = NumberFormat.getCurrencyInstance();
-                totalFormat.setMinimumFractionDigits(2);
-                responseMap.put("cartTotal", totalFormat.format(CartUtil.getCartFromSession(request).getTotal()));
+                //currencyNumberFormatter.getNumberFormat(Locale.getDefault());
+                //NumberFormat totalFormat = 
+                //totalFormat.setMinimumFractionDigits(2);
+                //responseMap.put("cartTotal", .format(CartUtil.getCartFromSession(request).getTotal()));
         	} else {
         		if (bindingResult.hasFieldErrors()) {
         			for (FieldError fe : bindingResult.getFieldErrors()){
@@ -128,23 +133,27 @@ public class CartController {
     public String remove(HttpServletRequest request, HttpServletResponse response, 
     		@ModelAttribute("cartItemForm") CartItemForm cartItemForm, Model model,
     		final BindingResult bindingResult) throws IOException  {
-        Map<String, String> errorsMap = new HashMap<String, String>();
+    	String responseString = getCartView();
+        Map<String, Object> responseMap = new HashMap<String, Object>();
+    	Map<String, String> errorsMap = new HashMap<String, String>();
     	CartForm cart = CartUtil.getCartFromSession(request);
+        responseMap.put("productName", cartItemForm.getProductName());
+        responseMap.put("cartItemCount", CartUtil.getCartFromSession(request).getCartItemsCount()); 
+        NumberFormat totalFormat = NumberFormat.getCurrencyInstance();
+        totalFormat.setMinimumFractionDigits(2);
+        responseMap.put("cartTotal", totalFormat.format(CartUtil.getCartFromSession(request).getTotal()));
     	if (!cart.removeCartItem(cartItemForm)){
     		bindingResult.reject("error.remove.cartItemForm");
     		errorsMap.put("error", messageSource.getMessage("error.remove.cartItemForm", null, null));
     		LOG.error("During update zero quantity, could not remove the cart item with productId = "+cartItemForm.getProductId() +" , skuId = "+cartItemForm.getSkuId());
     	} 
+    	if (!errorsMap.isEmpty()) responseMap.put("errors", errorsMap);
+    	model.addAttribute("responseMap", responseMap);
         if (isAjaxRequest(request)) {
-            Map<String, Object> extraData = new HashMap<String, Object>();
-            extraData.put("cartItemCount", cart.getCartItemsCount());
-            extraData.put("productId", cartItemForm.getProductId());
-            model.addAttribute("extradata", new ObjectMapper().writeValueAsString(extraData));
-        	if (errorsMap.size() > 0) model.addAttribute("errors", new ObjectMapper().writeValueAsString(errorsMap));
-            return getCartView();
-        } else {
-            return getCartPageRedirect();
-        }
+            model.addAttribute("ajaxExtraData", new ObjectMapper().writeValueAsString(responseMap));
+        	responseString+=" :: ajax";
+        } 
+        return responseString;
     }
     
     @RequestMapping("/updateQuantity")

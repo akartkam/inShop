@@ -6,6 +6,7 @@ import java.util.Set;
 
 import javax.annotation.Resource;
 
+import com.akartkam.inShop.service.extension.EntityUrlModificator;
 import com.akartkam.inShop.service.extension.ProductDisplayNameModificator;
 import com.akartkam.inShop.thymeleaf.processors.EntityUrlPrefixHrefProcessor;
 import com.akartkam.inShop.thymeleaf.processors.ProductDisplayNameModifyerProcessor;
@@ -22,8 +23,7 @@ public class AisDialect extends AbstractDialect {
 	private ProductDisplayNameModificator productDisplayNameModificator;
 	
 	@Autowired
-	@Qualifier("entityUrlPrefixes")
-	private Properties urlPrefixes;
+	private EntityUrlModificator entityUrlModificator;
 	
 	public AisDialect() {
 		super();
@@ -40,7 +40,7 @@ public class AisDialect extends AbstractDialect {
 		ProductDisplayNameModifyerProcessor productDisplayNameModifyerProcessor = new ProductDisplayNameModifyerProcessor();
 		productDisplayNameModifyerProcessor.setProductDisplayNameModificator(productDisplayNameModificator);
 		EntityUrlPrefixHrefProcessor entityUrlPrefixHrefProcessor = new EntityUrlPrefixHrefProcessor();
-		entityUrlPrefixHrefProcessor.setUrlPrefixes(urlPrefixes);
+		entityUrlPrefixHrefProcessor.setEntityUrlModificator(entityUrlModificator);
 		processors.add(productDisplayNameModifyerProcessor);
 		processors.add(entityUrlPrefixHrefProcessor);
 		return processors;

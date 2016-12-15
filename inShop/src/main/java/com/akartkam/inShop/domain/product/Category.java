@@ -203,7 +203,7 @@ public class Category extends AbstractWebDomainObject {
 	
 	@Column(name = "show_quant_per_pack_on_prod_header")
 	public Boolean getShowQuanPerPackOnProductHeader() {
-		return showQuanPerPackOnProductHeader;
+		return showQuanPerPackOnProductHeader == null? false: showQuanPerPackOnProductHeader;
 	}
 	public void setShowQuanPerPackOnProductHeader(
 			Boolean isUseQuanPerPackOnProductHeader) {

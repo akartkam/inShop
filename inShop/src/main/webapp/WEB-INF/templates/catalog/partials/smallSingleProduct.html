@@ -8,8 +8,9 @@
 		<div class="product-hover">
 			<form method="POST" th:action="@{/cart/add}">
 				<input type="hidden" name="productId" th:value="${product.id}" />
+				<input type="hidden" name="skuId" th:value="${product.defaultSku.id}" />
             	<input type="hidden" name="quantity" value="1" />
-				<a href="javascript:;" class="addToCart add-to-cart-link">
+				<a href="javascript:;" class="add-to-cart add-to-cart-link">
 				   <i class="fa fa-shopping-cart"></i>  
 				   <span th:text="#{button.toCart}">В корзину</span>
 				</a>
@@ -30,6 +31,10 @@
 	<div class="product-header-info">
        <table cellspacing="0">
            <tbody>
+           	  <tr th:if="${!#strings.isEmpty(product.defaultSku.code)}">
+           	  	<th class="domain-col mightOverflow"><span th:utext="#{product.articul}"></span></th>
+           	  	<td class="domain-col mightOverflow"><span th:utext="${product.defaultSku.code}"></span></td>
+           	  </tr>
            	  <tr th:if="${product.category.showQuanPerPackOnProductHeader}">
            	  	<th class="domain-col mightOverflow"><span th:utext="#{sku.quantityPerPackage}"></span></th>
            	  	<td class="domain-col mightOverflow"><span th:utext="${product.defaultSku.quantityPerPackage}"></span>&nbsp;<span th:utext="#{product.default.pricePieceUnit}"></span></td>

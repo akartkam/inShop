@@ -11,28 +11,27 @@ import org.thymeleaf.standard.expression.Expression;
 import org.thymeleaf.standard.expression.StandardExpressions;
 
 import com.akartkam.inShop.domain.AbstractWebDomainObject;
+import com.akartkam.inShop.service.extension.EntityUrlModificator;
 
 
 public class EntityUrlPrefixHrefProcessor extends AbstractAttributeModifierAttrProcessor {
 
     private static final String PHREF = "phref";
     private static final String HREF = "href";
+    private EntityUrlModificator entityUrlModificator;
     
-    private Properties urlPrefixes;
-	
+	public EntityUrlModificator getEntityUrlModificator() {
+		return entityUrlModificator;
+	}
+
+	public void setEntityUrlModificator(EntityUrlModificator entityUrlModificator) {
+		this.entityUrlModificator = entityUrlModificator;
+	}
+
 	public EntityUrlPrefixHrefProcessor() {
 		super(PHREF);
 	}
 	
-	public Properties getUrlPrefixes() {
-		return urlPrefixes;
-	}
-
-	public void setUrlPrefixes(Properties urlPrefixes) {
-		this.urlPrefixes = urlPrefixes;
-	}
-
-
 	@Override
 	protected ModificationType getModificationType(Arguments arg0,
 			Element arg1, String arg2, String arg3) {
@@ -49,12 +48,9 @@ public class EntityUrlPrefixHrefProcessor extends AbstractAttributeModifierAttrP
 	     Object obj = expression.execute(arguments.getConfiguration(), arguments);
 	     String attrValue = "";
 	     if (obj instanceof AbstractWebDomainObject) {
-			 AbstractWebDomainObject entity =  (AbstractWebDomainObject) obj; 
-			 String currentPrefix = urlPrefixes.getProperty(entity.getClass().getCanonicalName(), "");
-			 StringBuilder prefixedPath = new StringBuilder();
-			 prefixedPath.append(currentPrefix.startsWith("/")? currentPrefix: "/"+currentPrefix).append(entity.getUrl());
-			 
-			 String fullPath = "@{"+prefixedPath.toString()+"}";
+	    	 entityUrlModificator.setEntity((AbstractWebDomainObject)obj);
+	    	 String prefixedPath = entityUrlModificator.getPrefixedUrl(((AbstractWebDomainObject) obj).getUrl());
+	    	 String fullPath = "@{"+prefixedPath+"}";
 			 expression = (Expression) StandardExpressions.getExpressionParser(arguments.getConfiguration())
 		                  .parseExpression(arguments.getConfiguration(), arguments, fullPath);	    
 			 attrValue = (String) expression.execute(arguments.getConfiguration(), arguments);

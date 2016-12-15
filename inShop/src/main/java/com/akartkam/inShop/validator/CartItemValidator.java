@@ -21,6 +21,8 @@ import com.akartkam.inShop.exception.ProductNotFoundException;
 import com.akartkam.inShop.exception.RequiredAttributeNotProvidedException;
 import com.akartkam.inShop.exception.SkuNotFoundException;
 import com.akartkam.inShop.formbean.CartItemForm;
+import com.akartkam.inShop.service.extension.EntityUrlModificator;
+import com.akartkam.inShop.service.extension.ProductDisplayNameModificator;
 import com.akartkam.inShop.service.order.InventoryService;
 import com.akartkam.inShop.service.product.ProductService;
 
@@ -32,7 +34,13 @@ public class CartItemValidator implements Validator {
 	
 	@Autowired
 	private InventoryService inventoryService;
-
+	
+	@Autowired
+	private ProductDisplayNameModificator productDisplayNameModificator;
+	
+	@Autowired
+	private EntityUrlModificator entityUrlModificator;
+	
 	@Override
 	public boolean supports(Class<?> arg0) {
 		return CartItemForm.class.isAssignableFrom(arg0);
@@ -73,8 +81,10 @@ public class CartItemValidator implements Validator {
 		        	throw new InventoryUnavailableException("The referenced Sku " + sku.getId() + " is marked as unavailable, or an insufficient amount",
 		        			                                 sku.getId(), cartItem.getQuantity(), inventoryService.retrieveQuantityAvailable(sku));
 	        	cartItem.setSkuId(sku.getId().toString());
-	        	cartItem.setProductUrl(product.getUrl());
-	        	cartItem.setProductName(sku.getName());
+	        	entityUrlModificator.setEntity(product);
+	        	cartItem.setProductUrl(entityUrlModificator.getPrefixedUrl(product.getUrl()));
+	        	productDisplayNameModificator.setProduct(product);
+	        	cartItem.setProductName(productDisplayNameModificator.getModifyedDisplayName(product.getDisplayName()));
 	        	cartItem.setPrice(sku.getPriceForPackage());
 	        	cartItem.setImageUrl(!sku.getImages().isEmpty()? sku.getImages().get(0): null);
 	        	cartItem.setSku(sku);

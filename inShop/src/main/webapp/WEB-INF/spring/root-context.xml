@@ -38,7 +38,7 @@
 	<!-- Root Context: defines shared resources visible to all other web components -->	
 
 
-	<context:component-scan base-package="com.akartkam.inShop.dao;com.akartkam.inShop.service;com.akartkam.inShop.validator" />
+	<context:component-scan base-package="com.akartkam.inShop.dao;com.akartkam.inShop.service;" />
 
 
 	<import resource="data.xml" />	

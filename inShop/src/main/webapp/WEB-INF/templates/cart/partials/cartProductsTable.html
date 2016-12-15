@@ -15,7 +15,11 @@
 			    <tbody>
 			        <tr th:each="ci : ${#httpSession.getAttribute(T(com.akartkam.inShop.util.Constants).CART_BEAN_NAME).cartItems}" class="cart_item">
 			            <td class="product-remove">
-			                <a title="Remove this item" class="remove" href="#">x</a> 
+							<form method="POST" th:action="@{/cart/remove}">
+								<input type="hidden" name="productId" th:value="${ci.productId}" />
+				            	<input type="hidden" name="skuId" th:value="${ci.skuId}" />
+				                <a title="Удалить строку" class="remove-from-cart" href="javascript:;" >x</a> 
+							</form>				            
 			            </td>
 			
 			            <td class="product-thumbnail">
@@ -29,11 +33,11 @@
 			            </td>
 			
 			            <td class="product-name">
-			                <a href="javascript:;" th:text="${ci.productName}"></a> 
+			                <a th:href="@{${ci.productUrl}}"><span th:utext="${ci.productName}"></span></a> 
 			            </td>
 			
 			            <td class="product-price">
-			                <span class="amount" th:text="${{ci.price}}">£15.00</span> 
+			                <span class="amount" th:utext="${{ci.price}}">£15.00</span> 
 			            </td>
 			
 			            <td class="product-quantity">
