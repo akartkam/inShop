@@ -1,8 +1,6 @@
 package com.akartkam.inShop.controller.order;
 
 import java.io.IOException;
-import java.text.NumberFormat;
-import java.util.Currency;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -14,7 +12,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -92,10 +89,7 @@ public class CartController {
                 responseMap.put("productName", cartItemForm.getProductName());
                 responseMap.put("quantityAdded", cartItemForm.getQuantity());
                 responseMap.put("cartItemCount", CartUtil.getCartFromSession(request).getCartItemsCount()); 
-                //currencyNumberFormatter.getNumberFormat(Locale.getDefault());
-                //NumberFormat totalFormat = 
-                //totalFormat.setMinimumFractionDigits(2);
-                //responseMap.put("cartTotal", .format(CartUtil.getCartFromSession(request).getTotal()));
+                responseMap.put("cartTotal", currencyNumberFormatter.print(CartUtil.getCartFromSession(request).getTotal(), Locale.getDefault()));
         	} else {
         		if (bindingResult.hasFieldErrors()) {
         			for (FieldError fe : bindingResult.getFieldErrors()){
@@ -137,16 +131,14 @@ public class CartController {
         Map<String, Object> responseMap = new HashMap<String, Object>();
     	Map<String, String> errorsMap = new HashMap<String, String>();
     	CartForm cart = CartUtil.getCartFromSession(request);
-        responseMap.put("productName", cartItemForm.getProductName());
-        responseMap.put("cartItemCount", CartUtil.getCartFromSession(request).getCartItemsCount()); 
-        NumberFormat totalFormat = NumberFormat.getCurrencyInstance();
-        totalFormat.setMinimumFractionDigits(2);
-        responseMap.put("cartTotal", totalFormat.format(CartUtil.getCartFromSession(request).getTotal()));
     	if (!cart.removeCartItem(cartItemForm)){
     		bindingResult.reject("error.remove.cartItemForm");
     		errorsMap.put("error", messageSource.getMessage("error.remove.cartItemForm", null, null));
     		LOG.error("During update zero quantity, could not remove the cart item with productId = "+cartItemForm.getProductId() +" , skuId = "+cartItemForm.getSkuId());
     	} 
+        responseMap.put("productName", cartItemForm.getProductName());
+        responseMap.put("cartItemCount", CartUtil.getCartFromSession(request).getCartItemsCount()); 
+        responseMap.put("cartTotal", currencyNumberFormatter.print(CartUtil.getCartFromSession(request).getTotal(), Locale.getDefault()));
     	if (!errorsMap.isEmpty()) responseMap.put("errors", errorsMap);
     	model.addAttribute("responseMap", responseMap);
         if (isAjaxRequest(request)) {

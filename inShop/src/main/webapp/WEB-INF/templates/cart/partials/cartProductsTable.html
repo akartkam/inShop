@@ -2,66 +2,75 @@
 	<div class="row">
 		<div class="col-lg-12" >
 			<table cellspacing="0" id="cart_products" class="shop_table cart">
-			    <thead>
-			        <tr>
-			            <th class="product-remove">&nbsp;</th>
-			            <th class="product-thumbnail">&nbsp;</th>
-			            <th class="product-name"><span th:utext="#{product.name}">Product</span></th>
-			            <th class="product-price"><span th:utext="#{sku.priceForPackageUnit}">Price</span></th>  
-			            <th class="product-quantity"><span th:utext="#{sku.quantity}">Quantity</span></th>
-			            <th class="product-subtotal"><span th:utext="#{cart.subTotal}">Sub Total</span></th>
-			        </tr>
-			    </thead>
-			    <tbody>
-			        <tr th:each="ci : ${#httpSession.getAttribute(T(com.akartkam.inShop.util.Constants).CART_BEAN_NAME).cartItems}" class="cart_item">
-			            <td class="product-remove">
-							<form method="POST" th:action="@{/cart/remove}">
-								<input type="hidden" name="productId" th:value="${ci.productId}" />
-				            	<input type="hidden" name="skuId" th:value="${ci.skuId}" />
-				                <a title="Удалить строку" class="remove-from-cart" href="javascript:;" >x</a> 
-							</form>				            
-			            </td>
-			
-			            <td class="product-thumbnail">
-						    <div class="a-photo-out">
-			                   <span class="photo-block">
-			                     <span class="helper"></span>
-			                     <img th:src="@{${ci.imageUrl}}"  th:onerror="'this.src=\'' + @{/resources/img/noimage.png} + '\';'"/>
-			                   </span>
-						    </div>            
-			<!--                 <a href="single-product.html"><img width="145" height="145" alt="poster_1_up" class="shop_thumbnail" src="img/product-thumb-2.jpg"></a> -->
-			            </td>
-			
-			            <td class="product-name">
-			                <a th:href="@{${ci.productUrl}}"><span th:utext="${ci.productName}"></span></a> 
-			            </td>
-			
-			            <td class="product-price">
-			                <span class="amount" th:utext="${{ci.price}}">£15.00</span> 
-			            </td>
-			
-			            <td class="product-quantity">
-			                <div class="quantity buttons_added">
-			                    <input type="number" size="4" class="input-text qty text" title="Qty" th:value="${ci.quantity}" min="0" step="1"/>
-			                </div>
-			            </td>
-			
-			            <td class="product-subtotal">
-			                <span class="amount" th:text="${{ci.cartItemTotal}}">£15.00</span> 
-			            </td>
-			        </tr>
-			        <tr>
-			            <td class="actions" colspan="4">
-			                <button type="submit" value="Update Cart" name="update_cart">Продолжить покупки</button>
-			                <button type="submit" value="Checkout" name="proceed">Купить в 1 клик</button>
-			                <button type="button" value="recalc" name="proceed" >Пересчитать</button>
-			            </td>
-			            <td class="cart-total" colspan="2">
-			                <span th:utext="#{cart.total}">Total</span>
-			            	<span  th:text="${{#httpSession.getAttribute(T(com.akartkam.inShop.util.Constants).CART_BEAN_NAME).total}}">£15.00</span> 
-			            </td>
-			        </tr>
-			    </tbody>
+				<th:block th:if="${#httpSession.getAttribute(T(com.akartkam.inShop.util.Constants).CART_BEAN_NAME).cartItemsCount == 0}">
+					<thead>
+						<tr rowspan="2">
+							<td colspan="6"><span th:utext="#{cart.empty}"></span></td>
+						</tr>
+					</thead>
+				</th:block>
+				<th:block th:unless="${#httpSession.getAttribute(T(com.akartkam.inShop.util.Constants).CART_BEAN_NAME).cartItemsCount == 0}">
+				    <thead>
+				        <tr>
+				            <th class="product-remove">&nbsp;</th>
+				            <th class="product-thumbnail">&nbsp;</th>
+				            <th class="product-name"><span th:utext="#{product.name}">Product</span></th>
+				            <th class="product-price"><span th:utext="#{sku.priceForPackageUnit}">Price</span></th>  
+				            <th class="product-quantity"><span th:utext="#{sku.quantity}">Quantity</span></th>
+				            <th class="product-subtotal"><span th:utext="#{cart.subTotal}">Sub Total</span></th>
+				        </tr>
+				    </thead>
+				    <tbody>
+				        <tr th:each="ci : ${#httpSession.getAttribute(T(com.akartkam.inShop.util.Constants).CART_BEAN_NAME).cartItems}" class="cart_item">
+				            <td class="product-remove">
+								<form method="POST" th:action="@{/cart/remove}">
+									<input type="hidden" name="productId" th:value="${ci.productId}" />
+					            	<input type="hidden" name="skuId" th:value="${ci.skuId}" />
+					                <a title="Удалить строку" class="remove-from-cart" href="javascript:;" >x</a> 
+								</form>				            
+				            </td>
+				
+				            <td class="product-thumbnail">
+							    <div class="a-photo-out">
+				                   <span class="photo-block">
+				                     <span class="helper"></span>
+				                     <img th:src="@{${ci.imageUrl}}"  th:onerror="'this.src=\'' + @{/resources/img/noimage.png} + '\';'"/>
+				                   </span>
+							    </div>            
+				<!--                 <a href="single-product.html"><img width="145" height="145" alt="poster_1_up" class="shop_thumbnail" src="img/product-thumb-2.jpg"></a> -->
+				            </td>
+				
+				            <td class="product-name">
+				                <a th:href="@{${ci.productUrl}}"><span th:utext="${ci.productName}"></span></a> 
+				            </td>
+				
+				            <td class="product-price">
+				                <span class="amount" th:utext="${{ci.price}}">£15.00</span> 
+				            </td>
+				
+				            <td class="product-quantity">
+				                <div class="quantity buttons_added">
+				                    <input type="number" size="4" class="input-text qty text" title="Qty" th:value="${ci.quantity}" min="0" step="1"/>
+				                </div>
+				            </td>
+				
+				            <td class="product-subtotal">
+				                <span class="amount" th:text="${{ci.cartItemTotal}}">£15.00</span> 
+				            </td>
+				        </tr>
+				        <tr>
+				            <td class="actions" colspan="4">
+				                <button type="submit" value="Update Cart" name="update_cart">Продолжить покупки</button>
+				                <button type="submit" value="Checkout" name="proceed">Купить в 1 клик</button>
+				                <button type="button" value="recalc" name="proceed" >Пересчитать</button>
+				            </td>
+				            <td class="cart-total" colspan="2">
+				                <span th:utext="#{cart.total}">Total</span>
+				            	<span  th:text="${{#httpSession.getAttribute(T(com.akartkam.inShop.util.Constants).CART_BEAN_NAME).total}}">£15.00</span> 
+				            </td>
+				        </tr>
+				    </tbody>
+			    </th:block>
 			</table>
 		</div>
 	</div>
