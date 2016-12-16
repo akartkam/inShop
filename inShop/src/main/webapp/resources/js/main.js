@@ -154,8 +154,14 @@ jQuery(document).ready(function($){
           });		
 	}); 
 	
+	$("body").on("mousemove", "a.add-to-cart-link, a.view-details-link, a.quick-review-product-link", function(e) {
+		e.preventDefault();
+		return false;
+	});
+	
 	//Show/Hide buttons on small product image
 	$("body").on("click", ".product-f-image", function(e) {
+	    e.preventDefault();
 		$(this).find("a.add-to-cart-link").css("top", "5%");
 	    $(this).find("a.view-details-link").css("bottom", "5%");
 	    $(this).find("a.quick-review-product-link").css("left", "10%");

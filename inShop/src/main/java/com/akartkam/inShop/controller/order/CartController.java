@@ -148,10 +148,12 @@ public class CartController {
         return responseString;
     }
     
-    @RequestMapping("/updateQuantity")
+    @RequestMapping("/recalc")
     public String updateQuantity(HttpServletRequest request, HttpServletResponse response, Model model,
     							 @ModelAttribute("cartItemForm") CartItemForm cartItemForm,
     		                     final BindingResult bindingResult) throws IOException {
+    	String responseString = getCartView();
+    	Map<String, Object> responseMap = new HashMap<String, Object>();
         Map<String, String> errorsMap = new HashMap<String, String>();
     	CartForm cart = CartUtil.getCartFromSession(request);
         if (cartItemForm.getQuantity() == 0) {
@@ -179,16 +181,16 @@ public class CartController {
 	    		}
 	    	}
         }
+        responseMap.put("productName", cartItemForm.getProductName());
+        responseMap.put("cartItemCount", CartUtil.getCartFromSession(request).getCartItemsCount()); 
+        responseMap.put("cartTotal", currencyNumberFormatter.print(CartUtil.getCartFromSession(request).getTotal(), Locale.getDefault()));
+        if (!errorsMap.isEmpty()) responseMap.put("errors", errorsMap);
+        model.addAttribute("responseMap", responseMap);
         if (isAjaxRequest(request)) {
-            Map<String, Object> extraData = new HashMap<String, Object>();
-            extraData.put("productId", cartItemForm.getProductId());
-            extraData.put("cartItemCount", cart.getCartItemsCount());
-            model.addAttribute("extradata", new ObjectMapper().writeValueAsString(extraData));
-            if (errorsMap.size() > 0) model.addAttribute("errors", new ObjectMapper().writeValueAsString(errorsMap)); 
-            return getCartView();
-        } else {
-            return getCartPageRedirect();
+            model.addAttribute("ajaxExtraData", new ObjectMapper().writeValueAsString(responseMap));
+            return responseString+=" :: ajax";
         }
+        return responseString;
     }    
 	
 	public static String getCartView() {

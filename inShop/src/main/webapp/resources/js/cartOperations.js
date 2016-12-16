@@ -31,7 +31,7 @@ $(function(){
           });
     });
     
-    $("body").on("click", ".remove-from-cart", function(){
+    $("body").on("click", ".remove-from-cart, .recalc-cart", function(){
     	var modalClick = $(this).parents('.simplemodal-wrap').length > 0;
     	var $form = $(this).closest("form");
     	var $url = $form.attr("action");
@@ -59,5 +59,7 @@ $(function(){
         	  $.modal.update();        	  
           });   	
     });
+    
+
 	
 });

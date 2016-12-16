@@ -42,7 +42,7 @@ public class CartItemUpdateValidator implements Validator {
 			error.rejectValue("productId", "error.bad.cartItemForm.productId", new String[] {"''"}, null);
 		}
 		if (cartItem.getSkuId() == null || "".equals(cartItem.getSkuId())) {
-			error.rejectValue("productId", "error.bad.cartItemForm.skuId", new String[] {"''"}, null);
+			error.rejectValue("skuId", "error.bad.cartItemForm.skuId", new String[] {"''"}, null);
 		}	
 		if (cartItem.getSkuId() != null && !"".equals(cartItem.getSkuId())){
 			try {

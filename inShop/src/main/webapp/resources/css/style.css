@@ -1,5 +1,3 @@
-
-
 @font-face {
 	font-family: 'Raleway';
 	font-style: normal;
@@ -15,21 +13,11 @@
     src: url('./fonts/open-sans400.woff') format('woff');
 }*/
 
-
-.form-search .input-group {
-	width: 100%;
-}
-
-.input-group input.form-control  {
-	height: 100% !important;
-}
-
 .vertical-align {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
 }
-
 .vertical-align > [class^="col-"],
 .vertical-align > [class*=" col-"] {
   display: flex;
@@ -37,22 +25,23 @@
   justify-content: center; 
 }
 
+.form-search .input-group {
+	width: 100%;
+}
 
-.search-button {
-    background: none repeat scroll 0 0 #fff;
-    border: 1px solid #ddd;
-    color: #666;
-    padding: 10px 20px;
+.form-search .input-group input.form-control  {
+	height: 100% !important;
+}
+
+.form-search button {
+    background: none repeat scroll 0 0 #5a88ca;
+    border: 1px solid #5a88ca;
+    display: inline-block;
+    font-size: 14px;
+    color: #fff;
+    padding: 10px 15px;
     text-transform: uppercase;
 }
-
-.search-button:hover {
-    background: none repeat scroll 0 0 #5a88ca;
-    border-color: #5a88ca;
-    color: #fff;
-    text-decoration: none;	
-}
-
 .company-phones{
     font-size: 14px;
     color: #5a88ca;
@@ -808,7 +797,7 @@ padding: 35px 0 20px;}
     margin-bottom: 10px;
     padding: 10px;
 }
-.newsletter-form input[type="submit"], button {
+.newsletter-form input[type="submit"] {
     background: none repeat scroll 0 0 #5a88ca;
     border: medium none;
     color: #fff;
@@ -912,13 +901,14 @@ input[type="text"], input[type="password"], input[type="email"], textarea {
     border: 1px solid #ddd !important;
     padding: 10px !important;
 }
-input[type="submit"] {
+input[type="submit"], button {
     background: none repeat scroll 0 0 #5a88ca;
     border: medium none;
     color: #fff;
     padding: 11px 20px;
     text-transform: uppercase;
 }
+
 input[type="submit"]:hover, button:hover {background-color: #222}
 .single-sidebar input[type="text"] {
     margin-bottom: 10px;
@@ -1123,6 +1113,11 @@ td.cart-total {
 	font-weight: bold;
 }
 
+.inner-addon .fa {
+  position: absolute;
+  padding: 10px;
+  pointer-events: none;
+}
 
 div.quantity input.plus, div.quantity input.minus, div.quantity input.refresh {
     background: none repeat scroll 0 0 #5a88ca;
@@ -1283,7 +1278,7 @@ table.shop_table td.product-remove a {
 table.shop_table td.product-remove a:hover {color: #fff;background: red;text-decoration: none}
 table.shop_table td.product-name a{color: #222;}
 table.shop_table td.product-name a:hover {color: #5a88ca;text-decoration: none}
-div.quantity input.plus:hover, div.quantity input.minus:hover {background-color: #222}
+div.quantity input.plus:hover, div.quantity input.minus:hover, div.quantity input.refresh:hover {background-color: #222}
 div.cart-collaterals ul.products li.product a:hover h3 {color: #5a88ca}
 div.cart-collaterals ul.products li.product a:hover {text-decoration: none}
 
