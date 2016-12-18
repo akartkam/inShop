@@ -62,7 +62,7 @@
                 <div class="clearfix visible-md-block visible-sm-block"></div>
                 <div class="col-md-2 col-sm-12" style="justify-content: flex-end;">
                     <div class="shopping-item">
-                        <a th:href="@{/cart}"> <i class="fa fa-shopping-cart"></i> <span class="cart-amunt" th:utext="${{#httpSession.getAttribute(T(com.akartkam.inShop.util.Constants).CART_BEAN_NAME).total}}"></span> 
+                        <a th:href="@{/cart}" class="modalcart"><i class="fa fa-shopping-cart"></i> <span class="cart-amunt" th:utext="${{#httpSession.getAttribute(T(com.akartkam.inShop.util.Constants).CART_BEAN_NAME).total}}"></span> 
                         <span class="product-count" th:utext="${#httpSession.getAttribute(T(com.akartkam.inShop.util.Constants).CART_BEAN_NAME).quantityTotal}"></span></a>
                     </div>
                 </div>

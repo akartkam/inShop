@@ -154,6 +154,7 @@ jQuery(document).ready(function($){
           });		
 	}); 
 	
+	//to prevent move on carusel
 	$("body").on("mousemove", "a.add-to-cart-link, a.view-details-link, a.quick-review-product-link", function(e) {
 		e.preventDefault();
 		return false;
@@ -174,7 +175,5 @@ jQuery(document).ready(function($){
 	    $(this).find("a.quick-review-product-link").css("left", "-80%");
 		return false;
 	});
-
-
 });
 

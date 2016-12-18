@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+	 <title layout:title-pattern="$DECORATOR_TITLE - $CONTENT_TITLE">ООО Форпост - технические средства реабилитации, ортопедические изделия, изделия медицинского назначения</title>
+	 <th:block th:replace="/layouts/partials/head"></th:block>
+  </head>
+  <body>
+	<header th:replace="layouts/partials/header" />
+	<div id="content" role="main">
+		<div th:replace="layouts/partials/topnav" />
+	    <div class="container-fluid sidemenu-sticky-parent">
+			<div class="row">
+				<div class="col-sm-12 col-md-3 col-lg-2">
+				    <div th:replace="layouts/partials/lsidenav" />
+				</div>
+				<div class="col-sm-12 col-md-9 col-lg-10 content">
+					<div class="maincontent-area">
+						<div layout:fragment="content" />
+					</div> <!-- End main content area -->
+				</div>
+			</div>
+	    </div>
+	</div>
+	<footer th:replace="layouts/partials/footer" />   
+  </body>
+</html>

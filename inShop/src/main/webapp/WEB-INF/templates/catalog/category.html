@@ -1,0 +1,16 @@
+<th:block layout:decorator="layouts/fullPageLayout">
+	<head>
+        <title th:utext="${category.name}"></title>
+    </head>
+    <div layout:fragment="content">
+ 		 <ol class="breadcrumb">
+  			<li><a href="@{/}"><span th:utext="#{mainMenu.main}">Главная</span></a></li>
+		</ol> 
+		<div class="container">
+			<div class="row">
+				<div th:each="product: ${category.getAllProducts(null)}" class="col-md-3 col-sm-6" th:object="${product}" th:include="catalog/partials/smallSingleProduct">					
+				</div>
+			</div>
+		</div>  
+    </div>
+</th:block>    

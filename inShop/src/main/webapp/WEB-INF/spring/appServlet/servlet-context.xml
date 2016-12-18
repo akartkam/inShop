@@ -124,8 +124,7 @@
 	</beans:bean>
     
 	<!-- Thymeleaf -->
-    <beans:bean id="templateResolver"
-        class="org.thymeleaf.templateresolver.ServletContextTemplateResolver">
+    <beans:bean id="templateResolver" class="org.thymeleaf.templateresolver.ServletContextTemplateResolver">
       <beans:property name="prefix" value="/WEB-INF/templates/" />
       <beans:property name="suffix" value=".html" />
       <beans:property name="characterEncoding" value="UTF-8" />
@@ -135,8 +134,7 @@
       <beans:property name="cacheable" value="true" />
     </beans:bean>
     
-    <beans:bean id="templateEngine"
-          class="org.thymeleaf.spring3.SpringTemplateEngine">
+    <beans:bean id="templateEngine" class="org.thymeleaf.spring3.SpringTemplateEngine">
       <beans:property name="templateResolver" ref="templateResolver" />
 		 <!-- These lines add the dialect to Thymeleaf -->
 		  <beans:property name="additionalDialects">

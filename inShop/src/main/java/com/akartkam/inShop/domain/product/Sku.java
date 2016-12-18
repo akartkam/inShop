@@ -123,6 +123,7 @@ public class Sku extends AbstractDomainObjectOrdering {
     @Fetch(FetchMode.SUBSELECT)
     @CollectionTable(name="lnk_sku_image")
     @OrderColumn(name="ordering")
+    @BatchSize(size = 20)
     public List<String> getImages() {
 		return images;
 	}
@@ -143,6 +144,7 @@ public class Sku extends AbstractDomainObjectOrdering {
     @CollectionTable(name="lnk_product_status")
 	@Enumerated(EnumType.STRING)
     @Column(name = "pstatus", nullable = false)
+    @BatchSize(size = 20)
 	public Set<ProductStatus> getProductStatus() {
 		return productStatus;
 	}

@@ -994,6 +994,7 @@ input[type="submit"]:hover, button:hover {background-color: #222}
 .quantity {
     float: left;
     margin-right: 15px;
+    white-space: nowrap;
 }
 .quantity input[type="number"] {
     border: 1px solid #5a88ca;
