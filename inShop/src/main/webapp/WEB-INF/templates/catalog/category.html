@@ -4,11 +4,15 @@
     </head>
     <div layout:fragment="content">
  		 <ol class="breadcrumb">
-  			<li><a href="@{/}"><span th:utext="#{mainMenu.main}">Главная</span></a></li>
+  			<li><a th:href="@{/}"><span th:utext="#{mainMenu.main}">Главная</span></a></li>
+  			<li th:each="rcat, rcatStat: ${category.buildCategoryHierarchy(null)}" th:class="${rcatStat.count==rcatStat.size? 'active':''}">
+  				<a aid:phref="${rcat}" th:if="${rcatStat.count!=rcatStat.size}"><span th:utext="${rcat.name}"></span></a>
+  				<span th:unless="${rcatStat.count!=rcatStat.size}" th:utext="${rcat.name}"></span>
+  			</li>
 		</ol> 
 		<div class="container-fluid">
 			<div class="row">
-				<div th:each="product: ${category.getAllProducts(null)}" class="col-md-3 col-sm-6" th:object="${product}" th:include="catalog/partials/smallSingleProduct">					
+				<div th:each="product: ${category.getAllProducts(null)}" class="col-md-4 col-sm-6 col-lg-2" th:object="${product}" th:include="catalog/partials/smallSingleProduct">					
 				</div>
 			</div>
 		</div>  
