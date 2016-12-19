@@ -13,6 +13,11 @@
     src: url('./fonts/open-sans400.woff') format('woff');
 }*/
 
+.breadcrumb{
+background-color: white !important;
+border-radius: 0px !important;	
+	
+}
 .vertical-align {
   display: flex;
   flex-direction: row;
@@ -562,6 +567,11 @@ body { font-family: Open Sans, Arial, Helvetica, sans-serif;}
 	top: 50%;
 	transform: translate(0, -50%);
 	}
+
+.single-product {
+	margin-bottom: 40px;
+}	
+	
 .single-product h2 {
 	font-size: 13px;
     line-height: normal;
@@ -586,7 +596,17 @@ body { font-family: Open Sans, Arial, Helvetica, sans-serif;}
 }
 
 
-/*.single-product:hover{}
+.single-product:hover{
+	-moz-box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
+	-webkit-box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
+	box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
+}
+
+.single-product:hover .product-hover  {
+	border: none;
+}
+/*
+
 .single-product:hover .product-hover a.add-to-cart-link {top: 5%;}
 .single-product:hover .product-hover a.view-details-link {bottom: 5%;}
 .single-product:hover .product-hover a.quick-review-product-link  {left: 10%;}
@@ -598,7 +618,7 @@ body { font-family: Open Sans, Arial, Helvetica, sans-serif;}
 }
 
  
-.product-carousel .single-product .new_badge {
+.single-product .new_badge {
     width: 60px;
     height: 60px;
     background: url(../img/3новинка.png) no-repeat;
@@ -609,10 +629,10 @@ body { font-family: Open Sans, Arial, Helvetica, sans-serif;}
     z-index: 20;
 }
 
-.product-carousel .single-product .action_badge {
+.single-product .action_badge {
     width: 60px;
     height: 60px;
-    background: url(../img/4акция.png) no-repeat;
+    background: url(../img/action5.png) no-repeat;
     background-size: contain;
     text-indent: -9999px;
     position: absolute;
@@ -620,10 +640,10 @@ body { font-family: Open Sans, Arial, Helvetica, sans-serif;}
     z-index: 20;
 }
 
-.product-carousel .single-product .hit_badge {
+.single-product .hit_badge {
     width: 60px;
     height: 60px;
-    background: url(../img/1хит.png) no-repeat;
+    background: url(../img/hit5.png) no-repeat;
     background-size: contain;
     text-indent: -9999px;
     position: absolute;
@@ -681,7 +701,7 @@ body { font-family: Open Sans, Arial, Helvetica, sans-serif;}
   padding: 1px 10px;
 }
 
-.maincontent-area {padding-bottom: 50px; padding-top:20px;}
+.maincontent-area {padding-bottom: 50px; /*padding-top:20px;*/}
 
 .product-wid-title {
   font-family: raleway;

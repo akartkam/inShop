@@ -89,9 +89,9 @@
  	<beans:bean id="entityUrlPrefixes" class="java.util.Properties">
 		<beans:constructor-arg>
     		<beans:props>
- 				<beans:prop key="com.akartkam.inShop.domain.product.Product">product</beans:prop>
- 				<beans:prop key="com.akartkam.inShop.domain.product.Category">category</beans:prop>
- 				<beans:prop key="com.akartkam.inShop.domain.product.Brand">brand</beans:prop>
+ 				<beans:prop key="#{T(com.akartkam.inShop.util.Constants).PRODUCT_CLASS}">product</beans:prop>
+ 				<beans:prop key="#{T(com.akartkam.inShop.util.Constants).CATEGORY_CLASS}">category</beans:prop>
+ 				<beans:prop key="#{T(com.akartkam.inShop.util.Constants).BRAND_CLASS}">brand</beans:prop>
  			</beans:props>
  		</beans:constructor-arg>
  	</beans:bean>
@@ -185,6 +185,7 @@
             <beans:props>
                 <beans:prop key="/">mainController</beans:prop>
                 <beans:prop key="/home">mainController</beans:prop>
+                <beans:prop key="#{'/'+entityUrlPrefixes.getProperty(T(com.akartkam.inShop.util.Constants).CATEGORY_CLASS)+'/**'}">categoryController</beans:prop>
             </beans:props>
         </beans:property>
     </beans:bean>

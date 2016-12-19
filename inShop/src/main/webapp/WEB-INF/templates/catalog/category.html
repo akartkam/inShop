@@ -4,9 +4,9 @@
     </head>
     <div layout:fragment="content">
  		 <ol class="breadcrumb">
-  			<li><a href="@{/}"><span th:utext="#{mainMenu.main}">Главная</span></a></li>
+  			<li><a href="@{/}"><span th:utext="#{mainMenu.main}">Р“Р»Р°РІРЅР°СЏ</span></a></li>
 		</ol> 
-		<div class="container">
+		<div class="container-fluid">
 			<div class="row">
 				<div th:each="product: ${category.getAllProducts(null)}" class="col-md-3 col-sm-6" th:object="${product}" th:include="catalog/partials/smallSingleProduct">					
 				</div>
