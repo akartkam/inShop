@@ -12,7 +12,7 @@
 		</ol> 
 		<div class="container-fluid">
 			<div class="row">
-				<div th:each="product: ${category.getAllProducts(null)}" class="col-md-4 col-sm-6 col-lg-2" th:object="${product}" th:include="catalog/partials/smallSingleProduct">					
+				<div th:each="product: ${category.getAllProducts(null)}" class="col-md-3 col-sm-6 col-lg-15" th:object="${product}" th:include="catalog/partials/smallSingleProduct">					
 				</div>
 			</div>
 		</div>  

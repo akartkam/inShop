@@ -13,11 +13,32 @@
     src: url('./fonts/open-sans400.woff') format('woff');
 }*/
 
-.breadcrumb{
-background-color: white !important;
-border-radius: 0px !important;	
-	
+.col-xs-15,
+.col-sm-15,
+.col-md-15,
+.col-lg-15 {
+    position: relative;
+    min-height: 1px;
+    padding-right: 10px;
+    padding-left: 10px;
 }
+.col-xs-15 {
+    width: 20%;
+    float: left;
+}
+
+
+.breadcrumb{
+	background-color: white !important;
+	border-radius: 0px !important;
+	font-size: 12px;
+	margin-top: 10px;
+}
+
+.breadcrumb .active span{
+	text-decoration: underline;		
+}
+
 .vertical-align {
   display: flex;
   flex-direction: row;

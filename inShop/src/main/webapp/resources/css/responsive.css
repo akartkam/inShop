@@ -1,47 +1,61 @@
+@media (min-width: 1500px) {
+    .col-lg-15 {
+        width: 20%;
+        float: left;
+    }
+}
+
 /*and (max-width: 1280px)*/
 @media only screen and (min-width: 992px)  { 
-div.cart-collaterals ul.products li.product {
-  float: left;
-  margin-left: 30px;
-  position: relative;
-  width: 160px;
-}
-.coupon input[type="text"] {
-  width: 100px;
-}  
-input[type="submit"], button[type="submit"] {
-  padding: 10px 15px;
-} 
-.col-1, .col-2 {
-  width: 293px;
-} 
-
+	div.cart-collaterals ul.products li.product {
+	  float: left;
+	  margin-left: 30px;
+	  position: relative;
+	  width: 160px;
+	}
+	.coupon input[type="text"] {
+	  width: 100px;
+	}  
+	input[type="submit"], button[type="submit"] {
+	  padding: 10px 15px;
+	} 
+	.col-1, .col-2 {
+	  width: 293px;
+	}
+    .col-md-15 {
+        width: 20%;
+        float: left;
+    }	 
     
 }
 
 @media only screen and (min-width: 768px) {
-.mainmenu-area {
-	line-height: 0;
-	text-align: center;
-}
-
-.navbar-nav {
-	display: inline-block;
-	float: none;
-	margin: 0;
-}
-
-#navbar-sidebar .container-fluid,
-#navbar-sidebar .navbar-collapse {
-	padding: 0;
-}
-#navbar-sidebar .navbar-right {
-	margin-right: 0;
-}
-#navbar-sidebar .nav > li {
-	width: 100%;
-	text-align: left;
-}  
+	.mainmenu-area {
+		line-height: 0;
+		text-align: center;
+	}
+	
+	.navbar-nav {
+		display: inline-block;
+		float: none;
+		margin: 0;
+	}
+	
+	#navbar-sidebar .container-fluid,
+	#navbar-sidebar .navbar-collapse {
+		padding: 0;
+	}
+	#navbar-sidebar .navbar-right {
+		margin-right: 0;
+	}
+	#navbar-sidebar .nav > li {
+		width: 100%;
+		text-align: left;
+	}
+	.col-sm-15 {
+        width: 20%;
+        float: left;
+    }	  
 }
 
 /* Tablet Layout: 768px. */
