@@ -493,7 +493,7 @@ body { font-family: Open Sans, Arial, Helvetica, sans-serif;}
 .promo4 { background:#4abebd;}
 .section-title {
     font-family: 'Raleway', sans-serif;
-    font-weight: normal;
+    font-weight: bold;
     font-style: normal;
     font-size: 24px;
 }
@@ -673,8 +673,8 @@ body { font-family: Open Sans, Arial, Helvetica, sans-serif;}
 }
 
 .owl-carousel {
-	padding: 15px 0 15px 15px; 
-	overflow: hidden;"
+	padding: 40px 0 15px 15px; 
+	overflow: hidden;
 }
 
 /* override the overflow: hidden*/
