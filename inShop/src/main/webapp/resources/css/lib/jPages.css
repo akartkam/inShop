@@ -1,35 +1,51 @@
-.holder {
-	margin: 15px 0;
-}
+.pagination-holder {
 
-.holder a {
-	font-size: 12px;
+	}
+
+.pagination-holder a {
+	position: relative;
+	padding: 6px 12px;
+	margin-left: -1px;
+	line-height: 1.42857143;
+	color: #428bca;
+	text-decoration: none;
+	background-color: #fff;
+	border: 1px solid #ddd;
 	cursor: pointer;
-	margin: 0 5px;
-	color: #333;
 }
 
-.holder a:hover {
-	background-color: #222;
+.pagination-holder a:hover {
+	color: #2a6496;
+	background-color: #eee;
+	border-color: #ddd;
+}
+
+.pagination-holder a.jp-previous { 
+	margin-left: 0;
+	border-top-left-radius: 4px;
+	border-bottom-left-radius: 4px;
+}
+
+.pagination-holder a.jp-next { 
+	border-top-right-radius: 4px;
+	border-bottom-right-radius: 4px;
+}
+
+.pagination-holder a.jp-current, a.jp-current:hover { 
+	z-index: 2;
 	color: #fff;
+	cursor: default;
+	background-color: #428bca;
+	border-color: #428bca;
 }
 
-.holder a.jp-previous { margin-right: 15px; }
-.holder a.jp-next { margin-left: 15px; }
-
-.holder a.jp-current, a.jp-current:hover { 
-	color: #FF4242;
-	font-weight: bold;
-}
-
-.holder a.jp-disabled, a.jp-disabled:hover {
+.pagination-holder a.jp-disabled, a.jp-disabled:hover {
 	color: #bbb;
 }
 
-.holder a.jp-current, a.jp-current:hover,
-.holder a.jp-disabled, a.jp-disabled:hover {
+.pagination-holder a.jp-current, a.jp-current:hover,
+.pagination-holder a.jp-disabled, a.jp-disabled:hover {
 	cursor: default; 
-	background: none;
 }
 
-.holder span { margin: 0 5px; }
+.pagination-holder span { margin: 0 5px; }

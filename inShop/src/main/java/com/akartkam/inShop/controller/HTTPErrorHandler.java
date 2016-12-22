@@ -9,7 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-@Controller
+//@Controller
 public class HTTPErrorHandler{
  
  String path = "/errors";
@@ -20,7 +20,7 @@ public class HTTPErrorHandler{
 	 model.addAttribute("exception", e);
 	 model.addAttribute("url", req.getRequestURL());
 	 model.addAttribute("timestamp", new Date().toString());
-  return path+"/error-default";
+	 return path+"/error-default";
  }
 
   

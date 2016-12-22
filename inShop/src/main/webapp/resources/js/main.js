@@ -3,7 +3,7 @@ jQuery(document).ready(function($){
     // jQuery sticky Menu
     
 	//$(".mainmenu-area").sticky({topSpacing:0});
-	if (window.screen.availWidth >= 600) {
+	if (window.innerWidth >= 600) {
 		$(".sticky-menu").stick_in_parent({parent : $("body")});
 		$(".sidemenu-area").stick_in_parent({
 		                               parent : $(".sidemenu-sticky-parent"), 

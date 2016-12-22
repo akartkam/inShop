@@ -12,9 +12,49 @@
 		</ol> 
 		<div class="container-fluid">
 			<div class="row">
-				<div th:each="product: ${category.getAllProducts(null)}" class="col-md-3 col-sm-6 col-lg-15" th:object="${product}" th:include="catalog/partials/smallSingleProduct">					
+				<div id="pagination-container">
+					<div th:each="product: ${category.getAllProducts(null)}" class="col-md-3 col-sm-6 col-lg-15" th:object="${product}" th:include="catalog/partials/smallSingleProduct(pagination='true')">					
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<div class="pagination-holder text-center">
+					</div>
 				</div>
 			</div>
 		</div>  
     </div>
+    <th:block layout:fragment="script">
+        <script>	
+			$(function(){
+			  $(".product-f-image img").lazyload({
+			        event : "turnPage",
+			        effect : "fadeIn"
+			  });				
+				
+			  var intemPerPage=4;
+			  if(window.innerWidth > 600) { 
+				  intemPerPage = 8;
+			  }; 
+			  if (window.innerWidth > 1200) { 		  
+				  intemPerPage = 12;
+			  }; 
+			  if (window.innerWidth > 1500) {
+				  intemPerPage = 15;
+			  };					
+			  $("div.pagination-holder").jPages({
+			    containerID : "pagination-container",
+			    perPage     : intemPerPage,
+			    previous	: "«",
+			    next		: "»",
+			    callback    : function( pages, items ){
+					            items.showing.find("img").trigger("turnPage");
+					            /*items.oncoming.find("img").trigger("turnPage");*/
+					          }			    
+			  });
+			
+			});   
+		</script>
+    </th:block>
 </th:block>    
