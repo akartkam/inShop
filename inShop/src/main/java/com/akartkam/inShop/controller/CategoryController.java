@@ -17,25 +17,21 @@ import com.akartkam.inShop.domain.product.Category;
 import com.akartkam.inShop.service.product.CategoryService;
 
 @Controller
-public class CategoryController extends AbstractController {
+public class CategoryController extends WebEntityAbstractController {
 	private static final Log LOG = LogFactory.getLog(CategoryController.class);
 
-	@Autowired
-	private CategoryService categoryService;
-	
+
 	@Value("#{entityUrlPrefixes.getProperty(T(com.akartkam.inShop.util.Constants).CATEGORY_CLASS)}")
 	private String categoryPrefix;
 
 	@Override
 	protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ModelAndView model = new ModelAndView();
-		List<Category> rootCategorys = categoryService.getRootCategories(false);
+		initDefault();
 		String categoryUrl = request.getServletPath();
 		categoryUrl = categoryUrl.replace("/"+categoryPrefix, "");
 		Category category = categoryService.getCategoryByUrl(categoryUrl);
 		if (category != null) {
 			model.addObject("category", category);
-			model.addObject("rootCategorys", rootCategorys);
 			model.setViewName("/catalog/category");
 		} else {
 			

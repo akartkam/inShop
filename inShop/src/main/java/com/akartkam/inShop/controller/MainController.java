@@ -27,19 +27,11 @@ import com.akartkam.inShop.util.CartUtil;
 
 
 @Controller
-public class MainController extends AbstractController {
+public class MainController extends WebEntityAbstractController {
 	
 	private static final Log LOG = LogFactory.getLog(MainController.class);
 
-	@Autowired
-	private CategoryService categoryService;
 
-	@Autowired
-	private ProductService productService;	
-	
-	@Autowired
-	private BrandService brandService;
-	
 	@Resource
 	@Qualifier("mainSliderBanner")
 	private Map<String, Properties> mainSliderBanner;
@@ -47,17 +39,15 @@ public class MainController extends AbstractController {
 	@Override
 	public ModelAndView handleRequestInternal(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
-		ModelAndView model = new ModelAndView();
+		initDefault();
 		//model.setViewName("redirect:/admin");
 		//model.setViewName("/test");
 		//return model;
-		List<Category> rootCategorys = categoryService.getRootCategories(false);
 		//List<Product> newProducts = productService.getProductsByProductStatus(ProductStatus.NEW);
 		List<Product> actionProducts = productService.getProductsByProductStatus(ProductStatus.ACTION);
 		List<Product> hitProducts = productService.getProductsByProductStatus(ProductStatus.HIT);
 		List<Brand> brands = brandService.getAllBrand(false);
 		model.setViewName("/layouts/home");
-		model.addObject("rootCategorys", rootCategorys);
 		model.addObject("hitProducts", hitProducts);
 		model.addObject("actionProducts", actionProducts);
 		model.addObject("brands", brands);

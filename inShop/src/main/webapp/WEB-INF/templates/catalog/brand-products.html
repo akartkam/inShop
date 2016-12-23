@@ -1,28 +1,27 @@
 <th:block layout:decorator="layouts/fullPageLayout">
 	<head>
 		<th:block th:fragment="meta" th:remove="all">
-			<meta name="description" th:content="${#strings.isEmpty(category.metaDescription)? category.name: category.metaDescription}"/>
-			<meta name="keywords" th:content="${#strings.isEmpty(category.metaKeywords)? category.name: category.metaKeywords}"/>
+			<meta name="description" th:content="${#strings.isEmpty(brand.metaDescription)? brand.name: brand.metaDescription}"/>
+			<meta name="keywords" th:content="${#strings.isEmpty(brand.metaKeywords)? brand.name: brand.metaKeywords}"/>
 		</th:block>
-        <title th:utext="${category.name}"></title>
+        <title th:utext="${brand.name}"></title>
     </head>
     <div layout:fragment="content">
  		 <ol class="breadcrumb">
   			<li><a th:href="@{/}"><span th:utext="#{mainMenu.main}">Главная</span></a></li>
-  			<li th:each="rcat, rcatStat: ${category.buildCategoryHierarchy(null)}" th:class="${rcatStat.count==rcatStat.size? 'active':''}">
-  				<a aid:phref="${rcat}" th:if="${rcatStat.count!=rcatStat.size}"><span th:utext="${rcat.name}"></span></a>
-  				<span th:unless="${rcatStat.count!=rcatStat.size}" th:utext="${rcat.name}"></span>
+  			<li class="active">
+  				<a aid:phref="${brand}"><span th:utext="${brand.name}"></span></a>
   			</li>
 		</ol> 
 		<div class="container-fluid">
 			<div class="row">
 				<div class="content-header">
-					<h4 th:utext="${category.description}"></h4>
+					<h4 th:utext="${brand.description}"></h4>
 				</div>
 			</div>
 			<div class="row">
 				<div id="pagination-container">
-					<div th:each="product: ${category.getAllProducts(null)}" class="col-md-3 col-sm-6 col-lg-15" th:object="${product}" th:include="catalog/partials/smallSingleProduct(pagination='true')">					
+					<div th:each="product: ${products}" class="col-md-3 col-sm-6 col-lg-15" th:object="${product}" th:include="catalog/partials/smallSingleProduct(pagination='true')">					
 					</div>
 				</div>
 			</div>
@@ -35,8 +34,8 @@
 		</div>  
     </div>
    	<th:block th:fragment="page-description" th:remove="all">
-		<h1 th:utext="${#strings.isEmpty(category.h1)? category.name: category.h1}"></h1>
-		<th:block th:remove="tag" th:utext="${category.longDescription}"></th:block>
+		<h1 th:utext="${#strings.isEmpty(brand.h1)? brand.name: brand.h1}"></h1>
+		<th:block th:remove="tag" th:utext="${brand.description}"></th:block>
 	</th:block>
     <th:block layout:fragment="script">
         <script>	

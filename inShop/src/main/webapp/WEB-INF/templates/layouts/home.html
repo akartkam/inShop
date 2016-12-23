@@ -1,8 +1,12 @@
 <!DOCTYPE html>
 <html lang="ru">
   <head>
-	 <title layout:title-pattern="$DECORATOR_TITLE - $CONTENT_TITLE">ООО Форпост - технические средства реабилитации, ортопедические изделия, изделия медицинского назначения</title>
+	 <title>ООО Форпост - технические средства реабилитации, ортопедические изделия, изделия медицинского назначения</title>
 	 <th:block th:replace="/layouts/partials/head"></th:block>
+ 	 <th:block th:fragment="meta" th:remove="all">
+		<meta name="description" th:content="#{head.home.metaDescription}" />
+	    <meta name="keywords" th:content="#{head.home.metaKeywords}" />
+	 </th:block>
   </head>
   <body>
 	<header th:replace="layouts/partials/header" />
@@ -84,6 +88,10 @@
 			</div>
 	    </div>
 	</div>
+	<th:block th:fragment="page-description" th:remove="all">
+		<h1 th:utext="#{footer.home.pageDescription.title}">Интернет-магазин компании ООО Форпост</h1>
+		<th:block th:remove="tag" th:utext="#{footer.home.pageDescription.text}"></th:block>
+	</th:block>
 	<footer th:replace="layouts/partials/footer" />   
   </body>
 </html>

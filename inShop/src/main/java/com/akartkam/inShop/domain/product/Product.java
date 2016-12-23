@@ -15,6 +15,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -37,9 +38,14 @@ import com.akartkam.inShop.domain.product.option.ProductOptionValue;
 import com.akartkam.inShop.presentation.admin.AdminPresentation;
 import com.akartkam.inShop.presentation.admin.EditTab;
 
+@NamedQueries({
 @NamedQuery(
 		name = "findProductByProductStatus",
-		query = "from Product as p where :productStatus in  elements(p.defaultSku.productStatus) and p.enabled=true order by ordering")
+		query = "from Product as p where :productStatus in  elements(p.defaultSku.productStatus) and p.enabled=true order by ordering"), 
+@NamedQuery(
+		name = "findProductByBrand",
+		query = "from Product as p where p.brand = :brand and p.enabled=true order by ordering") 
+})
 @Entity
 @Table(name = "Product")
 @SuppressWarnings("rawtypes")
