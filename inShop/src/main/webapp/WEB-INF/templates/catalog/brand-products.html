@@ -7,16 +7,26 @@
         <title th:utext="${brand.name}"></title>
     </head>
     <div layout:fragment="content">
- 		 <ol class="breadcrumb">
+ 		<ol class="breadcrumb">
   			<li><a th:href="@{/}"><span th:utext="#{mainMenu.main}">Главная</span></a></li>
+<!--   			<li><a th:href="@{/brandslist}"><span th:utext="#{mainMenu.brands}">Бренды</span></a></li> -->
   			<li class="active">
-  				<a aid:phref="${brand}"><span th:utext="${brand.name}"></span></a>
+  				<span th:utext="${brand.name}"></span>
   			</li>
 		</ol> 
 		<div class="container-fluid">
 			<div class="row">
-				<div class="content-header">
-					<h4 th:utext="${brand.description}"></h4>
+				<div class="col-lg-12 content-header">
+					<div class="media">
+					  <div class="media-left media-middle">
+					    <a href="javascript:;">
+					      <img class="media-object" th:src="@{${brand.logoUrl}}" width="100" th:onerror="'this.src=\'' + @{/resources/img/noimage.png} + '\';'"/>
+					    </a>
+					  </div>
+					  <div class="media-body media-middle" style="width:auto !important;">
+						<h5 class="media-heading" th:utext="${brand.description}"></h5>
+					  </div>
+					</div>				
 				</div>
 			</div>
 			<div class="row">
@@ -33,9 +43,11 @@
 			</div>
 		</div>  
     </div>
-   	<th:block th:fragment="page-description" th:remove="all">
-		<h1 th:utext="${#strings.isEmpty(brand.h1)? brand.name: brand.h1}"></h1>
-		<th:block th:remove="tag" th:utext="${brand.description}"></th:block>
+    <th:block th:fragment="page-description" th:remove="all">
+   		<div class="page-description">
+			<h1 th:utext="${#strings.isEmpty(brand.h1)? brand.name: brand.h1}"></h1>
+			<th:block th:remove="tag" th:utext="${brand.longDescription}"></th:block>
+		</div>
 	</th:block>
     <th:block layout:fragment="script">
         <script>	

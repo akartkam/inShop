@@ -49,6 +49,8 @@
 	                    </li>
 	                    <li><a href="#additional" data-toggle="tab" th:text="#{admin.edit.tab.params}">Параметры</a>
 	                    </li>
+	                    <li><a href="#seo" data-toggle="tab" th:text="#{admin.edit.tab.seo}">SEO</a>
+	                    </li>
 	                </ul>
 	                <!-- Tab panes -->
 	                <div class="tab-content">
@@ -73,10 +75,16 @@
 						      </div>
 				   		   </div>
 				   		   <div class="field-box">
-	 			    		   <label>
-					    	  	<span th:text="#{admin.catalog.brand.edit.description}">Description Brand1</span>
+	 			    		  <label>
+					    	  	<span th:text="#{admin.edit.tab.description}">Description Brand1</span>
 					   		   </label>
-						       <textarea id="summernote" class="textarea form-control" placeholder="Введите текст..." th:field="*{description}" th:value="${#strings.escapeJavaScript(brand.description)}"></textarea>
+					   		   <input type="text" class="form-control" th:field="*{description}"/>
+				   		   </div>			
+  						   <div class="field-box">
+	 			    		   <label>
+					    	  	<span th:text="#{admin.catalog.brand.edit.longDescription}">Long Description Brand1</span>
+					   		   </label>
+						       <textarea id="summernote" class="textarea form-control" placeholder="Введите текст..." th:field="*{longDescription}"></textarea>
   						   </div>
 	             		</div>
 	                    <div class="tab-pane fade" id="additional">
@@ -89,7 +97,7 @@
 								    <input type="hidden" id="currLogoUrl" th:field="*{logoUrl}"/>
 								    <div class="photo-block"> 
 		                                 <span class="helper"></span>
-		                                 <img id="imgLogo" src="../../../../resources/img/logo/asus.png" style="width: 100px;"
+		                                 <img id="imgLogo" src="../../../../resources/img/logo/asus.png" width="100"
 		                                     th:src="@{${{brand.logoUrl!=null}? brand.logoUrl: '/resources/img/noimage.png'}}" th:onerror="'this.src=\'' + @{/resources/img/noimage.png} + '\';'"/>
 	                                </div> 
 	                              </div>
@@ -107,6 +115,41 @@
 							  	<span th:text="#{admin.catalog.brand.enabled}">Active?</span>
 							 </label>
 						   </div>	 
+	                    </div>
+	                    <div class="tab-pane fade" id="seo">
+				   		   <div class="field-box">	                              
+				    		  <label>
+					    	  	 <span th:text="#{admin.seo.h1}">H1</span>
+					   		  </label>
+							  <div class="input-group">
+							      <input type="text" class="form-control" th:field="*{h1}"/>
+							  </div>
+						   </div>
+				   		   <div class="field-box">	                              
+				    		  <label>
+					    	  	 <span th:text="#{admin.seo.metaTitle}">Title</span>
+					   		  </label>
+							  <div class="input-group">
+							      <textarea type="text" class="textarea form-control" placeholder="Введите текст..." th:field="*{metaTitle}"/>
+							  </div>
+						   </div>
+				   		   <div class="field-box">	                              
+				    		  <label>
+					    	  	 <span th:text="#{admin.seo.metaDescription}">Description</span>
+					   		  </label>
+							  <div class="input-group">
+							      <textarea type="text" class="textarea form-control" placeholder="Введите текст..." th:field="*{metaDescription}"/>
+							  </div>
+						   </div>
+				   		   <div class="field-box">	                              
+				    		  <label>
+					    	  	 <span th:text="#{admin.seo.metaKeywords}">Keywords</span>
+					   		  </label>
+							  <div class="input-group">
+							      <textarea type="text" class="textarea form-control" placeholder="Введите текст..." th:field="*{metaKeywords}"/>
+							  </div>
+						   </div>
+						   
 	                    </div>
 	                </div>
 		    </div>
@@ -137,23 +180,21 @@
 		    		    backdrop: 'static',
 		    		    keyboard: false
 		    		});
-			 });
-	 		 $("#editModal").on("show.bs.modal", function (e) {
-	                            $('#summernote').summernote({
-	        					    lang: "ru-RU"
-	          				     });
-	                   });
- 		 
-	 		$('#inputSImg').on('change', function (e) {
-	 	        var $this = $(this),
-	 	                $type_file = $this.val(),
-	 	                file = this.files[0],
-	 	                reader = new FileReader();
-	 	       reader.onload = (function(e) {
-	 	        	 $("#imgLogo").attr("src", e.target.result);
-	 	        });
-	 	        reader.readAsDataURL(file);
-	 	    });
+                 $('#summernote').summernote({
+					    lang: "ru-RU"
+				    });
+				 $('#inputSImg').on('change', function (e) {
+			      var $this = $(this),
+			              $type_file = $this.val(),
+			              file = this.files[0],
+			              reader = new FileReader();
+				          reader.onload = (function(e) {
+				      	        $("#imgLogo").attr("src", e.target.result);
+				                });
+				          reader.readAsDataURL(file);
+				          });                 
+			     });
+	         });
 	 		 
 		   </script>
 		 </th:block>  

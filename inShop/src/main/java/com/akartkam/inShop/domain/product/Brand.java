@@ -32,6 +32,7 @@ public class Brand extends AbstractWebDomainObject {
 	private static final long serialVersionUID = 4686970176196323428L;
 	private String name;
 	private String description;
+	private String longDescription;
 	private String url;
 	private String logoUrl;
 	private List<Product> products = new ArrayList<Product>();
@@ -48,10 +49,7 @@ public class Brand extends AbstractWebDomainObject {
 		this.name = name;
 	}
 	
-	@HtmlSafe
-	@Lob
-    @Type(type = "org.hibernate.type.TextType")
-    @Column(name = "description", length = Integer.MAX_VALUE - 1)
+    @Column(name = "description")
 	public String getDescription() {
 		return description;
 	}
@@ -59,6 +57,18 @@ public class Brand extends AbstractWebDomainObject {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+	
+	@HtmlSafe
+    @Lob
+    @Type(type = "org.hibernate.type.TextType")
+    @Column(name = "long_description", length = Integer.MAX_VALUE - 1)
+	public String getLongDescription() {
+		return longDescription;
+	}
+    
+	public void setLongDescription(String longDescription) {
+		this.longDescription = longDescription;
+	}	
 	
     @Column(name = "url")
     @Index(name="brand_url_index", columnNames={"url"})	
@@ -96,6 +106,7 @@ public class Brand extends AbstractWebDomainObject {
 		brand.setUpdatedBy(null);
 		brand.setUpdatedDate(null);
 		brand.setDescription(new String(getDescription()));
+		brand.setLongDescription(new String(getLongDescription()));
 		brand.setUrl(new String(getUrl()));
 		brand.setLogoUrl(new String(getLogoUrl()));
 		return brand;

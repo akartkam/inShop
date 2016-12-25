@@ -70,14 +70,15 @@ public class AdminBrandController {
 	  
 	  @InitBinder
 	  public void initBinder(WebDataBinder binder) {
-			binder.setAllowedFields(new String[] { "id", "name", "urlForForm", "description", "logoUrl", "enabled"});
+			binder.setAllowedFields(new String[] { "id", "name", "urlForForm", "description", "logoUrl", "enabled", "longDescription",
+												   "h1", "metaTitle", "metaDescription", "metaKeywords"});
 			binder.registerCustomEditor(UUID.class, "id", new PropertyEditorSupport() {
 			    @Override
 			    public void setAsText(String text) {
 			    	 setValue(UUID.fromString(text));
 			    }
 			    });
-			binder.registerCustomEditor(String.class, "logoUrl", new PropertyEditorSupport() {
+			binder.registerCustomEditor(String.class, new PropertyEditorSupport() {
 			    @Override
 			    public void setAsText(String text) {
 			    	if ("".equals(text) || "''".equals(text))
@@ -86,16 +87,6 @@ public class AdminBrandController {
 			    	  setValue(text);	
 			    }
 			    });
-			binder.registerCustomEditor(String.class, "description", new PropertyEditorSupport() {
-			    @Override
-			    public void setAsText(String text) {
-			    	if ("".equals(text) || "''".equals(text))
-			    	  setValue(null);
-			    	else
-			    	  setValue(text);	
-			    }
-			    });
-			
 	  }
 	  
 	  @RequestMapping(method=GET)

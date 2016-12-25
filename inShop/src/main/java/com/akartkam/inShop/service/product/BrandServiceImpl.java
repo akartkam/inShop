@@ -87,7 +87,12 @@ public class BrandServiceImpl implements BrandService {
 			existingBrand.setName(brandFromPost.getName());
 			existingBrand.setUrl(brandFromPost.getUrl());
 			existingBrand.setDescription(brandFromPost.getDescription());
+			existingBrand.setLongDescription(brandFromPost.getLongDescription());
 			existingBrand.setEnabled(brandFromPost.isEnabled());
+			existingBrand.setH1(brandFromPost.getH1());
+			existingBrand.setMetaTitle(brandFromPost.getMetaTitle());
+			existingBrand.setMetaDescription(brandFromPost.getMetaDescription());
+			existingBrand.setMetaKeywords(brandFromPost.getMetaKeywords());
 		} else {
 			createBrand(brandFromPost);
 		}
