@@ -35,8 +35,10 @@
 		</div>  
     </div>
    	<th:block th:fragment="page-description" th:remove="all">
-		<h1 th:utext="${#strings.isEmpty(category.h1)? category.name: category.h1}"></h1>
-		<th:block th:remove="tag" th:utext="${category.longDescription}"></th:block>
+   	   	<div class="page-description">
+			<h1 th:utext="${#strings.isEmpty(category.h1)? category.name: category.h1}"></h1>
+			<th:block th:remove="tag" th:utext="${category.longDescription}"></th:block>
+		</div>
 	</th:block>
     <th:block layout:fragment="script">
         <script>	

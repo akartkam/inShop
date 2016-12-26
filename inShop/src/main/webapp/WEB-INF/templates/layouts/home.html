@@ -89,8 +89,10 @@
 	    </div>
 	</div>
 	<th:block th:fragment="page-description" th:remove="all">
-		<h1 th:utext="#{footer.home.pageDescription.title}">Интернет-магазин компании ООО Форпост</h1>
-		<th:block th:remove="tag" th:utext="#{footer.home.pageDescription.text}"></th:block>
+	    <div class="page-description">
+			<h1 th:utext="#{footer.home.pageDescription.title}">Интернет-магазин компании ООО Форпост</h1>
+			<th:block th:remove="tag" th:utext="#{footer.home.pageDescription.text}"></th:block>
+		</div>
 	</th:block>
 	<footer th:replace="layouts/partials/footer" />   
   </body>

@@ -5,23 +5,33 @@
     <div layout:fragment="content">
  		<ol class="breadcrumb">
   			<li><a th:href="@{/}"><span th:utext="#{mainMenu.main}">Главная</span></a></li>
-  			<li class="active"><a th:href="@{/brandlist}"><span th:utext="#{mainMenu.brands}">Бренды</span></a></li>
+  			<li class="active"><span th:utext="#{mainMenu.brands}">Бренды</span></li>
 		</ol>
 		<div class="container-fluid">
 			<div class="row" th:each="brand: ${brands}">
 				<div class="col-lg-12">
+				  <div class="brand-list-item">
 					<div class="media">
 					  <div class="media-left">
-					    <a href="javascript:;">
-					      <img class="media-object" th:src="@{${brand.logoUrl}}" width="100" th:onerror="'this.src=\'' + @{/resources/img/noimage.png} + '\';'"/>
+					    <a aid:phref="${brand}">
+					      <img class="media-object" th:src="@{${brand.logoUrl}}" width="250" th:onerror="'this.src=\'' + @{/resources/img/noimage.png} + '\';'"/>
 					    </a>
 					  </div>
 					  <div class="media-body media-middle" style="width:auto !important;">
-						<h5 class="media-heading" th:utext="${brand.description}"></h5>
+<!-- 						 <h4 class="media-heading" th:utext="${brand.name}"></h4> -->
+						 <div class="dolessmore" th:utext="${brand.longDescription}"></div>
 					  </div>
 					</div>				
-				</div>
+				 </div>
+			   </div>
 			</div>
 		</div>		
 	</div>
+    <th:block layout:fragment="script">
+        <script>	
+			$(function(){
+				$(".dolessmore").dolessmore();
+			});   
+		</script>
+    </th:block>	
 </th:block>

@@ -5,9 +5,9 @@
 	            <div class="col-md-8">
 	                <div class="user-menu">
 	                    <ul>
-	                        <li><a href="#"><i class="fa fa-user"></i>О компании</a></li>
+	                        <li><a href="#"><i class="fa fa-building"></i>О компании</a></li>
 	                        <li><a href="#"><i class="fa fa-heart"></i>Покупателям</a></li>
-	                        <li><a href="cart.html"><i class="fa fa-user"></i>Корзина</a></li>
+	                        <li><a th:href="@{/cart}" class="modalcart"><i class="fa fa-shopping-cart"></i><span th:utext="#{menu.cart}">Корзина</span></a></li>
 	                    </ul>
 	                </div>
 	            </div>
