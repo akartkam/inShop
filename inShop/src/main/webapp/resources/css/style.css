@@ -27,6 +27,13 @@
     float: left;
 }
 
+.sort-container{
+	background: #fbfbfb;	
+	padding-top: 5px;
+	padding-bottom: 5px;
+	margin-bottom: 15px;
+}
+
 .dolessmore { overflow: hidden; }
 
 .dolessmoreblock { position: relative; }
@@ -50,7 +57,6 @@
 
 .content-header{
 	padding-bottom: 30px;
-	padding-left: 15px;
 }
 
 .page-description{

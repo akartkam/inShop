@@ -16,12 +16,18 @@
 		</ol> 
 		<div class="container-fluid">
 			<div class="row">
+			  <div class="col-lg-12">
 				<div class="content-header">
 					<h5 th:utext="${category.description}"></h5>
 				</div>
+			  </div>
 			</div>
 			<div class="row">
-				<div id="pagination-container">
+				<div class="col-lg-12">
+				</div>
+			</div>
+			<div class="row">
+				<div id="pagination-container" class="product-list-container">
 					<div th:each="product: ${category.getAllProducts(null)}" class="col-md-3 col-sm-6 col-lg-15" th:object="${product}" th:include="catalog/partials/smallSingleProduct(pagination='true')">					
 					</div>
 				</div>

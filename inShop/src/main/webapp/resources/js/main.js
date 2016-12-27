@@ -175,5 +175,13 @@ jQuery(document).ready(function($){
 	    $(this).find("a.quick-review-product-link").css("left", "-80%");
 		return false;
 	});
+	
+	$("body").on("change", "select.sort-items", function(e){
+		var sort_selector = $(this).data("sort-selector");
+		if ($(sort_selector).length) {
+			var sort_options = $(this).val();
+			tinysort(sort_selector, $($.parseJSON(sort_options)).extend({charOrder:"абвгд[её]жз[ий]клмнопрстуфхцчшщъыьэюя"}));
+		}
+	});
 });
 

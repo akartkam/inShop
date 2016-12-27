@@ -22,9 +22,9 @@
 	</div>
 	
 	<!-- 	<h2><a aid:phref="${product}"><span aid:product_modifyed_display_name_utext="${product}">Samsung Galaxy s5- 2015</span></a></h2> -->
-	<h2><a aid:phref="${product}"><span th:utext="${product.name}">Samsung Galaxy s5- 2015</span></a></h2>
+	<h2><a aid:phref="${product}"><span class="sort-by-name" th:utext="${product.name}">Samsung Galaxy s5- 2015</span></a></h2>
 	<div class="product-carousel-price">
-		<ins th:utext="${{product.defaultSku.price}}">$700.00</ins>
+		<ins th:attr="data-sort-value=${product.defaultSku.price}" th:utext="${{product.defaultSku.price}}">$700.00</ins>
 		<span class="price-piece-unit-delemiter" th:utext="#{product.default.pricePieceUnitDelemiter}"></span>
 		<span class="price-piece-unit" th:utext="#{product.default.pricePieceUnit}"></span> 
 		<del th:if="${product.defaultSku.isOnSale()}" th:utext="${{product.defaultSku.retailPrice}}">$100.00</del>
