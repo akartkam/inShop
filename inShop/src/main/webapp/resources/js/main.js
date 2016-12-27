@@ -180,7 +180,9 @@ jQuery(document).ready(function($){
 		var sort_selector = $(this).data("sort-selector");
 		if ($(sort_selector).length) {
 			var sort_options = $(this).val();
-			tinysort(sort_selector, $($.parseJSON(sort_options)).extend({charOrder:"абвгд[её]жз[ий]клмнопрстуфхцчшщъыьэюя"}));
+			var options = $.parseJSON(sort_options);
+			options = $.extend(options, {charOrder:"абвгд[её]жз[ий]клмнопрстуфхцчшщъыьэюя"});
+			tinysort(sort_selector, options);
 		}
 	});
 });
