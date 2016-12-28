@@ -2,8 +2,8 @@
 	<select class="sort-items" data-sort-selector="div.product-list-container>div>div.single-product">
 		<option th:selected="${true}" value="{&quot;natural&quot;: &quot;true&quot;}" th:utext="#{sort.default.caption}"></option>
 	 	<option value="{&quot;selector&quot;: &quot;span.sort-by-name&quot;, &quot;order&quot;: &quot;asc&quot;}" th:utext="#{sort.alphabet.asc.caption}"></option>
-	 	<option value="{&quot;selector&quot;: &quot;span.sort-by-name&quot;, &quot;order&quot;: &quot;desc&quot;}">Сортировать по алфавиту: от Я до А</option>
-	 	<option value="{&quot;selector&quot;: &quot;.product-carousel-price>ins&quot;, &quot;data&quot;: &quot;sort-value&quot;, &quot;order&quot;: &quot;asc&quot;}">Сортировать по цене: дешевые выше</option>
-	 	<option value="{&quot;selector&quot;: &quot;.product-carousel-price>ins&quot;, &quot;data&quot;: &quot;sort-value&quot;, &quot;order&quot;: &quot;desc&quot;}">Сортировать по цене: дорогие выше</option>
+	 	<option value="{&quot;selector&quot;: &quot;span.sort-by-name&quot;, &quot;order&quot;: &quot;desc&quot;}" th:utext="#{sort.alphabet.desc.caption}"></option>
+	 	<option value="{&quot;selector&quot;: &quot;.product-carousel-price>ins&quot;, &quot;data&quot;: &quot;sort-value&quot;, &quot;order&quot;: &quot;asc&quot;}" th:utext="#{sort.price.asc.caption}"></option>
+	 	<option value="{&quot;selector&quot;: &quot;.product-carousel-price>ins&quot;, &quot;data&quot;: &quot;sort-value&quot;, &quot;order&quot;: &quot;desc&quot;}" th:utext="#{sort.price.desc.caption}"></option>
 	</select>					
 </div>

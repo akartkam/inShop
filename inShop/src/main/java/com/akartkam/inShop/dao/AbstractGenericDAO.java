@@ -62,6 +62,7 @@ public abstract class AbstractGenericDAO<T extends DomainObject<UUID>> implement
 		if (methodGetUrl != null) {
 			Criteria criteria = currentSession().createCriteria(domainClass);
 			criteria.add(Restrictions.eq("url", url));
+			criteria.addOrder(Order.asc("ordering"));
 			List<T> res = criteria.list();
  			return !res.isEmpty()? res.get(0): null;
 		}

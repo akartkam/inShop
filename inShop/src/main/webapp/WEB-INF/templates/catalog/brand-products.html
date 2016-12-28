@@ -16,7 +16,7 @@
 		</ol> 
 		<div class="container-fluid">
 			<div class="row">
-				<div class="col-lg-12 content-header">
+				<div class="col-md-12 content-header">
 					<div class="media">
 					  <div class="media-left media-middle">
 					    <a href="javascript:;">
@@ -30,8 +30,12 @@
 				</div>
 			</div>
 			<div class="row">
-				<div id="pagination-container">
-					<div th:each="product: ${products}" class="col-md-3 col-sm-6 col-lg-15" th:object="${product}" th:include="catalog/partials/smallSingleProduct(pagination='true')">					
+				<div class="col-md-12" th:include="catalog/partials/sortForSmallSingleProduct">
+				</div>
+			</div>			
+			<div class="row">
+				<div id="pagination-container " class="product-list-container">
+					<div th:each="product: ${products}" class="col-md-3 col-sm-6" th:object="${product}" th:include="catalog/partials/smallSingleProduct(pagination='true')">					
 					</div>
 				</div>
 			</div>
