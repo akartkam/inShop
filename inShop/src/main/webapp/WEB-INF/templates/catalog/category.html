@@ -1,4 +1,4 @@
-<th:block layout:decorator="layouts/fullPageLayout">
+<th:block layout:decorator="layouts/productListFullPageLayout">
 	<head>
 		<th:block th:fragment="meta" th:remove="all">
 			<meta name="description" th:content="${#strings.isEmpty(category.metaDescription)? category.name: category.metaDescription}"/>
@@ -28,7 +28,7 @@
 			</div>
 			<div class="row">
 				<div id="pagination-container" class="product-list-container">
-					<div th:each="product: ${category.getAllProducts(null)}" class="col-md-3 col-sm-6 col-lg-15" th:object="${product}" th:include="catalog/partials/smallSingleProduct(pagination='true')">					
+					<div th:each="product: ${category.getAllProducts(null)}" class="col-md-3 col-sm-6 col-lg-15 product-col" th:object="${product}" th:include="catalog/partials/smallSingleProduct(pagination='true')">					
 					</div>
 				</div>
 			</div>
@@ -46,36 +46,4 @@
 			<th:block th:remove="tag" th:utext="${category.longDescription}"></th:block>
 		</div>
 	</th:block>
-    <th:block layout:fragment="script">
-        <script>	
-			$(function(){
-			  $(".product-f-image img").lazyload({
-			        event : "turnPage",
-			        effect : "fadeIn"
-			  });				
-				
-			  var intemPerPage=4;
-			  if(window.innerWidth > 600) { 
-				  intemPerPage = 8;
-			  }; 
-			  if (window.innerWidth > 1200) { 		  
-				  intemPerPage = 12;
-			  }; 
-			  if (window.innerWidth > 1500) {
-				  intemPerPage = 15;
-			  };					
-			  $("div.pagination-holder").jPages({
-			    containerID : "pagination-container",
-			    perPage     : intemPerPage,
-			    previous	: "«",
-			    next		: "»",
-			    callback    : function( pages, items ){
-					            items.showing.find("img").trigger("turnPage");
-					            /*items.oncoming.find("img").trigger("turnPage");*/
-					          }			    
-			  });
-			
-			});   
-		</script>
-    </th:block>
 </th:block>    

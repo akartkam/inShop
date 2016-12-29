@@ -181,8 +181,9 @@ jQuery(document).ready(function($){
 		if ($(sort_selector).length) {
 			var sort_options = $(this).val();
 			var options = $.parseJSON(sort_options);
-			/*options = $.extend(options, {charOrder:"абвгд[её]жз[ий]клмнопрстуфхцчшщъыьэюя"});*/
+			//options = $.extend(options, {charOrder:"абвгд[её]жз[ий]клмнопрстуфхцчшщъыьэюя"});
 			tinysort(sort_selector, options);
+			$("body").trigger("sort-have-performed");
 		}
 	});
 });

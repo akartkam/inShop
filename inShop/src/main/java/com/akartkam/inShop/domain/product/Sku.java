@@ -34,6 +34,8 @@ import javax.validation.constraints.NotNull;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.annotations.BatchSize;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -59,6 +61,7 @@ import com.akartkam.inShop.presentation.admin.EditTab;
 
 @Entity
 @Table(name = "sku")
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Sku extends AbstractDomainObjectOrdering {
 	private static final Log LOG = LogFactory.getLog(Sku.class);
 	/**

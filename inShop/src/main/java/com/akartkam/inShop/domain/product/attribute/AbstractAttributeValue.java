@@ -15,6 +15,8 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -32,6 +34,7 @@ import com.akartkam.inShop.domain.product.Sku;
 						discriminatorType = DiscriminatorType.STRING
 )
 @Table(name = "Attribute_Value")
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public abstract class AbstractAttributeValue<T extends Serializable> extends AbstractDomainObject implements AttributeValue<T> {
 	/**
 	 * 

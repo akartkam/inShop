@@ -61,6 +61,9 @@
 	    <level value="INFO" />
 	    <appender-ref ref="file"/>
 	</logger>
+	<logger name="org.hibernate.cache">
+		<level value="info" />
+	</logger>
 	<root>
 		<level value="INFO" />
 		<appender-ref ref="console" />

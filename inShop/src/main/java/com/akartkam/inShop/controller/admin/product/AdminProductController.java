@@ -221,6 +221,8 @@ public class AdminProductController {
 								LOG.error(e);
 							}
 			            setValue(av);
+			    	} else {
+			    		setValue(null);
 			    	}
 			    }
 			    });	
@@ -230,6 +232,8 @@ public class AdminProductController {
 			    	if (!"".equals(text)) {
 			    		AbstractAttribute at = attributeCategoryService.getAttributeByIdForForm(UUID.fromString(text));			    		
 			            setValue(at);
+			    	} else {
+			    		setValue(null);
 			    	}			    
 			    }
 			    });

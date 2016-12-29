@@ -1,4 +1,4 @@
-<th:block layout:decorator="layouts/fullPageLayout">
+<th:block layout:decorator="layouts/productListFullPageLayout">
 	<head>
 		<th:block th:fragment="meta" th:remove="all">
 			<meta name="description" th:content="${#strings.isEmpty(brand.metaDescription)? brand.name: brand.metaDescription}"/>
@@ -16,7 +16,7 @@
 		</ol> 
 		<div class="container-fluid">
 			<div class="row">
-				<div class="col-md-12 content-header">
+				<div class="col-lg-12 content-header">
 					<div class="media">
 					  <div class="media-left media-middle">
 					    <a href="javascript:;">
@@ -30,17 +30,17 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-md-12" th:include="catalog/partials/sortForSmallSingleProduct">
+				<div class="col-lg-12" th:include="catalog/partials/sortForSmallSingleProduct">
 				</div>
 			</div>			
 			<div class="row">
-				<div id="pagination-container " class="product-list-container">
-					<div th:each="product: ${products}" class="col-md-3 col-sm-6" th:object="${product}" th:include="catalog/partials/smallSingleProduct(pagination='true')">					
+				<div id="pagination-container" class="product-list-container">
+					<div th:each="product: ${products}" class="col-md-3 col-sm-6 col-lg-15 product-col" th:object="${product}" th:include="catalog/partials/smallSingleProduct(pagination='true')">					
 					</div>
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-md-12">
+				<div class="col-lg-12">
 					<div class="pagination-holder text-center">
 					</div>
 				</div>
@@ -53,36 +53,4 @@
 			<th:block th:remove="tag" th:utext="${brand.longDescription}"></th:block>
 		</div>
 	</th:block>
-    <th:block layout:fragment="script">
-        <script>	
-			$(function(){
-			  $(".product-f-image img").lazyload({
-			        event : "turnPage",
-			        effect : "fadeIn"
-			  });				
-				
-			  var intemPerPage=4;
-			  if(window.innerWidth > 600) { 
-				  intemPerPage = 8;
-			  }; 
-			  if (window.innerWidth > 1200) { 		  
-				  intemPerPage = 12;
-			  }; 
-			  if (window.innerWidth > 1500) {
-				  intemPerPage = 15;
-			  };					
-			  $("div.pagination-holder").jPages({
-			    containerID : "pagination-container",
-			    perPage     : intemPerPage,
-			    previous	: "«",
-			    next		: "»",
-			    callback    : function( pages, items ){
-					            items.showing.find("img").trigger("turnPage");
-					            /*items.oncoming.find("img").trigger("turnPage");*/
-					          }			    
-			  });
-			
-			});   
-		</script>
-    </th:block>
 </th:block>    

@@ -1,0 +1,39 @@
+<th:block layout:decorator="layouts/fullPageLayout">
+    <th:block layout:fragment="script">
+        <script>	
+			$(function(){
+			  $(".product-f-image img").lazyload({
+			        event : "turnPage",
+			        effect : "fadeIn"
+			  });				
+				
+			  var intemPerPage=4;
+			  if(window.innerWidth > 600) { 
+				  intemPerPage = 8;
+			  }; 
+			  if (window.innerWidth > 1200) { 		  
+				  intemPerPage = 12;
+			  }; 
+			  if (window.innerWidth > 1500) {
+				  intemPerPage = 15;
+			  };					
+			  $("div.pagination-holder").jPages({
+			    containerID : "pagination-container",
+			    perPage     : intemPerPage,
+			    previous	: "«",
+			    next		: "»",
+			    callback    : function( pages, items ){
+					            items.showing.find("img").trigger("turnPage");
+					            /*items.oncoming.find("img").trigger("turnPage");*/
+					          }			    
+			  });
+			  $("body").on("sort-have-performed", function(){
+				  $(".product-f-image img").trigger("turnPage");  
+			  });
+			  /* To correct display single product after sort*/
+			  setTimeout(function(){$(".product-list-container>div.product-col").equalHeights()}, 500);
+			
+			});   
+		</script>
+    </th:block>
+</th:block>

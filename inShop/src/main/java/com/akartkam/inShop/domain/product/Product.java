@@ -28,6 +28,8 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.Index;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import com.akartkam.inShop.domain.AbstractWebDomainObject;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
@@ -48,6 +50,7 @@ import com.akartkam.inShop.presentation.admin.EditTab;
 })
 @Entity
 @Table(name = "Product")
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @SuppressWarnings("rawtypes")
 public class Product extends AbstractWebDomainObject {
 
@@ -114,7 +117,8 @@ public class Product extends AbstractWebDomainObject {
 	public boolean canRemove() {
 		return additionalSku.isEmpty();
 	};
-		
+	
+	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 	@OneToMany(mappedBy="product", cascade = CascadeType.ALL, orphanRemoval=true)
 	@Cascade(org.hibernate.annotations.CascadeType.ALL)
 	@BatchSize(size = 20)
@@ -199,7 +203,8 @@ public class Product extends AbstractWebDomainObject {
 	        }
 	        this.defaultSku = defaultSku;
 	}
-	
+    
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 	@OneToMany(fetch = FetchType.LAZY, mappedBy="product")
 	@Cascade(org.hibernate.annotations.CascadeType.ALL)
 	@BatchSize(size = 10)

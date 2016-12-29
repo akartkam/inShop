@@ -158,6 +158,12 @@
 			<artifactId>hibernate-envers</artifactId>
 			<version>${org.hibernate-version}</version>
 		</dependency>
+		<!-- EhCache -->
+	    <dependency>
+	      <groupId>org.hibernate</groupId>
+	      <artifactId>hibernate-ehcache</artifactId>
+	      <version>${org.hibernate-version}</version>
+	    </dependency>		
 		<!-- Logging -->
 		<dependency>
 			<groupId>org.slf4j</groupId>

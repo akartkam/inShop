@@ -28,6 +28,9 @@ import javax.validation.constraints.Size;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.Transformer;
+import org.hibernate.annotations.BatchSize;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Cascade;
 
 import com.akartkam.inShop.domain.AbstractDomainObjectOrdering;
@@ -45,6 +48,7 @@ import com.akartkam.inShop.presentation.admin.EditTab;
 )
 @Table(name = "Attribute")
 @SuppressWarnings("rawtypes")
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public abstract class AbstractAttribute extends AbstractDomainObjectOrdering {
 	/**
 	 * 
@@ -100,8 +104,10 @@ public abstract class AbstractAttribute extends AbstractDomainObjectOrdering {
 	@Transient
 	public abstract AttributeType getAttributeType();
 	
+	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 	@OneToMany(mappedBy="attribute", cascade = CascadeType.ALL)
 	@Cascade(org.hibernate.annotations.CascadeType.ALL)
+	@BatchSize(size = 30)
 	public List<AbstractAttributeValue> getAttributeValues() {
 		return attributeValues;
 	}	
