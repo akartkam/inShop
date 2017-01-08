@@ -17,7 +17,7 @@
 				</a>
 			</form>	
 			<a th:href="@{${'/ajax-quick-review-product?ID='+product.id}}" class="quick-review-product-link"><i class="fa fa-list-alt"></i> Параметры</a>
-			<a th:href="@{'/product'+${product.url}}" class="view-details-link"><i class="fa fa-info"></i> Подробнее</a>
+			<a aid:phref="${product}" class="view-details-link"><i class="fa fa-info"></i> Подробнее</a>
 		</div>
 	</div>
 	

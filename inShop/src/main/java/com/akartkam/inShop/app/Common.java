@@ -5,6 +5,7 @@ import java.text.NumberFormat;
 import java.text.DecimalFormat;
 import java.util.Currency;
 import java.util.Locale;
+import java.util.UUID;
 
 
 
@@ -22,7 +23,10 @@ public class Common {
 			dfs.setGroupingSeparator(' ');
 			dfs.setMonetaryDecimalSeparator(',');
 			((DecimalFormat)df).setDecimalFormatSymbols(dfs);
-			System.out.println(df.format(2567.56));			
+			System.out.println(df.format(2567.56));
+			
+			System.out.println(UUID.randomUUID().toString());
+			
 	}
 
 }

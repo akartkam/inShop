@@ -21,7 +21,8 @@ $(function(){
                	    "sortAscending": ": активировать для сортировки столбца по возрастанию",
                	    "sortDescending": ": активировать для сортировки столбца по убыванию"
                	  }
-              }
+              },
+             "bStateSave": true
 		});
         $('#productDataTable tfoot th').each( function () {
         	 if ($(this).is(":first-child") || $(this).is(":last-child")) return;

@@ -9,7 +9,7 @@
 						<img style="border:1px solid #e8e8e6;" class="quick-review-product-zoom"  
 							 th:src="@{${!#lists.isEmpty(product.allImages)? product.allImages[0]: ''}}"  th:onerror="'this.src=\'' + @{/resources/img/noimage.png} + '\';'"
 							 th:attr="data-large=@{${!#lists.isEmpty(product.allImages)? product.allImages[0]: ''}}" width="150" height="200"/>	
-						<div id="quick-review-product-gallery" class="gallery" style="width:170px; float:left; ">
+						<div id="quick-review-product-gallery" class="gallery" style="width:170px;">
 						    <img th:each="image, imageStat: ${product.allImages}" class="imzoom-gallery" th:classappend="${imageStat.index == 0}? 'active'" width="50"
 							     th:src="@{${image}}"
 							     th:attr="data-large=@{${image}}"/>		

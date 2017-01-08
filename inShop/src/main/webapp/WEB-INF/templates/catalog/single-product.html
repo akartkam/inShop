@@ -1,0 +1,162 @@
+<th:block layout:decorator="layouts/fullPageLayout">
+	<head>
+		<th:block th:fragment="meta" th:remove="all">
+			<meta name="description" th:content="${#strings.isEmpty(product.metaDescription)? product.name: product.metaDescription}"/>
+			<meta name="keywords" th:content="${#strings.isEmpty(product.metaKeywords)? product.name: product.metaKeywords}"/>
+		</th:block>
+        <title th:utext="${product.name}"></title>
+    </head>
+    <div layout:fragment="content">
+ 		 <ol class="breadcrumb">
+  			<li><a th:href="@{/}"><span th:utext="#{mainMenu.main}">Главная</span></a></li>
+  			<li th:each="rcat, rcatStat: ${product.category.buildCategoryHierarchy(null)}">
+  				<a aid:phref="${rcat}"><span th:utext="${rcat.name}"></span></a>
+  			</li>
+  			<li class="active">
+  				<span th:utext="${product.name}"></span>
+  			</li>
+		</ol> 
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="media">
+						<div class="media-left">
+							<div th:each="ps, psStatus: ${#lists.toList(product.defaultSku.productStatus)}" th:class="#{${'product.status.class.'+ps}}" 
+     							th:style="${psStatus.index == 0?'top: -10px;': psStatus.index == 1? 'top: 33px;': 'top: 66px;'}">		
+							</div>
+							<div class="media-object">
+								<img style="border:1px solid #e8e8e6;" class="quick-review-product-zoom"  
+									 th:src="@{${!#lists.isEmpty(product.allImages)? product.allImages[0]: ''}}"  th:onerror="'this.src=\'' + @{/resources/img/noimage.png} + '\';'"
+									 th:attr="data-large=@{${!#lists.isEmpty(product.allImages)? product.allImages[0]: ''}}" width="300" height="400"
+									 data-help="Используйте колесико мыши для Zoom +/-"/>	
+								<div id="quick-review-product-gallery" class="gallery" style="width:330px;">
+								    <img th:each="image, imageStat: ${product.allImages}" class="imzoom-gallery" th:classappend="${imageStat.index == 0}? 'active'" width="75"
+									     th:src="@{${image}}"
+									     th:attr="data-large=@{${image}}"/>		
+								</div>							
+							</div>
+						</div>
+						<div class="media-body single-product-info">
+						   <h1 class="media-heading" th:utext="${product.longDisplayName}"></h1>
+				           <div class="product-attributes">
+					           <table cellspacing="0">
+					               <tbody>
+									   <tr>
+									   	   <th><span th:utext="#{brand.name}"></span></th>
+									   	   <td></td>
+									   	   <td><a th:utext="${product.brand.name}" th:href="${product.brand.url}"></a></td>
+									   </tr>
+									   <tr>
+									   	   <th><span th:utext="#{product.articul}"></span></th>
+									   	   <td></td>
+									   	   <td><span th:utext="${product.defaultSku.code}"></span></td>
+									   </tr>
+					                   <tr th:each="av : ${product.attributeValues}">
+					                       <th><span th:utext="${av.attribute.name}"></span></th>
+					                       <td></td>
+					                       <td><span th:utext="${av.value}"></span>&nbsp;<span th:if="${av.attribute.unit != null}" th:utext="#{${'unit.' + av.attribute.unit}}"></span></td>
+					                   </tr>
+					                   <tr>
+					                   	   <th><span th:utext="#{sku.quantityPerPackage}"></span></th>	
+					                   	   <td></td>
+					                   	   <td><span th:utext="${product.defaultSku.quantityPerPackage}"></span>&nbsp;<span class="price-piece-unit" th:utext="#{product.default.pricePieceUnit}"></span></td>
+					                   </tr>
+					               </tbody>
+					           </table>
+				           </div>
+				           <form method="POST" th:action="@{/cart/add}">
+				               <input type="hidden" name="productId" th:value="${product.id}" />
+					           <div class="product-inventory">
+						           <table cellspacing="0">
+						               <tbody>
+										   <tr>
+										   	   <th><span th:utext="#{sku.priceForUnit}"></span></th>
+										   	   <td></td>
+										   	   <td>
+										   	      <ins th:utext="${{product.defaultSku.price}}">$700.00</ins>
+										   	      <del th:if="${product.defaultSku.isOnSale()}" th:utext="${{product.defaultSku.retailPrice}}">$100.00</del>
+										   	   </td>
+										   </tr>
+										   <tr>
+										   	   <th><span th:utext="#{sku.priceForPackageUnit}"></span></th>
+										   	   <td></td>
+										   	   <td><ins th:utext="${{product.defaultSku.priceForPackage}}">$700.00</ins></td>
+										   </tr>
+										   <tr>
+										   	   <th></th>
+										   	   <td></td>
+										   	   <td></td>
+										   </tr>
+										   <tr>
+										   	   <th><span th:utext="#{sku.quantity}"></span></th>
+			                       			   <td></td>
+			                       			   <td>
+			                       			     <div class="quantity">
+			                       			     	<input type="number" name="quantity" value="1" size="4" min="1" step="1"/>
+			                       			     </div>
+			                       			   </td>
+										   </tr>
+						               </tbody>
+						           </table>				           
+							   </div>
+							   <div class="product-buttons">
+							        <button type="button" class="add-to-cart" th:utext="#{button.toCart}">В корзину</button>
+					                <button type="button" th:utext="#{button.buy1click}">Купить в 1 клик</button>
+							   </div>
+						   </form>
+						</div>									
+					</div>	
+                    <div role="tabpanel" class="product-description-tab">
+                        <ul class="product-tab" role="tablist">
+                            <li role="presentation" class="active"><a href="#prod-descr" aria-controls="prod-descr" role="tab" data-toggle="tab" th:utext="#{product.description}"></a></li>
+                            <li role="presentation"><a href="#feedback" aria-controls="feedback" role="tab" data-toggle="tab" th:utext="#{product.feedBack}"></a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div role="tabpanel" class="tab-pane fade in active" id="prod-descr" th:utext="${product.defaultSku.longDescription}">
+                            </div>
+                            <div role="tabpanel" class="tab-pane fade" id="feedback">
+                                <h2>Reviews</h2>
+                                <div class="submit-review">
+                                    <p><label for="name">Name</label> <input name="name" type="text"/></p>
+                                    <p><label for="email">Email</label> <input name="email" type="email"/></p>
+                                    <div class="rating-chooser">
+                                        <p>Your rating</p>
+                                        <div class="rating-wrap-post">
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                        </div>
+                                    </div>
+                                    <p><label for="review">Your review</label> <textarea name="review" id="" cols="30" rows="10"></textarea></p>
+                                    <p><input type="submit" value="Submit"/></p>
+                                    <fieldset>
+                                       <label>Код:</label>
+   									   <div><input type="text" id="capthaCode" /></div>
+  									   <img height="28px" id="captchaImage" border="0" width="95px"  th:src="@{/captcha.jpg?height=28&amp;width=95}" /> 
+   									   <a id="reloadCaptcha" href="javascript:void(0);"><i class="fa fa-refresh"></i></a>
+                                    </fieldset>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+				</div>
+			</div>
+		</div>  
+    </div>
+    <th:block layout:fragment="script">
+        <script>	
+			$(function(){
+	        	$(".quick-review-product-zoom").imagezoomsl({ 
+        			//magnifiersize: [200, 250],
+                   	zoomrange: [2,8],
+                   	zoomstart: 2,
+                   	innerzoom: true,
+                    magnifierborder: "none"
+        		});
+			});   
+		</script>
+    </th:block>
+</th:block>    

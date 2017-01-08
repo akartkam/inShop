@@ -106,8 +106,7 @@ public class CategoryServiceImpl implements CategoryService {
 	        		categoryFromPost.getAttributesForForm().remove(at);
 	        	} else {
 	        		ati.remove();
-	        	}
-	        	
+	        	}	        	
 	        }
 	        List<Category> lc = existingCategory.buildSubCategoryHierarchy(null, true);
 	        lc.remove(existingCategory);

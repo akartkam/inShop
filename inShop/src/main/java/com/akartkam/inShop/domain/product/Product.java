@@ -27,11 +27,13 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.ForeignKey;
 import org.hibernate.annotations.Index;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import com.akartkam.inShop.domain.AbstractWebDomainObject;
+import com.akartkam.inShop.domain.Instruction;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttributeValue;
 import com.akartkam.inShop.domain.product.attribute.SimpleAttributeFactory;
@@ -67,6 +69,7 @@ public class Product extends AbstractWebDomainObject {
     private List<Sku> additionalSku = new ArrayList<Sku>();	
     private Set<ProductOption> productOptions = new HashSet<ProductOption>();
     private boolean canSellWithoutOptions = true;
+    private Instruction instruction;
 
     
 	@Column(name = "can_sell_without_options")
@@ -77,6 +80,16 @@ public class Product extends AbstractWebDomainObject {
 		this.canSellWithoutOptions = canSellWithoutOptions;
 	}
 	
+	@ManyToOne(optional=true)
+	@JoinColumn
+	@ForeignKey(name="fk_product_instruction")
+	public Instruction getInstruction() {
+		return instruction;
+	}
+	public void setInstruction(Instruction instruction) {
+		this.instruction = instruction;
+	}
+
 	@NotNull
 	@ManyToOne
 	@JoinColumn(nullable=false)

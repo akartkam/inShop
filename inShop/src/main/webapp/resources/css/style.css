@@ -34,10 +34,6 @@
 	margin-bottom: 15px;
 }
 
-.dolessmore { overflow: hidden; }
-
-.dolessmoreblock { position: relative; }
-
 .lm-control {
   position: absolute;
   bottom: 0;
@@ -49,6 +45,12 @@
 }
 
 .dlmexpand { padding-bottom: 20px; }
+
+.product-description-tab{
+    margin-top: 30px;
+    vertical-align: bottom;
+    border-bottom: 1px solid #e5e5e5;
+}
 
 .brand-list-item {
 	border: 1px solid #eaeaea;
@@ -683,7 +685,7 @@ position: relative
 }
 
  
-.single-product .new_badge {
+.new_badge {
     width: 60px;
     height: 60px;
     background: url(../img/3новинка.png) no-repeat;
@@ -694,7 +696,7 @@ position: relative
     z-index: 20;
 }
 
-.single-product .action_badge {
+.action_badge {
     width: 60px;
     height: 60px;
     background: url(../img/action5.png) no-repeat;
@@ -705,7 +707,7 @@ position: relative
     z-index: 20;
 }
 
-.single-product .hit_badge {
+.hit_badge {
     width: 60px;
     height: 60px;
     background: url(../img/hit5.png) no-repeat;
@@ -1104,7 +1106,6 @@ form.cart {
     list-style: outside none none;
     margin: 0 0 30px;
     padding: 0;
-    text-align: center;
 }
 .product-tab li {
     display: inline-block;
@@ -1428,6 +1429,56 @@ div.cart-collaterals ul.products li.product:hover .add_to_cart_button{background
  
 /*Change the colour*/
 .gallery img.active {border:1px solid #333 !important;}
+
+/* Single product info*/ 
+.single-product-info .product-attributes table{
+	margin-top: 30px;
+    font-size: 12px;
+    font-weight: bold;    
+}	
+.single-product-info .product-attributes table th, 
+.single-product-info .product-attributes table td {
+	border-bottom: 1px solid #e5e5e5;
+    padding: 5px 5px 5px 0;
+}		 	
+	 
+.single-product-info table td{
+ 	font-weight: normal !important;
+    padding-left: 5px;
+}
+
+.single-product-info h1 {
+	font-size: 24px;
+	font-weight: 500;
+}
+
+.single-product-info .product-inventory table th, 
+.single-product-info .product-inventory table td {
+	font-weight: normal;
+    padding: 5px 5px 5px 0;
+}		 	
+
+.single-product-info .product-inventory, 
+.single-product-info .product-buttons {
+	margin-top: 30px;
+}	
+
+.single-product-info .product-inventory table {
+    font-size: 12px;
+}	
+
+.single-product-info .product-inventory ins {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 18px;
+    font-weight: 600;
+    text-decoration: none;	
+}
+.single-product-info .product-inventory del {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 18px;
+    font-weight: 600;	
+    color: #b2b2b2;	
+}
 
 /* Quick product view*/ 
 .quick-review-product-info table {

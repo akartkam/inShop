@@ -88,6 +88,18 @@ public class AdminAttributeCategoryController {
 			    	 setValue(UUID.fromString(text));
 			    }
 			    });
+			PropertyEditorSupport peForDefaultString = new PropertyEditorSupport() {
+			    @Override
+			    public void setAsText(String text) {
+			    	if (!"".equals(text)) {
+			    		setValue(text);
+			    	} else {
+			    		setValue(null);
+			    	}
+			    }};
+			binder.registerCustomEditor(String.class, "code", peForDefaultString);
+			binder.registerCustomEditor(String.class, "description", peForDefaultString);
+					
 			binder.registerCustomEditor(AttributeCategory.class, "attributeCategory", new PropertyEditorSupport() {
 			    @Override
 			    public void setAsText(String text) {

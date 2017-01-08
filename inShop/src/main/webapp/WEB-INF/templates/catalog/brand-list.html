@@ -19,7 +19,7 @@
 					  </div>
 					  <div class="media-body media-middle" style="width:auto !important;">
 <!-- 						 <h4 class="media-heading" th:utext="${brand.name}"></h4> -->
-						 <div class="dolessmore" th:utext="${brand.longDescription}"></div>
+						 <p class="dolessmore" th:utext="${brand.longDescription}"></p>
 					  </div>
 					</div>				
 				 </div>
@@ -30,8 +30,12 @@
     <th:block layout:fragment="script">
         <script>	
 			$(function(){
-				$(".dolessmore").dolessmore();
-			});   
+				$(".dolessmore").readmore({
+					collapsedHeight: 100,
+					moreLink: '<a href="javascript: void(0);">еще...</a>',
+					lessLink: '<a href="javascript: void(0);">свернуть</a>'
+				});
+			}); 
 		</script>
     </th:block>	
 </th:block>

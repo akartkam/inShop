@@ -19,6 +19,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -35,6 +36,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import com.akartkam.inShop.domain.AbstractDomainObjectOrdering;
 import com.akartkam.inShop.domain.AbstractWebDomainObject;
+import com.akartkam.inShop.domain.Instruction;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttributeValue;
 import com.akartkam.inShop.domain.product.attribute.AttributeValuesHolderType;
@@ -73,7 +75,7 @@ public class Category extends AbstractWebDomainObject {
 	private Set<AbstractAttribute> attributes = new HashSet<AbstractAttribute>(0);
 	private String url;
 	private Boolean showQuanPerPackOnProductHeader;
- 
+	private Instruction instruction;
 	
 	@AdminPresentation(tab=EditTab.MAIN)
 	@NotNull
@@ -104,8 +106,8 @@ public class Category extends AbstractWebDomainObject {
 	public void setUrl(String url) {
 		this.url = url;
 	}
-	
-	@OneToMany(mappedBy="parent", cascade = CascadeType.ALL, orphanRemoval=true)
+		
+	@OneToMany(mappedBy="parent", cascade = CascadeType.ALL)
 	@Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE,
 			  org.hibernate.annotations.CascadeType.DELETE})
 	@OrderBy("ordering")
@@ -210,6 +212,18 @@ public class Category extends AbstractWebDomainObject {
 			Boolean isUseQuanPerPackOnProductHeader) {
 		this.showQuanPerPackOnProductHeader = isUseQuanPerPackOnProductHeader;
 	}
+	
+	@ManyToOne(optional=true)
+	@JoinColumn
+	@ForeignKey(name="fk_category_instruction")
+	public Instruction getInstruction() {
+		return instruction;
+	}
+	public void setInstruction(Instruction instruction) {
+		this.instruction = instruction;
+	}	
+	
+	
 	@Transient
 	public List<Category> buildCategoryHierarchy(List<Category> currentHierarchy) {
         if (currentHierarchy == null) {

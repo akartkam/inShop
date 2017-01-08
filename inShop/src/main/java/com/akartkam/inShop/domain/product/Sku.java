@@ -63,7 +63,6 @@ import com.akartkam.inShop.presentation.admin.EditTab;
 @Table(name = "sku")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Sku extends AbstractDomainObjectOrdering {
-	private static final Log LOG = LogFactory.getLog(Sku.class);
 	/**
 	 * 
 	 */
