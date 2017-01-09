@@ -29,10 +29,10 @@ public class InstructionServiceImpl implements InstructionService {
 			resItem[0] = obj[0];
 			if (obj[1] != null) {
 				String[] s1 = ((String)obj[1]).split(",");
-				Map<String, UUID> pmap = new HashMap<String, UUID>();
+				Map<UUID, String> pmap = new HashMap<UUID, String>();
 				for (String ss : s1) {
 					String[] s2 = ss.split("_");
-					pmap.put(s2[0], UUID.fromString(s2[1]));
+					pmap.put(UUID.fromString(s2[1]), s2[0]);
 				}
 				resItem[1] = pmap; 
 			} else {
@@ -40,16 +40,16 @@ public class InstructionServiceImpl implements InstructionService {
 			}
 			if (obj[2] != null) {
 				String[] s1 = ((String)obj[2]).split(",");
-				Map<String, UUID> cmap = new HashMap<String, UUID>();
+				Map<UUID, String> cmap = new HashMap<UUID, String>();
 				for (String ss : s1) {
 					String[] s2 = ss.split("_");
-					cmap.put(s2[0], UUID.fromString(s2[1]));
+					cmap.put(UUID.fromString(s2[1]), s2[0]);
 				}
 				resItem[2] = cmap; 
 			} else {
 				resItem[2] = null;
 			}
-
+			res.add(resItem);
 		}
 		return res;
 	}

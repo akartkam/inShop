@@ -111,36 +111,53 @@
 					        <thead >
 						      <tr >
 						         <th class="col-md-1"> </th>
-					             <th class="col-md-9" th:text="#{admin.catalog.name}">Name</th>
-<!-- 					             <th class="col-md-2" th:text="#{admin.catalog.instruction.content}">Description</th> -->
-<!-- 								 <th class="col-md-3" th:text="#{admin.catalog.category}">Categories</th> -->
-<!-- 								 <th class="col-md-3" th:text="#{admin.catalog.product}">Products</th> -->
+					             <th class="col-md-3" th:text="#{admin.catalog.name}">Name</th>
+								 <th class="col-md-3" th:text="#{admin.catalog.product}">Products</th>
+								 <th class="col-md-3" th:text="#{admin.catalog.category}">Categories</th>
 					             <th class="col-md-1 text-center" th:text="#{admin.catalog.category.enabled}">Enabled?</th>
 					             <th class="col-md-1" th:text="#{admin.catalog.category.actions}">Actions</th>
 					  	      </tr>
 					 	    </thead>
 					 	    <tbody>      
-						       <tr th:each="ins : ${allInstructions}" th:class="${!ins.enabled ? 'text-muted' : ''}">
+						       <tr th:each="ins : ${allInstructions}" th:class="${!ins[0].enabled ? 'text-muted' : ''}">
 								  <td class="text-center">						
-									  <input class="checkCategory" type="checkbox" th:id="${'check-'+ins.id}" th:value="${ins.id}"/>
+									  <input class="checkCategory" type="checkbox" th:id="${'check-'+ins[0].id}" th:value="${ins[0].id}"/>
 								  </td>					         
-								  <td class="mightOverflow domain-col"><span class="for-search" th:text="${ins.name}">Instruction 1</span></td>
-					              <td class="text-center"><i th:class="${ins.enabled ? 'fa fa-check-circle' : ''}"></i></td>
+								  <td class="mightOverflow domain-col"><span class="for-search" th:text="${ins[0].name}">Instruction 1</span></td>
+								  <td><p class="dolessmore"> 
+								       	  <th:block th:each="pr, prStat : ${ins[1]}">	
+									       	 <span th:if="${prStat.index !=0}">,&nbsp;</span>
+									         <a th:href="@{${'/admin/catalog/product/edit?ID='+pr.key}}">
+									            <span th:utext="${pr.value}"></span>
+									         </a>
+								          </th:block>	
+							          </p> 							  
+								  </td> 
+								  <td><p class="dolessmore"> 
+								       	  <th:block th:each="ct, ctStat : ${ins[2]}">	
+									       	 <span th:if="${ctStat.index !=0}">,&nbsp;</span>
+									         <a th:href="@{${'/admin/catalog/category/edit?categoryID='+ct.key}}">
+									            <span th:utext="${ct.value}"></span>
+									         </a>
+								          </th:block>	
+							          </p> 							  
+								  </td> 
+					              <td class="text-center"><i th:class="${ins[0].enabled ? 'fa fa-check-circle' : ''}"></i></td>
 					              <td class="text-center">
   				            	  		 <div class="btn-group" role="group" > 	
 				                              <button type="button" class="open-editDialog btn btn-outline btn-default btn-xs" 
 				                                      data-toggle="modal" data-target="#editModal" data-operation="edit" 
-				                                      th:attr="data-path=@{${'/admin/catalog/instruction/edit?ID='+ins.id}}" data-backdrop="static" data-keyboard="false"> 
+				                                      th:attr="data-path=@{${'/admin/catalog/instruction/edit?ID='+ins[0].id}}" data-backdrop="static" data-keyboard="false"> 
 				                                <i class="fa fa-pencil"></i>
 				                              </button>
 				                              <button type="button" class="open-editDialog btn btn-outline btn-default btn-xs" 
 				                                      data-toggle="modal" data-target="#editModal" data-operation="add" 
-				                                      th:attr="data-path=@{${'/admin/catalog/instruction/add?ID='+ins.id}}"  data-backdrop="static" data-keyboard="false"> 
+				                                      th:attr="data-path=@{${'/admin/catalog/instruction/add?ID='+ins[0].id}}"  data-backdrop="static" data-keyboard="false"> 
 				                                <i class="fa fa-copy"></i>
 				                              </button>					                              
-				                              <button th:disabled="${!ins.enabled}" type="button" data-toggle="modal" data-target="#deleteModal" 
+				                              <button th:disabled="${!ins[0].enabled}" type="button" data-toggle="modal" data-target="#deleteModal" 
 				                                      class="open-deleteDialog btn btn-outline btn-default btn-xs"
-				                                      th:attr="data-id=${ins.id}, data-name=${ins.name}"> 
+				                                      th:attr="data-id=${ins[0].id}, data-name=${ins[0].name}"> 
 				                                <i class="fa fa-trash-o"></i>
 				                              </button>	
 		                            	 </div>  
@@ -223,13 +240,15 @@ Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu 
 	    <th:block th:include="/admin/catalog/categoryEdit :: scriptEditModal">
         </th:block> -->
         <script>
+            //<![CDATA[
 			$(function(){
 				$(".dolessmore").readmore({
 					collapsedHeight: 100,
 					moreLink: "<a href='javascript: void(0);'>еще...</a>",
 					lessLink: "<a href='javascript: void(0);'>свернуть</a>"
 				});
-			}); 
+			});
+			// ]]>
 		</script>
 	    <th:block layout:fragment="scriptEditModal">
 	    </th:block>
