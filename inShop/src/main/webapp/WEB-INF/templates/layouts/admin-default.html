@@ -96,7 +96,10 @@
                             </li>                            
                             <li>
                                 <a href="#" th:href="@{/admin/catalog/brand}"><i class="fa  fa-gears fa-fw">&nbsp;</i><span th:text= "#{admin.catalog.brand}">Brand</span></a>
-                            </li>                            
+                            </li>
+                            <li>
+                                <a href="#" th:href="@{/admin/catalog/instruction}"><i class="fa  fa-gears fa-info">&nbsp;</i><span th:text= "#{product.instructions}">Instructions</span></a>
+                            </li>                                                                                    
                         </ul>
                     </li>
                     <li class="dropdown">
@@ -121,7 +124,18 @@
 			             <input type="text" class="form-control" placeholder="Поиск..."/>
 			             <span class="input-group-btn">
 			                <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
-			             </span>
+			             </span>				 $('#inputSImg').on('change', function (e) {
+			      var $this = $(this),
+			              $type_file = $this.val(),
+			              file = this.files[0],
+			              reader = new FileReader();
+				          reader.onload = (function(e) {
+				      	        $("#imgLogo").attr("src", e.target.result);
+				                });
+				          reader.readAsDataURL(file);
+				          });                 
+			     });
+			             
 			         </div>
 			       </form> 
                 <ul class="nav navbar-top-links navbar-right">

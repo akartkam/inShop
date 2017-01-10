@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org" 
+                xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+                layout:decorator="layouts/admin-default">
+	<head>
+	    <th:block th:remove="all">
+			<title>inShop Admin instructionEdit</title>
+		    <meta charset="utf-8"/>
+		    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+		    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+		    <meta name="description" content=""/>
+		    <meta name="author" content=""/>
+		
+		    <!-- Bootstrap Core CSS -->
+		    <link href="../../../../resources/css/lib/bootstrap.min.css" rel="stylesheet" th:href="@{/resources/css/lib/bootstrap.min.css}"/>
+		    <!-- Custom Fonts -->
+	    	<link href="../../../../resources/css/lib/font-awesome.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/lib/font-awesome.min.css}"/>
+			<link href="../../../../resources/css/lib/bootstrap-theme.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/lib/bootstrap-theme.min.css}"></link>    	
+	    	<link href="../../../../resources/css/admin/sb-admin-2.css" rel="stylesheet" th:href="@{/resources/css/admin/sb-admin-2.css}"/>
+			<!-- admin-style.css -->
+    		<link href="../../../../resources/css/admin/admin-style.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/admin/admin-style.css}"/>	    	
+	    </th:block>
+		<!-- summernote -->
+		<link href="../../../../resources/css/lib/summernote.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/lib/summernote.css}"></link>
+	</head>
+<body>
+   <th:block layout:fragment="breadcrumb">
+     <li><a th:href="@{/admin/catalog/instruction}" th:text="#{admin.catalog.instructions}"></a></li>
+   	 <li class="active" th:text="#{admin.catalog.instructions}"></li>
+   </th:block>
+    <div class="container-fluid" >
+	   <div class="row">
+		 <div class="col-lg-12">
+	       <div class="panel panel-default" layout:fragment="content"> 
+	         <div class="panel-heading">
+	            <span th:text="${!instr.new}? #{admin.catalog.instruction.edit.title.edit}: #{admin.catalog.instruction.edit.title.add}">Edit instructions</span>
+	         </div> 
+			 <div class="panel-body" id="main-panel">  
+ 	           <div class="row">
+ 	             <div class="col-md-12">	         
+	         		<form method="post" class="form-horizontal" role="form" action="#" th:action="@{/admin/catalog/instruction/edit}" th:object="${instr}" th:fragment="editInstrForm">
+			            <div  th:if="${#fields.hasErrors('*')}" class="alert alert-danger alert-dismissable">
+				          	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+		                    <span th:text="#{admin.edit.existsErrors}">There is some errors in the form</span>
+							<ul>
+							  <li th:each="err : ${#fields.errors('*')}" th:text="${err}">Input is incorrect</li>
+							</ul>                                 
+		                </div>
+		                <ul class="nav nav-tabs">
+		                  <li class="active"><a href="#main" data-toggle="tab" th:text="#{admin.edit.tab.description}">Описание</a></li>
+		                </ul>
+		                <!-- Tab panes -->
+		                <div class="tab-content">
+		                    <div class="tab-pane fade in active" id="main">
+							   <div class="field-box" th:class="${#fields.hasErrors('name')}? has-error: field-box">
+								  <input type="hidden" th:field="*{id}"/>	                              
+					    		  <label>
+						    	  	 <span th:text="#{admin.catalog.edit.name}">Instr1</span>
+						   		  </label>
+						   		  <input type="text" class="form-control" th:field="*{name}"/>
+						   		  <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Incorrect name</p>
+					   		   </div>
+	  						   <div class="field-box">
+		 			    		   <label>
+						    	  	<span th:text="#{admin.catalog.instruction.content}">Content</span>
+						   		   </label>
+							       <textarea id="summernote" class="textarea form-control" placeholder="Введите текст..." th:field="*{content}"></textarea>
+	  						   </div>
+		             		</div>
+		                </div>
+		  	 	        <div>
+					      <button type="submit" class="btn btn-primary" th:text="#{admin.catalog.category.edit.button.save}">Save changes</button>
+				        </div>  
+           	     </form>	
+		      </div>
+           </div> 
+         </div>
+       </div> 
+    </div> 
+  </div>
+ </div>	    
+   <th:block th:remove="all">
+	   <!-- jQuery -->
+	   <script src="../../../../resources/js/lib/jquery.min.js" th:src="@{/resources/js/lib/jquery.min.js}"></script>
+	   <!-- Bootstrap Core JavaScript -->
+	   <script src="../../../../resources/js/lib/bootstrap.min.js" th:src="@{/resources/js/lib/bootstrap.min.js}"></script>
+   </th:block>
+   		<th:block layout:fragment="script"> 
+		   <script src="../../../../resources/js/lib/summernote.js" th:src="@{/resources/js/lib/summernote.js}"></script>
+		   <script src="../../../../resources/js/lib/summernote-ru-RU.js" th:src="@{/resources/js/lib/summernote-ru-RU.js}"></script> 
+	   	   <script type="text/javascript">
+		     $(document).ready(function() {
+                 $('#summernote').summernote({
+					    lang: "ru-RU"
+				    });
+	         });
+	 		 
+		   </script>
+		 </th:block>  
+  </body>
+</html>
+

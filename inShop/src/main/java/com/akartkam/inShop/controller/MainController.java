@@ -40,11 +40,11 @@ public class MainController extends WebEntityAbstractController {
 	public ModelAndView handleRequestInternal(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		initDefault();
-		//model.setViewName("redirect:/admin");
+		model.setViewName("redirect:/admin");
 		//model.setViewName("/test");
-		//return model;
+		return model;
 		//List<Product> newProducts = productService.getProductsByProductStatus(ProductStatus.NEW);
-		List<Product> actionProducts = productService.getProductsByProductStatus(ProductStatus.ACTION);
+		/*List<Product> actionProducts = productService.getProductsByProductStatus(ProductStatus.ACTION);
 		List<Product> hitProducts = productService.getProductsByProductStatus(ProductStatus.HIT);
 		List<Brand> brands = brandService.getAllBrand(false);
 		model.setViewName("/layouts/home");
@@ -53,7 +53,7 @@ public class MainController extends WebEntityAbstractController {
 		model.addObject("brands", brands);
 		model.addObject("mainSliderBanner", mainSliderBanner);
 		CartUtil.getCartFromSession(request);
-		return model;
+		return model;*/
 	}
 	
 	
