@@ -6,7 +6,7 @@
 	<!-- The definition of the Root Spring Container shared by all Servlets and Filters -->
 	
 	<session-config>
-	  <session-timeout>60</session-timeout>
+	  <session-timeout>-1</session-timeout>
 	</session-config>
 
 	<!-- Mimetype needed for tomcat to serve favicon images -->
@@ -41,8 +41,8 @@
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 	
-	<!-- Фильтр для перекодировки в utf8 -->
-	<filter>
+	 <!-- Фильтр для перекодировки в utf8 -->
+	 <filter>
 		<filter-name>charsetFilter</filter-name>
 		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
 		<init-param>
@@ -53,35 +53,35 @@
 			<param-name>forceEncoding</param-name>
 			<param-value>true</param-value>
 		</init-param>
-	</filter> 	
-    <filter-mapping>
+	 </filter> 	
+     <filter-mapping>
         <filter-name>charsetFilter</filter-name>
         <url-pattern>/*</url-pattern>
-    </filter-mapping> 
-    <!-- Multipart filter (<Context allowCasualMultipartParsing="true"> required in context.xml) --> 
-    <filter>
+     </filter-mapping> 
+     <!-- Multipart filter (<Context allowCasualMultipartParsing="true"> required in context.xml) --> 
+     <filter>
         <filter-name>MultipartFilter</filter-name>
         <filter-class>
             org.springframework.web.multipart.support.MultipartFilter
         </filter-class>
-    </filter>    
-	<filter-mapping>
+     </filter>    
+	 <filter-mapping>
 	    <filter-name>MultipartFilter</filter-name>
 	    <url-pattern>/*</url-pattern>
-	</filter-mapping>  		
-    <!--<start id="filter_security" /> -->
-    <filter>
+	 </filter-mapping>  		
+     <!--<start id="filter_security" /> -->
+     <filter>
         <filter-name>springSecurityFilterChain</filter-name>
         <filter-class>
             org.springframework.web.filter.DelegatingFilterProxy
         </filter-class>
-    </filter>
-    <filter-mapping>
+     </filter>
+     <filter-mapping>
         <filter-name>springSecurityFilterChain</filter-name>
         <url-pattern>/*</url-pattern>
-    </filter-mapping>
+     </filter-mapping>
 
-	<error-page>
+	 <!--<error-page>
 	       <location>/error-default</location>
-	 </error-page>
+	 </error-page> -->
 	</web-app>	

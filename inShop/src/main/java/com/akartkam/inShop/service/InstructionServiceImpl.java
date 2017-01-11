@@ -86,4 +86,17 @@ public class InstructionServiceImpl implements InstructionService {
 		return null; 
 	}
 
+	@Override
+	@Transactional(readOnly = false)
+	public void mergeWithExistingAndUpdateOrCreate(Instruction instr) {
+		if (instr == null) return;
+		final Instruction instrEx = instructionDAO.get(instr.getId());
+		if (instrEx != null) {
+			instrEx.setName(instr.getName());
+			instrEx.setContent(instr.getContent());
+		} else {
+			CreateInstruction(instr);
+		}
+	}
+
 }

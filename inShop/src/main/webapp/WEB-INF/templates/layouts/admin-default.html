@@ -70,7 +70,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="../" th:href="@{/admin}" style="font-size: 80%"><img th:src="@{/resources/img/ok_logo.png}" src="../../../resources/img/ok_logo.png" style="max-width:110px; margin-top: -15px;"/></a>
+            <a class="navbar-brand" href="../" th:href="@{/admin}" style="font-size: 80%"><imginst1 th:src="@{/resources/img/ok_logo.png}" src="../../../resources/img/ok_logo.png" style="max-width:110px; margin-top: -15px;"/></a>
         </div>
         <!-- /.navbar-header -->
         <!-- /.navbar-top-links -->
@@ -124,18 +124,7 @@
 			             <input type="text" class="form-control" placeholder="Поиск..."/>
 			             <span class="input-group-btn">
 			                <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
-			             </span>				 $('#inputSImg').on('change', function (e) {
-			      var $this = $(this),
-			              $type_file = $this.val(),
-			              file = this.files[0],
-			              reader = new FileReader();
-				          reader.onload = (function(e) {
-				      	        $("#imgLogo").attr("src", e.target.result);
-				                });
-				          reader.readAsDataURL(file);
-				          });                 
-			     });
-			             
+			             </span>
 			         </div>
 			       </form> 
                 <ul class="nav navbar-top-links navbar-right">
@@ -146,6 +135,10 @@
 					  <div th:if="${errormessage != null}" class="alert alert-danger alert-dismissable dropdown-menu dropdown-alerts">
 	                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
 						 <span th:text="${errormessage}">Ошибки при выполнении операции</span>
+					  </div>
+					  <div th:if="${successmessage != null}" class="alert alert-success alert-dismissable dropdown-menu dropdown-alerts">
+	                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+						 <span th:text="${successmessage}">Успешно</span>
 					  </div>
 				   </li>
                    <li class="dropdown">
@@ -208,7 +201,7 @@
     <script src="../../../resources/js/lib/defaults-ru_RU.js" th:src="@{/resources/js/lib/defaults-ru_RU.js}"></script>
 	<script src="../../../resources/js/inShop-common.js" th:src="@{/resources/js/inShop-common.js}"></script>
     <script type="text/javascript">
-       //<![CDATA[;
+       //<![CDATA[;inst1
                var events = (function(){
             	   var eventNode = $({});
             	   return {
@@ -223,9 +216,7 @@
             	   }
             	 })();
                 $(document).ready(function() {
-        	  		if($.urlParam("error")) {
-        	  			 $("#messages-panel").dropdown("toggle");
-        	  		}
+      	  			$("#messages-panel").dropdown("toggle");
      		        $('.modal').on('hidden.bs.modal', function( event ) {
     	                $(this).removeClass( 'fv-modal-stack' );
     	                $('body').data( 'fv_open_modals', $('body').data( 'fv_open_modals' ) - 1 );

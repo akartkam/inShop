@@ -26,7 +26,7 @@
 <body>
    <th:block layout:fragment="breadcrumb">
      <li><a th:href="@{/admin/catalog/instruction}" th:text="#{admin.catalog.instructions}"></a></li>
-   	 <li class="active" th:text="#{admin.catalog.instructions}"></li>
+   	 <li class="active" th:text="${!instr.new}? #{admin.catalog.instruction.edit.title.edit}: #{admin.catalog.instruction.edit.title.add}"></li>
    </th:block>
     <div class="container-fluid" >
 	   <div class="row">
@@ -39,6 +39,8 @@
  	           <div class="row">
  	             <div class="col-md-12">	         
 	         		<form method="post" class="form-horizontal" role="form" action="#" th:action="@{/admin/catalog/instruction/edit}" th:object="${instr}" th:fragment="editInstrForm">
+	         			<input type="hidden" th:field="*{id}"/>
+	         			<input type="hidden" th:field="*{createdDate}"/>
 			            <div  th:if="${#fields.hasErrors('*')}" class="alert alert-danger alert-dismissable">
 				          	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
 		                    <span th:text="#{admin.edit.existsErrors}">There is some errors in the form</span>
@@ -53,7 +55,6 @@
 		                <div class="tab-content">
 		                    <div class="tab-pane fade in active" id="main">
 							   <div class="field-box" th:class="${#fields.hasErrors('name')}? has-error: field-box">
-								  <input type="hidden" th:field="*{id}"/>	                              
 					    		  <label>
 						    	  	 <span th:text="#{admin.catalog.edit.name}">Instr1</span>
 						   		  </label>
@@ -69,6 +70,9 @@
 		             		</div>
 		                </div>
 		  	 	        <div>
+		  	 	          <a type="submit" class="btn btn-primary" th:href="@{/admin/catalog/instruction}">
+		  	 	            <i class="fa fa-arrow-left"></i>&nbsp;<span th:text="#{button.goBack}"></span>
+		  	 	          </a>
 					      <button type="submit" class="btn btn-primary" th:text="#{admin.catalog.category.edit.button.save}">Save changes</button>
 				        </div>  
            	     </form>	
@@ -91,7 +95,8 @@
 	   	   <script type="text/javascript">
 		     $(document).ready(function() {
                  $('#summernote').summernote({
-					    lang: "ru-RU"
+					    lang: "ru-RU",
+					    height: "45vh"
 				    });
 	         });
 	 		 

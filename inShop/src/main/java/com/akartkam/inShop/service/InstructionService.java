@@ -12,4 +12,5 @@ public interface InstructionService {
 	void deleteInstruction(Instruction instruction);
 	void deleteInstructionById(UUID id);
 	Instruction cloneInstructionById(UUID id) throws CloneNotSupportedException;
+	void mergeWithExistingAndUpdateOrCreate(Instruction instr);
 }

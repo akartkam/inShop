@@ -14,6 +14,8 @@ import org.hibernate.annotations.NamedNativeQuery;
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import com.akartkam.inShop.validator.HtmlSafe;
+
 @NamedNativeQueries({
 @NamedNativeQuery(
 		name = "findInstructions",
@@ -43,6 +45,7 @@ public class Instruction extends AbstractDomainObject  {
 		this.name = name;
 	}
 	
+	@HtmlSafe
     @Type(type = "org.hibernate.type.TextType")
     @Column(name = "long_description", length = Integer.MAX_VALUE - 1)
 	public String getContent() {

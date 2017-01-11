@@ -134,21 +134,19 @@
 					              <td class="text-center"><i th:class="${ins[0].enabled ? 'fa fa-check-circle' : ''}"></i></td>
 					              <td class="text-center">
   				            	  		 <div class="btn-group" role="group" > 	
-				                              <button type="button" class="open-editDialog btn btn-outline btn-default btn-xs" 
-				                                      data-toggle="modal" data-target="#editModal" data-operation="edit" 
-				                                      th:attr="data-path=@{${'/admin/catalog/instruction/edit?ID='+ins[0].id}}" data-backdrop="static" data-keyboard="false"> 
+				                              <a class="btn btn-outline btn-default btn-xs" 
+				                              	 th:href="@{${'/admin/catalog/instruction/edit?ID='+ins[0].id}}"> 
 				                                <i class="fa fa-pencil"></i>
-				                              </button>
-				                              <button type="button" class="open-editDialog btn btn-outline btn-default btn-xs" 
-				                                      data-toggle="modal" data-target="#editModal" data-operation="add" 
-				                                      th:attr="data-path=@{${'/admin/catalog/instruction/add?ID='+ins[0].id}}"  data-backdrop="static" data-keyboard="false"> 
+				                              </a>
+				                              <a class="open-editDialog btn btn-outline btn-default btn-xs" 
+				                                 th:href="@{${'/admin/catalog/instruction/add?ID='+ins[0].id}}"> 
 				                                <i class="fa fa-copy"></i>
-				                              </button>					                              
-				                              <button th:disabled="${!ins[0].enabled}" type="button" data-toggle="modal" data-target="#deleteModal" 
-				                                      class="open-deleteDialog btn btn-outline btn-default btn-xs"
-				                                      th:attr="data-id=${ins[0].id}, data-name=${ins[0].name}"> 
+				                              </a>					                              
+				                              <a th:disabled="${!ins[0].enabled}" data-toggle="modal" data-target="#deleteModal" 
+				                                 class="open-deleteDialog btn btn-outline btn-default btn-xs"
+				                                 th:attr="data-id=${ins[0].id}, data-name=${ins[0].name}"> 
 				                                <i class="fa fa-trash-o"></i>
-				                              </button>	
+				                              </a>	
 		                            	 </div>  
 					               </td>
 						        </tr>
@@ -160,13 +158,10 @@
 			         <div class="panel-footer">
 				      <div class="btn-toolbar" role="toolbar" aria-label="...">
 					      <div class="btn-group" role="group" aria-label="...">
-                            <button type="button" class="open-editDialog btn btn-outline btn-default btn-sm" 
-                                    data-toggle="modal" data-target="#editModal" data-operation="add" data-backdrop="static" data-keyboard="false"
-                                    th:attr="data-path=@{'/admin/catalog/instruction/add'}"> 
-                              <i class="fa fa-plus-circle"></i>
-                              <span> </span>
-							  <span th:text="#{admin.catalog.category.add.buttoncaption}">Добавить</span>
-                            </button>							  
+                            <a type="button" class="btn btn-outline btn-default btn-sm" 
+                                 th:href="@{'/admin/catalog/instruction/add'}"> 
+                              <i class="fa fa-plus-circle"></i>&nbsp;<span th:text="#{admin.catalog.category.add.buttoncaption}">Добавить</span>
+                            </a>							  
 					      </div> 
 					  </div>	  
 			        </div>
