@@ -47,7 +47,7 @@ public class Instruction extends AbstractDomainObject  {
 	
 	@HtmlSafe
     @Type(type = "org.hibernate.type.TextType")
-    @Column(name = "long_description", length = Integer.MAX_VALUE - 1)
+    @Column(name = "content", length = Integer.MAX_VALUE - 1)
 	public String getContent() {
 		return content;
 	}

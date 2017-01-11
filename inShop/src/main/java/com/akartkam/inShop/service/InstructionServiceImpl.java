@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.akartkam.inShop.dao.InstructionDAO;
 import com.akartkam.inShop.domain.Instruction;
+import com.akartkam.inShop.domain.product.Brand;
 
 @Service("InstructionService")
 @Transactional(readOnly = true)
@@ -60,6 +61,11 @@ public class InstructionServiceImpl implements InstructionService {
 	}
 
 	@Override
+	public List<Object[]> getInstructionExById(UUID id) {
+		return instructionDAO.findInstruction(id);
+	}	
+	
+	@Override
 	@Transactional(readOnly = false)
 	public Instruction CreateInstruction(Instruction instruction) {
 		return instructionDAO.create(instruction);
@@ -98,5 +104,20 @@ public class InstructionServiceImpl implements InstructionService {
 			CreateInstruction(instr);
 		}
 	}
+
+	@Override
+	public Instruction loadById(UUID id, Boolean lock) {
+		return instructionDAO.findById(id, lock);
+	}
+	
+	@Override
+	@Transactional(readOnly = false)
+	public void softDeleteById(UUID id) {
+		Instruction instr = getInstructionById(id);
+		if (instr != null) {
+			instr.setEnabled(false);
+		}
+		
+	}	
 
 }

@@ -61,7 +61,7 @@
 	            </div>
 	            <div class="modal-footer" id = "delete-modal-footer">
 	                <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
-	                <button type="submit" id="categoryID" name="categoryID" value="" class="btn btn-primary">Удалить</button>
+	                <button type="submit" id="ID" name="ID" value="" class="btn btn-primary">Удалить</button>
 		        </div> 
             </form>  	      
 	     </div> 
@@ -218,6 +218,14 @@
 					moreLink: "<a href='javascript: void(0);'>еще...</a>",
 					lessLink: "<a href='javascript: void(0);'>свернуть</a>"
 				});
+				
+			    //Открытие окна удаления
+			    $("body").on("click", ".open-deleteDialog", function () {
+				    var ctgId = $(this).data("id");
+				    var ctgName = $(this).data("name");
+				    $("#delete-modal-footer #ID").val(ctgId);
+				    $("#delete-modal-body #ctgName").html(ctgName);
+				});				
 			});
 			// ]]>
 		</script>

@@ -3,6 +3,7 @@ package com.akartkam.inShop.controller.admin;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 import java.beans.PropertyEditorSupport;
+import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
@@ -11,21 +12,21 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.akartkam.inShop.domain.Instruction;
-import com.akartkam.inShop.domain.product.Brand;
 import com.akartkam.inShop.service.InstructionService;
 
 @Controller
@@ -87,9 +88,28 @@ public class InstructionController {
 		  return "admin/catalog/instructionEdit";
 	  }
 	  
+	  @RequestMapping(value="/delete", method = RequestMethod.POST)
+	  public String brandDelete(@RequestParam(value = "ID", required = false) String ID, 
+			                    @RequestParam(value = "phisycalDelete", required = false) Boolean phisycalDelete,
+				                final RedirectAttributes ra) {
+		  Collection<? extends GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+		  if (phisycalDelete != null && phisycalDelete)  {
+			  List<Object[]> instrs = instructionService.getInstructionExById(UUID.fromString(ID));
+			  if(!instrs.isEmpty() && instrs.get(0)[1] == null && instrs.get(0)[2] == null && authorities.contains(new SimpleGrantedAuthority("ADMIN"))) {
+				  instructionService.deleteInstruction((Instruction)instrs.get(0)[0]);   
+			  } else {
+				  ra.addFlashAttribute("errormessage", this.messageSource.getMessage("admin.error.cannotdelete.message", new String[] {"инструкцию"} , null));
+				  ra.addAttribute("error", true);
+			  }
+
+		  } else {
+			  instructionService.softDeleteById(UUID.fromString(ID));
+		  }
+          return "redirect:/admin/catalog/instruction";		  
+	  }
 	  
-	   @RequestMapping(value="/edit", method = RequestMethod.POST )
-	   public String saveBrand(@ModelAttribute @Valid Instruction instr,
+	  @RequestMapping(value="/edit", method = RequestMethod.POST )
+	  public String saveBrand(@ModelAttribute @Valid Instruction instr,
 			                   final BindingResult bindingResult,
 			                   final RedirectAttributes ra
 			                         ) {
@@ -101,6 +121,6 @@ public class InstructionController {
 	        instructionService.mergeWithExistingAndUpdateOrCreate(instr);
      		ra.addFlashAttribute("successmessage", messageSource.getMessage("admin.success.save.message", null , Locale.getDefault()));
 		    return "redirect:/admin/catalog/instruction/edit?ID="+instr.getId().toString();
-	   }
+	  }
 		
 }
