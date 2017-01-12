@@ -29,12 +29,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.akartkam.inShop.domain.Instruction;
 import com.akartkam.inShop.domain.product.Category;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
 import com.akartkam.inShop.domain.product.attribute.AttributeCategory;
 import com.akartkam.inShop.exception.CategoryNotFoundException;
 import com.akartkam.inShop.exception.ProductNotFoundException;
 import com.akartkam.inShop.formbean.CategoryForm;
+import com.akartkam.inShop.service.InstructionService;
 import com.akartkam.inShop.service.product.AttributeCategoryService;
 import com.akartkam.inShop.service.product.CategoryService;
 import com.akartkam.inShop.validator.CategoryValidator;
@@ -55,6 +57,10 @@ public class AdminCategoryController {
 	  
 	  @Autowired
 	  private CategoryValidator categoryValidator;
+	  
+	  @Autowired
+	  private InstructionService instructionService;
+	  
 	  
 	  @ModelAttribute("allCategories")
 	  public List<Category> getAllCategories() {
@@ -88,11 +94,16 @@ public class AdminCategoryController {
     	  if (category != null) al = new ArrayList<AbstractAttribute>(category.getAttributes()); 
 	      return al;
 	  }
+	  
+	  @ModelAttribute("allInstructions")
+	  public List<Instruction> getAllInstructions() {
+		return instructionService.getAllInstructions();
+	  }	  
 	 
 	  @InitBinder
 	  public void initBinder(WebDataBinder binder) {
 			binder.setAllowedFields(new String[] { "id", "name", "parent", "urlForForm", "showQuanPerPackOnProductHeader", 
-					"description", "longDescription", "ordering", "enabled", "*attributesForForm*"});
+					"description", "longDescription", "ordering", "enabled", "*attributesForForm*", "instruction"});
 			binder.registerCustomEditor(Category.class, "parent", new PropertyEditorSupport() {
 			    @Override
 			    public void setAsText(String text) {
@@ -101,22 +112,35 @@ public class AdminCategoryController {
 			            setValue(ch);
 			    	}    
 			    }
-			    });
+			});
 			binder.registerCustomEditor(UUID.class, "id", new PropertyEditorSupport() {
 			    @Override
 			    public void setAsText(String text) {
 			    	 setValue(UUID.fromString(text));
 			    }
-			    });
+			});
 			binder.registerCustomEditor(AbstractAttribute.class, "attributesForForm", new PropertyEditorSupport() {
 			    @Override
 			    public void setAsText(String text) {
 			    	if (!"".equals(text)) {
 			    		AbstractAttribute at = attributeCategoryService.loadAttributeById(UUID.fromString(text), false);
 			            setValue(at);
+			    	} else {
+			    		setValue(null);
 			    	}
 			    }
-			    });			
+			});	
+			binder.registerCustomEditor(Instruction.class, "instruction",new PropertyEditorSupport(){
+				@Override
+			    public void setAsText(String text) {
+			    	if (!"".equals(text)) {
+			    		Instruction instr = instructionService.getInstructionById(UUID.fromString(text));
+			            setValue(instr);
+			    	} else {
+			    		setValue(null);
+			    	}
+			    }				
+			});
 	  }
 	
 	  

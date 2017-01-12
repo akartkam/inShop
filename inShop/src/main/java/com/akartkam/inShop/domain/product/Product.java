@@ -295,6 +295,17 @@ public class Product extends AbstractWebDomainObject {
 		return getDefaultSku().getDescription();
 	}
 		
+	@Transient
+	public String getInstructionContent() {
+		Instruction instr = getInstruction();
+		if (instr != null) return instr.getContent();
+		List<Category> cts = getCategory().buildCategoryHierarchy(null, false);
+		for (Category cat : cts) {
+			instr = cat.getInstruction();
+			if (instr != null) return instr.getContent();
+		}
+		return null;
+	}
 	
 	@Override
 	@Transient

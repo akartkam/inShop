@@ -137,6 +137,13 @@ jQuery(document).ready(function($){
         return false;				
 	});
 	
+	$("body").on("click", ".view-details-link", function(e)
+			{
+		      window.location.href=$(this).attr("href");
+		
+			}
+	);
+	
 	$("body").on("click", ".imzoom-gallery", function() {
         var that = this;
         if ($(this).hasClass("active")) return;
@@ -155,10 +162,14 @@ jQuery(document).ready(function($){
 	}); 
 	
 	//to prevent move on carusel
-	$("body").on("mousemove", "a.add-to-cart-link, a.view-details-link, a.quick-review-product-link", function(e) {
+	$("body").on("mousemove", ".product-carousel a.add-to-cart-link, " +
+			                  ".product-carousel a.view-details-link, " +
+			                  ".product-carousel a.quick-review-product-link", 
+       function(e) {
 		e.preventDefault();
 		return false;
-	});
+	   }
+	);
 	
 	//Show/Hide buttons on small product image
 	$("body").on("click", ".product-f-image", function(e) {

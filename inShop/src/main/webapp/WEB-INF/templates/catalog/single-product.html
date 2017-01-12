@@ -9,7 +9,7 @@
     <div layout:fragment="content">
  		 <ol class="breadcrumb">
   			<li><a th:href="@{/}"><span th:utext="#{mainMenu.main}">Главная</span></a></li>
-  			<li th:each="rcat, rcatStat: ${product.category.buildCategoryHierarchy(null)}">
+  			<li th:each="rcat, rcatStat: ${product.category.buildCategoryHierarchy(null, true)}">
   				<a aid:phref="${rcat}"><span th:utext="${rcat.name}"></span></a>
   			</li>
   			<li class="active">
@@ -109,12 +109,15 @@
                     <div role="tabpanel" class="product-description-tab">
                         <ul class="product-tab" role="tablist">
                             <li role="presentation" class="active"><a href="#prod-descr" aria-controls="prod-descr" role="tab" data-toggle="tab" th:utext="#{product.description}"></a></li>
-                            <li role="presentation"><a href="#feedback" aria-controls="feedback" role="tab" data-toggle="tab" th:utext="#{product.feedBack}"></a></li>
+                            <li th:if="${!#strings.isEmpty(product.instructionContent)}" role="presentation"><a href="#prod-instr" aria-controls="prod-instr" role="tab" data-toggle="tab" th:utext="#{product.instruction}"></a></li>
+                            <li th:if="${false}" role="presentation"><a href="#feedback" aria-controls="feedback" role="tab" data-toggle="tab" th:utext="#{product.feedBack}"></a></li>
                         </ul>
                         <div class="tab-content">
                             <div role="tabpanel" class="tab-pane fade in active" id="prod-descr" th:utext="${product.defaultSku.longDescription}">
                             </div>
-                            <div role="tabpanel" class="tab-pane fade" id="feedback">
+                            <div role="tabpanel" class="tab-pane fade" id="prod-instr" th:utext="${product.instructionContent}">
+                            </div>
+                            <div role="tabpanel" class="tab-pane fade" id="feedback" >
                                 <h2>Reviews</h2>
                                 <div class="submit-review">
                                     <p><label for="name">Name</label> <input name="name" type="text"/></p>

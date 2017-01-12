@@ -213,7 +213,7 @@ public class Category extends AbstractWebDomainObject {
 		this.showQuanPerPackOnProductHeader = isUseQuanPerPackOnProductHeader;
 	}
 	
-	@ManyToOne(optional=true)
+	@ManyToOne
 	@JoinColumn
 	@ForeignKey(name="fk_category_instruction")
 	public Instruction getInstruction() {
@@ -225,16 +225,16 @@ public class Category extends AbstractWebDomainObject {
 	
 	
 	@Transient
-	public List<Category> buildCategoryHierarchy(List<Category> currentHierarchy) {
+	public List<Category> buildCategoryHierarchy(List<Category> currentHierarchy, Boolean reverse) {
         if (currentHierarchy == null) {
             currentHierarchy = new ArrayList<Category>();
             currentHierarchy.add(this);
         }
         if (getParent() != null && ! currentHierarchy.contains(getParent())) {
             currentHierarchy.add(getParent());
-            getParent().buildCategoryHierarchy(currentHierarchy);
+            getParent().buildCategoryHierarchy(currentHierarchy, reverse);
         }
-        if(getParent()== null) Collections.reverse(currentHierarchy);
+        if(reverse && getParent()== null) Collections.reverse(currentHierarchy);
         return currentHierarchy;		
 	}
 	

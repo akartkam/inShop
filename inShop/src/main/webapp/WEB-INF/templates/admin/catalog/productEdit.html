@@ -178,19 +178,31 @@
 							   </select>
 							   <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('category')}" th:errors="*{category}">Empty category</p>
 						     </div>
+	                         <div class="field-box">
+		                         <label>
+							  	  	<span th:text="#{admin.catalog.instruction}">Instruction</span>
+							     </label>
+								 <select class="form-control" th:field="*{instruction}">
+								    <option value="">&nbsp;</option>
+									<option th:each="instr : ${allInstructions}" 
+									        th:value="${instr.id}"
+										    th:text="${instr.name}"
+										    >instr 1</option>
+								 </select>
+  						     </div> 						     
 						     <div class="row">
 								<div class="col-md-3">
 								    <div class="field-box">	 
 				                        <label>
 									  	  	<span th:text="#{admin.catalog.brand}">Brand</span>
 									    </label>
-										 <select class="form-control" th:field="*{brand}">
+										<select class="form-control" th:field="*{brand}">
 											<option th:each="sbrand : ${allBrand}" 
 											        th:value="${sbrand.id}"
 												    th:text="${sbrand.name}"
 												    th:class="${!sbrand.enabled} ? 'text-muted'"
 												    >Brand 1</option>
-										 </select>
+										</select>
 									</div>
 							  </div>
 							 <div class="col-md-4">	 

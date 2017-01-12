@@ -107,7 +107,7 @@ public class CategoryServiceTest extends AbstractTest {
 		assertTrue(lc.size() > 0);
 		Category found = lc.get(0);
 		List<Category> hCategory = null;
-		hCategory  = found.buildCategoryHierarchy(hCategory);
+		hCategory  = found.buildCategoryHierarchy(hCategory, true);
 		assertEquals(2, hCategory.size());
 		assertTrue(hCategory.contains(found));
 		Category c3 = hCategory.get(hCategory.indexOf(found));

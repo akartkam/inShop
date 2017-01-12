@@ -119,6 +119,7 @@ public class CategoryServiceImpl implements CategoryService {
 	        existingCategory.setLongDescription(categoryFromPost.getLongDescription());
 	        existingCategory.setOrdering(categoryFromPost.getOrdering());
 	        existingCategory.setEnabled(categoryFromPost.isEnabled());
+	        existingCategory.setInstruction(categoryFromPost.getInstruction());
 		} else {
 			//remove attributes of parent categories from this category (because parent attrs nested)
 			Category parentCategory = categoryFromPost.getParent();

@@ -22,7 +22,7 @@ public class InstructionServiceImpl implements InstructionService {
 	private InstructionDAO instructionDAO;
 	
 	@Override
-	public List<Object[]> getAllInstructions() {
+	public List<Object[]> getAllInstructionsEx() {
 		List<Object[]> resDao = instructionDAO.findInstruction(null);
 		List<Object[]> res = new ArrayList<Object[]>();
 		for(Object[] obj : resDao) {
@@ -56,9 +56,15 @@ public class InstructionServiceImpl implements InstructionService {
 	}
 
 	@Override
+	public List<Instruction> getAllInstructions() {
+		return instructionDAO.list();
+	}
+	
+	@Override
 	public Instruction getInstructionById(UUID id) {
 		return instructionDAO.get(id);
 	}
+	
 
 	@Override
 	public List<Object[]> getInstructionExById(UUID id) {

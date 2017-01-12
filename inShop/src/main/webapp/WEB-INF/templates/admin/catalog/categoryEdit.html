@@ -102,6 +102,18 @@
 									    >option 1</option>
 							 </select>
 						   </div>	 
+	                      <div class="field-box">
+	                         <label>
+						  	  	<span th:text="#{admin.catalog.instruction}">Instruction</span>
+						     </label>
+							 <select class="form-control" th:field="*{instruction}">
+							    <option value="">&nbsp;</option>
+								<option th:each="instr : ${allInstructions}" 
+								        th:value="${instr.id}"
+									    th:text="${instr.name}"
+									    >instr 1</option>
+							 </select>
+						   </div>	 
    			   		       <div class="field-box">
 	 			    		  <label>
 					    	  	<span th:text="#{admin.catalog.category.edit.ordering}">Orderig</span>

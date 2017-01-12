@@ -44,6 +44,7 @@ public class ProductForm extends Product {
 			this.setProductOptions(product.getProductOptions());
 			this.setUrl(product.getUrl());
 			this.setCreatedDate(product.getCreatedDate());
+			this.setInstruction(product.getInstruction());
 			productStatus = new ArrayList<ProductStatus>(product.getDefaultSku().getProductStatus());
 			productOptionsForForm = new ArrayList<ProductOption>(product.getProductOptions());
 			buildShortUrl();

@@ -9,7 +9,7 @@
     <div layout:fragment="content">
  		 <ol class="breadcrumb">
   			<li><a th:href="@{/}"><span th:utext="#{mainMenu.main}">Главная</span></a></li>
-  			<li th:each="rcat, rcatStat: ${category.buildCategoryHierarchy(null)}" th:class="${rcatStat.count==rcatStat.size? 'active':''}">
+  			<li th:each="rcat, rcatStat: ${category.buildCategoryHierarchy(null, true)}" th:class="${rcatStat.count==rcatStat.size? 'active':''}">
   				<a aid:phref="${rcat}" th:if="${rcatStat.count!=rcatStat.size}"><span th:utext="${rcat.name}"></span></a>
   				<span th:unless="${rcatStat.count!=rcatStat.size}" th:utext="${rcat.name}"></span>
   			</li>

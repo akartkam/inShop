@@ -41,7 +41,7 @@ public class InstructionController {
 	
 	  @ModelAttribute("allInstructions")
 	  public List<?> getAllInstructions() {
-		return instructionService.getAllInstructions();
+		return instructionService.getAllInstructionsEx();
 	  }
 	  
 	  @InitBinder

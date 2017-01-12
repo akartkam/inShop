@@ -56,6 +56,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.akartkam.inShop.domain.Instruction;
 import com.akartkam.inShop.domain.order.Order;
 import com.akartkam.inShop.domain.product.Brand;
 import com.akartkam.inShop.domain.product.Category;
@@ -70,6 +71,7 @@ import com.akartkam.inShop.domain.product.attribute.AttributeType;
 import com.akartkam.inShop.domain.product.attribute.SimpleAttributeFactory;
 import com.akartkam.inShop.domain.product.option.ProductOption;
 import com.akartkam.inShop.domain.product.option.ProductOptionValue;
+import com.akartkam.inShop.service.InstructionService;
 import com.akartkam.inShop.service.order.OrderService;
 import com.akartkam.inShop.service.product.AttributeCategoryService;
 import com.akartkam.inShop.service.product.BrandService;
@@ -108,6 +110,9 @@ public class AdminProductController {
 	  
 	  @Autowired
 	  private SkuValidator skuValidator;
+	  
+	  @Autowired
+	  private InstructionService instructionService;	  
 
 	  
 	  @Value("#{appProperties['inShop.imagesPath']}")
@@ -151,7 +156,12 @@ public class AdminProductController {
 	  @ModelAttribute("allInventoryTypes")
 	  public List<InventoryType> getAllInventoryTypes() {
 	      return Arrays.asList(InventoryType.ALL);
-	  }	  
+	  }
+	  
+	  @ModelAttribute("allInstructions")
+	  public List<Instruction> getAllInstructions() {
+		return instructionService.getAllInstructions();
+	  }		  
   	  
 	  @InitBinder
 	  public void initBinder(WebDataBinder binder) {
@@ -160,7 +170,7 @@ public class AdminProductController {
 					 							   "*productOptions", "canSellWithoutOptions", "*images*", "enabled",
 					 							   "*retailPrice", "*salePrice", "*costPrice", "*value", "*productStatus*", 
 					 							   "*productOptionsForForm*","*activeStartDate", "*activeEndDate", "*quantityAvailable",
-					 							   "*inventoryType", "*quantityPerPackage", "createdDate"});
+					 							   "*inventoryType", "*quantityPerPackage", "createdDate", "instruction"});
 			binder.registerCustomEditor(UUID.class, "id", new PropertyEditorSupport() {
 			    @Override
 			    public void setAsText(String text) {
@@ -237,6 +247,18 @@ public class AdminProductController {
 			    	}			    
 			    }
 			    });
+			
+			binder.registerCustomEditor(Instruction.class, "instruction",new PropertyEditorSupport(){
+				@Override
+			    public void setAsText(String text) {
+			    	if (!"".equals(text)) {
+			    		Instruction instr = instructionService.getInstructionById(UUID.fromString(text));
+			            setValue(instr);
+			    	} else {
+			    		setValue(null);
+			    	}
+			    }				
+			});			
 			/*
 			PropertyEditor pe = new PropertyEditorSupport() {
 			    @Override

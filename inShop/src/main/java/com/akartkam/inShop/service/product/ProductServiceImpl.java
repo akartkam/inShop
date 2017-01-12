@@ -289,6 +289,7 @@ public class ProductServiceImpl implements ProductService {
 			existingProduct.setEnabled(productFromPost.isEnabled());
 			existingProduct.getDefaultSku().setEnabled(productFromPost.isEnabled());
 			existingProduct.setCanSellWithoutOptions(productFromPost.isCanSellWithoutOptions());
+			existingProduct.setInstruction(productFromPost.getInstruction());
 			if (!existingProduct.getCategory().equals(productFromPost.getCategory())) {
 				//Check attributes for choosed category
 				Category ctgFromPost = categoryService.loadCategoryById(productFromPost.getCategory().getId(), false);

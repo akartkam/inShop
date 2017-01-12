@@ -6,7 +6,8 @@ import java.util.UUID;
 import com.akartkam.inShop.domain.Instruction;
 
 public interface InstructionService {
-	List<Object[]> getAllInstructions();
+	List<Instruction> getAllInstructions();
+	List<Object[]> getAllInstructionsEx();
 	Instruction getInstructionById(UUID id);
 	List<Object[]> getInstructionExById(UUID id);
 	Instruction CreateInstruction(Instruction instruction);
