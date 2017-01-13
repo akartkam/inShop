@@ -70,10 +70,9 @@
 		             		</div>
 		                </div>
 		  	 	        <div>
-		  	 	          <a type="submit" class="btn btn-primary" th:href="@{/admin/catalog/instruction}">
-		  	 	            <i class="fa fa-arrow-left"></i>&nbsp;<span th:text="#{button.goBack}"></span>
-		  	 	          </a>
 					      <button type="submit" class="btn btn-primary" th:text="#{admin.catalog.category.edit.button.save}">Save changes</button>
+						  <a type="button" class="btn btn-primary" th:text="#{admin.catalog.category.edit.button.close}"
+						          th:href="@{/admin/catalog/instruction}">Close</a>
 				        </div>  
            	     </form>	
 		      </div>

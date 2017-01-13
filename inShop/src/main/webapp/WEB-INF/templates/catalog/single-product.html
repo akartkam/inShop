@@ -1,5 +1,6 @@
 <th:block layout:decorator="layouts/fullPageLayout">
 	<head>
+	    <base th:href="@{/}"/>
 		<th:block th:fragment="meta" th:remove="all">
 			<meta name="description" th:content="${#strings.isEmpty(product.metaDescription)? product.name: product.metaDescription}"/>
 			<meta name="keywords" th:content="${#strings.isEmpty(product.metaKeywords)? product.name: product.metaKeywords}"/>

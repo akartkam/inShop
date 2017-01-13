@@ -114,6 +114,15 @@
 								   		   </div>
 							   		   </div>
 							   		   <div class="col-md-3">
+										   <div class="field-box" th:class="${#fields.hasErrors('quantityPerPackage')}? has-error: field-box">	                              
+							                 <label>
+							    	   	         <span th:text="#{sku.quantityPerPackage}">quantityPerPackage</span>
+							   		         </label>				            
+					                         <input type="number" min="1" class="form-control" th:field="*{quantityPerPackage}"/> 
+								             <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('quantityPerPackage')}" th:errors="*{quantityPerPackage}">Error quantityPerPackage</p>
+								   		   </div>
+									   </div>								   							   		   
+							   		   <div class="col-md-3">
 										   <div class="field-box" th:class="${#fields.hasErrors('inventoryType')}? has-error: field-box">	                              
 								                <label>
 								    	   	        <span th:text="#{admin.catalog.product.inventoryType}">Inventory type</span>

@@ -26,6 +26,7 @@
 
 	<resources mapping="/resources/**" location="/resources/" />
 	<resources mapping="#{appProperties['inShop.imagesUrl']}**" location="file:///#{appProperties['inShop.imagesPath']}" />
+ 	<resources mapping="#{appProperties['inShop.relatedContentUrl']}**" location="file:///#{appProperties['inShop.relatedContentPath']}" />
  
  	<!-- My thymeleaf processors 
        <beans:bean id="" class="com.akartkam.inShop.thymeleaf.processors.ProductDisplayNameModifyerProcessor" />

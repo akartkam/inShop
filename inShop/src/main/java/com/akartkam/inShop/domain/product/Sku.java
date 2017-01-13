@@ -82,7 +82,7 @@ public class Sku extends AbstractDomainObjectOrdering {
     private Product defaultProduct;   
     private Product product;
 	private List<AbstractAttributeValue> attributeValues = new ArrayList<AbstractAttributeValue>();
-	private Integer quantityPerPackage;
+	private Integer quantityPerPackage = 1;
 
 
     @AdminPresentation(tab=EditTab.MAIN)
