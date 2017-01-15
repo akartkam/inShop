@@ -17,12 +17,12 @@
 					</div>
 				</div>
 				<div class="media-body quick-review-product-info">
-				   <h4 class="media-heading"><a th:utext="${product.longDisplayName}" th:href="${product.url}"></a></h4>
+				   <h4 class="media-heading"><a th:utext="${product.longDisplayName}" aid:phref="${product}"></a></h4>
 		           <table cellspacing="0">
 		               <tbody>
 						   <tr>
 						   	   <th><span th:utext="#{brand.name}"></span></th>
-						   	   <td><a th:utext="${product.brand.name}" th:href="${product.brand.url}"></a></td>
+						   	   <td><a th:utext="${product.brand.name}" aid:phref="${product.brand}"></a></td>
 						   </tr>
 						   <tr>
 						   	   <th><span th:utext="#{product.articul}"></span></th>
@@ -36,6 +36,10 @@
 		                   	   <th><span th:utext="#{sku.quantityPerPackage}"></span></th>	
 		                   	   <td><span th:utext="${product.defaultSku.quantityPerPackage}"></span>&nbsp;<span class="price-piece-unit" th:utext="#{product.default.pricePieceUnit}"></span></td>
 		                   </tr>
+						   <tr th:if="${product.hasAdditionalSkus()}" th:each="po, poStat: ${product.productOptions}">
+						   	  <th><span th:utext="${po.label}"></span></th>
+						   	  <td><span th:utext="${#strings.listJoin(product.getPOVAsStringsByPO(po),',')}"></span></td>
+						   </tr>
 						   <tr>
 						   	  <th><span th:utext="#{sku.priceForUnit}"></span></th>
 						   	  <td>

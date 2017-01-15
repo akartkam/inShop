@@ -1,6 +1,5 @@
 <th:block layout:decorator="layouts/fullPageLayout">
 	<head>
-	    <base th:href="@{/}"/>
 		<th:block th:fragment="meta" th:remove="all">
 			<meta name="description" th:content="${#strings.isEmpty(product.metaDescription)? product.name: product.metaDescription}"/>
 			<meta name="keywords" th:content="${#strings.isEmpty(product.metaKeywords)? product.name: product.metaKeywords}"/>
@@ -45,7 +44,7 @@
 									   <tr>
 									   	   <th><span th:utext="#{brand.name}"></span></th>
 									   	   <td></td>
-									   	   <td><a th:utext="${product.brand.name}" th:href="${product.brand.url}"></a></td>
+									   	   <td><a th:utext="${product.brand.name}" aid:phref="${product.brand}"></a></td>
 									   </tr>
 									   <tr>
 									   	   <th><span th:utext="#{product.articul}"></span></th>
@@ -61,6 +60,8 @@
 					                   	   <th><span th:utext="#{sku.quantityPerPackage}"></span></th>	
 					                   	   <td></td>
 					                   	   <td><span th:utext="${product.defaultSku.quantityPerPackage}"></span>&nbsp;<span class="price-piece-unit" th:utext="#{product.default.pricePieceUnit}"></span></td>
+					                   	   <td><span th:utext="${{product.minMaxPrice[0]}}"></span></td>
+					                   	   <td><span th:utext="${{product.minMaxPrice[1]}}"></span></td>					                   
 					                   </tr>
 					               </tbody>
 					           </table>

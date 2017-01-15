@@ -1,5 +1,6 @@
 package com.akartkam.inShop.domain.product;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -25,6 +26,8 @@ import javax.persistence.Transient;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.Transformer;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.ForeignKey;
@@ -39,6 +42,7 @@ import com.akartkam.inShop.domain.product.attribute.AbstractAttributeValue;
 import com.akartkam.inShop.domain.product.attribute.SimpleAttributeFactory;
 import com.akartkam.inShop.domain.product.option.ProductOption;
 import com.akartkam.inShop.domain.product.option.ProductOptionValue;
+import com.akartkam.inShop.formatter.CurrencyFormat;
 import com.akartkam.inShop.presentation.admin.AdminPresentation;
 import com.akartkam.inShop.presentation.admin.EditTab;
 
@@ -252,6 +256,19 @@ public class Product extends AbstractWebDomainObject {
     }
     
     @Transient
+    public List<String> getPOVAsStringsByPO(ProductOption productOption) {
+    	List<ProductOptionValue> pol = getPOVByPO(productOption);
+    	List<String> res = (List<String>) CollectionUtils.collect(pol, new Transformer<ProductOptionValue, String>() {
+			@Override
+			public String transform(ProductOptionValue input) {
+				return input.getOptionValue();
+			}
+    		
+    	});
+    	return res;
+    }
+    
+    @Transient
     public boolean hasAdditionalSkus() {
     	return !getSkus().isEmpty();
     }
@@ -329,5 +346,27 @@ public class Product extends AbstractWebDomainObject {
 	public String getName() {
 		return defaultSku.getName();
 	}
+	
+	@Transient
+	@CurrencyFormat
+	public BigDecimal[] getMinMaxPrice(){
+		BigDecimal[] ret = new BigDecimal[]{null, null};
+		BigDecimal price;
+		if (!hasAdditionalSkus()) {
+			price = getDefaultSku().getPrice();	
+			ret[0] = price;
+			ret[1] = price;
+		} else {
+			for (Sku sku : getSkus()) {
+				price = sku.getPrice();
+				if(price != null) {
+					if (ret[0] == null || price.compareTo(ret[0]) < 0) ret[0]=price;
+					if (ret[1] == null || price.compareTo(ret[1]) > 0) ret[1]=price;
+				}
+			}
+		}
+		return ret;
+	}
 
+	
 }
