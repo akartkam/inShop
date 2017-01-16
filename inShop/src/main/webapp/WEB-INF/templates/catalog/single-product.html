@@ -56,12 +56,20 @@
 					                       <td></td>
 					                       <td><span th:utext="${av.value}"></span>&nbsp;<span th:if="${av.attribute.unit != null}" th:utext="#{${'unit.' + av.attribute.unit}}"></span></td>
 					                   </tr>
-					                   <tr>
+					                   <tr th:with="minMaxPrices=${product.minMaxPrice}, minMaxPricesForPkg=${product.minMaxPriceForPackage},
+					                                minPrice=${beans.currencyNumberFormatter.print(minMaxPrices[0], #locale.getDefault())}, 
+					                                maxPrice=${beans.currencyNumberFormatter.print(minMaxPrices[1], #locale.getDefault())},
+					                                minPriceForPkg=${beans.currencyNumberFormatter.print(minMaxPricesForPkg[0], #locale.getDefault())}, 
+					                                maxPriceForPkg=${beans.currencyNumberFormatter.print(minMaxPricesForPkg[1], #locale.getDefault())}					                                
+					                                ">
 					                   	   <th><span th:utext="#{sku.quantityPerPackage}"></span></th>	
 					                   	   <td></td>
 					                   	   <td><span th:utext="${product.defaultSku.quantityPerPackage}"></span>&nbsp;<span class="price-piece-unit" th:utext="#{product.default.pricePieceUnit}"></span></td>
-					                   	   <td><span th:utext="${{product.minMaxPrice[0]}}"></span></td>
-					                   	   <td><span th:utext="${{product.minMaxPrice[1]}}"></span></td>					                   
+					                   	   <td><span th:utext="${minPrice}"></span></td>
+					                   	   <td><span th:utext="${maxPrice}"></span></td>
+					                   	   <td><span th:utext="${minPriceForPkg}"></span></td>
+					                   	   <td><span th:utext="${maxPriceForPkg}"></span></td>					                   
+					                   	   					                   
 					                   </tr>
 					               </tbody>
 					           </table>

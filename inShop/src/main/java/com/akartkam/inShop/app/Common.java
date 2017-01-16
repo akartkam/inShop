@@ -27,6 +27,10 @@ public class Common {
 			
 			System.out.println(UUID.randomUUID().toString());
 			
+			Integer a = null;
+			int b = a;
+			System.out.println(b);
+			
 	}
 
 }

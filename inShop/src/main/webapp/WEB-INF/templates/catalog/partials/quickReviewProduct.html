@@ -43,18 +43,44 @@
 						   <tr>
 						   	  <th><span th:utext="#{sku.priceForUnit}"></span></th>
 						   	  <td>
-								 <ins th:utext="${{product.defaultSku.price}}">$700.00</ins>
-<!-- 								 <span class="price-piece-unit-delemiter" th:utext="#{product.default.pricePieceUnitDelemiter}"></span> -->
-<!-- 								 <span class="price-piece-unit" th:utext="#{product.default.pricePieceUnit}"></span>  -->
-								 <del th:if="${product.defaultSku.isOnSale()}" th:utext="${{product.defaultSku.retailPrice}}">$100.00</del>
+						   	     <th:block th:unless="${product.hasAdditionalSkus()}">
+									 <ins th:utext="${{product.defaultSku.price}}">$700.00</ins>
+									 <del th:if="${product.defaultSku.isOnSale()}" th:utext="${{product.defaultSku.retailPrice}}">$100.00</del>
+						   	     </th:block>
+						   	     <th:block th:if="${product.hasAdditionalSkus()}" 
+						   	               th:with="minMaxPrices=${product.minMaxPrice},
+						                            minPrice=${beans.currencyNumberFormatter.print(minMaxPrices[0], #locale.getDefault())}, 
+						                            maxPrice=${beans.currencyNumberFormatter.print(minMaxPrices[1], #locale.getDefault())}">
+						            <th:block th:unless="${minPrice.equals(maxPrice)}">
+										<ins th:utext="${minPrice}">$700.00</ins>
+										<ins th:utext="#{product.default.minMaxPricesDelemiter}"></ins>		                                
+										<ins th:utext="${maxPrice}">$800.00</ins>
+									</th:block>
+									<th:block th:if="${minPrice.equals(maxPrice)}">
+										<ins th:utext="${minPrice}">$700.00</ins>
+									</th:block>
+						   	     </th:block>
 							  </td>
 						   </tr>
 						   <tr th:if="${product.defaultSku.quantityPerPackage != 1}">   
 							  <th><span th:utext="#{sku.priceForPackageUnit}"></span></th>
 							  <td>
-								<ins th:utext="${{product.defaultSku.priceForPackage}}">$700.00</ins>
-<!-- 								 <span class="price-piece-unit-delemiter" th:utext="#{product.default.pricePieceUnitDelemiter}"></span> -->
-<!-- 								 <span class="price-piece-unit" th:utext="#{product.default.pricePackageUnit}"></span> 								  -->
+							  	<th:block th:unless="${product.hasAdditionalSkus()}">
+							  		<ins th:utext="${{product.defaultSku.priceForPackage}}">$700.00</ins>
+							  	</th:block>
+								<th:block th:if="${product.hasAdditionalSkus()}" 
+						   	              th:with="minMaxPricesForPackage=${product.minMaxPriceForPackage},
+						                           minPriceForPackage=${beans.currencyNumberFormatter.print(minMaxPricesForPackage[0], #locale.getDefault())}, 
+						                           maxPriceForPackage=${beans.currencyNumberFormatter.print(minMaxPricesForPackage[1], #locale.getDefault())}">
+						            <th:block th:unless="${minPriceForPackage.equals(maxPriceForPackage)}">
+										<ins th:utext="${minPriceForPackage}">$700.00</ins>
+										<ins th:utext="#{product.default.minMaxPricesDelemiter}"></ins>		                                
+										<ins th:utext="${maxPriceForPackage}">$800.00</ins>
+									</th:block>
+									<th:block th:if="${minPriceForPackage.equals(maxPriceForPackage)}">
+										<ins th:utext="${minPriceForPackage}">$700.00</ins>
+									</th:block>
+						        </th:block>
 							  </td>
 						   </tr>
 						   <tr>	 

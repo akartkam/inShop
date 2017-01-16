@@ -368,5 +368,33 @@ public class Product extends AbstractWebDomainObject {
 		return ret;
 	}
 
+	@Transient
+	@CurrencyFormat
+	public BigDecimal[] getMinMaxPriceForPackage(){
+		BigDecimal[] ret = new BigDecimal[]{null, null};
+		BigDecimal price;
+		int quantity;
+		if (!hasAdditionalSkus()) {
+			quantity = getDefaultSku().getQuantityPerPackage() != null? getDefaultSku().getQuantityPerPackage(): 0;
+			price = getDefaultSku().getPrice();
+			if (quantity != 0 && price != null) {
+				price = price.multiply(new BigDecimal(quantity));
+				ret[0] = price;
+				ret[1] = price;				
+			}
+		} else {
+			for (Sku sku : getSkus()) {
+				quantity = sku.getQuantityPerPackage() != null? getDefaultSku().getQuantityPerPackage(): 0;
+				price = sku.getPrice();
+				if(quantity != 0 && price != null) {
+					price = price.multiply(new BigDecimal(quantity));
+					if (ret[0] == null || price.compareTo(ret[0]) < 0) ret[0]=price;
+					if (ret[1] == null || price.compareTo(ret[1]) > 0) ret[1]=price;
+				}
+			}
+		}
+		return ret;
+	}
+
 	
 }

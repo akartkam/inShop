@@ -1,7 +1,6 @@
 <div class="single-product">
 	<div th:each="ps, psStatus: ${#lists.toList(product.defaultSku.productStatus)}" th:class="#{${'product.status.class.'+ps}}" 
 	     th:style="${psStatus.index == 0?'top: -10px;': psStatus.index == 1? 'top: 33px;': 'top: 66px;'}">
-		
 	</div>
 	<div class="product-f-image">
 		<img th:if="${pagination}" th:attr="data-original=@{${!#lists.isEmpty(product.defaultSku.images)? product.defaultSku.images[0]: ''}}" alt=""/>
@@ -20,14 +19,28 @@
 			<a aid:phref="${product}" class="view-details-link"><i class="fa fa-info"></i> Подробнее</a>
 		</div>
 	</div>
-	
-	<!-- 	<h2><a aid:phref="${product}"><span aid:product_modifyed_display_name_utext="${product}">Samsung Galaxy s5- 2015</span></a></h2> -->
 	<h2><a aid:phref="${product}"><span class="sort-by-name" th:utext="${product.name}">Samsung Galaxy s5- 2015</span></a></h2>
 	<div class="product-carousel-price">
-		<ins th:attr="data-sort-value=${product.defaultSku.price}" th:utext="${{product.defaultSku.price}}">$700.00</ins>
+		<th:block th:unless="${product.hasAdditionalSkus()}">
+			<ins th:attr="data-sort-value=${product.defaultSku.price}" th:utext="${{product.defaultSku.price}}">$700.00</ins>
+		</th:block>
+		<th:block th:if="${product.hasAdditionalSkus()}" 
+		          th:with="minMaxPrices=${product.minMaxPrice},
+                           minPrice=${beans.currencyNumberFormatter.print(minMaxPrices[0], #locale.getDefault())}, 
+                           maxPrice=${beans.currencyNumberFormatter.print(minMaxPrices[1], #locale.getDefault())}					                                
+                           ">
+            <th:block th:unless="${minPrice.equals(maxPrice)}">
+				<ins th:attr="data-sort-value=${minPrice}" th:utext="${minPrice}">$700.00</ins>
+				<ins th:utext="#{product.default.minMaxPricesDelemiter}"></ins>		                                
+				<ins th:utext="${maxPrice}">$800.00</ins>
+			</th:block>
+			<th:block th:if="${minPrice.equals(maxPrice)}">
+				<ins th:attr="data-sort-value=${minPrice}" th:utext="${minPrice}">$700.00</ins>
+			</th:block>
+		</th:block>
 		<span class="price-piece-unit-delemiter" th:utext="#{product.default.pricePieceUnitDelemiter}"></span>
 		<span class="price-piece-unit" th:utext="#{product.default.pricePieceUnit}"></span> 
-		<del th:if="${product.defaultSku.isOnSale()}" th:utext="${{product.defaultSku.retailPrice}}">$100.00</del>
+		<del th:if="${!product.hasAdditionalSkus() &amp;&amp; product.defaultSku.isOnSale()}" th:utext="${{product.defaultSku.retailPrice}}">$100.00</del>
 	</div> 
 	<div class="product-header-info">
 	      <table cellspacing="0">
