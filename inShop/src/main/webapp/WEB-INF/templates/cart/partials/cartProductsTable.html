@@ -54,7 +54,9 @@
 										<input type="hidden" name="productId" th:value="${ci.productId}" />
 						            	<input type="hidden" name="skuId" th:value="${ci.skuId}" />
 				                        <input type="number" name="quantity" th:value="${ci.quantity}" size="4" min="0" step="1"/>
-				                        <input type="button" title="Пересчитать" class="refresh recalc-cart" value="&#x27f2;"></input>
+									    <a href="javascript:void(0);" title="Пересчитать" class="refresh recalc-cart" >
+									      <i class="fa fa-refresh"></i>
+									    </a>
 									</form>				            
 				                </div>
 				            </td>

@@ -96,9 +96,10 @@
 		               </tbody>
 		           </table>
 		           <div class="quick-review-product-buttons">
-		           	   <form method="POST" th:action="@{/cart/add}">
+		           	   <form method="POST" th:action="@{${product.hasAdditionalSkus()? '/ajax-product-options-modal?ID='+product.id: '/cart/add'}}">
 		           	   	   <input type="hidden" name="productId" th:value="${product.id}" />
             			   <input type="hidden" name="quantity" value="1" />
+            			   <input type="hidden" name="hasProductOptions" th:value="${product.hasAdditionalSkus()}" />
 			           	   <button type="button" class="add-to-cart" th:text="#{button.toCart}"></button>
 			           	   <button type="button" th:text="#{button.buy1click}"></button>
 			           	   <button type="button" class="simplemodal-close" th:text="#{button.close}"></button>

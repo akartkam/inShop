@@ -6,9 +6,10 @@
 		<img th:if="${pagination}" th:attr="data-original=@{${!#lists.isEmpty(product.defaultSku.images)? product.defaultSku.images[0]: ''}}" alt=""/>
 		<img th:unless="${pagination}" th:src="@{${!#lists.isEmpty(product.defaultSku.images)? product.defaultSku.images[0]: ''}}" alt=""/>
 		<div class="product-hover">
-			<form method="POST" th:action="@{/cart/add}">
+			<form method="POST" th:action="@{${product.hasAdditionalSkus()? '/ajax-product-options-modal?ID='+product.id: '/cart/add'}}">
 				<input type="hidden" name="productId" th:value="${product.id}" />
 				<input type="hidden" name="skuId" th:value="${product.defaultSku.id}" />
+				<input type="hidden" name="hasProductOptions" th:value="${product.hasAdditionalSkus()}" />
 	           	<input type="hidden" name="quantity" value="1" />
 				<a href="javascript:;" class="add-to-cart add-to-cart-link">
 				   <i class="fa fa-shopping-cart"></i>  
@@ -40,7 +41,7 @@
 		</th:block>
 		<span class="price-piece-unit-delemiter" th:utext="#{product.default.pricePieceUnitDelemiter}"></span>
 		<span class="price-piece-unit" th:utext="#{product.default.pricePieceUnit}"></span> 
-		<del th:if="${!product.hasAdditionalSkus() &amp;&amp; product.defaultSku.isOnSale()}" th:utext="${{product.defaultSku.retailPrice}}">$100.00</del>
+		<del th:if="${product.defaultSku.isOnSale()}" th:utext="${{product.defaultSku.retailPrice}}">$100.00</del>
 	</div> 
 	<div class="product-header-info">
 	      <table cellspacing="0">

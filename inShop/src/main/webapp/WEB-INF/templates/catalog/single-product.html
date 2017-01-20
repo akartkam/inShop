@@ -33,7 +33,8 @@
 								    <img th:each="image, imageStat: ${product.allImages}" class="imzoom-gallery" th:classappend="${imageStat.index == 0}? 'active'" width="75"
 									     th:src="@{${image}}"
 									     th:attr="data-large=@{${image}}"/>		
-								</div>							
+								</div>
+<!-- 								<div class="pluso" data-background="transparent" data-options="medium,square,line,horizontal,counter,theme=04" data-services="vkontakte,odnoklassniki,facebook,twitter,google,moimir,email,print"></div>							 -->
 							</div>
 						</div>
 						<div class="media-body single-product-info">
@@ -64,24 +65,28 @@
 					               </tbody>
 					           </table>
 				           </div>
-				           <div th:object="${product}" th:replace="catalog/partials/productOptions"></div>
 				           <form method="POST" th:action="@{/cart/add}">
 				               <input type="hidden" name="productId" th:value="${product.id}" />
 					           <div class="product-inventory">
 						           <table cellspacing="0">
 						               <tbody>
+						                   <tr>
+						                   	   <td colspan="3">
+										           <div th:object="${product}" th:replace="catalog/partials/productOptions"></div>
+						                   	   </td>
+						                   </tr>
 										   <tr>
 										   	   <th><span th:utext="#{sku.priceForUnit}"></span></th>
 										   	   <td></td>
 										   	   <td>
-										   	      <ins th:utext="${{product.defaultSku.price}}">$700.00</ins>
-										   	      <del th:if="${product.defaultSku.isOnSale()}" th:utext="${{product.defaultSku.retailPrice}}">$100.00</del>
+										   	      <ins id="priceForUnit" th:utext="${{product.defaultSku.price}}">$700.00</ins>
+										   	      <del id="priceForUnitOld" th:utext="${{product.defaultSku.isOnSale()? product.defaultSku.retailPrice: '' }}">$100.00</del>
 										   	   </td>
 										   </tr>
 										   <tr th:if="${product.defaultSku.quantityPerPackage != 1}">
 										   	   <th><span th:utext="#{sku.priceForPackageUnit}"></span></th>
 										   	   <td></td>
-										   	   <td><ins th:utext="${{product.defaultSku.priceForPackage}}">$700.00</ins></td>
+										   	   <td><ins id="priceForPkg" th:utext="${{product.defaultSku.priceForPackage}}">$700.00</ins></td>
 										   </tr>
 										   <tr>
 										   	   <th></th>
@@ -160,7 +165,16 @@
                    	innerzoom: true,
                     magnifierborder: "none"
         		});
-			});   
+				if (window.pluso)if (typeof window.pluso.start == "function") return;
+				if (window.ifpluso==undefined) { window.ifpluso = 1;
+				    var d = document, s = d.createElement('script'), g = 'getElementsByTagName';
+				    s.type = 'text/javascript'; s.charset='UTF-8'; s.async = true;
+				    s.src = ('https:' == window.location.protocol ? 'https' : 'http')  + '://share.pluso.ru/pluso-like.js';
+				    var h=d[g]('body')[0];
+				    h.appendChild(s);
+				}	        	
+			});
+			
 		</script>
     </th:block>
 </th:block>    

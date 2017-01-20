@@ -76,10 +76,12 @@ public class ProductOptionsProcessor extends AbstractModelVarModifierProcessor {
             poValueIds.toArray(values);
             
             POPricingForJSON oJson = new POPricingForJSON();
-            BigDecimal currPriceForUnit, currPriceForPkg;
+            BigDecimal currPriceForUnit, currPriceForPkg, currPriceForUnitOld;
             currPriceForUnit = sku.getPrice();
             currPriceForPkg = sku.getPriceForPackage();
+            currPriceForUnitOld = sku.isOnSale()? sku.getRetailPrice(): null;
             oJson.setPriceForUnit(currPriceForUnit == null? null: currencyNumberFormatter.print(currPriceForUnit, Locale.getDefault()));
+            oJson.setPriceForUnitOld(currPriceForUnitOld == null? null: currencyNumberFormatter.print(currPriceForUnitOld, Locale.getDefault()));
             oJson.setPriceForPkg(currPriceForPkg == null? null: currencyNumberFormatter.print(currPriceForPkg, Locale.getDefault()));
             oJson.setSelectedOptions(values);
             poPricing.add(oJson);
@@ -107,6 +109,7 @@ public class ProductOptionsProcessor extends AbstractModelVarModifierProcessor {
 	private class POPricingForJSON {
         private UUID[] selectedOptions;
         private String priceForUnit;
+        private String priceForUnitOld;
         private String priceForPkg;
 
         public UUID[] getSelectedOptions() {
@@ -122,12 +125,21 @@ public class ProductOptionsProcessor extends AbstractModelVarModifierProcessor {
         public void setPriceForUnit(String priceForUnit) {
             this.priceForUnit = priceForUnit;
         }
-        public String getPriceForPkg() {
+
+        public String getPriceForUnitOld() {
+			return priceForUnitOld;
+		}
+		public void setPriceForUnitOld(String priceForUnitOld) {
+			this.priceForUnitOld = priceForUnitOld;
+		}
+		public String getPriceForPkg() {
             return priceForPkg;
         }
         public void setPriceForPkg(String priceForPkg) {
             this.priceForPkg = priceForPkg;
         }
+        
+        
         
         @Override
         public boolean equals(Object o) {
@@ -136,6 +148,7 @@ public class ProductOptionsProcessor extends AbstractModelVarModifierProcessor {
             if (!getClass().isAssignableFrom(o.getClass())) return false;
             POPricingForJSON that = (POPricingForJSON) o;
             if (priceForUnit != null ? !priceForUnit.equals(that.priceForUnit) : that.priceForUnit != null) return false;
+            if (priceForUnitOld != null ? !priceForUnitOld.equals(that.priceForUnitOld) : that.priceForUnitOld != null) return false;
             if (priceForPkg != null ? !priceForPkg.equals(that.priceForPkg) : that.priceForPkg != null) return false;
             if (!Arrays.equals(selectedOptions, that.selectedOptions)) return false;
             return true;
@@ -145,6 +158,7 @@ public class ProductOptionsProcessor extends AbstractModelVarModifierProcessor {
         public int hashCode() {
             int result = selectedOptions != null ? Arrays.hashCode(selectedOptions) : 0;
             result = 31 * result + (priceForUnit != null ? priceForUnit.hashCode() : 0);
+            result = 31 * result + (priceForUnitOld != null ? priceForUnitOld.hashCode() : 0);
             result = 31 * result + (priceForPkg != null ? priceForPkg.hashCode() : 0);
             return result;
         }

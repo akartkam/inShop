@@ -1,9 +1,17 @@
+ //<![CDATA[
 $(function(){
 	
     var modalCartOptions = {
             maxWidth    : 750,
-            minHeight   : 50,
+            minHeight   : 100,
             maxHeight   : 500
+        };
+
+    var modalProductOptions = {
+            maxWidth    : 600,
+            minWidth 	: 300,
+            minHeight   : 300,
+            maxHeight	: 600
         };
 	
 	function updateHeaderCartItems(newCount, newTotal) {
@@ -28,11 +36,35 @@ $(function(){
     	var modalClick = $(this).parents('.simplemodal-wrap').length > 0;
     	var $form = $(this).closest("form");
     	var $url = $form.attr("action");
+    	var $hasProductOptions = $form.find("[name='hasProductOptions']") 
+    	if ($hasProductOptions.length) {
+    		$hasProductOptions = ($hasProductOptions.val() == "true" )
+    	} else {
+    		$hasProductOptions = false;
+    	}
     	var token = $form.find("input[name=_csrf]");
     	if ($form.length) $form = $form.serialize();
     	if (token.length) token = token.val();
     	var header = $('#_csrf_header').attr('content');
-    	$.ajax({
+    	if($hasProductOptions) {
+    		 $.ajax({
+    	            url: $url,
+    	            type: "GET",
+    	            cache: false,
+    	            beforeSend: function(xhr) {
+    	                xhr.setRequestHeader(header, token);
+    	            }           
+    	          }).done(function (data){
+    	        	  if (modalClick){
+    	        		  $.modal.close();
+    	        	  }
+    	        	  $.modal(data, modalProductOptions); 
+    	          	  $("#simplemodal-container").css("height", "auto");
+    	        	  $.modal.update();    	        	  
+    	          });
+    		 
+    	} else {
+    	  $.ajax({
             url: $url,
             type: "POST",
             data: $form,
@@ -48,6 +80,8 @@ $(function(){
           	  $("#simplemodal-container").css("height", "auto");
         	  $.modal.update();        	  
           });
+    	};
+    	return false;
     });
     
     $("body").on("click", ".remove-from-cart, .recalc-cart", function(){
@@ -82,3 +116,4 @@ $(function(){
 
 	
 });
+//]]>

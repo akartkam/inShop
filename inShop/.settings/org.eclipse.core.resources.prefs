@@ -19,6 +19,7 @@ encoding//src/main/webapp/WEB-INF/templates/cart/partials/cartProductsTable.html
 encoding//src/main/webapp/WEB-INF/templates/catalog/brand-list.html=UTF-8
 encoding//src/main/webapp/WEB-INF/templates/catalog/brand-products.html=UTF-8
 encoding//src/main/webapp/WEB-INF/templates/catalog/category.html=UTF-8
+encoding//src/main/webapp/WEB-INF/templates/catalog/partials/productOptions.html=UTF-8
 encoding//src/main/webapp/WEB-INF/templates/catalog/partials/smallSingleProduct.html=UTF-8
 encoding//src/main/webapp/WEB-INF/templates/catalog/partials/sortForSmallSingleProduct.html=UTF-8
 encoding//src/main/webapp/WEB-INF/templates/catalog/single-product.html=UTF-8

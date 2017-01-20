@@ -197,5 +197,75 @@ jQuery(document).ready(function($){
 			$("body").trigger("sort-have-performed");
 		}
 	});
+	
+	$("body").on("change", ".product-option-values", function() {
+        changeProductOption();
+        return false;
+    });	
+
+    function updateCurrentImage() {
+    	
+    };
+    
+    function updatePriceDisplay() {
+        var selectedProductOptions = getSelectedProductOptions();
+        var productOptionPricing = getPricingData();
+        var priceForUnit;
+        var priceForUnitOld;
+        var priceForPkg;
+        
+        for (var i = 0; i < productOptionPricing.length; i++) {
+            var pricing = productOptionPricing[i];
+            if ($(pricing.selectedOptions).not(selectedProductOptions).length == 0 && $(selectedProductOptions).not(pricing.selectedOptions).length == 0) {
+            	priceForUnit = pricing.priceForUnit;
+            	priceForUnitOld = pricing.priceForUnitOld;
+            	priceForPkg = pricing.priceForPkg;
+                break;
+            }
+        }
+        
+        if (priceForUnit) {
+            $priceForUnit = $('ins#priceForUnit');
+            if ($priceForUnit.length != 0) {
+            	$priceForUnit.text(priceForUnit);
+            }
+        }
+
+        if (priceForUnitOld) {
+            $priceForUnitOld = $('del#priceForUnitOld');
+            if ($priceForUnitOld.length != 0) {
+            	$priceForUnitOld.text(priceForUnitOld);
+            }
+        } else {
+        	$priceForUnitOld.text("");
+        }
+ 
+        if (priceForPkg) {
+            $priceForPkg = $('ins#priceForPkg');
+            if ($priceForPkg.length != 0) {
+            	$priceForPkg.text(priceForPkg);
+            }
+        }        
+        
+    }
+    
+	
+	function changeProductOption() {
+        updateCurrentImage();
+        updatePriceDisplay();		
+	};
+	
+	function getSelectedProductOptions() {
+        var ret = [];
+        $.each($(".product-option-values option:selected"), function(){            
+        	ret.push($(this).val());
+        });
+        return ret;
+	}
+	
+    function getPricingData() {
+        return $('#po-data').data('po-pricing');
+    }
+    
 });
 
