@@ -121,7 +121,7 @@ jQuery(document).ready(function($){
 	{
 		e.preventDefault();
         $.ajax({ url: $(this).attr("href") }).done(function(data) {
-            $.modal(data, { maxWidth: 620, maxHeight: 450, minHeight: 350});
+            $.modal(data, { maxWidth: 600, maxHeight: 450, minHeight: 350});
         	$("#simplemodal-container").css("height", "auto");
         	$.modal.update();
         	$(".quick-review-product-zoom").imagezoomsl({ 

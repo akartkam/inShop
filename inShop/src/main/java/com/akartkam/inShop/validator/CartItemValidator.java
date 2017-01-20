@@ -86,7 +86,7 @@ public class CartItemValidator implements Validator {
 	        	productDisplayNameModificator.setProduct(product);
 	        	cartItem.setProductName(productDisplayNameModificator.getModifyedDisplayName(product.getDisplayName()));
 	        	cartItem.setPrice(sku.getPriceForPackage());
-	        	cartItem.setImageUrl(!sku.getImages().isEmpty()? sku.getImages().get(0): null);
+	        	cartItem.setImageUrl(!sku.getImages().isEmpty()? sku.getImages().get(0): !product.getAllImages().isEmpty()? product.getAllImages().get(0): null);
 	        	cartItem.setSku(sku);
 	        	
 			} else {

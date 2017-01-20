@@ -2,16 +2,17 @@
 $(function(){
 	
     var modalCartOptions = {
-            maxWidth    : 750,
+            minWidth	: 400,
+    		maxWidth    : 750,
             minHeight   : 100,
             maxHeight   : 500
         };
 
     var modalProductOptions = {
-            maxWidth    : 600,
+            maxWidth    : 300,
             minWidth 	: 300,
             minHeight   : 300,
-            maxHeight	: 600
+            maxHeight	: 400
         };
 	
 	function updateHeaderCartItems(newCount, newTotal) {
@@ -55,12 +56,12 @@ $(function(){
     	                xhr.setRequestHeader(header, token);
     	            }           
     	          }).done(function (data){
-    	        	  if (modalClick){
-    	        		  $.modal.close();
-    	        	  }
-    	        	  $.modal(data, modalProductOptions); 
-    	          	  $("#simplemodal-container").css("height", "auto");
-    	        	  $.modal.update();    	        	  
+	    	        	  if (modalClick){
+	    	        		  $.modal.close();
+	    	        	  }
+	    	        	  $.modal(data, modalProductOptions); 
+	    	          	  $("#simplemodal-container").css("height", "auto");
+	    	        	  $.modal.update();    	        	      	        		  
     	          });
     		 
     	} else {
@@ -73,12 +74,17 @@ $(function(){
                 xhr.setRequestHeader(header, token);
             }           
           }).done(function (data){
-        	  if (modalClick) $.modal.close();
-        	  var ajaxExtraData = getExtraData($(data));
-        	  updateHeaderCartItems(ajaxExtraData.cartItemCount, ajaxExtraData.cartTotal);
-        	  $.modal(data, modalCartOptions);
-          	  $("#simplemodal-container").css("height", "auto");
-        	  $.modal.update();        	  
+        	  if (data.errors) {
+        		  
+        		  
+        	  } else {
+            	  if (modalClick) $.modal.close();
+            	  var ajaxExtraData = getExtraData($(data));
+            	  updateHeaderCartItems(ajaxExtraData.cartItemCount, ajaxExtraData.cartTotal);
+            	  $.modal(data, modalCartOptions);
+              	  $("#simplemodal-container").css("height", "auto");
+            	  $.modal.update();        	          		  
+        	  }  
           });
     	};
     	return false;

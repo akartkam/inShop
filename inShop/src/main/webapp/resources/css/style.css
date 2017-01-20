@@ -1007,7 +1007,7 @@ input[type="submit"], button {
     background: none repeat scroll 0 0 #5a88ca;
     border: medium none;
     color: #fff;
-    padding: 11px 20px;
+    padding: 10px 15px;
     text-transform: uppercase;
 }
 
@@ -1585,6 +1585,10 @@ span.price-piece-unit {
    border: 5px solid #F0F0F0;
 }
 
+div.product-options-container{
+	padding: 15px;
+}
+
 div.product-options label{
 	font-size: 12px;
     font-weight: bold;
@@ -1600,7 +1604,8 @@ div.product-options select{
 }
 
 div.product-options h3{
-	font-size: 13px;
+	margin-bottom: 15px;
+	font-size: 12pt;
 }
 
 
