@@ -74,12 +74,22 @@ $(function(){
                 xhr.setRequestHeader(header, token);
             }           
           }).done(function (data){
-        	  if (data.errors) {
-        		  
+    		  $(".po-error-quantity").css("display", "none");
+    		  $(".po-error-incomplete").css("display", "none");        	  
+        	  var ajaxExtraData = getExtraData($(data));
+        	  if (ajaxExtraData && ajaxExtraData.errors) {
+        		  if (ajaxExtraData.errors.quantity) {
+        			  $(".po-error-quantity").css("display", "block");
+        		  }
+        		  if (ajaxExtraData.errors.criticalError){
+        			  if ("allOptionsRequired".localeCompare(ajaxExtraData.errors.criticalError) == 0){
+        			     $(".po-error-incomplete").css("display", "block");
+        			  }
+        			  if 
+        		  }
         		  
         	  } else {
             	  if (modalClick) $.modal.close();
-            	  var ajaxExtraData = getExtraData($(data));
             	  updateHeaderCartItems(ajaxExtraData.cartItemCount, ajaxExtraData.cartTotal);
             	  $.modal(data, modalCartOptions);
               	  $("#simplemodal-container").css("height", "auto");

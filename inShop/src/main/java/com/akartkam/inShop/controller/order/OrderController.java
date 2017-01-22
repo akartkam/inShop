@@ -99,7 +99,8 @@ public class OrderController {
 	  
 	  @RequestMapping(value="/product-search", method= RequestMethod.GET, produces="application/json")
 	  @ResponseStatus(HttpStatus.OK)	  
-	  public @ResponseBody ItemsForJSON searchProductsForOrder(@RequestParam(value = "q", required = true) String q, Model model) {
+	  public @ResponseBody ItemsForJSON searchProductsForOrder(@RequestParam(value = "q", required = true) String q,
+			                                                    Model model) {
 		  List<SkuForJSON> skus = productService.getSkusForJSONByName('%'+q+'%');
 		  ItemsForJSON items = new ItemsForJSON(skus);
 		  return items;

@@ -258,7 +258,7 @@ jQuery(document).ready(function($){
 	function getSelectedProductOptions() {
         var ret = [];
         $.each($(".product-option-values option:selected"), function(){            
-        	ret.push($(this).val());
+        	ret.push($(this).data("id"));
         });
         return ret;
 	}

@@ -64,7 +64,7 @@ public class CartItemValidator implements Validator {
 			error.rejectValue("productId", "error.bad.cartItemForm.productId");
 		}
 		try{	
-			if (product != null) {
+			if (product != null && !error.hasErrors()) {
 				Sku sku = determineSku(product, cartItem.getItemAttributes());
 				if (sku == null) {
 		            StringBuilder sb = new StringBuilder();
@@ -89,7 +89,7 @@ public class CartItemValidator implements Validator {
 	        	cartItem.setImageUrl(!sku.getImages().isEmpty()? sku.getImages().get(0): !product.getAllImages().isEmpty()? product.getAllImages().get(0): null);
 	        	cartItem.setSku(sku);
 	        	
-			} else {
+			} else if (product == null) {
 				throw new ProductNotFoundException("The referenced Product "+producrId+" could not found.");
 			}
 		} catch (ProductNotFoundException | RequiredAttributeNotProvidedException | SkuNotFoundException | InventoryUnavailableException e) {

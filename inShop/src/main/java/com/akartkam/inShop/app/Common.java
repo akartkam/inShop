@@ -27,9 +27,16 @@ public class Common {
 			
 			System.out.println(UUID.randomUUID().toString());
 			
-			Integer a = null;
-			int b = a;
-			System.out.println(b);
+			String i = "1,0";
+			boolean r = true;
+			try { 
+			  int ii = Integer.parseInt(i);
+			  
+			} catch (NumberFormatException e) {
+				r = false;
+			}
+			
+			System.out.println(r);
 			
 	}
 

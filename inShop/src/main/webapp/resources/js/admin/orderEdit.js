@@ -58,8 +58,8 @@ function formatRepo (repo) {
 	        delay: 250,
 	        data: function (params) {
 	          return {
-	            q: params.term, // search term
-	            page: params.page
+	            q: params.term || "", // search term
+	            page: params.page || 1
 	          };
 	        },
 	        processResults: function (data, params) {
@@ -67,7 +67,7 @@ function formatRepo (repo) {
 	          return {
 	            results: data.items,
 	            pagination: {
-	              more: (params.page * 30) < data.itemsCount
+	              more: (params.page * 5) < data.itemsCount
 	            }
 	          };
 	        },

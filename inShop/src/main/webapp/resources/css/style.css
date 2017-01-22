@@ -1608,5 +1608,11 @@ div.product-options h3{
 	font-size: 12pt;
 }
 
+span[class*="error"] {
+    color: #e74c3e;
+    font-weight: bold;
+    display: inline-block;
+}
+
 
 }

@@ -4,7 +4,13 @@
 	<div th:each="po: ${#lists.toList(product.productOptions)}">
 		<label><span th:utext="${po.label}"></span>&nbsp;<attr th:if="${po.required}" class="required">*</attr></label>
 		<select class="product-option-values" th:name="${'itemAttributes[' + po.name + ']'}">
-            <option th:each="ov : ${po.productOptionValues}" th:value="${ov.optionValue}" th:utext="${ov.optionValue}"></option>
+            <option th:each="ov : ${po.productOptionValues}" th:attr="data-id=${ov.id}" th:value="${ov.optionValue}" th:utext="${ov.optionValue}"></option>
         </select> 
 	</div>
+	
+	<span class="po-error-quantity" style="display: none;" th:utext="#{error.bad.quantity}">Bad quantity!</span>
+	<span class="po-error-incomplete" style="display: none;" th:utext="#{error.incomplete.productOptions}">All options required!</span>
+<!--     <span class="errorproductOptionsSpan centered" style="display: none;"><span th:utext="#{product.productOptionValidationError}">Product Option Validation Failed</span></span> -->
+
+<!--     <span class="error errorMessage" style="display: none;"></span>	 -->
 </div>
