@@ -56,4 +56,11 @@ public class SkuDAOImpl extends AbstractGenericDAO<Sku> implements SkuDAO {
 		return resMap;
 		
 	}
+	
+	@Override
+	public void delete(Sku object) {
+		currentSession().delete(object);
+		getSessionFactory().getCache().evictQueryRegions();
+		getSessionFactory().getCache().evictEntityRegion(Sku.class);
+	} 
 }

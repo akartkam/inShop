@@ -39,7 +39,11 @@ public abstract class AbstractGenericDAO<T extends DomainObject<UUID>> implement
      protected Session currentSession() {
         return sessionFactory.getCurrentSession();
     }
-    
+     
+	public SessionFactory getSessionFactory() {
+		return sessionFactory;
+	}
+
 	@Override
 	public T findById(UUID id, boolean lock) {
         T entity;

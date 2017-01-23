@@ -33,6 +33,7 @@ import com.akartkam.inShop.formbean.CartForm;
 import com.akartkam.inShop.formbean.CartItemForm;
 import com.akartkam.inShop.service.product.ProductService;
 import com.akartkam.inShop.util.CartUtil;
+import com.akartkam.inShop.util.Constants;
 import com.akartkam.inShop.validator.CartItemValidator;
 import com.akartkam.inShop.validator.CartItemUpdateValidator;
 
@@ -65,9 +66,9 @@ public class CartController {
 	
 	@RequestMapping()
     public String cart(HttpServletRequest request, HttpServletResponse response, Model model) {
-        CartForm cart = CartUtil.getCartFromSession(request);
+        CartForm cart = CartUtil.getCartFromSession(request, false);
         if (cart != null) {
-            model.addAttribute("cartForm", cart);
+            model.addAttribute(Constants.CART_BEAN_NAME, cart);
         }
         return getCartView();
     }
@@ -114,6 +115,7 @@ public class CartController {
             }
         }
         if (!errorsMap.isEmpty()) responseMap.put("errors", errorsMap);
+        model.addAttribute(Constants.CART_BEAN_NAME, cart);
         model.addAttribute("responseMap", responseMap);
         if (isAjaxRequest(request)) {
         	model.addAttribute("ajaxExtraData", new ObjectMapper().writeValueAsString(responseMap));
@@ -141,6 +143,7 @@ public class CartController {
         responseMap.put("cartTotal", currencyNumberFormatter.print(CartUtil.getCartFromSession(request).getTotal(), Locale.getDefault()));
     	if (!errorsMap.isEmpty()) responseMap.put("errors", errorsMap);
     	model.addAttribute("responseMap", responseMap);
+    	model.addAttribute(Constants.CART_BEAN_NAME, cart);
         if (isAjaxRequest(request)) {
             model.addAttribute("ajaxExtraData", new ObjectMapper().writeValueAsString(responseMap));
         	responseString+=" :: ajax";
@@ -186,6 +189,7 @@ public class CartController {
         responseMap.put("cartTotal", currencyNumberFormatter.print(CartUtil.getCartFromSession(request).getTotal(), Locale.getDefault()));
         if (!errorsMap.isEmpty()) responseMap.put("errors", errorsMap);
         model.addAttribute("responseMap", responseMap);
+        model.addAttribute(Constants.CART_BEAN_NAME, cart);
         if (isAjaxRequest(request)) {
             model.addAttribute("ajaxExtraData", new ObjectMapper().writeValueAsString(responseMap));
             return responseString+=" :: ajax";

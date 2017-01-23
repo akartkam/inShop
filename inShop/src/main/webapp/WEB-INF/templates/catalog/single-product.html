@@ -72,7 +72,9 @@
 						               <tbody>
 						                   <tr>
 						                   	   <td colspan="3">
-										           <div th:object="${product}" th:replace="catalog/partials/productOptions :: productOptions"></div>
+						                   	      <div style="max-width: 18vw;">
+										             <div th:object="${product}" th:replace="catalog/partials/productOptions :: productOptions"></div>
+										          </div>
 						                   	   </td>
 						                   </tr>
 										   <tr>
@@ -165,14 +167,14 @@
                    	innerzoom: true,
                     magnifierborder: "none"
         		});
-				if (window.pluso)if (typeof window.pluso.start == "function") return;
+				/*if (window.pluso)if (typeof window.pluso.start == "function") return;
 				if (window.ifpluso==undefined) { window.ifpluso = 1;
 				    var d = document, s = d.createElement('script'), g = 'getElementsByTagName';
 				    s.type = 'text/javascript'; s.charset='UTF-8'; s.async = true;
 				    s.src = ('https:' == window.location.protocol ? 'https' : 'http')  + '://share.pluso.ru/pluso-like.js';
 				    var h=d[g]('body')[0];
 				    h.appendChild(s);
-				}	        	
+				}*/	        	
 			});
 			
 		</script>

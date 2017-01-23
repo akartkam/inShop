@@ -1,16 +1,17 @@
-<div class="container-fluid" style="padding-top: 15px; padding-bottom: 15px;">
+<div class="container-fluid" style="padding-top: 15px; padding-bottom: 15px;" 
+     th:with="cart = ${__${T(com.akartkam.inShop.util.Constants).CART_BEAN_NAME}__}">
 	<div class="row">
 		<div class="col-lg-12" >
 			<table cellspacing="0" id="cart_products" class="shop_table cart">
 				<caption th:utext="#{cart.caption}"></caption>
-				<th:block th:if="${#httpSession.getAttribute(T(com.akartkam.inShop.util.Constants).CART_BEAN_NAME).cartItemsCount == 0}">
+				<th:block th:if="${cart == null || cart.cartItemsCount == 0}">
 					<thead>
 						<tr>
 							<td style="height: 50px;"><span th:utext="#{cart.empty}"></span></td>
 						</tr>
 					</thead>
 				</th:block>
-				<th:block th:unless="${#httpSession.getAttribute(T(com.akartkam.inShop.util.Constants).CART_BEAN_NAME).cartItemsCount == 0}">
+				<th:block th:if="${cart != null &amp;&amp; cart.cartItemsCount != 0}">
 				    <thead>
 				        <tr>
 				            <th class="product-remove">&nbsp;</th>
@@ -22,7 +23,7 @@
 				        </tr>
 				    </thead>
 				    <tbody>
-				        <tr th:each="ci : ${#httpSession.getAttribute(T(com.akartkam.inShop.util.Constants).CART_BEAN_NAME).cartItems}" class="cart_item">
+				        <tr th:each="ci : ${cart.cartItems}" class="cart_item">
 				            <td class="product-remove">
 								<form method="POST" th:action="@{/cart/remove}">
 									<input type="hidden" name="productId" th:value="${ci.productId}" />
@@ -70,11 +71,12 @@
 				        </tr>
 				        <tr>
 				        	<td colspan="4">
-				        	
+				        		<span class="cart-error-delete" style="display: none;" th:utext="#{error.productOptions}">All options required!</span>
+								<span class="cart-error" style="display: none;" th:utext="#{error.productOptions}">All options required!</span>
 				        	</td>
    				            <td class="cart-total" colspan="2">
 				                <span th:utext="#{cart.total}">Total</span>
-				            	<span  th:text="${{#httpSession.getAttribute(T(com.akartkam.inShop.util.Constants).CART_BEAN_NAME).total}}">£15.00</span> 
+				            	<span  th:text="${{cart.total}}">£15.00</span> 
 				            </td>
 				        </tr>
 				        <tr>
