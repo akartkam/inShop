@@ -1,19 +1,25 @@
 package com.akartkam.inShop.domain;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.NamedNativeQueries;
 import org.hibernate.annotations.NamedNativeQuery;
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import com.akartkam.inShop.domain.product.Category;
+import com.akartkam.inShop.domain.product.Product;
 import com.akartkam.inShop.validator.HtmlSafe;
 
 @NamedNativeQueries({
@@ -35,6 +41,8 @@ public class Instruction extends AbstractDomainObject  {
 	private static final long serialVersionUID = -5011359561478384004L;
 	private String name;
 	private String content;
+	private List<Category> categorys = new ArrayList<Category>();
+	private List<Product> products = new ArrayList<Product>();
 	
 	@NotEmpty
 	@Column(name = "name")
@@ -53,6 +61,24 @@ public class Instruction extends AbstractDomainObject  {
 	}
 	public void setContent(String content) {
 		this.content = content;
+	}
+
+	@OneToMany(mappedBy="instruction")
+	@BatchSize(size = 20)
+	public List<Category> getCategorys() {
+		return categorys;
+	}
+	public void setCategorys(List<Category> categorys) {
+		this.categorys = categorys;
+	}
+	
+	@OneToMany(mappedBy="instruction")
+	@BatchSize(size = 20)
+	public List<Product> getProducts() {
+		return products;
+	}
+	public void setProducts(List<Product> products) {
+		this.products = products;
 	}
 	
 	@Transient
