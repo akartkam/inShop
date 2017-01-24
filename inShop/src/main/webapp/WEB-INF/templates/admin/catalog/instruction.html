@@ -101,50 +101,50 @@
 						      <tr >
 						         <th class="col-md-1"> </th>
 					             <th class="col-md-3" th:text="#{admin.catalog.name}">Name</th>
-								 <th class="col-md-3" th:text="#{admin.catalog.product}">Products</th>
-								 <th class="col-md-3" th:text="#{admin.catalog.category}">Categories</th>
+<!-- 								 <th class="col-md-3" th:text="#{admin.catalog.product}">Products</th> -->
+<!-- 								 <th class="col-md-3" th:text="#{admin.catalog.category}">Categories</th> -->
 					             <th class="col-md-1 text-center" th:text="#{admin.catalog.category.enabled}">Enabled?</th>
 					             <th class="col-md-1" th:text="#{admin.catalog.category.actions}">Actions</th>
 					  	      </tr>
 					 	    </thead>
 					 	    <tbody>      
-						       <tr th:each="ins : ${allInstructions}" th:class="${!ins[0].enabled ? 'text-muted' : ''}">
+						       <tr th:each="ins : ${allInstructions}" th:class="${!ins.enabled ? 'text-muted' : ''}">
 								  <td class="text-center">						
-									  <input class="checkCategory" type="checkbox" th:id="${'check-'+ins[0].id}" th:value="${ins[0].id}"/>
+									  <input class="checkCategory" type="checkbox" th:id="${'check-'+ins.id}" th:value="${ins.id}"/>
 								  </td>					         
-								  <td class="mightOverflow domain-col"><span class="for-search" th:text="${ins[0].name}">Instruction 1</span></td>
-								  <td><p class="dolessmore"> 
-								       	  <th:block th:each="pr, prStat : ${ins[1]}">	
-									       	 <span th:if="${prStat.index !=0}">,&nbsp;</span>
-									         <a th:href="@{${'/admin/catalog/product/edit?ID='+pr.key}}">
-									            <span th:utext="${pr.value}"></span>
-									         </a>
-								          </th:block>	
-							          </p> 							  
-								  </td> 
-								  <td><p class="dolessmore"> 
-								       	  <th:block th:each="ct, ctStat : ${ins[2]}">	
-									       	 <span th:if="${ctStat.index !=0}">,&nbsp;</span>
-									         <a th:href="@{${'/admin/catalog/category/edit?categoryID='+ct.key}}">
-									            <span th:utext="${ct.value}"></span>
-									         </a>
-								          </th:block>	
-							          </p> 							  
-								  </td> 
-					              <td class="text-center"><i th:class="${ins[0].enabled ? 'fa fa-check-circle' : ''}"></i></td>
+								  <td class="mightOverflow domain-col"><span class="for-search" th:text="${ins.name}">Instruction 1</span></td>
+<!-- 								  <td><p class="dolessmore">  -->
+<!-- 								       	  <th:block th:each="pr, prStat : ${ins[1]}">	 -->
+<!-- 									       	 <span th:if="${prStat.index !=0}">,&nbsp;</span> -->
+<!-- 									         <a th:href="@{${'/admin/catalog/product/edit?ID='+pr.key}}"> -->
+<!-- 									            <span th:utext="${pr.value}"></span> -->
+<!-- 									         </a> -->
+<!-- 								          </th:block>	 -->
+<!-- 							          </p> 							   -->
+<!-- 								  </td>  -->
+<!-- 								  <td><p class="dolessmore">  -->
+<!-- 								       	  <th:block th:each="ct, ctStat : ${ins[2]}">	 -->
+<!-- 									       	 <span th:if="${ctStat.index !=0}">,&nbsp;</span> -->
+<!-- 									         <a th:href="@{${'/admin/catalog/category/edit?categoryID='+ct.key}}"> -->
+<!-- 									            <span th:utext="${ct.value}"></span> -->
+<!-- 									         </a> -->
+<!-- 								          </th:block>	 -->
+<!-- 							          </p> 							   -->
+<!-- 								  </td>  -->
+					              <td class="text-center"><i th:class="${ins.enabled ? 'fa fa-check-circle' : ''}"></i></td>
 					              <td class="text-center">
   				            	  		 <div class="btn-group" role="group" > 	
 				                              <a class="btn btn-outline btn-default btn-xs" 
-				                              	 th:href="@{${'/admin/catalog/instruction/edit?ID='+ins[0].id}}"> 
+				                              	 th:href="@{${'/admin/catalog/instruction/edit?ID='+ins.id}}"> 
 				                                <i class="fa fa-pencil"></i>
 				                              </a>
 				                              <a class="open-editDialog btn btn-outline btn-default btn-xs" 
-				                                 th:href="@{${'/admin/catalog/instruction/add?ID='+ins[0].id}}"> 
+				                                 th:href="@{${'/admin/catalog/instruction/add?ID='+ins.id}}"> 
 				                                <i class="fa fa-copy"></i>
 				                              </a>					                              
-				                              <a th:disabled="${!ins[0].enabled}" data-toggle="modal" data-target="#deleteModal" 
+				                              <a th:disabled="${!ins.enabled}" data-toggle="modal" data-target="#deleteModal" 
 				                                 class="open-deleteDialog btn btn-outline btn-default btn-xs"
-				                                 th:attr="data-id=${ins[0].id}, data-name=${ins[0].name}"> 
+				                                 th:attr="data-id=${ins.id}, data-name=${ins.name}"> 
 				                                <i class="fa fa-trash-o"></i>
 				                              </a>	
 		                            	 </div>  

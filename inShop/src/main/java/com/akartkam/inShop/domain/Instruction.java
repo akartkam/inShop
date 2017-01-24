@@ -41,7 +41,7 @@ public class Instruction extends AbstractDomainObject  {
 	private static final long serialVersionUID = -5011359561478384004L;
 	private String name;
 	private String content;
-	private List<Category> categorys = new ArrayList<Category>();
+	private List<Category> categories = new ArrayList<Category>();
 	private List<Product> products = new ArrayList<Product>();
 	
 	@NotEmpty
@@ -65,11 +65,11 @@ public class Instruction extends AbstractDomainObject  {
 
 	@OneToMany(mappedBy="instruction")
 	@BatchSize(size = 20)
-	public List<Category> getCategorys() {
-		return categorys;
+	public List<Category> getCategories() {
+		return categories;
 	}
-	public void setCategorys(List<Category> categorys) {
-		this.categorys = categorys;
+	public void setCategories(List<Category> categories) {
+		this.categories = categories;
 	}
 	
 	@OneToMany(mappedBy="instruction")

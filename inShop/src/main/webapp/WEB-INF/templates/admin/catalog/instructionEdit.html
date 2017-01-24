@@ -49,7 +49,8 @@
 							</ul>                                 
 		                </div>
 		                <ul class="nav nav-tabs">
-		                  <li class="active"><a href="#main" data-toggle="tab" th:text="#{admin.edit.tab.description}">Описание</a></li>
+		                  <li th:class="${tabactive=='main'}? 'in active'"><a href="#main" data-toggle="tab" th:text="#{admin.edit.tab.description}">Описание</a></li>
+		                  <li th:class="${tabactive=='links'}? 'in active'"><a href="#links" data-toggle="tab" th:text="#{admin.edit.tab.links}">Связи</a></li>
 		                </ul>
 		                <!-- Tab panes -->
 		                <div class="tab-content">
@@ -68,6 +69,38 @@
 							       <textarea id="summernote" class="textarea form-control" placeholder="Введите текст..." th:field="*{content}"></textarea>
 	  						   </div>
 		             		</div>
+		                    <div class="tab-pane fade" id="links">
+	                           <div class="field-box">
+			                      <label>
+								   	<span th:text="#{admin.catalog.category}">Categories</span>
+								  </label>
+                                  <div class="panel panel-default">
+							        <div class="panel-body">
+							       	   <th:block th:each="ct, ctStat : ${instr.categories}">	
+								       	   <span th:if="${ctStat.index !=0}">,&nbsp;</span>
+								           <a th:href="@{${'/admin/catalog/category/edit?categoryID='+ct.id}}">
+								             <span th:utext="${T(org.apache.commons.lang3.StringUtils).abbreviateMiddle(ct.name,'...', 40)}"></span>
+								           </a>
+							           </th:block>
+							       </div>
+						        </div>								  
+							   </div>	
+	                           <div class="field-box">
+			                      <label>
+								   	<span th:text="#{admin.catalog.product}">Products</span>
+								  </label>
+                                  <div class="panel panel-default">
+							        <div class="panel-body">
+							       	   <th:block th:each="pr, prStat : ${instr.products}">	
+								       	   <span th:if="${prStat.index !=0}">,&nbsp;</span>
+								           <a th:href="@{${'/admin/catalog/product/edit?ID='+pr.id}}">
+								             <span th:utext="${T(org.apache.commons.lang3.StringUtils).abbreviateMiddle(pr.name,'...', 40)}"></span>
+								           </a>
+							           </th:block>
+							       </div>
+						        </div>								  
+							   </div>	
+		                    </div>
 		                </div>
 		  	 	        <div>
 					      <button type="submit" class="btn btn-primary" th:text="#{admin.catalog.category.edit.button.save}">Save changes</button>

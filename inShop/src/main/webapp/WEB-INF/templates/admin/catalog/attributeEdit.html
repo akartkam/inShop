@@ -85,7 +85,7 @@
 							     <p class="form-control-static"><span th:text="#{${'attribute.type.' + attribute.attributeType.toString()}}">Decimal</span></p>
                               </div>
 						   </div>
-                            <div class="field-box" th:if="${!#sets.isEmpty(attribute.category)}">
+                           <div class="field-box" th:if="${!#sets.isEmpty(attribute.category)}">
                             	<label>
 				  	    	       <span th:text="#{admin.catalog.attribute.edit.usedInCategories}">Used in Categories</span>
 				      	        </label>
@@ -99,7 +99,7 @@
 							           </th:block>
 							       </div>
 						        </div>
-					        </div>							     
+					       </div>							     
 	             		</div>
 	                    <div class="tab-pane fade" th:classappend="${tabactive=='additional'}? 'in active'" id="additional">
 	                       <div class="field-box" th:class="${#fields.hasErrors('attributeCategory')}? has-error: field-box">
