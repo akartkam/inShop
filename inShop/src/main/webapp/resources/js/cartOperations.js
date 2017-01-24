@@ -103,7 +103,8 @@ $(function(){
     });
     
     $("body").on("click", ".remove-from-cart, .recalc-cart", function(){
-    	var modalClick = $(this).parents('.simplemodal-wrap').length > 0;
+    	var modalClick = $(this).parents(".simplemodal-wrap").length > 0;
+    	var recalc = $(this).hasClass("recalc-cart");
     	var $form = $(this).closest("form");
     	var $url = $form.attr("action");
     	var token = $form.find("input[name=_csrf]");
@@ -120,8 +121,9 @@ $(function(){
             }           
           }).done(function (data){
         	  var ajaxExtraData = getExtraData($(data));
-        	  if (ajaxExtraData && ajaxExtraData.errors) {
-        		  
+        	  $(".cart-error").css("display", "none");
+        	  if (recalc && ajaxExtraData && ajaxExtraData.errors) {
+        		  $(".cart-error").css("display", "block");
         	  } else {
 	        	  updateHeaderCartItems(ajaxExtraData.cartItemCount, ajaxExtraData.cartTotal);
 	        	  if (modalClick) {
