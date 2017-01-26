@@ -12,6 +12,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.Predicate;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.type.IntegerType;
 import org.hibernate.type.StringType;
@@ -36,6 +37,27 @@ public class SkuDAOImpl extends AbstractGenericDAO<Sku> implements SkuDAO {
 		List<Sku> skus = criteria.list();
         return skus; 	
 	}
+	
+	@Override
+	public Map<Long, List<Sku>> findSkusByCodeOrNameForPaging(String s, int rowPerPage, int pageNumber) {
+		Map<Long, List<Sku>> res = new HashMap<Long, List<Sku>>();
+		Criteria criteriaCount = currentSession().createCriteria(Sku.class)
+				.add(Restrictions.or(Restrictions.ilike("name", s), Restrictions.ilike("code", s)))
+				.add(Restrictions.eq("enabled", new Boolean(true)))
+				.setProjection(Projections.rowCount());
+		Long totalRowCount = (Long) criteriaCount.uniqueResult();
+		int offset = (pageNumber - 1) * rowPerPage;
+		Criteria criteria = currentSession().createCriteria(Sku.class)
+				.add(Restrictions.or(Restrictions.ilike("name", s), Restrictions.ilike("code", s)))
+				.add(Restrictions.eq("enabled", new Boolean(true)))
+				.addOrder(Order.asc("ordering"));
+		criteria.setFirstResult(offset);
+		criteria.setMaxResults(rowPerPage);		
+		criteria.setCacheable(true);
+		criteria.setCacheRegion("query.Catalog");
+		res.put(totalRowCount, criteria.list());
+		return null;
+	}	
 
 	@Override
 	public Map<UUID, Integer> findMapSkuIdQuantityAvailable(Collection<Sku> skus) {
@@ -60,7 +82,9 @@ public class SkuDAOImpl extends AbstractGenericDAO<Sku> implements SkuDAO {
 	@Override
 	public void delete(Sku object) {
 		currentSession().delete(object);
-		getSessionFactory().getCache().evictQueryRegions();
-		getSessionFactory().getCache().evictEntityRegion(Sku.class);
-	} 
+		/*getSessionFactory().getCache().evictQueryRegions();
+		getSessionFactory().getCache().evictEntityRegion(Sku.class);*/
+	}
+
+ 
 }
