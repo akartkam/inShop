@@ -270,9 +270,9 @@ public class Sku extends AbstractDomainObjectOrdering {
 		this.defaultProduct = defaultProduct;
 	}
 	
-	@OneToMany(mappedBy="sku", cascade = CascadeType.ALL, orphanRemoval=true)
+	@OneToMany(fetch=FetchType.LAZY, mappedBy="sku", cascade = CascadeType.ALL, orphanRemoval=true)
 	@Cascade(org.hibernate.annotations.CascadeType.ALL)
-	@BatchSize(size = 20)
+	@BatchSize(size = 50)
 	public List<AbstractAttributeValue> getAttributeValues() {
 		return attributeValues;
 	}

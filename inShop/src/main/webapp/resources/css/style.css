@@ -1615,5 +1615,9 @@ span[class*="error"] {
     display: inline-block;
 }
 
-
+.select2-choices {
+  min-height: 150px;
+  max-height: 150px;
+  overflow-y: auto;
+}
 }

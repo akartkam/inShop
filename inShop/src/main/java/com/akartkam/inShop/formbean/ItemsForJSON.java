@@ -6,11 +6,13 @@ import java.util.List;
 public class ItemsForJSON {
 	
 	private List<SkuForJSON> items = new ArrayList<SkuForJSON>();
+	private Long totalItemsCount;
 	
 	public ItemsForJSON() {};
 	
-	public ItemsForJSON(List<SkuForJSON> skus) {
+	public ItemsForJSON(List<SkuForJSON> skus, Long totalItemsCount) {
 		this.items = skus;
+		this.totalItemsCount = totalItemsCount;
 	}
 
 	public List<SkuForJSON> getItems() {
@@ -24,5 +26,15 @@ public class ItemsForJSON {
 	public int getItemsCount () {
 		return items.size();
 	}
+
+	public Long getTotalItemsCount() {
+		return totalItemsCount;
+	}
+
+	public void setTotalItemsCount(Long totalItemsCount) {
+		this.totalItemsCount = totalItemsCount;
+	}
+	
+	
 
 }

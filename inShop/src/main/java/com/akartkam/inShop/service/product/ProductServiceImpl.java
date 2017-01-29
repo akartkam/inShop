@@ -131,6 +131,11 @@ public class ProductServiceImpl implements ProductService {
 	}
 	
 	@Override
+	public Object[] findSkusByCodeOrNameForPaging(String s, int rowPerPage, int pageNumber){
+		return skuDAO.findSkusByCodeOrNameForPaging(s, rowPerPage, pageNumber);
+	}
+	
+	@Override
 	public ProductOption clonePOById(UUID id) throws CloneNotSupportedException {
 		ProductOption clonedPO = getPOById(id);
 		if (clonedPO == null) return null;
@@ -611,14 +616,16 @@ public class ProductServiceImpl implements ProductService {
     }
 
 	@Override
-	public List<SkuForJSON> getSkusForJSONByName(String name) {	
+	public Object[] getSkusForJSONByName(String name, int rowPerPage, int pageNumber) {	
 		final String appName = appContext.getApplicationName();
 		List<SkuForJSON> ret = new ArrayList<SkuForJSON>();
-		List<Sku> skus = getSkusByName(name);
+		Object[] skusArray = findSkusByCodeOrNameForPaging(name, rowPerPage, pageNumber);
+		Long totalRows = (Long) skusArray[0];
+		List<Sku> skus = (List<Sku>) skusArray[1];
 		String pname, images[], code, brand, model, description, productOptions[] = new String[0];
 		SkuForJSON.ProductStatusForJSON productStatus[];
 		Integer quantityAvailable;
-		BigDecimal retailPrice, salePrice;
+		BigDecimal retailPrice, salePrice, priceForPackage;
 		for (Sku sku: skus) {
 			if (!inventoryService.isAvailable(sku)) continue;
 			pname = sku.getName();
@@ -675,6 +682,7 @@ public class ProductServiceImpl implements ProductService {
 					salePrice = sku.getProduct().getDefaultSku().getSalePrice() != null ? new BigDecimal(sku.getProduct().getDefaultSku().getSalePrice().toPlainString()) : null;
 				}
 			}
+			priceForPackage = sku.getPriceForPackage();
 			if (sku.getProductStatus().size() != 0) {
 				productStatus = new SkuForJSON.ProductStatusForJSON[sku.getProductStatus().size()];
 				Iterator<ProductStatus> ips = sku.getProductStatus().iterator();
@@ -695,11 +703,11 @@ public class ProductServiceImpl implements ProductService {
 			quantityAvailable = sku.getQuantityAvailable() != null ? new Integer(sku.getQuantityAvailable()) : null;
 			if (quantityAvailable == null && sku.getDefaultProduct() == null) 
 				 quantityAvailable = sku.getProduct().getDefaultSku().getQuantityAvailable() != null ? new Integer(sku.getProduct().getDefaultSku().getQuantityAvailable()) : null;
- 			SkuForJSON sj = new SkuForJSON (sku.getId(), pname,images, code, brand, model, description, retailPrice, salePrice, quantityAvailable, productStatus, productOptions);
+ 			SkuForJSON sj = new SkuForJSON (sku.getId(), pname,images, code, brand, model, description, retailPrice, salePrice, priceForPackage, quantityAvailable, productStatus, productOptions);
 			ret.add(sj);
 		}
 		
-		return ret;
+		return new Object[] {totalRows, ret};
 	}
 
 	@Override

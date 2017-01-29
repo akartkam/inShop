@@ -101,6 +101,20 @@
 <!-- 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tinysort/2.3.6/tinysort.charorder.js"></script> -->
 	
 	<script type="text/javascript" src="../../../../resources/js/lib/jquery.equalheights.min.js" th:src="@{/resources/js/lib/jquery.equalheights.min.js}"></script>
+    <!-- Select2 -->
+    <script src="../../../../resources/js/lib/select2.full.min.js" th:src="@{/resources/js/lib/select2.full.min.js}"></script>
+    <script src="../../../../resources/js/lib/ru.js" th:src="@{/resources/js/lib/ru.js}"></script>   	
+    <script src="../../../../resources/js/sku-search.js" th:src="@{/resources/js/sku-search.js}"></script>
+	<script th:inline="javascript" type="text/javascript">
+       //<![CDATA[ 
+              var pricePieceUnitDelemiter = /*[[${#messages.msg('product.default.pricePieceUnitDelemiter')}]]*/
+              var pricePieceUnit = /*[[${#messages.msg('product.default.pricePieceUnit')}]]*/ 
+              var pricePackageUnit = /*[[${#messages.msg('product.default.pricePackageUnit')}]]*/
+     		  $(document).ready(function() {
+   	             makeSkuSelect2 ($("#main-search"), /*[[@{/admin/order/product-search}]]*/'');
+   			  });               
+       // ]]>
+	</script>
 	<th:block layout:fragment="script"></th:block>				 	
 		
 </footer>

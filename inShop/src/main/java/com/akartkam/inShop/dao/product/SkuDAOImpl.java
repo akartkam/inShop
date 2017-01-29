@@ -39,13 +39,14 @@ public class SkuDAOImpl extends AbstractGenericDAO<Sku> implements SkuDAO {
 	}
 	
 	@Override
-	public Map<Long, List<Sku>> findSkusByCodeOrNameForPaging(String s, int rowPerPage, int pageNumber) {
-		Map<Long, List<Sku>> res = new HashMap<Long, List<Sku>>();
+	public Object[] findSkusByCodeOrNameForPaging(String s, int rowPerPage, int pageNumber) {
+		Object[] res = new Object[2];
 		Criteria criteriaCount = currentSession().createCriteria(Sku.class)
 				.add(Restrictions.or(Restrictions.ilike("name", s), Restrictions.ilike("code", s)))
 				.add(Restrictions.eq("enabled", new Boolean(true)))
 				.setProjection(Projections.rowCount());
 		Long totalRowCount = (Long) criteriaCount.uniqueResult();
+		res[0] = totalRowCount;
 		int offset = (pageNumber - 1) * rowPerPage;
 		Criteria criteria = currentSession().createCriteria(Sku.class)
 				.add(Restrictions.or(Restrictions.ilike("name", s), Restrictions.ilike("code", s)))
@@ -55,8 +56,8 @@ public class SkuDAOImpl extends AbstractGenericDAO<Sku> implements SkuDAO {
 		criteria.setMaxResults(rowPerPage);		
 		criteria.setCacheable(true);
 		criteria.setCacheRegion("query.Catalog");
-		res.put(totalRowCount, criteria.list());
-		return null;
+		res[1] = criteria.list();
+		return res;
 	}	
 
 	@Override

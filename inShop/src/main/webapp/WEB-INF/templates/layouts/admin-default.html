@@ -200,8 +200,11 @@
     <script src="../../../resources/js/lib/bootstrap-select.min.js" th:src="@{/resources/js/lib/bootstrap-select.min.js}"></script>
     <script src="../../../resources/js/lib/defaults-ru_RU.js" th:src="@{/resources/js/lib/defaults-ru_RU.js}"></script>
 	<script src="../../../resources/js/inShop-common.js" th:src="@{/resources/js/inShop-common.js}"></script>
-    <script type="text/javascript">
-       //<![CDATA[;inst1
+    <script th:inline="javascript" type="text/javascript">
+       //<![CDATA[
+               var pricePieceUnitDelemiter = /*[[${#messages.msg('product.default.pricePieceUnitDelemiter')}]]*/
+               var pricePieceUnit = /*[[${#messages.msg('product.default.pricePieceUnit')}]]*/ 
+               var pricePackageUnit = /*[[${#messages.msg('product.default.pricePackageUnit')}]]*/	   
                var events = (function(){
             	   var eventNode = $({});
             	   return {

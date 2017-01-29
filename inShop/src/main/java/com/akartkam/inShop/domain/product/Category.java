@@ -137,6 +137,8 @@ public class Category extends AbstractWebDomainObject {
 	
 	@OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
 	@Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
+	@OrderBy("ordering")
+	@BatchSize(size=40)
 	public List<Product> getProducts() {
 		return products;
 	}

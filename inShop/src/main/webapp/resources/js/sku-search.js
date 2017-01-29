@@ -12,7 +12,11 @@ function formatRepo (repo) {
     		    "Остаток:" + repo.quantityAvailable  : "") +
     		    "</div>";
       markup += "<div class='select2-result-repository__additional-info'>" +
-        "<div class='select2-result-repository__additional'><i class='fa fa-rub'></i> " + (repo.salePrice ? "<span style='text-decoration: line-through;'>"+repo.retailPrice.toFixed(2)+"</span> <span>"+ repo.salePrice.toFixed(2) +"</span>" : repo.retailPrice.toFixed(2))+"</div>"
+        "<div class='select2-result-repository__additional'><i class='fa fa-rub'></i> " + (repo.salePrice ? "<span style='text-decoration: line-through;'>"+repo.retailPrice.toFixed(2)+
+        "</span>&nbsp;<span>"+ repo.salePrice.toFixed(2) +"</span>" : repo.retailPrice.toFixed(2))+pricePieceUnitDelemiter+pricePieceUnit+
+        (repo.priceForPackage != repo.retailPrice && repo.priceForPackage != repo.salePrice ? "&nbsp;&nbsp;<span>"+repo.priceForPackage.toFixed(2)+
+        pricePieceUnitDelemiter+pricePackageUnit+"</span>":"")+
+        "</div>"
       if (repo.model) {  
     	  markup += "<div class='select2-result-repository__additional'><i class='fa fa-gears'></i> " + repo.model + "</div>"
       }
@@ -50,7 +54,7 @@ function formatRepo (repo) {
  function makeSkuSelect2 ($ajax, $url) {  
 	 $ajax.select2({
 	   width: "100%",
-	   placeholder: "Введите часть наименования товара",
+	   placeholder: "Введите артикул или наименование товара для поиска",
 	   allowClear: true,
 	   ajax: {
 	        url: $url,
@@ -67,7 +71,7 @@ function formatRepo (repo) {
 	          return {
 	            results: data.items,
 	            pagination: {
-	              more: (params.page * 5) < data.itemsCount
+	              more: (params.page * 20) < data.totalItemsCount
 	            }
 	          };
 	        },

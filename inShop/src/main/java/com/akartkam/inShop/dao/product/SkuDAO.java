@@ -10,6 +10,6 @@ import com.akartkam.inShop.domain.product.Sku;
 
 public interface SkuDAO extends GenericDAO<Sku, UUID> {
 	List<Sku> findSkusByName(String name);
-	Map<Long, List<Sku>> findSkusByCodeOrNameForPaging(String s, int rowPerPage, int pageNumber);
+	Object[] findSkusByCodeOrNameForPaging(String s, int rowPerPage, int pageNumber);
 	Map<UUID, Integer> findMapSkuIdQuantityAvailable(Collection<Sku> skus);
 }

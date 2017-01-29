@@ -46,6 +46,8 @@ import com.akartkam.inShop.validator.OrderValidator;
 @RequestMapping("/admin/order")
 public class AdminOrderController {
 	  private static final Log LOG = LogFactory.getLog(AdminOrderController.class);
+	  
+	  private static final int ROWS_PER_PAGE = 20;
 
 	  @Autowired
 	  private ProductService productService;
@@ -131,8 +133,12 @@ public class AdminOrderController {
 	  public @ResponseBody ItemsForJSON searchProductsForOrder(@RequestParam(value = "q", required = true) String q,
 			  												   @RequestParam(value = "page", required = false) String page,
 			  													Model model) {
-		  List<SkuForJSON> skus = productService.getSkusForJSONByName('%'+q+'%');
-		  ItemsForJSON items = new ItemsForJSON(skus);
+		  int curPage = 0;
+		  if (page != null && !"".equals(page)) curPage = Integer.parseInt(page);
+		  Object[] skusArr = productService.getSkusForJSONByName('%'+q+'%', ROWS_PER_PAGE, curPage);
+		  Long totalRows = (Long)skusArr[0];
+		  List<SkuForJSON> skusForJson = (List<SkuForJSON>)skusArr[1];
+		  ItemsForJSON items = new ItemsForJSON(skusForJson, totalRows);
 		  return items;
 		  
 	  }
