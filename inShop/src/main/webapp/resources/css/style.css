@@ -1620,4 +1620,8 @@ span[class*="error"] {
   max-height: 150px;
   overflow-y: auto;
 }
+
+.select2-selection__arrow{
+	display: none;
+}
 }

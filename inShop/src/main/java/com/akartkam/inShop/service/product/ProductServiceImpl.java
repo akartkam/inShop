@@ -325,7 +325,7 @@ public class ProductServiceImpl implements ProductService {
 				}
 			}
 			for (AbstractAttributeValue av1:lavfp) {
-				existingProduct.addAttributeValue(av1);
+				if (av1.getValue() != null && !"".equals(av1.getValue())) existingProduct.addAttributeValue(av1);
 			}
 			//ProductStatus
 			existingProduct.getDefaultSku().setProductStatus(new HashSet<ProductStatus>(productFromPost.getProductStatus()));
@@ -350,8 +350,11 @@ public class ProductServiceImpl implements ProductService {
 			productFromPost.setProductStatusFromList();
 			productFromPost.setProductOptionFromList();
 			productFromPost.buildFullLink(productFromPost.getUrlForForm());
-			for(AbstractAttributeValue av : productFromPost.getAttributeValues()) {
-				av.setCategory(productFromPost.getCategory());
+			Iterator<AbstractAttributeValue> avifp = productFromPost.getAttributeValues().iterator();
+			while (avifp.hasNext()) {
+				AbstractAttributeValue av = avifp.next();
+				if(av.getValue() == null || "".equals(av.getValue())) avifp.remove();
+				else av.setCategory(productFromPost.getCategory());
 			}
 			Product product = new Product();
 			Sku sku = new Sku();
