@@ -110,8 +110,12 @@
               var pricePieceUnitDelemiter = /*[[${#messages.msg('product.default.pricePieceUnitDelemiter')}]]*/
               var pricePieceUnit = /*[[${#messages.msg('product.default.pricePieceUnit')}]]*/ 
               var pricePackageUnit = /*[[${#messages.msg('product.default.pricePackageUnit')}]]*/
+              var root = /*[[@{/}]]*/
      		  $(document).ready(function() {
-   	             makeSkuSelect2 ($("#main-search"), /*[[@{/admin/order/product-search}]]*/'');
+   	             makeSkuSelect2 ($("#main-search"), /*[[@{/product-search}]]*/'');
+   	             $("body").on("select2:select", "#main-search", function (e){
+   	               window.location = root+"product-by-sku/"+$(this).val(); 
+   	             });
    			  });               
        // ]]>
 	</script>
