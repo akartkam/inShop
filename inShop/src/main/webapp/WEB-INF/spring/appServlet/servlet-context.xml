@@ -42,16 +42,6 @@
         </beans:property>
 	</beans:bean>
 	
-	<beans:bean id="productDisplayNameModificator" class="com.akartkam.inShop.service.extension.DefaultProductDisplayNameModificatorImpl">
-		<beans:property name="allowedCategoriesId">
-			<util:list value-type="java.lang.String">
-				<beans:value>d7cc11da-c38e-4858-a48d-e9cb4c20148b</beans:value>
-				<beans:value>94e1fb3f-ba95-427e-b146-18cd69ef419c</beans:value>
-				<beans:value>9a68bccb-26bc-443f-8a9b-a54de085249a</beans:value>
-			</util:list>
-		</beans:property>
-	</beans:bean>
-
 	<!-- To Spring MVC return byte arrays -->
 	<beans:bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
 	   <beans:property name="messageConverters">

@@ -34,13 +34,13 @@ public class DefaultProductDisplayNameModificatorImpl implements
 			ret.append(product.getDefaultSku().getCode()).append(" ");
 		}		
 		ret.append(str);
+		if(product.getCategory().getShowQuanPerPackOnProductHeader()) {
+			ret.append(",&nbsp;").append(product.getDefaultSku().getQuantityPerPackage());
+			if (messageSource != null) {
+				ret.append("&nbsp;").append(messageSource.getMessage("product.default.pricePieceUnit", null, Locale.getDefault()));
+			}				
+		}
 		for (AbstractAttributeValue av: product.getAttributeValues()) {
-			if(product.getCategory().getShowQuanPerPackOnProductHeader()) {
-				ret.append(",&nbsp;").append(product.getDefaultSku().getQuantityPerPackage());
-				if (messageSource != null) {
-					ret.append("&nbsp;").append(messageSource.getMessage("product.default.pricePieceUnit", null, Locale.getDefault()));
-				}				
-			}
 			if (av.getAttribute().getIsShowOnProductHeader()) {
 				if (av.getStringValue() != null && !"".equals(av.getStringValue())) {
 					ret.append(", <span class='product-header-attribute'>").append(av.getStringValue()).append("</span>");					

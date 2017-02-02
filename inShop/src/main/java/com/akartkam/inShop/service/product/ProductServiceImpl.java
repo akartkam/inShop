@@ -38,6 +38,7 @@ import com.akartkam.inShop.exception.ProductNotFoundException;
 import com.akartkam.inShop.formbean.ProductForm;
 import com.akartkam.inShop.formbean.SkuForJSON;
 import com.akartkam.inShop.formbean.SkuForm;
+import com.akartkam.inShop.service.extension.ProductDisplayNameModificator;
 import com.akartkam.inShop.service.order.InventoryService;
 import com.akartkam.inShop.util.NullAwareBeanUtilsBean;
 
@@ -70,7 +71,10 @@ public class ProductServiceImpl implements ProductService {
 	
 	@Autowired
 	private MessageSource messageSource;
-
+	
+	@Autowired
+	private ProductDisplayNameModificator productDisplayNameModificator;
+	
 	
 	@Override
 	@Transactional(readOnly = false)
@@ -631,7 +635,12 @@ public class ProductServiceImpl implements ProductService {
 		BigDecimal retailPrice, salePrice, priceForPackage;
 		for (Sku sku: skus) {
 			if (!inventoryService.isAvailable(sku)) continue;
-			pname = sku.getName();
+			if (sku.isDefaultSku()) {
+				productDisplayNameModificator.setProduct(sku.getDefaultProduct());
+				pname = productDisplayNameModificator.getModifyedDisplayName(sku.getName());
+			} else {
+				pname = sku.getName();				
+			}
 			images = new String[0];
 			if (sku.getImages() != null && sku.getImages().size() != 0) {
 				images= CollectionUtils.collect (sku.getImages(), new Transformer<String, String>() {
