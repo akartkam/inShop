@@ -5,9 +5,9 @@ function formatRepo (repo) {
         "<div class='photo-block'><img src='" + (repo.images[0]) + "' /></div></div>" +
         "<div class='select2-result-repository__meta'>" +
           "<div class='select2-result-repository__title'>" + repo.name + "</div>";
-      markup += "<div class='select2-result-repository__description'>" + (repo.code ? "Артикул:" + repo.code : "") + 
-    		    (repo.optionValues.length ? (repo.code ? "&nbsp;<span style='display: inline-block; color: #aaa; font-size: 11px;'>&#9679;</span>&nbsp;": "")  + 
-    		    "Вариант:" + repo.optionValues.join()  : "") + 
+      markup += "<div class='select2-result-repository__description'>" + /*(repo.code ? "Артикул:" + repo.code : "") +*/ 
+    		    (repo.optionValues.length ? /*(repo.code ? "&nbsp;<span style='display: inline-block; color: #aaa; font-size: 11px;'>&#9679;</span>&nbsp;": "")  +*/ 
+    		    "Вариант: " + repo.optionValues.join()  : "") + 
     		    (repo.quantityAvailable ? (repo.optionValues.length ? "&nbsp;<span style='display: inline-block; color: #aaa; font-size: 11px;'>&#9679;</span>&nbsp;" : "" )  +
     		    "Остаток:" + repo.quantityAvailable  : "") +
     		    "</div>";
