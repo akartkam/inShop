@@ -1,5 +1,6 @@
 package com.akartkam.inShop.dao.product;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -11,14 +12,18 @@ import java.util.UUID;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.Predicate;
 import org.hibernate.Criteria;
+import org.hibernate.Query;
+import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.criterion.Subqueries;
 import org.hibernate.type.IntegerType;
 import org.hibernate.type.StringType;
 import org.springframework.stereotype.Repository;
 
 import com.akartkam.inShop.dao.AbstractGenericDAO;
+import com.akartkam.inShop.domain.order.OrderItem;
 import com.akartkam.inShop.domain.product.Sku;
 import com.akartkam.inShop.util.Constants;
 
@@ -41,7 +46,17 @@ public class SkuDAOImpl extends AbstractGenericDAO<Sku> implements SkuDAO {
 	@Override
 	public Object[] findSkusByCodeOrNameForPaging(String s, int rowPerPage, int pageNumber) {
 		Object[] res = new Object[2];
-		Criteria criteriaCount = currentSession().createCriteria(Sku.class)
+		Query query = currentSession().getNamedQuery("countSearchSku").setString("q", s);
+		BigInteger totalRowCount = (BigInteger) query.uniqueResult();
+		res[0] = totalRowCount.longValue();
+		int offset = (pageNumber - 1) * rowPerPage;
+		Query query1 = currentSession().getNamedQuery("searchSku").setString("q", s);
+		query1.setFirstResult(offset);
+		query1.setMaxResults(rowPerPage);
+		query1.setCacheable(true);
+		query1.setCacheRegion("query.Catalog");	
+		res[1] = query1.list();
+		/*Criteria criteriaCount = currentSession().createCriteria(Sku.class)
 				.add(Restrictions.or(Restrictions.ilike("name", s), Restrictions.ilike("code", s)))
 				.add(Restrictions.eq("enabled", new Boolean(true)))
 				.setProjection(Projections.rowCount());
@@ -56,7 +71,7 @@ public class SkuDAOImpl extends AbstractGenericDAO<Sku> implements SkuDAO {
 		criteria.setMaxResults(rowPerPage);		
 		criteria.setCacheable(true);
 		criteria.setCacheRegion("query.Catalog");
-		res[1] = criteria.list();
+		res[1] = criteria.list();*/
 		return res;
 	}	
 
@@ -79,13 +94,20 @@ public class SkuDAOImpl extends AbstractGenericDAO<Sku> implements SkuDAO {
 		return resMap;
 		
 	}
+
+	@Override
+	public boolean canDelete(Sku sku) {
+		Query query = currentSession().getNamedQuery("canDeleteSku").setString("id", sku.getId().toString());
+		return query.uniqueResult() != null;
+	}
 	
+	/*
 	@Override
 	public void delete(Sku object) {
 		currentSession().delete(object);
-		/*getSessionFactory().getCache().evictQueryRegions();
-		getSessionFactory().getCache().evictEntityRegion(Sku.class);*/
+		getSessionFactory().getCache().evictQueryRegions();
+		getSessionFactory().getCache().evictEntityRegion(Sku.class);
 	}
-
+	*/
  
 }

@@ -46,6 +46,17 @@
 			</util:list>
 		</property>
 	</bean>
+	
+ 	<bean id="orderNumberGenerator" class="com.akartkam.inShop.util.OrderNumberGeneratorFactoryBean">
+        <property name="parameters">
+          <props>
+            <prop key="orderNumberPrefix">#{shopProperties['orderNumberPrefix']}</prop>
+            <prop key="useAutogenerateOrderNumber">#{shopProperties['useAutogenerateOrderNumber']}</prop>
+            <prop key="sql">#{T(com.akartkam.inShop.util.Constants).SELECT_ORDER_NUMBER_GENERATOR_POSTGRES}</prop>
+          </props>
+        </property>
+	</bean>
+	
 
 	<context:component-scan base-package="com.akartkam.inShop.dao;com.akartkam.inShop.service;" />
 

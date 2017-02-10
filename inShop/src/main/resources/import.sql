@@ -3,6 +3,34 @@ ALTER TABLE order_number_generator OWNER TO postgres;
 
 ALTER TABLE account ADD COLUMN password CHARACTER VARYING(255);
 
+-- Table: unit
+
+-- DROP TABLE unit;
+
+CREATE TABLE unit
+(
+  name character varying NOT NULL,
+  full_name_r character varying,
+  short_name_r character varying,
+  CONSTRAINT unit_pk PRIMARY KEY (name)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE unit
+  OWNER TO postgres;
+COMMENT ON TABLE unit
+  IS 'Эта таблица исключительно для удобства создания некоторых запросов к БД. Сами единицы измерения в приложении оформлены как enum.';
+
+INSERT INTO unit (name, full_name_r, short_name_r) VALUES ('MM','миллиметр','мм');
+INSERT INTO unit (name, full_name_r, short_name_r) VALUES ('SM','сантиметр','см');
+INSERT INTO unit (name, full_name_r, short_name_r) VALUES ('KG','килограмм','кг');
+INSERT INTO unit (name, full_name_r, short_name_r) VALUES ('GR','грамм','г.');
+INSERT INTO unit (name, full_name_r, short_name_r) VALUES ('LT','литр','л.');
+INSERT INTO unit (name, full_name_r, short_name_r) VALUES ('ML','миллилитр','мл');
+INSERT INTO unit (name, full_name_r, short_name_r) VALUES ('IT','штук','шт');
+INSERT INTO unit (name, full_name_r, short_name_r) VALUES ('ITUNIT', 'штук в упаковке', 'шт/уп');
+  
   
 
 INSERT INTO account (id, username, first_name, last_name, middle_name, password, email, enabled, createby, createddate, version) 

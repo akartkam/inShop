@@ -723,6 +723,11 @@ public class ProductServiceImpl implements ProductService {
 		return productDAO.findProductsByProductStatus(productStatus);
 	}
 
+	@Override
+	public boolean canDelete(Sku sku) {
+		return skuDAO.canDelete(sku);
+	}
+
 }
 
 //}

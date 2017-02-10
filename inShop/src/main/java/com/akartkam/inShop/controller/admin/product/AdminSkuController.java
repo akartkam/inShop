@@ -8,6 +8,7 @@ import java.beans.PropertyEditorSupport;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -25,6 +26,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -231,7 +233,8 @@ public class AdminSkuController {
 		  Collection<? extends GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
 		  Sku sku = productService.loadSkuById(UUID.fromString(ID), false);
 		  if (phisycalDelete != null && phisycalDelete)  {
-			  if(sku.canRemove() && authorities.contains(new SimpleGrantedAuthority("ADMIN"))) {
+			  boolean hasPriv = authorities.contains(new SimpleGrantedAuthority("ADMIN")) || authorities.contains(new SimpleGrantedAuthority("MANAGER")); 
+			  if(hasPriv && productService.canDelete(sku)) {
 				  productService.deleteSku(sku);   
 			  } else {
 				  ra.addFlashAttribute("errormessage", this.messageSource.getMessage("admin.error.cannotdelete.message", new String[] {"Can't remove the sku."} , Locale.getDefault()));
@@ -244,8 +247,28 @@ public class AdminSkuController {
           return "redirect:/admin/catalog/sku?productID="+sku.getProduct().getId();		  
 		  }
 	
-	   @RequestMapping(value="/edit", method = RequestMethod.POST )
-	   public String saveProduct(
+	  @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
+	  @RequestMapping(value="/batch-delete", method = RequestMethod.POST)
+	  public String skuBatchDelete(@RequestParam(value = "IDS", required = true) List<String> IDS, 
+			  					   @RequestParam(value = "productID", required = true) String productID,                     
+			  					   final RedirectAttributes ra) {
+		  boolean hasError = false;
+		  for (String sid : IDS) {
+			  UUID id = UUID.fromString(sid);
+			  Sku sku = productService.loadSkuById(id, false);
+			  if(productService.canDelete(sku)) {
+				  productService.deleteSku(sku);   
+			  } else if (!hasError) {
+				  hasError = true;
+				  ra.addFlashAttribute("errormessage", this.messageSource.getMessage("admin.error.batchDelete.message",null , Locale.getDefault()));
+				  ra.addAttribute("error", true);
+			  }			  
+	      }
+          return "redirect:/admin/catalog/sku?productID="+productID;		  
+	}
+	  	  
+	  @RequestMapping(value="/edit", method = RequestMethod.POST )
+	  public String saveProduct(
 			                   @Valid SkuForm sku,
 				   			   final BindingResult bindingResult,
 			                   final RedirectAttributes ra

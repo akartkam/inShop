@@ -12,8 +12,10 @@ import java.util.UUID;
 import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ColumnResult;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.EntityResult;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
@@ -24,6 +26,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
 import javax.persistence.OrderColumn;
+import javax.persistence.SqlResultSetMapping;
+import javax.persistence.SqlResultSetMappings;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.DecimalMin;
@@ -31,8 +35,6 @@ import javax.validation.constraints.Digits;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -40,12 +42,17 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Index;
+import org.hibernate.annotations.NamedNativeQueries;
+import org.hibernate.annotations.NamedNativeQuery;
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotEmpty;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.format.annotation.NumberFormat;
-import org.springframework.format.annotation.NumberFormat.Style;
+
+
+
+
+
+
 
 import javax.persistence.JoinColumn;
 
@@ -53,12 +60,126 @@ import com.akartkam.inShop.domain.AbstractDomainObjectOrdering;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttributeValue;
 import com.akartkam.inShop.domain.product.attribute.SimpleAttributeFactory;
-import com.akartkam.inShop.domain.product.option.ProductOption;
 import com.akartkam.inShop.domain.product.option.ProductOptionValue;
 import com.akartkam.inShop.formatter.CurrencyFormat;
 import com.akartkam.inShop.presentation.admin.AdminPresentation;
 import com.akartkam.inShop.presentation.admin.EditTab;
 
+ 
+@SqlResultSetMappings({
+    @SqlResultSetMapping(name = "countSearchSkuRSM", columns = {
+        @ColumnResult(name = "count_sku")}),
+    @SqlResultSetMapping(name = "canDeleteSkuRSM", columns = {
+        @ColumnResult(name = "can_delete")})        
+})
+
+@NamedNativeQueries({
+	@NamedNativeQuery(
+			name = "canDeleteSku",
+			query = "select 1 can_delete from sku s where cast(s.id as character varying) = :id and not exists(select 1 from customer_order_item oi where oi.sku_id=s.id )",
+			resultSetMapping = "canDeleteSkuRSM"),
+	
+	@NamedNativeQuery(
+			name = "countSearchSku",
+			query = "select count(s.id) count_sku"+
+	 " from sku s "+
+	 "   inner join Product p on (p.id=s.product_id or p.default_sku_id=s.id) "+ 
+	 "   inner join Category c on c.id=p.category_id "+
+	 "   left join unit u on u.name='IT' "+
+	 " where s.enabled and p.enabled and (select case when coalesce(s.code,'') = '' then coalesce(s1.code,'') else coalesce(s.code,'') end || "+
+	 "               case when coalesce(s.name,'') = '' then coalesce(s1.name,'') else coalesce(s.name,'') end "+ 
+	 "          from Sku s1 where s1.id=p.default_sku_id)||' '|| "+
+	 "       case when c.show_quant_per_pack_on_prod_header "+ 
+	 "       then cast(s.quant_per_package as character varying)||coalesce(u.short_name_r,'')||' '|| "+
+	 "            cast(s.quant_per_package as character varying)||' '||coalesce(u.short_name_r,'') else '' end|| "+       
+	 " (select coalesce(string_agg( "+
+	 " 			 coalesce(pov.option_value,'')|| "+
+	 " 			 coalesce(u.short_name_r,'')|| "+
+	 " 			 case when coalesce(u.short_name_r,'') <> '' then "+ 
+	 "			 ' '||coalesce(pov.option_value,'')||' '|| "+
+	 "			 coalesce(u.short_name_r,'') else '' end "+
+	 "			 ,' '),'') "+
+	 "    from lnk_sku_option_value ls "+
+	 "       inner join product_option_value pov on ls.product_option_value_id=pov.id "+
+	 "       inner join product_option po on po.id=pov.productoption_id "+
+	 "	left join unit u on u.name=po.unit "+
+	 "    where ls.sku_id=s.id)||' '|| "+
+	 " (select coalesce(string_agg( "+
+	 "         coalesce(trim(al.attributevalue),'')|| "+
+	 "         coalesce(trim(ass.attributevalue),'')|| "+
+	 "         coalesce(cast(ai.attributevalue as character varying),'')|| "+
+	 "         coalesce(cast(ad.attributevalue as character varying),'')|| "+
+	 "         coalesce(u.short_name_r,'')|| "+
+	 "	  case when coalesce(u.short_name_r,'') <> '' then "+
+	 "         ' '||coalesce(trim(al.attributevalue),'')|| "+
+	 "         coalesce(trim(ass.attributevalue),'')|| "+
+	 "         coalesce(cast(ai.attributevalue as character varying),'')|| "+
+	 "         coalesce(cast(ad.attributevalue as character varying),'')||' '|| "+
+	 "         coalesce(u.short_name_r,'') else '' end "+
+	 "         ,' '),'') "+
+	 "    from attribute a  "+
+	 "       inner join attribute_value av on av.attribute_id=a.id "+
+	 "       left join attribute_slist_value al on av.product_id=p.id "+
+	 "       left join attribute_string_value ass on av.id=ass.id "+
+	 "       left join attribute_int_value ai on av.id=ai.id "+
+	 "       left join attribute_decimal_value ad on av.id=ad.id "+
+	 "       left join unit u on u.name=a.unit  "+
+	 "    where a.show_on_prod_header and "+
+	 "	   av.id=al.id) ilike :q and "+
+	 "      /*we do not want default sku of products with variants */ "+
+	 "      not exists(select 1 from Sku s1, Product p1 where p1.default_sku_id=s.id and s1.product_id=p1.id)",
+	 resultSetMapping = "countSearchSkuRSM"),	
+	
+	@NamedNativeQuery(
+			name = "searchSku",
+			query = "select s.* "+
+	 " from sku s "+
+	 "   inner join Product p on (p.id=s.product_id or p.default_sku_id=s.id) "+ 
+	 "   inner join Category c on c.id=p.category_id "+
+	 "   left join unit u on u.name='IT' "+
+	 " where s.enabled and p.enabled and (select case when coalesce(s.code,'') = '' then coalesce(s1.code,'') else coalesce(s.code,'') end || "+
+	 "               case when coalesce(s.name,'') = '' then coalesce(s1.name,'') else coalesce(s.name,'') end "+ 
+	 "          from Sku s1 where s1.id=p.default_sku_id)||' '|| "+
+	 "       case when c.show_quant_per_pack_on_prod_header "+ 
+	 "       then cast(s.quant_per_package as character varying)||coalesce(u.short_name_r,'')||' '|| "+
+	 "            cast(s.quant_per_package as character varying)||' '||coalesce(u.short_name_r,'') else '' end|| "+       
+	 " (select coalesce(string_agg( "+
+	 " 			 coalesce(pov.option_value,'')|| "+
+	 " 			 coalesce(u.short_name_r,'')|| "+
+	 " 			 case when coalesce(u.short_name_r,'') <> '' then "+ 
+	 "			 ' '||coalesce(pov.option_value,'')||' '|| "+
+	 "			 coalesce(u.short_name_r,'') else '' end "+
+	 "			 ,' '),'') "+
+	 "    from lnk_sku_option_value ls "+
+	 "       inner join product_option_value pov on ls.product_option_value_id=pov.id "+
+	 "       inner join product_option po on po.id=pov.productoption_id "+
+	 "	left join unit u on u.name=po.unit "+
+	 "    where ls.sku_id=s.id)||' '|| "+
+	 " (select coalesce(string_agg( "+
+	 "         coalesce(trim(al.attributevalue),'')|| "+
+	 "         coalesce(trim(ass.attributevalue),'')|| "+
+	 "         coalesce(cast(ai.attributevalue as character varying),'')|| "+
+	 "         coalesce(cast(ad.attributevalue as character varying),'')|| "+
+	 "         coalesce(u.short_name_r,'')|| "+
+	 "	  case when coalesce(u.short_name_r,'') <> '' then "+
+	 "         ' '||coalesce(trim(al.attributevalue),'')|| "+
+	 "         coalesce(trim(ass.attributevalue),'')|| "+
+	 "         coalesce(cast(ai.attributevalue as character varying),'')|| "+
+	 "         coalesce(cast(ad.attributevalue as character varying),'')||' '|| "+
+	 "         coalesce(u.short_name_r,'') else '' end "+
+	 "         ,' '),'') "+
+	 "    from attribute a  "+
+	 "       inner join attribute_value av on av.attribute_id=a.id "+
+	 "       left join attribute_slist_value al on av.product_id=p.id "+
+	 "       left join attribute_string_value ass on av.id=ass.id "+
+	 "       left join attribute_int_value ai on av.id=ai.id "+
+	 "       left join attribute_decimal_value ad on av.id=ad.id "+
+	 "       left join unit u on u.name=a.unit  "+
+	 "    where a.show_on_prod_header and "+
+	 "	   av.id=al.id) ilike :q and "+
+	 "      /*we do not want default sku of products with variants */ "+
+	 "      not exists(select 1 from Sku s1, Product p1 where p1.default_sku_id=s.id and s1.product_id=p1.id)",
+	 resultClass = Sku.class)})
 @Entity
 @Table(name = "sku")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)

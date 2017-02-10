@@ -32,15 +32,6 @@
        <beans:bean id="" class="com.akartkam.inShop.thymeleaf.processors.ProductDisplayNameModifyerProcessor" />
     -->
     <!-- beans for extension  --> 
- 	<beans:bean id="orderNumberGenerator" class="com.akartkam.inShop.util.OrderNumberGeneratorFactoryBean">
-        <beans:property name="parameters">
-          <beans:props>
-            <beans:prop key="orderNumberPrefix">#{shopProperties['orderNumberPrefix']}</beans:prop>
-            <beans:prop key="useAutogenerateOrderNumber">#{shopProperties['useAutogenerateOrderNumber']}</beans:prop>
-            <beans:prop key="sql">#{T(com.akartkam.inShop.util.Constants).SELECT_ORDER_NUMBER_GENERATOR_POSTGRES}</beans:prop>
-          </beans:props>
-        </beans:property>
-	</beans:bean>
 	
 	<!-- To Spring MVC return byte arrays -->
 	<beans:bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">

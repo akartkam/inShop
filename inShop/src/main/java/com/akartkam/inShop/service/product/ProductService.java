@@ -52,5 +52,5 @@ public interface ProductService {
 	void deleteSku(Sku sku);
 	void softDeleteSkuById(UUID id);
 	List<Product> getProductsByProductStatus(ProductStatus productStatus);
-
+	boolean canDelete(Sku sku);
 }

@@ -76,11 +76,11 @@
 	            <div class="modal-body" id = "delete-modal-body">
 	              <div class="field-box">
 	                <span th:text="#{admin.catalog.sku.delete.modalmessage}">Подтвердите удаление : </span>
-	                <span style="font-weight:bold" id="skuName"> Вариант </span>
+	                <span style="font-weight:bold" id="skuName">  </span>
 				  </div>	                
 	              <div class="field-box" sec:authorize="hasRole('ADMIN')">
                       <label>
-					   	<input type="checkbox" name="phisycalDelete"/>
+					   	<input type="checkbox" id="cbPhisycalDelete" name="phisycalDelete"/>
 					  	<span th:text="#{admin.delete.phisycalDelete}">Phisycal delete</span>
 					  </label>
 	              </div>
@@ -89,6 +89,7 @@
 	                <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
 	                <button type="submit" id="ID" name="ID" value="" class="btn btn-primary">Удалить</button>
 		        </div> 
+		        <input type="hidden" name="productID" th:value="${product.id}"/>
             </form>  	      
 	     </div> 
 	  </div> 
@@ -213,7 +214,7 @@
 					 	    <tbody>      
 						        <tr th:each="sku : ${product.additionalSku}" th:class="${!sku.enabled} ? 'text-muted'">
 						            <td class="text-center">						
-									    <input class="checkCategory" type="checkbox" th:id="${'check-'+sku.id}" th:value="${sku.id}"/>
+									    <input class="checkSku" type="checkbox" th:id="${'check-'+sku.id}" th:value="${sku.id}"/>
 								    </td>
 									<td class="mightOverflow domain-col">
 									    <div class="a-photo-out">
@@ -254,7 +255,7 @@
 			                                  </button>
 				                              <button th:disabled="${!sku.enabled}" type="button" data-toggle="modal" data-target="#deleteModal" 
 				                                      class="open-deleteDialog btn btn-outline btn-default btn-xs"
-				                                      th:attr="data-id=${sku.id}, data-name=${sku.name}"> 
+				                                      th:attr="data-id=${sku.id}, data-name=${sku.name}, data-path=@{/admin/catalog/sku/delete}"> 
 				                                <i class="fa fa-trash-o"></i>
 				                              </button>	
 		                            	 </div>   
@@ -283,6 +284,14 @@
                                   <span> </span>
 					              <span th:text="#{button.add.caption}">Add sku</span> 
                                </button>
+                               <button type="button" class="open-deleteBatchDialog btn btn-outline btn-default btn-sm" 
+                                       data-toggle="modal" data-target="#deleteModal" data-backdrop="static" data-keyboard="false"
+                                       th:attr="data-path=@{/admin/catalog/sku/batch-delete}">
+                                  <i class="fa fa-minus-circle"></i>
+                                  <span> </span>
+					              <span th:utext="#{button.batchDelete.caption}">Del skus</span> 
+                               </button>
+                               
 					     </div>
 				      </div> 
 				  </div>	  
@@ -397,11 +406,28 @@
 		        $(document).on("click", ".open-deleteDialog", function () {
 		    	     var Id = $(this).data("id");
 		    	     var prName = $(this).data("name");
-		    	     var action;
+		    	     var path = $(this).data("path");
+		    	     $("#deleteForm").attr("action", path);
+		    	     $("#cbPhisycalDelete").attr("checked", false);
+		    	     $("#cbPhisycalDelete").attr("disabled", false);		    	     
 		    	     $("#delete-modal-footer #ID").val(Id);
-		    	     $("#delete-modal-body #prName").html(prName);
+		    	     $("#delete-modal-body #skuName").html(prName);
 		    	});    	    
-		        $(document).on("click", ".open-editDialog", function () {
+		        $(document).on("click", ".open-deleteBatchDialog", function () {
+		    	     var path = $(this).data("path");
+		    	     $(".checkSku:checked").each(function(i, v){
+		    	    	 $("<input>").attr({
+		 	        	    type: "hidden",
+		 	        	    name: "IDS",
+		 	        	    value: $(v).val()
+		 	        	}).appendTo("#deleteForm");		    	    	 
+		    	     })
+		    	     $("#deleteForm").attr("action", path);
+		    	     $("#cbPhisycalDelete").attr("checked", true);
+		    	     $("#cbPhisycalDelete").attr("disabled", true);
+		    	});    	    
+
+	            $(document).on("click", ".open-editDialog", function () {
 		          var path = $(this).data("path");
   		          $("#editModalContent").html("");
                   $.ajax({
