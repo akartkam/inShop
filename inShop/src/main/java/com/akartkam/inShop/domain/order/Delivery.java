@@ -9,7 +9,6 @@ import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.Lob;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -32,6 +31,7 @@ public class Delivery  extends AbstractDomainObjectOrdering {
 	private String longDescription;
 	private DeliveryType deliveryType;
 	private Set<Store> states;
+	private Boolean isPublic=false; 
 
 	@NotEmpty
 	@Column(name = "name")
@@ -62,13 +62,25 @@ public class Delivery  extends AbstractDomainObjectOrdering {
 		this.deliveryType = deliveryType;
 	}
 	
-	@ManyToMany	
-	public Set<Store> getStates() {
+	@OneToMany	
+	@JoinTable(
+			name = "Delivery_stores",
+			joinColumns = {@JoinColumn(name = "delivery_id")},
+			inverseJoinColumns = {@JoinColumn(name = "store_id")}
+			)	
+	public Set<Store> getStores() {
 		return states;
 	}
-	public void setStates(Set<Store> states) {
+	public void setStores(Set<Store> states) {
 		this.states = states;
 	}
 	
+	@Column(name="is_public")
+	public Boolean getIsPublic() {
+		return isPublic;
+	}
+	public void setIsPublic(Boolean isPublic) {
+		this.isPublic = isPublic;
+	}
 	
 }
