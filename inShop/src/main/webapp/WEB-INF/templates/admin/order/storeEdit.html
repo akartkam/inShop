@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org" 
+                xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+                layout:decorator="admin/catalog/brand">
+	<head>
+	<!-- layout:decorator="admin/category" -->
+	    <th:block th:remove="all">
+			<title>inShop Admin brandEdit</title>
+		    <meta charset="utf-8"/>
+		    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+		    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+		    <meta name="description" content=""/>
+		    <meta name="author" content=""/>
+		
+		    <!-- Bootstrap Core CSS -->
+		    <link href="../../../../resources/css/lib/bootstrap.min.css" rel="stylesheet" th:href="@{/resources/css/lib/bootstrap.min.css}"/>
+			<!-- Treegrid -->
+		 	<link href="../../../../resources/css/lib/jquery.treegrid.css" rel="stylesheet" th:href="@{/resources/css/lib/jquery.treegrid.css}"/>
+		    <!-- Custom Fonts -->
+	    	<link href="../../../../resources/css/lib/font-awesome.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/lib/font-awesome.min.css}"/>
+			<link href="../../../../resources/css/lib/bootstrap-theme.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/lib/bootstrap-theme.min.css}"></link>    	
+	    	<link href="../../../../resources/css/admin/sb-admin-2.css" rel="stylesheet" th:href="@{/resources/css/admin/sb-admin-2.css}"/>
+			<!-- summernote -->
+			<link href="../../../../resources/css/lib/summernote.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/lib/summernote.css}"></link>
+			<!-- admin-style.css -->
+    		<link href="../../../../resources/css/admin/admin-style.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/admin/admin-style.css}"/>	    	
+	    </th:block>
+	</head>
+<body>
+  <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true" layout:fragment="editForm">
+    <div class="modal-dialog"  style="width:60vw; overflow:auto">
+	   <div class="modal-content" id="editModalContent">
+	   <form method="post" enctype="multipart/form-data" class="form-horizontal" role="form" action="#" th:action="@{/admin/catalog/brand/edit}" th:object="${brand}" th:fragment="editBrandForm">
+		   <div class="modal-header">
+	 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title"  th:text="${!brand.new}? #{admin.catalog.brand.edit.title.edit}: #{admin.catalog.brand.edit.title.add}">Edit Category</h4>
+	 	   </div>
+		 <!-- /modal-header -->
+		    <div class="modal-body" style ="height:60vh; overflow:auto">
+		          <div  th:if="${#fields.hasErrors('*')}" class="alert alert-danger alert-dismissable">
+		          	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <span th:text="#{admin.catalog.category.edit.existsErrors}">There is some errors in the form</span>
+					<ul>
+					  <li th:each="err : ${#fields.errors('*')}" th:text="${err}">Input is incorrect</li>
+					</ul>                                 
+                  </div>
+	               <ul class="nav nav-tabs">
+	                    <li class="active"><a href="#main" data-toggle="tab" th:text="#{admin.edit.tab.description}">Описание</a>
+	                    </li>
+	                    <li><a href="#additional" data-toggle="tab" th:text="#{admin.edit.tab.params}">Параметры</a>
+	                    </li>
+	                    <li><a href="#seo" data-toggle="tab" th:text="#{admin.edit.tab.seo}">SEO</a>
+	                    </li>
+	                </ul>
+	                <!-- Tab panes -->
+	                <div class="tab-content">
+	                    <div class="tab-pane fade in active" id="main">
+						   <div class="field-box" th:class="${#fields.hasErrors('name')}? has-error: field-box">
+							  <input type="hidden" th:field="*{id}"/>	                              
+				    		  <label>
+					    	  	 <span th:text="#{admin.catalog.brand.edit.name}">Brand1</span>
+					   		  </label>
+					   		  <input type="text" class="form-control" th:field="*{name}"/>
+					   		  <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Incorrect name</p>
+				   		   </div>
+				   		   <div class="field-box">	                              
+				    		  <label>
+					    	  	 <span th:text="#{admin.catalog.brand.edit.url}">URL</span>
+					   		  </label>
+						      <div class="input-group">                              
+						   		  <input type="text" class="form-control" th:field="*{urlForForm}"/>
+							      <span class="input-group-btn">
+							        <button class="btn btn-default" id="urlRefreshBtn" type="button"  th:title="#{button.autogenerate}"><i class="fa fa-refresh"></i></button>
+							      </span>						   		  
+						      </div>
+				   		   </div>
+				   		   <div class="field-box">
+	 			    		  <label>
+					    	  	<span th:text="#{admin.edit.tab.description}">Description Brand1</span>
+					   		   </label>
+					   		   <input type="text" class="form-control" th:field="*{description}"/>
+				   		   </div>			
+  						   <div class="field-box">
+	 			    		   <label>
+					    	  	<span th:text="#{admin.catalog.brand.edit.longDescription}">Long Description Brand1</span>
+					   		   </label>
+						       <textarea id="summernote" class="textarea form-control" placeholder="Введите текст..." th:field="*{longDescription}"></textarea>
+  						   </div>
+	             		</div>
+	                    <div class="tab-pane fade" id="additional">
+	                       <div class="field-box">
+	                          <label>
+						  	  	<span th:text="#{admin.catalog.brand.edit.logoImage}">Logo Image</span>
+						      </label>
+						        <div class="media" style="margin-top: 0;">
+								  <div class="media-left">
+								    <input type="hidden" id="currLogoUrl" th:field="*{logoUrl}"/>
+								    <div class="photo-block"> 
+		                                 <span class="helper"></span>
+		                                 <img id="imgLogo" src="../../../../resources/img/logo/asus.png" width="100"
+		                                     th:src="@{${{brand.logoUrl!=null}? brand.logoUrl: '/resources/img/noimage.png'}}" th:onerror="'this.src=\'' + @{/resources/img/noimage.png} + '\';'"/>
+	                                </div> 
+	                              </div>
+	                              <div class="media-body">
+	                                 <input type="file" class="btn-small btn" id="inputSImg" name="mainLogo" accept="image/jpeg,image/png,image/gif"/>
+	                                 <button type="button" class="btn btn-outline btn-default btn-sm" style="margin-left:13px" onclick="$('#imgLogo').attr('src',''); $('#currLogoUrl').val(''); $('#inputSImg').val('');">
+					          			<i class="fa fa-trash-o"></i>
+					        		 </button>
+	                              </div>   
+	                            </div>  
+						   </div>	 
+						   <div class="field-box">
+	                         <label>
+	 					    	<input type="checkbox" th:field="*{enabled}"/>
+							  	<span th:text="#{admin.catalog.brand.enabled}">Active?</span>
+							 </label>
+						   </div>	 
+	                    </div>
+	                    <div class="tab-pane fade" id="seo">
+				   		   <div class="field-box">	                              
+				    		  <label>
+					    	  	 <span th:text="#{admin.seo.h1}">H1</span>
+					   		  </label>
+							  <div class="input-group">
+							      <input type="text" class="form-control" th:field="*{h1}"/>
+							  </div>
+						   </div>
+				   		   <div class="field-box">	                              
+				    		  <label>
+					    	  	 <span th:text="#{admin.seo.metaTitle}">Title</span>
+					   		  </label>
+							  <div class="input-group">
+							      <textarea type="text" class="textarea form-control" placeholder="Введите текст..." th:field="*{metaTitle}"/>
+							  </div>
+						   </div>
+				   		   <div class="field-box">	                              
+				    		  <label>
+					    	  	 <span th:text="#{admin.seo.metaDescription}">Description</span>
+					   		  </label>
+							  <div class="input-group">
+							      <textarea type="text" class="textarea form-control" placeholder="Введите текст..." th:field="*{metaDescription}"/>
+							  </div>
+						   </div>
+				   		   <div class="field-box">	                              
+				    		  <label>
+					    	  	 <span th:text="#{admin.seo.metaKeywords}">Keywords</span>
+					   		  </label>
+							  <div class="input-group">
+							      <textarea type="text" class="textarea form-control" placeholder="Введите текст..." th:field="*{metaKeywords}"/>
+							  </div>
+						   </div>
+						   
+	                    </div>
+	                </div>
+		    </div>
+		 <!-- /modal-body -->
+	 	    <div class="modal-footer">
+	 		  <button type="button" class="btn btn-default" data-dismiss="modal" th:text="#{admin.catalog.category.edit.button.close}">Close</button>        
+			  <button type="submit" class="btn btn-primary" th:text="#{admin.catalog.category.edit.button.save}">Save changes</button>
+		    </div>  
+		 <!-- /modal-footer -->
+	     </form>	
+      </div> 
+    </div> 
+  </div>	    
+   <!-- jQuery -->
+   <script src="../../../../resources/js/lib/jquery.min.js" th:src="@{/resources/js/lib/jquery.min.js}"></script>
+   <!-- Bootstrap Core JavaScript -->
+   <script src="../../../../resources/js/lib/bootstrap.min.js" th:src="@{/resources/js/lib/bootstrap.min.js}"></script>
+ 
+	   <th:block th:fragment="scriptEditModal">
+		   <!-- Bootstrap bootstrap-wysiwyg.js -->
+		   <script src="../../../../resources/js/lib/summernote.js" th:src="@{/resources/js/lib/summernote.js}"></script>
+		   <script src="../../../../resources/js/lib/summernote-ru-RU.js" th:src="@{/resources/js/lib/summernote-ru-RU.js}"></script> 
+	   </th:block>
+   		<th:block layout:fragment="scriptEditModal"> 
+	   	   <script type="text/javascript">
+		     $(document).ready(function() {
+		    	 $("#editModal").modal({
+		    		    backdrop: 'static',
+		    		    keyboard: false
+		    		});
+                 $('#summernote').summernote({
+					    lang: "ru-RU"
+				    });
+				 $('#inputSImg').on('change', function (e) {
+			      var $this = $(this),
+			              $type_file = $this.val(),
+			              file = this.files[0],
+			              reader = new FileReader();
+				          reader.onload = (function(e) {
+				      	        $("#imgLogo").attr("src", e.target.result);
+				                });
+				          reader.readAsDataURL(file);
+				          });                 
+			     });
+	         });
+	 		 
+		   </script>
+		 </th:block>  
+</body>
+</html>
+

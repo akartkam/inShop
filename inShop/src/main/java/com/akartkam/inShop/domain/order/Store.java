@@ -34,12 +34,13 @@ public class Store extends AbstractDomainObjectOrdering {
 	private String workSchedule;
 	private String mapScript;
 	private Set<Category> excludedCategories;
+
+	@NotEmpty
+	@Column(name = "name")	
 	public String getName() {
 		return name;
 	}
 	
-	@NotEmpty
-	@Column(name = "name")
 	public void setName(String name) {
 		this.name = name;
 	}
