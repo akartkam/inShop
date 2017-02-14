@@ -7,7 +7,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +31,7 @@ import com.akartkam.inShop.domain.customer.Customer;
 import com.akartkam.inShop.domain.order.Order;
 import com.akartkam.inShop.domain.order.OrderItem;
 import com.akartkam.inShop.domain.order.OrderStatus;
+import com.akartkam.inShop.domain.order.Store;
 import com.akartkam.inShop.domain.product.Sku;
 import com.akartkam.inShop.exception.InventoryUnavailableException;
 import com.akartkam.inShop.exception.SkuNotFoundException;
@@ -74,6 +74,7 @@ public class AdminOrderController {
 	  public List<OrderStatus> getAllOrderStatus() {
 	      return Arrays.asList(OrderStatus.ALL);
 	  }		  
+	  
 	  
 	  @Autowired
 	  private MessageSource messageSource;
@@ -125,7 +126,7 @@ public class AdminOrderController {
 	  @RequestMapping(method=GET)
 	  public String orders() {
 		  return "/admin/order/order"; 
-		  }		  
+		  }		  	  
 	  
 	  
 	  @RequestMapping("/edit")

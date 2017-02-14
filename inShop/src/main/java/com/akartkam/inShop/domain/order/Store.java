@@ -1,6 +1,7 @@
 package com.akartkam.inShop.domain.order;
 
 import java.util.Set;
+import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,11 +10,13 @@ import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.JoinColumn;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import com.akartkam.inShop.domain.AbstractDomainObjectOrdering;
+import com.akartkam.inShop.domain.product.Brand;
 import com.akartkam.inShop.domain.product.Category;
 import com.akartkam.inShop.validator.HtmlSafe;
 
@@ -109,5 +112,21 @@ public class Store extends AbstractDomainObjectOrdering {
 		this.excludedCategories = excludedCategories;
 	}
 	
-	
+	@Override
+	@Transient
+	public Store clone() throws CloneNotSupportedException {
+		Store store = (Store) super.clone();
+		store.setId(UUID.randomUUID());
+		store.setName(new String(getName()));
+		store.setCreatedBy(null);
+		store.setCreatedDate(null);
+		store.setUpdatedBy(null);
+		store.setUpdatedDate(null);
+		store.setLongDescription(new String(getLongDescription()));
+		store.setAddress(new String(getAddress()));
+		store.setImageUrl(new String(getImageUrl()));
+		store.setPhone(new String(getPhone()));
+		store.setWorkSchedule(new String(getWorkSchedule()));
+		return store;
+	}	
 }

@@ -17,8 +17,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.akartkam.inShop.dao.order.OrderDAO;
 import com.akartkam.inShop.dao.order.OrderItemDAO;
+import com.akartkam.inShop.dao.order.StoreDAO;
 import com.akartkam.inShop.domain.order.Order;
 import com.akartkam.inShop.domain.order.OrderItem;
+import com.akartkam.inShop.domain.order.Store;
 import com.akartkam.inShop.domain.product.Product;
 import com.akartkam.inShop.domain.product.Sku;
 import com.akartkam.inShop.exception.InventoryUnavailableException;
@@ -38,6 +40,7 @@ public class OrderServiceImpl implements OrderService{
 	private JdbcTemplate jdbcTemplate;
 	@Autowired
 	private InventoryService inventoryService;
+
 	
 	public OrderItem getOrderItemById(UUID id) {
 		return orderItemDAO.get(id);
@@ -138,5 +141,6 @@ public class OrderServiceImpl implements OrderService{
         }
         return quantities;
 	}
+
 
 }

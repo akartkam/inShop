@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import com.akartkam.inShop.domain.order.Order;
 import com.akartkam.inShop.domain.order.OrderItem;
+import com.akartkam.inShop.domain.order.Store;
 import com.akartkam.inShop.exception.InventoryUnavailableException;
 
 public interface OrderService {
