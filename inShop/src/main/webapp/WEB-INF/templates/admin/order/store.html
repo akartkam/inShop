@@ -32,7 +32,7 @@
 	</head>
 <body>
    <th:block layout:fragment="breadcrumb">
-   	 <li class="active" th:text="#{order.store}"></li>
+   	 <li class="active" th:text="#{order.stores}"></li>
    </th:block>
    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true" layout:fragment="deleteForm">
 	  <div class="modal-dialog">
@@ -129,49 +129,13 @@
 					                                  </button>
 						                              <button th:disabled="${!store.enabled}" type="button" data-toggle="modal" data-target="#deleteModal" 
 						                                      class="open-deleteDialog btn btn-outline btn-default btn-xs"
-						                                      th:attr="data-id=${store.id}, data-name=${br.name}"> 
+						                                      th:attr="data-id=${store.id}, data-name=${store.name}"> 
 						                                <i class="fa fa-trash-o"></i>
 						                              </button>	
 				                            	 </div>  
 					                         </div>  
 			                             </td>
 							        </tr>
-							        <th:block th:remove="all">
-										<tr th:remove="all">
-											<td class="text-center">						
-											       <input class="checkCategory" type="checkbox" id='check-1' value="1"/>
-										    </td>					         
-											<td>
-												<div class="a-photo-out">
-	                                               <span class="photo-block">
-	                                                 <span class="helper"></span>
-	                                                 <img src="../../../../resources/img/logo/asus.png" onerror="../../../../resources/img/noimage.png"/>
-	                                               </span>
-											       <span class="text-el">brand</span>
-										        </div>	
-											</td>
-											<td>/url</td>
-											<td class="text-center">Yes</td>
-											<td class="text-center"></td>
-										</tr>
-										<tr th:remove="all">
-											<td class="text-center">						
-											       <input class="checkCategory" type="checkbox" id='check-1' value="1"/>
-										    </td>					         
-											<td>
-												<div class="a-photo-out">
-	                                               <span class="photo-block">
-	                                                 <span class="helper"></span>
-	                                                 <img src="../../../../resources/img/logo/samsung.png" onerror="../../../../resources/img/noimage.png"/>
-	                                               </span>
-											       <span class="text-el">brand</span>
-										        </div>	
-											</td>
-											<td>/url</td>
-											<td class="text-center">Yes</td>
-											<td class="text-center"></td>
-										</tr>									
-								   </th:block>
 						        </tbody>
 						      </table> 
 						   </div>
@@ -183,10 +147,10 @@
 					   		 <div class="btn-group" role="group" aria-label="..."> 
                                 <button type="button" class="open-editDialog btn btn-outline btn-default btn-sm" 
                                         data-toggle="modal" data-target="#editModal" data-operation="add"
-                                        th:attr="data-path=@{/admin/catalog/brand/add}" data-backdrop="static" data-keyboard="false">
+                                        th:attr="data-path=@{/admin/order/store/add}" data-backdrop="static" data-keyboard="false">
                                   <i class="fa fa-plus-circle"></i>
                                   <span> </span>
-						          <span th:text="#{admin.catalog.brand.addbrand.buttoncaption}">Add brand</span> 
+						          <span th:text="#{admin.order.store.add.buttoncaption}">Add store</span> 
                                 </button>
 						     </div>
 					      </div> 
@@ -205,12 +169,12 @@
 	    <script src="../../../../resources/js/lib/jquery.dataTables.min.js" th:src="@{/resources/js/lib/jquery.dataTables.min.js}"></script>
 	    <script src="../../../../resources/js/lib/dataTables.bootstrap.min.js" th:src="@{/resources/js/lib/dataTables.bootstrap.min.js}"></script>
 	    <script src="../../../../resources/js/inShop-common.js" th:src="@{/resources/js/inShop-common.js}"></script>
-	    <th:block th:include="/admin/catalog/brandEdit :: scriptEditModal">
+	    <th:block th:include="/admin/order/storeEdit :: scriptEditModal">
         </th:block>	    
 	    <script type="text/javascript">
 	      //<![CDATA[
 	           $(document).ready(function() {
-    		     $("#brandDataTable").dataTable( {
+    		     $("#storeDataTable").dataTable( {
 		            	"language": {
 		                   	"processing": "Подождите...",
 		                   	  "search": "Поиск:",
@@ -243,7 +207,7 @@
 		    	     var brName = $(this).data("name");
 		    	     var action;
 		    	     $("#delete-modal-footer #ID").val(Id);
-		    	     $("#delete-modal-body #brName").html(brName);
+		    	     $("#delete-modal-body #storeName").html(brName);
 		    	});
   		        //Открытие окна редактированя
 	    		$("#editModal").on("show.bs.modal", function (e) {
@@ -261,9 +225,9 @@
 	        	    				     });
 	        	    				$('#inputSImg').on('change', function (e) {
 	        	    					  var $this = $(this),
-	        	    					          $type_file = $this.val(),
-	        	    					          file = this.files[0],
-	        	    					          reader = new FileReader();
+	        	    					      $type_file = $this.val(),
+	        	    					      file = this.files[0],
+	        	    					      reader = new FileReader();
 	        	    					 reader.onload = (function(e) {
 	        	    					  	 $("#imgLogo").attr("src", e.target.result);
 	        	    					  });
@@ -284,11 +248,6 @@
 		    	  $("#editModal").data("allowed","true");
 		    	  $("#editModal").data("path",path);
 		    	});
-		        
-		   	 $("body").on("click", "#urlRefreshBtn", function() {
-				 $("#urlForForm").val(slugify($("#name").val()));
-			 });
-	            
 		   // ]]>
 	     </script>
 	     <!-- <th:block layout:include="/admin/catalog/attributeCategoryEdit :: scriptEditModal"> -->

@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="ru" xmlns:th="http://www.thymeleaf.org" 
                 xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-                layout:decorator="admin/catalog/brand">
+                layout:decorator="admin/order/store">
 	<head>
 	<!-- layout:decorator="admin/category" -->
 	    <th:block th:remove="all">
-			<title>inShop Admin brandEdit</title>
+			<title>inShop Admin storeEdit</title>
 		    <meta charset="utf-8"/>
 		    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 		    <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -33,7 +33,7 @@
 	   <form method="post" enctype="multipart/form-data" class="form-horizontal" role="form" action="#" th:action="@{/admin/catalog/brand/edit}" th:object="${brand}" th:fragment="editBrandForm">
 		   <div class="modal-header">
 	 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				<h4 class="modal-title"  th:text="${!brand.new}? #{admin.catalog.brand.edit.title.edit}: #{admin.catalog.brand.edit.title.add}">Edit Category</h4>
+				<h4 class="modal-title"  th:text="${!store.new}? #{admin.order.store.add.title}: #{admin.order.store.edit.title}">Edit Store</h4>
 	 	   </div>
 		 <!-- /modal-header -->
 		    <div class="modal-body" style ="height:60vh; overflow:auto">
@@ -49,8 +49,6 @@
 	                    </li>
 	                    <li><a href="#additional" data-toggle="tab" th:text="#{admin.edit.tab.params}">Параметры</a>
 	                    </li>
-	                    <li><a href="#seo" data-toggle="tab" th:text="#{admin.edit.tab.seo}">SEO</a>
-	                    </li>
 	                </ul>
 	                <!-- Tab panes -->
 	                <div class="tab-content">
@@ -58,31 +56,34 @@
 						   <div class="field-box" th:class="${#fields.hasErrors('name')}? has-error: field-box">
 							  <input type="hidden" th:field="*{id}"/>	                              
 				    		  <label>
-					    	  	 <span th:text="#{admin.catalog.brand.edit.name}">Brand1</span>
+					    	  	 <span th:text="#{order.store}">Store1</span>
 					   		  </label>
 					   		  <input type="text" class="form-control" th:field="*{name}"/>
 					   		  <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Incorrect name</p>
 				   		   </div>
 				   		   <div class="field-box">	                              
 				    		  <label>
-					    	  	 <span th:text="#{admin.catalog.brand.edit.url}">URL</span>
+					    	  	 <span th:text="#{address}">Address</span>
 					   		  </label>
 						      <div class="input-group">                              
-						   		  <input type="text" class="form-control" th:field="*{urlForForm}"/>
-							      <span class="input-group-btn">
-							        <button class="btn btn-default" id="urlRefreshBtn" type="button"  th:title="#{button.autogenerate}"><i class="fa fa-refresh"></i></button>
-							      </span>						   		  
+						   		   <textarea class="textarea form-control" placeholder="Введите адрес..." th:field="*{address}"></textarea>
 						      </div>
 				   		   </div>
 				   		   <div class="field-box">
 	 			    		  <label>
-					    	  	<span th:text="#{admin.edit.tab.description}">Description Brand1</span>
+					    	  	<span th:text="#{admin.phone}">Phone</span>
 					   		   </label>
-					   		   <input type="text" class="form-control" th:field="*{description}"/>
+					   		   <input type="text" class="form-control" th:field="*{phone}"/>
+				   		   </div>			
+				   		   <div class="field-box">
+	 			    		  <label>
+					    	  	<span th:text="#{store.workSchedule}">Work Schedule</span>
+					   		   </label>
+					   		   <input type="text" class="form-control" th:field="*{workSchedule}"/>
 				   		   </div>			
   						   <div class="field-box">
 	 			    		   <label>
-					    	  	<span th:text="#{admin.catalog.brand.edit.longDescription}">Long Description Brand1</span>
+					    	  	<span th:text="#{admin.order.store.edit.longDescription}">Long Description Store1</span>
 					   		   </label>
 						       <textarea id="summernote" class="textarea form-control" placeholder="Введите текст..." th:field="*{longDescription}"></textarea>
   						   </div>
@@ -90,66 +91,39 @@
 	                    <div class="tab-pane fade" id="additional">
 	                       <div class="field-box">
 	                          <label>
-						  	  	<span th:text="#{admin.catalog.brand.edit.logoImage}">Logo Image</span>
+						  	  	<span th:text="#{admin.image}">Image</span>
 						      </label>
 						        <div class="media" style="margin-top: 0;">
 								  <div class="media-left">
-								    <input type="hidden" id="currLogoUrl" th:field="*{logoUrl}"/>
+								    <input type="hidden" id="currImage" th:field="*{imageUrl}"/>
 								    <div class="photo-block"> 
 		                                 <span class="helper"></span>
-		                                 <img id="imgLogo" src="../../../../resources/img/logo/asus.png" width="100"
-		                                     th:src="@{${{brand.logoUrl!=null}? brand.logoUrl: '/resources/img/noimage.png'}}" th:onerror="'this.src=\'' + @{/resources/img/noimage.png} + '\';'"/>
+		                                 <img id="image" width="200"
+		                                     th:src="@{${{store.imageUrl!=null}? store.imageUrl: '/resources/img/noimage.png'}}" th:onerror="'this.src=\'' + @{/resources/img/noimage.png} + '\';'"/>
 	                                </div> 
 	                              </div>
 	                              <div class="media-body">
-	                                 <input type="file" class="btn-small btn" id="inputSImg" name="mainLogo" accept="image/jpeg,image/png,image/gif"/>
-	                                 <button type="button" class="btn btn-outline btn-default btn-sm" style="margin-left:13px" onclick="$('#imgLogo').attr('src',''); $('#currLogoUrl').val(''); $('#inputSImg').val('');">
+	                                 <input type="file" class="btn-small btn" id="inputSImg" name="mainImage" accept="image/jpeg,image/png,image/gif"/>
+	                                 <button type="button" class="btn btn-outline btn-default btn-sm" style="margin-left:13px" onclick="$('#image').attr('src',''); $('#currImage').val(''); $('#inputSImg').val('');">
 					          			<i class="fa fa-trash-o"></i>
 					        		 </button>
 	                              </div>   
 	                            </div>  
-						   </div>	 
+						   </div>
+				   		   <div class="field-box">	                              
+				    		  <label>
+					    	  	 <span th:text="#{admin.mapScript}">mapScript</span>
+					   		  </label>
+						      <div class="input-group">                              
+						   		   <textarea class="textarea form-control" placeholder="Введите текст..." th:field="*{mapScript}"></textarea>
+						      </div>
+				   		   </div>						   	 
 						   <div class="field-box">
 	                         <label>
 	 					    	<input type="checkbox" th:field="*{enabled}"/>
-							  	<span th:text="#{admin.catalog.brand.enabled}">Active?</span>
+							  	<span th:text="#{admin.enabled}">Active?</span>
 							 </label>
 						   </div>	 
-	                    </div>
-	                    <div class="tab-pane fade" id="seo">
-				   		   <div class="field-box">	                              
-				    		  <label>
-					    	  	 <span th:text="#{admin.seo.h1}">H1</span>
-					   		  </label>
-							  <div class="input-group">
-							      <input type="text" class="form-control" th:field="*{h1}"/>
-							  </div>
-						   </div>
-				   		   <div class="field-box">	                              
-				    		  <label>
-					    	  	 <span th:text="#{admin.seo.metaTitle}">Title</span>
-					   		  </label>
-							  <div class="input-group">
-							      <textarea type="text" class="textarea form-control" placeholder="Введите текст..." th:field="*{metaTitle}"/>
-							  </div>
-						   </div>
-				   		   <div class="field-box">	                              
-				    		  <label>
-					    	  	 <span th:text="#{admin.seo.metaDescription}">Description</span>
-					   		  </label>
-							  <div class="input-group">
-							      <textarea type="text" class="textarea form-control" placeholder="Введите текст..." th:field="*{metaDescription}"/>
-							  </div>
-						   </div>
-				   		   <div class="field-box">	                              
-				    		  <label>
-					    	  	 <span th:text="#{admin.seo.metaKeywords}">Keywords</span>
-					   		  </label>
-							  <div class="input-group">
-							      <textarea type="text" class="textarea form-control" placeholder="Введите текст..." th:field="*{metaKeywords}"/>
-							  </div>
-						   </div>
-						   
 	                    </div>
 	                </div>
 		    </div>
@@ -189,7 +163,7 @@
 			              file = this.files[0],
 			              reader = new FileReader();
 				          reader.onload = (function(e) {
-				      	        $("#imgLogo").attr("src", e.target.result);
+				      	        $("#image").attr("src", e.target.result);
 				                });
 				          reader.readAsDataURL(file);
 				          });                 
