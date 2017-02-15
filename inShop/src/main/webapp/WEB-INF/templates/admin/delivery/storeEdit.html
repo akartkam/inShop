@@ -30,7 +30,7 @@
   <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true" layout:fragment="editForm">
     <div class="modal-dialog"  style="width:60vw; overflow:auto">
 	   <div class="modal-content" id="editModalContent">
-	   <form method="post" enctype="multipart/form-data" class="form-horizontal" role="form" action="#" th:action="@{/admin/catalog/brand/edit}" th:object="${brand}" th:fragment="editStoreForm">
+	   <form method="post" enctype="multipart/form-data" class="form-horizontal" role="form" action="#" th:action="@{/admin/delivery/store/edit}" th:object="${store}" th:fragment="editStoreForm">
 		   <div class="modal-header">
 	 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 				<h4 class="modal-title"  th:text="${!store.new}? #{admin.order.store.add.title}: #{admin.order.store.edit.title}">Edit Store</h4>
@@ -96,9 +96,9 @@
 						        <div class="media" style="margin-top: 0;">
 								  <div class="media-left">
 								    <input type="hidden" id="currImage" th:field="*{imageUrl}"/>
-								    <div class="photo-block"> 
+								    <div class="photo-block200"> 
 		                                 <span class="helper"></span>
-		                                 <img id="image" width="200"
+		                                 <img id="image"
 		                                     th:src="@{${{store.imageUrl!=null}? store.imageUrl: '/resources/img/noimage.png'}}" th:onerror="'this.src=\'' + @{/resources/img/noimage.png} + '\';'"/>
 	                                </div> 
 	                              </div>
