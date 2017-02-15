@@ -1,6 +1,7 @@
 package com.akartkam.inShop.domain.order;
 
 import java.util.Set;
+import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,6 +12,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -82,5 +84,20 @@ public class Delivery  extends AbstractDomainObjectOrdering {
 	public void setIsPublic(Boolean isPublic) {
 		this.isPublic = isPublic;
 	}
+	
+	@Override
+	@Transient
+	public Delivery clone() throws CloneNotSupportedException {
+		Delivery delivery = (Delivery) super.clone();
+		delivery.setId(UUID.randomUUID());
+		delivery.setName(new String(getName()));
+		delivery.setCreatedBy(null);
+		delivery.setCreatedDate(null);
+		delivery.setUpdatedBy(null);
+		delivery.setUpdatedDate(null);
+		delivery.setLongDescription(new String(getLongDescription()));
+		delivery.setDeliveryType(getDeliveryType());
+		return delivery;
+	}	
 	
 }

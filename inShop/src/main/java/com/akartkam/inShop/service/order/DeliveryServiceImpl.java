@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.akartkam.inShop.dao.order.DeliveryDAO;
 import com.akartkam.inShop.dao.order.StoreDAO;
+import com.akartkam.inShop.domain.order.Delivery;
 import com.akartkam.inShop.domain.order.Store;
 import com.akartkam.inShop.domain.product.Brand;
 
@@ -17,6 +19,10 @@ public class DeliveryServiceImpl implements DeliveryService {
 
 	@Autowired
 	private StoreDAO storeDAO;
+
+	@Autowired
+	private DeliveryDAO deliveryDAO;
+	
 	
 	@Override
 	public List<Store> getAllStores() {
@@ -57,6 +63,35 @@ public class DeliveryServiceImpl implements DeliveryService {
 		} else {
 			createStore(store);
 		}		
+	}
+
+	@Override
+	public Delivery createDelivery(Delivery delivery) {
+		return deliveryDAO.create(delivery);
+	}
+
+	@Override
+	public List<Delivery> getAllDeliverys() {
+		return deliveryDAO.list();
+	}
+
+	@Override
+	public Delivery cloneDeliveryById(UUID id)
+			throws CloneNotSupportedException {
+		Delivery clonedDelivery = getDeliveryById(id);
+		if (clonedDelivery == null) return null;
+		return clonedDelivery.clone();
+	}
+
+	@Override
+	public Delivery getDeliveryById(UUID id) {
+		return deliveryDAO.get(id);
+	}
+
+	@Override
+	public void mergeWithExistingAndUpdateOrCreate(Delivery delivery) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
