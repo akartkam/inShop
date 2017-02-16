@@ -117,7 +117,13 @@
 						      <div class="input-group">                              
 						   		   <textarea class="textarea form-control" placeholder="Введите текст..." th:field="*{mapScript}"></textarea>
 						      </div>
-				   		   </div>						   	 
+				   		   </div>	
+   			   		       <div class="field-box">
+	 			    		  <label>
+					    	  	<span th:text="#{admin.catalog.ordering}">Orderig</span>
+					   		  </label>
+					   		  <input type="text" class="form-control" th:field="*{ordering}"/>
+						   </div>				   		   					   	 
 						   <div class="field-box">
 	                         <label>
 	 					    	<input type="checkbox" th:field="*{enabled}"/>

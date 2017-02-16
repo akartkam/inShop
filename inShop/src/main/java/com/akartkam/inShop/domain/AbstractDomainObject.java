@@ -30,7 +30,7 @@ public abstract class AbstractDomainObject implements DomainObject<UUID>, Clonea
 	@Column(name="id")
 	@org.hibernate.annotations.Type(type="pg-uuid")
 	public UUID getId() {
-		return id;
+		return this.id;
 	}
 
 	@Override

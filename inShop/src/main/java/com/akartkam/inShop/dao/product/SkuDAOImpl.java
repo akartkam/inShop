@@ -96,8 +96,8 @@ public class SkuDAOImpl extends AbstractGenericDAO<Sku> implements SkuDAO {
 	}
 
 	@Override
-	public boolean canDelete(Sku sku) {
-		Query query = currentSession().getNamedQuery("canDeleteSku").setString("id", sku.getId().toString());
+	public boolean canDeleteSku(UUID id) {
+		Query query = currentSession().getNamedQuery("canDeleteSku").setString("id", id.toString());
 		return query.uniqueResult() != null;
 	}
 	

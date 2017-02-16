@@ -234,7 +234,7 @@ public class AdminSkuController {
 		  Sku sku = productService.loadSkuById(UUID.fromString(ID), false);
 		  if (phisycalDelete != null && phisycalDelete)  {
 			  boolean hasPriv = authorities.contains(new SimpleGrantedAuthority("ADMIN")) || authorities.contains(new SimpleGrantedAuthority("MANAGER")); 
-			  if(hasPriv && productService.canDelete(sku)) {
+			  if(hasPriv && productService.canDeleteSku(UUID.fromString(ID))) {
 				  productService.deleteSku(sku);   
 			  } else {
 				  ra.addFlashAttribute("errormessage", this.messageSource.getMessage("admin.error.cannotdelete.message", new String[] {"Can't remove the sku."} , Locale.getDefault()));
@@ -256,7 +256,7 @@ public class AdminSkuController {
 		  for (String sid : IDS) {
 			  UUID id = UUID.fromString(sid);
 			  Sku sku = productService.loadSkuById(id, false);
-			  if(productService.canDelete(sku)) {
+			  if(productService.canDeleteSku(id)) {
 				  productService.deleteSku(sku);   
 			  } else if (!hasError) {
 				  hasError = true;

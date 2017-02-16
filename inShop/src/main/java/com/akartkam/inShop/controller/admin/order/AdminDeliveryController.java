@@ -58,7 +58,7 @@ public class AdminDeliveryController {
 	  @InitBinder
 	  public void initBinder(WebDataBinder binder) {
 			binder.setAllowedFields(new String[] { "id", "name", "enabled", "longDescription","address", "phone", "imageUrl",
-												   "workSchedule", "mapScript"});
+												   "workSchedule", "mapScript", "ordering"});
 			binder.registerCustomEditor(UUID.class, "id", new PropertyEditorSupport() {
 			    @Override
 			    public void setAsText(String text) {
@@ -105,7 +105,7 @@ public class AdminDeliveryController {
 	
     @RequestMapping(value="/store/edit", method = RequestMethod.POST )
     public String saveStore(@ModelAttribute @Valid Store store, final BindingResult bindingResult,
-		                   @RequestParam(value = "currImage", required = false)	MultipartFile image,
+		                   @RequestParam(value = "mainImage", required = false)	MultipartFile image,
 		                   final RedirectAttributes ra
 		                         ) {
         if (bindingResult.hasErrors()) {

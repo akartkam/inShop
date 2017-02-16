@@ -724,8 +724,8 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public boolean canDelete(Sku sku) {
-		return skuDAO.canDelete(sku);
+	public boolean canDeleteSku(UUID id) {
+		return skuDAO.canDeleteSku(id);
 	}
 
 }

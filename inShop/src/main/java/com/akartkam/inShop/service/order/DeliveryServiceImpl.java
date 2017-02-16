@@ -60,6 +60,8 @@ public class DeliveryServiceImpl implements DeliveryService {
 			existingStore.setImageUrl(store.getImageUrl());
 			existingStore.setMapScript(store.getMapScript());
 			existingStore.setWorkSchedule(store.getWorkSchedule());
+			existingStore.setPhone(store.getPhone());
+			existingStore.setOrdering(store.getOrdering());
 		} else {
 			createStore(store);
 		}		
@@ -90,7 +92,19 @@ public class DeliveryServiceImpl implements DeliveryService {
 
 	@Override
 	public void mergeWithExistingAndUpdateOrCreate(Delivery delivery) {
-		// TODO Auto-generated method stub
+		if (delivery == null) return;
+		final Delivery existingDelivery = getDeliveryById(delivery.getId());
+		if (existingDelivery != null) {
+			existingDelivery.setName(delivery.getName());
+			existingDelivery.setDeliveryType(delivery.getDeliveryType());
+			existingDelivery.setIsPublic(delivery.getIsPublic());
+			existingDelivery.setLongDescription(delivery.getLongDescription());
+			existingDelivery.setOrdering(delivery.getOrdering());
+			
+		} else {
+			createDelivery(delivery);
+		}		
+
 		
 	}
 
