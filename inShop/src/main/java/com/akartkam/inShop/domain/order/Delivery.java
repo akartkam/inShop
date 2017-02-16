@@ -14,6 +14,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -69,7 +70,8 @@ public class Delivery  extends AbstractDomainObjectOrdering {
 			name = "Delivery_stores",
 			joinColumns = {@JoinColumn(name = "delivery_id")},
 			inverseJoinColumns = {@JoinColumn(name = "store_id")}
-			)	
+			)
+	@Cascade(org.hibernate.annotations.CascadeType.ALL)
 	public Set<Store> getStores() {
 		return states;
 	}

@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.akartkam.inShop.domain.order.Delivery;
 import com.akartkam.inShop.domain.order.Store;
 import com.akartkam.inShop.domain.product.Brand;
 import com.akartkam.inShop.service.order.DeliveryService;
@@ -50,15 +51,28 @@ public class AdminDeliveryController {
 	      return deliveryService.getAllStores();
 	}
 	
+	@ModelAttribute("allDeliverys")
+	public List<Delivery> getAllDeliverys() {
+	      return deliveryService.getAllDeliverys();
+	}
+
+	
 	@RequestMapping(value="/store", method=GET)
 	public String stores() {
 		  return "/admin/delivery/store"; 
 	}
 	
-	  @InitBinder
+	@RequestMapping(value="/delivery", method=GET)
+	public String deliverys() {
+		  return "/admin/delivery/delivery"; 
+	}
+
+	
+	@InitBinder
 	  public void initBinder(WebDataBinder binder) {
 			binder.setAllowedFields(new String[] { "id", "name", "enabled", "longDescription","address", "phone", "imageUrl",
-												   "workSchedule", "mapScript", "ordering"});
+												   "workSchedule", "mapScript", "ordering", "deliveryType", "stores",
+												   "isPublic"});
 			binder.registerCustomEditor(UUID.class, "id", new PropertyEditorSupport() {
 			    @Override
 			    public void setAsText(String text) {
