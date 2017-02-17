@@ -4,6 +4,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 import java.beans.PropertyEditorSupport;
 import java.io.File;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -25,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.akartkam.inShop.domain.order.Delivery;
+import com.akartkam.inShop.domain.order.DeliveryType;
 import com.akartkam.inShop.domain.order.Store;
 import com.akartkam.inShop.domain.product.Brand;
 import com.akartkam.inShop.service.order.DeliveryService;
@@ -54,6 +56,11 @@ public class AdminDeliveryController {
 	@ModelAttribute("allDeliverys")
 	public List<Delivery> getAllDeliverys() {
 	      return deliveryService.getAllDeliverys();
+	}
+
+	@ModelAttribute("allDeliveryTypes")
+	public List<DeliveryType> getAllDeliveryTypes(){
+		return Arrays.asList(DeliveryType.ALL);
 	}
 
 	

@@ -104,7 +104,7 @@
 						 	    <tbody>      
 							        <tr th:each="store : ${allStores}" th:class="${!store.enabled} ? 'text-muted'">
 							            <td class="text-center">						
-										    <input class="checkCategory" type="checkbox" th:id="${'check-'+store.id}" th:value="${store.id}"/>
+										    <input class="checkStore" type="checkbox" th:id="${'check-'+store.id}" th:value="${store.id}"/>
 									    </td>
 										<td>
 									       <span th:text="${store.name}">store1</span>

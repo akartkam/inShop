@@ -105,12 +105,12 @@
 						 	    <tbody>      
 							        <tr th:each="delivery : ${allDeliverys}" th:class="${!delivery.enabled} ? 'text-muted'">
 							            <td class="text-center">						
-										    <input class="checkCategory" type="checkbox" th:id="${'check-'+delivery.id}" th:value="${delivery.id}"/>
+										    <input class="checkDelivery" type="checkbox" th:id="${'check-'+delivery.id}" th:value="${delivery.id}"/>
 									    </td>
 										<td>
-									       <span th:text="${delivery.name}">store1</span>
+									       <span th:text="#{${'delivery.type.' + delivery.deliveryType}}">Type1</span>
 										</td>
-										<td><span th:text="${store.address}">Address1</span></td>
+										<td class="text-center"><i th:class="${delivery.isPublic} ? 'fa fa-check-circle'"></i></td>
 						            	<td class="text-center"><i th:class="${store.enabled} ? 'fa fa-check-circle'"></i></td>
 						            	<td class="text-center">
 							                <div class="row">
@@ -118,19 +118,19 @@
 		  				            	  		 <div class="btn-group" role="group" > 
 					                                  <button type="button" class="open-editDialog btn btn-outline btn-default btn-xs" 
 					                                          data-toggle="modal" data-target="#editModal" data-operation="edit" 
-					                                          th:attr="data-id=${store.id}, data-path=@{/admin/delivery/store/edit}"
+					                                          th:attr="data-id=${delivery.id}, data-path=@{/admin/delivery/delivery/edit}"
 					                                          data-backdrop="static" data-keyboard="false"> 
 					                                    <i class="fa fa-pencil"></i>
 					                                  </button>	
 					                                  <button type="button" class="open-editDialog btn btn-outline btn-default btn-xs" 
 					                                          data-toggle="modal" data-target="#editModal" data-operation="add"
-					                                          th:attr="data-id=${store.id}, data-path=@{/admin/delivery/store/add}"
+					                                          th:attr="data-id=${delivery.id}, data-path=@{/admin/delivery/delivery/add}"
 					                                          data-backdrop="static" data-keyboard="false">
 					                                    <i class="fa fa-copy"></i>
 					                                  </button>
 						                              <button th:disabled="${!store.enabled}" type="button" data-toggle="modal" data-target="#deleteModal" 
 						                                      class="open-deleteDialog btn btn-outline btn-default btn-xs"
-						                                      th:attr="data-id=${store.id}, data-name=${store.name}"> 
+						                                      th:attr="data-id=${delivery.id}, data-name=${delivery.name}"> 
 						                                <i class="fa fa-trash-o"></i>
 						                              </button>	
 				                            	 </div>  
@@ -148,10 +148,10 @@
 					   		 <div class="btn-group" role="group" aria-label="..."> 
                                 <button type="button" class="open-editDialog btn btn-outline btn-default btn-sm" 
                                         data-toggle="modal" data-target="#editModal" data-operation="add"
-                                        th:attr="data-path=@{/admin/delivery/store/add}" data-backdrop="static" data-keyboard="false">
+                                        th:attr="data-path=@{/admin/delivery/delivery/add}" data-backdrop="static" data-keyboard="false">
                                   <i class="fa fa-plus-circle"></i>
                                   <span> </span>
-						          <span th:text="#{admin.order.store.add.buttoncaption}">Add store</span> 
+						          <span th:text="#{admin.order.delivery.add.buttoncaption}">Add delivery</span> 
                                 </button>
 						     </div>
 					      </div> 
@@ -170,12 +170,12 @@
 	    <script src="../../../../resources/js/lib/jquery.dataTables.min.js" th:src="@{/resources/js/lib/jquery.dataTables.min.js}"></script>
 	    <script src="../../../../resources/js/lib/dataTables.bootstrap.min.js" th:src="@{/resources/js/lib/dataTables.bootstrap.min.js}"></script>
 	    <script src="../../../../resources/js/inShop-common.js" th:src="@{/resources/js/inShop-common.js}"></script>
-	    <th:block th:include="/admin/delivery/storeEdit :: scriptEditModal">
+	    <th:block th:include="/admin/delivery/deliveryEdit :: scriptEditModal">
         </th:block>	    
 	    <script type="text/javascript">
 	      //<![CDATA[
 	           $(document).ready(function() {
-    		     $("#storeDataTable").dataTable( {
+    		     $("#deliveryDataTable").dataTable( {
 		            	"language": {
 		                   	"processing": "Подождите...",
 		                   	  "search": "Поиск:",
@@ -208,7 +208,7 @@
 		    	     var brName = $(this).data("name");
 		    	     var action;
 		    	     $("#delete-modal-footer #ID").val(Id);
-		    	     $("#delete-modal-body #storeName").html(brName);
+		    	     $("#delete-modal-body #deliveryName").html(brName);
 		    	});
   		        //Открытие окна редактированя
 	    		$("#editModal").on("show.bs.modal", function (e) {
@@ -224,16 +224,6 @@
 	        	                    $("#summernote").summernote({
 	        	    				    lang: "ru-RU"
 	        	    				     });
-	        	    				$('#inputSImg').on('change', function (e) {
-	        	    					  var $this = $(this),
-	        	    					      $type_file = $this.val(),
-	        	    					      file = this.files[0],
-	        	    					      reader = new FileReader();
-	        	    					 reader.onload = (function(e) {
-	        	    					  	 $("#image").attr("src", e.target.result);
-	        	    					  });
-	        	    					  reader.readAsDataURL(file);
-	        	    					});
 	        	                    $("#name").focus();
 	                    });
 					}  

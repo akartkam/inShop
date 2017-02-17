@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="ru" xmlns:th="http://www.thymeleaf.org" 
                 xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-                layout:decorator="admin/order/store">
+                layout:decorator="admin/order/delivery">
 	<head>
 	<!-- layout:decorator="admin/category" -->
 	    <th:block th:remove="all">
-			<title>inShop Admin storeEdit</title>
+			<title>inShop Admin deliveryEdit</title>
 		    <meta charset="utf-8"/>
 		    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 		    <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -30,10 +30,10 @@
   <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true" layout:fragment="editForm">
     <div class="modal-dialog"  style="width:60vw; overflow:auto">
 	   <div class="modal-content" id="editModalContent">
-	   <form method="post" enctype="multipart/form-data" class="form-horizontal" role="form" action="#" th:action="@{/admin/delivery/store/edit}" th:object="${store}" th:fragment="editStoreForm">
+	   <form method="post" enctype="multipart/form-data" class="form-horizontal" role="form" action="#" th:action="@{/admin/delivery/delivery/edit}" th:object="${dv}" th:fragment="editDeliveryForm">
 		   <div class="modal-header">
 	 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				<h4 class="modal-title"  th:text="${!store.new}? #{admin.order.store.add.title}: #{admin.order.store.edit.title}">Edit Store</h4>
+				<h4 class="modal-title"  th:text="${!dv.new}? #{admin.order.delivery.add.title}: #{admin.order.delivery.edit.title}">Edit Delivery</h4>
 	 	   </div>
 		 <!-- /modal-header -->
 		    <div class="modal-body" style ="height:60vh; overflow:auto">
@@ -57,11 +57,25 @@
 							  <input type="hidden" th:field="*{id}"/>
 							  <input type="hidden" th:field="*{createdDate}"/>	                              
 				    		  <label>
-					    	  	 <span th:text="#{order.store}">Store1</span>
+					    	  	 <span th:text="#{admin.name}">Delivery1</span>
 					   		  </label>
 					   		  <input type="text" class="form-control" th:field="*{name}"/>
 					   		  <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Incorrect name</p>
 				   		   </div>
+				   		  		<div class="row">
+					   		    	<div class="col-md-3">
+									   <div class="field-box" th:class="${#fields.hasErrors('deliveryType')}? has-error: field-box">	                              
+						                 <label>
+						    	   	         <span th:text="#{admin.order.delivery.type.caption}">Delivery type</span>
+						   		         </label>				            
+				                         <select class="form-control" th:field="*{deliveryType}">
+				                            <option value="">&nbsp;</option>
+		            						<option th:each="dt : ${DeliveryType}" th:value="${dt}" th:text="#{${'delivery.type.' + dt}}">Type1</option>
+							             </select> 
+							             <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('deliveryType')}" th:errors="*{deliveryType}">Empty type</p>
+							   		   </div>					   		    	
+					   		    	</div>
+					   		    </div>
 				   		   <div class="field-box">	                              
 				    		  <label>
 					    	  	 <span th:text="#{address}">Address</span>
@@ -119,15 +133,11 @@
 						   		   <textarea class="textarea form-control" placeholder="Введите текст..." th:field="*{mapScript}"></textarea>
 						      </div>
 				   		   </div>	
-				   		   <div class="row">
-					   		   <div class="col-md-3">
-		   			   		       <div class="field-box">
-			 			    		  <label>
-							    	  	<span th:text="#{admin.catalog.ordering}">Orderig</span>
-							   		  </label>
-							   		  <input type="text" class="form-control" th:field="*{ordering}"/>
-								   </div>
-							   </div>
+   			   		       <div class="field-box">
+	 			    		  <label>
+					    	  	<span th:text="#{admin.catalog.ordering}">Orderig</span>
+					   		  </label>
+					   		  <input type="text" class="form-control" th:field="*{ordering}"/>
 						   </div>				   		   					   	 
 						   <div class="field-box">
 	                         <label>
