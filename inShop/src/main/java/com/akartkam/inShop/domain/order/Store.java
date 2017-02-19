@@ -122,11 +122,11 @@ public class Store extends AbstractDomainObjectOrdering {
 		store.setCreatedDate(null);
 		store.setUpdatedBy(null);
 		store.setUpdatedDate(null);
-		store.setLongDescription(new String(getLongDescription()));
-		store.setAddress(new String(getAddress()));
-		store.setImageUrl(new String(getImageUrl()));
-		store.setPhone(new String(getPhone()));
-		store.setWorkSchedule(new String(getWorkSchedule()));
+		store.setLongDescription(getLongDescription() != null? new String(getLongDescription()): null);
+		store.setAddress(new String(getAddress() != null? getAddress(): null));
+		store.setImageUrl(getImageUrl() != null? new String(getImageUrl()): null);
+		store.setPhone(getPhone() != null? new String(getPhone()): null);
+		store.setWorkSchedule(getWorkSchedule() != null? new String(getWorkSchedule()): null);
 		return store;
 	}	
 }

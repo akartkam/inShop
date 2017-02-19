@@ -1,9 +1,9 @@
-<div class="container-fluid" style="padding-top: 15px; padding-bottom: 15px;" 
-     th:with="cart = ${__${T(com.akartkam.inShop.util.Constants).CART_BEAN_NAME}__}">
+<div class="container-fluid" style="padding-top: 15px; padding-bottom: 15px;">
 	<div class="row">
 		<div class="col-lg-12" >
-			<table cellspacing="0" id="cart_products" class="shop_table cart">
-				<caption th:utext="#{cart.caption}"></caption>
+			<table cellspacing="0" id="cart_products" class="shop_table cart" th:fragment="cartTable" 
+			       th:with="cart = ${__${T(com.akartkam.inShop.util.Constants).CART_BEAN_NAME}__}">
+				<caption th:unless="${isShortMode}" style="text-align: center;" th:utext="#{cart.caption}"></caption>
 				<th:block th:if="${cart == null || cart.cartItemsCount == 0}">
 					<thead>
 						<tr>
@@ -14,7 +14,8 @@
 				<th:block th:if="${cart != null &amp;&amp; cart.cartItemsCount != 0}">
 				    <thead>
 				        <tr>
-				            <th class="product-remove">&nbsp;</th>
+				            <th>N</th>
+				            <th th:unless="${isShortMode}"  class="product-remove">&nbsp;</th>
 				            <th class="product-thumbnail">&nbsp;</th>
 				            <th class="product-name"><span th:utext="#{product.name}">Product</span></th>
 				            <th class="product-price"><span th:utext="#{sku.priceForPackageUnit}">Price</span></th>  
@@ -23,15 +24,15 @@
 				        </tr>
 				    </thead>
 				    <tbody>
-				        <tr th:each="ci : ${cart.cartItems}" class="cart_item">
-				            <td class="product-remove">
+				        <tr th:each="ci, ciStat : ${cart.cartItems}" class="cart_item">
+				            <td th:utext="${ciStat.index+1}"></td>
+				            <td th:unless="${isShortMode}" class="product-remove">
 								<form method="POST" th:action="@{/cart/remove}">
 									<input type="hidden" name="productId" th:value="${ci.productId}" />
 					            	<input type="hidden" name="skuId" th:value="${ci.skuId}" />
 					                <a title="Удалить строку" class="remove-from-cart" href="javascript:;" >x</a> 
 								</form>				            
 				            </td>
-				
 				            <td class="product-thumbnail">
 							    <div class="a-photo-out">
 				                   <span class="photo-block">
@@ -40,20 +41,17 @@
 				                   </span>
 							    </div>            
 				            </td>
-				
 				            <td class="product-name" >
 				                <a th:href="@{${ci.productUrl}}">
 				                	<span th:utext="${ci.productName}"></span>
 				                	<span th:if="${!#lists.isEmpty(ci.itemAttributes.values())}" style="font-size: 8pt; color: #999;" th:utext="${'('+#strings.listJoin(ci.itemAttributes.values(),', ')+')'}"></span>
 				                </a> 
 				            </td>
-				
 				            <td class="product-price">
 				                <span class="amount" th:utext="${{ci.price}}">£15.00</span> 
 				            </td>
-				
 				            <td class="product-quantity">
-				                <div class="quantity">
+				                <div class="quantity" th:unless="${isShortMode}">
 	  								<form method="POST" th:action="@{/cart/recalc}">
 										<input type="hidden" name="productId" th:value="${ci.productId}" />
 						            	<input type="hidden" name="skuId" th:value="${ci.skuId}" />
@@ -63,14 +61,14 @@
 									    </a>
 									</form>				            
 				                </div>
+				                <span th:if="${isShortMode}" th:utext="${ci.quantity}"></span>
 				            </td>
-				
 				            <td class="product-subtotal">
 				                <span class="amount" th:text="${{ci.cartItemTotal}}">£15.00</span> 
 				            </td>
 				        </tr>
 				        <tr>
-				        	<td colspan="4">
+				        	<td th:colspan="${isShortMode}? '4': '5'">
 								<span class="cart-error" style="display: none;" th:utext="#{error.productOptions}">All options required!</span>
 				        	</td>
    				            <td class="cart-total" colspan="2">
@@ -78,10 +76,12 @@
 				            	<span  th:text="${{cart.total}}">£15.00</span> 
 				            </td>
 				        </tr>
-				        <tr>
-				            <td class="actions" colspan="6">
+				        <tr th:unless="${isShortMode}">
+				            <td class="actions" colspan="7">
 				                <button type="button" class="simplemodal-close" th:utext="#{button.continueBuying}">Продолжить покупки</button>
 				                <button type="button" th:utext="#{button.buy1click}">Купить в 1 клик</button>
+				                <button type="button" class="checkout" th:utext="#{button.checkout}">Оформить заказ</button>
+				                
 				            </td>
 				        </tr>
 				    </tbody>

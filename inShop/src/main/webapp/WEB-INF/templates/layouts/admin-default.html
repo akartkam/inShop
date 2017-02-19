@@ -121,6 +121,9 @@
                     	<a href="#" class="dropdown-toggle" data-toggle="dropdown" ><span th:text= "#{admin.settings}">Settings</span><span class="caret"></span></a> 
                         <ul class="dropdown-menu" role="menu">
                             <li>
+                                <a href="#" th:href="@{/admin/delivery/delivery}"><i class="fa fa-truck fa-fw">&nbsp;</i><span th:text= "#{order.deliverys}">Deliverys</span></a>
+                            </li>
+                            <li>
                                 <a href="#" th:href="@{/admin/delivery/store}"><i class="fa fa-building-o fa-fw">&nbsp;</i><span th:text= "#{order.stores}">Stores</span></a>
                             </li>
                         </ul>

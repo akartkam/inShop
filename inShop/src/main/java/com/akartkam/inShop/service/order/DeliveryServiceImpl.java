@@ -1,5 +1,6 @@
 package com.akartkam.inShop.service.order;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
@@ -12,6 +13,7 @@ import com.akartkam.inShop.dao.order.StoreDAO;
 import com.akartkam.inShop.domain.order.Delivery;
 import com.akartkam.inShop.domain.order.Store;
 import com.akartkam.inShop.domain.product.Brand;
+import com.akartkam.inShop.domain.product.option.ProductOption;
 
 @Service("DeliveryService")
 @Transactional(readOnly = true)
@@ -68,6 +70,7 @@ public class DeliveryServiceImpl implements DeliveryService {
 	}
 
 	@Override
+	@Transactional(readOnly = false)
 	public Delivery createDelivery(Delivery delivery) {
 		return deliveryDAO.create(delivery);
 	}
@@ -91,6 +94,7 @@ public class DeliveryServiceImpl implements DeliveryService {
 	}
 
 	@Override
+	@Transactional(readOnly = false)
 	public void mergeWithExistingAndUpdateOrCreate(Delivery delivery) {
 		if (delivery == null) return;
 		final Delivery existingDelivery = getDeliveryById(delivery.getId());
@@ -100,12 +104,26 @@ public class DeliveryServiceImpl implements DeliveryService {
 			existingDelivery.setIsPublic(delivery.getIsPublic());
 			existingDelivery.setLongDescription(delivery.getLongDescription());
 			existingDelivery.setOrdering(delivery.getOrdering());
-			
+			Iterator<Store> ist = existingDelivery.getStores().iterator();
+	        while(ist.hasNext()){
+	        	Store st = ist.next();
+	        	if (delivery.getStores().contains(st)) {
+	        		delivery.removeStore(st);
+	        	} else {
+	        		ist.remove();
+	        	}	        	
+	        }
+	        for (Store stEx : delivery.getStores()) {
+	        	existingDelivery.addStore(stEx);
+	        }			
 		} else {
 			createDelivery(delivery);
 		}		
+	}
 
-		
+	@Override
+	public Store loadStoreById(UUID id, boolean lock) {
+		return storeDAO.findById(id, lock);
 	}
 
 }

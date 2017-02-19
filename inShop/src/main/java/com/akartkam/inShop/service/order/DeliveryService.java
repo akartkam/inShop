@@ -17,5 +17,6 @@ public interface DeliveryService {
 	Delivery getDeliveryById(UUID id);
 	void mergeWithExistingAndUpdateOrCreate(Store store);
 	void mergeWithExistingAndUpdateOrCreate(Delivery delivery);
+	Store loadStoreById(UUID id, boolean lock);
 	
 }

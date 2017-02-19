@@ -8,15 +8,12 @@
 	<header th:replace="layouts/partials/header" />
 	<div id="content" role="main">
 		<div th:replace="layouts/partials/topnav" />
-	    <div class="container-fluid sidemenu-sticky-parent">
+	    <div class="container-fluid">
 			<div class="row">
-				<div class="col-sm-2 col-md-3 col-lg-2">
-				    <div th:replace="layouts/partials/lsidenav" />
-				</div>
-				<div class="col-sm-10 col-md-9 col-lg-10 content">
+				<div class="col-sm-12 col-md-9 col-lg-12 content">
 					<div class="maincontent-area">
 						<div th:remove="tag" layout:fragment="content" />
-					</div> <!-- End main content area -->
+					</div>
 				</div>
 			</div>
 	    </div>

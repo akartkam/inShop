@@ -137,6 +137,10 @@ $(function(){
           });   	
     });
     
+    $("body").on("click", ".checkout", function(){
+    	window.location = root+"checkout";
+    });
+    
 
 	
 });

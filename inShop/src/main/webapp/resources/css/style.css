@@ -1638,4 +1638,7 @@ span[class*="error"] {
 .select2-container--default .select2-selection--single .select2-selection__placeholder {
     font-size:xx-small !important;
 }
+
+div.pluso {
+	padding-top: 40px !important;
 }

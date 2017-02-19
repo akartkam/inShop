@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ru" xmlns:th="http://www.thymeleaf.org" 
                 xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-                layout:decorator="admin/order/delivery">
+                layout:decorator="admin/delivery/delivery">
 	<head>
 	<!-- layout:decorator="admin/category" -->
 	    <th:block th:remove="all">
@@ -30,7 +30,7 @@
   <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true" layout:fragment="editForm">
     <div class="modal-dialog"  style="width:60vw; overflow:auto">
 	   <div class="modal-content" id="editModalContent">
-	   <form method="post" enctype="multipart/form-data" class="form-horizontal" role="form" action="#" th:action="@{/admin/delivery/delivery/edit}" th:object="${dv}" th:fragment="editDeliveryForm">
+	   <form method="post" class="form-horizontal" role="form" action="#" th:action="@{/admin/delivery/delivery/edit}" th:object="${dv}" th:fragment="editDeliveryForm">
 		   <div class="modal-header">
 	 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 				<h4 class="modal-title"  th:text="${!dv.new}? #{admin.order.delivery.add.title}: #{admin.order.delivery.edit.title}">Edit Delivery</h4>
@@ -44,10 +44,12 @@
 					  <li th:each="err : ${#fields.errors('*')}" th:text="${err}">Input is incorrect</li>
 					</ul>                                 
                   </div>
-	               <ul class="nav nav-tabs">
+	                <ul class="nav nav-tabs">
 	                    <li class="active"><a href="#main" data-toggle="tab" th:text="#{admin.edit.tab.description}">Описание</a>
 	                    </li>
 	                    <li><a href="#additional" data-toggle="tab" th:text="#{admin.edit.tab.params}">Параметры</a>
+	                    </li>
+	                    <li th:class="${tabactive=='links'}? 'in active'"><a href="#links" data-toggle="tab" th:text="#{admin.edit.tab.links}">Связи</a>
 	                    </li>
 	                </ul>
 	                <!-- Tab panes -->
@@ -62,82 +64,37 @@
 					   		  <input type="text" class="form-control" th:field="*{name}"/>
 					   		  <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Incorrect name</p>
 				   		   </div>
-				   		  		<div class="row">
-					   		    	<div class="col-md-3">
-									   <div class="field-box" th:class="${#fields.hasErrors('deliveryType')}? has-error: field-box">	                              
-						                 <label>
-						    	   	         <span th:text="#{admin.order.delivery.type.caption}">Delivery type</span>
-						   		         </label>				            
-				                         <select class="form-control" th:field="*{deliveryType}">
-				                            <option value="">&nbsp;</option>
-		            						<option th:each="dt : ${DeliveryType}" th:value="${dt}" th:text="#{${'delivery.type.' + dt}}">Type1</option>
-							             </select> 
-							             <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('deliveryType')}" th:errors="*{deliveryType}">Empty type</p>
-							   		   </div>					   		    	
-					   		    	</div>
-					   		    </div>
-				   		   <div class="field-box">	                              
-				    		  <label>
-					    	  	 <span th:text="#{address}">Address</span>
-					   		  </label>
-						      <div class="input-group">                              
-						   		   <textarea class="textarea form-control" placeholder="Введите адрес..." th:field="*{address}"></textarea>
-						      </div>
-				   		   </div>
-				   		   <div class="field-box">
-	 			    		  <label>
-					    	  	<span th:text="#{admin.phone}">Phone</span>
-					   		   </label>
-					   		   <input type="text" class="form-control" th:field="*{phone}"/>
-				   		   </div>			
-				   		   <div class="field-box">
-	 			    		  <label>
-					    	  	<span th:text="#{store.workSchedule}">Work Schedule</span>
-					   		   </label>
-					   		   <input type="text" class="form-control" th:field="*{workSchedule}"/>
-				   		   </div>			
   						   <div class="field-box">
 	 			    		   <label>
-					    	  	<span th:text="#{admin.order.store.edit.longDescription}">Long Description Store1</span>
+					    	  	<span th:text="#{admin.order.delivery.edit.longDescription}">Long Description Delivery1</span>
 					   		   </label>
 						       <textarea id="summernote" class="textarea form-control" placeholder="Введите текст..." th:field="*{longDescription}"></textarea>
-  						   </div>
+  						   </div>				   		   
 	             		</div>
 	                    <div class="tab-pane fade" id="additional">
-	                       <div class="field-box">
-	                          <label>
-						  	  	<span th:text="#{admin.image}">Image</span>
-						      </label>
-						        <div class="media" style="margin-top: 0;">
-								  <div class="media-left">
-								    <input type="hidden" id="currImage" th:field="*{imageUrl}"/>
-								    <div class="photo-block200"> 
-		                                 <span class="helper"></span>
-		                                 <img id="image"
-		                                     th:src="@{${{store.imageUrl!=null}? store.imageUrl: '/resources/img/noimage.png'}}" th:onerror="'this.src=\'' + @{/resources/img/noimage.png} + '\';'"/>
-	                                </div> 
-	                              </div>
-	                              <div class="media-body">
-	                                 <input type="file" class="btn-small btn" id="inputSImg" name="mainImage" accept="image/jpeg,image/png,image/gif"/>
-	                                 <button type="button" class="btn btn-outline btn-default btn-sm" style="margin-left:13px" onclick="$('#image').attr('src',''); $('#currImage').val(''); $('#inputSImg').val('');">
-					          			<i class="fa fa-trash-o"></i>
-					        		 </button>
-	                              </div>   
-	                            </div>  
-						   </div>
-				   		   <div class="field-box">	                              
-				    		  <label>
-					    	  	 <span th:text="#{admin.mapScript}">mapScript</span>
-					   		  </label>
-						      <div class="input-group">                              
-						   		   <textarea class="textarea form-control" placeholder="Введите текст..." th:field="*{mapScript}"></textarea>
-						      </div>
-				   		   </div>	
-   			   		       <div class="field-box">
-	 			    		  <label>
-					    	  	<span th:text="#{admin.catalog.ordering}">Orderig</span>
-					   		  </label>
-					   		  <input type="text" class="form-control" th:field="*{ordering}"/>
+			   		  	   <div class="row">
+				   		    	<div class="col-md-3">
+								   <div class="field-box" th:class="${#fields.hasErrors('deliveryType')}? has-error: field-box">	                              
+					                 <label>
+					    	   	         <span th:text="#{admin.order.delivery.type.caption}">Delivery type</span>
+					   		         </label>				            
+			                         <select class="form-control" th:field="*{deliveryType}">
+			                            <option value="">&nbsp;</option>
+	            						<option th:each="dt : ${allDeliveryTypes}" th:value="${dt}" th:text="#{${'delivery.type.' + dt}}">Type1</option>
+						             </select> 
+						             <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('deliveryType')}" th:errors="*{deliveryType}">Empty type</p>
+						   		   </div>					   		    	
+				   		    	</div>
+				   		   </div>
+				   		   <div class="row">
+					   		   <div class="col-md-3">
+		   			   		       <div class="field-box">
+			 			    		  <label>
+							    	  	<span th:text="#{admin.catalog.ordering}">Orderig</span>
+							   		  </label>
+							   		  <input type="text" class="form-control" th:field="*{ordering}"/>
+								   </div>
+							   </div>
 						   </div>				   		   					   	 
 						   <div class="field-box">
 	                         <label>
@@ -145,6 +102,31 @@
 							  	<span th:text="#{admin.enabled}">Active?</span>
 							 </label>
 						   </div>	 
+						   <div class="field-box">
+	                         <label>
+	 					    	<input type="checkbox" th:field="*{isPublic}"/>
+							  	<span th:text="#{admin.order.delivery.isPublic}">isPublic?</span>
+							 </label>
+						   </div>	 
+	                    </div>
+	                    <div class="tab-pane fade" id="links">
+	                      <div class="field-box">
+	                      	<div id="storesIc" style="display: none">
+                            	<input type="hidden" th:each="st,stStat : ${dv.stores}" th:name="stores[__${stStat.index}__]" 
+                            	       th:value="${st.id}" />
+		                    </div>
+	                        <label>
+						  	  	<span th:text="#{order.stores}">Stores</span>
+						    </label>
+							 <select class="form-control selectpicker" id="stores" multiple="multiple" 
+	          						 data-live-search="true">
+								    <option th:if="${st.enabled}"
+								            th:each="st: ${allStores}" th:text="${st.name}"
+								            th:selected="${#lists.contains(dv.stores, st)}"
+								            th:value="${st.id}">
+								    </option>      
+							 </select>
+						   </div>		                    
 	                    </div>
 	                </div>
 		    </div>
@@ -178,17 +160,8 @@
                  $('#summernote').summernote({
 					    lang: "ru-RU"
 				    });
-				 $('#inputSImg').on('change', function (e) {
-			      var $this = $(this),
-			              $type_file = $this.val(),
-			              file = this.files[0],
-			              reader = new FileReader();
-				          reader.onload = (function(e) {
-				      	        $("#image").attr("src", e.target.result);
-				                });
-				          reader.readAsDataURL(file);
-				          });                 
-			     });	 		 
+                 $(".selectpicker").selectpicker();
+		     });
 		   </script>
 		 </th:block>  
 </body>

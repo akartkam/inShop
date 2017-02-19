@@ -1,5 +1,8 @@
 package com.akartkam.inShop.domain.order;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -33,7 +36,7 @@ public class Delivery  extends AbstractDomainObjectOrdering {
 	private String name;
 	private String longDescription;
 	private DeliveryType deliveryType;
-	private Set<Store> states;
+	private List<Store> stores = new ArrayList<Store>();
 	private Boolean isPublic=false; 
 
 	@NotEmpty
@@ -72,11 +75,11 @@ public class Delivery  extends AbstractDomainObjectOrdering {
 			inverseJoinColumns = {@JoinColumn(name = "store_id")}
 			)
 	@Cascade(org.hibernate.annotations.CascadeType.ALL)
-	public Set<Store> getStores() {
-		return states;
+	public List<Store> getStores() {
+		return stores;
 	}
-	public void setStores(Set<Store> states) {
-		this.states = states;
+	public void setStores(List<Store> stores) {
+		this.stores = stores;
 	}
 	
 	@Column(name="is_public")
@@ -97,9 +100,21 @@ public class Delivery  extends AbstractDomainObjectOrdering {
 		delivery.setCreatedDate(null);
 		delivery.setUpdatedBy(null);
 		delivery.setUpdatedDate(null);
-		delivery.setLongDescription(new String(getLongDescription()));
+		delivery.setLongDescription(getLongDescription() != null? new String(getLongDescription()): null);
 		delivery.setDeliveryType(getDeliveryType());
 		return delivery;
-	}	
+	}
+	
+	public void addStore (Store store) {
+		if (store != null) {
+			getStores().add(store);
+		}
+	}
+	
+	public void removeStore (Store store) {
+		if (store != null) {
+			getStores().remove(store);
+		}
+	}
 	
 }

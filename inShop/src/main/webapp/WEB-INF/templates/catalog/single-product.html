@@ -34,7 +34,6 @@
 									     th:src="@{${image}}"
 									     th:attr="data-large=@{${image}}"/>		
 								</div>
-<!-- 								<div class="pluso" data-background="transparent" data-options="medium,square,line,horizontal,counter,theme=04" data-services="vkontakte,odnoklassniki,facebook,twitter,google,moimir,email,print"></div>							 -->
 							</div>
 						</div>
 						<div class="media-body single-product-info">
@@ -111,6 +110,7 @@
 							        <button type="button" class="add-to-cart" th:utext="#{button.toCart}">В корзину</button>
 					                <button type="button" th:utext="#{button.buy1click}">Купить в 1 клик</button>
 							   </div>
+  							   <div class="pluso" data-background="transparent" data-options="medium,square,line,horizontal,counter,theme=04" data-services="vkontakte,odnoklassniki,facebook,twitter,google,moimir,email,print"></div>							
 						   </form>
 						</div>									
 					</div>	
@@ -167,14 +167,14 @@
                    	innerzoom: true,
                     magnifierborder: "none"
         		});
-				/*if (window.pluso)if (typeof window.pluso.start == "function") return;
+				if (window.pluso)if (typeof window.pluso.start == "function") return;
 				if (window.ifpluso==undefined) { window.ifpluso = 1;
 				    var d = document, s = d.createElement('script'), g = 'getElementsByTagName';
 				    s.type = 'text/javascript'; s.charset='UTF-8'; s.async = true;
 				    s.src = ('https:' == window.location.protocol ? 'https' : 'http')  + '://share.pluso.ru/pluso-like.js';
 				    var h=d[g]('body')[0];
 				    h.appendChild(s);
-				}*/	        	
+				}	        	
 			});
 			
 		</script>

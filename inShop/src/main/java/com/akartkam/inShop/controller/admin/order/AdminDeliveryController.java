@@ -29,6 +29,8 @@ import com.akartkam.inShop.domain.order.Delivery;
 import com.akartkam.inShop.domain.order.DeliveryType;
 import com.akartkam.inShop.domain.order.Store;
 import com.akartkam.inShop.domain.product.Brand;
+import com.akartkam.inShop.domain.product.ProductStatus;
+import com.akartkam.inShop.domain.product.option.ProductOption;
 import com.akartkam.inShop.service.order.DeliveryService;
 import com.akartkam.inShop.util.ImageUtil;
 
@@ -78,8 +80,7 @@ public class AdminDeliveryController {
 	@InitBinder
 	  public void initBinder(WebDataBinder binder) {
 			binder.setAllowedFields(new String[] { "id", "name", "enabled", "longDescription","address", "phone", "imageUrl",
-												   "workSchedule", "mapScript", "ordering", "deliveryType", "stores",
-												   "isPublic"});
+												   "workSchedule", "mapScript", "ordering", "deliveryType", "*stores*", "isPublic"});
 			binder.registerCustomEditor(UUID.class, "id", new PropertyEditorSupport() {
 			    @Override
 			    public void setAsText(String text) {
@@ -95,6 +96,27 @@ public class AdminDeliveryController {
 			    	  setValue(text);	
 			    }
 			    });
+			
+			binder.registerCustomEditor(DeliveryType.class,"deliveryType", new PropertyEditorSupport() {
+			    @Override
+			    public void setAsText(String text) {
+			    	if (!"".equals(text)) {
+			    		DeliveryType p = DeliveryType.forName(text); 
+			            setValue(p);
+			    	}			    
+			    }
+			    });	
+			
+			binder.registerCustomEditor(Store.class,"stores", new PropertyEditorSupport() {
+			    @Override
+			    public void setAsText(String text) {
+			    	if (!"".equals(text)) {
+			    		Store s = deliveryService.loadStoreById(UUID.fromString(text), false); 
+			            setValue(s);
+			    	}			    
+			    }
+			    });			
+			
 	  }	
 	  
     @RequestMapping("/store/edit")
@@ -112,7 +134,7 @@ public class AdminDeliveryController {
 	  }	  
 	
 	@RequestMapping("/store/add")
-	public String brandAdd(@RequestParam(value = "ID", required = false) String copyID, Model model,
+	public String storeAdd(@RequestParam(value = "ID", required = false) String copyID, Model model,
 				           @RequestHeader(value = "X-Requested-With", required = false) String requestedWith) throws CloneNotSupportedException {
 		  Store store = null;
 		  if (copyID != null && !"".equals(copyID)) store = deliveryService.cloneStoreById(UUID.fromString(copyID)); 
@@ -124,7 +146,50 @@ public class AdminDeliveryController {
         return "/admin/delivery/storeEdit";		  
 	}
 	
-    @RequestMapping(value="/store/edit", method = RequestMethod.POST )
+	@RequestMapping("/delivery/edit")
+    public String deliveryEdit(@RequestParam(value = "ID", required = false) String deliveryID, Model model,
+				  @RequestHeader(value = "X-Requested-With", required = false) String requestedWith) {
+		  if(!model.containsAttribute("dv")) {
+				 if (deliveryID == null || "".equals(deliveryID)) throw new IllegalStateException("deliveryID in deliveryEdit was null" );
+				 Delivery delivery = deliveryService.getDeliveryById(UUID.fromString(deliveryID));
+			     model.addAttribute("dv", delivery);
+			  }
+		  if ("XMLHttpRequest".equals(requestedWith)) {
+		          return "/admin/delivery/deliveryEdit :: editDeliveryForm";
+		        }		  
+		  return "/admin/delivery/deliveryEdit";		  
+		
+	}
+	
+	
+	
+	@RequestMapping("/delivery/add")
+	public String deliveryAdd(@RequestParam(value = "ID", required = false) String copyID, Model model,
+				           @RequestHeader(value = "X-Requested-With", required = false) String requestedWith) throws CloneNotSupportedException {
+		  Delivery delivery = null;
+		  if (copyID != null && !"".equals(copyID)) delivery = deliveryService.cloneDeliveryById(UUID.fromString(copyID)); 
+		  else delivery = new Delivery();
+	      model.addAttribute("dv", delivery);
+        if ("XMLHttpRequest".equals(requestedWith)) {
+            return "/admin/delivery/deliveryEdit :: editDeliveryForm";
+          } 	      
+        return "/admin/delivery/deliveryEdit";		  
+	}
+
+	@RequestMapping(value="/delivery/edit", method = RequestMethod.POST )
+	public String saveDelivery (@ModelAttribute @Valid Delivery delivery, final BindingResult bindingResult,
+            					final RedirectAttributes ra) {
+        if (bindingResult.hasErrors()) {
+        	ra.addFlashAttribute("dv", delivery);
+        	ra.addFlashAttribute("org.springframework.validation.BindingResult.dv", bindingResult);
+            return "redirect:/admin/delivery/delivery/edit";
+        }
+        deliveryService.mergeWithExistingAndUpdateOrCreate(delivery);
+        return "redirect:/admin/delivery/delivery";
+	}
+	
+	
+	@RequestMapping(value="/store/edit", method = RequestMethod.POST )
     public String saveStore(@ModelAttribute @Valid Store store, final BindingResult bindingResult,
 		                   @RequestParam(value = "mainImage", required = false)	MultipartFile image,
 		                   final RedirectAttributes ra
