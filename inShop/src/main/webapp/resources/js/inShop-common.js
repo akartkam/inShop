@@ -96,3 +96,16 @@ function extractData($data, dataDivId) {
 
     return extractedData;
 }
+
+$("body").on("mouseenter", ".mightOverflow", function() { 
+	var $t = $(this); 
+	var titleText="";
+	//data-title exists
+	if ($(this).data("title")) {
+		titleText = $(this).data("title");
+	} else {
+		titleText = $t.text();
+	}	
+	var title = $t.attr("title");
+	if (!title){ if (this.offsetWidth < this.scrollWidth) $t.attr("title", titleText) } 
+	else { if (this.offsetWidth >= this.scrollWidth && title == titleText) $t.removeAttr("title")}}); 

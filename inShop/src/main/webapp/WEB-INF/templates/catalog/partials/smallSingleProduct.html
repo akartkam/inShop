@@ -46,7 +46,11 @@
 	<div class="product-header-info">
 	      <table cellspacing="0">
 	          <tbody>
-	          	  <tr th:if="${!#strings.isEmpty(product.defaultSku.code)}">
+	          	  <tr th:if="${product.hasAdditionalSkus()}">
+	          	  	<th class="domain-col mightOverflow"><span th:utext="#{product.articuls}"></span></th>
+	          	  	<td class="domain-col mightOverflow"><span th:utext="${product.skuCodes}"></span></td>
+	          	  </tr>
+	          	  <tr th:if="${!product.hasAdditionalSkus() &amp;&amp; !#strings.isEmpty(product.defaultSku.code)}">
 	          	  	<th class="domain-col mightOverflow"><span th:utext="#{product.articul}"></span></th>
 	          	  	<td class="domain-col mightOverflow"><span th:utext="${product.defaultSku.code}"></span></td>
 	          	  </tr>
