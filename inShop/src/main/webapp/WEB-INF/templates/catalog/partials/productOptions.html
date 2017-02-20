@@ -2,7 +2,7 @@
 	<aid:product_options product="${product}" />
 	<div id="po-data" hidden="hidden" th:attr="data-po-pricing=${poPricing}" />
 	<div th:each="po: ${#lists.toList(product.productOptions)}">
-		<label><span th:utext="${po.label}"></span>&nbsp;<attr th:if="${po.required}" class="required">*</attr></label>
+		<label><span th:utext="${po.label}"></span><span th:if="${po.unit}" th:utext="${'&nbsp;('+#messages.msg('unit.'+po.unit)+')'}"></span>&nbsp;<attr th:if="${po.required}" class="required">*</attr></label>
 		<select class="product-option-values" th:name="${'itemAttributes[' + po.name + ']'}">
             <option th:each="ov : ${product.getPOVByPO(po)}" th:attr="data-id=${ov.id}" th:value="${ov.optionValue}" th:utext="${ov.optionValue}"></option>
         </select> 

@@ -27,11 +27,11 @@ public class Customer extends AbstractDomainObject {
 	 * 
 	 */
 	private static final long serialVersionUID = 3934261574768219676L;
-	private String firstName, lastName, middleName, email, phone, address;
+	private String firstName, lastName, middleName, email, phone, address, city;
 	private Date birthdate;
 	private Account account;
 	
-	@NotNull
+	@NotEmpty
 	@Size(min = 1, max = 50)
 	@Column(name = "first_name")
 	public String getFirstName() {
@@ -41,7 +41,7 @@ public class Customer extends AbstractDomainObject {
 		this.firstName = firstName;
 	}
 	
-	@NotNull
+	@NotEmpty
 	@Size(min = 1, max = 50)
 	@Column(name = "last_name")
 	public String getLastName() {
@@ -101,6 +101,16 @@ public class Customer extends AbstractDomainObject {
 	public void setAccount(Account account) {
 		this.account = account;
 	}
+
+	@Column(name = "city")
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+	
 	@Transient
 	public String getFullName() { return firstName != null ? firstName : "" + " " + 
 	                                     middleName != null ? middleName : "" + " " + 

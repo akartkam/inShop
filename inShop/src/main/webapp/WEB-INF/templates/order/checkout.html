@@ -5,14 +5,18 @@
   			<li th:utext="#{order.checkout}"></li>
 		</ol>
 		<div class="container-fluid">
-			<div class="row" th:with="cart = ${__${T(com.akartkam.inShop.util.Constants).CART_BEAN_NAME}__}">
-			  <span th:if="${cart == null || cart.cartItemsCount == 0}" style="font-size: 24px; font-weight: bold; text-align: center;" th:utext="#{cart.empty}"></span>
+			<div class="row" style="margin-bottom: 20px;">
+				<div class="col-md-12 col-sm-12 col-lg-12">
+					<h3 th:utext="#{order.checkout}"></h3>				
+				</div>
+			</div>
+			<div  class="row" th:with="cart = ${__${T(com.akartkam.inShop.util.Constants).CART_BEAN_NAME}__}">
+			  <span th:if="${cart == null || cart.cartItemsCount == 0}" style="font-size: 18px; font-weight: bold; text-align: center;" th:utext="#{cart.empty}"></span>
 			  <th:block th:remove="${cart == null || cart.cartItemsCount == 0}? all : tag">
-				  <div class="col-lg-6">
+				  <div class="col-md-6 col-sm-6 col-lg-6">
 				  </div>
-				  <div class="col-lg-6">
+				  <div class="col-md-6 col-sm-6 col-lg-6">
 					<div th:replace="cart/partials/cartProductsTable :: cartTable"></div>			  
-	<!-- 					<div th:replace="cart/partials/cartProductsTable(isShortMode='true')"></div> -->
 				  </div>
 			  </th:block>
 			</div>

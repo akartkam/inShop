@@ -7,9 +7,11 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.akartkam.inShop.formbean.CartForm;
+import com.akartkam.inShop.formbean.CheckoutForm;
 import com.akartkam.inShop.util.CartUtil;
 import com.akartkam.inShop.util.Constants;
 
@@ -20,7 +22,8 @@ public class CheckoutController {
 	
 	private static String checkoutView = "order/checkout";
 	@RequestMapping
-	public String checkout(HttpServletRequest request, HttpServletResponse response, Model model) {
+	public String checkout(HttpServletRequest request, HttpServletResponse response, Model model,
+						  @ModelAttribute("checkoutForm") CheckoutForm checkoutForm) {
         CartForm cart = CartUtil.getCartFromSession(request, false);
         if (cart != null) {
             model.addAttribute(Constants.CART_BEAN_NAME, cart);

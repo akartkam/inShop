@@ -269,7 +269,15 @@
 		         <div class="panel-footer">
 			      <div class="btn-toolbar" role="toolbar" aria-label="...">
 				      <div class="btn-group" role="group" aria-label="...">
-				   		 <div class="btn-group" role="group" aria-label="..."> 
+				   		 <div class="btn-group" role="group" aria-label="...">
+				   		  	   <button type="button" class="btn btn-outline btn-default btn-sm" 
+				   		  	           onclick="$('.checkSku').prop('checked', true );">
+				   		  	   		<i class="fa fa-check-square-o"></i>
+				   		  	   </button>
+				   		  	   <button type="button" class="btn btn-outline btn-default btn-sm" 
+				   		  	           onclick="$('.checkSku').prop('checked', false );">
+				   		  	   		<i class="fa fa-square-o "></i>
+				   		  	   </button>
                                <button type="button" class="gen-sku btn btn-outline btn-default btn-sm" 
                                        th:attr="data-path=@{${'/admin/catalog/sku/gen?productID='+product.id}}">
                                   <i class="fa fa-rocket"></i>

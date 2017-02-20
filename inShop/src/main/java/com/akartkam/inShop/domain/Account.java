@@ -30,18 +30,18 @@ public class Account extends AbstractDomainObject {
 	 */
 	private static final long serialVersionUID = -4943474187321876921L;
 	
-	private String username, firstName, lastName, middleName, email, phone, address;
+	private String username, firstName, lastName, middleName, email, phone, address, city;
 	private Set<Role> roles = new HashSet<Role>();
 	
 	
-	@NotNull
+	@NotEmpty
 	@Size(min = 1, max = 20)
 	@Column(name = "username", unique=true)
 	public String getUsername() { return username; }
 
 	public void setUsername(String username) { this.username = username; }
 	
-	@NotNull
+	@NotEmpty
 	@Size(min = 1, max = 50)
 	@Column(name = "first_name")
 	public String getFirstName() { return firstName; }
@@ -67,7 +67,7 @@ public class Account extends AbstractDomainObject {
 
 	public void setFirstName(String firstName) { this.firstName = firstName; }
 	
-	@NotNull
+	@NotEmpty
 	@Size(min = 1, max = 50)
 	@Column(name = "last_name")
 	public String getLastName() { return lastName; }
@@ -101,6 +101,15 @@ public class Account extends AbstractDomainObject {
 	public Set<Role> getRoles() { return roles; }
 	
 	public void setRoles(Set<Role> roles) { this.roles = roles; }
+
+	@Column(name = "city")
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
 	
 
 }

@@ -566,6 +566,7 @@ public class ProductServiceImpl implements ProductService {
             Sku permutatedSku = new Sku();
             permutatedSku.setName(product.getDefaultSku().getName());
             permutatedSku.setProductOptionValues(new HashSet<ProductOptionValue>(permutation));
+            permutatedSku.setQuantityPerPackage(product.getDefaultSku().getQuantityPerPackage());
             product.addAdditionalSku(permutatedSku);
         }
         return product;

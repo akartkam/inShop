@@ -25,8 +25,14 @@
 						   	   <td><a th:utext="${product.brand.name}" aid:phref="${product.brand}"></a></td>
 						   </tr>
 						   <tr>
-						   	   <th><span th:utext="#{product.articul}"></span></th>
-						   	   <td><span th:utext="${product.defaultSku.code}"></span></td>
+						       <th:block th:unless="${product.hasAdditionalSkus()}">
+							   	   <th><span th:utext="#{product.articul}"></span></th>
+							   	   <td><span th:utext="${product.defaultSku.code}"></span></td>
+						   	   </th:block>
+						   	   <th:block th:if="${product.hasAdditionalSkus()}">
+						   	   	   <th><span th:utext="#{product.articuls}"></span></th>
+						   	   	   <td><span th:utext="${product.skuCodes}"></span></td>
+						   	   </th:block>
 						   </tr>
 		                   <tr th:each="av : ${product.attributeValues}">
 		                       <th><span th:utext="${av.attribute.name}"></span></th>
@@ -37,7 +43,7 @@
 		                   	   <td><span th:utext="${product.defaultSku.quantityPerPackage}"></span>&nbsp;<span class="price-piece-unit" th:utext="#{product.default.pricePieceUnit}"></span></td>
 		                   </tr>
 						   <tr th:if="${product.hasAdditionalSkus()}" th:each="po, poStat: ${product.productOptions}">
-						   	  <th><span th:utext="${po.label}"></span></th>
+						   	  <th><span th:utext="${po.label}"></span><span th:if="${po.unit}" th:utext="${'&nbsp;('+#messages.msg('unit.'+po.unit)+')'}"></span></th>
 						   	  <td><span th:utext="${#strings.listJoin(product.getPOVAsStringsByPO(po),',')}"></span></td>
 						   </tr>
 						   <tr>

@@ -47,9 +47,16 @@
 									   	   <td><a th:utext="${product.brand.name}" aid:phref="${product.brand}"></a></td>
 									   </tr>
 									   <tr>
-									   	   <th><span th:utext="#{product.articul}"></span></th>
-									   	   <td></td>
-									   	   <td><span th:utext="${product.defaultSku.code}"></span></td>
+									       <th:block th:unless="${product.hasAdditionalSkus()}">
+										   	   <th><span th:utext="#{product.articul}"></span></th>
+										   	   <td></td>
+										   	   <td><span th:utext="${product.defaultSku.code}"></span></td>
+									   	   </th:block>
+									   	   <th:block th:if="${product.hasAdditionalSkus()}">
+									   	   	   <th><span th:utext="#{product.articuls}"></span></th>
+									   	   	   <td></td>
+									   	   	   <td><span th:utext="${product.skuCodes}"></span></td>
+									   	   </th:block>									   
 									   </tr>
 					                   <tr th:each="av : ${product.attributeValues}">
 					                       <th><span th:utext="${av.attribute.name}"></span></th>

@@ -1,9 +1,10 @@
 package com.akartkam.inShop.formbean;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ItemsForJSON {
+public class ItemsForJSON implements Serializable {
 	
 	private List<SkuForJSON> items = new ArrayList<SkuForJSON>();
 	private Long totalItemsCount;

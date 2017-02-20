@@ -1,9 +1,10 @@
 package com.akartkam.inShop.formbean;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.UUID;
 
-public class SkuForJSON {
+public class SkuForJSON implements Serializable {
 	private UUID id;
 	private String name;
 	private String images[];
