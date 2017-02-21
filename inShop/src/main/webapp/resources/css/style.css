@@ -1650,3 +1650,10 @@ div.pluso {
 attr.required, span.required {
 	color: #c12222;
 }
+
+.well {
+    border: 1px solid #ddd !important;
+    border-radius: 0 !important;
+	-webkit-box-shadow: none !important;
+    box-shadow: none !important;    
+}
