@@ -14,19 +14,58 @@
 			  <span th:if="${cart == null || cart.cartItemsCount == 0}" style="font-size: 18px; font-weight: bold; text-align: center;" th:utext="#{cart.empty}"></span>
 			  <th:block th:remove="${cart == null || cart.cartItemsCount == 0}? all : tag">
 				  <div class="col-md-6 col-sm-6 col-lg-6">
-				    <form class="form-horizontal">
+				    <form class="form-horizontal" id="checkout-form" th:object="${checkoutForm}">
 					  <div class="form-group">
-					    <label th:utext="#{person.firstName}" for="inpFirstName" class="col-sm-2 control-label">First Name</label>
+					    <label for="firstName" class="col-sm-2 control-label"><span th:utext="#{person.firstName}"></span><span class="required">*</span></label>
 					    <div class="col-sm-10">
-					      <input type="text" class="form-control" id="inpFirstName" th:placeholder="#{person.firstName}"/>
+					      <input type="text" th:field="*{firstName}"/>
+					      <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">Incorrect firstName</p>
 					    </div>
 					  </div>
 					  <div class="form-group">
-					    <label th:utext="#{person.lastName}" for="inpLastName" class="col-sm-2 control-label">Last Name</label>
+					    <label for="lastName" class="col-sm-2 control-label"><span th:utext="#{person.lastName}"></span><span class="required">*</span></label>
 					    <div class="col-sm-10">
-					      <input type="text" class="form-control" id="inpLastName" th:placeholder="#{person.lastName}"/>
+					      <input type="text" th:field="*{lastName}" />
+					      <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">Incorrect lastName</p>
 					    </div>
 					  </div>
+					  <div class="form-group">
+					    <label for="phone" class="col-sm-2 control-label"><span th:utext="#{person.phone}"></span><span class="required">*</span></label>
+					    <div class="col-sm-10">
+					      <input type="tel" th:field="*{phone}" />
+					      <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}">Incorrect phone</p>
+					    </div>
+					  </div>
+					  <div class="form-group">
+					    <label for="email" class="col-sm-2 control-label"><span>Email</span><span class="required">*</span></label>
+					    <div class="col-sm-10">
+					      <input type="email" th:field="*{email}" />
+					      <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Incorrect email</p>
+					    </div>
+					  </div>
+					  <div class="form-group">
+					    <label for="city" class="col-sm-2 control-label"><span th:utext="#{city}"></span></label>
+					    <div class="col-sm-10">
+					      <input type="text" name="city" id="city" th:value="#{default.city}"/>
+					    </div>
+					  </div>					  
+					  <div class="form-group">
+					    <label for="address" class="col-sm-2 control-label"><span th:utext="#{address}"></span></label>
+					    <div class="col-sm-10">
+					      <textarea rows="3" th:field="*{address}"></textarea>
+					    </div>
+					  </div>
+					  <div class="form-group">
+					    <label class="col-sm-2 control-label" th:utext="#{order.delivery}">Delivery</label>
+					    <div class="col-sm-10">
+					     <div class="radio" th:each="dv : ${AllDeliveries}">
+					      <label>
+					      	<input class="inp-delivery" th:field="*{delivery}" th:value="${dv.id}" type="radio"/>
+					      	<span th:utext="${dv.name}"></span>
+					      </label>
+					     </div>
+					    </div>
+					  </div>					  					  
 				    </form>				  
 				  </div>
 				  <div class="col-md-6 col-sm-6 col-lg-6">

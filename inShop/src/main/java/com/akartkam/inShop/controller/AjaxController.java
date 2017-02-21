@@ -19,11 +19,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import com.akartkam.inShop.domain.order.Delivery;
 import com.akartkam.inShop.domain.product.Product;
 import com.akartkam.inShop.domain.product.Sku;
 import com.akartkam.inShop.formbean.ItemsForJSON;
 import com.akartkam.inShop.formbean.SkuForJSON;
 import com.akartkam.inShop.service.extension.EntityUrlModificator;
+import com.akartkam.inShop.service.order.DeliveryService;
 import com.akartkam.inShop.service.order.InventoryService;
 import com.akartkam.inShop.service.product.ProductService;
 
@@ -43,6 +45,9 @@ public class AjaxController {
 	
 	@Autowired
 	private EntityUrlModificator entityUrlModificator;	
+	
+	@Autowired
+	private DeliveryService deliveryService;
 
 	@RequestMapping("/ajax-quick-review-product")
 	public String qRevProdAjax(@RequestParam(value = "ID", required = true) String productID, Model model,
@@ -121,6 +126,27 @@ public class AjaxController {
 			   }
 		   }
 		   return goToUrl;
+	  }
+	  
+	  @RequestMapping("/ajax-delivery-details")
+	  public String getDeliveryDetailsAjax(@RequestParam(value = "ID", required = true) String deliveryID, Model model,
+				   				           @RequestHeader(value = "X-Requested-With", required = true) String requestedWith) {
+			if (!"".equals(deliveryID)) {
+				  try {
+					  UUID id = UUID.fromString(deliveryID);
+					  Delivery delivery = deliveryService.getDeliveryById(id);
+					  if (delivery == null || !delivery.isEnabled()){
+						  LOG.error("Error in ajax-delivery-details="+deliveryID);
+						  return "/admin/Error";	
+					  }
+					  model.addAttribute("dv", delivery);
+				  } catch (IllegalArgumentException e) {
+					  LOG.error("Error in ajax-delivery-details="+deliveryID, e);
+						 return "/admin/Error";	   
+				  }
+				  return "/order/partials/deliveryDetails";
+			}
+			return "/admin/Error";		  
 	  }
 	  
 	

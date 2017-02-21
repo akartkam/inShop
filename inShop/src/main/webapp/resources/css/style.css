@@ -999,7 +999,7 @@ width: 10px;
 .single-sidebar {
     margin-bottom: 50px;
 }
-input[type="text"], input[type="password"], input[type="email"], textarea {
+input[type="text"], input[type="password"], input[type="email"], input[type="tel"], textarea {
     border: 1px solid #ddd !important;
     padding: 10px !important;
 }
@@ -1641,4 +1641,12 @@ span[class*="error"] {
 
 div.pluso {
 	padding-top: 40px !important;
+}
+
+#checkout-form input:not([type=radio]), #checkout-form textarea {
+	width: 100% !important;
+}
+
+attr.required, span.required {
+	color: #c12222;
 }

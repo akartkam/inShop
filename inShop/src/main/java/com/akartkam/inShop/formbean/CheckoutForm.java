@@ -2,14 +2,14 @@ package com.akartkam.inShop.formbean;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.Lob;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import com.akartkam.inShop.domain.order.Delivery;
+import com.akartkam.inShop.domain.order.Store;
 import com.akartkam.inShop.validator.HtmlSafe;
 
 public class CheckoutForm implements Serializable {
@@ -20,10 +20,11 @@ public class CheckoutForm implements Serializable {
 	private static final long serialVersionUID = -2251596240922177675L;
 	private String firstName, lastName, email, phone, address, city;
 	private String customerComment;
+	private Delivery delivery;
+	private Store store;
 
 	@NotEmpty
 	@Size(min = 1, max = 50)
-	@Column(name = "first_name")
 	public String getFirstName() {
 		return firstName;
 	}
@@ -33,7 +34,6 @@ public class CheckoutForm implements Serializable {
 	
 	@NotEmpty
 	@Size(min = 1, max = 50)
-	@Column(name = "last_name")
 	public String getLastName() {
 		return lastName;
 	}
@@ -43,7 +43,6 @@ public class CheckoutForm implements Serializable {
 	
 	@NotEmpty
 	@Email
-	@Column(name = "email")
 	public String getEmail() {
 		return email;
 	}
@@ -52,7 +51,6 @@ public class CheckoutForm implements Serializable {
 	}
 
 	@NotEmpty
-	@Column(name = "phone")
 	public String getPhone() {
 		return phone;
 	}
@@ -60,7 +58,6 @@ public class CheckoutForm implements Serializable {
 		this.phone = phone;
 	}
 	
-	@Column(name = "address")
 	public String getAddress() {
 		return address;
 	}
@@ -68,7 +65,6 @@ public class CheckoutForm implements Serializable {
 		this.address = address;
 	}
 	
-	@Column(name = "city")
 	public String getCity() {
 		return city;
 	}
@@ -78,9 +74,6 @@ public class CheckoutForm implements Serializable {
 	}
 	
 	@HtmlSafe
-    @Lob
-    @Type(type = "org.hibernate.type.TextType")
-	@Column(name = "customer_comment", length = Integer.MAX_VALUE - 1)
 	public String getCustomerComment() {
 		return customerComment;
 	}
@@ -88,4 +81,18 @@ public class CheckoutForm implements Serializable {
 		this.customerComment = customerComment;
 	}
 	
+	@NotNull
+	public Delivery getDelivery() {
+		return delivery;
+	}
+	public void setDelivery(Delivery delivery) {
+		this.delivery = delivery;
+	}
+	public Store getStore() {
+		return store;
+	}
+	public void setStore(Store store) {
+		this.store = store;
+	}
+
 }

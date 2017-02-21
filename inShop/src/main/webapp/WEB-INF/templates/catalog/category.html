@@ -28,7 +28,9 @@
 			</div>
 			<div class="row">
 				<div id="pagination-container" class="product-list-container">
-					<div th:each="product: ${category.getAllProducts(null)}" class="col-md-3 col-sm-6 col-lg-15 product-col" th:object="${product}" th:include="catalog/partials/smallSingleProduct(pagination='true')">					
+					<div th:each="product: ${category.getAllProducts(null)}" th:if="${product.enabled}" 
+					     class="col-md-3 col-sm-6 col-lg-15 product-col" th:object="${product}" 
+					     th:include="catalog/partials/smallSingleProduct(pagination='true')">					
 					</div>
 				</div>
 			</div>
