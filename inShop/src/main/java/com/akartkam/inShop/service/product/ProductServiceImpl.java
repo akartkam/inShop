@@ -637,8 +637,8 @@ public class ProductServiceImpl implements ProductService {
 		BigDecimal retailPrice, salePrice, priceForPackage;
 		for (Sku sku: skus) {
 			if (!inventoryService.isAvailable(sku)) continue;
-			productDisplayNameModificator.setProduct(sku.isDefaultSku()? sku.getDefaultProduct(): sku.getProduct());
-			pname = productDisplayNameModificator.getModifyedDisplayName(sku.getName());
+			productDisplayNameModificator.setSku(sku);
+			pname = productDisplayNameModificator.getModifyedDisplayName(sku.lookupName());
 			images = new String[0];
 			if (sku.getImages() != null && sku.getImages().size() != 0) {
 				images= CollectionUtils.collect (sku.getImages(), new Transformer<String, String>() {

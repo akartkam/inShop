@@ -86,6 +86,7 @@ public class BrandServiceImpl implements BrandService {
 		if (existingBrand != null) {
 			existingBrand.setName(brandFromPost.getName());
 			existingBrand.setUrl(brandFromPost.getUrl());
+			existingBrand.setLogoUrl(brandFromPost.getLogoUrl());
 			existingBrand.setDescription(brandFromPost.getDescription());
 			existingBrand.setLongDescription(brandFromPost.getLongDescription());
 			existingBrand.setEnabled(brandFromPost.isEnabled());

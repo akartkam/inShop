@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 
 import com.akartkam.inShop.domain.product.Product;
+import com.akartkam.inShop.domain.product.Sku;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttributeValue;
 
 public class DefaultProductDisplayNameModificatorImpl implements
@@ -16,7 +17,7 @@ public class DefaultProductDisplayNameModificatorImpl implements
 	@Autowired(required=false)
 	private MessageSource messageSource;
 	private Set<String> allowedCategoriesId = new HashSet<String>();
-	private Product product;
+	private Sku sku;
 	
 	
 	public Set<String> getAllowedCategoriesId() {
@@ -30,12 +31,15 @@ public class DefaultProductDisplayNameModificatorImpl implements
 	@SuppressWarnings("rawtypes")
 	private String doModifyString(String str) {
 		StringBuilder ret = new StringBuilder();
-		if (product.getDefaultSku().getCode() != null && !"".equals(product.getDefaultSku().getCode())) {
-			ret.append(product.getDefaultSku().getCode()).append(" ");
+		String code = null;
+		code = sku.lookupCode(); 
+		if (code != null && !"".equals(code.trim())) {
+			ret.append(code).append(" ");
 		}		
 		ret.append(str);
+		Product product = sku.lookupProduct();
 		if(product.getCategory().getShowQuanPerPackOnProductHeader()) {
-			ret.append(",&nbsp;").append(product.getDefaultSku().getQuantityPerPackage());
+			ret.append(",&nbsp;").append(sku.getQuantityPerPackage());
 			if (messageSource != null) {
 				ret.append("&nbsp;").append(messageSource.getMessage("product.default.pricePieceUnit", null, Locale.getDefault()));
 			}				
@@ -60,18 +64,20 @@ public class DefaultProductDisplayNameModificatorImpl implements
 	}
 
 	@Override
-	public void setProduct(final Product product) {
-		this.product = product;
+	public void setSku(final Sku sku) {
+		this.sku = sku;
 	}
 
 	@Override
 	public String getModifyedDisplayName(String name) {
-		if (product == null) return null;
+		if (sku == null) return null;
+		Product product = sku.lookupProduct();
 		if (!allowedCategoriesId.contains(product.getCategory().getId().toString())) return name;
 		return doModifyString(name);
 	}
 	public String getModifyedLongDisplayName(String name) {
-		if (product == null) return null;
+		if (sku == null) return null;
+		Product product = sku.lookupProduct();
 		if (!allowedCategoriesId.contains(product.getCategory().getId().toString())) return name;
 		return doModifyString(name);
 	}

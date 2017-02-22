@@ -1361,11 +1361,13 @@ a.about_paypal {
     margin-left: 15px;
 }
 
+select {
+  border: 1px solid #ddd;
+  padding: 10px;	
+}
 
 #customer_details select, .shipping_calculator select {
-  border: 1px solid #ddd;
   margin-bottom: 15px;
-  padding: 10px;
   width: 100%;
 }
 
@@ -1597,9 +1599,7 @@ div.product-options label{
 }
 
 div.product-options select{
-	border: 1px solid #ddd;
     margin-bottom: 15px;
-    padding: 10px;
     width: 100%;
 }
 
@@ -1643,8 +1643,12 @@ div.pluso {
 	padding-top: 40px !important;
 }
 
-#checkout-form input:not([type=radio]), #checkout-form textarea {
+#checkout-form input:not([type=radio]), #checkout-form textarea, #checkout-form select {
 	width: 100% !important;
+}
+
+#checkout-form select {
+	display: block;
 }
 
 attr.required, span.required {

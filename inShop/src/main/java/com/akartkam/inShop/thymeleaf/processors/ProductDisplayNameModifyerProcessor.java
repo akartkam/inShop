@@ -9,6 +9,7 @@ import org.thymeleaf.standard.expression.IStandardExpressionParser;
 import org.thymeleaf.standard.expression.StandardExpressions;
 
 import com.akartkam.inShop.domain.product.Product;
+import com.akartkam.inShop.domain.product.Sku;
 import com.akartkam.inShop.service.extension.ProductDisplayNameModificator;
 
 public class ProductDisplayNameModifyerProcessor extends
@@ -36,9 +37,9 @@ public class ProductDisplayNameModifyerProcessor extends
 	      final IStandardExpressionParser parser = StandardExpressions.getExpressionParser(configuration);
 	      final String attributeValue = element.getAttributeValue(attributeName);
 	      final IStandardExpression expression = parser.parseExpression(configuration, arguments, attributeValue);
-	      final Product product = (Product) expression.execute(configuration, arguments);
-	      productDisplayNameModificator.setProduct(product);
-		return productDisplayNameModificator.getModifyedDisplayName(product.getDisplayName());
+	      final Sku sku = (Sku) expression.execute(configuration, arguments);
+	      productDisplayNameModificator.setSku(sku);
+		return productDisplayNameModificator.getModifyedDisplayName(sku.lookupName());
 	}
 
 	@Override

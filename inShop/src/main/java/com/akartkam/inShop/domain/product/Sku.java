@@ -459,6 +459,43 @@ public class Sku extends AbstractDomainObjectOrdering {
         }
     }
 	
+	@Transient 
+	public Product lookupProduct() {
+		Product p = null;
+		if (isDefaultSku()) {
+			p = getDefaultProduct(); 
+		} else {
+			p = getProduct();
+		}
+		if (p == null) 
+			throw new IllegalStateException("The sku neither have parent Product or default Product");
+        return p;		
+	}
+	
+	@Transient
+	public String lookupCode(){
+		String code = null;
+		code = getCode();
+		if (code == null || "".equals(code.trim())) {
+			if (!isDefaultSku()) {
+				code = lookupDefaultSku().getCode();
+			}
+		}
+		return code;
+	}
+	
+	@Transient
+	public String lookupName() {
+		String name = null;
+		name = getName();
+		if (name == null || "".equals(name.trim())) {
+			if (!isDefaultSku()) {
+				name = lookupDefaultSku().getName();
+			}
+		}
+		return name;		
+	}
+	
 	@Transient
 	//check the basic availability of current sku
 	public boolean isAvailable() {

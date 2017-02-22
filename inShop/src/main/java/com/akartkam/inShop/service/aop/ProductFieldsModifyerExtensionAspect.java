@@ -5,6 +5,7 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 
 import com.akartkam.inShop.domain.product.Product;
+import com.akartkam.inShop.domain.product.Sku;
 import com.akartkam.inShop.service.extension.ProductDisplayNameModificator;
 
 @Aspect
@@ -28,7 +29,7 @@ public class ProductFieldsModifyerExtensionAspect {
 	public Object doModifyProductDisplayName(ProceedingJoinPoint pjp) throws Throwable {
 		Object ret = pjp.proceed();
 		if (productDisplayNameModificator != null) {
-			productDisplayNameModificator.setProduct((Product)pjp.getTarget());
+			productDisplayNameModificator.setSku((Sku)pjp.getTarget());
 			ret = productDisplayNameModificator.getModifyedDisplayName((String)ret);
 		} 
 		return ret;

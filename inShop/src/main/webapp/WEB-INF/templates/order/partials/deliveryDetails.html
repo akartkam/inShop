@@ -1,2 +1,12 @@
 <div class="well" th:utext="${dv.longDescription}">
 </div>
+<div th:if="${!#lists.isEmpty(dv.stores)}">
+	<label class="control-label" th:utext="#{order.store}"></label>
+	<select name="store" id="store">
+	    <option value="">&nbsp;</option>
+		<option th:each="st : ${dv.stores}" th:value="${st.id}">
+			<span th:text="${st.name}"></span>
+			<span style="font-size: 8px;" th:text="${'('+st.address+')'}"></span>
+		</option>
+	</select>
+</div>
