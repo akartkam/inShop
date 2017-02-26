@@ -31,12 +31,12 @@
                            maxPrice=${beans.currencyNumberFormatter.print(minMaxPrices[1], #locale.getDefault())}					                                
                            ">
             <th:block th:unless="${minPrice.equals(maxPrice)}">
-				<ins th:attr="data-sort-value=${minPrice}" th:utext="${minPrice}">$700.00</ins>
+				<ins th:attr="data-sort-value=${minMaxPrices[0]}" th:utext="${minPrice}">$700.00</ins>
 				<ins th:utext="#{product.default.minMaxPricesDelemiter}"></ins>		                                
 				<ins th:utext="${maxPrice}">$800.00</ins>
 			</th:block>
 			<th:block th:if="${minPrice.equals(maxPrice)}">
-				<ins th:attr="data-sort-value=${minPrice}" th:utext="${minPrice}">$700.00</ins>
+				<ins th:attr="data-sort-value=${minMaxPrices[0]}" th:utext="${minPrice}">$700.00</ins>
 			</th:block>
 		</th:block>
 		<span class="price-piece-unit-delemiter" th:utext="#{product.default.pricePieceUnitDelemiter}"></span>

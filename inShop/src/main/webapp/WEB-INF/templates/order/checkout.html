@@ -7,40 +7,40 @@
 		<div class="container-fluid">
 			<div class="row" style="margin-bottom: 20px;">
 				<div class="col-md-12 col-sm-12 col-lg-12">
-					<h3 th:utext="#{order.checkout}"></h3>				
+					<h3 id="order_review_heading" th:utext="#{order.checkout}"></h3>				
 				</div>
 			</div>
 			<div  class="row" th:with="cart = ${__${T(com.akartkam.inShop.util.Constants).CART_BEAN_NAME}__}">
 			  <span th:if="${cart == null || cart.cartItemsCount == 0}" style="font-size: 18px; font-weight: bold; text-align: center;" th:utext="#{cart.empty}"></span>
 			  <th:block th:remove="${cart == null || cart.cartItemsCount == 0}? all : tag">
 				  <div class="col-md-6 col-sm-6 col-lg-6">
-				    <form class="form-horizontal" id="checkout-form" th:object="${checkoutForm}">
+				    <form method="POST" th:action="@{/checkout/place-order}" class="form-horizontal" id="checkout-form" th:object="${checkoutForm}">
 					  <div class="form-group">
 					    <label for="firstName" class="col-sm-2 control-label"><span th:utext="#{person.firstName}"></span><span class="required">*</span></label>
 					    <div class="col-sm-10">
 					      <input type="text" th:field="*{firstName}"/>
-					      <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">Incorrect firstName</p>
-					    </div>
+					      <p class="text-danger" style="font-size: 9pt;" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">Incorrect firstName</p>
+					      </div>
 					  </div>
 					  <div class="form-group">
 					    <label for="lastName" class="col-sm-2 control-label"><span th:utext="#{person.lastName}"></span><span class="required">*</span></label>
 					    <div class="col-sm-10">
 					      <input type="text" th:field="*{lastName}" />
-					      <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">Incorrect lastName</p>
+					      <p class="text-danger" style="font-size: 9pt;" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">Incorrect lastName</p>
 					    </div>
 					  </div>
 					  <div class="form-group">
 					    <label for="phone" class="col-sm-2 control-label"><span th:utext="#{person.phone}"></span><span class="required">*</span></label>
 					    <div class="col-sm-10">
 					      <input type="tel" th:field="*{phone}" />
-					      <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}">Incorrect phone</p>
+					      <p class="text-danger" style="font-size: 9pt;" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}">Incorrect phone</p>
 					    </div>
 					  </div>
 					  <div class="form-group">
 					    <label for="email" class="col-sm-2 control-label"><span>Email</span><span class="required">*</span></label>
 					    <div class="col-sm-10">
 					      <input type="email" th:field="*{email}" />
-					      <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Incorrect email</p>
+					      <p class="text-danger" style="font-size: 9pt;" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Incorrect email</p>
 					    </div>
 					  </div>
 					  <div class="form-group">
@@ -64,13 +64,19 @@
 					      	<span th:utext="${dv.name}"></span>
 					      </label>
 					     </div>
+					     <p class="text-danger" style="font-size: 9pt;" th:if="${#fields.hasErrors('delivery')}" th:errors="*{delivery}">Incorrect delivery</p>
 					    </div>
 					  </div>
 					  <div class="form-group">
+					  	<input type="hidden" id="selected-store" th:if="${checkoutForm.store}" th:value="${checkoutForm.store.id}"/>
+					  	<p class="text-danger" style="font-size: 9pt;" th:if="${#fields.hasErrors('store')}" th:errors="*{store}">Incorrect store</p>
 					  	<div class="col-sm-12" id="co-delivery-detail">
 					  	
 					  	</div>
-					  </div>				  					  
+					  </div>
+				  	  <div class="place-order-buttons">
+				  		<button type="submit" th:text="#{button.placeOrder}"/>
+				  	   </div>
 				    </form>				  
 				  </div>
 				  <div class="col-md-6 col-sm-6 col-lg-6">
@@ -80,4 +86,11 @@
 			</div>
 		</div>		 
 	</div>
+    <th:block layout:fragment="script">
+        <script>	
+			$(function(){
+				$(".inp-delivery:checked").trigger("change");
+			});
+		</script>
+    </th:block>	
 </th:block>

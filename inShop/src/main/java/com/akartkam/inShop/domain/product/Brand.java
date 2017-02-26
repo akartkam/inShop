@@ -39,7 +39,6 @@ public class Brand extends AbstractWebDomainObject {
 	private String urlForForm;
 	
 	@AdminPresentation(tab=EditTab.MAIN)
-	@NotNull
 	@NotEmpty
 	@Column(name = "name")
 	public String getName() {

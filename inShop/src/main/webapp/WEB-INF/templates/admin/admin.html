@@ -15,6 +15,9 @@
 <body>
 	<div class="clearfix" layout:fragment="content">
 	  Admin Content Here
+<!--       <span sec:authentication="principal.account.firstName"></span> -->
+<!--       <span sec:authentication="principal.account.lastName"></span> -->
+<!--       <span sec:authentication="principal.account.email"></span>	   -->
 	  <a th:href="@{/logout}">
                     <span th:text="#{home.logout}">Logout</span>
                 </a>

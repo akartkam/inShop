@@ -1622,6 +1622,9 @@ span[class*="error"] {
 }
 
 .select2-selection__arrow{
+	height: 36px !important;
+}
+.main-search .select2-selection__arrow{
 	display: none;
 }
 
@@ -1655,9 +1658,24 @@ attr.required, span.required {
 	color: #c12222;
 }
 
-.well {
-    border: 1px solid #ddd !important;
-    border-radius: 0 !important;
-	-webkit-box-shadow: none !important;
-    box-shadow: none !important;    
+.co-delivery-description {
+    background: none repeat scroll 0 0 #f4f4f4;
+    font-size: 12pt;
+    margin-bottom: 20px;
+    padding: 15px;
+}
+
+#co-store-detail {
+    background: none repeat scroll 0 0 #f4f4f4;
+    font-size: 10pt;
+    margin-top: 15px;
+    padding: 15px;
+} 
+
+#co-store-map, #co-store-description {
+    margin-top: 15px;
+}
+
+#co-store-description {
+	font-size: 10pt;
 }

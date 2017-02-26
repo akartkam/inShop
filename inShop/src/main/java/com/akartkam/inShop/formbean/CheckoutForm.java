@@ -24,7 +24,6 @@ public class CheckoutForm implements Serializable {
 	private Store store;
 
 	@NotEmpty
-	@Size(min = 1, max = 50)
 	public String getFirstName() {
 		return firstName;
 	}
@@ -33,7 +32,6 @@ public class CheckoutForm implements Serializable {
 	}
 	
 	@NotEmpty
-	@Size(min = 1, max = 50)
 	public String getLastName() {
 		return lastName;
 	}

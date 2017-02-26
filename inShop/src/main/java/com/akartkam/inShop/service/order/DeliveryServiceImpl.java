@@ -126,4 +126,9 @@ public class DeliveryServiceImpl implements DeliveryService {
 		return storeDAO.findById(id, lock);
 	}
 
+	@Override
+	public Delivery loadDeliveryById(UUID id, boolean lock) {
+		return deliveryDAO.findById(id, lock);
+	}
+
 }

@@ -90,8 +90,10 @@ public class Store extends AbstractDomainObjectOrdering {
 	public void setWorkSchedule(String workSchedule) {
 		this.workSchedule = workSchedule;
 	}
-	
-	@Column(name = "map_script")
+
+    @Lob
+    @Type(type = "org.hibernate.type.TextType")	
+    @Column(name = "map_script", length = Integer.MAX_VALUE - 1)	
 	public String getMapScript() {
 		return mapScript;
 	}

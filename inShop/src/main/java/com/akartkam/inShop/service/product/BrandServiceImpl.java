@@ -54,7 +54,6 @@ public class BrandServiceImpl implements BrandService {
 		Brand brand = getBrandById(id);
 		if (brand != null) {
 			brand.setEnabled(false);
-			updateBrand(brand);
 		}
 		
 	}
