@@ -25,7 +25,6 @@ public class ProductForm extends Product {
 	private static final long serialVersionUID = -4758849266803696007L;
     private List<ProductStatus> productStatus = new ArrayList<ProductStatus>();
     private List<ProductOption> productOptionsForForm = new ArrayList<ProductOption>();
-    private String urlForForm;
     
 	public ProductForm() {};
 	
@@ -91,17 +90,9 @@ public class ProductForm extends Product {
 			 }
 	  }
 
-	@NotEmpty
-	@Pattern(regexp="^[a-z0-9-]*$", message="{error.bad.urlForForm}")
-	public String getUrlForForm() {
-		return urlForForm;
-	}
 
-	public void setUrlForForm(String urlForForm) {
-		this.urlForForm = urlForForm;
-	}
-
-	private void buildShortUrl() {
+	@Override
+	protected void buildShortUrl() {
 		if (getUrl() != null && !"".equals(getUrl())) {
 			String[] splitedUrl = getUrl().split("/"); 
 			urlForForm = splitedUrl[splitedUrl.length-1];

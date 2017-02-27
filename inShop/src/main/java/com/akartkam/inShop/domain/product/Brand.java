@@ -36,7 +36,6 @@ public class Brand extends AbstractWebDomainObject {
 	private String url;
 	private String logoUrl;
 	private List<Product> products = new ArrayList<Product>();
-	private String urlForForm;
 	
 	@AdminPresentation(tab=EditTab.MAIN)
 	@NotEmpty
@@ -117,32 +116,5 @@ public class Brand extends AbstractWebDomainObject {
 		return getProducts().isEmpty();
 	}
 	
-	@Transient
-	@NotEmpty
-	@Pattern(regexp="^[a-z0-9-]*$", message="{error.bad.urlForForm}")
-	public String getUrlForForm() {
-		if (urlForForm == null) {
-			buildShortUrl();
-		}
-		return urlForForm;
-	}
-	public void setUrlForForm(String urlForForm) {
-		this.urlForForm = urlForForm;
-	}
-
-	private void buildShortUrl() {
-		if (getUrl() != null && !"".equals(getUrl())) {
-			urlForForm = getUrl().replace("/", ""); 
-		}	
-	}
-	
-	public void buildFullLink(String shortUrl) {
-		if (shortUrl == null || "".equals(shortUrl)) return;
-		if (shortUrl.startsWith("/")) return;
-        StringBuilder linkBuffer = new StringBuilder(50);
-        linkBuffer.append("/").append(shortUrl);
-        setUrl(linkBuffer.toString());		
-	} 	
-
 
 }

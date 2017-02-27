@@ -128,8 +128,14 @@
                             </li>
                         </ul>
                     </li>
-                    
-
+                    <li class="dropdown">
+                    	<a href="#" class="dropdown-toggle" data-toggle="dropdown" ><span th:text= "#{admin.content}">Content</span><span class="caret"></span></a> 
+                        <ul class="dropdown-menu" role="menu">
+                            <li>
+                                <a href="#" th:href="@{/admin/content/page}"><i class="fa fa-file-code-o fa-fw">&nbsp;</i><span th:text= "#{admin.content.pages}">Pages</span></a>
+                            </li>
+                        </ul>
+                    </li>
                 </ul>
 			       <form class="navbar-form navbar-left" role="search">
 			         <div class="form-group input-group">

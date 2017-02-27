@@ -1,9 +1,12 @@
 package com.akartkam.inShop.domain.content;
 
+import java.util.UUID;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Lob;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Index;
 import org.hibernate.annotations.Type;
@@ -63,4 +66,19 @@ public class Page extends AbstractWebDomainObject {
 	public void setLongDescription(String longDescription) {
 		this.longDescription = longDescription;
 	}
+	
+	@Override
+	@Transient
+	public Page clone() throws CloneNotSupportedException {
+		Page page = (Page) super.clone();
+		page.setId(UUID.randomUUID());
+		page.setName(new String(getName()));
+		page.setCreatedBy(null);
+		page.setCreatedDate(null);
+		page.setUpdatedBy(null);
+		page.setUpdatedDate(null);
+		page.setLongDescription(new String(getLongDescription()));
+		page.setUrl(new String(getUrl()));
+		return page;
+	}	
 }

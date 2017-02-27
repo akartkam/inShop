@@ -63,6 +63,7 @@ public class ContentServiceImpl implements ContentService {
 	public void mergeWithExistingAndUpdateOrCreate(Page page) {
 		if (page == null) return;
 		Page exPage = getPageById(page.getId());
+		page.buildFullLink(page.getUrlForForm());
 		if (exPage != null) {
 			exPage.setName(page.getName());
 			exPage.setLongDescription(page.getLongDescription());
@@ -77,5 +78,17 @@ public class ContentServiceImpl implements ContentService {
 		}
 
 	}
+	
+	@Override
+	public Page clonePageById(UUID id) throws CloneNotSupportedException{
+		Page clonedPage = getPageById(id);
+		if (clonedPage == null) return null;
+		return clonedPage.clone();
+	}
+	
+	@Override
+	public Page loadPageById(UUID id, Boolean lock) {
+		return pageDAO.findById(id, lock);
+	}	
 
 }

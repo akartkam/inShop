@@ -14,5 +14,7 @@ public interface ContentService {
 	void deletePage(Page page);
 	void deletePageById(UUID id);
 	void mergeWithExistingAndUpdateOrCreate(final Page page);
-	
+	Page clonePageById(UUID id) throws CloneNotSupportedException;
+	Page loadPageById(UUID id, Boolean lock);
+
 }

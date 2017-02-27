@@ -3,6 +3,9 @@ package com.akartkam.inShop.domain;
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
+import javax.validation.constraints.Pattern;
+
+import org.hibernate.validator.constraints.NotEmpty;
 
 
 @MappedSuperclass
@@ -16,12 +19,16 @@ public abstract class AbstractWebDomainObject extends AbstractDomainObjectOrderi
     private String metaDescription;
     private String metaTitle;
     private String metaKeywords;
+	protected String urlForForm;
+
     
     @Transient    
 	public abstract String getName();
 
 	@Transient
 	public abstract String getUrl() ;
+	
+	public abstract void setUrl(String url);
 	
 	@Column(name="h1")
 	public String getH1() {
@@ -53,8 +60,33 @@ public abstract class AbstractWebDomainObject extends AbstractDomainObjectOrderi
 		this.metaKeywords = metaKeywords;
 	}
 
+	@Transient
+	@NotEmpty
+	@Pattern(regexp="^[a-z0-9-]*$", message="{error.bad.urlForForm}")
+	public String getUrlForForm() {
+		if (urlForForm == null) {
+			buildShortUrl();
+		}
+		return urlForForm;
+	}
+	public void setUrlForForm(String urlForForm) {
+		this.urlForForm = urlForForm;
+	}
     
-    
+	protected void buildShortUrl() {
+		if (getUrl() != null && !"".equals(getUrl())) {
+			urlForForm = getUrl().replace("/", ""); 
+		}	
+	}
+	
+	public void buildFullLink(String shortUrl) {
+		if (shortUrl == null || "".equals(shortUrl)) return;
+		if (shortUrl.startsWith("/")) return;
+        StringBuilder linkBuffer = new StringBuilder(50);
+        linkBuffer.append("/").append(shortUrl);
+        setUrl(linkBuffer.toString());		
+	} 	
+
     
     
 }

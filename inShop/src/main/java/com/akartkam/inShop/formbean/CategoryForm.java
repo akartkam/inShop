@@ -19,7 +19,6 @@ public class CategoryForm extends Category {
 	private static final long serialVersionUID = -500394871795849096L;
 
 	private List<AbstractAttribute> attributesForForm = new ArrayList<AbstractAttribute>();
-	private String urlForForm;
 	
 	public CategoryForm() { }
 	public CategoryForm(Category category) { 
@@ -45,20 +44,13 @@ public class CategoryForm extends Category {
 		return attributesForForm;
 	}
 	
-	@NotEmpty
-	@Pattern(regexp="^[a-z0-9-]*$", message="{error.bad.urlForForm}")
-	public String getUrlForForm() {
-		return urlForForm;
-	}	
-	
+
 	public void setAttributesForForm(List<AbstractAttribute> attributesForForm) {
 		this.attributesForForm = attributesForForm;
 	}
-	public void setUrlForForm(String urlForForm) {
-		this.urlForForm = urlForForm;
-	}
-	
-	private void buildShortUrl() {
+
+	@Override
+	protected void buildShortUrl() {
 		if (getUrl() != null && !"".equals(getUrl())) {
 			String[] splitedUrl = getUrl().split("/"); 
 			urlForForm = splitedUrl[splitedUrl.length-1];

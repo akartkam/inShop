@@ -9,9 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.akartkam.inShop.dao.product.BrandDAO;
 import com.akartkam.inShop.domain.product.Brand;
-import com.akartkam.inShop.domain.product.Category;
 import com.akartkam.inShop.domain.product.Product;
-import com.akartkam.inShop.domain.product.attribute.AttributeCategory;
 
 @Service("BrandService")
 @Transactional(readOnly = true)

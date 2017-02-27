@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ru" xmlns:th="http://www.thymeleaf.org" 
                 xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-                layout:decorator="admin/catalog/brand">
+                layout:decorator="admin/content/page">
 	<head>
 	<!-- layout:decorator="admin/category" -->
 	    <th:block th:remove="all">
@@ -57,14 +57,14 @@
 							  <input type="hidden" th:field="*{id}"/>
 							  <input type="hidden" th:field="*{createdBy}"/>	                              
 				    		  <label>
-					    	  	 <span th:text="#{admin.name}">Brand1</span>
+					    	  	 <span th:text="#{admin.name}">Page1</span>
 					   		  </label>
 					   		  <input type="text" class="form-control" th:field="*{name}"/>
 					   		  <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Incorrect name</p>
 				   		   </div>
 				   		   <div class="field-box">	                              
 				    		  <label>
-					    	  	 <span th:text="#{admin.catalog.brand.edit.url}">URL</span>
+					    	  	 <span>URL</span>
 					   		  </label>
 						      <div class="input-group">                              
 						   		  <input type="text" class="form-control" th:field="*{urlForForm}"/>
@@ -73,45 +73,18 @@
 							      </span>						   		  
 						      </div>
 				   		   </div>
-				   		   <div class="field-box">
-	 			    		  <label>
-					    	  	<span th:text="#{admin.edit.tab.description}">Description Page1</span>
-					   		   </label>
-					   		   <input type="text" class="form-control" th:field="*{longDescription}"/>
-				   		   </div>			
   						   <div class="field-box">
 	 			    		   <label>
-					    	  	<span th:text="#{admin.catalog.brand.edit.longDescription}">Long Description Brand1</span>
+					    	  	<span th:text="#{admin.content.page.content}">Long Description Page1</span>
 					   		   </label>
-						       <textarea id="summernote" class="textarea form-control" placeholder="Введите текст..." th:field="*{longDescription}"></textarea>
+						       <textarea id="summernote" class="textarea form-control" placeholder="Введите контент страницы..." th:field="*{longDescription}"></textarea>
   						   </div>
 	             		</div>
 	                    <div class="tab-pane fade" id="additional">
-	                       <div class="field-box">
-	                          <label>
-						  	  	<span th:text="#{admin.catalog.brand.edit.logoImage}">Logo Image</span>
-						      </label>
-						        <div class="media" style="margin-top: 0;">
-								  <div class="media-left">
-								    <input type="hidden" id="currLogoUrl" th:field="*{logoUrl}"/>
-								    <div class="photo-block"> 
-		                                 <span class="helper"></span>
-		                                 <img id="imgLogo" src="../../../../resources/img/logo/asus.png" width="100"
-		                                     th:src="@{${{brand.logoUrl!=null}? brand.logoUrl: '/resources/img/noimage.png'}}" th:onerror="'this.src=\'' + @{/resources/img/noimage.png} + '\';'"/>
-	                                </div> 
-	                              </div>
-	                              <div class="media-body">
-	                                 <input type="file" class="btn-small btn" id="inputSImg" name="mainLogo" accept="image/jpeg,image/png,image/gif"/>
-	                                 <button type="button" class="btn btn-outline btn-default btn-sm" style="margin-left:13px" onclick="$('#imgLogo').attr('src',''); $('#currLogoUrl').val(''); $('#inputSImg').val('');">
-					          			<i class="fa fa-trash-o"></i>
-					        		 </button>
-	                              </div>   
-	                            </div>  
-						   </div>	 
 						   <div class="field-box">
 	                         <label>
 	 					    	<input type="checkbox" th:field="*{enabled}"/>
-							  	<span th:text="#{admin.catalog.brand.enabled}">Active?</span>
+							  	<span th:text="#{admin.enabled}">Active?</span>
 							 </label>
 						   </div>	 
 	                    </div>
@@ -182,17 +155,7 @@
                  $('#summernote').summernote({
 					    lang: "ru-RU"
 				    });
-				 $('#inputSImg').on('change', function (e) {
-			      var $this = $(this),
-			              $type_file = $this.val(),
-			              file = this.files[0],
-			              reader = new FileReader();
-				          reader.onload = (function(e) {
-				      	        $("#imgLogo").attr("src", e.target.result);
-				                });
-				          reader.readAsDataURL(file);
-				          });                 
-			     });
+			 });
 		   </script>
 		 </th:block>  
 </body>
