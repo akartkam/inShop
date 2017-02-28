@@ -22,7 +22,7 @@ public class BrandController extends WebEntityAbstractController {
 	@Override
 	protected ModelAndView handleRequestInternal(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
-		initDefault();
+		super.handleRequestInternal(request, response);
 		String brandUrl = request.getServletPath();
 		brandUrl = brandUrl.replace("/"+brandPrefix, "");
 		Brand brand = brandService.getBrandByUrl(brandUrl);

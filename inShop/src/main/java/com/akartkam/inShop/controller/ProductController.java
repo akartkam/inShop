@@ -21,7 +21,7 @@ public class ProductController extends WebEntityAbstractController {
 	@Override
 	protected ModelAndView handleRequestInternal(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
-		initDefault();
+		super.handleRequestInternal(request, response);
 		String productUrl = request.getServletPath();
 		productUrl = productUrl.replace("/"+productPrefix, "");
 		Product product = productService.getProductByUrl(productUrl);

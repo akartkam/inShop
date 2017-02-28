@@ -39,7 +39,7 @@ public class MainController extends WebEntityAbstractController {
 	@Override
 	public ModelAndView handleRequestInternal(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
-		initDefault();
+		super.handleRequestInternal(request, response);
 		//model.setViewName("redirect:/admin");
 		//model.setViewName("/test");
 		//return model;

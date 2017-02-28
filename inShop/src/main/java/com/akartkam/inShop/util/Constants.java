@@ -13,5 +13,5 @@ public interface Constants {
 	public static String CATEGORY_CLASS = "com.akartkam.inShop.domain.product.Category";
 	public static String PRODUCT_CLASS = "com.akartkam.inShop.domain.product.Product";
 	public static String BRAND_CLASS = "com.akartkam.inShop.domain.product.Brand";
-	public static String BRAND_PAGE = "com.akartkam.inShop.domain.content.Page";
+	public static String PAGE_CLASS = "com.akartkam.inShop.domain.content.Page";
 }

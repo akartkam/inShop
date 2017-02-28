@@ -21,7 +21,7 @@ public class CategoryController extends WebEntityAbstractController {
 
 	@Override
 	protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		initDefault();
+		super.handleRequestInternal(request, response);
 		String categoryUrl = request.getServletPath();
 		categoryUrl = categoryUrl.replace("/"+categoryPrefix, "");
 		Category category = categoryService.getCategoryByUrl(categoryUrl);
