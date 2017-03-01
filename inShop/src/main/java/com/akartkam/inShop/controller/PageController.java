@@ -27,8 +27,13 @@ public class PageController extends WebEntityAbstractController {
 		String pageUrl = request.getServletPath();
 		pageUrl = pageUrl.replace("/"+pagePrefix, "");
 		Page page = contentService.getPageByUrl(pageUrl);
-		model.addObject("page", page);
-		model.setViewName("/content/page");
+		if (page != null) {
+			model.addObject("page", page);
+			model.setViewName("/content/page");			
+		} else {
+			String viewName = pageUrl.substring(pageUrl.lastIndexOf("/"));
+			model.setViewName("/content"+viewName);	
+		}
 		return model;
 	}
 

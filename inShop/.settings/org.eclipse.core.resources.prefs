@@ -24,6 +24,7 @@ encoding//src/main/webapp/WEB-INF/templates/catalog/partials/smallSingleProduct.
 encoding//src/main/webapp/WEB-INF/templates/catalog/partials/sortForSmallSingleProduct.html=UTF-8
 encoding//src/main/webapp/WEB-INF/templates/catalog/single-product.html=UTF-8
 encoding//src/main/webapp/WEB-INF/templates/content/page.html=UTF-8
+encoding//src/main/webapp/WEB-INF/templates/content/store-list.html=UTF-8
 encoding//src/main/webapp/WEB-INF/templates/errors/error-default.html=UTF-8
 encoding//src/main/webapp/WEB-INF/templates/layouts/default.html=UTF-8
 encoding//src/main/webapp/WEB-INF/templates/layouts/fullPageLayout.html=UTF-8

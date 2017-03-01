@@ -5,7 +5,7 @@
 	            <div class="col-md-8">
 	                <div class="user-menu">
 	                    <ul>
-	                        <li><a th:href="@{${'/'+beans.entityUrlPrefixes[__${T(com.akartkam.inShop.util.Constants).PAGE_CLASS}__]+'/o-kompanii'}}"><i class="fa fa-building"></i>О компании</a></li>
+	                        <li><a th:href="@{${'/'+beans.entityUrlPrefixes.getProperty('__${T(com.akartkam.inShop.util.Constants).PAGE_CLASS}__')+'/o-kompanii'}}"><i class="fa fa-building"></i>О компании</a></li>
 	                        <li><a href="#"><i class="fa fa-heart"></i>Покупателям</a></li>
 	                        <li><a th:href="@{/cart}" class="modalcart"><i class="fa fa-shopping-cart"></i><span th:utext="#{menu.cart}">Корзина</span></a></li>
 	                    </ul>
