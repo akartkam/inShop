@@ -1,7 +1,7 @@
 <th:block layout:decorator="layouts/fullPageLayout">
 	<head>
 		<th:block th:fragment="meta" th:remove="all">
-			<meta name="description" th:if="${!#strings.isEmpty(page.metaDescription)}" th:content="${page.name}"/>
+			<meta name="description" th:if="${!#strings.isEmpty(page.metaDescription)}" th:content="${page.metaDescription}"/>
 			<meta name="keywords" th:if="${!#strings.isEmpty(page.metaKeywords)}" th:content="${page.metaKeywords}"/>
 		</th:block>
         <title th:utext="${page.name}"></title>

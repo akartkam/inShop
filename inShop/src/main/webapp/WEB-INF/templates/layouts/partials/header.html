@@ -5,7 +5,7 @@
 	            <div class="col-md-8">
 	                <div class="user-menu">
 	                    <ul>
-	                        <li><a th:href="@{/page/o-kompanii}"><i class="fa fa-building"></i>О компании</a></li>
+	                        <li><a th:href="@{${'/'+beans.entityUrlPrefixes[__${T(com.akartkam.inShop.util.Constants).PAGE_CLASS}__]+'/o-kompanii'}}"><i class="fa fa-building"></i>О компании</a></li>
 	                        <li><a href="#"><i class="fa fa-heart"></i>Покупателям</a></li>
 	                        <li><a th:href="@{/cart}" class="modalcart"><i class="fa fa-shopping-cart"></i><span th:utext="#{menu.cart}">Корзина</span></a></li>
 	                    </ul>
@@ -19,7 +19,7 @@
     <div class="site-branding-area">
         <div class="container-fluid">
             <div class="row vertical-align">
-                <div class="col-md-2 col-sm-4" style="justify-content: flex-end;">
+                <div class="col-md-2 col-sm-4">
                     <div class="logo">
                         <h1><a href="./"><img th:src="@{/images/common/forpost_logo.png}"/></a></h1>
 						<!--<div>
@@ -29,8 +29,7 @@
                 </div>
                 <div class="col-md-2 col-sm-4" >
 					<div class="company-phones">
-						<span>&phone; 8(831) 217-09-97</span><br/>
-						<span>&phone; 8(831) 217-09-98</span>
+						<span>&phone; 8(831) 217-09-53</span><br/>
 						<div class="header-callback">
 							<a href="#">Заказать звонок</a>
 						</div>						
@@ -42,7 +41,7 @@
 						<span>г.Нижний Новгород,</span> 
 						<span>ул.Нартова, д.6, 603104</span>
 						<div class="header-callback"> 
-							<a href="mailto:forpost1998@mail.ru">forpost1998@mail.ru</a>
+							<a href="mailto:forpost-2017@mail.ru">forpost-2017@mail.ru</a>
 						</div>
 					</div>						
                 </div>

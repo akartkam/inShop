@@ -5,11 +5,6 @@
 <meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
 <meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
 <th:block th:include=" ::meta"></th:block>
-<!--  <title th:unless="${pageTitle == 'TEMPLATE'}" th:utext="${#strings.isEmpty(pageTitle) ? 'ООО Форпост - технические средства реабилитации, ортопедические изделия, изделия медицинского назначения' : pageTitle}"></title>
-<title th:if="${pageTitle == 'TEMPLATE'}" th:remove="tag">
-    <title th:inline="text" th:include="${templateName} :: title" />
-</title>
--->
 <link rel="icon" type="image/png" th:href="@{/favicon.png}" />
 <!-- Google Fonts -->
 <link href='http://fonts.googleapis.com/css?family=Titillium+Web:400,200,300,700,600' rel='stylesheet' type='text/css'/>
