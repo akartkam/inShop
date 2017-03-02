@@ -26,9 +26,14 @@
 								      
 								    </div>
 								  </div>
-								  <div class="media-body media-middle" style="width:auto !important;">
-			<!-- 						 <h4 class="media-heading" th:utext="${brand.name}"></h4> -->
-									 <div class="dolessmore" th:utext="${store.address}"></div>
+								  <div class="media-body" style="width:auto !important;">
+									 <h4 style="margin-top: 15px;" class="media-heading" th:utext="${store.name}"></h4>
+									 <div>
+									 <p><span style="font-weight: bold;" th:text="${#messages.msg('address')+':&nbsp;'}"></span><span th:text="${store.address}"></span></p>
+									 <p><span style="font-weight: bold;" th:text="${#messages.msg('phone')+':&nbsp;'}"></span><span th:text="${store.phone}"></span></p>
+									 <p><span style="font-weight: bold;" th:text="${#messages.msg('store.workSchedule')+':&nbsp;'}"></span><span th:text="${store.workSchedule}"></span></p>
+									 <span th:utext="${store.longDescription}"></span>
+									 </div>
 								  </div>
 								</div>				
 							</div>
@@ -40,14 +45,4 @@
 			</div>
 		</div>		
 	</div>
-    <th:block layout:fragment="script">
-        <script>	
-				$(".dolessmore").readmore({
-					collapsedHeight: 100,
-					moreLink: '<a href="javascript: void(0);">еще...</a>',
-					lessLink: '<a href="javascript: void(0);">свернуть</a>'
-				});
-			}); 
-		</script>
-    </th:block>	
 </th:block>

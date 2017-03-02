@@ -104,7 +104,7 @@ public class CartItemValidator implements Validator {
 
     if (sku == null && product != null) {
         // Set to the default sku
-        if (product.hasAdditionalSkus() && !product.isCanSellWithoutOptions()) {
+        if (product.hasAdditionalSkus() /*&& !product.isCanSellWithoutOptions()*/) {
             throw new RequiredAttributeNotProvidedException("Unable to find non-default sku matching given options and cannot sell default sku", null);
         }
         sku = product.getDefaultSku();
