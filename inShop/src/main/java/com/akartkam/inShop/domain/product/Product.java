@@ -39,6 +39,7 @@ import com.akartkam.inShop.domain.AbstractWebDomainObject;
 import com.akartkam.inShop.domain.Instruction;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttributeValue;
+import com.akartkam.inShop.domain.product.attribute.AttributeValue;
 import com.akartkam.inShop.domain.product.attribute.SimpleAttributeFactory;
 import com.akartkam.inShop.domain.product.option.ProductOption;
 import com.akartkam.inShop.domain.product.option.ProductOptionValue;
@@ -243,6 +244,7 @@ public class Product extends AbstractWebDomainObject {
         }
         return skus;
     }
+    
     
     @Transient
     public List<ProductOptionValue> getPOVByPO(ProductOption productOption) {

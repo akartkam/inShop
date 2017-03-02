@@ -2,7 +2,7 @@
 	<div class="row">
 		<div class="col-sm-12 col-md-12 col-lg-12">    
 		    <div class="mainmenu-area sticky-menu"> 
-		        <div class="container">
+		        <div class="container-fluid">
 		           <div class="row">
 		                <div class="navbar-header">
 		                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -16,7 +16,7 @@
 		                    <ul class="nav navbar-nav">
 		                        <li class="active"><a th:href="@{/}"><span th:utext="#{mainMenu.main}">Главная</span></a></li>
 		                        <li><a href="#">О компании</a></li>
-<!-- 		                        <li><a href="#">Акции</a></li> -->
+		                        <li><a href="#">Акции</a></li>
 		                        <li><a th:href="@{/brand-list}"><span th:utext="#{mainMenu.brands}"/></a></li>
 		                        <li><a th:href="@{${'/'+beans.entityUrlPrefixes.getProperty('__${T(com.akartkam.inShop.util.Constants).PAGE_CLASS}__')+'/store-list'}}"><span th:utext="#{mainMenu.stores}"/></a></li>
 		                        <li><a href="#">Контакты</a></li>
