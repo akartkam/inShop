@@ -38,14 +38,18 @@
 		                       <th><span th:utext="${av.attribute.name}"></span></th>
 		                       <td><span th:utext="${av.value}"></span>&nbsp;<span th:if="${av.attribute.unit != null}" th:utext="#{${'unit.' + av.attribute.unit}}"></span></td>
 		                   </tr>
+		                   <tr th:each="at : ${product.additionalSkuAttributes}">
+		                       <th><span th:utext="${at.name}"></span><span th:if="${at.unit}" th:utext="${'&nbsp;('+#messages.msg('unit.'+at.unit)+')'}"></span></th>
+		                       <td><span th:utext="${#strings.listJoin(product.getAdditionalSkuAvAsStringsByAt(at),', ')}"></span></td>
+		                   </tr>		                   
+						   <tr th:if="${product.hasAdditionalSkus()}" th:each="po, poStat: ${product.productOptions}">
+						   	  <th><span th:utext="${po.label}"></span><span th:if="${po.unit}" th:utext="${'&nbsp;('+#messages.msg('unit.'+po.unit)+')'}"></span></th>
+						   	  <td><span th:utext="${#strings.listJoin(product.getPOVAsStringsByPO(po),', ')}"></span></td>
+						   </tr>
 		                   <tr>
 		                   	   <th><span th:utext="#{sku.quantityPerPackage}"></span></th>	
 		                   	   <td><span th:utext="${product.defaultSku.quantityPerPackage}"></span>&nbsp;<span class="price-piece-unit" th:utext="#{product.default.pricePieceUnit}"></span></td>
-		                   </tr>
-						   <tr th:if="${product.hasAdditionalSkus()}" th:each="po, poStat: ${product.productOptions}">
-						   	  <th><span th:utext="${po.label}"></span><span th:if="${po.unit}" th:utext="${'&nbsp;('+#messages.msg('unit.'+po.unit)+')'}"></span></th>
-						   	  <td><span th:utext="${#strings.listJoin(product.getPOVAsStringsByPO(po),',')}"></span></td>
-						   </tr>
+		                   </tr>						   
 						   <tr>
 						   	  <th><span th:utext="#{sku.priceForUnit}"></span></th>
 						   	  <td>

@@ -36,14 +36,14 @@ function formatRepo (repo) {
 	  var price = "", retailPrice = "", salePrice = "";
 	  var sku="";
 	  if (repo.optionValues && repo.optionValues.length) {
-		sku ="<span style='font-size: 8pt;'>"+repo.optionValues.join()+"</span>"; 
+		sku ="<span style='font-size: 9pt;'>"+repo.optionValues.join()+"</span>"; 
 	  }
 	  if(repo.retailPrice) {
-		  retailPrice = "<span style='font-size: 8pt;'>"+repo.retailPrice.toFixed(2)+"</span>";
+		  retailPrice = "<span style='font-size: 9pt;'>"+repo.retailPrice.toFixed(2)+"</span>";
 		  price = retailPrice;
 		  if (repo.salePrice) {
-			  retailPrice = "<span style='font-size: 8pt; text-decoration: line-through;'>"+repo.retailPrice.toFixed(2)+"</span>";
-			  salePrice = retailPrice + " <span style='font-size: 8pt;'>"+repo.salePrice.toFixed(2)+"</span>"; 
+			  retailPrice = "<span style='font-size: 9pt; text-decoration: line-through;'>"+repo.retailPrice.toFixed(2)+"</span>";
+			  salePrice = retailPrice + " <span style='font-size: 9pt;'>"+repo.salePrice.toFixed(2)+"</span>"; 
 			  price = salePrice;
 		  }
 	  }
@@ -54,7 +54,7 @@ function formatRepo (repo) {
  function makeSkuSelect2 ($ajax, $url) {  
 	 $ajax.select2({
 	   width: "100%",
-	   placeholder: "Введите артикул или наименование товара для поиска",
+	   placeholder: "Введите артикул или строку для поиска товара",
 	   allowClear: true,
 	   ajax: {
 	        url: $url,

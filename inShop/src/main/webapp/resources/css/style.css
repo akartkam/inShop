@@ -1639,7 +1639,7 @@ span[class*="error"] {
 }
 
 .select2-container--default .select2-selection--single .select2-selection__placeholder {
-    font-size:xx-small !important;
+    font-size:x-small !important;
 }
 
 div.pluso {

@@ -46,6 +46,10 @@
 	<div class="product-header-info">
 	      <table cellspacing="0">
 	          <tbody>
+				  <tr>
+				    <th><span th:utext="#{brand.name}"></span></th>
+				    <td><a th:utext="${product.brand.name}" aid:phref="${product.brand}"></a></td>
+				  </tr>	          
 	          	  <tr th:if="${product.hasAdditionalSkus()}">
 	          	  	<th class="domain-col mightOverflow"><span th:utext="#{product.articuls}"></span></th>
 	          	  	<td class="domain-col mightOverflow"><span th:utext="${product.skuCodes}"></span></td>

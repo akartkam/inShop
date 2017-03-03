@@ -63,6 +63,11 @@
 					                       <td></td>
 					                       <td><span th:utext="${av.value}"></span>&nbsp;<span th:if="${av.attribute.unit != null}" th:utext="#{${'unit.' + av.attribute.unit}}"></span></td>
 					                   </tr>
+					                   <tr th:each="at : ${product.additionalSkuAttributes}">
+					                       <th><span th:utext="${at.name}"></span><span th:if="${at.unit}" th:utext="${'&nbsp;('+#messages.msg('unit.'+at.unit)+')'}"></span></th>
+					                       <td></td>
+					                       <td><span th:id="${at.id}"></span></td>
+					                   </tr>		                   
 					                   <tr>
 					                   	   <th><span th:utext="#{sku.quantityPerPackage}"></span></th>	
 					                   	   <td></td>

@@ -397,6 +397,42 @@ public class Product extends AbstractWebDomainObject {
 		}
 		return ret;
 	}
-
 	
+	@Transient
+	public List<AbstractAttribute> getAdditionalSkuAttributes() {
+		List<AbstractAttribute> ret = new ArrayList<AbstractAttribute>();
+		for (Sku sku : getSkus()) {
+			for (AbstractAttributeValue av : sku.getAttributeValues()){
+				AbstractAttribute at = av.getAttribute();
+				if (!ret.contains(at)) ret.add(at);
+			}
+		}
+		Collections.sort(ret);
+		return ret;
+	}
+
+	@Transient
+	public List<AbstractAttributeValue> getAdditionalSkuAvByAt(AbstractAttribute attribute) {
+		List<AbstractAttributeValue> avl = new ArrayList<AbstractAttributeValue>();
+		for (Sku sku : getSkus()) {
+			for (AbstractAttributeValue av : sku.getAttributeValues()){
+				if (av.getAttribute().equals(attribute)) avl.add(av);
+			}
+		}
+		return avl;
+	}
+	
+	
+	@Transient
+	public List<String> getAdditionalSkuAvAsStringsByAt(AbstractAttribute attribute) {
+    	List<AbstractAttributeValue> avl = getAdditionalSkuAvByAt(attribute);
+    	List<String> res = (List<String>) CollectionUtils.collect(avl, new Transformer<AbstractAttributeValue, String>() {
+			@Override
+			public String transform(AbstractAttributeValue input) {
+				return input.getStringValue();
+			}
+    		
+    	});
+    	return res;		
+	}
 }
