@@ -60,6 +60,21 @@ public class DefaultProductDisplayNameModificatorImpl implements
 				}
 			}
 		}
+		for (AbstractAttributeValue av: sku.getAttributeValues()) {
+			if (av.getStringValue() != null && !"".equals(av.getStringValue())) {
+				ret.append(", <span class='product-header-attribute'>").append(av.getStringValue()).append("</span>");					
+			}
+			if (av.getAttribute().getUnit() != null) {
+				String unit;
+				if (messageSource != null) {
+					unit = messageSource.getMessage("unit."+av.getAttribute().getUnit().name(), null, Locale.getDefault());
+				} else {
+					unit = av.getAttribute().getUnit().getFullNameR();
+				}
+				ret.append("<span class='unit'>").append(unit).append("</span>");
+			}
+			
+		}
 		return ret.toString();		
 	}
 

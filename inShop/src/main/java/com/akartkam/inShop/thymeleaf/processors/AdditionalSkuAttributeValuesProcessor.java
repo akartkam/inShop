@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -16,6 +17,7 @@ import org.apache.commons.collections4.map.LRUMap;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.format.number.AbstractNumberFormatter;
 import org.thymeleaf.Arguments;
 import org.thymeleaf.dom.Element;
@@ -24,6 +26,8 @@ import org.thymeleaf.standard.expression.StandardExpressions;
 
 import com.akartkam.inShop.domain.product.Product;
 import com.akartkam.inShop.domain.product.Sku;
+import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
+import com.akartkam.inShop.domain.product.attribute.AbstractAttributeValue;
 import com.akartkam.inShop.domain.product.option.ProductOptionValue;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -32,11 +36,20 @@ public class AdditionalSkuAttributeValuesProcessor extends AbstractModelVarModif
 	private static final Log LOG = LogFactory.getLog(AdditionalSkuAttributeValuesProcessor.class);
     protected static final Map<Object, String> JSON_CACHE = Collections.synchronizedMap(new LRUMap<Object, String>(500));
 	
+    private MessageSource messageSource;
 
 	public AdditionalSkuAttributeValuesProcessor() {
 		super("addtitional_sku_attr_values");
 	}
 	
+	public MessageSource getMessageSource() {
+		return messageSource;
+	}
+	public void setMessageSource(MessageSource messageSource) {
+		this.messageSource = messageSource;
+	}
+
+
 	@Override
     public int getPrecedence() {
         return 200002;
@@ -48,13 +61,13 @@ public class AdditionalSkuAttributeValuesProcessor extends AbstractModelVarModif
                 .parseExpression(arguments.getConfiguration(), arguments, element.getAttributeValue("product"));
         Product product = (Product) expression.execute(arguments.getConfiguration(), arguments);
         if (product != null) {
-            addAddSkuAttrValuesToModel(arguments, product);
+            addAdditSkuAttrValuesToModel(arguments, product);
         }
     }
     
-    private void addAddSkuAttrValuesToModel(Arguments arguments, Product product) {
+    private void addAdditSkuAttrValuesToModel(Arguments arguments, Product product) {
         List<Sku> skus = product.getSkus();
-        List<POPricingForJSON> poPricing = new ArrayList<POPricingForJSON>();
+        List<AdditSkuAttrValuesForJSON> additSkuAttrValues = new ArrayList<AdditSkuAttrValuesForJSON>();
         for (Sku sku : skus) {
             List<UUID> poValueIds = new ArrayList<UUID>();
             Set<ProductOptionValue> poValues = sku.getProductOptionValues();
@@ -64,18 +77,19 @@ public class AdditionalSkuAttributeValuesProcessor extends AbstractModelVarModif
             UUID[] values = new UUID[poValueIds.size()];
             poValueIds.toArray(values);
             
-            POPricingForJSON oJson = new POPricingForJSON();
-            BigDecimal currPriceForUnit, currPriceForPkg, currPriceForUnitOld;
-            currPriceForUnit = sku.getPrice();
-            currPriceForPkg = sku.getPriceForPackage();
-            currPriceForUnitOld = sku.isOnSale()? sku.getRetailPrice(): null;
-            /*oJson.setPriceForUnit(currPriceForUnit == null? null: currencyNumberFormatter.print(currPriceForUnit, Locale.getDefault()));
-            oJson.setPriceForUnitOld(currPriceForUnitOld == null? null: currencyNumberFormatter.print(currPriceForUnitOld, Locale.getDefault()));
-            oJson.setPriceForPkg(currPriceForPkg == null? null: currencyNumberFormatter.print(currPriceForPkg, Locale.getDefault()));
-            oJson.setSelectedOptions(values);*/
-            poPricing.add(oJson);
+            AdditSkuAttrValuesForJSON oJson = new AdditSkuAttrValuesForJSON();
+            for (AbstractAttributeValue av : sku.getAttributeValues()) {
+            	AbstractAttribute at = av.getAttribute();
+            	String[] atv = new String[2];
+            	String avl = av.getStringValue();
+            	atv[0] = avl;
+            	atv[1] = messageSource.getMessage("unit."+at.getUnit().name(), null, Locale.getDefault());;
+            	oJson.getAttr().put(at.getId().toString(), atv);
+            }
+            oJson.setSelectedOptions(values);
+            additSkuAttrValues.add(oJson);
         }
-        writeJSONToModel(arguments, "poPricing", poPricing);
+        writeJSONToModel(arguments, "additSkuAttrValues", additSkuAttrValues);
     }    
     
     private void writeJSONToModel(Arguments arguments, String modelKey, Object o) {
@@ -90,16 +104,14 @@ public class AdditionalSkuAttributeValuesProcessor extends AbstractModelVarModif
             }
             addToModel(arguments, modelKey, jsonValue);
         } catch (Exception ex) {
-            LOG.error("Error writing the product option map to JSON", ex);
+            LOG.error("Error writing the sku attr map to JSON", ex);
         }
     }
     
     @SuppressWarnings("unused")
-	private class POPricingForJSON {
+	private class AdditSkuAttrValuesForJSON {
         private UUID[] selectedOptions;
-        private String priceForUnit;
-        private String priceForUnitOld;
-        private String priceForPkg;
+        private Map<String, String[]> attr = new HashMap<String, String[]>();
 
         public UUID[] getSelectedOptions() {
             return selectedOptions;
@@ -107,38 +119,20 @@ public class AdditionalSkuAttributeValuesProcessor extends AbstractModelVarModif
         public void setSelectedOptions(UUID[] selectedOptions) {
             this.selectedOptions = selectedOptions;
         }
-
-        public String getPriceForUnit() {
-            return priceForUnit;
-        }
-        public void setPriceForUnit(String priceForUnit) {
-            this.priceForUnit = priceForUnit;
-        }
-
-        public String getPriceForUnitOld() {
-			return priceForUnitOld;
+        
+		public Map<String, String[]> getAttr() {
+			return attr;
 		}
-		public void setPriceForUnitOld(String priceForUnitOld) {
-			this.priceForUnitOld = priceForUnitOld;
+		public void setAttr(Map<String, String[]> attr) {
+			this.attr = attr;
 		}
-		public String getPriceForPkg() {
-            return priceForPkg;
-        }
-        public void setPriceForPkg(String priceForPkg) {
-            this.priceForPkg = priceForPkg;
-        }
-        
-        
-        
-        @Override
+		@Override
         public boolean equals(Object o) {
             if (this == o) return true;
             if (o == null) return false;
             if (!getClass().isAssignableFrom(o.getClass())) return false;
-            POPricingForJSON that = (POPricingForJSON) o;
-            if (priceForUnit != null ? !priceForUnit.equals(that.priceForUnit) : that.priceForUnit != null) return false;
-            if (priceForUnitOld != null ? !priceForUnitOld.equals(that.priceForUnitOld) : that.priceForUnitOld != null) return false;
-            if (priceForPkg != null ? !priceForPkg.equals(that.priceForPkg) : that.priceForPkg != null) return false;
+            AdditSkuAttrValuesForJSON that = (AdditSkuAttrValuesForJSON) o;
+            if (attr != null ? !attr.equals(that.attr) : that.attr != null) return false;
             if (!Arrays.equals(selectedOptions, that.selectedOptions)) return false;
             return true;
         }
@@ -146,9 +140,8 @@ public class AdditionalSkuAttributeValuesProcessor extends AbstractModelVarModif
         @Override
         public int hashCode() {
             int result = selectedOptions != null ? Arrays.hashCode(selectedOptions) : 0;
-            result = 31 * result + (priceForUnit != null ? priceForUnit.hashCode() : 0);
-            result = 31 * result + (priceForUnitOld != null ? priceForUnitOld.hashCode() : 0);
-            result = 31 * result + (priceForPkg != null ? priceForPkg.hashCode() : 0);
+            result = 31 * result + (attr.keySet() != null ? attr.keySet().hashCode() : 0);
+            result = 31 * result + (attr.values() != null ? attr.values().hashCode() : 0);
             return result;
         }
     }    

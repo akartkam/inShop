@@ -39,6 +39,8 @@
 						<div class="media-body single-product-info">
 						   <h1 class="media-heading" th:utext="${product.longDisplayName}"></h1>
 				           <div class="product-attributes">
+				           	   <aid:addtitional_sku_attr_values product="${product}" />
+							   <div id="sku-attr-data" hidden="hidden" th:attr="data-sku-attr=${additSkuAttrValues}" />				               
 					           <table cellspacing="0">
 					               <tbody>
 									   <tr>
@@ -64,9 +66,9 @@
 					                       <td><span th:utext="${av.value}"></span>&nbsp;<span th:if="${av.attribute.unit != null}" th:utext="#{${'unit.' + av.attribute.unit}}"></span></td>
 					                   </tr>
 					                   <tr th:each="at : ${product.additionalSkuAttributes}">
-					                       <th><span th:utext="${at.name}"></span><span th:if="${at.unit}" th:utext="${'&nbsp;('+#messages.msg('unit.'+at.unit)+')'}"></span></th>
+					                       <th><span th:utext="${at.name}"></span></th>
 					                       <td></td>
-					                       <td><span th:id="${at.id}"></span></td>
+					                       <td><span class="addit-sku-attr-value" th:id="${'attr_'+at.id}"></span>&nbsp;<span class="unit" th:id="${'attr_unit_'+at.id}"></span></td>
 					                   </tr>		                   
 					                   <tr>
 					                   	   <th><span th:utext="#{sku.quantityPerPackage}"></span></th>	
@@ -186,7 +188,8 @@
 				    s.src = ('https:' == window.location.protocol ? 'https' : 'http')  + '://share.pluso.ru/pluso-like.js';
 				    var h=d[g]('body')[0];
 				    h.appendChild(s);
-				}	        	
+				};
+				changeProductOption();
 			});
 			
 		</script>

@@ -9,12 +9,14 @@ import javax.annotation.Resource;
 import com.akartkam.inShop.service.extension.EntityUrlModificator;
 import com.akartkam.inShop.service.extension.ProductDisplayNameModificator;
 import com.akartkam.inShop.thymeleaf.processors.AbstractModelVarModifierProcessor;
+import com.akartkam.inShop.thymeleaf.processors.AdditionalSkuAttributeValuesProcessor;
 import com.akartkam.inShop.thymeleaf.processors.EntityUrlPrefixHrefProcessor;
 import com.akartkam.inShop.thymeleaf.processors.ProductDisplayNameModifyerProcessor;
 import com.akartkam.inShop.thymeleaf.processors.ProductOptionsProcessor;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.MessageSource;
 import org.springframework.format.number.AbstractNumberFormatter;
 import org.thymeleaf.dialect.AbstractDialect;
 import org.thymeleaf.processor.AbstractProcessor;
@@ -30,6 +32,9 @@ public class AisDialect extends AbstractDialect {
 	
 	@Autowired
 	private EntityUrlModificator entityUrlModificator;
+	
+	@Autowired
+	private MessageSource messageSource;
 	
 	public AisDialect() {
 		super();
@@ -49,9 +54,12 @@ public class AisDialect extends AbstractDialect {
 		entityUrlPrefixHrefProcessor.setEntityUrlModificator(entityUrlModificator);
 		ProductOptionsProcessor modVarModifProc = new ProductOptionsProcessor();
 		modVarModifProc.setCurrencyNumberFormatter(currencyNumberFormatter);
+		AdditionalSkuAttributeValuesProcessor additSkuAttribValProc = new AdditionalSkuAttributeValuesProcessor();
+		additSkuAttribValProc.setMessageSource(messageSource);
 		processors.add(productDisplayNameModifyerProcessor);
 		processors.add(entityUrlPrefixHrefProcessor);
 		processors.add(modVarModifProc);
+		processors.add(additSkuAttribValProc);
 		return processors;
 		
 	}

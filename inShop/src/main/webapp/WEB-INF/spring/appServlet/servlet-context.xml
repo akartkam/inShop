@@ -121,11 +121,24 @@
       <beans:property name="suffix" value=".html" />
       <beans:property name="characterEncoding" value="UTF-8" />
       <beans:property name="templateMode" value="HTML5" />
+      <beans:property name="order" value="1" />
       <!-- Template cache is true by default. Set to false if you want -->
       <!-- templates to be automatically updated when modified.        -->
-      <beans:property name="cacheable" value="true" />
+      <beans:property name="cacheable" value="false" />
+    </beans:bean>
+
+    <beans:bean id="emailTemplateResolver" class="org.thymeleaf.templateresolver.ServletContextTemplateResolver">
+      <beans:property name="prefix" value="/WEB-INF/templates/mail/" />
+      <beans:property name="suffix" value=".html" />
+      <beans:property name="characterEncoding" value="UTF-8" />
+      <beans:property name="templateMode" value="HTML5" />
+      <beans:property name="order" value="2" />
+      <!-- Template cache is true by default. Set to false if you want -->
+      <!-- templates to be automatically updated when modified.        -->
+      <beans:property name="cacheable" value="flase" />
     </beans:bean>
     
+
     <beans:bean id="templateEngine" class="org.thymeleaf.spring3.SpringTemplateEngine">
       <beans:property name="templateResolver" ref="templateResolver" />
 		 <!-- These lines add the dialect to Thymeleaf -->
@@ -185,6 +198,21 @@
             </beans:props>
         </beans:property>
     </beans:bean>
+    
+	<beans:bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<beans:property name="host" value="#{appProperties['mail.server.host']}" />
+		<beans:property name="port" value="#{appProperties['mail.server.port']}" />
+		<beans:property name="protocol" value="#{appProperties['mail.server.protocol']}" />
+		<beans:property name="username" value="#{appProperties['mail.server.username']}" />
+		<beans:property name="password" value="#{appProperties['mail.server.password']}" />
+	
+		<beans:property name="javaMailProperties">
+		   <beans:props>
+	       	   <beans:prop key="mail.smtp.auth">true</beans:prop>
+	       	   <beans:prop key="mail.smtp.starttls.enable">true</beans:prop>
+	       </beans:props>
+		</beans:property>
+	</beans:bean>    
 
 	<!-- Файл с настройками контроллеров -->
 	<beans:import resource="controllers.xml" />

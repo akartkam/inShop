@@ -323,7 +323,13 @@
 			<artifactId>hamcrest-junit</artifactId>
 			<version>1.0.0.1</version>
 			<scope>test</scope>
-		</dependency>		
+		</dependency>
+		<!-- Java Mail API -->
+	    <dependency>
+		    <groupId>javax.mail</groupId>
+		    <artifactId>mail</artifactId>
+		    <version>1.4.7</version>
+	    </dependency>
    </dependencies> 
   <build>
         <plugins>
