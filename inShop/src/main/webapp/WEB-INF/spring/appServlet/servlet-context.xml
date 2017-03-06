@@ -135,7 +135,7 @@
       <beans:property name="order" value="2" />
       <!-- Template cache is true by default. Set to false if you want -->
       <!-- templates to be automatically updated when modified.        -->
-      <beans:property name="cacheable" value="flase" />
+      <beans:property name="cacheable" value="false" />
     </beans:bean>
     
 
