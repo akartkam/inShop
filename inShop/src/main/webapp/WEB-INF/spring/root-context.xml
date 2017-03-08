@@ -60,6 +60,112 @@
         </property>
 	</bean>
 	
+ 	<!-- entity url preffixes & postfixes -->
+ 	<bean id="entityUrlPrefixes" class="java.util.Properties">
+		<constructor-arg>
+    		<props>
+ 				<prop key="#{T(com.akartkam.inShop.util.Constants).PRODUCT_CLASS}">product</prop>
+ 				<prop key="#{T(com.akartkam.inShop.util.Constants).CATEGORY_CLASS}">category</prop>
+ 				<prop key="#{T(com.akartkam.inShop.util.Constants).BRAND_CLASS}">brand</prop>
+ 				<prop key="#{T(com.akartkam.inShop.util.Constants).PAGE_CLASS}">page</prop>
+ 			</props>
+ 		</constructor-arg>
+ 	</bean>
+
+ 	<bean id="entityUrlModificator" class="com.akartkam.inShop.service.extension.DefaultEntityUrlModificatorImpl">
+ 		<property name = "urlPrefixes">
+			<ref bean="entityUrlPrefixes" />
+ 		</property> 	
+ 	</bean>
+ 	
+ 	<!--  -->
+ 	
+    <!-- My own formatters -->
+    
+    <bean id="currencyNumberFormatter" class="com.akartkam.inShop.formatter.CurrencyNumberFormatter">
+    	<property name="currencySymbol" value="#{appProperties['inShop.currencySymbol']}"/>
+    	<property name="groupingSeparator" value="#{appProperties['inShop.groupingSeparator']}"/>
+    	<property name="monetaryDecimalSeparator" value="#{appProperties['inShop.monetaryDecimalSeparator']}"/>    
+    </bean>
+    
+    <bean id="currencyFormatter" class="com.akartkam.inShop.formatter.CurrencyFormatAnnotationFormatterFactory">
+    </bean>
+    
+	<bean id="formattingConversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+	    <property name="formatters">
+	      <set>
+	        <ref bean="currencyFormatter" />
+	      </set>
+	    </property>
+	</bean>
+    
+
+   
+    <bean class="org.thymeleaf.spring3.view.ThymeleafViewResolver">
+       <property name="templateEngine" ref="templateEngine" />
+       <property name="characterEncoding" value="UTF-8" />
+	   <property name="contentType" value="text/html; charset=UTF-8" />
+    </bean> 	
+	
+	
+	<!-- Thymeleaf -->
+    <bean id="templateResolver" class="org.thymeleaf.templateresolver.ServletContextTemplateResolver">
+      <property name="prefix" value="/WEB-INF/templates/" />
+      <property name="suffix" value=".html" />
+      <property name="characterEncoding" value="UTF-8" />
+      <property name="templateMode" value="HTML5" />
+      <property name="order" value="1" />
+      <!-- Template cache is true by default. Set to false if you want -->
+      <!-- templates to be automatically updated when modified.        -->
+      <property name="cacheable" value="false" />
+    </bean>
+
+    <bean id="emailTemplateResolver" class="org.thymeleaf.templateresolver.ServletContextTemplateResolver">
+      <property name="prefix" value="/WEB-INF/templates/mail/" />
+      <property name="suffix" value=".html" />
+      <property name="characterEncoding" value="UTF-8" />
+      <property name="templateMode" value="HTML5" />
+      <property name="order" value="2" />
+      <!-- Template cache is true by default. Set to false if you want -->
+      <!-- templates to be automatically updated when modified.        -->
+      <property name="cacheable" value="false" />
+    </bean>
+    
+
+    <bean id="templateEngine" class="org.thymeleaf.spring3.SpringTemplateEngine">
+      <property name="templateResolvers">
+	      <set>
+	        <ref bean="templateResolver" />
+	        <ref bean="emailTemplateResolver" />
+	      </set>      
+      </property>
+	  <!-- These lines add the dialect to Thymeleaf -->
+	  <property name="additionalDialects">
+	    <set>
+	      <bean class="nz.net.ultraq.thymeleaf.LayoutDialect"/>
+	      <bean class="org.thymeleaf.extras.springsecurity3.dialect.SpringSecurityDialect"/>
+	      <bean class="com.akartkam.inShop.thymeleaf.dialects.AisDialect"></bean>
+	    </set>
+  	  </property>
+    </bean>	
+	
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="#{appProperties['mail.server.host']}" />
+		<property name="port" value="#{appProperties['mail.server.port']}" />
+		<property name="protocol" value="#{appProperties['mail.server.protocol']}" />
+		<property name="username" value="#{appProperties['mail.server.username']}" />
+		<property name="password" value="#{appProperties['mail.server.password']}" />
+	
+		<property name="javaMailProperties">
+		   <props>
+	       	   <prop key="mail.smtp.auth" >#{appProperties['mail.smtp.auth']}</prop>
+	       	   <prop key="mail.smtp.starttls.enable">#{appProperties['mail.smtp.starttls.enable']}</prop>
+	       	   <prop key="mail.smtp.quitwait">#{appProperties['mail.smtp.quitwait']}</prop>       	   
+	       </props>
+		</property>
+	</bean>    
+	
+	
 
 	<context:component-scan base-package="com.akartkam.inShop.dao;com.akartkam.inShop.service;" />
 

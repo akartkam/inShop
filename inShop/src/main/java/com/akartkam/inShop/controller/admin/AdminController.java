@@ -24,5 +24,5 @@ public class AdminController {
 	  public String admin(HttpSession  session) {
 		  session.setAttribute("isadmin", new Boolean(true));
 		  return "admin/admin"; 
-		  }
+	  }
 }

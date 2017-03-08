@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -27,6 +28,8 @@ import com.akartkam.inShop.domain.order.Store;
 import com.akartkam.inShop.domain.product.Category;
 import com.akartkam.inShop.formbean.CartForm;
 import com.akartkam.inShop.formbean.CheckoutForm;
+import com.akartkam.inShop.service.EmailInfo;
+import com.akartkam.inShop.service.EmailService;
 import com.akartkam.inShop.service.order.DeliveryService;
 import com.akartkam.inShop.util.CartUtil;
 import com.akartkam.inShop.util.Constants;
@@ -42,6 +45,9 @@ public class CheckoutController {
 	
 	@Autowired
 	private CheckoutFormValidator checkoutFormValidator;
+	
+	@Autowired
+	private EmailService emailService;
 	
 	private static String checkoutView = "order/checkout";
 
@@ -106,6 +112,16 @@ public class CheckoutController {
         }
 		
 		return "";
+	}
+	
+	@RequestMapping(value="/test-email")
+	public String testEmail(HttpServletRequest request, HttpServletResponse response) throws MessagingException {
+		EmailInfo emailInfo = new EmailInfo();
+		emailInfo.setFromAddress("forpost-2017@mail.ru");
+		emailInfo.setSubject("Test subject");
+		emailInfo.setMessageBody("Test message body");
+		emailService.sendSimpleMail(request, response, "akchurin_artur@mail.ru", emailInfo, null);
+		return "redirect:/";
 	}
 	
 	public String getCheckoutView() {
