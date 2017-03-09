@@ -41,6 +41,12 @@ public class CustomerServiceImpl implements CustomerService{
 	
 	@Autowired
 	RoleService roleService;
+	
+	@Override
+	@Transactional(readOnly = false)
+	public Customer createCustomer(Customer customer){
+		return customerDAO.create(customer);
+	}
 
 	@Override
 	public List<Customer> getAllCustomer() {
@@ -102,7 +108,7 @@ public class CustomerServiceImpl implements CustomerService{
 				customer = new Customer();
 				bu.copyProperties(customer, customerForm);
 				if (createAccount && account != null) customer.setAccount(account); 
-				customerDAO.create(customer);
+				createCustomer(customer);
 			}
 			return nerrors;
 		}

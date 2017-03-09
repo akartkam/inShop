@@ -160,7 +160,9 @@
 		   <props>
 	       	   <prop key="mail.smtp.auth" >#{appProperties['mail.smtp.auth']}</prop>
 	       	   <prop key="mail.smtp.starttls.enable">#{appProperties['mail.smtp.starttls.enable']}</prop>
-	       	   <prop key="mail.smtp.quitwait">#{appProperties['mail.smtp.quitwait']}</prop>       	   
+	       	   <prop key="mail.smtp.quitwait">#{appProperties['mail.smtp.quitwait']}</prop> 
+	       	   <prop key="mail.smtp.from">#{appProperties['mail.smtp.from']}</prop>
+	       	   <prop key="mail.smtp.connectiontimeout">#{appProperties['mail.smtp.connectiontimeout']}</prop>
 	       </props>
 		</property>
 	</bean>    

@@ -9,6 +9,8 @@ import com.akartkam.inShop.domain.order.Order;
 import com.akartkam.inShop.domain.order.OrderItem;
 import com.akartkam.inShop.domain.order.Store;
 import com.akartkam.inShop.exception.InventoryUnavailableException;
+import com.akartkam.inShop.formbean.CartForm;
+import com.akartkam.inShop.formbean.CheckoutForm;
 
 public interface OrderService {
 	OrderItem getOrderItemById(UUID id);
@@ -17,5 +19,5 @@ public interface OrderService {
 	Order getOrderById(UUID id);
 	void mergeWithExistingAndUpdateOrCreate(Order order) throws InventoryUnavailableException;
 	Map<OrderItem, Integer> retrieveOrderItemQuantities(Collection<OrderItem> orderItems);
-	
+	void placeOrder(CheckoutForm checkoutForm, CartForm cartForm);
 }

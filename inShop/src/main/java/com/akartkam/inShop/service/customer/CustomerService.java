@@ -13,6 +13,7 @@ import com.akartkam.inShop.formbean.CustomerForm;
 
 
 public interface CustomerService {
+	Customer createCustomer(Customer customer);
 	List<Customer> getAllCustomer();
 	Customer getCustomerById(UUID id);
 	Errors mergeWithExistingAndUpdateOrCreate (CustomerForm customerForm, BindingResult errors, boolean createAccount) throws IllegalAccessException, InvocationTargetException;

@@ -13,6 +13,7 @@ import javax.validation.Valid;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -49,6 +50,9 @@ public class CheckoutController {
 	@Autowired
 	private EmailService emailService;
 	
+	@Value("#{appProperties['mail.smtp.from']}")
+    private String mailFrom;	
+
 	private static String checkoutView = "order/checkout";
 
 	@ModelAttribute("AllDeliveries")
@@ -89,7 +93,7 @@ public class CheckoutController {
 	@RequestMapping
 	public String checkout(HttpServletRequest request, HttpServletResponse response, Model model) {
         CartForm cart = CartUtil.getCartFromSession(request, false);
-        if (cart != null) {
+        if (cart != null && cart.getCartItemsCount() > 0) {
             model.addAttribute(Constants.CART_BEAN_NAME, cart);
             model.addAttribute("isShortMode", new Boolean(true));
             if(!model.containsAttribute("checkoutForm")) {
@@ -117,10 +121,10 @@ public class CheckoutController {
 	@RequestMapping(value="/test-email")
 	public String testEmail(HttpServletRequest request, HttpServletResponse response) throws MessagingException {
 		EmailInfo emailInfo = new EmailInfo();
-		emailInfo.setFromAddress("forpost-2017@mail.ru");
+		emailInfo.setFromAddress(mailFrom);
 		emailInfo.setSubject("Test subject");
 		emailInfo.setMessageBody("Test message body");
-		emailService.sendSimpleMail(request, response, "akchurin_artur@mail.ru", emailInfo, null);
+		emailService.sendSimpleMail(request, response, "akartkam@gmail.com", emailInfo, null);
 		return "redirect:/";
 	}
 	

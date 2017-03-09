@@ -5,7 +5,11 @@
 <title>Непредвиденная ошибка</title>
 </head>
 <body>
-	<p>Возникла непредвиденная ошибка</p>
+    <div align="center">
+		<img src="../../../resources/img/gingerCat.png" th:src="@{/resources/img/gingerCat.png}"></img>
+	</div> 
+	<p style="color: #999; font-size: 36pt;" align="center">404</p>
+    <p style="color: #999; font-size: 24pt;" align="center">Такой страницы не найдено!</p>
 	<div th:utext="'&lt;!--'" th:remove="tag"></div>
 	<div th:utext="'Failed URL: ' +  ${url}" th:remove="tag">${url}</div>
 	<div th:utext="'Exception: ' + ${exception.message}" th:remove="tag">${exception.message}</div>

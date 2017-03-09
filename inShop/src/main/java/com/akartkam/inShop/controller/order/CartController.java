@@ -16,6 +16,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.format.number.AbstractNumberFormatter;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -72,12 +73,12 @@ public class CartController {
         }
         return getCartView();
     }
-	
+
     @RequestMapping(value = "/add")
     public String addJson(HttpServletRequest request, HttpServletResponse response, final Model model,
     		                                         @ModelAttribute("cartItemForm") CartItemForm cartItemForm,
     		                                         final BindingResult bindingResult ) throws IOException {
-        Map<String, Object> responseMap = new HashMap<String, Object>();
+    	Map<String, Object> responseMap = new HashMap<String, Object>();
         Map<String, String> errorsMap = new HashMap<String, String>();
         String responseString = getCartView();
     	CartForm cart = CartUtil.getCartFromSession(request);

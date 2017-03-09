@@ -24,6 +24,8 @@ import com.akartkam.inShop.domain.order.Store;
 import com.akartkam.inShop.domain.product.Product;
 import com.akartkam.inShop.domain.product.Sku;
 import com.akartkam.inShop.exception.InventoryUnavailableException;
+import com.akartkam.inShop.formbean.CartForm;
+import com.akartkam.inShop.formbean.CheckoutForm;
 import com.akartkam.inShop.util.OrderNumberGenerator;
 
 @Service("OrderService")
@@ -140,6 +142,12 @@ public class OrderServiceImpl implements OrderService{
         	quantities.put(orderItem, orderItemsMap.get(orderItem.getId()));
         }
         return quantities;
+	}
+
+	@Override
+	public void placeOrder(CheckoutForm checkoutForm, CartForm cartForm) {
+		// TODO Auto-generated method stub
+		
 	}
 
 

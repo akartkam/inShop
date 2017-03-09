@@ -87,7 +87,8 @@ import com.akartkam.inShop.presentation.admin.EditTab;
 	 "   inner join Category c on c.id=p.category_id "+
 	 "   left join unit u on u.name='IT' "+
 	 " where s.enabled and p.enabled and (select case when coalesce(s.code,'') = '' then coalesce(s1.code,'') else coalesce(s.code,'') end || "+
-	 "               case when coalesce(s.name,'') = '' then coalesce(s1.name,'') else coalesce(s.name,'') end "+ 
+	 "               case when coalesce(s.name,'') = '' then coalesce(s1.name,'') else coalesce(s.name,'') end ||"+
+	 "               case when coalesce(s.description,'') = '' then coalesce(s1.description,'') else coalesce(s.description,'') end "+	 
 	 "          from Sku s1 where s1.id=p.default_sku_id)||' '|| "+
 	 "       case when c.show_quant_per_pack_on_prod_header "+ 
 	 "       then cast(s.quant_per_package as character varying)||coalesce(u.short_name_r,'')||' '|| "+
@@ -138,7 +139,8 @@ import com.akartkam.inShop.presentation.admin.EditTab;
 	 "   inner join Category c on c.id=p.category_id "+
 	 "   left join unit u on u.name='IT' "+
 	 " where s.enabled and p.enabled and (select case when coalesce(s.code,'') = '' then coalesce(s1.code,'') else coalesce(s.code,'') end || "+
-	 "               case when coalesce(s.name,'') = '' then coalesce(s1.name,'') else coalesce(s.name,'') end "+ 
+	 "               case when coalesce(s.name,'') = '' then coalesce(s1.name,'') else coalesce(s.name,'') end ||"+
+	 "               case when coalesce(s.description,'') = '' then coalesce(s1.description,'') else coalesce(s.description,'') end "+	 
 	 "          from Sku s1 where s1.id=p.default_sku_id)||' '|| "+
 	 "       case when c.show_quant_per_pack_on_prod_header "+ 
 	 "       then cast(s.quant_per_package as character varying)||coalesce(u.short_name_r,'')||' '|| "+
