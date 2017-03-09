@@ -30,6 +30,12 @@
 					    </div>
 					  </div>
 					  <div class="form-group">
+					    <label for="middleName" class="col-sm-2 control-label"><span th:utext="#{person.middleName}"></span></label>
+					    <div class="col-sm-10">
+					      <input type="text" th:field="*{middleName}" />
+					    </div>
+					  </div>
+					  <div class="form-group">
 					    <label for="phone" class="col-sm-2 control-label"><span th:utext="#{phone}"></span><span class="required">*</span></label>
 					    <div class="col-sm-10">
 					      <input type="tel" th:field="*{phone}" />
@@ -53,6 +59,12 @@
 					    <label for="address" class="col-sm-2 control-label"><span th:utext="#{address}"></span></label>
 					    <div class="col-sm-10">
 					      <textarea rows="3" th:field="*{address}"></textarea>
+					    </div>
+					  </div>
+					  <div class="form-group">
+					    <label for="customerComment" class="col-sm-2 control-label"><span th:utext="#{order.customerComment}"></span></label>
+					    <div class="col-sm-10">
+					      <textarea rows="3" th:field="*{customerComment}"></textarea>
 					    </div>
 					  </div>
 					  <div class="form-group">

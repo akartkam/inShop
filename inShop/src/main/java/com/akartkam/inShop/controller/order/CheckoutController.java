@@ -26,7 +26,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.akartkam.inShop.domain.order.Delivery;
 import com.akartkam.inShop.domain.order.Store;
-import com.akartkam.inShop.domain.product.Category;
 import com.akartkam.inShop.formbean.CartForm;
 import com.akartkam.inShop.formbean.CheckoutForm;
 import com.akartkam.inShop.service.EmailInfo;

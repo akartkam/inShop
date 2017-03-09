@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.akartkam.inShop.dao.order.OrderDAO;
 import com.akartkam.inShop.dao.order.OrderItemDAO;
 import com.akartkam.inShop.dao.order.StoreDAO;
+import com.akartkam.inShop.domain.customer.Customer;
 import com.akartkam.inShop.domain.order.Order;
 import com.akartkam.inShop.domain.order.OrderItem;
 import com.akartkam.inShop.domain.order.Store;
@@ -145,8 +146,17 @@ public class OrderServiceImpl implements OrderService{
 	}
 
 	@Override
+	@Transactional(readOnly = false)
 	public void placeOrder(CheckoutForm checkoutForm, CartForm cartForm) {
-		// TODO Auto-generated method stub
+		if (checkoutForm == null || cartForm == null) return;
+		Customer customer = new Customer();
+		customer.setFirstName(checkoutForm.getFirstName());
+		customer.setLastName(checkoutForm.getLastName());
+		customer.setMiddleName(checkoutForm.getMiddleName());
+		customer.setCity(checkoutForm.getCity());
+		customer.setAddress(checkoutForm.getAddress());
+		customer.setEmail(checkoutForm.getEmail());
+		customer.setPhone(checkoutForm.getPhone());
 		
 	}
 

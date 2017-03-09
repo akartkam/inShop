@@ -18,7 +18,7 @@ public class CheckoutForm implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -2251596240922177675L;
-	private String firstName, lastName, email, phone, address, city;
+	private String firstName, lastName, middleName, email, phone, address, city;
 	private String customerComment;
 	private Delivery delivery;
 	private Store store;
@@ -39,6 +39,12 @@ public class CheckoutForm implements Serializable {
 		this.lastName = lastName;
 	}
 	
+	public String getMiddleName() {
+		return middleName;
+	}
+	public void setMiddleName(String middleName) {
+		this.middleName = middleName;
+	}
 	@NotEmpty
 	@Email
 	public String getEmail() {

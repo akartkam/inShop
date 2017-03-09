@@ -1344,7 +1344,7 @@ div.cart-collaterals ul.products li.product .price ins {
     padding: 15px;
 }
 #order_review_heading {
-    color: #5a88ca;
+    color: #fead53;
     font-size: 20px;
     text-transform: uppercase;
 }
@@ -1637,7 +1637,6 @@ span[class*="error"] {
     height: auto !important;
     padding: 5px;
 }
-
 .select2-container--default .select2-selection--single .select2-selection__placeholder {
     font-size:x-small !important;
 }
@@ -1648,6 +1647,7 @@ div.pluso {
 
 #checkout-form input:not([type=radio]), #checkout-form textarea, #checkout-form select {
 	width: 100% !important;
+	padding: 5px !important;
 }
 
 #checkout-form select {
