@@ -52,6 +52,7 @@ public class Order extends AbstractDomainObjectOrdering {
     private String orderNumber;
     private String emailAddress;
     protected List<OrderItem> orderItems = new ArrayList<OrderItem>();
+    private List<Fulfillment> fulfillment = new ArrayList<Fulfillment>(); 
 
 
     @Column(name = "order_subtotal", precision=19, scale=5)
@@ -134,8 +135,19 @@ public class Order extends AbstractDomainObjectOrdering {
     public List<OrderItem> getOrderItems() {
         return orderItems;
     }
+ 
+    @Valid
+    @OneToMany(mappedBy = "order", cascade = {CascadeType.ALL}, orphanRemoval=true) 
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)    
+    public List<Fulfillment> getFulfillment() {
+		return fulfillment;
+	}
 
-    public void setOrderItems(List<OrderItem> orderItems) {
+	public void setFulfillment(List<Fulfillment> fulfillment) {
+		this.fulfillment = fulfillment;
+	}
+
+	public void setOrderItems(List<OrderItem> orderItems) {
         this.orderItems = orderItems;
     }
 

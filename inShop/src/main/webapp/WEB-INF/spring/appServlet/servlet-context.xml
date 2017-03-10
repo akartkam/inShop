@@ -92,12 +92,6 @@
 		<beans:property name="imagesMaxUploadSize" value="#{appProperties['inShop.imagesMaxUploadSize']}"/>
 	</beans:bean>
 
-	<beans:bean class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
-	  <beans:property name="location">
-	      <beans:value>classpath:messages.properties</beans:value>
-	  </beans:property>	
-	</beans:bean>
-
     <beans:bean id="persistenceExceptionTranslationPostProcessor"
         class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
 
@@ -115,6 +109,7 @@
             </beans:props>
         </beans:property>
     </beans:bean>
+    
     
 	<!-- Файл с настройками контроллеров -->
 	<beans:import resource="controllers.xml" />

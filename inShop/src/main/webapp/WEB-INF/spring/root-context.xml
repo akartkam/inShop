@@ -24,9 +24,17 @@
 	     Also needed -javaagent:C:\Users\A\.m2\repository\org\springframework\spring-instrument\3.2.10.RELEASE\spring-instrument-3.2.10.RELEASE.jar
 	        in jre variables   
 	<context:load-time-weaver/>
+	-->	
 	
-	
-	-->
+	<bean class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
+	  <property name="locations">
+	    <list>
+	      <value>classpath:messages.properties</value>
+	      <value>/WEB-INF/jdbc.properties</value>
+	    </list>
+	  </property>	
+	</bean>	
+
 	<bean id="filterMultipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
   	        <property name="maxUploadSize" value="100000000"/> 
 	</bean> 
