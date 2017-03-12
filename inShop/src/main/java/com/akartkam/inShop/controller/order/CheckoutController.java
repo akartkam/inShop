@@ -110,7 +110,7 @@ public class CheckoutController {
 	}
 	
 	@RequestMapping(value="/place-order", method = RequestMethod.POST)
-	public String placeOrder (HttpServletRequest request,
+	public String placeOrder (HttpServletRequest request, HttpServletResponse response, Model model,
 							  @Valid @ModelAttribute("checkoutForm") CheckoutForm checkoutForm, 
 			  				  final BindingResult bindingResult,
 			  				  final RedirectAttributes ra) {
@@ -120,14 +120,18 @@ public class CheckoutController {
         	ra.addFlashAttribute("org.springframework.validation.BindingResult.checkoutForm", bindingResult);
             return "redirect:/checkout";
         }
+		Order order = null;
 		try {
 			CartForm cart = CartUtil.getCartFromSession(request, false);
-			Order order = orderService.placeOrder(checkoutForm, cart);
-			CartUtil.removeCartFromSession(request);
+			order = orderService.placeOrder(checkoutForm, cart);
 		} catch (Exception e) {
 			LOG.error(e);
 		}
+		CartUtil.removeCartFromSession(request);
+		EmailInfo ei = new EmailInfo();
+		//ei.set
 		
+		model.addAttribute("order", order);
 		return "";
 	}
 	

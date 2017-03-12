@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+</head>
+<body>
+	<p>&nbsp;</p>
+	<table  width="521">
+		<tbody>
+			<tr>
+				<td style="text-align: center;" bgcolor="#5a88ca">
+					<h2>
+						<span style="color: #ffffff;">&nbsp;Спасибо за Ваш заказ в
+						</span><br /> <span style="color: #ffffff;">интернет-магазине
+							Форпост!</span>
+					</h2>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<p>Ваш заказа сформирован и наш менеджер свяжется с Вами в
+						ближайшее время!</p>
+					<h2>
+						<strong th:utext="${'Заказ №'+order.orderNumber}">Заказ № 12376645454</strong>
+					</h2>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<p>&nbsp;</p>
+    <table cellspacing="0">
+	    <thead>
+	        <tr>
+	            <th>N</th>
+	            <th class="product-name"><span th:utext="#{product.name}">Product</span></th>
+	            <th class="product-price"><span th:utext="#{sku.priceForPackageUnit}">Price</span></th>  
+	            <th class="product-quantity"><span th:utext="#{sku.quantity}">Quantity</span></th>
+	            <th class="product-subtotal"><span th:utext="#{cart.subTotal}">Sub Total</span></th>
+	        </tr>
+	    </thead>
+	    <tbody>
+	        <tr th:each="ci, ciStat : ${order.orderItems}" class="cart_item">
+	            <td th:utext="${ciStat.index+1}"></td>
+	            <td class="product-name" >
+	                <a th:href="@{${ci.productUrl}}">
+	                	<span th:utext="${ci.productName}"></span>
+	                	<span th:if="${!#lists.isEmpty(ci.itemAttributes.values())}"  th:utext="${', '+#strings.listJoin(ci.itemAttributes.values(),', ')}"></span>
+	                </a> 
+	            </td>
+	            <td class="product-price">
+	                <span class="amount" th:utext="${{ci.price}}">£15.00</span> 
+	            </td>
+	            <td class="product-quantity">
+	                <div class="quantity" th:unless="${isShortMode}">
+								<form method="POST" th:action="@{/cart/recalc}">
+							<input type="hidden" name="productId" th:value="${ci.productId}" />
+			            	<input type="hidden" name="skuId" th:value="${ci.skuId}" />
+	                        <input type="number" name="quantity" th:value="${ci.quantity}" size="4" min="0" step="1"/>
+						    <a href="javascript:void(0);" title="Пересчитать" class="refresh recalc-cart" >
+						      <i class="fa fa-refresh"></i>
+						    </a>
+						</form>				            
+	                </div>
+	                <span th:if="${isShortMode}" th:utext="${ci.quantity}"></span>
+	            </td>
+	            <td class="product-subtotal">
+	                <span class="amount" th:text="${{ci.cartItemTotal}}">£15.00</span> 
+	            </td>
+	        </tr>
+	        <tr>
+	        	<td th:colspan="${isShortMode}? '4': '5'">
+					<span class="cart-error" style="display: none;" th:utext="#{error.productOptions}">All options required!</span>
+	        	</td>
+				            <td class="cart-total" colspan="2">
+	                <span th:utext="#{cart.total}">Total</span>
+	            	<span  th:text="${{cart.total}}">£15.00</span> 
+	            </td>
+	        </tr>
+	        <tr th:unless="${isShortMode}">
+	            <td class="actions" colspan="7">
+	                <button type="button" class="simplemodal-close" th:utext="#{button.continueBuying}">Продолжить покупки</button>
+	                <button type="button" th:utext="#{button.buy1click}">Купить в 1 клик</button>
+	                <button type="button" class="checkout" th:utext="#{button.checkout}">Оформить заказ</button>
+	                
+	            </td>
+	        </tr>
+	    </tbody>
+	</table>
+	<p>&nbsp;</p>
+	<h2>Данные клинта:</h2>
+	<h2>&nbsp;</h2>
+	<h2>Способ доставки:</h2>
+	<h2>&nbsp;</h2>
+</body>
+</html>
