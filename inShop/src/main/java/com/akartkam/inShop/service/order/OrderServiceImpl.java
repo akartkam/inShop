@@ -3,6 +3,7 @@ package com.akartkam.inShop.service.order;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -17,16 +18,18 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.akartkam.inShop.dao.order.OrderDAO;
 import com.akartkam.inShop.dao.order.OrderItemDAO;
-import com.akartkam.inShop.dao.order.StoreDAO;
 import com.akartkam.inShop.domain.customer.Customer;
+import com.akartkam.inShop.domain.order.Fulfillment;
 import com.akartkam.inShop.domain.order.Order;
 import com.akartkam.inShop.domain.order.OrderItem;
-import com.akartkam.inShop.domain.order.Store;
 import com.akartkam.inShop.domain.product.Product;
 import com.akartkam.inShop.domain.product.Sku;
 import com.akartkam.inShop.exception.InventoryUnavailableException;
+import com.akartkam.inShop.exception.PlaceOrderException;
 import com.akartkam.inShop.formbean.CartForm;
+import com.akartkam.inShop.formbean.CartItemForm;
 import com.akartkam.inShop.formbean.CheckoutForm;
+import com.akartkam.inShop.service.customer.CustomerService;
 import com.akartkam.inShop.util.OrderNumberGenerator;
 
 @Service("OrderService")
@@ -43,6 +46,9 @@ public class OrderServiceImpl implements OrderService{
 	private JdbcTemplate jdbcTemplate;
 	@Autowired
 	private InventoryService inventoryService;
+	@Autowired
+	private CustomerService customerService;
+	
 
 	
 	public OrderItem getOrderItemById(UUID id) {
@@ -147,16 +153,60 @@ public class OrderServiceImpl implements OrderService{
 
 	@Override
 	@Transactional(readOnly = false)
-	public void placeOrder(CheckoutForm checkoutForm, CartForm cartForm) {
-		if (checkoutForm == null || cartForm == null) return;
-		Customer customer = new Customer();
-		customer.setFirstName(checkoutForm.getFirstName());
-		customer.setLastName(checkoutForm.getLastName());
-		customer.setMiddleName(checkoutForm.getMiddleName());
-		customer.setCity(checkoutForm.getCity());
-		customer.setAddress(checkoutForm.getAddress());
-		customer.setEmail(checkoutForm.getEmail());
-		customer.setPhone(checkoutForm.getPhone());
+	public Order placeOrder(CheckoutForm checkoutForm, CartForm cartForm) {
+		try {
+			if (checkoutForm == null)
+				 throw new IllegalArgumentException("checkoutForm is null");
+			if (cartForm == null)
+				 throw new IllegalArgumentException("cartForm is null");
+	
+			Customer customer = new Customer();
+			customer.setFirstName(checkoutForm.getFirstName());
+			customer.setLastName(checkoutForm.getLastName());
+			customer.setMiddleName(checkoutForm.getMiddleName());
+			customer.setCity(checkoutForm.getCity());
+			customer.setAddress(checkoutForm.getAddress());
+			customer.setEmail(checkoutForm.getEmail());
+			customer.setPhone(checkoutForm.getPhone());
+			
+			customerService.createCustomer(customer);
+			
+			Fulfillment fulfil = new Fulfillment();
+			fulfil.setDelivery(checkoutForm.getDelivery());
+			fulfil.setAddress(checkoutForm.getAddress());
+			fulfil.setFirstName(checkoutForm.getFirstName());
+			fulfil.setLastName(checkoutForm.getLastName());
+			fulfil.setMiddleName(checkoutForm.getMiddleName());
+			fulfil.setStore(checkoutForm.getStore());
+			
+			List<OrderItem> ois = new ArrayList<OrderItem>();
+			for (CartItemForm ci : cartForm.getCartItems()) {
+				OrderItem oi = new OrderItem();
+				oi.setSku(ci.getSku());
+				Product p = ci.getSku().lookupProduct();
+				oi.setProduct(p);
+				oi.setCategory(p.getCategory());
+				oi.setQuantity(ci.getQuantity());
+				oi.setPrice(ci.getPrice());
+				oi.setRetailPrice(ci.getSku().getRetailPrice());
+				oi.setSalePrice(ci.getSku().getSalePrice());
+				oi.setQuantityPerPackage(ci.getSku().getQuantityPerPackage());
+				ois.add(oi);
+			}
+			
+			Order order = new Order();
+			order.setEmailAddress(checkoutForm.getEmail());
+			order.setSubmitDate(new Date());
+			order.setOrderItems(ois);
+			order.addFulfillment(fulfil);
+			order.setCustomer(customer);
+			order.setSubTotal(order.calculateSubTotal());
+			order.setTotal(order.calculateTotal());
+			return createOrder(order);		
+		} catch (Exception e) {
+			throw new PlaceOrderException("Could not place order", e);
+		}
+
 		
 	}
 

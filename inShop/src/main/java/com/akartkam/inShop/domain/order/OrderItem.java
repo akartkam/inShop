@@ -65,6 +65,7 @@ public class OrderItem extends AbstractDomainObjectOrdering {
     private Boolean discountsAllowed;
     private Sku sku;
     private Product product; 
+    private Integer quantityPerPackage; 
 
     @Column(name = "retail_price", precision=19, scale=5)
     @CurrencyFormat
@@ -209,5 +210,16 @@ public class OrderItem extends AbstractDomainObjectOrdering {
 	public void setSku(Sku sku) {
 		this.sku = sku;
 	}
+
+	@Column(name = "quant_per_package")
+	public Integer getQuantityPerPackage() {
+		return quantityPerPackage;
+	}
+
+	public void setQuantityPerPackage(Integer quantityPerPackage) {
+		this.quantityPerPackage = quantityPerPackage;
+	}
+	
+	
 
 }

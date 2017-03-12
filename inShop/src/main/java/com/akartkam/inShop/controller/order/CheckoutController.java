@@ -25,12 +25,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.akartkam.inShop.domain.order.Delivery;
+import com.akartkam.inShop.domain.order.Order;
 import com.akartkam.inShop.domain.order.Store;
+import com.akartkam.inShop.exception.PlaceOrderException;
 import com.akartkam.inShop.formbean.CartForm;
 import com.akartkam.inShop.formbean.CheckoutForm;
 import com.akartkam.inShop.service.EmailInfo;
 import com.akartkam.inShop.service.EmailService;
 import com.akartkam.inShop.service.order.DeliveryService;
+import com.akartkam.inShop.service.order.OrderService;
 import com.akartkam.inShop.util.CartUtil;
 import com.akartkam.inShop.util.Constants;
 import com.akartkam.inShop.validator.CheckoutFormValidator;
@@ -48,6 +51,9 @@ public class CheckoutController {
 	
 	@Autowired
 	private EmailService emailService;
+	
+	@Autowired
+	private OrderService orderService;
 	
 	@Value("#{appProperties['mail.smtp.from']}")
     private String mailFrom;	
@@ -104,7 +110,8 @@ public class CheckoutController {
 	}
 	
 	@RequestMapping(value="/place-order", method = RequestMethod.POST)
-	public String placeOrder (@Valid @ModelAttribute("checkoutForm") CheckoutForm checkoutForm, 
+	public String placeOrder (HttpServletRequest request,
+							  @Valid @ModelAttribute("checkoutForm") CheckoutForm checkoutForm, 
 			  				  final BindingResult bindingResult,
 			  				  final RedirectAttributes ra) {
 		checkoutFormValidator.validate(checkoutForm, bindingResult);
@@ -113,6 +120,13 @@ public class CheckoutController {
         	ra.addFlashAttribute("org.springframework.validation.BindingResult.checkoutForm", bindingResult);
             return "redirect:/checkout";
         }
+		try {
+			CartForm cart = CartUtil.getCartFromSession(request, false);
+			Order order = orderService.placeOrder(checkoutForm, cart);
+			CartUtil.removeCartFromSession(request);
+		} catch (Exception e) {
+			LOG.error(e);
+		}
 		
 		return "";
 	}

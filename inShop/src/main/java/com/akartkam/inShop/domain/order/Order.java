@@ -29,6 +29,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.Valid;
@@ -45,7 +46,7 @@ public class Order extends AbstractDomainObjectOrdering {
 
 	private String name;
 	private Customer customer;
-	private OrderStatus status;
+	private OrderStatus status = OrderStatus.NEW;
 	private BigDecimal subTotal;
     private BigDecimal total;
     private Date submitDate;
@@ -53,7 +54,6 @@ public class Order extends AbstractDomainObjectOrdering {
     private String emailAddress;
     protected List<OrderItem> orderItems = new ArrayList<OrderItem>();
     private List<Fulfillment> fulfillment = new ArrayList<Fulfillment>(); 
-
 
     @Column(name = "order_subtotal", precision=19, scale=5)
 	@CurrencyFormat
@@ -138,13 +138,27 @@ public class Order extends AbstractDomainObjectOrdering {
  
     @Valid
     @OneToMany(mappedBy = "order", cascade = {CascadeType.ALL}, orphanRemoval=true) 
-    @Cascade(org.hibernate.annotations.CascadeType.ALL)    
+    @Cascade(org.hibernate.annotations.CascadeType.ALL) 
+    @OrderColumn
     public List<Fulfillment> getFulfillment() {
 		return fulfillment;
 	}
 
 	public void setFulfillment(List<Fulfillment> fulfillment) {
 		this.fulfillment = fulfillment;
+	}
+	
+	public void addFulfillment(Fulfillment fulfil){
+		if(fulfil != null) {
+			fulfillment.add(fulfil);
+			fulfil.setOrder(this);
+		}
+	}
+	
+	public void removeFulfillment(Fulfillment fulfil){
+		if(fulfil != null) {
+			fulfillment.remove(fulfil);
+		}		
 	}
 
 	public void setOrderItems(List<OrderItem> orderItems) {
