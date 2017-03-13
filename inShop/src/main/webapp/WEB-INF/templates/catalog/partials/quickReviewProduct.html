@@ -59,8 +59,8 @@
 						   	     </th:block>
 						   	     <th:block th:if="${product.hasAdditionalSkus()}" 
 						   	               th:with="minMaxPrices=${product.minMaxPrice},
-						                            minPrice=${beans.currencyNumberFormatter.print(minMaxPrices[0], #locale.getDefault())}, 
-						                            maxPrice=${beans.currencyNumberFormatter.print(minMaxPrices[1], #locale.getDefault())}">
+						                            minPrice=${minMaxPrices[0] != null? beans.currencyNumberFormatter.print(minMaxPrices[0], #locale.getDefault()): 0}, 
+						                            maxPrice=${minMaxPrices[1] != null? beans.currencyNumberFormatter.print(minMaxPrices[1], #locale.getDefault()): 0}">
 						            <th:block th:unless="${minPrice.equals(maxPrice)}">
 										<ins th:utext="${minPrice}">$700.00</ins>
 										<ins th:utext="#{product.default.minMaxPricesDelemiter}"></ins>		                                
@@ -80,8 +80,8 @@
 							  	</th:block>
 								<th:block th:if="${product.hasAdditionalSkus()}" 
 						   	              th:with="minMaxPricesForPackage=${product.minMaxPriceForPackage},
-						                           minPriceForPackage=${beans.currencyNumberFormatter.print(minMaxPricesForPackage[0], #locale.getDefault())}, 
-						                           maxPriceForPackage=${beans.currencyNumberFormatter.print(minMaxPricesForPackage[1], #locale.getDefault())}">
+						                           minPriceForPackage=${minMaxPricesForPackage[0] != null? beans.currencyNumberFormatter.print(minMaxPricesForPackage[0], #locale.getDefault()): 0}, 
+						                           maxPriceForPackage=${minMaxPricesForPackage[1] != null? beans.currencyNumberFormatter.print(minMaxPricesForPackage[1], #locale.getDefault()): 0}">
 						            <th:block th:unless="${minPriceForPackage.equals(maxPriceForPackage)}">
 										<ins th:utext="${minPriceForPackage}">$700.00</ins>
 										<ins th:utext="#{product.default.minMaxPricesDelemiter}"></ins>		                                

@@ -1,6 +1,7 @@
 package com.akartkam.inShop.listener;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.TimeZone;
 
@@ -11,7 +12,10 @@ import org.hibernate.event.spi.PreUpdateEventListener;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+
 import com.akartkam.inShop.domain.DomainObject;
 import com.akartkam.inShop.domain.UserDetailsAdapter;
 
@@ -33,10 +37,17 @@ public class PreUpdateAuditEventListener implements PreUpdateEventListener {
 			String[] properties = event.getPersister().getEntityMetamodel().getPropertyNames();
 			List<String> propertyList = Arrays.asList(properties);
 			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+			Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+			String princName = "";
+			if (authentication.getPrincipal() != null && !authorities.contains(new SimpleGrantedAuthority("ROLE_ANONYMOUS"))){
+				princName = ((UserDetailsAdapter) authentication.getPrincipal()).getUsername();
+			} else {
+				princName = "UserByDefault";	
+			}
+			event.getState()[propertyList.indexOf("updatedBy")] = princName;
+			entity.setCreatedBy(princName);				
 			event.getState()[propertyList.indexOf("updatedDate")] = insertDate;
-			event.getState()[propertyList.indexOf("updatedBy")] = ((UserDetailsAdapter) authentication.getPrincipal()).getUsername();
 			entity.setUpdatedDate(insertDate);
-			entity.setUpdatedBy(((UserDetailsAdapter) authentication.getPrincipal()).getUsername());
 		}
 		return false;
 	}

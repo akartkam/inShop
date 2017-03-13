@@ -178,7 +178,8 @@ public class OrderServiceImpl implements OrderService{
 			fulfil.setLastName(checkoutForm.getLastName());
 			fulfil.setMiddleName(checkoutForm.getMiddleName());
 			fulfil.setStore(checkoutForm.getStore());
-			
+
+			Order order = new Order();
 			List<OrderItem> ois = new ArrayList<OrderItem>();
 			for (CartItemForm ci : cartForm.getCartItems()) {
 				OrderItem oi = new OrderItem();
@@ -192,12 +193,11 @@ public class OrderServiceImpl implements OrderService{
 				oi.setSalePrice(ci.getSku().getSalePrice());
 				oi.setQuantityPerPackage(ci.getSku().getQuantityPerPackage());
 				ois.add(oi);
+				order.addOrderItem(oi);
 			}
 			
-			Order order = new Order();
 			order.setEmailAddress(checkoutForm.getEmail());
 			order.setSubmitDate(new Date());
-			order.setOrderItems(ois);
 			order.addFulfillment(fulfil);
 			order.setCustomer(customer);
 			order.setSubTotal(order.calculateSubTotal());

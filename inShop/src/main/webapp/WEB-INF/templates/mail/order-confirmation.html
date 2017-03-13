@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="UTF-8">
+	<meta charset="UTF-8"/>
 </head>
 <body>
 	<p>&nbsp;</p>
@@ -39,49 +39,26 @@
 	        </tr>
 	    </thead>
 	    <tbody>
-	        <tr th:each="ci, ciStat : ${order.orderItems}" class="cart_item">
-	            <td th:utext="${ciStat.index+1}"></td>
+	        <tr th:each="oi, oiStat : ${order.orderItems}" class="cart_item">
+	            <td th:utext="${oiStat.index+1}"></td>
 	            <td class="product-name" >
-	                <a th:href="@{${ci.productUrl}}">
-	                	<span th:utext="${ci.productName}"></span>
-	                	<span th:if="${!#lists.isEmpty(ci.itemAttributes.values())}"  th:utext="${', '+#strings.listJoin(ci.itemAttributes.values(),', ')}"></span>
-	                </a> 
+                	<span aid:product_modifyed_display_name_utext="${oi.sku}"></span>
+<!--                 	<span th:if="${!#lists.isEmpty(ci.itemAttributes.values())}"  th:utext="${', '+#strings.listJoin(ci.itemAttributes.values(),', ')}"></span> -->
 	            </td>
 	            <td class="product-price">
-	                <span class="amount" th:utext="${{ci.price}}">£15.00</span> 
+	                <span class="amount" th:utext="${{oi.price}}">£15.00</span> 
 	            </td>
 	            <td class="product-quantity">
-	                <div class="quantity" th:unless="${isShortMode}">
-								<form method="POST" th:action="@{/cart/recalc}">
-							<input type="hidden" name="productId" th:value="${ci.productId}" />
-			            	<input type="hidden" name="skuId" th:value="${ci.skuId}" />
-	                        <input type="number" name="quantity" th:value="${ci.quantity}" size="4" min="0" step="1"/>
-						    <a href="javascript:void(0);" title="Пересчитать" class="refresh recalc-cart" >
-						      <i class="fa fa-refresh"></i>
-						    </a>
-						</form>				            
-	                </div>
-	                <span th:if="${isShortMode}" th:utext="${ci.quantity}"></span>
+	                <span th:utext="${oi.quantity}"></span>
 	            </td>
 	            <td class="product-subtotal">
-	                <span class="amount" th:text="${{ci.cartItemTotal}}">£15.00</span> 
+	                <span class="amount" th:text="${{oi.rowTotal}}">£15.00</span> 
 	            </td>
 	        </tr>
 	        <tr>
-	        	<td th:colspan="${isShortMode}? '4': '5'">
-					<span class="cart-error" style="display: none;" th:utext="#{error.productOptions}">All options required!</span>
-	        	</td>
-				            <td class="cart-total" colspan="2">
+				<td class="cart-total" colspan="2">
 	                <span th:utext="#{cart.total}">Total</span>
-	            	<span  th:text="${{cart.total}}">£15.00</span> 
-	            </td>
-	        </tr>
-	        <tr th:unless="${isShortMode}">
-	            <td class="actions" colspan="7">
-	                <button type="button" class="simplemodal-close" th:utext="#{button.continueBuying}">Продолжить покупки</button>
-	                <button type="button" th:utext="#{button.buy1click}">Купить в 1 клик</button>
-	                <button type="button" class="checkout" th:utext="#{button.checkout}">Оформить заказ</button>
-	                
+	            	<span  th:text="${{order.total}}">£15.00</span> 
 	            </td>
 	        </tr>
 	    </tbody>

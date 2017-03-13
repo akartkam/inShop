@@ -2,7 +2,9 @@ package com.akartkam.inShop.controller.order;
 
 import java.beans.PropertyEditorSupport;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.mail.MessagingException;
@@ -126,13 +128,18 @@ public class CheckoutController {
 			order = orderService.placeOrder(checkoutForm, cart);
 		} catch (Exception e) {
 			LOG.error(e);
+			return "redirect:/";
 		}
 		CartUtil.removeCartFromSession(request);
 		EmailInfo ei = new EmailInfo();
-		//ei.set
-		
+		ei.setEmailTemplate("order-confirmation");
+		ei.setFromAddress(mailFrom);
+		ei.setSubject("Заказ №"+order.getOrderNumber());
+		Map<String, Object> vars = new HashMap<String, Object>();
+		vars.put("order", order);
+		emailService.sendSimpleMail(request, response, order.getEmailAddress() , ei, vars);
 		model.addAttribute("order", order);
-		return "";
+		return "redirect:/";
 	}
 	
 	@RequestMapping(value="/test-email")

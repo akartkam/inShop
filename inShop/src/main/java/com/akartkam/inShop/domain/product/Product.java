@@ -367,6 +367,8 @@ public class Product extends AbstractWebDomainObject {
 				}
 			}
 		}
+		if (ret[0] == null) ret[0]=ret[1];
+		if (ret[1] == null) ret[1]=ret[0];
 		return ret;
 	}
 
@@ -395,6 +397,8 @@ public class Product extends AbstractWebDomainObject {
 				}
 			}
 		}
+		if (ret[0] == null) ret[0]=ret[1];
+		if (ret[1] == null) ret[1]=ret[0];
 		return ret;
 	}
 	

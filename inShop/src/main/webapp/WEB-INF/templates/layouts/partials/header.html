@@ -64,7 +64,7 @@
                 <div class="col-md-2 col-sm-12" style="justify-content: flex-start;" th:unless="${isShortMode}">
                     <div class="shopping-item" th:with="cart = ${#httpSession.getAttribute(T(com.akartkam.inShop.util.Constants).CART_BEAN_NAME)}">
                         <a th:href="@{/cart}" class="modalcart"><i class="fa fa-shopping-cart"></i> <span class="cart-amunt" 
-                           th:utext="${{cart != null? cart.total: beans.currencyNumberFormatter.print(0)}}"></span> 
+                           th:utext="${{cart != null? cart.total: beans.currencyNumberFormatter.print(0, #locale.getDefault())}}"></span> 
                         <span class="product-count" th:utext="${cart != null? cart.quantityTotal: 0}"></span></a>
                     </div>
                 </div>
