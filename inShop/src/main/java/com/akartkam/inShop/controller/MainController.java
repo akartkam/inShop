@@ -1,8 +1,14 @@
 package com.akartkam.inShop.controller;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
+import java.util.Currency;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
+import java.util.UUID;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -53,6 +59,7 @@ public class MainController extends WebEntityAbstractController {
 		model.addObject("brands", brands);
 		model.addObject("mainSliderBanner", mainSliderBanner);
 		CartUtil.getCartFromSession(request);
+		
 		return model;
 	}
 	

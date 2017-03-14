@@ -222,7 +222,6 @@ public class Product extends AbstractWebDomainObject {
 	        this.defaultSku = defaultSku;
 	}
     
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 	@OneToMany(fetch = FetchType.LAZY, mappedBy="product")
 	@Cascade(org.hibernate.annotations.CascadeType.ALL)
 	@BatchSize(size = 10)

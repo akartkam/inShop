@@ -132,7 +132,7 @@ public class CheckoutController {
 		}
 		CartUtil.removeCartFromSession(request);
 		EmailInfo ei = new EmailInfo();
-		ei.setEmailTemplate("order-confirmation");
+		ei.setEmailTemplate("/mail/order-confirmation");
 		ei.setFromAddress(mailFrom);
 		ei.setSubject("Заказ №"+order.getOrderNumber());
 		Map<String, Object> vars = new HashMap<String, Object>();
@@ -141,6 +141,17 @@ public class CheckoutController {
 		model.addAttribute("order", order);
 		return "redirect:/";
 	}
+	
+	@RequestMapping(value="/test-order-confirm")
+	public String testOrderConfirm(HttpServletRequest request, HttpServletResponse response, Model model) throws MessagingException {
+		EmailInfo emailInfo = new EmailInfo();
+		emailInfo.setFromAddress(mailFrom);
+		emailInfo.setSubject("Test subject");
+		emailInfo.setMessageBody("Test message body");
+		emailService.sendSimpleMail(request, response, "akartkam@gmail.com", emailInfo, null);
+		return "/mail/order-confirmation";
+	}
+
 	
 	@RequestMapping(value="/test-email")
 	public String testEmail(HttpServletRequest request, HttpServletResponse response) throws MessagingException {

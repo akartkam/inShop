@@ -3,6 +3,7 @@ package com.akartkam.inShop.formatter;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
+import java.util.Currency;
 import java.util.Locale;
 
 import org.springframework.format.number.AbstractNumberFormatter;
@@ -43,11 +44,13 @@ public class CurrencyNumberFormatter extends AbstractNumberFormatter {
 	protected NumberFormat getNumberFormat(Locale locale) {
 		NumberFormat df = NumberFormat.getCurrencyInstance();
 		DecimalFormatSymbols dfs = new DecimalFormatSymbols();
+		df.setCurrency(Currency.getInstance("RUB"));
 		if (currencySymbol != null && !"".equals(currencySymbol)) dfs.setCurrencySymbol(currencySymbol);
 		if (groupingSeparator != null && !"".equals(groupingSeparator)) dfs.setGroupingSeparator(groupingSeparator.charAt(0));
 		if (monetaryDecimalSeparator != null && !"".equals(monetaryDecimalSeparator)) dfs.setMonetaryDecimalSeparator(monetaryDecimalSeparator.charAt(0));
 		((DecimalFormat)df).setMinimumFractionDigits(fractionDigits);
 		((DecimalFormat)df).setDecimalFormatSymbols(dfs);
+	
 		return df;
 	}
 
