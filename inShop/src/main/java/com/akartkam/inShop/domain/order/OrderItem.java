@@ -182,6 +182,7 @@ public class OrderItem extends AbstractDomainObjectOrdering {
     }
 
     @Transient
+    @CurrencyFormat
     public BigDecimal getRowTotal() {
     	BigDecimal returnValue = BigDecimal.ZERO;
     	BigDecimal quant = BigDecimal.valueOf(quantity);

@@ -116,35 +116,55 @@
     </bean> 	
 	
 	
-	<!-- Thymeleaf -->
+	<!-- Thymeleaf  -->
     <bean id="templateResolver" class="org.thymeleaf.templateresolver.ServletContextTemplateResolver">
       <property name="prefix" value="/WEB-INF/templates/" />
       <property name="suffix" value=".html" />
       <property name="characterEncoding" value="UTF-8" />
       <property name="templateMode" value="HTML5" />
-      <property name="order" value="1" />
+      <property name="order" value="2" />
       <!-- Template cache is true by default. Set to false if you want -->
       <!-- templates to be automatically updated when modified.        -->
       <property name="cacheable" value="false" />
     </bean>
 
-<!--     <bean id="emailTemplateResolver" class="org.thymeleaf.templateresolver.ServletContextTemplateResolver"> -->
-<!--       <property name="prefix" value="/WEB-INF/templates/mail/" /> -->
-<!--       <property name="suffix" value=".html" /> -->
-<!--       <property name="characterEncoding" value="UTF-8" /> -->
-<!--       <property name="templateMode" value="HTML5" /> -->
-<!--       <property name="order" value="2" /> -->
-<!--       Template cache is true by default. Set to false if you want -->
-<!--       templates to be automatically updated when modified.        -->
-<!--       <property name="cacheable" value="false" /> -->
-<!--     </bean> -->
+    <bean id="emailTemplateResolver" class="org.thymeleaf.templateresolver.ClassLoaderTemplateResolver">
+      <property name="prefix" value="mail/" />
+      <property name="suffix" value=".html" />
+      <property name="characterEncoding" value="UTF-8" />
+      <property name="templateMode" value="HTML5" />
+      <property name="order" value="1" />
+      <property name="cacheable" value="false" />
+    </bean>
     
+    <import resource="data.xml" />
+    
+    <bean id="messageResolver" class="org.thymeleaf.spring3.messageresolver.SpringMessageResolver">
+    	<property name="messageSource" ref="messageSource" />
+	</bean>
+
+    <bean id="emailTemplateEngine" class="org.thymeleaf.TemplateEngine">
+      <property name="templateResolvers">
+	      <set>
+	        <ref bean="emailTemplateResolver" />
+	      </set>      
+      </property>
+      <property name="messageResolver" ref="messageResolver" />
+	  <!-- These lines add the dialect to Thymeleaf -->
+	  <property name="additionalDialects">
+	    <set>
+	      <bean class="nz.net.ultraq.thymeleaf.LayoutDialect"/>
+	      <bean class="com.akartkam.inShop.thymeleaf.dialects.AisDialect"></bean>
+	    </set>
+  	  </property>
+    </bean>	
+
 
     <bean id="templateEngine" class="org.thymeleaf.spring3.SpringTemplateEngine">
       <property name="templateResolvers">
 	      <set>
 	        <ref bean="templateResolver" />
-<!-- 	        <ref bean="emailTemplateResolver" /> -->
+<!-- 	        <ref bean="emailTemplateResolver" />  -->
 	      </set>      
       </property>
 	  <!-- These lines add the dialect to Thymeleaf -->
@@ -180,7 +200,7 @@
 	<context:component-scan base-package="com.akartkam.inShop.dao;com.akartkam.inShop.service;" />
 
 
-	<import resource="data.xml" />	
+	
 	<import resource="inshop-security.xml" />
 	
 

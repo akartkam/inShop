@@ -144,22 +144,22 @@ public class CheckoutController {
 	
 	@RequestMapping(value="/test-order-confirm")
 	public String testOrderConfirm(HttpServletRequest request, HttpServletResponse response, Model model) throws MessagingException {
-		EmailInfo emailInfo = new EmailInfo();
-		emailInfo.setFromAddress(mailFrom);
-		emailInfo.setSubject("Test subject");
-		emailInfo.setMessageBody("Test message body");
-		emailService.sendSimpleMail(request, response, "akartkam@gmail.com", emailInfo, null);
-		return "/mail/order-confirmation";
+		Order order = orderService.getOrderById(UUID.fromString("1203fb64-be23-4d7f-96a0-9f488a65c664"));
+		model.addAttribute("order", order);
+		return "order-confirmation";
 	}
 
 	
 	@RequestMapping(value="/test-email")
 	public String testEmail(HttpServletRequest request, HttpServletResponse response) throws MessagingException {
+		Order order = orderService.getOrderById(UUID.fromString("1203fb64-be23-4d7f-96a0-9f488a65c664"));
+		Map<String, Object> vars = new HashMap<String, Object>();
+		vars.put("order", order);
 		EmailInfo emailInfo = new EmailInfo();
 		emailInfo.setFromAddress(mailFrom);
 		emailInfo.setSubject("Test subject");
-		emailInfo.setMessageBody("Test message body");
-		emailService.sendSimpleMail(request, response, "akartkam@gmail.com", emailInfo, null);
+		emailInfo.setEmailTemplate("order-confirmation");
+		emailService.sendSimpleMail(request, response, "akartkam@gmail.com", emailInfo, vars);
 		return "redirect:/";
 	}
 	
