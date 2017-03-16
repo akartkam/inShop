@@ -20,4 +20,5 @@ public interface OrderService {
 	void mergeWithExistingAndUpdateOrCreate(Order order) throws InventoryUnavailableException;
 	Map<OrderItem, Integer> retrieveOrderItemQuantities(Collection<OrderItem> orderItems);
 	Order placeOrder(CheckoutForm checkoutForm, CartForm cartForm);
+	void reattache(Order order);
 }

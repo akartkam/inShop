@@ -57,7 +57,7 @@ import com.akartkam.inShop.presentation.admin.EditTab;
 })
 @Entity
 @Table(name = "Product")
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+@Cache(region = "product", usage = CacheConcurrencyStrategy.READ_WRITE)
 @SuppressWarnings("rawtypes")
 public class Product extends AbstractWebDomainObject {
 
@@ -136,7 +136,7 @@ public class Product extends AbstractWebDomainObject {
 		return additionalSku.isEmpty();
 	};
 	
-	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+	//@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 	@OneToMany(mappedBy="product", cascade = CascadeType.ALL, orphanRemoval=true)
 	@Cascade(org.hibernate.annotations.CascadeType.ALL)
 	@BatchSize(size = 20)

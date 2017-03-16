@@ -48,7 +48,7 @@ import com.akartkam.inShop.presentation.admin.EditTab;
 )
 @Table(name = "Attribute")
 @SuppressWarnings("rawtypes")
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+//@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public abstract class AbstractAttribute extends AbstractDomainObjectOrdering {
 	/**
 	 * 
@@ -104,7 +104,7 @@ public abstract class AbstractAttribute extends AbstractDomainObjectOrdering {
 	@Transient
 	public abstract AttributeType getAttributeType();
 	
-	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+	//@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 	@OneToMany(mappedBy="attribute", cascade = CascadeType.ALL)
 	@Cascade(org.hibernate.annotations.CascadeType.ALL)
 	@BatchSize(size = 30)

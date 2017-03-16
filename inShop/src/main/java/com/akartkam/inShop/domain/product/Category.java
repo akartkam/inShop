@@ -28,6 +28,8 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.BatchSize;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.ForeignKey;
 import org.hibernate.annotations.Index;
@@ -59,6 +61,7 @@ import com.akartkam.inShop.validator.HtmlSafe;
 })
 @Entity
 @Table(name = "Category")
+@Cache(region = "category", usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class Category extends AbstractWebDomainObject {
 
 	/**

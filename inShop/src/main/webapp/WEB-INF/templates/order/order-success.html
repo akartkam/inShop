@@ -1,0 +1,18 @@
+<th:block layout:decorator="layouts/fullPageLayout">
+    <div layout:fragment="content">
+ 		 <ol class="breadcrumb">
+  			<li><a th:href="@{/}"><span th:utext="#{mainMenu.main}">Главная</span></a></li>
+  			<li th:utext="#{order.success}"></li>
+		</ol>
+	<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-12" style="height: 40vh;">	
+					<h3 th:utext="${#messages.msg('order.success.message1', order.orderNumber)}"></h3>
+					<h4 th:utext="${#messages.msg('order.success.message2', order.emailAddress)}"></h4>
+					<p>&nbsp;</p>
+					<h5 th:utext="#{wish}"></h5>
+				</div>
+			</div>
+	</div>	
+	</div>
+</th:block>

@@ -48,6 +48,11 @@
 									   	   <td></td>
 									   	   <td><a th:utext="${product.brand.name}" aid:phref="${product.brand}"></a></td>
 									   </tr>
+									   <tr th:if="${product.model}">
+									   	   <th><span th:utext="#{product.model}"></span></th>
+									   	   <td></td>
+									   	   <td><span th:utext="${product.model}"></span></td>									   
+									   </tr>
 									   <tr>
 									       <th:block th:unless="${product.hasAdditionalSkus()}">
 										   	   <th><span th:utext="#{product.articul}"></span></th>

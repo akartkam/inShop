@@ -15,4 +15,5 @@ public interface GenericDAO<T extends DomainObject<ID>, ID extends Serializable>
 	public void refresh(T object);
 	public List<T> list();
 	public T findByUrl(String url);
+	public void reattach(T object);
 }

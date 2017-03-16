@@ -29,6 +29,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.akartkam.inShop.domain.order.Delivery;
 import com.akartkam.inShop.domain.order.Order;
 import com.akartkam.inShop.domain.order.Store;
+import com.akartkam.inShop.domain.product.Category;
 import com.akartkam.inShop.exception.PlaceOrderException;
 import com.akartkam.inShop.formbean.CartForm;
 import com.akartkam.inShop.formbean.CheckoutForm;
@@ -36,6 +37,7 @@ import com.akartkam.inShop.service.EmailInfo;
 import com.akartkam.inShop.service.EmailService;
 import com.akartkam.inShop.service.order.DeliveryService;
 import com.akartkam.inShop.service.order.OrderService;
+import com.akartkam.inShop.service.product.CategoryService;
 import com.akartkam.inShop.util.CartUtil;
 import com.akartkam.inShop.util.Constants;
 import com.akartkam.inShop.validator.CheckoutFormValidator;
@@ -56,6 +58,9 @@ public class CheckoutController {
 	
 	@Autowired
 	private OrderService orderService;
+	
+	@Autowired
+	protected CategoryService categoryService;
 	
 	@Value("#{appProperties['mail.smtp.from']}")
     private String mailFrom;	
@@ -131,15 +136,18 @@ public class CheckoutController {
 			return "redirect:/";
 		}
 		CartUtil.removeCartFromSession(request);
+		order = orderService.getOrderById(order.getId());
 		EmailInfo ei = new EmailInfo();
-		ei.setEmailTemplate("/mail/order-confirmation");
+		ei.setEmailTemplate("order-confirmation");
 		ei.setFromAddress(mailFrom);
 		ei.setSubject("Заказ №"+order.getOrderNumber());
 		Map<String, Object> vars = new HashMap<String, Object>();
 		vars.put("order", order);
 		emailService.sendSimpleMail(request, response, order.getEmailAddress() , ei, vars);
 		model.addAttribute("order", order);
-		return "redirect:/";
+		List<Category> rootCategorys = categoryService.getRootCategories(false);
+		model.addAttribute("rootCategorys", rootCategorys);
+		return "/order/order-success";
 	}
 	
 	@RequestMapping(value="/test-order-confirm")
@@ -159,7 +167,7 @@ public class CheckoutController {
 		emailInfo.setFromAddress(mailFrom);
 		emailInfo.setSubject("Test subject");
 		emailInfo.setEmailTemplate("order-confirmation");
-		emailService.sendSimpleMail(request, response, "akartkam@gmail.com", emailInfo, vars);
+		emailService.sendSimpleMail(request, response, "akchurin_artur@mail.ru", emailInfo, vars);
 		return "redirect:/";
 	}
 	

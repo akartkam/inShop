@@ -115,4 +115,9 @@ public abstract class AbstractGenericDAO<T extends DomainObject<UUID>> implement
 		return criteria.list();
 	}
 	
+	@Override
+	public void reattach(T object) {
+		currentSession().buildLockRequest(LockOptions.NONE).lock(object);
+	}
+	
 }

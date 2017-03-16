@@ -210,5 +210,11 @@ public class OrderServiceImpl implements OrderService{
 		
 	}
 
+	@Override
+	public void reattache(Order order) {
+		orderDAO.reattach(order);
+		
+	}
+
 
 }

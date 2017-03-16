@@ -42,7 +42,7 @@
 	            <td th:utext="${oiStat.index+1}"></td>
 	            <td class="product-name" style="font-size: 8pt;">
                 	<span aid:product_modifyed_display_name_utext="${oi.sku}"></span>
-                 	<span th:if="${!#strings.isEmpty(oi.sku.commaDelemitedPOVL)}"  th:utext="${sku.commaDelemitedPOVL}"></span>
+                 	<span th:if="${!#strings.isEmpty(oi.sku.commaDelemitedPOVL)}"  th:utext="${oi.sku.commaDelemitedPOVL}"></span>
 	            </td>
 	            <td class="product-price" align="center">
 	                <span class="amount" th:utext="${beans.currencyNumberFormatter.print(oi.price, #locale.getDefault())}">£15.00</span> 
@@ -65,13 +65,27 @@
 	        </tr>
 	    </tbody>
 	</table>
+	<p>&nbsp;</p>
 	<h3>Данные клинта:</h3>
 	<span th:utext="#{person.fullName}"></span>:&nbsp;<span th:utext="${order.customer.firstName}"></span>&nbsp;
-	<span th:utext="${order.customer.lastName}"></span>&nbsp;<span th:utext="${order.customer.middleName}"></span> 
-	<span th:utext="#{city}"></span>:&nbsp;<span th:utext="${order.customer.city}"></span>
-	<span th:utext="#{address}"></span>:&nbsp;<span th:utext="${order.customer.address}"></span>
-	<span th:utext="#{phone}"></span>:&nbsp;<span th:utext="${order.customer.phone}"></span>
+	<span th:utext="${order.customer.lastName}"></span>&nbsp;<span th:utext="${order.customer.middleName}"></span><br/> 
+	<span th:utext="#{city}"></span>:&nbsp;<span th:utext="${order.customer.city}"></span><br/>
+	<span th:utext="#{address}"></span>:&nbsp;<span th:utext="${order.customer.address}"></span><br/>
+	<span th:utext="#{phone}"></span>:&nbsp;<span th:utext="${order.customer.phone}"></span><br/>
+	<p>&nbsp;</p>
 	<h3>Способ доставки:</h3>
 	<span th:utext="${order.fulfillment.get(order.fulfillment.size() - 1).delivery.name}"></span>
+	<p th:utext="${order.fulfillment.get(order.fulfillment.size() - 1).delivery.longDescription}">
+	</p>
+	<th:block th:with="store = ${order.fulfillment.get(order.fulfillment.size() - 1).store}" 
+	          th:if="${order.fulfillment.get(order.fulfillment.size() - 1).store}">
+	    <p>&nbsp;</p>      
+		<h3>Пункт отпуска:</h3>
+		<p th:utext="${store.name}"></p>	
+		<p th:utext="${store.address}"></p>
+		<p th:utext="${store.phone}"></p>
+		<p th:if="${store.workSchedule}" th:utext="${store.workSchedule}"></p>
+		<p th:if="${store.longDescription}" th:utext="${store.longDescription}"></p>
+	</th:block>>
 </body>
 </html>
