@@ -367,7 +367,7 @@ public class ProductServiceImpl implements ProductService {
 				bu.copyProperties(product, productFromPost);
 				bu.copyProperties(sku, productFromPost.getDefaultSku());
 			} catch (IllegalAccessException | InvocationTargetException e) {
-				LOG.error(e);
+				LOG.error("",e);
 			}
 			product.setDefaultSku(sku);
 	        createProduct(product);
@@ -449,7 +449,7 @@ public class ProductServiceImpl implements ProductService {
 			try {
 				bu.copyProperties(skuC, skuFromPost);
 			} catch (IllegalAccessException | InvocationTargetException e) {
-				LOG.error(e);
+				LOG.error("",e);
 			}			
 			createSku(skuC);
 		}

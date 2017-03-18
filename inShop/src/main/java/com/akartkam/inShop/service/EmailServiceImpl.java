@@ -64,7 +64,7 @@ public class EmailServiceImpl implements EmailService {
 	        }       
 	        // Send email
 	       	this.mailSender.send(mimeMessage);	
-        } catch (/*MessagingException | MailException |*/ Exception ex) {
+        } catch (/*MessagingException | MailException */ Exception ex ) {
         	LOG.error("",ex);
         }
                 

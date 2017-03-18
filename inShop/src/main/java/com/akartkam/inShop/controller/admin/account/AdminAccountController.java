@@ -156,7 +156,7 @@ public class AdminAccountController {
 				  try {
 				    accountService.deleteAccount(account);
 				  } catch (DataIntegrityViolationException e) {
-					  LOG.error(e);
+					  LOG.error("",e);
 					  err = true;
 					  
 				  }

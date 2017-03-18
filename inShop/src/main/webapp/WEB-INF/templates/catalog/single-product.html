@@ -48,7 +48,7 @@
 									   	   <td></td>
 									   	   <td><a th:utext="${product.brand.name}" aid:phref="${product.brand}"></a></td>
 									   </tr>
-									   <tr th:if="${product.model}">
+									   <tr th:if="${!#strings.isEmpty(product.model)}">
 									   	   <th><span th:utext="#{product.model}"></span></th>
 									   	   <td></td>
 									   	   <td><span th:utext="${product.model}"></span></td>									   

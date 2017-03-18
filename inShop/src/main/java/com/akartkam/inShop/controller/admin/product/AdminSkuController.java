@@ -143,7 +143,7 @@ public class AdminSkuController {
 									| InstantiationException
 									| IllegalAccessException e) {
 								// TODO Auto-generated catch block
-								LOG.error(e);
+								LOG.error("",e);
 							}
 			            setValue(av);
 			    	}

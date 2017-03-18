@@ -142,7 +142,7 @@ public class CategoryServiceImpl implements CategoryService {
 			try {
 				bu.copyProperties(category, categoryFromPost);
 			} catch (IllegalAccessException | InvocationTargetException e) {
-				LOG.error(e);
+				LOG.error("",e);
 			}
 			createCategory(category);
 		}

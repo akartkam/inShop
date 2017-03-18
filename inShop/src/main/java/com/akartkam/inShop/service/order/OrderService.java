@@ -21,4 +21,5 @@ public interface OrderService {
 	Map<OrderItem, Integer> retrieveOrderItemQuantities(Collection<OrderItem> orderItems);
 	Order placeOrder(CheckoutForm checkoutForm, CartForm cartForm);
 	void reattache(Order order);
+	void refresh(Order order);
 }

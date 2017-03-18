@@ -159,17 +159,20 @@ public class OrderServiceImpl implements OrderService{
 				 throw new IllegalArgumentException("checkoutForm is null");
 			if (cartForm == null)
 				 throw new IllegalArgumentException("cartForm is null");
-	
-			Customer customer = new Customer();
-			customer.setFirstName(checkoutForm.getFirstName());
-			customer.setLastName(checkoutForm.getLastName());
-			customer.setMiddleName(checkoutForm.getMiddleName());
-			customer.setCity(checkoutForm.getCity());
-			customer.setAddress(checkoutForm.getAddress());
-			customer.setEmail(checkoutForm.getEmail());
-			customer.setPhone(checkoutForm.getPhone());
 			
-			customerService.createCustomer(customer);
+			Customer customer = customerService.getCustomer(null, checkoutForm);
+			if (customer == null) {
+				customer = new Customer();
+				customer.setFirstName(checkoutForm.getFirstName());
+				customer.setLastName(checkoutForm.getLastName());
+				customer.setMiddleName(checkoutForm.getMiddleName());
+				customer.setCity(checkoutForm.getCity());
+				customer.setAddress(checkoutForm.getAddress());
+				customer.setEmail(checkoutForm.getEmail());
+				customer.setPhone(checkoutForm.getPhone());
+				customerService.createCustomer(customer);				
+			}
+			
 			
 			Fulfillment fulfil = new Fulfillment();
 			fulfil.setDelivery(checkoutForm.getDelivery());
@@ -214,6 +217,11 @@ public class OrderServiceImpl implements OrderService{
 	public void reattache(Order order) {
 		orderDAO.reattach(order);
 		
+	}
+
+	@Override
+	public void refresh(Order order) {
+		orderDAO.refresh(order);
 	}
 
 

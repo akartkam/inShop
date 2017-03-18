@@ -2,7 +2,6 @@ package com.akartkam.inShop.domain.order;
 
 import java.math.BigDecimal;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -11,7 +10,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
-import org.hibernate.annotations.Cascade;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import com.akartkam.inShop.domain.AbstractDomainObject;
@@ -27,11 +25,19 @@ public class Fulfillment extends AbstractDomainObject {
 	private Order order;
 	private Delivery delivery;
 	private Store store;
-	private String lastName, firstName, middleName, address;
+	private String lastName, firstName, middleName, phone, address;
 	private BigDecimal deliveryPrice;
     private String customerMessage;
 
-    @Column(name="cust_message")
+    
+    @Column(name="phone")
+    public String getPhone() {
+		return phone;
+	}
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+	@Column(name="cust_message")
     public String getCustomerMessage() {
 		return customerMessage;
 	}

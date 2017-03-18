@@ -22,6 +22,7 @@ import com.akartkam.inShop.dao.customer.CustomerDAO;
 import com.akartkam.inShop.domain.Account;
 import com.akartkam.inShop.domain.Role;
 import com.akartkam.inShop.domain.customer.Customer;
+import com.akartkam.inShop.formbean.CheckoutForm;
 import com.akartkam.inShop.formbean.CustomerForm;
 import com.akartkam.inShop.service.AccountService;
 import com.akartkam.inShop.service.RoleService;
@@ -127,6 +128,12 @@ public class CustomerServiceImpl implements CustomerService{
 	public void deleteCustomer(Customer customer) {
 		customerDAO.delete(customer);
 		
+	}
+
+	@Override
+	public Customer getCustomer(Account account, CheckoutForm checkoutForm) {
+		return customerDAO.findCustomer(account, checkoutForm.getEmail(), checkoutForm.getFirstName(), 
+									    checkoutForm.getLastName());
 	}
 
 

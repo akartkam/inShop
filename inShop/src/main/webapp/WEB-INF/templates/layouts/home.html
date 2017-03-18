@@ -43,7 +43,7 @@
 							<div class="row">
 								<div class="col-md-12">
 									<div class="main-page-product">
-										<h2 class="section-title">Хиты!</h2>
+										<h2 class="section-title" th:utext="#{product.status.hits}">Лидеры продаж!</h2>
 										<div class="product-carousel">
 										  <th:block th:each="product : ${hitProducts}" th:object="${product}" th:include="catalog/partials/smallSingleProduct">
 										  </th:block>										

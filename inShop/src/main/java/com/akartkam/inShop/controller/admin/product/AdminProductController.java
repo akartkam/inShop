@@ -228,7 +228,7 @@ public class AdminProductController {
 									| InstantiationException
 									| IllegalAccessException e) {
 								// TODO Auto-generated catch block
-								LOG.error(e);
+								LOG.error("",e);
 							}
 			            setValue(av);
 			    	} else {
@@ -269,7 +269,7 @@ public class AdminProductController {
 			    			Date date = formatter.parse(text);
 				            setValue(date);
 			    		} catch (ParseException e) {
-			    			LOG.error(e);
+			    			LOG.error("",e);
 			    		}			    		
 
 			    	} else {

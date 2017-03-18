@@ -7,8 +7,10 @@ import java.util.UUID;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 
+import com.akartkam.inShop.domain.Account;
 import com.akartkam.inShop.domain.customer.Customer;
 import com.akartkam.inShop.domain.product.Brand;
+import com.akartkam.inShop.formbean.CheckoutForm;
 import com.akartkam.inShop.formbean.CustomerForm;
 
 
@@ -20,5 +22,6 @@ public interface CustomerService {
 	Customer loadCustomerById(UUID id, Boolean lock);
 	void softDeleteCustomerById(UUID id);
 	void deleteCustomer(Customer customer);
+	Customer getCustomer(Account account, CheckoutForm checkoutForm);
 
 }

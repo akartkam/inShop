@@ -7,11 +7,9 @@ import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.Index;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -20,7 +18,7 @@ import com.akartkam.inShop.domain.AbstractDomainObject;
 import com.akartkam.inShop.domain.Account;
 
 @Entity
-@Table(name = "Customer")
+@Table(name = "Customer")   
 public class Customer extends AbstractDomainObject {
 
 	/**
@@ -34,6 +32,7 @@ public class Customer extends AbstractDomainObject {
 	@NotEmpty
 	@Size(min = 1, max = 50)
 	@Column(name = "first_name")
+	@Index(name = "idx_email_fname_lname")
 	public String getFirstName() {
 		return firstName;
 	}
@@ -44,6 +43,7 @@ public class Customer extends AbstractDomainObject {
 	@NotEmpty
 	@Size(min = 1, max = 50)
 	@Column(name = "last_name")
+	@Index(name = "idx_email_fname_lname")
 	public String getLastName() {
 		return lastName;
 	}
@@ -62,6 +62,7 @@ public class Customer extends AbstractDomainObject {
 	@NotEmpty
 	@Email
 	@Column(name = "email")
+	@Index(name = "idx_email_fname_lname")
 	public String getEmail() {
 		return email;
 	}

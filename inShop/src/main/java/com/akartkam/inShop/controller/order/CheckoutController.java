@@ -14,6 +14,7 @@ import javax.validation.Valid;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -28,6 +29,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.akartkam.inShop.domain.order.Delivery;
 import com.akartkam.inShop.domain.order.Order;
+import com.akartkam.inShop.domain.order.OrderItem;
 import com.akartkam.inShop.domain.order.Store;
 import com.akartkam.inShop.domain.product.Category;
 import com.akartkam.inShop.exception.PlaceOrderException;
@@ -132,11 +134,11 @@ public class CheckoutController {
 			CartForm cart = CartUtil.getCartFromSession(request, false);
 			order = orderService.placeOrder(checkoutForm, cart);
 		} catch (Exception e) {
-			LOG.error(e);
+			LOG.error("",e);
 			return "redirect:/";
 		}
 		CartUtil.removeCartFromSession(request);
-		order = orderService.getOrderById(order.getId());
+		orderService.refresh(order);
 		EmailInfo ei = new EmailInfo();
 		ei.setEmailTemplate("order-confirmation");
 		ei.setFromAddress(mailFrom);
@@ -152,7 +154,7 @@ public class CheckoutController {
 	
 	@RequestMapping(value="/test-order-confirm")
 	public String testOrderConfirm(HttpServletRequest request, HttpServletResponse response, Model model) throws MessagingException {
-		Order order = orderService.getOrderById(UUID.fromString("1203fb64-be23-4d7f-96a0-9f488a65c664"));
+		Order order = orderService.getOrderById(UUID.fromString("718ef466-d35a-400e-9ff1-ea7eb1165ac0"));
 		model.addAttribute("order", order);
 		return "order-confirmation";
 	}
@@ -160,14 +162,14 @@ public class CheckoutController {
 	
 	@RequestMapping(value="/test-email")
 	public String testEmail(HttpServletRequest request, HttpServletResponse response) throws MessagingException {
-		Order order = orderService.getOrderById(UUID.fromString("1203fb64-be23-4d7f-96a0-9f488a65c664"));
+		Order order = orderService.getOrderById(UUID.fromString("718ef466-d35a-400e-9ff1-ea7eb1165ac0"));
 		Map<String, Object> vars = new HashMap<String, Object>();
 		vars.put("order", order);
 		EmailInfo emailInfo = new EmailInfo();
 		emailInfo.setFromAddress(mailFrom);
 		emailInfo.setSubject("Test subject");
 		emailInfo.setEmailTemplate("order-confirmation");
-		emailService.sendSimpleMail(request, response, "akchurin_artur@mail.ru", emailInfo, vars);
+		emailService.sendSimpleMail(request, response, "forpost1998@mail.ru", emailInfo, vars);
 		return "redirect:/";
 	}
 	
