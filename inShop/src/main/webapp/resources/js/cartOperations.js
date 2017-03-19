@@ -37,13 +37,12 @@ $(function(){
     	var modalClick = $(this).parents('.simplemodal-wrap').length > 0;
     	var $form = $(this).closest("form");
     	var $url = $form.attr("action");
-    	var $hasProductOptions = $form.find("[name='hasProductOptions']") 
-    	if ($hasProductOptions.length) {
-    		$hasProductOptions = ($hasProductOptions.val() == "true" )
-    	} else {
-    		$hasProductOptions = false;
+    	var $existsProductOptions = $form.find("[name='hasProductOptions']") 
+    	var $hasProductOptions = false;
+    	if ($existsProductOptions.length) {
+    		$hasProductOptions = ($existsProductOptions.val() == "true" )
     	}
-    	if (!$hasProductOptions) {
+    	if ($existsProductOptions.length && !$hasProductOptions) {
     		if ($(this).hasClass("add-to-cart")) $url = $form.data("add-to-cart-path")
     		else if ($(this).hasClass("buy1click")) $url = $form.data("buy1click-path")
     	}
