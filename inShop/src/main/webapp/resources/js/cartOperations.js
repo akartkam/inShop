@@ -33,7 +33,7 @@ $(function(){
 	});
 	
 	
-    $("body").on("click", ".add-to-cart", function() {
+    $("body").on("click", ".add-to-cart, .buy1click", function() {
     	var modalClick = $(this).parents('.simplemodal-wrap').length > 0;
     	var $form = $(this).closest("form");
     	var $url = $form.attr("action");
@@ -42,6 +42,10 @@ $(function(){
     		$hasProductOptions = ($hasProductOptions.val() == "true" )
     	} else {
     		$hasProductOptions = false;
+    	}
+    	if (!$hasProductOptions) {
+    		if ($(this).hasClass("add-to-cart")) $url = $form.data("add-to-cart-path")
+    		else if ($(this).hasClass("buy1click")) $url = $form.data("buy1click-path")
     	}
     	var token = $form.find("input[name=_csrf]");
     	if ($form.length) $form = $form.serialize();
