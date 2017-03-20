@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 
@@ -18,9 +19,11 @@ import org.apache.commons.logging.LogFactory;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -34,8 +37,14 @@ import com.akartkam.inShop.domain.order.Order;
 import com.akartkam.inShop.domain.order.OrderItem;
 import com.akartkam.inShop.domain.order.Store;
 import com.akartkam.inShop.domain.product.Category;
+import com.akartkam.inShop.exception.AddToCartException;
+import com.akartkam.inShop.exception.InventoryUnavailableException;
 import com.akartkam.inShop.exception.PlaceOrderException;
+import com.akartkam.inShop.exception.ProductNotFoundException;
+import com.akartkam.inShop.exception.RequiredAttributeNotProvidedException;
+import com.akartkam.inShop.exception.SkuNotFoundException;
 import com.akartkam.inShop.formbean.CartForm;
+import com.akartkam.inShop.formbean.CartItemForm;
 import com.akartkam.inShop.formbean.CheckoutForm;
 import com.akartkam.inShop.service.EmailInfo;
 import com.akartkam.inShop.service.EmailService;
@@ -44,7 +53,9 @@ import com.akartkam.inShop.service.order.OrderService;
 import com.akartkam.inShop.service.product.CategoryService;
 import com.akartkam.inShop.util.CartUtil;
 import com.akartkam.inShop.util.Constants;
+import com.akartkam.inShop.validator.CartItemValidator;
 import com.akartkam.inShop.validator.CheckoutFormValidator;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Controller
 @RequestMapping("/checkout")
@@ -65,6 +76,13 @@ public class CheckoutController {
 	
 	@Autowired
 	protected CategoryService categoryService;
+
+	@Autowired
+	private CartItemValidator cartItemValidator;
+	
+	@Autowired
+	private MessageSource messageSource;
+	
 	
 	@Value("#{appProperties['mail.smtp.from']}")
     private String mailFrom;	
@@ -156,11 +174,48 @@ public class CheckoutController {
 	
 	@RequestMapping(value = "/buy1click")
     public String buy1click(HttpServletRequest request, HttpServletResponse response, 
-    						@RequestParam(value = "skuID", required = true) String skuID,				
+    						@ModelAttribute("cartItemForm") CartItemForm cartItemForm,				
     						final Model model,
     		                final BindingResult bindingResult ) throws IOException {
     	Map<String, Object> responseMap = new HashMap<String, Object>();
-    	return "";
+    	Map<String, String> errorsMap = new HashMap<String, String>();
+    	try {
+        	cartItemValidator.validate(cartItemForm, bindingResult);
+        	if (!bindingResult.hasErrors()) {
+        		model.addAttribute("sku", cartItemForm.getSku());
+        		model.addAttribute("imageUrl", cartItemForm.getImageUrl());
+        	} else {
+        		if (bindingResult.hasFieldErrors()) {
+        			for (FieldError fe : bindingResult.getFieldErrors()){
+        				String errMsg = messageSource.getMessage(fe, null);
+	        			errorsMap.put(fe.getField(), errMsg);
+	        			LOG.error(errMsg);
+        			}
+        		}
+        	}
+        } catch (AddToCartException e) {
+        	LOG.error("Runtime exception has occurred during to add to cart", e);
+        	if (e.getCause() instanceof ProductNotFoundException){
+        		errorsMap.put("criticalError", "productNotFound");
+        	} else if (e.getCause() instanceof SkuNotFoundException) {
+            	errorsMap.put("criticalError", "skuNotFound");
+        	} else if (e.getCause() instanceof RequiredAttributeNotProvidedException) {
+            	errorsMap.put("criticalError", "allOptionsRequired");
+            } else if (e.getCause() instanceof InventoryUnavailableException) {
+            	errorsMap.put("criticalError", "inventoryUnavailable");
+            } else {
+            	errorsMap.put("criticalError", "criticalRuntimeError");
+            }
+        }    
+    	if (!errorsMap.isEmpty()){
+    		responseMap.put("errors", errorsMap);
+    	}
+    	if (!responseMap.isEmpty()){
+    		model.addAttribute("responseMap", responseMap);
+    		model.addAttribute("ajaxExtraData", new ObjectMapper().writeValueAsString(responseMap));
+    	}
+    	
+    	return "/order/partials/buy1click";
 	}
 	
 	@RequestMapping(value="/test-order-confirm")

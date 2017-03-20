@@ -6,9 +6,10 @@
 					<div class="media-object">
 						<img style="border:1px solid #e8e8e6;" th:with="images=${sku.lookupImages()}"   
 							 th:src="@{${!#lists.isEmpty(images)? images[0]: '/resources/img/noimage.png'}}"  th:onerror="'this.src=\'' + @{/resources/img/noimage.png} + '\';'"/>
+					</div>		 
 				</div>
 				<div class="media-body quick-review-product-info">
-				   <h3 class="media-heading" th:utext="${sku.lookupSkuDescription}"></h3>
+				   <h3 class="media-heading" th:utext="${sku.lookupSkuDescription()}"></h3>
 				</div>
 			</div>
 		</div>
