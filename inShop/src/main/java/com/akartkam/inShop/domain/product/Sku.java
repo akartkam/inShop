@@ -498,6 +498,28 @@ public class Sku extends AbstractDomainObjectOrdering {
 		}
 		return name;		
 	}
+
+	@Transient
+	public String lookupSkuDescription() {
+		String name = null;
+		name = getDescription();
+		if (name == null || "".equals(name.trim())) {
+			if (!isDefaultSku()) {
+				name = lookupDefaultSku().getDescription();
+			}
+		}
+		return name;		
+	}
+
+	
+	@Transient
+	public List<String> lookupImages() {
+		List<String> ret = getImages();
+		if (!isDefaultSku() && (ret == null || ret.isEmpty())) {
+			ret = lookupDefaultSku().getImages();
+		}
+		return ret;
+	}
 	
 	@Transient
 	//check the basic availability of current sku

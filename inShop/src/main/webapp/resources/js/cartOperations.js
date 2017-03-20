@@ -36,16 +36,14 @@ $(function(){
     $("body").on("click", ".add-to-cart, .buy1click", function() {
     	var modalClick = $(this).parents('.simplemodal-wrap').length > 0;
     	var $form = $(this).closest("form");
-    	var $url = $form.attr("action");
+    	var $url = "";
     	var $existsProductOptions = $form.find("[name='hasProductOptions']") 
     	var $hasProductOptions = false;
     	if ($existsProductOptions.length) {
     		$hasProductOptions = ($existsProductOptions.val() == "true" )
     	}
-    	if ($existsProductOptions.length && !$hasProductOptions) {
-    		if ($(this).hasClass("add-to-cart")) $url = $form.data("add-to-cart-path")
-    		else if ($(this).hasClass("buy1click")) $url = $form.data("buy1click-path")
-    	}
+		if ($(this).hasClass("add-to-cart")) $url = $form.data("add-to-cart-path")
+		else if ($(this).hasClass("buy1click")) $url = $form.data("buy1click-path")
     	var token = $form.find("input[name=_csrf]");
     	if ($form.length) $form = $form.serialize();
     	if (token.length) token = token.val();
@@ -95,7 +93,9 @@ $(function(){
         		  
         	  } else {
             	  if (modalClick) $.modal.close();
-            	  updateHeaderCartItems(ajaxExtraData.cartItemCount, ajaxExtraData.cartTotal);
+            	  if (ajaxExtraData && ajaxExtraData.cartItemCount) {
+            		  updateHeaderCartItems(ajaxExtraData.cartItemCount, ajaxExtraData.cartTotal);            		  
+            	  }
             	  $.modal(data, modalCartOptions);
               	  $("#simplemodal-container").css("height", "auto");
             	  $.modal.update();        	          		  

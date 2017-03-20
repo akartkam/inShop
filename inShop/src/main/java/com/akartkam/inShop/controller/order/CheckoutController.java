@@ -1,6 +1,7 @@
 package com.akartkam.inShop.controller.order;
 
 import java.beans.PropertyEditorSupport;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.akartkam.inShop.domain.order.Delivery;
@@ -150,6 +152,15 @@ public class CheckoutController {
 		List<Category> rootCategorys = categoryService.getRootCategories(false);
 		model.addAttribute("rootCategorys", rootCategorys);
 		return "/order/order-success";
+	}
+	
+	@RequestMapping(value = "/buy1click")
+    public String buy1click(HttpServletRequest request, HttpServletResponse response, 
+    						@RequestParam(value = "skuID", required = true) String skuID,				
+    						final Model model,
+    		                final BindingResult bindingResult ) throws IOException {
+    	Map<String, Object> responseMap = new HashMap<String, Object>();
+    	return "";
 	}
 	
 	@RequestMapping(value="/test-order-confirm")

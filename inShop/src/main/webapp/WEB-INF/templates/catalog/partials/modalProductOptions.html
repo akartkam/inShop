@@ -1,7 +1,8 @@
 <div class="product-options-container">
 	<div class="product-options" th:fragment="productOptions">
 	   <h3 th:utext="${product.name}"></h3>
-   	   <form method="POST" th:action="@{/cart/add}">
+   	   <form method="POST" th:action="${'javascript: void'}"
+  	         th:attr="data-add-to-cart-path=@{'/cart/add'}, data-buy1click-path=@{'/checkout/buy1click'}">
 	      <input type="hidden" name="productId" th:value="${product.id}" />
 		  <input type="hidden" name="quantity" value="1" />
 		  <div th:object="${product}" th:replace="catalog/partials/productOptions"></div>
