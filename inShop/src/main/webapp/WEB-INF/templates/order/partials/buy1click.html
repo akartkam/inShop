@@ -1,5 +1,10 @@
 <div class="container-fluid" style="padding-top: 15px; padding-bottom: 15px;">
 	<div class="row">
+	  <div class="col-sm-12" style="text-align:center;">
+	    <h4 th:utext="#{button.buy1click}"></h4>
+	  </div>
+	</div>
+	<div class="row">
 		<div class="col-sm-12" >
 			<div class="media">
 				<div class="media-left">
@@ -22,28 +27,32 @@
 	</div>
 	<div class="row">
 		<div class="col-sm-12">
-		    <form method="POST" th:action="@{/checkout/place-buy1click}" class="form-horizontal" id="buy1click-form" th:object="${checkoutForm}">
+			<p>&nbsp;</p>
+		    <form method="POST" th:action="@{/checkout/place-buy1click}" id="buy1click-form" th:object="${checkoutForm}">
 			  <div class="form-group">
-			    <label for="lastName" class="col-sm-2 control-label"><span th:utext="#{person.lastName}"></span><span class="required">*</span></label>
-			    <div class="col-sm-10">
+			    <label for="lastName"><span th:utext="#{person.lastName}"></span><span class="required">*</span></label>
+			    <div>
 			      <input type="text" th:field="*{lastName}" />
 			      <p class="text-danger" style="font-size: 9pt;" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">Incorrect lastName</p>
 			    </div>
 			  </div>
 			  <div class="form-group">
-			    <label for="firstName" class="col-sm-2 control-label"><span th:utext="#{person.firstName}"></span><span class="required">*</span></label>
-			    <div class="col-sm-10">
+			    <label for="firstName"><span th:utext="#{person.firstName}"></span><span class="required">*</span></label>
+			    <div >
 			      <input type="text" th:field="*{firstName}"/>
 			      <p class="text-danger" style="font-size: 9pt;" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">Incorrect firstName</p>
 			      </div>
 			  </div>
 			  <div class="form-group">
-			    <label for="phone" class="col-sm-2 control-label"><span th:utext="#{phone}"></span><span class="required">*</span></label>
-			    <div class="col-sm-10">
+			    <label for="phone"><span th:utext="#{phone}"></span><span class="required">*</span></label>
+			    <div>
 			      <input type="tel" th:field="*{phone}" />
 			      <p class="text-danger" style="font-size: 9pt;" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}">Incorrect phone</p>
 			    </div>
 			  </div>
+		  	  <div>
+		  		  <button type="submit" th:text="#{order.buy1click.send}"/>
+		  	  </div>
 			</form>
 		</div>
 	</div>

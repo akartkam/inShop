@@ -18,7 +18,7 @@ $(function(){
             maxWidth    : 400,
             minWidth 	: 300,
             minHeight   : 300,
-            maxHeight	: 400
+            maxHeight	: 420
         };
 	
 	function updateHeaderCartItems(newCount, newTotal) {
