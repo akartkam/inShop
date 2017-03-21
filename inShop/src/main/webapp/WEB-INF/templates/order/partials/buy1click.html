@@ -1,21 +1,51 @@
 <div class="container-fluid" style="padding-top: 15px; padding-bottom: 15px;">
 	<div class="row">
-		<div class="col-lg-12" >
+		<div class="col-sm-12" >
 			<div class="media">
 				<div class="media-left">
 					<div class="media-object">
-						<img style="border:1px solid #e8e8e6;" th:with="images=${sku.lookupImages()}"   
+					  <div class="photo-block"> 
+		                <span class="helper"></span>
+						<img th:with="images=${sku.lookupImages()}"   
 							 th:src="@{${!#lists.isEmpty(images)? images[0]: '/resources/img/noimage.png'}}"  th:onerror="'this.src=\'' + @{/resources/img/noimage.png} + '\';'"/>
-					</div>		 
-				</div>
-				<div class="media-body quick-review-product-info">
-				   <h3 class="media-heading" th:utext="${sku.lookupSkuDescription()}"></h3>
+					  </div>
+					</div>
+				</div>		 
+				<div class="media-body">
+				   <h5 class="media-heading">
+				   	  <span aid:product_modifyed_display_name_utext="${sku}"></span>
+				      <span th:if="${!#strings.isEmpty(sku.commaDelemitedPOVL)}"  th:utext="${sku.commaDelemitedPOVL}"></span>
+				   </h5>
 				</div>
 			</div>
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-lg-12">
+		<div class="col-sm-12">
+		    <form method="POST" th:action="@{/checkout/place-buy1click}" class="form-horizontal" id="buy1click-form" th:object="${checkoutForm}">
+			  <div class="form-group">
+			    <label for="lastName" class="col-sm-2 control-label"><span th:utext="#{person.lastName}"></span><span class="required">*</span></label>
+			    <div class="col-sm-10">
+			      <input type="text" th:field="*{lastName}" />
+			      <p class="text-danger" style="font-size: 9pt;" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">Incorrect lastName</p>
+			    </div>
+			  </div>
+			  <div class="form-group">
+			    <label for="firstName" class="col-sm-2 control-label"><span th:utext="#{person.firstName}"></span><span class="required">*</span></label>
+			    <div class="col-sm-10">
+			      <input type="text" th:field="*{firstName}"/>
+			      <p class="text-danger" style="font-size: 9pt;" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">Incorrect firstName</p>
+			      </div>
+			  </div>
+			  <div class="form-group">
+			    <label for="phone" class="col-sm-2 control-label"><span th:utext="#{phone}"></span><span class="required">*</span></label>
+			    <div class="col-sm-10">
+			      <input type="tel" th:field="*{phone}" />
+			      <p class="text-danger" style="font-size: 9pt;" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}">Incorrect phone</p>
+			    </div>
+			  </div>
+			</form>
 		</div>
 	</div>
+    <div id="ajax-extra-data" class="hidden" th:utext="${ajaxExtraData}" th:if="${!#strings.isEmpty(ajaxExtraData)}"></div>	
 </div>

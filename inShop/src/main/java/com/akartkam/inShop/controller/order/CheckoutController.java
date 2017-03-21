@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 
@@ -16,7 +15,6 @@ import javax.validation.Valid;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
@@ -29,17 +27,14 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.akartkam.inShop.domain.order.Delivery;
 import com.akartkam.inShop.domain.order.Order;
-import com.akartkam.inShop.domain.order.OrderItem;
 import com.akartkam.inShop.domain.order.Store;
 import com.akartkam.inShop.domain.product.Category;
 import com.akartkam.inShop.exception.AddToCartException;
 import com.akartkam.inShop.exception.InventoryUnavailableException;
-import com.akartkam.inShop.exception.PlaceOrderException;
 import com.akartkam.inShop.exception.ProductNotFoundException;
 import com.akartkam.inShop.exception.RequiredAttributeNotProvidedException;
 import com.akartkam.inShop.exception.SkuNotFoundException;
@@ -179,11 +174,13 @@ public class CheckoutController {
     		                final BindingResult bindingResult ) throws IOException {
     	Map<String, Object> responseMap = new HashMap<String, Object>();
     	Map<String, String> errorsMap = new HashMap<String, String>();
+    	responseMap.put("type", "buy1click");
     	try {
         	cartItemValidator.validate(cartItemForm, bindingResult);
         	if (!bindingResult.hasErrors()) {
         		model.addAttribute("sku", cartItemForm.getSku());
         		model.addAttribute("imageUrl", cartItemForm.getImageUrl());
+        		model.addAttribute("checkoutForm", new CheckoutForm());
         	} else {
         		if (bindingResult.hasFieldErrors()) {
         			for (FieldError fe : bindingResult.getFieldErrors()){

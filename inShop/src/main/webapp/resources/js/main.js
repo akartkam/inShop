@@ -255,7 +255,7 @@ jQuery(document).ready(function($){
     function updateAdditSkuAttr() {
         var selectedProductOptions = getSelectedProductOptions();
         var additSkuAttrValues = getAdditSkuAttrValuesData();
-        
+        if (!additSkuAttrValues || !additSkuAttrValues.length) return ;
         for (var i = 0; i < additSkuAttrValues.length; i++) {
             var additSkuAttrVal = additSkuAttrValues[i];
             if ($(additSkuAttrVal.selectedOptions).not(selectedProductOptions).length == 0 && $(selectedProductOptions).not(additSkuAttrVal.selectedOptions).length == 0) {
@@ -271,7 +271,7 @@ jQuery(document).ready(function($){
             	break;
             }
         }
-
+        return ;
     }
 	
 	function changeProductOption() {

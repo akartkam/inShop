@@ -13,8 +13,11 @@
 .photo-block{
     height: 92px;width: 92px;background: #fff;padding: 4px;border: 1px solid #cbcbcb;font-size: 0;text-align: center;
 }
+.photo-block150{
+    height: 150px;width: 150px;background: #fff;padding: 4px;border: 1px solid #cbcbcb;font-size: 0;text-align: center;
+}
 .photo-block200{
-    height: 200px;width: 200px;background: #fff;padding: 4px;border: 1px solid #cbcbcb;font-size: 0;text-align: center;
+	height: 200px;width: 200px;background: #fff;padding: 4px;border: 1px solid #cbcbcb;font-size: 0;text-align: center;
 }
 
 [class^="photo-block"] img{border: 0;padding: 0;-moz-box-shadow:  none; -webkit-box-shadow:  none; box-shadow:  none;max-height: 100%!important;max-width: 100%!important;width: auto!important;margin-right: 0;float: none !important;}

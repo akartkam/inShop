@@ -14,6 +14,12 @@ $(function(){
             minHeight   : 300,
             maxHeight	: 400
         };
+    var modalBuy1clickOptions = {
+            maxWidth    : 400,
+            minWidth 	: 300,
+            minHeight   : 300,
+            maxHeight	: 400
+        };
 	
 	function updateHeaderCartItems(newCount, newTotal) {
 		$(".cart-amunt").html(newTotal);
@@ -96,7 +102,11 @@ $(function(){
             	  if (ajaxExtraData && ajaxExtraData.cartItemCount) {
             		  updateHeaderCartItems(ajaxExtraData.cartItemCount, ajaxExtraData.cartTotal);            		  
             	  }
-            	  $.modal(data, modalCartOptions);
+            	  if (ajaxExtraData && ajaxExtraData.type && ajaxExtraData.type == "buy1click") {
+            		  $.modal(data, modalBuy1clickOptions);  
+            	  } else {
+                	  $.modal(data, modalCartOptions);
+            	  }
               	  $("#simplemodal-container").css("height", "auto");
             	  $.modal.update();        	          		  
         	  }  

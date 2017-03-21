@@ -180,9 +180,8 @@ public class CategoryServiceImpl implements CategoryService {
 			if (pcategory != null) {
 				pcategory.getSubCategory().remove(category);
 			}
-		} else {
-			categoryDAO.delete(category);
-		}
+	    }
+		categoryDAO.delete(category);
 	}
 
 

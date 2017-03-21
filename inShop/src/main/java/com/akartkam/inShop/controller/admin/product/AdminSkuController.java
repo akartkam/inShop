@@ -142,7 +142,6 @@ public class AdminSkuController {
 							} catch (ClassNotFoundException
 									| InstantiationException
 									| IllegalAccessException e) {
-								// TODO Auto-generated catch block
 								LOG.error("",e);
 							}
 			            setValue(av);

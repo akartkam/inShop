@@ -1645,7 +1645,10 @@ div.pluso {
 	padding-top: 40px !important;
 }
 
-#checkout-form input:not([type=radio]), #checkout-form textarea, #checkout-form select {
+#checkout-form input:not([type=radio]), 
+#buy1click-form input:not([type=radio]), 
+#checkout-form textarea, 
+#checkout-form select {
 	width: 100% !important;
 	padding: 5px !important;
 }
