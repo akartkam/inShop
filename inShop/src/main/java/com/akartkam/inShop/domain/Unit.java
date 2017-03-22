@@ -8,9 +8,10 @@ public enum Unit {
 	LT("LT","литр","л."),
 	ML("ML","миллилитр","мл"),
 	IT("IT","штук","шт"),
-	ITUNIT("ITUNIT", "штук в упаковке", "шт/уп");
+	ITUNIT("ITUNIT", "штук в упаковке", "шт/уп"),
+	CH("CH","CH","CH");
 	
-	public static final Unit[] ALL = { MM, SM, KG, GR, LT, ML, IT, ITUNIT};
+	public static final Unit[] ALL = { MM, SM, KG, GR, LT, ML, IT, ITUNIT, CH};
 	
 	private final String name;
 	private final String fullNameR;
