@@ -83,7 +83,7 @@ public class AdditionalSkuAttributeValuesProcessor extends AbstractModelVarModif
             	String[] atv = new String[2];
             	String avl = av.getStringValue();
             	atv[0] = avl;
-            	atv[1] = messageSource.getMessage("unit."+at.getUnit().name(), null, Locale.getDefault());;
+            	atv[1] = at.getUnit() != null ? messageSource.getMessage("unit."+at.getUnit().name(), null, Locale.getDefault()): "";
             	oJson.getAttr().put(at.getId().toString(), atv);
             }
             oJson.setSelectedOptions(values);

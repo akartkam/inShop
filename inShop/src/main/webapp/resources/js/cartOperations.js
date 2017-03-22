@@ -15,10 +15,10 @@ $(function(){
             maxHeight	: 400
         };
     var modalBuy1clickOptions = {
-            maxWidth    : 400,
+            maxWidth    : 350,
             minWidth 	: 300,
             minHeight   : 300,
-            maxHeight	: 420
+            maxHeight	: 450
         };
 	
 	function updateHeaderCartItems(newCount, newTotal) {
@@ -149,6 +149,30 @@ $(function(){
         	  }
           });   	
     });
+    
+	$("body").on("click", ".place-buy1click", function() {
+		var modalClick = $(this).parents(".simplemodal-wrap").length > 0
+    	var $form = $(this).closest("form");
+    	var $url = $form.attr("action");
+    	var token = $form.find("input[name=_csrf]");
+    	if ($form.length) $form = $form.serialize();
+    	if (token.length) token = token.val();
+    	var header = $('#_csrf_header').attr('content');
+  	  	$.ajax({
+          url: $url,
+          type: "POST",
+          data: $form,
+          cache: false,
+          beforeSend: function(xhr) {
+              xhr.setRequestHeader(header, token);
+          }           
+        }).done(function (data){
+          	  if (modalClick) $.modal.close();
+      		  $.modal(data, modalBuy1clickOptions);  
+          	  $("#simplemodal-container").css("height", "auto");
+          	  $.modal.update();        	          		  
+        });
+	});
     
     $("body").on("click", ".checkout", function(){
     	window.location = root+"checkout";

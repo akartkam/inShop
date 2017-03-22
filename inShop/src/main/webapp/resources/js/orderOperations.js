@@ -71,6 +71,6 @@ $(function(){
         	   $("#co-store-description").html("") ;
            }
            
-         });	
+         });
 	
 });

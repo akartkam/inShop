@@ -33,11 +33,13 @@ import com.akartkam.inShop.domain.order.Delivery;
 import com.akartkam.inShop.domain.order.Order;
 import com.akartkam.inShop.domain.order.Store;
 import com.akartkam.inShop.domain.product.Category;
+import com.akartkam.inShop.domain.product.Sku;
 import com.akartkam.inShop.exception.AddToCartException;
 import com.akartkam.inShop.exception.InventoryUnavailableException;
 import com.akartkam.inShop.exception.ProductNotFoundException;
 import com.akartkam.inShop.exception.RequiredAttributeNotProvidedException;
 import com.akartkam.inShop.exception.SkuNotFoundException;
+import com.akartkam.inShop.formbean.Buy1clickForm;
 import com.akartkam.inShop.formbean.CartForm;
 import com.akartkam.inShop.formbean.CartItemForm;
 import com.akartkam.inShop.formbean.CheckoutForm;
@@ -46,8 +48,10 @@ import com.akartkam.inShop.service.EmailService;
 import com.akartkam.inShop.service.order.DeliveryService;
 import com.akartkam.inShop.service.order.OrderService;
 import com.akartkam.inShop.service.product.CategoryService;
+import com.akartkam.inShop.service.product.ProductService;
 import com.akartkam.inShop.util.CartUtil;
 import com.akartkam.inShop.util.Constants;
+import com.akartkam.inShop.validator.Buy1clickFormValidator;
 import com.akartkam.inShop.validator.CartItemValidator;
 import com.akartkam.inShop.validator.CheckoutFormValidator;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -78,6 +82,11 @@ public class CheckoutController {
 	@Autowired
 	private MessageSource messageSource;
 	
+	@Autowired
+	private ProductService productService;
+	
+	@Autowired
+	private Buy1clickFormValidator buy1clicFormValidator;
 	
 	@Value("#{appProperties['mail.smtp.from']}")
     private String mailFrom;	
@@ -115,7 +124,17 @@ public class CheckoutController {
 		            setValue(st);
 		    	}    
 		    }
-		}); 
+		});
+		binder.registerCustomEditor(Sku.class, "sku", new PropertyEditorSupport() {
+		    @Override
+		    public void setAsText(String text) {
+		    	if (!"".equals(text)) {
+		    		Sku s = productService.loadSkuById(UUID.fromString(text), false);
+		            setValue(s);
+		    	}    
+		    }
+		});
+		
 		
 	}
 	
@@ -180,7 +199,7 @@ public class CheckoutController {
         	if (!bindingResult.hasErrors()) {
         		model.addAttribute("sku", cartItemForm.getSku());
         		model.addAttribute("imageUrl", cartItemForm.getImageUrl());
-        		model.addAttribute("checkoutForm", new CheckoutForm());
+        		model.addAttribute("buy1clickForm", new Buy1clickForm());
         	} else {
         		if (bindingResult.hasFieldErrors()) {
         			for (FieldError fe : bindingResult.getFieldErrors()){
@@ -213,6 +232,23 @@ public class CheckoutController {
     	}
     	
     	return "/order/partials/buy1click";
+	}
+	
+	@RequestMapping(value = "/place-buy1click")
+    public String placeBuy1click(HttpServletRequest request, HttpServletResponse response, 
+    						@ModelAttribute("buy1clickForm") Buy1clickForm buy1clickForm,				
+    						final Model model,
+    		                final BindingResult bindingResult ) throws IOException {
+		buy1clicFormValidator.validate(buy1clickForm, bindingResult);
+		if (bindingResult.hasErrors()) {
+			model.addAttribute("sku", buy1clickForm.getSku());
+			model.addAttribute("imageUrl", buy1clickForm.getSku().lookupImages());
+			model.addAttribute("org.springframework.validation.BindingResult.buy1clickForm", bindingResult);
+			return "/order/partials/buy1click";
+    	} else {
+    		return "/order/partials/buy1click-success";
+    	}
+	    	
 	}
 	
 	@RequestMapping(value="/test-order-confirm")

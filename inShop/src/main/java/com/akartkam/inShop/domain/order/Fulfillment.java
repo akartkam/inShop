@@ -25,12 +25,18 @@ public class Fulfillment extends AbstractDomainObject {
 	private Order order;
 	private Delivery delivery;
 	private Store store;
-	private String lastName, firstName, middleName, phone, address;
+	private String buy1clickName, lastName, firstName, middleName, phone, address;
 	private BigDecimal deliveryPrice;
     private String customerMessage;
 
-    
-    @Column(name="phone")
+    @Column(name="buy1click_name")
+    public String getBuy1clickName() {
+		return buy1clickName;
+	}
+	public void setBuy1clickName(String buy1clickName) {
+		this.buy1clickName = buy1clickName;
+	}
+	@Column(name="phone")
     public String getPhone() {
 		return phone;
 	}
