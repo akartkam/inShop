@@ -246,6 +246,12 @@ public class CheckoutController {
 			model.addAttribute("org.springframework.validation.BindingResult.buy1clickForm", bindingResult);
 			return "/order/partials/buy1click";
     	} else {
+    		try {
+    			orderService.placeBuy1click(buy1clickForm);
+    		} catch (Exception e) {
+    			LOG.error("",e);
+    			return "redirect:/";
+    		}
     		return "/order/partials/buy1click-success";
     	}
 	    	

@@ -108,7 +108,6 @@ public class Order extends AbstractDomainObjectOrdering {
 
     @ManyToOne(optional=false, cascade=CascadeType.ALL)
     @JoinColumn(name = "customer_id", nullable = false)
-    @NotNull
     public Customer getCustomer() {
         return customer;
     }
@@ -213,7 +212,6 @@ public class Order extends AbstractDomainObjectOrdering {
 
 	@Email
     @Column(name = "email_address")
-	@NotEmpty
     public String getEmailAddress() {
         return emailAddress;
     }

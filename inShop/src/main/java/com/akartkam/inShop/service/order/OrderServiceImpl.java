@@ -26,6 +26,7 @@ import com.akartkam.inShop.domain.product.Product;
 import com.akartkam.inShop.domain.product.Sku;
 import com.akartkam.inShop.exception.InventoryUnavailableException;
 import com.akartkam.inShop.exception.PlaceOrderException;
+import com.akartkam.inShop.formbean.Buy1clickForm;
 import com.akartkam.inShop.formbean.CartForm;
 import com.akartkam.inShop.formbean.CartItemForm;
 import com.akartkam.inShop.formbean.CheckoutForm;
@@ -213,6 +214,39 @@ public class OrderServiceImpl implements OrderService{
 		
 	}
 
+	@Override
+	@Transactional(readOnly = false)
+	public Order placeBuy1click(Buy1clickForm buy1clickForm) {
+		try {
+			if (buy1clickForm == null)
+				 throw new IllegalArgumentException("buy1clickForm is null");
+			Fulfillment fulfil = new Fulfillment();
+			fulfil.setBuy1clickName(buy1clickForm.getName());
+			fulfil.setPhone(buy1clickForm.getPhone());
+			Order order = new Order();
+			OrderItem oi = new OrderItem();
+			oi.setSku(buy1clickForm.getSku());
+			Product p = buy1clickForm.getSku().lookupProduct();
+			oi.setProduct(p);
+			oi.setCategory(p.getCategory());
+			oi.setQuantity(1);
+			oi.setPrice(buy1clickForm.getSku().getPriceForPackage());
+			oi.setRetailPrice(buy1clickForm.getSku().getRetailPrice());
+			oi.setSalePrice(buy1clickForm.getSku().getSalePrice());
+			oi.setQuantityPerPackage(buy1clickForm.getSku().getQuantityPerPackage());
+			order.addOrderItem(oi);
+			
+			order.setSubmitDate(new Date());
+			order.addFulfillment(fulfil);
+			order.setSubTotal(order.calculateSubTotal());
+			order.setTotal(order.calculateTotal());
+			return createOrder(order);
+		} catch (Exception e) {
+			throw new PlaceOrderException("Could not place order", e);
+		}
+	}
+
+	
 	@Override
 	public void reattache(Order order) {
 		orderDAO.reattach(order);

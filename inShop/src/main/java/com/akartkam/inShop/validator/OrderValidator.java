@@ -5,10 +5,12 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
+import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 import com.akartkam.inShop.domain.order.Order;
 import com.akartkam.inShop.domain.order.OrderItem;
+import com.akartkam.inShop.domain.order.OrderStatus;
 import com.akartkam.inShop.domain.product.Sku;
 import com.akartkam.inShop.service.order.InventoryService;
 import com.akartkam.inShop.service.order.OrderService;
@@ -53,7 +55,9 @@ public class OrderValidator implements Validator {
             }
 
         }
-		
+        if (!OrderStatus.INCOMPLETE.equals(order.getStatus())){
+        	ValidationUtils.rejectIfEmpty(errors, "customer", "error.empty.order.customer");        	
+        }
 
 	}
 

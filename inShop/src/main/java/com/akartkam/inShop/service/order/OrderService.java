@@ -9,6 +9,7 @@ import com.akartkam.inShop.domain.order.Order;
 import com.akartkam.inShop.domain.order.OrderItem;
 import com.akartkam.inShop.domain.order.Store;
 import com.akartkam.inShop.exception.InventoryUnavailableException;
+import com.akartkam.inShop.formbean.Buy1clickForm;
 import com.akartkam.inShop.formbean.CartForm;
 import com.akartkam.inShop.formbean.CheckoutForm;
 
@@ -22,4 +23,5 @@ public interface OrderService {
 	Order placeOrder(CheckoutForm checkoutForm, CartForm cartForm);
 	void reattache(Order order);
 	void refresh(Order order);
+	Order placeBuy1click(Buy1clickForm buy1clickForm);
 }
