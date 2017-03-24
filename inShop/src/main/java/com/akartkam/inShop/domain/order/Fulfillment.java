@@ -86,8 +86,6 @@ public class Fulfillment extends AbstractDomainObject {
 		this.store = store;
 	}
 	
-	@NotEmpty
-	@Size(min = 1, max = 50)
 	@Column(name = "last_name")	
 	public String getLastName() {
 		return lastName;
@@ -96,8 +94,6 @@ public class Fulfillment extends AbstractDomainObject {
 		this.lastName = lastName;
 	}
 	
-	@NotEmpty
-	@Size(min = 1, max = 50)
 	@Column(name = "first_name")	
 	public String getFirstName() {
 		return firstName;

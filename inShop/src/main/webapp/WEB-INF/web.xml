@@ -84,7 +84,6 @@
 	    <error-code>404</error-code>
 	    <location>/error-default</location>
 	 </error-page>     
-
 	 <!--<error-page>
 	       <location>/error-default</location>
 	 </error-page> -->

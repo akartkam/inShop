@@ -169,7 +169,10 @@ public class CheckoutController {
 			order = orderService.placeOrder(checkoutForm, cart);
 		} catch (Exception e) {
 			LOG.error("",e);
-			return "redirect:/";
+			ra.addFlashAttribute("e", e);
+			ra.addFlashAttribute("errCode", 500);
+			ra.addFlashAttribute("errMessage", messageSource.getMessage("error.default.clientMessage", null, null));
+			return "redirect:/error-default";
 		}
 		CartUtil.removeCartFromSession(request);
 		orderService.refresh(order);
@@ -250,7 +253,7 @@ public class CheckoutController {
     			orderService.placeBuy1click(buy1clickForm);
     		} catch (Exception e) {
     			LOG.error("",e);
-    			return "redirect:/";
+    			return "/order/partials/buy1click-fail";
     		}
     		return "/order/partials/buy1click-success";
     	}

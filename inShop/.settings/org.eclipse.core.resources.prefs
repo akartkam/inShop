@@ -36,6 +36,7 @@ encoding//src/main/webapp/WEB-INF/templates/layouts/partials/lsidenav.html=UTF-8
 encoding//src/main/webapp/WEB-INF/templates/layouts/partials/topnav.html=UTF-8
 encoding//src/main/webapp/WEB-INF/templates/layouts/productListFullPageLayout.html=UTF-8
 encoding//src/main/webapp/WEB-INF/templates/order/checkout.html=UTF-8
+encoding//src/main/webapp/WEB-INF/templates/order/partials/buy1click-fail.html=UTF-8
 encoding//src/main/webapp/WEB-INF/templates/order/partials/buy1click-success.html=UTF-8
 encoding//src/main/webapp/WEB-INF/templates/order/partials/buy1click.html=UTF-8
 encoding//src/main/webapp/WEB-INF/templates/order/partials/deliveryDetails.html=UTF-8

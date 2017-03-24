@@ -21,8 +21,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.FlashMap;
+import org.springframework.web.servlet.support.RequestContextUtils;
+import org.springframework.web.servlet.view.RedirectView;
 
 import com.akartkam.inShop.exception.AddToCartException;
 import com.akartkam.inShop.exception.InventoryUnavailableException;
@@ -204,6 +209,19 @@ public class CartController {
 
 	public static String getCartPageRedirect() {
 		return cartPageRedirect;
-	}	
+	}
+	
+	/*@ExceptionHandler(Exception.class)
+	public RedirectView handleError(HttpServletRequest req, Exception ex) {
+		RedirectView rw = new RedirectView("/error-default");
+		FlashMap outputFlashMap = RequestContextUtils.getOutputFlashMap(req);
+		if (outputFlashMap != null){
+			outputFlashMap.put("errCode", "");
+			outputFlashMap.put("errMessage", messageSource.getMessage("error.cartOperations.clientMessage", null, null));
+			outputFlashMap.put("exception", ex);
+			outputFlashMap.put("url", req.getRequestURL());
+	    }
+	    return rw;
+	}*/	
 
 }

@@ -17,7 +17,7 @@ $(function(){
     var modalBuy1clickOptions = {
             maxWidth    : 350,
             minWidth 	: 300,
-            minHeight   : 300,
+            minHeight   : 100,
             maxHeight	: 450
         };
 	
@@ -69,6 +69,8 @@ $(function(){
 	    	        	  $.modal(data, modalProductOptions); 
 	    	          	  $("#simplemodal-container").css("height", "auto");
 	    	        	  $.modal.update();    	        	      	        		  
+    	          }).fail(function() {
+  	        	    alert(defaultClientnErrorMessage);
     	          });
     		 
     	} else {
@@ -110,6 +112,8 @@ $(function(){
               	  $("#simplemodal-container").css("height", "auto");
             	  $.modal.update();        	          		  
         	  }  
+          }).fail(function() {
+      	    alert(defaultClientnErrorMessage);
           });
     	};
     	return false;
@@ -147,6 +151,8 @@ $(function(){
 	          	  $("#simplemodal-container").css("height", "auto");
 	        	  $.modal.update();
         	  }
+          }).fail(function() {
+      	    alert(defaultClientnErrorMessage);
           });   	
     });
     
@@ -171,7 +177,9 @@ $(function(){
       		  $.modal(data, modalBuy1clickOptions);  
           	  $("#simplemodal-container").css("height", "auto");
           	  $.modal.update();        	          		  
-        });
+        }).fail(function() {
+    	    alert(defaultClientnErrorMessage);
+       });
 	});
     
     $("body").on("click", ".checkout", function(){

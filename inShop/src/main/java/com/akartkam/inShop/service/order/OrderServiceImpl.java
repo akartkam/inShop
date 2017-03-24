@@ -22,6 +22,7 @@ import com.akartkam.inShop.domain.customer.Customer;
 import com.akartkam.inShop.domain.order.Fulfillment;
 import com.akartkam.inShop.domain.order.Order;
 import com.akartkam.inShop.domain.order.OrderItem;
+import com.akartkam.inShop.domain.order.OrderStatus;
 import com.akartkam.inShop.domain.product.Product;
 import com.akartkam.inShop.domain.product.Sku;
 import com.akartkam.inShop.exception.InventoryUnavailableException;
@@ -236,6 +237,7 @@ public class OrderServiceImpl implements OrderService{
 			oi.setQuantityPerPackage(buy1clickForm.getSku().getQuantityPerPackage());
 			order.addOrderItem(oi);
 			
+			order.setStatus(OrderStatus.INCOMPLETE);
 			order.setSubmitDate(new Date());
 			order.addFulfillment(fulfil);
 			order.setSubTotal(order.calculateSubTotal());
