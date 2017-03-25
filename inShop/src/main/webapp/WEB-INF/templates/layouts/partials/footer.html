@@ -5,40 +5,53 @@
         <div class="zigzag-bottom"></div>
         <div class="container">
             <div class="row">
-                <div class="col-md-6 col-sm-6">
-                    <div class="footer-about-us">
-                        <h2>ООО&nbsp;<span>Форпост</span></h2>
-                        <p>Компания с многолетним опытом, специализирующаяся на обеспечении людей с ограниченными возможностями медицинскими изделиями и техническим средствами реабилитации.
-                        Является официальным представителем ведущих мировых компаний производителей изделий медицинского назначения.</p>
-                        <div class="footer-social">
-                            <a href="#" target="_blank"><i class="fa fa-facebook"></i></a>
-                            <a href="#" target="_blank"><i class="fa fa-twitter"></i></a>
-                            <a href="#" target="_blank"><i class="fa fa-youtube"></i></a>
-                            <a href="#" target="_blank"><i class="fa fa-linkedin"></i></a>
-                        </div>
-                    </div>
-                </div>
-                
-                
-                <div class="col-md-6 col-sm-6">
-                  <!--
-                  <div>
-					<script type="text/javascript" charset="utf-8" async="async" 
-					   src="https://api-maps.yandex.ru/services/constructor/1.0/js/?sid=4Xv_Tf6X4N2GYgyldmmFQsj_bwMNhMbf&amp;width=350&amp;height=280&amp;lang=ru_RU&amp;sourceType=constructor&amp;scroll=true">
-				    </script>                                   
+               <div class="col-md-3 col-sm-6">
+                  <div class="footer-menu">
+					<h2 class="footer-wid-title">Магазин</h2>
+                    <ul>
+                        <li><a th:href="@{${'/'+beans.entityUrlPrefixes.getProperty('__${T(com.akartkam.inShop.util.Constants).PAGE_CLASS}__')+'/how-to-buy'}}"><i class="fa fa-question-circle fa-fw">&nbsp;</i>Как купить</a></li>
+                        <li><a th:href="@{${'/'+beans.entityUrlPrefixes.getProperty('__${T(com.akartkam.inShop.util.Constants).PAGE_CLASS}__')+'/how-to-place-order'}}"><i class="fa fa-money fa-fw">&nbsp;</i>Как оформить заказ</a></li>
+                        <li><a th:href="@{${'/'+beans.entityUrlPrefixes.getProperty('__${T(com.akartkam.inShop.util.Constants).PAGE_CLASS}__')+'/how-to-place-order'}}"><i class="fa fa-truck fa-fw">&nbsp;</i>Оплата и доставка</a></li>
+                        <li><a th:href="@{/cart}" class="modalcart"><i class="fa fa-shopping-cart fa-fw"></i><span th:utext="#{menu.cart}">Корзина</span></a></li>
+                    </ul>
                   </div>
-                  -->
-                  <!--  <div class="footer-newsletter">
-                        <h2 class="footer-wid-title">Рассылка!</h2>
-                        <p>Подпишитесь на рассылку и получайте новости первыми!</p>
-                        <div class="newsletter-form">
-                            <form action="#">
-                                <input type="email" placeholder="Ваш email"/>
-                                <input type="submit" value="Подписаться!"/>
-                            </form>
-                        </div>
-                    </div>
-                   --> 
+               </div>
+                <div class="col-md-3 col-sm-6">
+                  <div class="footer-menu">
+					<h2 class="footer-wid-title">Меню</h2>
+                    <ul>
+                        <li><a th:href="@{/}"><span th:utext="#{mainMenu.main}">Главная</span></a></li>
+                        <li><a th:href="@{${'/'+beans.entityUrlPrefixes.getProperty('__${T(com.akartkam.inShop.util.Constants).PAGE_CLASS}__')+'/o-kompanii'}}">О компании</a></li>
+                        <li><a th:href="@{/brand-list}"><span th:utext="#{mainMenu.brands}"/></a></li>
+                        <li><a th:href="@{${'/'+beans.entityUrlPrefixes.getProperty('__${T(com.akartkam.inShop.util.Constants).PAGE_CLASS}__')+'/store-list'}}"><span th:utext="#{mainMenu.stores}"/></a></li>
+                    </ul>					
+                  </div>               
+                </div>
+                <div class="col-md-3 col-sm-6">
+                  <div class="footer-menu">
+					<h2 class="footer-wid-title">Контакты</h2>
+                    <ul>
+                        <li><a>&phone; 8(831) 217-09-53</a></li>
+                        <li><a href="mailto:forpost-2017@mail.ru">forpost-2017@mail.ru</a></li>
+                    </ul>					
+                  </div>               
+                </div>
+                <div class="col-md-3 col-sm-6">
+                  <div class="footer-menu">
+					<h2 class="footer-wid-title">Присоединяйтесь</h2>
+					<div class="pluso" data-background="transparent" data-options="medium,square,line,horizontal,counter,theme=01" data-services="vkontakte,facebook,twitter,google,moimir">
+						<script type="text/javascript">(function() {
+							  if (window.pluso)if (typeof window.pluso.start == "function") return;
+							  if (window.ifpluso==undefined) { window.ifpluso = 1;
+							    var d = document, s = d.createElement('script'), g = 'getElementsByTagName';
+							    s.type = 'text/javascript'; s.charset='UTF-8'; s.async = true;
+							    s.src = ('https:' == window.location.protocol ? 'https' : 'http')  + '://share.pluso.ru/pluso-like.js';
+							    var h=d[g]('body')[0];
+							    h.appendChild(s);
+							  }})();
+						</script>
+					</div>
+                  </div>                               
                 </div>
             </div>
         </div>
