@@ -19,9 +19,9 @@
 <!-- 		                        <li><a href="#">Акции</a></li> -->
 		                        <li><a th:href="@{/brand-list}"><span th:utext="#{mainMenu.brands}"/></a></li>
 		                        <li><a th:href="@{${'/'+beans.entityUrlPrefixes.getProperty('__${T(com.akartkam.inShop.util.Constants).PAGE_CLASS}__')+'/store-list'}}"><span th:utext="#{mainMenu.stores}"/></a></li>
-		                        <li><a href="#">Контакты</a></li>
 								<li><a href="#">Покупателям<span class="caret"></span></a>
 									<ul class="dropdown-menu">
+									  <li><a th:href="@{${'/'+beans.entityUrlPrefixes.getProperty('__${T(com.akartkam.inShop.util.Constants).PAGE_CLASS}__')+'/how-to-buy'}}">Как купить</a></li>
 									  <li><a href="#">Оформление заказа</a></li>
 									  <li><a href="#">Оплата и доставка</a></li>
 									</ul>
