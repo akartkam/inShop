@@ -13,6 +13,8 @@ import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Index;
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -24,6 +26,7 @@ import com.akartkam.inShop.validator.HtmlSafe;
 
 @Entity
 @Table(name = "Brand")
+@Cache(region = "brand", usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Brand extends AbstractWebDomainObject {
 
 	/**

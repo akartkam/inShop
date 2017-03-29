@@ -12,6 +12,7 @@ import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
@@ -193,7 +194,7 @@ public class AdminSkuController {
 		  }
 		  if (product == null) {
 			  sku = (Sku) model.asMap().get("sku");
-			  product = productService.getProductById(sku.getProduct().getId());
+			  product = productService.loadProductById(sku.getProduct().getId(),false);
 		  }
 	      model.addAttribute("product", product);		  
           if ("XMLHttpRequest".equals(requestedWith)) {
@@ -207,18 +208,18 @@ public class AdminSkuController {
 			  				   @RequestParam(value = "productID", required = false) String productID, Model model,
 				               @RequestHeader(value = "X-Requested-With", required = false) String requestedWith) throws CloneNotSupportedException {
 		  Sku sku = null;
+		  Product product = null;
+		  if (productID !=null && !"".equals(productID)) {
+			  product = productService.loadProductById(UUID.fromString(productID), false);
+		  }
 		  if (copyID != null && !"".equals(copyID)) {
 			  sku = productService.cloneSkuById(UUID.fromString(copyID)); 
 		  }
 		  if (sku == null) {
 			  sku = new Sku();
-			  if (productID !=null && !"".equals(productID)) {
-				  Product product = productService.getProductById(UUID.fromString(productID));
-				  product.addAdditionalSku(sku);
-			  }
 		  }		  
  	      model.addAttribute("sku", new SkuForm(sku));
-	      model.addAttribute("product", sku.getProduct()); 	      
+	      model.addAttribute("product", product); 	      
           if ("XMLHttpRequest".equals(requestedWith)) {
               return "/admin/catalog/skuEdit :: editSkuForm";
             } 	      
@@ -226,15 +227,15 @@ public class AdminSkuController {
 		  }		  
 
 	  @RequestMapping(value="/delete", method = RequestMethod.POST)
-	  public String productDelete(@RequestParam(value = "ID", required = false) String ID, 
-			                       @RequestParam(value = "phisycalDelete", required = false) Boolean phisycalDelete,
-				                   final RedirectAttributes ra) {
+	  public String productDelete(@RequestParam(value = "ID", required = false) String ID,
+			  					  @RequestParam(value = "productID", required = false) String productID,
+			                      @RequestParam(value = "phisycalDelete", required = false) Boolean phisycalDelete,
+				                  final RedirectAttributes ra) {
 		  Collection<? extends GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
-		  Sku sku = productService.loadSkuById(UUID.fromString(ID), false);
 		  if (phisycalDelete != null && phisycalDelete)  {
 			  boolean hasPriv = authorities.contains(new SimpleGrantedAuthority("ADMIN")) || authorities.contains(new SimpleGrantedAuthority("MANAGER")); 
 			  if(hasPriv && productService.canDeleteSku(UUID.fromString(ID))) {
-				  productService.deleteSku(sku);   
+				  productService.removeAdditionalSku(UUID.fromString(productID), UUID.fromString(ID));   
 			  } else {
 				  ra.addFlashAttribute("errormessage", this.messageSource.getMessage("admin.error.cannotdelete.message", new String[] {"Can't remove the sku."} , Locale.getDefault()));
 				  ra.addAttribute("error", true);
@@ -243,7 +244,7 @@ public class AdminSkuController {
 		  } else {
 			  productService.softDeleteSkuById(UUID.fromString(ID));
 		  }
-          return "redirect:/admin/catalog/sku?productID="+sku.getProduct().getId();		  
+          return "redirect:/admin/catalog/sku?productID="+productID;		  
 		  }
 	
 	  @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
@@ -252,11 +253,11 @@ public class AdminSkuController {
 			  					   @RequestParam(value = "productID", required = true) String productID,                     
 			  					   final RedirectAttributes ra) {
 		  boolean hasError = false;
+		  UUID productId = UUID.fromString(productID); 
 		  for (String sid : IDS) {
 			  UUID id = UUID.fromString(sid);
-			  Sku sku = productService.loadSkuById(id, false);
 			  if(productService.canDeleteSku(id)) {
-				  productService.deleteSku(sku);   
+				  productService.removeAdditionalSku(productId, id);   
 			  } else if (!hasError) {
 				  hasError = true;
 				  ra.addFlashAttribute("errormessage", this.messageSource.getMessage("admin.error.batchDelete.message",null , Locale.getDefault()));

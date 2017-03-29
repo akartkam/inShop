@@ -44,6 +44,8 @@ public interface ProductService {
 	void mergeWithExistingSkuAndUpdateOrCreate(final SkuForm sku, Errors errors);
 	void mergeWithExistingPOAndUpdateOrCreate(final ProductOption poFromForm, Errors errors);
 	void mergeWithExistingAndUpdateOrCreate(final ProductForm productFromPost, Errors errors);
+	void removeAdditionalSku(UUID productId, UUID skuId);
+	void removeAdditionalSkus(UUID productId, List<UUID> skuIds);
 	Product generateSkusFromProduct(UUID productId);
 	Sku getSkuById(UUID id);
 	Sku getSkuByIdForForm(UUID id);

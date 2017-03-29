@@ -19,6 +19,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.BatchSize;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Cascade;
 
 import com.akartkam.inShop.domain.AbstractDomainObjectOrdering;
@@ -31,6 +33,7 @@ import com.akartkam.inShop.presentation.admin.EditTab;
 
 @Entity
 @Table(name = "Product_Option")
+@Cache(region = "po", usage = CacheConcurrencyStrategy.READ_WRITE)
 @BatchSize(size=50)
 public class ProductOption extends AbstractDomainObjectOrdering {
 	/**

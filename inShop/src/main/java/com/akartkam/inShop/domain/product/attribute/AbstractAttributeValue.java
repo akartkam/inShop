@@ -82,7 +82,7 @@ public abstract class AbstractAttributeValue<T extends Serializable> extends Abs
 		this.attribute = attribute;
 	}
 	
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn
 	@ForeignKey(name = "fk_attributevalue_product_id")
 	public Product getProduct() {
@@ -93,7 +93,7 @@ public abstract class AbstractAttributeValue<T extends Serializable> extends Abs
 		this.product = product;
 	}
 	
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn
 	@ForeignKey(name = "fk_attributevalue_sku_id")
 	public Sku getSku() {

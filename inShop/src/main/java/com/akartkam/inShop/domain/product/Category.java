@@ -61,7 +61,8 @@ import com.akartkam.inShop.validator.HtmlSafe;
 })
 @Entity
 @Table(name = "Category")
-@Cache(region = "category", usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+@Cache(region = "category", usage = CacheConcurrencyStrategy.READ_WRITE)
+@BatchSize(size=50)
 public class Category extends AbstractWebDomainObject {
 
 	/**
@@ -141,7 +142,8 @@ public class Category extends AbstractWebDomainObject {
 	@OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
 	@Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
 	@OrderBy("ordering")
-	@BatchSize(size=40)
+	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+	@BatchSize(size=50)
 	public List<Product> getProducts() {
 		return products;
 	}
@@ -181,6 +183,7 @@ public class Category extends AbstractWebDomainObject {
 			@JoinColumn(name = "CATEGORY_ID", nullable = false, updatable = false) }, 
 			inverseJoinColumns = { @JoinColumn(name = "ATTRIBUTE_ID", 
 					nullable = false, updatable = false) })
+	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)	
 	@BatchSize(size = 50)
 	public Set<AbstractAttribute> getAttributes() {
 		return attributes;

@@ -9,10 +9,19 @@
     memoryStoreEvictionPolicy="LRU" />
  <cache
 	name="category"
-	maxElementsInMemory="100"
-	eternal="false"
-	timeToIdleSeconds="300"
-	timeToLiveSeconds="600"
+	maxElementsInMemory="500"
+	eternal="true"
+	timeToIdleSeconds="0"
+	timeToLiveSeconds="0"
+	overflowToDisk="false"
+    />
+ <cache
+	name="brand"
+	maxElementsInMemory="500"
+	eternal="true"
+	timeToIdleSeconds="0"
+	timeToLiveSeconds="0"
+	overflowToDisk="false"
     />
  <cache
 	name="product"
@@ -21,6 +30,16 @@
 	timeToIdleSeconds="300"
 	timeToLiveSeconds="600"
     />
+ <cache
+	name="com.akartkam.inShop.domain.product.Product.additionalSku"
+	maxElementsInMemory="5000"
+	eternal="false"
+	timeToIdleSeconds="300"
+	timeToLiveSeconds="600"
+	overflowToDisk="false"
+    />
+
+    
  <cache
 	name="sku"
 	maxElementsInMemory="5000"
@@ -41,5 +60,19 @@
 	eternal="false"
 	timeToIdleSeconds="300"
 	timeToLiveSeconds="600"
-    />    
+    /> 
+ <cache
+	name="po"
+	maxElementsInMemory="5000"
+	eternal="false"
+	timeToIdleSeconds="300"
+	timeToLiveSeconds="600"
+    /> 
+ <cache
+	name="pov"
+	maxElementsInMemory="5000"
+	eternal="false"
+	timeToIdleSeconds="300"
+	timeToLiveSeconds="600"
+    />          
 </ehcache>

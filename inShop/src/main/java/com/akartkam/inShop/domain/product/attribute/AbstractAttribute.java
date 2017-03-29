@@ -106,9 +106,9 @@ public abstract class AbstractAttribute extends AbstractDomainObjectOrdering {
 	@Transient
 	public abstract AttributeType getAttributeType();
 	
-	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 	@OneToMany(mappedBy="attribute", cascade = CascadeType.ALL)
 	@Cascade(org.hibernate.annotations.CascadeType.ALL)
+	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 	@BatchSize(size = 30)
 	public List<AbstractAttributeValue> getAttributeValues() {
 		return attributeValues;
@@ -130,6 +130,7 @@ public abstract class AbstractAttribute extends AbstractDomainObjectOrdering {
 	}	
 
 	@ManyToMany(mappedBy = "attributes")
+	@BatchSize(size=20)
 	public Set<Category> getCategory() {
 		return category;
 	}

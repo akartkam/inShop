@@ -13,6 +13,8 @@ import javax.validation.constraints.Digits;
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.annotations.BatchSize;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.NumberFormat;
 import org.springframework.format.annotation.NumberFormat.Style;
@@ -25,6 +27,7 @@ import com.akartkam.inShop.presentation.admin.EditTab;
 
 @Entity
 @Table(name = "Product_Option_Value")
+@Cache(region = "pov", usage = CacheConcurrencyStrategy.READ_WRITE)
 @BatchSize(size=50)
 public class ProductOptionValue extends AbstractDomainObjectOrdering {
 

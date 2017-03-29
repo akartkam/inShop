@@ -249,7 +249,6 @@ public class Sku extends AbstractDomainObjectOrdering {
     @Fetch(FetchMode.SUBSELECT)
     @CollectionTable(name="lnk_sku_image")
     @OrderColumn(name="ordering")
-    @BatchSize(size = 20)
     public List<String> getImages() {
 		return images;
 	}
@@ -394,10 +393,9 @@ public class Sku extends AbstractDomainObjectOrdering {
 		this.defaultProduct = defaultProduct;
 	}
 	
-	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 	@OneToMany(mappedBy="sku", fetch=FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval=true)
 	@Cascade(org.hibernate.annotations.CascadeType.ALL)
-	@BatchSize(size = 100)
+	@BatchSize(size = 50)
 	public List<AbstractAttributeValue> getAttributeValues() {
 		return attributeValues;
 	}

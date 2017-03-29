@@ -140,7 +140,6 @@ public class Product extends AbstractWebDomainObject {
 		return additionalSku.isEmpty();
 	};
 	
-	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 	@OneToMany(mappedBy="product", cascade = CascadeType.ALL, orphanRemoval=true)
 	@Cascade(org.hibernate.annotations.CascadeType.ALL)
 	@BatchSize(size = 20)
@@ -185,6 +184,12 @@ public class Product extends AbstractWebDomainObject {
 		getAdditionalSku().add(sku);		
 	}
 	
+	public void removeAdditionalSku(Sku sku) {
+		if (sku == null) throw new IllegalArgumentException("Null sku!");
+		sku.setProduct(null);
+		getAdditionalSku().remove(sku);		
+	}
+
 	@AdminPresentation(tab=EditTab.LINKS)
 	@Valid
 	@ManyToMany
@@ -226,7 +231,7 @@ public class Product extends AbstractWebDomainObject {
 	        this.defaultSku = defaultSku;
 	}
     
-	@OneToMany(fetch = FetchType.LAZY, mappedBy="product")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy="product")
 	@Cascade(org.hibernate.annotations.CascadeType.ALL)
 	@BatchSize(size = 50)
 	@OrderBy("ordering")

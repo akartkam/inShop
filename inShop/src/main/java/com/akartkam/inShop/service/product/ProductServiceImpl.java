@@ -441,8 +441,9 @@ public class ProductServiceImpl implements ProductService {
 			}
 			for (AbstractAttributeValue av1:lavfp) {
 				sku.addAttributeValue(av1);
-			}			
+			}
 		} else {
+			Product product = loadProductById(skuFromPost.getProduct().getId(), false);
 			skuFromPost.setProductOptionValuesFromList();
 			Sku skuC = new Sku();
 			BeanUtilsBean bu = new NullAwareBeanUtilsBean();
@@ -450,8 +451,8 @@ public class ProductServiceImpl implements ProductService {
 				bu.copyProperties(skuC, skuFromPost);
 			} catch (IllegalAccessException | InvocationTargetException e) {
 				LOG.error("",e);
-			}			
-			createSku(skuC);
+			}
+			product.addAdditionalSku(sku);
 		}
 	}
 	
@@ -728,6 +729,24 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public boolean canDeleteSku(UUID id) {
 		return skuDAO.canDeleteSku(id);
+	}
+
+	@Override
+	@Transactional(readOnly = false)
+	public void removeAdditionalSku(UUID productId, UUID skuId) {
+		Product product = loadProductById(productId, false);
+		Sku sku = loadSkuById(skuId, false);
+		product.removeAdditionalSku(sku);
+	}
+
+	@Override
+	@Transactional(readOnly = false)
+	public void removeAdditionalSkus(UUID productId, List<UUID> skuIds) {
+		Product product = loadProductById(productId, false);
+		for (UUID skuId : skuIds) {
+			Sku sku = loadSkuById(skuId, false);
+			product.removeAdditionalSku(sku);
+		}
 	}
 
 }
