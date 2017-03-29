@@ -13,6 +13,8 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.hibernate.annotations.BatchSize;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.NamedNativeQueries;
 import org.hibernate.annotations.NamedNativeQuery;
 import org.hibernate.annotations.Type;
@@ -64,7 +66,8 @@ public class Instruction extends AbstractDomainObject  {
 	}
 
 	@OneToMany(mappedBy="instruction")
-	@BatchSize(size = 20)
+	@BatchSize(size = 50)
+	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 	public List<Category> getCategories() {
 		return categories;
 	}
@@ -73,7 +76,8 @@ public class Instruction extends AbstractDomainObject  {
 	}
 	
 	@OneToMany(mappedBy="instruction")
-	@BatchSize(size = 20)
+	@BatchSize(size = 50)
+	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 	public List<Product> getProducts() {
 		return products;
 	}

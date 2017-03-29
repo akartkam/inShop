@@ -143,6 +143,7 @@ public class Product extends AbstractWebDomainObject {
 	@OneToMany(mappedBy="product", cascade = CascadeType.ALL, orphanRemoval=true)
 	@Cascade(org.hibernate.annotations.CascadeType.ALL)
 	@BatchSize(size = 20)
+	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 	public List<AbstractAttributeValue> getAttributeValues() {
 		return attributeValues;
 	}
@@ -198,6 +199,7 @@ public class Product extends AbstractWebDomainObject {
 			inverseJoinColumns = { @JoinColumn(name = "product_option_id", 
 					nullable = false, updatable = false) })
 	@BatchSize(size=50)
+	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 	public Set<ProductOption> getProductOptions() {
 		return productOptions;
 	}
@@ -219,6 +221,7 @@ public class Product extends AbstractWebDomainObject {
     @OneToOne(cascade={CascadeType.ALL})
     @Cascade(value={org.hibernate.annotations.CascadeType.ALL})
     @JoinColumn(name="default_sku_id")
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 	public Sku getDefaultSku() {
 		return defaultSku;
 	}
@@ -235,6 +238,7 @@ public class Product extends AbstractWebDomainObject {
 	@Cascade(org.hibernate.annotations.CascadeType.ALL)
 	@BatchSize(size = 50)
 	@OrderBy("ordering")
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 	public List<Sku> getAdditionalSku() {
 		return additionalSku;
 	}

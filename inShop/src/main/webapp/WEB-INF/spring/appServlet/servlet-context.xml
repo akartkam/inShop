@@ -44,6 +44,12 @@
  
  	<!-- Slider Banners -->
  	<util:map id="mainSliderBanner">
+  		<beans:entry key="coloplast">
+ 			<beans:props>
+ 				<beans:prop key="imageUrl">images/banner/colo1-min.png</beans:prop>
+ 				<beans:prop key="targetUrl">brand/coloplast</beans:prop>
+ 			</beans:props>
+ 		</beans:entry>
  		<beans:entry key="bbraun">
  			<beans:props>
  				<beans:prop key="imageUrl">images/banner/bbraun_image_girl.png</beans:prop>
@@ -53,12 +59,6 @@
  		<beans:entry key="convatec">
  			<beans:props>
  				<beans:prop key="imageUrl">images/banner/convatec_hug.png</beans:prop>
- 				<beans:prop key="targetUrl">brand/convatec</beans:prop>
- 			</beans:props>
- 		</beans:entry>
-  		<beans:entry key="convatec1">
- 			<beans:props>
- 				<beans:prop key="imageUrl">images/banner/convatec_image.png</beans:prop>
  				<beans:prop key="targetUrl">brand/convatec</beans:prop>
  			</beans:props>
  		</beans:entry>

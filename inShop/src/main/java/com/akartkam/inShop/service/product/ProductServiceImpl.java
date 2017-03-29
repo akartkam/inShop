@@ -440,7 +440,7 @@ public class ProductServiceImpl implements ProductService {
 				}
 			}
 			for (AbstractAttributeValue av1:lavfp) {
-				sku.addAttributeValue(av1);
+				if (av1.getValue() != null && !"".equals(av1.getValue())) sku.addAttributeValue(av1);
 			}
 		} else {
 			Product product = loadProductById(skuFromPost.getProduct().getId(), false);
@@ -452,7 +452,7 @@ public class ProductServiceImpl implements ProductService {
 			} catch (IllegalAccessException | InvocationTargetException e) {
 				LOG.error("",e);
 			}
-			product.addAdditionalSku(sku);
+			product.addAdditionalSku(skuC);
 		}
 	}
 	
@@ -737,6 +737,7 @@ public class ProductServiceImpl implements ProductService {
 		Product product = loadProductById(productId, false);
 		Sku sku = loadSkuById(skuId, false);
 		product.removeAdditionalSku(sku);
+		deleteSku(sku);
 	}
 
 	@Override

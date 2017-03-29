@@ -217,8 +217,10 @@ public class AdminSkuController {
 		  }
 		  if (sku == null) {
 			  sku = new Sku();
-		  }		  
- 	      model.addAttribute("sku", new SkuForm(sku));
+		  }
+		  product.addAdditionalSku(sku);		  
+		  SkuForm skuForm = new SkuForm(sku);
+ 	      model.addAttribute("sku", skuForm);
 	      model.addAttribute("product", product); 	      
           if ("XMLHttpRequest".equals(requestedWith)) {
               return "/admin/catalog/skuEdit :: editSkuForm";

@@ -249,6 +249,7 @@ public class Sku extends AbstractDomainObjectOrdering {
     @Fetch(FetchMode.SUBSELECT)
     @CollectionTable(name="lnk_sku_image")
     @OrderColumn(name="ordering")
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     public List<String> getImages() {
 		return images;
 	}
@@ -270,6 +271,7 @@ public class Sku extends AbstractDomainObjectOrdering {
 	@Enumerated(EnumType.STRING)
     @Column(name = "pstatus", nullable = false)
     @BatchSize(size = 20)
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 	public Set<ProductStatus> getProductStatus() {
 		return productStatus;
 	}
@@ -368,6 +370,7 @@ public class Sku extends AbstractDomainObjectOrdering {
         inverseJoinColumns = @JoinColumn(name = "product_option_value_id"))
     @BatchSize(size = 50)	
 	@OrderBy("ordering")
+	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 	public Set<ProductOptionValue> getProductOptionValues() {
 		return productOptionValues;
 	}
@@ -396,6 +399,7 @@ public class Sku extends AbstractDomainObjectOrdering {
 	@OneToMany(mappedBy="sku", fetch=FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval=true)
 	@Cascade(org.hibernate.annotations.CascadeType.ALL)
 	@BatchSize(size = 50)
+	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 	public List<AbstractAttributeValue> getAttributeValues() {
 		return attributeValues;
 	}
