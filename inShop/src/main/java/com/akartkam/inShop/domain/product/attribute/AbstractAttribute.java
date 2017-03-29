@@ -15,6 +15,7 @@ import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
@@ -48,7 +49,8 @@ import com.akartkam.inShop.presentation.admin.EditTab;
 )
 @Table(name = "Attribute")
 @SuppressWarnings("rawtypes")
-//@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+@Cache(region = "attr", usage = CacheConcurrencyStrategy.READ_WRITE)
+@BatchSize(size = 50)
 public abstract class AbstractAttribute extends AbstractDomainObjectOrdering {
 	/**
 	 * 
@@ -104,7 +106,7 @@ public abstract class AbstractAttribute extends AbstractDomainObjectOrdering {
 	@Transient
 	public abstract AttributeType getAttributeType();
 	
-	//@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 	@OneToMany(mappedBy="attribute", cascade = CascadeType.ALL)
 	@Cascade(org.hibernate.annotations.CascadeType.ALL)
 	@BatchSize(size = 30)
@@ -118,7 +120,7 @@ public abstract class AbstractAttribute extends AbstractDomainObjectOrdering {
 	
 	@AdminPresentation(tab=EditTab.ADDITIONAL)
 	@NotNull
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(nullable = false)
 	public AttributeCategory getAttributeCategory() {
 		return attributeCategory;

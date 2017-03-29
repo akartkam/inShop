@@ -8,6 +8,7 @@ import java.util.UUID;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
@@ -24,6 +25,7 @@ import com.akartkam.inShop.domain.product.Product;
 
 @Entity
 @Table(name = "Attribute_Category")
+@BatchSize(size = 50)
 public class AttributeCategory extends AbstractDomainObjectOrdering {
 
 	/**
@@ -44,10 +46,10 @@ public class AttributeCategory extends AbstractDomainObjectOrdering {
 		this.name = name;
 	}
 
-	@OneToMany(mappedBy = "attributeCategory", cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "attributeCategory", cascade = CascadeType.ALL)
 	@Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE, org.hibernate.annotations.CascadeType.DELETE})
 	@OrderBy("ordering")
-	@BatchSize(size = 10)
+	@BatchSize(size = 20)
 	public List<AbstractAttribute> getAttributes() {
 		return attributes;
 	}

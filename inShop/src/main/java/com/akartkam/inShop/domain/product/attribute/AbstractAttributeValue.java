@@ -7,6 +7,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
@@ -15,6 +16,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Cascade;
@@ -34,7 +36,8 @@ import com.akartkam.inShop.domain.product.Sku;
 						discriminatorType = DiscriminatorType.STRING
 )
 @Table(name = "Attribute_Value")
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+@Cache(region = "attrValue", usage = CacheConcurrencyStrategy.READ_WRITE)
+@BatchSize(size = 50)
 public abstract class AbstractAttributeValue<T extends Serializable> extends AbstractDomainObject implements AttributeValue<T> {
 	/**
 	 * 
@@ -79,7 +82,7 @@ public abstract class AbstractAttributeValue<T extends Serializable> extends Abs
 		this.attribute = attribute;
 	}
 	
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn
 	@ForeignKey(name = "fk_attributevalue_product_id")
 	public Product getProduct() {
@@ -90,7 +93,7 @@ public abstract class AbstractAttributeValue<T extends Serializable> extends Abs
 		this.product = product;
 	}
 	
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn
 	@ForeignKey(name = "fk_attributevalue_sku_id")
 	public Sku getSku() {

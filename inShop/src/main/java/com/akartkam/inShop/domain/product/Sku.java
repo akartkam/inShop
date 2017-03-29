@@ -185,6 +185,7 @@ import com.akartkam.inShop.presentation.admin.EditTab;
 @Entity
 @Table(name = "sku")
 @Cache(region = "sku", usage = CacheConcurrencyStrategy.READ_WRITE)
+@BatchSize(size = 50)
 public class Sku extends AbstractDomainObjectOrdering {
 	/**
 	 * 
@@ -393,10 +394,10 @@ public class Sku extends AbstractDomainObjectOrdering {
 		this.defaultProduct = defaultProduct;
 	}
 	
-	//@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-	@OneToMany(mappedBy="sku", cascade = CascadeType.ALL, orphanRemoval=true)
+	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+	@OneToMany(mappedBy="sku", fetch=FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval=true)
 	@Cascade(org.hibernate.annotations.CascadeType.ALL)
-	@BatchSize(size = 50)
+	@BatchSize(size = 100)
 	public List<AbstractAttributeValue> getAttributeValues() {
 		return attributeValues;
 	}

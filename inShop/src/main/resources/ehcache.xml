@@ -28,4 +28,18 @@
 	timeToIdleSeconds="300"
 	timeToLiveSeconds="600"
     />
+ <cache
+	name="attrValue"
+	maxElementsInMemory="5000"
+	eternal="false"
+	timeToIdleSeconds="300"
+	timeToLiveSeconds="600"
+    />    
+ <cache
+	name="attr"
+	maxElementsInMemory="5000"
+	eternal="false"
+	timeToIdleSeconds="300"
+	timeToLiveSeconds="600"
+    />    
 </ehcache>

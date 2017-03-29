@@ -181,6 +181,7 @@ public class Category extends AbstractWebDomainObject {
 			@JoinColumn(name = "CATEGORY_ID", nullable = false, updatable = false) }, 
 			inverseJoinColumns = { @JoinColumn(name = "ATTRIBUTE_ID", 
 					nullable = false, updatable = false) })
+	@BatchSize(size = 50)
 	public Set<AbstractAttribute> getAttributes() {
 		return attributes;
 	}

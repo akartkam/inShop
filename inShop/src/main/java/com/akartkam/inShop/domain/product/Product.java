@@ -49,6 +49,9 @@ import com.akartkam.inShop.presentation.admin.EditTab;
 
 @NamedQueries({
 @NamedQuery(
+			name = "findAllProducts",
+			query = "from Product as p order by ordering"),	
+@NamedQuery(
 		name = "findProductByProductStatus",
 		query = "from Product as p where :productStatus in  elements(p.defaultSku.productStatus) and p.enabled=true order by ordering"), 
 @NamedQuery(
@@ -59,6 +62,7 @@ import com.akartkam.inShop.presentation.admin.EditTab;
 @Table(name = "Product")
 @Cache(region = "product", usage = CacheConcurrencyStrategy.READ_WRITE)
 @SuppressWarnings("rawtypes")
+@BatchSize(size = 50)
 public class Product extends AbstractWebDomainObject {
 
 	/**
@@ -136,7 +140,7 @@ public class Product extends AbstractWebDomainObject {
 		return additionalSku.isEmpty();
 	};
 	
-	//@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 	@OneToMany(mappedBy="product", cascade = CascadeType.ALL, orphanRemoval=true)
 	@Cascade(org.hibernate.annotations.CascadeType.ALL)
 	@BatchSize(size = 20)
@@ -188,7 +192,7 @@ public class Product extends AbstractWebDomainObject {
 			@JoinColumn(name = "product_id", nullable = false, updatable = false) }, 
 			inverseJoinColumns = { @JoinColumn(name = "product_option_id", 
 					nullable = false, updatable = false) })
-	@BatchSize(size=20)
+	@BatchSize(size=50)
 	public Set<ProductOption> getProductOptions() {
 		return productOptions;
 	}
@@ -224,7 +228,7 @@ public class Product extends AbstractWebDomainObject {
     
 	@OneToMany(fetch = FetchType.LAZY, mappedBy="product")
 	@Cascade(org.hibernate.annotations.CascadeType.ALL)
-	@BatchSize(size = 10)
+	@BatchSize(size = 50)
 	@OrderBy("ordering")
 	public List<Sku> getAdditionalSku() {
 		return additionalSku;

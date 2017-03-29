@@ -31,6 +31,7 @@ import com.akartkam.inShop.presentation.admin.EditTab;
 
 @Entity
 @Table(name = "Product_Option")
+@BatchSize(size=50)
 public class ProductOption extends AbstractDomainObjectOrdering {
 	/**
 	 * 
@@ -97,7 +98,7 @@ public class ProductOption extends AbstractDomainObjectOrdering {
 	@Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE,
 			  org.hibernate.annotations.CascadeType.DELETE})
 	@OrderBy("ordering")
-	@BatchSize(size = 10)    
+	@BatchSize(size = 20)    
 	public List<ProductOptionValue> getProductOptionValues() {
 		return productOptionValues;
 	}

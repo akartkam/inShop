@@ -44,4 +44,12 @@ public class ProductDAOImpl extends AbstractGenericDAO<Product> implements
 		return q.list();
 	}
 
+
+
+	@Override
+	public List<Product> findAllProducts() {
+		Query q = currentSession().getNamedQuery("findAllProducts");
+		return q.list();
+	}
+
 }
