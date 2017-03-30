@@ -16,6 +16,14 @@
 	overflowToDisk="false"
     />
  <cache
+	name="instruct"
+	maxElementsInMemory="500"
+	eternal="true"
+	timeToIdleSeconds="0"
+	timeToLiveSeconds="0"
+	overflowToDisk="false"
+    />
+ <cache
 	name="brand"
 	maxElementsInMemory="500"
 	eternal="true"

@@ -35,6 +35,7 @@ import com.akartkam.inShop.validator.HtmlSafe;
 
 @Entity
 @Table(name = "instruction")
+@Cache(region = "instruct", usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Instruction extends AbstractDomainObject  {
 
 	/**

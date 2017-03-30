@@ -221,7 +221,6 @@ public class Product extends AbstractWebDomainObject {
     @OneToOne(cascade={CascadeType.ALL})
     @Cascade(value={org.hibernate.annotations.CascadeType.ALL})
     @JoinColumn(name="default_sku_id")
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 	public Sku getDefaultSku() {
 		return defaultSku;
 	}

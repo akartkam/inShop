@@ -1,6 +1,7 @@
 package com.akartkam.inShop.service.extension;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
@@ -18,6 +19,7 @@ public class DefaultProductDisplayNameModificatorImpl implements
 	private MessageSource messageSource;
 	private Set<String> allowedCategoriesId = new HashSet<String>();
 	private Sku sku;
+	private Product product;
 	
 	
 	public Set<String> getAllowedCategoriesId() {
@@ -26,6 +28,16 @@ public class DefaultProductDisplayNameModificatorImpl implements
 
 	public void setAllowedCategoriesId(Set<String> allowedCategoriesId) {
 		this.allowedCategoriesId = allowedCategoriesId;
+	}
+	
+	
+
+	public Product getProduct() {
+		return product;
+	}
+
+	public void setProduct(Product product) {
+		this.product = product;
 	}
 
 	@SuppressWarnings("rawtypes")
@@ -77,6 +89,18 @@ public class DefaultProductDisplayNameModificatorImpl implements
 		}
 		return ret.toString();		
 	}
+	
+	private String doModifyLongString(String str) {
+		StringBuilder ret = new StringBuilder();
+		Product prod =product;
+		if (prod == null) prod = sku.lookupProduct();
+		List<String> sc = prod.getSkuCodes(); 
+		if (sc.size()<=4) {
+			ret.append(sc.toString());
+		}
+		ret.append(str);
+		return ret.toString();
+	}
 
 	@Override
 	public void setSku(final Sku sku) {
@@ -94,7 +118,7 @@ public class DefaultProductDisplayNameModificatorImpl implements
 		if (sku == null) return null;
 		Product product = sku.lookupProduct();
 		if (!allowedCategoriesId.contains(product.getCategory().getId().toString())) return name;
-		return doModifyString(name);
+		return doModifyLongString(name);
 	}
 
 }
