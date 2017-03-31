@@ -462,19 +462,17 @@
     		    backdrop: 'static',
     		    keyboard: false
     		});
-               $("#summernote").summernote({
-			    lang: "ru-RU"
-			     });
-               $(".selectpicker").selectpicker();
-               $(".datetimepicker").datetimepicker({
+ 	    	$('#summernote').summernote(summernoteObject);
+            $(".selectpicker").selectpicker();
+            $(".datetimepicker").datetimepicker({
                    locale: "ru"
                });
-               $(".zoomed-image").imagezoomsl({
+            $(".zoomed-image").imagezoomsl({
                	magnifiersize: [250, 250],
                	zoomrange: [3,10],
                	zoomstart: 4
                });
-               $("#name").focus();
+            $("#name").focus();
 	     });
  		 // ]]>
 	   </script>

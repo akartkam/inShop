@@ -150,9 +150,7 @@ $(function(){
             cache: false
           }).done(function (html) {
                     $("#editModalContent").html(html);
-                    $("#summernote").summernote({
-    				    lang: "ru-RU"
-    				     });
+                    $('#summernote').summernote(summernoteObject);
                     $(".selectpicker").selectpicker();
                     $(".datetimepicker").datetimepicker({
                         locale: "ru"

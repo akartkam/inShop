@@ -224,7 +224,21 @@
        //<![CDATA[
                var pricePieceUnitDelemiter = /*[[${#messages.msg('product.default.pricePieceUnitDelemiter')}]]*/
                var pricePieceUnit = /*[[${#messages.msg('product.default.pricePieceUnit')}]]*/ 
-               var pricePackageUnit = /*[[${#messages.msg('product.default.pricePackageUnit')}]]*/	   
+               var pricePackageUnit = /*[[${#messages.msg('product.default.pricePackageUnit')}]]*/	  
+               var summernoteObject = {
+            		   toolbar: [
+            		             // [groupName, [list of button]]
+            		             ['style', ['style', 'bold', 'italic', 'underline', 'clear']],
+            		             ['font', ['strikethrough', 'superscript', 'subscript']],
+            		             ['fontsize', ['fontsize']],
+            		             ['color', ['color']],
+            		             ['para', [ 'ul', 'ol', 'paragraph']],
+            		             ['height', ['height']],
+								 ['insert', ['table', 'picture', 'link', 'video', 'hr']],
+								 ['misk', ['fullscreen', 'codeview', 'undo', 'redo', 'help']]
+            		           ],
+            		    lang: "ru-RU"
+            		         };
                var events = (function(){
             	   var eventNode = $({});
             	   return {

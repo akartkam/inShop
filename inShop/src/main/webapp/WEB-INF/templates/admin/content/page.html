@@ -214,9 +214,7 @@
 	                    }).done(function (html) {
 	                                $("#editModalContent").append(html);
 	                                $("#editModal").data("allowed","false");
-	                                $('#summernote').summernote({
-	            					    lang: "ru-RU"
-	            				    });
+	                                $('#summernote').summernote(summernoteObject);
 	        	                    $("#name").focus();
 	                    });
 					}  
