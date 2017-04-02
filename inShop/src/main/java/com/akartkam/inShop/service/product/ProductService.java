@@ -11,6 +11,7 @@ import com.akartkam.inShop.domain.product.ProductStatus;
 import com.akartkam.inShop.domain.product.Sku;
 import com.akartkam.inShop.domain.product.option.ProductOption;
 import com.akartkam.inShop.domain.product.option.ProductOptionValue;
+import com.akartkam.inShop.formbean.DataTableForm;
 import com.akartkam.inShop.formbean.ProductForm;
 import com.akartkam.inShop.formbean.SkuForm;
 
@@ -55,4 +56,6 @@ public interface ProductService {
 	void softDeleteSkuById(UUID id);
 	List<Product> getProductsByProductStatus(ProductStatus productStatus);
 	boolean canDeleteSku(UUID id);
+	Object[] getProductsForDataTable(DataTableForm dt);
+	long countTotalProducts();
 }

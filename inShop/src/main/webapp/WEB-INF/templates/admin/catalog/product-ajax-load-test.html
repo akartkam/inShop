@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html layout:decorator="layouts/admin-default">
+	<head>
+	    <th:block th:remove="all">
+			<title>inShop Admin Product ajax load test</title>
+		    <meta charset="utf-8"/>
+		    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+		    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+		    <meta name="description" content=""/>
+		    <meta name="author" content=""/>
+		    <!-- Bootstrap Core CSS -->
+		    <link href="../../../../resources/css/lib/bootstrap.min.css" rel="stylesheet" th:href="@{/resources/css/lib/bootstrap.min.css}"/>
+			<!-- Custom css -->	    
+	    	<link href="../../../../resources/css/admin/sb-admin-2.css" rel="stylesheet" th:href="@{/resources/css/admin/sb-admin-2.css}"/>
+		    <!-- Custom Fonts -->
+	    	<link href="../../../../resources/css/lib/font-awesome.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/lib/font-awesome.min.css}"/>
+    	</th:block>
+		    <!-- DataTables CSS -->
+		    <link href="../../../../resources/css/lib/dataTables.bootstrap.css" rel="stylesheet" th:href="@{/resources/css/lib/dataTables.bootstrap.css}"/>	    	
+			<!-- DataTables Responsive CSS -->
+    		<link href="../../../../resources/css/lib/dataTables.responsive.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/lib/dataTables.responsive.css}"/>	    	
+	    	<link href="../../../../resources/css/lib/bootstrap-theme.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/lib/bootstrap-theme.min.css}"/>
+			<!-- summernote -->
+			<link href="../../../../resources/css/lib/summernote.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/lib/summernote.css}"></link>
+	    	<!-- bootstrap-select -->
+			<link href="../../../../resources/css/lib/bootstrap-select.min.css" rel="stylesheet" th:href="@{/resources/css/lib/bootstrap-select.min.css}"/>
+	    	<!-- bootstrap-datetimepicker -->
+  			<link href="../../../../resources/css/lib/bootstrap-datetimepicker.min.css" rel="stylesheet" th:href="@{/resources/css/lib/bootstrap-datetimepicker.min.css}"/>			      			    	    			    	
+			<style type="text/css">			
+				body {
+				    margin:0;     /* This is used to reset any browser-default margins */
+				    height:100vh; /* This is needed to overcome a Chrome bug. */
+				    width:100vw;  /* As above. */
+				}
+			    textarea:required:invalid, input:required:invalid {
+			            background-color: lightyellow;
+			    }		
+				.table-responsive {
+				  overflow-x: visible !important;
+				  overflow-y: visible !important;
+				}	
+  				.zoomContainer{ z-index: 9999;}
+				.zoomWindow{ z-index: 9999;}
+			</style>			
+	</head>
+<body>
+   <th:block layout:fragment="breadcrumb">
+   	 <li class="active" th:text="#{admin.catalog.product}"></li>
+   </th:block>
+   <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true" layout:fragment="deleteForm">
+	  <div class="modal-dialog">
+	    <div class="modal-content" id="deleteModalContent">
+ 	        <form method="post" action="#" th:action="@{/admin/catalog/product/delete}" id="deleteForm">
+	            <div class="modal-header">
+	              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	              <h4 class="modal-title" id="deleteModalLabel"><span th:text="#{admin.catalog.category.delete.modalcaption}">Удаление</span></h4>
+	            </div>
+	            <div class="modal-body" id = "delete-modal-body">
+	              <div class="field-box">
+	                <span th:text="#{admin.catalog.category.delete.modalmessage}">Подтвердите удаление производителя: </span>
+	                <span style="font-weight:bold" id="prName"> Производитель </span>
+				  </div>	                
+	              <div class="field-box" sec:authorize="hasRole('ADMIN')">
+                      <label>
+					   	<input type="checkbox" name="phisycalDelete"/>
+					  	<span th:text="#{admin.catalog.category.delete.phisycalDelete}">Phisycal delete</span>
+					  </label>
+	              </div>
+	            </div> 
+	            <div class="modal-footer" id = "delete-modal-footer">
+	                <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+	                <button type="submit" id="ID" name="ID" value="" class="btn btn-primary">Удалить</button>
+		        </div> 
+            </form>  	      
+	     </div> 
+	  </div> 
+	</div>
+    <div class="modal fade" id="deleteModalImage" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabelImage" aria-hidden="true">
+	  <div class="modal-dialog">
+	    <div class="modal-content" >
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h4 class="modal-title"><span th:text="#{admin.catalog.delete.modalcaption}">Удаление</span></h4>
+            </div>
+            <div class="modal-body">
+              <div class="field-box">
+				<span th:text="#{admin.catalog.product.image.delete.modalmessage}">
+				  Подтвердите удаление изображение: 
+				</span>
+                <span class="objname" style="font-weight:bold"> /image/i1.jpg </span>
+			  </div>	                
+            </div> 
+            <div class="modal-footer" id = "delete-modal-footer-pov">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                <button type="button" id="delImage" name="ID" value="" data-dismiss="modal" class="btn btn-primary">Удалить</button>
+	        </div> 
+	     </div> 
+	    </div> 
+	</div>
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true" layout:fragment="editForm">
+	  <div class="modal-dialog" style="width:65vw;overflow-y: initial !important">
+	    <div class="modal-content" id="editModalContent">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+            </div>
+            <div class="modal-body">
+                <h3>Modal Body</h3>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>	      
+	        </div> 
+	     </div> 
+	   </div> 
+    </div>
+    <div class="container-fluid">
+		<div class="row" >
+		  <div class="col-lg-12" >
+	       <div class="panel panel-default" layout:fragment="content">
+	           <div class="panel-heading">
+	               <span th:text="#{admin.catalog.product}">Product</span>
+	           </div> 	 
+	             <div class="panel-body">
+ 	                  <div class="row">
+ 	                    <div class="col-md-12">	              
+						      <table class="table table-striped table-bordered table-hover table-condensed table-responsive" id="productDataTable" data-checkid="">
+						        <thead >
+							      <tr >
+<!-- 							          <th class="col-md-1"></th> -->
+						              <th class="col-md-3 text-center" th:text="#{admin.catalog.name}">Name</th>
+						              <th class="col-md-1 text-center" th:text="#{admin.catalog.category}">Category</th>
+						              <th class="col-md-1 text-center" th:text="#{admin.catalog.url}">Url</th>
+						              <th class="col-md-1 text-center" th:text="#{admin.catalog.brand}">Brand</th>
+						              <th class="col-md-1 text-center" th:text="#{admin.catalog.model}">Model</th>
+						              <th class="col-md-1 text-center" th:text="#{admin.catalog.price}">Price</th>
+						              <th class="col-md-1 text-center" th:text="#{admin.catalog.ordering}">Ordering</th>
+						              <th class="col-md-1 text-center" th:text="#{admin.catalog.enabled}">Enabled?</th>
+<!-- 						              <th class="col-md-1 text-center"></th> -->
+						  	      </tr>
+						 	    </thead>
+						      </table> 
+						   </div>
+						</div>      
+				     </div> 
+			         <div class="panel-footer">
+				      <div class="btn-toolbar" role="toolbar" aria-label="...">
+					      <div class="btn-group" role="group" aria-label="...">
+					   		 <div class="btn-group" role="group" aria-label="..."> 
+                                <button type="button" class="open-editDialog btn btn-outline btn-default btn-sm" 
+                                        data-toggle="modal" data-target="#editModal" data-operation="add"
+                                        th:attr="data-path=@{/admin/catalog/product/add}" data-backdrop="static" data-keyboard="false">
+                                  <i class="fa fa-plus-circle"></i>
+                                  <span> </span>
+						          <span th:text="#{button.add.caption}">Add product</span> 
+                                </button>
+						     </div>
+					      </div> 
+					  </div>	  
+			       </div>
+               </div>    
+	       </div>
+	    </div>
+    </div> 
+<!--     <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script> -->
+    <th:block layout:fragment="script"> 
+    	<!-- product.js -->
+<!--     	<script th:inline="javascript" src="../../../../resources/js/admin/product.js" th:src="@{/resources/js/admin/product.js}"></script> -->
+	    <!-- DataTables JavaScript -->
+	    <script src="../../../../resources/js/lib/jquery.dataTables.min.js" th:src="@{/resources/js/lib/jquery.dataTables.min.js}"></script>
+	    <script src="../../../../resources/js/lib/dataTables.bootstrap.min.js" th:src="@{/resources/js/lib/dataTables.bootstrap.min.js}"></script>
+	    <script src="../../../../resources/js/inShop-common.js" th:src="@{/resources/js/inShop-common.js}"></script>
+	    <script src="../../../../resources/js/lib/jquery.spring-friendly.min.js" th:src="@{/resources/js/lib/jquery.spring-friendly.min.js}"></script>
+	    <th:block th:include="/admin/catalog/productEdit :: scriptEditModal">
+        </th:block>	    
+	    <!-- <th:block layout:include="/admin/catalog/attributeCategoryEdit :: scriptEditModal"> -->
+  	    <th:block layout:fragment="scriptEditModal"></th:block>
+  	    <script th:inline="javascript" type="text/javascript">
+	        var root = /*[[@{/}]]*/;
+		    $(document).ready(function() {
+		        $("#productDataTable").DataTable( {
+		            "processing": true,
+		            "serverSide": true,
+		            "ajax": root+"product-ajax-load-test"
+		        });
+		    });    
+         </script>
+  	     
+    </th:block>
+</body>
+</html>

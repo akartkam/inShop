@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +23,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import com.akartkam.inShop.domain.order.Delivery;
 import com.akartkam.inShop.domain.product.Product;
 import com.akartkam.inShop.domain.product.Sku;
+import com.akartkam.inShop.formbean.DataTableForm;
+import com.akartkam.inShop.formbean.DataTableJSON;
 import com.akartkam.inShop.formbean.ItemsForJSON;
 import com.akartkam.inShop.formbean.SkuForJSON;
 import com.akartkam.inShop.service.extension.EntityUrlModificator;
@@ -148,6 +151,17 @@ public class AjaxController {
 			}
 			return "/admin/Error";		  
 	  }
-	  
+
+	  @RequestMapping(value="/product-ajax-load-test", method= RequestMethod.GET, produces="application/json")
+	  @ResponseStatus(HttpStatus.OK)	  
+	  public @ResponseBody DataTableJSON productDataTableJSON (@ModelAttribute DataTableForm dataTableForm,
+			  									               Model model) {
+		  Object[] dtArr = productService.getProductsForDataTable(dataTableForm);
+		  Long countRec = (Long) dtArr[0]; 
+		  List<Product> retProducts = (List<Product>)dtArr[1];
+		  DataTableJSON items = new DataTableJSON();
+		  return items;
+		  
+	  }
 	
 }

@@ -75,7 +75,7 @@
  			</beans:props>
  		</beans:entry>
  	</util:map>
-	
+ 	
 <!-- JSR-303 validation-->
 	<beans:bean id ="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"
         p:validationMessageSource-ref="messageSource"/>	

@@ -45,6 +45,18 @@
                     location="classpath:shop.properties"/>
 	<!-- Root Context: defines shared resources visible to all other web components -->	
 
+<!-- DataTables map of column numbers and namens-->
+ 	<util:map id="productDataTableColumnsMap">
+ 		<entry key="0" value="ds.name"/>
+ 		<entry key="1" value="ct.name"/>
+ 		<entry key="2" value="url"/>
+ 		<entry key="3" value="br.name"/>
+ 		<entry key="4" value="model"/>
+ 		<entry key="5" value="ds.retailPrice"/>
+ 		<entry key="6" value="ordering"/>
+ 		<entry key="7" value="enabled"/>
+ 	</util:map>	
+
 	<bean id="productDisplayNameModificator" class="com.akartkam.inShop.service.extension.DefaultProductDisplayNameModificatorImpl">
 		<property name="allowedCategoriesId">
 			<util:list value-type="java.lang.String">

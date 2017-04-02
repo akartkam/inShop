@@ -35,6 +35,7 @@ import com.akartkam.inShop.domain.product.attribute.AbstractAttributeValue;
 import com.akartkam.inShop.domain.product.option.ProductOption;
 import com.akartkam.inShop.domain.product.option.ProductOptionValue;
 import com.akartkam.inShop.exception.ProductNotFoundException;
+import com.akartkam.inShop.formbean.DataTableForm;
 import com.akartkam.inShop.formbean.ProductForm;
 import com.akartkam.inShop.formbean.SkuForJSON;
 import com.akartkam.inShop.formbean.SkuForm;
@@ -748,6 +749,16 @@ public class ProductServiceImpl implements ProductService {
 			Sku sku = loadSkuById(skuId, false);
 			product.removeAdditionalSku(sku);
 		}
+	}
+
+	@Override
+	public Object[] getProductsForDataTable(DataTableForm dt) {
+		return productDAO.findProductsForDataTable(dt);
+	}
+
+	@Override
+	public long countTotalProducts() {
+		return productDAO.countTotalProducts();
 	}
 
 }
