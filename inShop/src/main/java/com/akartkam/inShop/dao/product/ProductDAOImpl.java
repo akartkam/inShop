@@ -10,9 +10,12 @@ import javax.annotation.Resource;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
+import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Property;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.criterion.Subqueries;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
@@ -83,32 +86,41 @@ public class ProductDAOImpl extends AbstractGenericDAO<Product> implements
 	@Override
 	public Object[] findProductsForDataTable(DataTableForm dt) {
 		Object[] res = new Object[2];
-		Criteria criteria = currentSession().createCriteria(Product.class);
+		Criteria criteria = currentSession().createCriteria(Product.class, "pr");
 		if (dt.getSearch() != null && dt.getSearch().getValue() != null && !"".equals(dt.getSearch().getValue())) {
+			String fval = StringUtils.rightPad(StringUtils.leftPad(dt.getSearch().getValue(), 1, "%"), 1, "%");
+			DetachedCriteria dc = DetachedCriteria.forClass(Sku.class, "as");
+			dc.add(Restrictions.ilike("code", fval));
+			dc.setProjection(Projections.property("product"));
 			criteria
 			      .createAlias("defaultSku", "ds")
 			      .createAlias("category", "ct")
 			      .createAlias("brand", "br")
 			      .add(Restrictions.or(
-					 Restrictions.ilike("ds.name", dt.getSearch().getValue()),
-					 Restrictions.ilike("ct.name", dt.getSearch().getValue()),
-					 Restrictions.ilike("br.name", dt.getSearch().getValue()),
-					 Restrictions.ilike("model", dt.getSearch().getValue()),
+					 Restrictions.ilike("ds.name", fval),
+					 Restrictions.ilike("ds.code", fval),
+					 Restrictions.ilike("ct.name", fval),
+					 Restrictions.ilike("br.name", fval),
+					 Restrictions.ilike("model", fval),
 					 StringUtils.isNumeric(dt.getSearch().getValue())? 
 					 Restrictions.eq("ordering", Integer.parseInt(dt.getSearch().getValue())):
-				     Restrictions.sqlRestriction("1=1")));
+				     Restrictions.sqlRestriction("1=1"),
+					 Subqueries.exists(dc)));
 		}
 		criteria.setProjection(Projections.rowCount());
 		res[0] = (Long) criteria.uniqueResult();
 		
-		Criteria criteria1 = currentSession().createCriteria(Product.class);
+		Criteria criteria1 = currentSession().createCriteria(Product.class)
+										     .createAlias("defaultSku", "ds")
+  					     			      	 .createAlias("additionalSku", "as")
+										     .createAlias("category", "ct")
+										     .createAlias("brand", "br");
 		if (dt.getSearch() != null && dt.getSearch().getValue() != null && !"".equals(dt.getSearch().getValue())) {
 			criteria1
-		      .createAlias("defaultSku", "ds")
-		      .createAlias("category", "ct")
-		      .createAlias("brand", "br")
 			  .add(Restrictions.or(
 					 Restrictions.ilike("ds.name", dt.getSearch().getValue()),
+					 Restrictions.ilike("ds.code", dt.getSearch().getValue()),
+					 Restrictions.ilike("as.code", dt.getSearch().getValue()),
 					 Restrictions.ilike("ct.name", dt.getSearch().getValue()),
 					 Restrictions.ilike("br.name", dt.getSearch().getValue()),
 					 Restrictions.ilike("model", dt.getSearch().getValue()),
@@ -119,15 +131,9 @@ public class ProductDAOImpl extends AbstractGenericDAO<Product> implements
 		for (DataTableForm.Order dtOrder : dt.getOrder()) {
 			if ("asc".equals(dtOrder.getDir()) && dtOrder.getColumn() != null) {
 				criteria1
-			      .createAlias("defaultSku", "ds")
-			      .createAlias("category", "ct")
-			      .createAlias("brand", "br")
 				  .addOrder(Order.asc(productDataTableColumnsMap.get(dtOrder.getColumn())));				
 			} else if ("desc".equals(dtOrder.getDir()) && dtOrder.getColumn() != null) {
 				criteria1
-			      .createAlias("defaultSku", "ds")
-			      .createAlias("category", "ct")
-			      .createAlias("brand", "br")				
 				  .addOrder(Order.desc(productDataTableColumnsMap.get(dtOrder.getColumn())));
 			}
 		}		

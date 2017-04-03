@@ -175,13 +175,42 @@
         </th:block>	    
 	    <!-- <th:block layout:include="/admin/catalog/attributeCategoryEdit :: scriptEditModal"> -->
   	    <th:block layout:fragment="scriptEditModal"></th:block>
+  	    <script type="text/javascript">
+  	    </script>
   	    <script th:inline="javascript" type="text/javascript">
 	        var root = /*[[@{/}]]*/;
-		    $(document).ready(function() {
+	  	      //<![CDATA[
+		  	  function renderProductName(data, type, full, meta){
+		  		 var obj = $.parseJSON(data);
+		  	     var ret = "<div class='a-photo-out mightOverflow domain-col' data-title='"+obj.name+"'>"+
+		  	                "<span class='photo-block'>"+
+		  	                "  <span class='helper'></span>"+
+		  	                "  <img src='"+root+obj.image.substring(1)+"' />"+
+		  	                "</span>"+
+		  				    "   <span>"+obj.name+" </span> "+
+		  				    "   <br/>"+
+		  				    "   <span style='font-size: 9pt;'>Артикул: "+obj.codes+"</span>"+
+		  				    "</div>"	
+		  	     return ret;
+		  	   }  	
+		  	   // ]]> 	  
+	        $(document).ready(function() {
 		        $("#productDataTable").DataTable( {
 		            "processing": true,
 		            "serverSide": true,
-		            "ajax": root+"product-ajax-load-test"
+		            "ajax": root+"product-ajax-load-test",
+		            'columnDefs': [{
+		                'targets': 0,
+		                'className': 'mightOverflow domain-col',
+		                'render': renderProductName
+		             },{
+		                'targets': 1,
+		                'className': 'mightOverflow domain-col'
+		             },{
+		                'targets': 2,
+		                'className': 'mightOverflow domain-col'
+			             }
+		             ]		            
 		        });
 		    });    
          </script>

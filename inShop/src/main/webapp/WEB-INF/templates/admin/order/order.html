@@ -153,7 +153,7 @@
 									    </td>
 										<td ><span th:text="${o.orderNumber}">Order1</span></td>
 							            <td class="mightOverflow domain-col"><span style="font-size: 9pt;" th:text="${{o.submitDate}}">01.08.2016</span></td>
-							            <td class="mightOverflow domain-col"><span th:text="${o.customer.fullName}">Alex F.J.</span></td>
+							            <td class="mightOverflow domain-col"><span th:text="${o.customer != null? o.customer.fullName: ''}">Alex F.J.</span></td>
 							            <td class="mightOverflow domain-col"><span style="font-size: 9pt;" th:text="${o.emailAddress}">alex-johnson@foo.com</span></td>
 							            <td ><span th:text="${{o.total}}">$100</span></td>
 						            	<td class="text-center"><span th:text="#{${'order.status.' + o.status}}"></span></td>

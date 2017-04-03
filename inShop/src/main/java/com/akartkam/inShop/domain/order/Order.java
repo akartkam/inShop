@@ -106,8 +106,8 @@ public class Order extends AbstractDomainObjectOrdering {
         this.submitDate = submitDate;
     }
 
-    @ManyToOne(optional=false, cascade=CascadeType.ALL)
-    @JoinColumn(name = "customer_id", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "customer_id")
     public Customer getCustomer() {
         return customer;
     }

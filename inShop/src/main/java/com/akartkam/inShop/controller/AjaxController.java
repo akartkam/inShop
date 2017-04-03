@@ -2,12 +2,14 @@ package com.akartkam.inShop.controller;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.number.AbstractNumberFormatter;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -51,6 +53,9 @@ public class AjaxController {
 	
 	@Autowired
 	private DeliveryService deliveryService;
+
+	@Autowired
+	private AbstractNumberFormatter currencyNumberFormatter;
 
 	@RequestMapping("/ajax-quick-review-product")
 	public String qRevProdAjax(@RequestParam(value = "ID", required = true) String productID, Model model,
@@ -157,9 +162,25 @@ public class AjaxController {
 	  public @ResponseBody DataTableJSON productDataTableJSON (@ModelAttribute DataTableForm dataTableForm,
 			  									               Model model) {
 		  Object[] dtArr = productService.getProductsForDataTable(dataTableForm);
-		  Long countRec = (Long) dtArr[0]; 
+		  Long countRecFiltered = (Long) dtArr[0]; 
 		  List<Product> retProducts = (List<Product>)dtArr[1];
 		  DataTableJSON items = new DataTableJSON();
+		  items.setDraw(dataTableForm.getDraw());
+		  items.setRecordsTotal(productService.countTotalProducts());
+		  items.setRecordsFiltered(countRecFiltered);
+		  String[][] data = new String [retProducts.size()][8];
+		  for (int i=0; i <= retProducts.size()-1; i++){
+			  Product p = retProducts.get(i);
+			  data[i][0] = "{\"name\":\""+p.getDefaultSku().getName()+"\", \"codes\":\""+p.getSkuCodes().toString()+"\",\"image\":\""+p.getAllImages().get(0)+"\"}";
+			  data[i][1] = p.getCategory().buildFullName();
+			  data[i][2] = p.getUrl();
+			  data[i][3] = p.getBrand().getName();
+			  data[i][4] = p.getModel();
+			  data[i][5] = currencyNumberFormatter.print(p.getDefaultSku().getPrice(), Locale.getDefault());
+			  data[i][6] = p.getOrdering().toString();
+			  data[i][7] = p.isEnabled()? "y": "";
+		  }
+		  items.setData(data);
 		  return items;
 		  
 	  }
