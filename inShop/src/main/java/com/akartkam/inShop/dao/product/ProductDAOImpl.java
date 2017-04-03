@@ -87,21 +87,27 @@ public class ProductDAOImpl extends AbstractGenericDAO<Product> implements
 	public Object[] findProductsForDataTable(DataTableForm dt) {
 		Object[] res = new Object[2];
 		Criteria criteria = currentSession().createCriteria(Product.class, "pr");
+		StringBuilder s = null;
+		DetachedCriteria dc = null;
 		if (dt.getSearch() != null && dt.getSearch().getValue() != null && !"".equals(dt.getSearch().getValue())) {
-			String fval = StringUtils.rightPad(StringUtils.leftPad(dt.getSearch().getValue(), 1, "%"), 1, "%");
-			DetachedCriteria dc = DetachedCriteria.forClass(Sku.class, "as");
-			dc.add(Restrictions.ilike("code", fval));
-			dc.setProjection(Projections.property("product"));
+			s = new StringBuilder(dt.getSearch().getValue());
+			s = s.insert(0, "%").append("%");
+			dc = DetachedCriteria.forClass(Sku.class, "as");
+			dc.add(Restrictions.ilike("code", s.toString()));
+			dc.add(Restrictions.eqProperty("as.product.id", "pr.id"));
+			dc.setProjection(Projections.property("as.id"));			
+		}
+		if (s != null) {
 			criteria
 			      .createAlias("defaultSku", "ds")
 			      .createAlias("category", "ct")
 			      .createAlias("brand", "br")
 			      .add(Restrictions.or(
-					 Restrictions.ilike("ds.name", fval),
-					 Restrictions.ilike("ds.code", fval),
-					 Restrictions.ilike("ct.name", fval),
-					 Restrictions.ilike("br.name", fval),
-					 Restrictions.ilike("model", fval),
+					 Restrictions.ilike("ds.name", s.toString()),
+					 Restrictions.ilike("ds.code", s.toString()),
+					 Restrictions.ilike("ct.name", s.toString()),
+					 Restrictions.ilike("br.name", s.toString()),
+					 Restrictions.ilike("model", s.toString()),
 					 StringUtils.isNumeric(dt.getSearch().getValue())? 
 					 Restrictions.eq("ordering", Integer.parseInt(dt.getSearch().getValue())):
 				     Restrictions.sqlRestriction("1=1"),
@@ -110,23 +116,22 @@ public class ProductDAOImpl extends AbstractGenericDAO<Product> implements
 		criteria.setProjection(Projections.rowCount());
 		res[0] = (Long) criteria.uniqueResult();
 		
-		Criteria criteria1 = currentSession().createCriteria(Product.class)
+		Criteria criteria1 = currentSession().createCriteria(Product.class, "pr")
 										     .createAlias("defaultSku", "ds")
-  					     			      	 .createAlias("additionalSku", "as")
 										     .createAlias("category", "ct")
 										     .createAlias("brand", "br");
-		if (dt.getSearch() != null && dt.getSearch().getValue() != null && !"".equals(dt.getSearch().getValue())) {
+		if (s != null) {			
 			criteria1
 			  .add(Restrictions.or(
-					 Restrictions.ilike("ds.name", dt.getSearch().getValue()),
-					 Restrictions.ilike("ds.code", dt.getSearch().getValue()),
-					 Restrictions.ilike("as.code", dt.getSearch().getValue()),
+					 Restrictions.ilike("ds.name", s.toString()),
+					 Restrictions.ilike("ds.code", s.toString()),
 					 Restrictions.ilike("ct.name", dt.getSearch().getValue()),
 					 Restrictions.ilike("br.name", dt.getSearch().getValue()),
 					 Restrictions.ilike("model", dt.getSearch().getValue()),
 					 StringUtils.isNumeric(dt.getSearch().getValue())? 
 					 Restrictions.eq("ordering", Integer.parseInt(dt.getSearch().getValue())):
-					 Restrictions.sqlRestriction("1=1")));
+					 Restrictions.sqlRestriction("1=1"),
+					 Subqueries.exists(dc)));
 		}
 		for (DataTableForm.Order dtOrder : dt.getOrder()) {
 			if ("asc".equals(dtOrder.getDir()) && dtOrder.getColumn() != null) {

@@ -7,6 +7,8 @@ import java.util.Currency;
 import java.util.Locale;
 import java.util.UUID;
 
+import org.apache.commons.lang3.StringUtils;
+
 
 
 public class Common {
@@ -24,19 +26,11 @@ public class Common {
 			dfs.setMonetaryDecimalSeparator(',');
 			((DecimalFormat)df).setDecimalFormatSymbols(dfs);
 			System.out.println(df.format(2567.56));
-			
-			System.out.println(UUID.randomUUID().toString());
-			
-			String i = "1,0";
-			boolean r = true;
-			try { 
-			  int ii = Integer.parseInt(i);
-			  
-			} catch (NumberFormatException e) {
-				r = false;
-			}
-			
-			System.out.println(r);
+			 
+			String fval = StringUtils.rightPad(StringUtils.leftPad("7", 2, "%"), 3, "%");
+
+			System.out.println(StringUtils.leftPad("7", 2, "%"));
+			System.out.println(fval);
 			
 	}
 
