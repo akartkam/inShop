@@ -9,6 +9,7 @@ import javax.annotation.Resource;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Criteria;
+import org.hibernate.FetchMode;
 import org.hibernate.Query;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Order;
@@ -16,6 +17,7 @@ import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Property;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.criterion.Subqueries;
+import org.hibernate.sql.JoinType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
@@ -110,7 +112,7 @@ public class ProductDAOImpl extends AbstractGenericDAO<Product> implements
 					 Restrictions.ilike("model", s.toString()),
 					 StringUtils.isNumeric(dt.getSearch().getValue())? 
 					 Restrictions.eq("ordering", Integer.parseInt(dt.getSearch().getValue())):
-				     Restrictions.sqlRestriction("1=1"),
+				     Restrictions.sqlRestriction("1<>1"),
 					 Subqueries.exists(dc)));
 		}
 		criteria.setProjection(Projections.rowCount());
@@ -130,7 +132,7 @@ public class ProductDAOImpl extends AbstractGenericDAO<Product> implements
 					 Restrictions.ilike("model", dt.getSearch().getValue()),
 					 StringUtils.isNumeric(dt.getSearch().getValue())? 
 					 Restrictions.eq("ordering", Integer.parseInt(dt.getSearch().getValue())):
-					 Restrictions.sqlRestriction("1=1"),
+			         Restrictions.sqlRestriction("1<>1"),
 					 Subqueries.exists(dc)));
 		}
 		for (DataTableForm.Order dtOrder : dt.getOrder()) {
@@ -148,5 +150,23 @@ public class ProductDAOImpl extends AbstractGenericDAO<Product> implements
 		res[1] = criteria1.list();
 		return res;
 	}
+/*	
+	select distinct q.* from (
+			select p.*
+			  from Product p 
+			       left join Sku s on s.product_id=p.id or p.default_sku_id=s.id 
+			       left join Brand b on p.brand_id=b.id
+			  where s.code ilike '%168%' or s.name ilike '%168%' or b.name ilike '%168%' or p.model ilike '%168%'
+			order by s.name asc 
+			limit 10 offset 0 
+			) q
 
+			select count(*) as y0_ 
+			   from Product this_ 
+			   inner join Brand br3_ on this_.brand_id=br3_.id 
+			   inner join Category ct2_ on this_.category_id=ct2_.id 
+			   inner join sku ds1_ on this_.default_sku_id=ds1_.id 
+			where (ds1_.name ilike '%168%' or ds1_.code ilike '%168%' or ct2_.name ilike '%168%' or br3_.name ilike '%168%' or this_.model ilike '%168%' or this_.Ordering=168 or exists (select as_.id as y0_ from sku as_ where as_.code ilike '%168%' and as_.product_id=this_.id))
+			 	
+*/
 }

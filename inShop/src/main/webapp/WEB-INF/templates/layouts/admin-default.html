@@ -224,7 +224,8 @@
        //<![CDATA[
                var pricePieceUnitDelemiter = /*[[${#messages.msg('product.default.pricePieceUnitDelemiter')}]]*/
                var pricePieceUnit = /*[[${#messages.msg('product.default.pricePieceUnit')}]]*/ 
-               var pricePackageUnit = /*[[${#messages.msg('product.default.pricePackageUnit')}]]*/	  
+               var pricePackageUnit = /*[[${#messages.msg('product.default.pricePackageUnit')}]]*/	
+               var root = /*[[@{/}]]*/;
                var summernoteObject = {
             		   toolbar: [
             		             // [groupName, [list of button]]
@@ -239,6 +240,28 @@
             		           ],
             		    lang: "ru-RU"
             		         };
+               var dataTableI18nObject = {
+                      	"processing": "Подождите...",
+                     	  "search": "Поиск:",
+                     	  "lengthMenu": "Показать _MENU_ записей",
+                     	  "info": "Записи с _START_ до _END_ из _TOTAL_ записей",
+                     	  "infoEmpty": "Записи с 0 до 0 из 0 записей",
+                     	  "infoFiltered": "(отфильтровано из _MAX_ записей)",
+                     	  "infoPostFix": "",
+                     	  "loadingRecords": "Загрузка записей...",
+                     	  "zeroRecords": "Записи отсутствуют.",
+                     	  "emptyTable:": "В таблице отсутствуют данные",
+                     	  "paginate": {
+                     	    "first": "Первая",
+                     	    "previous": "<",
+                     	    "next": ">",
+                     	    "last": "Последняя"
+                     	  },
+                     	  "aria": {
+                     	    "sortAscending": ": активировать для сортировки столбца по возрастанию",
+                     	    "sortDescending": ": активировать для сортировки столбца по убыванию"
+                     	  }
+                    };
                var events = (function(){
             	   var eventNode = $({});
             	   return {

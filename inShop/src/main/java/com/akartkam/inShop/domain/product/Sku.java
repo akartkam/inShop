@@ -245,7 +245,7 @@ public class Sku extends AbstractDomainObjectOrdering {
 		this.longDescription = longDescription;
 	}		
 	
-    @ElementCollection(fetch=FetchType.EAGER)
+    @ElementCollection
     //@Fetch(FetchMode.SUBSELECT)
     @CollectionTable(name="lnk_sku_image")
     @OrderColumn(name="ordering")

@@ -136,7 +136,7 @@
 						              <th class="col-md-1 text-center" th:text="#{admin.catalog.price}">Price</th>
 						              <th class="col-md-1 text-center" th:text="#{admin.catalog.ordering}">Ordering</th>
 						              <th class="col-md-1 text-center" th:text="#{admin.catalog.enabled}">Enabled?</th>
-<!-- 						              <th class="col-md-1 text-center"></th> -->
+						              <th class="col-md-1 text-center"></th>
 						  	      </tr>
 						 	    </thead>
 						      </table> 
@@ -178,7 +178,6 @@
   	    <script type="text/javascript">
   	    </script>
   	    <script th:inline="javascript" type="text/javascript">
-	        var root = /*[[@{/}]]*/;
 	  	      //<![CDATA[
 		  	  function renderProductName(data, type, full, meta){
 		  		 var obj = $.parseJSON(data);
@@ -192,10 +191,49 @@
 		  				    "   <span style='font-size: 9pt;'>Артикул: "+obj.codes+"</span>"+
 		  				    "</div>"	
 		  	     return ret;
-		  	   }  	
+		  	   } 
+		  	  function renderBtnGroup(data, type, full, meta){
+		  		var obj = $.parseJSON(data);
+		  		var ret =
+				  	"<div class='btn-group' role='group'>"+ 
+		            "<button type='button' class='open-editDialog btn btn-outline btn-default btn-xs' data-toggle='modal' "+ 
+		            "        data-target='#editModal' data-operation='edit' data-backdrop='static' data-keyboard='false' "+ 
+		            "        data-path='"+root+"admin/catalog/product/edit' data-id="+obj.id+">"+ 
+		            "  <i class='fa fa-pencil'></i>"+
+		            "</button> "+	
+		            "<button type='button' class='open-editDialog btn btn-outline btn-default btn-xs' "+ 
+		            "        data-toggle='modal' data-target='#editModal' data-operation='add' data-backdrop='static' "+ 
+		            "        data-keyboard='false' data-path='"+root+"admin/catalog/product/add'" + 
+		            "        data-id="+obj.id+">"+
+		            "  <i class='fa fa-copy'></i>"+
+		            "</button> "+
+		            "<button type='button' data-toggle='modal' data-target='#deleteModal' "+ 
+		            "        class='open-deleteDialog btn btn-outline btn-default btn-xs' data-name='"+obj.name+ "'"+ 
+		            "        data-id="+obj.id+">"+
+		            "  <i class='fa fa-trash-o'></i>"+
+		            "</button> "+
+		            "<button class='btn btn-outline btn-default btn-xs' type='button' data-toggle='dropdown' aria-haspopup='true' "+ 
+		            "        aria-expanded='false'> "+
+					"		<i class='fa fa-sort-down'></i> "+
+				    "</button> "+
+	       	        "<ul class='dropdown-menu'> "+
+					"  <li><a href='"+root+"admin/catalog/sku?productID="+obj.id+"'>Варианты</a></li>"+
+				    "</ul>"+
+	   	 			"</div>"		  	  
+			    return ret;
+		  	  }
+		  	  function renderEnabled(data, type, full, meta){
+		  		  var ret = "";
+		  		  if (data == "y") {
+		  			ret = "<i class='fa fa-check-circle'></i>"
+			  		}
+			      return ret;
+		  	  }
 		  	   // ]]> 	  
 	        $(document).ready(function() {
 		        $("#productDataTable").DataTable( {
+		        	"language": dataTableI18nObject,
+		        	"searchDelay": 600,
 		            "processing": true,
 		            "serverSide": true,
 		            "ajax": root+"product-ajax-load-test",
@@ -209,7 +247,17 @@
 		             },{
 		                'targets': 2,
 		                'className': 'mightOverflow domain-col'
-			             }
+		             },{
+		                'targets': 7,
+		                'className': 'text-center',
+		                'render': renderEnabled
+			         },{
+		                'targets': 8,
+		                'searchable': false,
+		                'orderable': false,
+		                'className': 'text-center',
+		                'render': renderBtnGroup
+			         }		            	 
 		             ]		            
 		        });
 		    });    

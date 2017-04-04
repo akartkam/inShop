@@ -168,7 +168,7 @@ public class AjaxController {
 		  items.setDraw(dataTableForm.getDraw());
 		  items.setRecordsTotal(productService.countTotalProducts());
 		  items.setRecordsFiltered(countRecFiltered);
-		  String[][] data = new String [retProducts.size()][8];
+		  String[][] data = new String [retProducts.size()][9];
 		  for (int i=0; i <= retProducts.size()-1; i++){
 			  Product p = retProducts.get(i);
 			  data[i][0] = "{\"name\":\""+p.getDefaultSku().getName()+"\", \"codes\":\""+p.getSkuCodes().toString()+"\",\"image\":\""+p.getAllImages().get(0)+"\"}";
@@ -179,6 +179,7 @@ public class AjaxController {
 			  data[i][5] = currencyNumberFormatter.print(p.getDefaultSku().getPrice(), Locale.getDefault());
 			  data[i][6] = p.getOrdering().toString();
 			  data[i][7] = p.isEnabled()? "y": "";
+			  data[i][8] = "{\"name\":\""+p.getDefaultSku().getName()+"\", \"id\":\""+p.getId()+"\"}";
 		  }
 		  items.setData(data);
 		  return items;
