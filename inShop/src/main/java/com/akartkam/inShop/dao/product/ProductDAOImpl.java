@@ -1,5 +1,6 @@
 package com.akartkam.inShop.dao.product;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
@@ -11,6 +12,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
@@ -118,36 +120,35 @@ public class ProductDAOImpl extends AbstractGenericDAO<Product> implements
 		criteria.setProjection(Projections.rowCount());
 		res[0] = (Long) criteria.uniqueResult();
 		
-		Criteria criteria1 = currentSession().createCriteria(Product.class, "pr")
-										     .createAlias("defaultSku", "ds")
-										     .createAlias("category", "ct")
-										     .createAlias("brand", "br");
-		if (s != null) {			
-			criteria1
-			  .add(Restrictions.or(
-					 Restrictions.ilike("ds.name", s.toString()),
-					 Restrictions.ilike("ds.code", s.toString()),
-					 Restrictions.ilike("ct.name", dt.getSearch().getValue()),
-					 Restrictions.ilike("br.name", dt.getSearch().getValue()),
-					 Restrictions.ilike("model", dt.getSearch().getValue()),
-					 StringUtils.isNumeric(dt.getSearch().getValue())? 
-					 Restrictions.eq("ordering", Integer.parseInt(dt.getSearch().getValue())):
-			         Restrictions.sqlRestriction("1<>1"),
-					 Subqueries.exists(dc)));
-		}
-		for (DataTableForm.Order dtOrder : dt.getOrder()) {
-			if ("asc".equals(dtOrder.getDir()) && dtOrder.getColumn() != null) {
-				criteria1
-				  .addOrder(Order.asc(productDataTableColumnsMap.get(dtOrder.getColumn())));				
-			} else if ("desc".equals(dtOrder.getDir()) && dtOrder.getColumn() != null) {
-				criteria1
-				  .addOrder(Order.desc(productDataTableColumnsMap.get(dtOrder.getColumn())));
-			}
-		}		
+		StringBuilder query = new StringBuilder();
+		query.append("select p.* "+
+					 "  from Product p "+ 
+					 "       left join Sku s on s.product_id=p.id or p.default_sku_id=s.id "+ 
+					 "       left join Brand b on p.brand_id=b.id "+
+					 "		 left join Category c on c.id=p.category_id ");
 		
-		if(dt.getStart() != null) criteria1.setFirstResult(dt.getStart());
-		if(dt.getLength() != null) criteria1.setMaxResults(dt.getLength());	;
-		res[1] = criteria1.list();
+		if (s != null) {			
+			query.append(String.format(" where s.code ilike '%1$s' or s.name ilike '%1$s' or b.name ilike '%1$s' or c.name ilike '%1$s' or p.model ilike '%1$s'", s.toString()));
+			if (StringUtils.isNumeric(dt.getSearch().getValue())) {
+				query.append(" or p.ordering = "+dt.getSearch().getValue());
+			}
+		}
+		if (dt.getOrder().length > 0) {
+		    query.append(" order by ");		
+			int i=0;
+			for (DataTableForm.Order dtOrder : dt.getOrder()) {
+				if (dtOrder.getColumn() != null) {
+					if (i > 0) query.append(", "); 
+					query.append(productDataTableColumnsMap.get(dtOrder.getColumn())).append(" ").append(dtOrder.getDir());				
+				}
+				i++;
+			}		
+		}
+		SQLQuery qquery = currentSession().createSQLQuery(query.toString()); 
+		if(dt.getStart() != null) qquery.setFirstResult(dt.getStart());
+		if(dt.getLength() != null) qquery.setMaxResults(dt.getLength());
+		qquery.addEntity(Product.class);
+		res[1] =qquery.list();
 		return res;
 	}
 /*	

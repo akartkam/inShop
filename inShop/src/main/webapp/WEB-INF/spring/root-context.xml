@@ -47,14 +47,14 @@
 
 <!-- DataTables map of column numbers and namens-->
  	<util:map id="productDataTableColumnsMap">
- 		<entry key="0" value="ds.name"/>
- 		<entry key="1" value="ct.name"/>
- 		<entry key="2" value="url"/>
- 		<entry key="3" value="br.name"/>
- 		<entry key="4" value="model"/>
- 		<entry key="5" value="ds.retailPrice"/>
- 		<entry key="6" value="ordering"/>
- 		<entry key="7" value="enabled"/>
+ 		<entry key="0" value="s.name"/>
+ 		<entry key="1" value="c.name"/>
+ 		<entry key="2" value="p.url"/>
+ 		<entry key="3" value="b.name"/>
+ 		<entry key="4" value="p.model"/>
+ 		<entry key="5" value="s.retailPrice"/>
+ 		<entry key="6" value="p.ordering"/>
+ 		<entry key="7" value="p.enabled"/>
  	</util:map>	
 
 	<bean id="productDisplayNameModificator" class="com.akartkam.inShop.service.extension.DefaultProductDisplayNameModificatorImpl">
