@@ -123,12 +123,13 @@ public class ProductDAOImpl extends AbstractGenericDAO<Product> implements
 		StringBuilder query = new StringBuilder();
 		query.append("select p.* "+
 					 "  from Product p "+ 
-					 "       left join Sku s on s.product_id=p.id or p.default_sku_id=s.id "+ 
+					 "       left join Sku s on p.default_sku_id=s.id "+ 
 					 "       left join Brand b on p.brand_id=b.id "+
 					 "		 left join Category c on c.id=p.category_id ");
 		
 		if (s != null) {			
-			query.append(String.format(" where s.code ilike '%1$s' or s.name ilike '%1$s' or b.name ilike '%1$s' or c.name ilike '%1$s' or p.model ilike '%1$s'", s.toString()));
+			query.append(String.format(" where s.code ilike '%1$s' or s.name ilike '%1$s' or b.name ilike '%1$s' or c.name ilike '%1$s' or p.model ilike '%1$s' or"+
+		                               " exists(select 1 from Sku s1 where s1.product_id=p.id and s1.code ilike '%1$s' )", s.toString()));
 			if (StringUtils.isNumeric(dt.getSearch().getValue())) {
 				query.append(" or p.ordering = "+dt.getSearch().getValue());
 			}
