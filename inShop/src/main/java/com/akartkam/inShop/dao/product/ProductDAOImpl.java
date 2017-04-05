@@ -152,23 +152,4 @@ public class ProductDAOImpl extends AbstractGenericDAO<Product> implements
 		res[1] =qquery.list();
 		return res;
 	}
-/*	
-	select distinct q.* from (
-			select p.*
-			  from Product p 
-			       left join Sku s on s.product_id=p.id or p.default_sku_id=s.id 
-			       left join Brand b on p.brand_id=b.id
-			  where s.code ilike '%168%' or s.name ilike '%168%' or b.name ilike '%168%' or p.model ilike '%168%'
-			order by s.name asc 
-			limit 10 offset 0 
-			) q
-
-			select count(*) as y0_ 
-			   from Product this_ 
-			   inner join Brand br3_ on this_.brand_id=br3_.id 
-			   inner join Category ct2_ on this_.category_id=ct2_.id 
-			   inner join sku ds1_ on this_.default_sku_id=ds1_.id 
-			where (ds1_.name ilike '%168%' or ds1_.code ilike '%168%' or ct2_.name ilike '%168%' or br3_.name ilike '%168%' or this_.model ilike '%168%' or this_.Ordering=168 or exists (select as_.id as y0_ from sku as_ where as_.code ilike '%168%' and as_.product_id=this_.id))
-			 	
-*/
 }

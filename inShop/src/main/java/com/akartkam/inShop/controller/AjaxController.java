@@ -157,7 +157,7 @@ public class AjaxController {
 			return "/admin/Error";		  
 	  }
 
-	  @RequestMapping(value="/product-ajax-load-test", method= RequestMethod.GET, produces="application/json")
+	  @RequestMapping(value="/product-ajax-load", method= RequestMethod.GET, produces="application/json")
 	  @ResponseStatus(HttpStatus.OK)	  
 	  public @ResponseBody DataTableJSON productDataTableJSON (@ModelAttribute DataTableForm dataTableForm,
 			  									               Model model) {

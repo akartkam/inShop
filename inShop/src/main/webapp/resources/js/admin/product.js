@@ -1,9 +1,87 @@
+  function renderProductName(data, type, full, meta){
+	 var obj = $.parseJSON(data);
+     var ret = "<div class='a-photo-out mightOverflow domain-col' data-title='"+obj.name+"'>"+
+                "<span class='photo-block'>"+
+                "  <span class='helper'></span>"+
+                "  <img src='"+root+obj.image.substring(1)+"' />"+
+                "</span>"+
+			    "   <span>"+obj.name+" </span> "+
+			    "   <br/>"+
+			    "   <span style='font-size: 9pt;'>Артикул: "+obj.codes+"</span>"+
+			    "</div>"	
+     return ret;
+   } 
+  function renderBtnGroup(data, type, full, meta){
+	var obj = $.parseJSON(data);
+	var ret =
+	  	"<div class='btn-group' role='group'>"+ 
+        "<button type='button' class='open-editDialog btn btn-outline btn-default btn-xs' data-toggle='modal' "+ 
+        "        data-target='#editModal' data-operation='edit' data-backdrop='static' data-keyboard='false' "+ 
+        "        data-path='"+root+"admin/catalog/product/edit' data-id="+obj.id+">"+ 
+        "  <i class='fa fa-pencil'></i>"+
+        "</button> "+	
+        "<button type='button' class='open-editDialog btn btn-outline btn-default btn-xs' "+ 
+        "        data-toggle='modal' data-target='#editModal' data-operation='add' data-backdrop='static' "+ 
+        "        data-keyboard='false' data-path='"+root+"admin/catalog/product/add'" + 
+        "        data-id="+obj.id+">"+
+        "  <i class='fa fa-copy'></i>"+
+        "</button> "+
+        "<button type='button' data-toggle='modal' data-target='#deleteModal' "+ 
+        "        class='open-deleteDialog btn btn-outline btn-default btn-xs' data-name='"+obj.name+ "'"+ 
+        "        data-id="+obj.id+">"+
+        "  <i class='fa fa-trash-o'></i>"+
+        "</button> "+
+        "<button class='btn btn-outline btn-default btn-xs' type='button' data-toggle='dropdown' aria-haspopup='true' "+ 
+        "        aria-expanded='false'> "+
+		"		<i class='fa fa-sort-down'></i> "+
+	    "</button> "+
+        "<ul class='dropdown-menu'> "+
+		"  <li><a href='"+root+"admin/catalog/sku?productID="+obj.id+"'>Варианты</a></li>"+
+	    "</ul>"+
+		"</div>"		  	  
+    return ret;
+  }
+  function renderEnabled(data, type, full, meta){
+	  var ret = "";
+	  if (data == "y") {
+		ret = "<i class='fa fa-check-circle'></i>"
+  		}
+      return ret;
+  }
+
 $(function(){
      var table = $("#productDataTable").DataTable( {
-        	"language": dataTableI18nObject,
-            "bStateSave": true
-		});
-        $('#productDataTable tfoot th').each( function () {
+     	"language": dataTableI18nObject,
+    	"searchDelay": 500,
+    	"stateSave": true,
+        "processing": true,
+        "serverSide": true,
+        "ajax": root+"product-ajax-load",
+        'columnDefs': [{
+            'targets': 0,
+            'className': 'mightOverflow domain-col',
+            'render': renderProductName
+         },{
+            'targets': 1,
+            'className': 'mightOverflow domain-col'
+         },{
+            'targets': 2,
+            'className': 'mightOverflow domain-col'
+         },{
+            'targets': 7,
+            'className': 'text-center',
+            'render': renderEnabled
+         },{
+            'targets': 8,
+            'searchable': false,
+            'orderable': false,
+            'className': 'text-center',
+            'render': renderBtnGroup
+         }		            	 
+         ]		            
+    });
+     /*  
+     $('#productDataTable tfoot th').each( function () {
         	 if ($(this).is(":first-child") || $(this).is(":last-child")) return;
              var title = $('#productDataTable thead th').eq( $(this).index() ).text();
              $(this).html( '<input type="text" placeholder="Фильтр '+title+'" />' );
@@ -18,6 +96,7 @@ $(function(){
                
            });
        });
+       */
        //Проверка перед сабмитом
        $("body").on("click", ".btnSubmit" , function() {
         	//check for change category
@@ -131,14 +210,14 @@ $(function(){
                     $("#editModalContent").html(html);
                     $('#summernote').summernote(summernoteObject);
                     $(".selectpicker").selectpicker();
-                    $(".datetimepicker").datetimepicker({
+                    /*$(".datetimepicker").datetimepicker({
                         locale: "ru"
                     });
                     $(".zoomed-image").imagezoomsl({
                     	magnifiersize: [250, 250],
                     	zoomrange: [3,10],
                     	zoomstart: 4
-                    });                    
+                    });*/                    
                     //$(".zoomed-image").elevateZoom({cursor: "crosshair", zoomType: "lens"});
                     //$('#active-start-date').data("DateTimePicker").date($("active-start-date-input").val());
                     $("#name").focus();

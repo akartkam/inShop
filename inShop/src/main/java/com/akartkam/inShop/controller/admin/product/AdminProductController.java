@@ -122,10 +122,11 @@ public class AdminProductController {
 	  private String imageUrl;
 	  
 	  
-	  @ModelAttribute("allProduct")
+	  /*@ModelAttribute("allProduct")
 	  public List<Product> getAllProduct() {
 	      return productService.getAllProduct();
 	  }
+	  */
 	  
 	  @ModelAttribute("allCategory")
 	  public List<Category> getAllCategory() {

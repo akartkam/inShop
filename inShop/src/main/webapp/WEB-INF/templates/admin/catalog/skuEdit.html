@@ -25,8 +25,8 @@
 	    	<link href="../../../../resources/css/admin/sb-admin-2.css" rel="stylesheet" th:href="@{/resources/css/admin/sb-admin-2.css}"/>   	
 			<!-- admin-style.css -->
     		<link href="../../../../resources/css/admin/admin-style.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/admin/admin-style.css}"/>
-	    	<!-- bootstrap-datetimepicker -->
-  			<link href="../../../../resources/css/lib/bootstrap-datetimepicker.min.css" rel="stylesheet" th:href="@{/resources/css/lib/bootstrap-datetimepicker.min.css}"/>			      			    	
+	    	<!-- bootstrap-datetimepicker 
+  			<link href="../../../../resources/css/lib/bootstrap-datetimepicker.min.css" rel="stylesheet" th:href="@{/resources/css/lib/bootstrap-datetimepicker.min.css}"/> -->			      			    	
 	    </th:block>
 	</head>
 <body>
@@ -377,8 +377,8 @@
 		   <script src="../../../../resources/js/lib/defaults-ru_RU.js" th:src="@{/resources/js/lib/defaults-ru_RU.js}"></script>
 		    <!-- moment -->		  
 		   <script src="../../../../resources/js/lib/moment-with-locales.min.js" th:src="@{/resources/js/lib/moment-with-locales.min.js}"></script>
-		    <!-- bootstrap-datetimepicker -->		  
-		   <script src="../../../../resources/js/lib/bootstrap-datetimepicker.min.js" th:src="@{/resources/js/lib/bootstrap-datetimepicker.min.js}"></script>					 	
+		    <!-- bootstrap-datetimepicker 		  
+		   <script src="../../../../resources/js/lib/bootstrap-datetimepicker.min.js" th:src="@{/resources/js/lib/bootstrap-datetimepicker.min.js}"></script> -->					 	
 		   
 	   </th:block>
    		<th:block layout:fragment="scriptEditModal"> 
@@ -393,9 +393,9 @@
 				    lang: "ru-RU"
 				     });
                 $(".selectpicker").selectpicker();
-                $(".datetimepicker").datetimepicker({
+                /* $(".datetimepicker").datetimepicker({
                     locale: "ru"
-                });
+                }); */
                 $("#name").focus();
 		     });
 	 		 // ]]>

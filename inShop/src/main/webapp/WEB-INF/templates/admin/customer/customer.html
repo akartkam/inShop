@@ -27,8 +27,8 @@
 	    	<link href="../../../../resources/css/lib/bootstrap-theme.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/lib/bootstrap-theme.min.css}"/>
 	    	<!-- bootstrap-select -->
 			<link href="../../../../resources/css/lib/bootstrap-select.min.css" rel="stylesheet" th:href="@{/resources/css/lib/bootstrap-select.min.css}"/>
-	    	<!-- bootstrap-datetimepicker -->
-  			<link href="../../../../resources/css/lib/bootstrap-datetimepicker.min.css" rel="stylesheet" th:href="@{/resources/css/lib/bootstrap-datetimepicker.min.css}"/>			      			    		    	
+	    	<!-- bootstrap-datetimepicker 
+  			<link href="../../../../resources/css/lib/bootstrap-datetimepicker.min.css" rel="stylesheet" th:href="@{/resources/css/lib/bootstrap-datetimepicker.min.css}"/> -->			      			    		    	
     			    	
 			<style type="text/css">			
 				body {
@@ -224,8 +224,8 @@
 	    <script src="../../../../resources/js/inShop-common.js" th:src="@{/resources/js/inShop-common.js}"></script>
 		<!-- moment -->		  
 	    <script src="../../../../resources/js/lib/moment-with-locales.min.js" th:src="@{/resources/js/lib/moment-with-locales.min.js}"></script>
-		<!-- bootstrap-datetimepicker -->		  
-	    <script src="../../../../resources/js/lib/bootstrap-datetimepicker.min.js" th:src="@{/resources/js/lib/bootstrap-datetimepicker.min.js}"></script>					 			   
+		<!-- bootstrap-datetimepicker 		  
+	    <script src="../../../../resources/js/lib/bootstrap-datetimepicker.min.js" th:src="@{/resources/js/lib/bootstrap-datetimepicker.min.js}"></script> -->					 			   
 	    <script type="text/javascript">
 	      //<![CDATA[
 	           function updateCollapseAccount() {
@@ -311,10 +311,10 @@
                             $(".selectpicker").selectpicker();
     	                    $("#name").focus();
   	                	    $('[data-toggle="tooltip"]').tooltip();
-	  	                    $(".datetimepicker").datetimepicker({
+	  	                    /* $(".datetimepicker").datetimepicker({
 	  	                        locale: "ru",
 	  	                        format: "DD.MM.YYYY"
-	  	                    }); 
+	  	                    });*/ 
 	  	                  updateCollapseAccount();  	                	    
                   });
 		    	});  
