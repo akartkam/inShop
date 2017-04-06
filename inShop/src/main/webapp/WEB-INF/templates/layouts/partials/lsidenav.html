@@ -21,13 +21,13 @@
                 --><span th:if="${rootCategory.hasSubCategory()}" class="caret-right"></span>
             </a>
             <ul th:if="${rootCategory.hasSubCategory()}" class="dropdown-menu">
-            	<li th:each="subCategory : ${rootCategory.getSubCategory()}">
+            	<li th:each="subCategory : ${rootCategory.getSubCategory()}" th:if="${subCategory.enabled}">
             	   <a aid:phref="${!subCategory.hasSubCategory()? subCategory: 'javascript:;'}" >
                      <span th:utext="${subCategory.name}"></span>&nbsp;<!--  
                 --><span th:if="${subCategory.hasSubCategory()}" class="caret-right"></span>
                    </a>
 		           <ul th:if="${subCategory .hasSubCategory()}" class="dropdown-menu">
-		            	<li th:each="subSubCategory : ${subCategory.getSubCategory()}">
+		            	<li th:each="subSubCategory : ${subCategory.getSubCategory()}" th:if="${subSubCategory.enabled}">
 		            	   <a aid:phref="${subSubCategory}" >
 		                     <span th:utext="${subSubCategory .name}"></span>
 		                   </a>

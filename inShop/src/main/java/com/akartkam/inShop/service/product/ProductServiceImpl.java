@@ -23,10 +23,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Errors;
 
+import com.akartkam.inShop.dao.InstructionDAO;
+import com.akartkam.inShop.dao.product.BrandDAO;
+import com.akartkam.inShop.dao.product.CategoryDAO;
 import com.akartkam.inShop.dao.product.ProductDAO;
 import com.akartkam.inShop.dao.product.SkuDAO;
 import com.akartkam.inShop.dao.product.option.ProductOptionDAO;
 import com.akartkam.inShop.dao.product.option.ProductOptionValueDAO;
+import com.akartkam.inShop.domain.Instruction;
+import com.akartkam.inShop.domain.product.Brand;
 import com.akartkam.inShop.domain.product.Category;
 import com.akartkam.inShop.domain.product.Product;
 import com.akartkam.inShop.domain.product.ProductStatus;
@@ -76,6 +81,12 @@ public class ProductServiceImpl implements ProductService {
 	@Autowired
 	private ProductDisplayNameModificator productDisplayNameModificator;
 	
+	@Autowired
+	private CategoryDAO categoryDAO;
+	@Autowired
+	private BrandDAO brandDAO;
+	@Autowired
+	private InstructionDAO instructionDAO;
 	
 	@Override
 	@Transactional(readOnly = false)
@@ -267,6 +278,23 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	@Transactional(readOnly = false)
 	public void deleteProduct(Product product) {
+		Category c = product.getCategory();
+		Brand b = product.getBrand();
+		Instruction i = product.getInstruction();
+		if (c != null) {
+			categoryDAO.reattach(c);
+			c.getProducts().remove(product);			
+		}
+		if(b != null) {
+			brandDAO.reattach(b);
+			b.getProducts().remove(product);			
+		}
+
+		if (i != null){
+			instructionDAO.reattach(i);
+			i.getProducts().remove(product);
+		}
+		
 		productDAO.delete(product);
 	}
 

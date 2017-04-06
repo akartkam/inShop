@@ -89,6 +89,7 @@ public class Brand extends AbstractWebDomainObject {
 	}
 	
 	@OneToMany(mappedBy = "brand")
+	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 	public List<Product> getProducts() {
 		return products;
 	}
