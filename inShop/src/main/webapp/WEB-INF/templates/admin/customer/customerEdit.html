@@ -188,10 +188,10 @@
 	       <!-- bootstrap-select -->
 		   <script src="../../../../resources/js/lib/bootstrap-select.min.js" th:src="@{/resources/js/lib/bootstrap-select.min.js}"></script>
 		   <script src="../../../../resources/js/lib/defaults-ru_RU.js" th:src="@{/resources/js/lib/defaults-ru_RU.js}"></script>
-		    <!-- moment -->		  
-		   <script src="../../../../resources/js/lib/moment-with-locales.min.js" th:src="@{/resources/js/lib/moment-with-locales.min.js}"></script>
-		    <!-- bootstrap-datetimepicker -->		  
-		   <script src="../../../../resources/js/lib/bootstrap-datetimepicker.min.js" th:src="@{/resources/js/lib/bootstrap-datetimepicker.min.js}"></script>					 			   
+		    <!-- moment 		  
+		   <script src="../../../../resources/js/lib/moment-with-locales.min.js" th:src="@{/resources/js/lib/moment-with-locales.min.js}"></script> -->
+		    <!-- bootstrap-datetimepicker 		  
+		   <script src="../../../../resources/js/lib/bootstrap-datetimepicker.min.js" th:src="@{/resources/js/lib/bootstrap-datetimepicker.min.js}"></script> -->					 			   
 	   </th:block>
    		<th:block layout:fragment="scriptEditModal"> 
 	   	   <script type="text/javascript">
@@ -202,10 +202,10 @@
 		    		});
                  $(".selectpicker").selectpicker();
          	     $('[data-toggle="tooltip"]').tooltip();  
-                 $(".datetimepicker").datetimepicker({
+                 /* $(".datetimepicker").datetimepicker({
                     locale: "ru",
                     format: "DD.MM.YYYY"
-                 });
+                 });*/
                  updateCollapseAccount();
              });
 		   </script>

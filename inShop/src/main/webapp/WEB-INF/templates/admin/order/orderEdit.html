@@ -21,8 +21,8 @@
     	<link href="../../../../resources/css/admin/sb-admin-2.css" rel="stylesheet" th:href="@{/resources/css/admin/sb-admin-2.css}"/>
     	<!-- Select2 -->		 	
 		<link href="../../../../resources/css/lib/select2.min.css" rel="stylesheet" th:href="@{/resources/css/lib/select2.smin.css}"/>
-		<!-- bootstrap-datetimepicker -->
-		<link href="../../../../resources/css/lib/bootstrap-datetimepicker.min.css" rel="stylesheet" th:href="@{/resources/css/lib/bootstrap-datetimepicker.min.css}"/>
+		<!-- bootstrap-datetimepicker 
+		<link href="../../../../resources/css/lib/bootstrap-datetimepicker.min.css" rel="stylesheet" th:href="@{/resources/css/lib/bootstrap-datetimepicker.min.css}"/> -->
 		<!-- bootstrap select -->
 		<link href="../../../../resources/css/lib/bootstrap-select.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/lib/bootstrap-select.min.css}"></link>
 		<!-- admin-style.css -->
@@ -250,10 +250,11 @@
 	   <!-- Select2 -->
 	   <script src="../../../../resources/js/lib/select2.full.min.js" th:src="@{/resources/js/lib/select2.full.min.js}"></script>
 	   <script src="../../../../resources/js/lib/ru.js" th:src="@{/resources/js/lib/ru.js}"></script>   
-	   <!-- moment -->		  
-	   <script src="../../../../resources/js/lib/moment-with-locales.min.js" th:src="@{/resources/js/lib/moment-with-locales.min.js}"></script>
-	   <!-- bootstrap-datetimepicker -->		  
-	   <script src="../../../../resources/js/lib/bootstrap-datetimepicker.min.js" th:src="@{/resources/js/lib/bootstrap-datetimepicker.min.js}"></script>
+	   <!-- moment 		  
+	   <script src="../../../../resources/js/lib/moment-with-locales.min.js" th:src="@{/resources/js/lib/moment-with-locales.min.js}"></script> -->
+	   <!-- bootstrap-datetimepicker 		  
+	   <script src="../../../../resources/js/lib/bootstrap-datetimepicker.min.js" th:src="@{/resources/js/lib/bootstrap-datetimepicker.min.js}"></script> -->
+	   
        <script src="../../../../resources/js/sku-search.js" th:src="@{/resources/js/sku-search.js}"></script>
        <!-- bootstrap-select -->
 	   <script src="../../../../resources/js/lib/bootstrap-select.min.js" th:src="@{/resources/js/lib/bootstrap-select.min.js}"></script>
@@ -266,9 +267,9 @@
 		    		    backdrop: 'static',
 		    		    keyboard: false
 		    		});		
-	             $(".datetimepicker").datetimepicker({
+	             /* $(".datetimepicker").datetimepicker({
 	                   format: /*[[${#strings.toUpperCase(#messages.msg('date.formatshort'))}]]*/''
-	             });
+	             });*/
 	             $(".selectpicker").selectpicker();
 	             makeSkuSelect2 ($("#slSearchSku"), /*[[@{/product-search}]]*/'');
 			});

@@ -26,8 +26,8 @@
 	    	<link href="../../../../resources/css/lib/bootstrap-theme.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/lib/bootstrap-theme.min.css}"/>
 	    	<!-- Select2 -->		 	
 			<link href="../../../../resources/css/lib/select2.min.css" rel="stylesheet" th:href="@{/resources/css/lib/select2.min.css}"/>
-			<!-- bootstrap-datetimepicker -->
-			<link href="../../../../resources/css/lib/bootstrap-datetimepicker.min.css" rel="stylesheet" th:href="@{/resources/css/lib/bootstrap-datetimepicker.min.css}"/>			      			    	
+			<!-- bootstrap-datetimepicker 
+			<link href="../../../../resources/css/lib/bootstrap-datetimepicker.min.css" rel="stylesheet" th:href="@{/resources/css/lib/bootstrap-datetimepicker.min.css}"/> -->			      			    	
 			<!-- bootstrap select -->
 			<link href="../../../../resources/css/lib/bootstrap-select.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/lib/bootstrap-select.min.css}"></link>
 			<!-- admin-style.css -->
@@ -260,9 +260,9 @@
    	                  }).done(function (html) {
    	                            $("#editModalContent").html(html);
    	                            $(".selectpicker").selectpicker();
-   		  	                    $(".datetimepicker").datetimepicker({
+   		  	                    /* $(".datetimepicker").datetimepicker({
    		  	                        format: /*[[${#strings.toUpperCase(#messages.msg('date.formatshort'))}]]*/''
-   		  	                    });
+   		  	                    });*/
    		  	                   makeSkuSelect2 ($("#slSearchSku"), /*[[@{/product-search}]]*/'');
    	                  });
    			    	});	    			
