@@ -26,7 +26,7 @@
 	</head>
 <body>
   <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true" layout:fragment="editForm">
-    <div class="modal-dialog"  style="width:70vw; overflow:auto">
+    <div class="modal-dialog"  style="width:95vw; overflow:auto">
 	   <div class="modal-content" id="editModalContent">
 	   <form method="post" class="form-horizontal" role="form" action="#" th:action="@{/admin/content/page/edit}" th:object="${page}" th:fragment="editPageForm">
 		   <div class="modal-header">
@@ -34,7 +34,7 @@
 				<h4 class="modal-title"  th:text="${!page.new}? #{admin.content.page.edit.title}: #{admin.content.page.add.title}">Edit Page</h4>
 	 	   </div>
 		 <!-- /modal-header -->
-		    <div class="modal-body" style ="height:60vh; overflow:auto">
+		    <div class="modal-body" style ="height:75vh; overflow:auto">
 		          <div  th:if="${#fields.hasErrors('*')}" class="alert alert-danger alert-dismissable">
 		          	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                     <span th:text="#{admin.catalog.category.edit.existsErrors}">There is some errors in the form</span>

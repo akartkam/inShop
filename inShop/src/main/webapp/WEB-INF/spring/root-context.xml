@@ -57,6 +57,16 @@
  		<entry key="7" value="p.enabled"/>
  	</util:map>	
 
+ 	<util:map id="orderDataTableColumnsMap">
+ 		<entry key="0" value="o.order_number"/>
+ 		<entry key="1" value="o.submit_date"/>
+ 		<entry key="2" value="(coalesce(c.first_name,'')||' '||coalesce(c.last_name,'')||' '||coalesce(c.middle_name,''))"/>
+ 		<entry key="3" value="o.email_address"/>
+ 		<entry key="4" value="o.order_total"/>
+ 		<entry key="5" value="s.short_name_r"/>
+ 	</util:map>	
+
+
 	<bean id="productDisplayNameModificator" class="com.akartkam.inShop.service.extension.DefaultProductDisplayNameModificatorImpl">
 		<property name="allowedCategoriesId">
 			<util:list value-type="java.lang.String">

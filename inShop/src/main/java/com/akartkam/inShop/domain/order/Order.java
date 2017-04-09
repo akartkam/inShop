@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.UUID;
 
 import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.NamedNativeQueries;
+import org.hibernate.annotations.NamedNativeQuery;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -23,6 +25,7 @@ import com.akartkam.inShop.presentation.admin.EditTab;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.ColumnResult;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -30,6 +33,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderColumn;
+import javax.persistence.SqlResultSetMapping;
+import javax.persistence.SqlResultSetMappings;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.Valid;
@@ -37,6 +42,29 @@ import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
+
+@SqlResultSetMappings({
+    @SqlResultSetMapping(name = "ordersByStatusRSM", columns = {
+        @ColumnResult(name = "status"), @ColumnResult(name = "count_orders"),
+        @ColumnResult(name = "sum_order_total"), @ColumnResult(name = "sum_delivery")})        
+})
+
+@NamedNativeQueries({
+	@NamedNativeQuery(
+			name = "ordersByStatus",
+			query = "select 'Всего' status, count(o.id) count_orders, sum(o.order_total) sum_order_total, "+
+					" sum(f.delivery_price) sum_delivery"+
+					" from customer_order o "+
+					"      left join fulfillment f on f.order_id=o.id " +
+					" union all "+
+					"select s.short_name_r status, count(o.id) count_orders, sum(o.order_total) sum_order_total, "+
+					"sum(f.delivery_price) sum_delivery"+
+					" from customer_order o "+
+					"      left join order_status s on s.name=o.order_status "+
+					"      left join fulfillment f on f.order_id=o.id "+
+					" group by 1",
+			resultSetMapping = "ordersByStatusRSM")	
+})
 
 @Entity
 @Table(name = "Customer_order")

@@ -31,6 +31,7 @@ import com.akartkam.inShop.formbean.Buy1clickForm;
 import com.akartkam.inShop.formbean.CartForm;
 import com.akartkam.inShop.formbean.CartItemForm;
 import com.akartkam.inShop.formbean.CheckoutForm;
+import com.akartkam.inShop.formbean.DataTableForm;
 import com.akartkam.inShop.service.customer.CustomerService;
 import com.akartkam.inShop.util.OrderNumberGenerator;
 
@@ -258,6 +259,21 @@ public class OrderServiceImpl implements OrderService{
 	@Override
 	public void refresh(Order order) {
 		orderDAO.refresh(order);
+	}
+
+	@Override
+	public Object[] getProductsForDataTable(DataTableForm dt) {
+		return orderDAO.findOrdersForDataTable(dt);
+	}
+
+	@Override
+	public long countTotalOrders() {
+		return orderDAO.countTotalOrders();
+	}
+
+	@Override
+	public List<Object[]> getOrdersByStatus() {
+		return orderDAO.findOrdersByStatus();
 	}
 
 

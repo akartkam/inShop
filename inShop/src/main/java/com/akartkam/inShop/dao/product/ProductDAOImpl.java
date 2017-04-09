@@ -1,25 +1,19 @@
 package com.akartkam.inShop.dao.product;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
-import java.util.Properties;
 
 import javax.annotation.Resource;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Criteria;
-import org.hibernate.FetchMode;
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.criterion.DetachedCriteria;
-import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
-import org.hibernate.criterion.Property;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.criterion.Subqueries;
-import org.hibernate.sql.JoinType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
@@ -82,8 +76,6 @@ public class ProductDAOImpl extends AbstractGenericDAO<Product> implements
 	public long countTotalProducts() {
 		Criteria criteria = currentSession().createCriteria(Product.class)
 				.setProjection(Projections.rowCount());
-		criteria.setCacheable(true);
-		criteria.setCacheRegion("query.Catalog");
 		return (long) criteria.uniqueResult();
 	}
 	
@@ -145,7 +137,7 @@ public class ProductDAOImpl extends AbstractGenericDAO<Product> implements
 				i++;
 			}		
 		}
-		SQLQuery qquery = currentSession().createSQLQuery(query.toString()); 
+		SQLQuery qquery = currentSession().createSQLQuery(query.toString());
 		if(dt.getStart() != null) qquery.setFirstResult(dt.getStart());
 		if(dt.getLength() != null) qquery.setMaxResults(dt.getLength());
 		qquery.addEntity(Product.class);

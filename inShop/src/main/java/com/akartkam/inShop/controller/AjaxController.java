@@ -1,5 +1,6 @@
 package com.akartkam.inShop.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
@@ -9,6 +10,7 @@ import java.util.UUID;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.format.number.AbstractNumberFormatter;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -23,6 +25,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.akartkam.inShop.domain.order.Delivery;
+import com.akartkam.inShop.domain.order.Order;
 import com.akartkam.inShop.domain.product.Product;
 import com.akartkam.inShop.domain.product.Sku;
 import com.akartkam.inShop.formbean.DataTableForm;
@@ -32,6 +35,7 @@ import com.akartkam.inShop.formbean.SkuForJSON;
 import com.akartkam.inShop.service.extension.EntityUrlModificator;
 import com.akartkam.inShop.service.order.DeliveryService;
 import com.akartkam.inShop.service.order.InventoryService;
+import com.akartkam.inShop.service.order.OrderService;
 import com.akartkam.inShop.service.product.ProductService;
 
 
@@ -56,6 +60,12 @@ public class AjaxController {
 
 	@Autowired
 	private AbstractNumberFormatter currencyNumberFormatter;
+	
+	@Autowired
+	private OrderService orderService;
+	
+	@Autowired
+	private MessageSource messageSource;
 
 	@RequestMapping("/ajax-quick-review-product")
 	public String qRevProdAjax(@RequestParam(value = "ID", required = true) String productID, Model model,
@@ -185,5 +195,33 @@ public class AjaxController {
 		  return items;
 		  
 	  }
-	
+
+	  @RequestMapping(value="/order-ajax-load", method= RequestMethod.GET, produces="application/json")
+	  @ResponseStatus(HttpStatus.OK)	  
+	  public @ResponseBody DataTableJSON orderDataTableJSON (@ModelAttribute DataTableForm dataTableForm,
+			  									               Model model) {
+		  Object[] dtArr = orderService.getProductsForDataTable(dataTableForm);
+		  Long countRecFiltered = (Long) dtArr[0]; 
+		  List<Order> retOrders = (List<Order>)dtArr[1];
+		  DataTableJSON items = new DataTableJSON();
+		  items.setDraw(dataTableForm.getDraw());
+		  items.setRecordsTotal(orderService.countTotalOrders());
+		  items.setRecordsFiltered(countRecFiltered);
+		  String[][] data = new String [retOrders.size()][7];
+		  for (int i=0; i <= retOrders.size()-1; i++){
+			  Order o = retOrders.get(i);
+			  data[i][0] = o.getOrderNumber();
+			  data[i][1] = (new SimpleDateFormat("dd.MM.YYYY HH:mm")).format(o.getSubmitDate());
+			  data[i][2] = o.getCustomer() != null? o.getCustomer().getFullName(): "";
+			  data[i][3] = o.getEmailAddress();
+			  data[i][4] = currencyNumberFormatter.print(o.getTotal(), Locale.getDefault());
+			  data[i][5] = messageSource.getMessage("order.status."+o.getStatus(), null, Locale.getDefault());
+			  data[i][6] = "{\"id\":\""+o.getId()+"\"}";
+		  }
+		  items.setData(data);
+		  return items;
+		  
+	  }
+	  
+	  
 }

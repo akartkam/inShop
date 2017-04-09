@@ -30,7 +30,36 @@ INSERT INTO unit (name, full_name_r, short_name_r) VALUES ('LT','литр','л.'
 INSERT INTO unit (name, full_name_r, short_name_r) VALUES ('ML','миллилитр','мл');
 INSERT INTO unit (name, full_name_r, short_name_r) VALUES ('IT','штук','шт');
 INSERT INTO unit (name, full_name_r, short_name_r) VALUES ('ITUNIT', 'штук в упаковке', 'шт/уп');
-  
+INSERT INTO unit (name, full_name_r, short_name_r) VALUES ('CH', 'CH', 'CH');
+ 
+
+-- Table: order_status
+
+-- DROP TABLE order_status;
+
+CREATE TABLE order_status
+(
+  name character varying NOT NULL,
+  full_name_r character varying,
+  short_name_r character varying,
+  CONSTRAINT order_status_pk PRIMARY KEY (name)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE order_status
+  OWNER TO postgres;
+COMMENT ON TABLE order_status
+  IS 'Эта таблица исключительно для удобства создания некоторых запросов к БД. Сами единицы измерения в приложении оформлены как enum.';
+
+INSERT INTO order_status (name, full_name_r, short_name_r) VALUES ('NEW','Новый','Новый');
+INSERT INTO order_status (name, full_name_r, short_name_r) VALUES ('INCOMPLETE','Незавершенный','Незавершенный');
+INSERT INTO order_status (name, full_name_r, short_name_r) VALUES ('IN_PROCESS','В обработке','В обработке');
+INSERT INTO order_status (name, full_name_r, short_name_r) VALUES ('COMPLITED','Исполнен','Исполнен');
+INSERT INTO order_status (name, full_name_r, short_name_r) VALUES ('IN_DELIVERY','В доставке','В доставке');
+INSERT INTO order_status (name, full_name_r, short_name_r) VALUES ('CANCELLED','Отменен','Отменен');
+INSERT INTO order_status (name, full_name_r, short_name_r) VALUES ('PAID','Оплачен','Оплачен');
+
   
 
 INSERT INTO account (id, username, first_name, last_name, middle_name, password, email, enabled, createby, createddate, version) 

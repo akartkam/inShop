@@ -12,6 +12,7 @@ import com.akartkam.inShop.exception.InventoryUnavailableException;
 import com.akartkam.inShop.formbean.Buy1clickForm;
 import com.akartkam.inShop.formbean.CartForm;
 import com.akartkam.inShop.formbean.CheckoutForm;
+import com.akartkam.inShop.formbean.DataTableForm;
 
 public interface OrderService {
 	OrderItem getOrderItemById(UUID id);
@@ -24,4 +25,7 @@ public interface OrderService {
 	void reattache(Order order);
 	void refresh(Order order);
 	Order placeBuy1click(Buy1clickForm buy1clickForm);
+	Object[] getProductsForDataTable(DataTableForm dt);
+	long countTotalOrders();
+	List<Object[]> getOrdersByStatus();
 }

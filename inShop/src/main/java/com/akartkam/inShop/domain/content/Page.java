@@ -8,6 +8,8 @@ import javax.persistence.Lob;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Index;
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -19,6 +21,7 @@ import com.akartkam.inShop.validator.HtmlSafe;
 
 @Entity
 @Table(name = "Page")
+@Cache(region = "page", usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Page extends AbstractWebDomainObject {
 
 

@@ -3,8 +3,10 @@ package com.akartkam.inShop.controller.admin.order;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 import java.beans.PropertyEditorSupport;
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
 import org.apache.commons.logging.Log;
@@ -25,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.format.number.AbstractNumberFormatter;
 import org.springframework.http.HttpStatus;
 
 import com.akartkam.inShop.domain.customer.Customer;
@@ -60,9 +63,26 @@ public class AdminOrderController {
 	  @Autowired
 	  private OrderValidator orderValidator;
 	  
+	  @Autowired
+	  private AbstractNumberFormatter currencyNumberFormatter;
+		
+	  /*
 	  @ModelAttribute("allOrders")
 	  public List<Order> getAllOrders() {
 		  return orderService.getAllOrders();
+	  }
+	  */
+	  
+	  @ModelAttribute("ordersByStatus")
+	  public List<Object[]> getOrdersByStatus(){
+		  List<Object[]> res = orderService.getOrdersByStatus();
+		  for (int i=0; i < res.size() ;i++){
+			  BigDecimal o2 = (BigDecimal)res.get(i)[2];
+			  BigDecimal o3 = (BigDecimal)res.get(i)[3];
+			  if (o2 != null) res.get(i)[2] = currencyNumberFormatter.print(o2, Locale.getDefault());
+			  if (o3 != null) res.get(i)[3] = currencyNumberFormatter.print(o3, Locale.getDefault());
+		  }
+		  return res;
 	  }
 
 	  @ModelAttribute("allCustomers")
