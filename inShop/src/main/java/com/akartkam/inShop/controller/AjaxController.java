@@ -181,7 +181,8 @@ public class AjaxController {
 		  String[][] data = new String [retProducts.size()][9];
 		  for (int i=0; i <= retProducts.size()-1; i++){
 			  Product p = retProducts.get(i);
-			  data[i][0] = "{\"name\":\""+p.getDefaultSku().getName()+"\", \"codes\":\""+p.getSkuCodes().toString()+"\",\"image\":\""+p.getAllImages().get(0)+"\"}";
+			  data[i][0] = "{\"name\":\""+p.getDefaultSku().getName()+"\", \"codes\":\""+p.getSkuCodes().toString()+"\",\"image\":\""+
+					       (p.getAllImages().size()!=0 ? p.getAllImages().get(0):"") +"\"}";
 			  data[i][1] = p.getCategory().buildFullName();
 			  data[i][2] = p.getUrl();
 			  data[i][3] = p.getBrand().getName();
