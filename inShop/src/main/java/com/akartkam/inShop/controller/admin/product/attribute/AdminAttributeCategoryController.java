@@ -16,6 +16,7 @@ import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -147,6 +148,7 @@ public class AdminAttributeCategoryController {
 	
 	  
 	  @RequestMapping(method=GET)
+	  @PreAuthorize("hasAnyRole('ADMIN')")
 	  public String category() {
 		  return "/admin/catalog/attributeCategory"; 
 		  }	  

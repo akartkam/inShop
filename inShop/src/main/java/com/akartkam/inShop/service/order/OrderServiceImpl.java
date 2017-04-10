@@ -263,9 +263,14 @@ public class OrderServiceImpl implements OrderService{
 
 	@Override
 	public Object[] getProductsForDataTable(DataTableForm dt) {
-		return orderDAO.findOrdersForDataTable(dt);
+		return orderDAO.findOrdersForDataTable(dt, "");
 	}
 
+	@Override
+	public Object[] getProductsForDataTable(DataTableForm dt, String orderStatus) {
+		return orderDAO.findOrdersForDataTable(dt, orderStatus);
+	}	
+	
 	@Override
 	public long countTotalOrders() {
 		return orderDAO.countTotalOrders();

@@ -10,6 +10,6 @@ import com.akartkam.inShop.formbean.DataTableForm;
 
 public interface OrderDAO extends GenericDAO<Order, UUID> {
 	long countTotalOrders();
-	Object[] findOrdersForDataTable(DataTableForm dt);
+	Object[] findOrdersForDataTable(DataTableForm dt, String orderStatus);
 	List<Object[]> findOrdersByStatus();
 }

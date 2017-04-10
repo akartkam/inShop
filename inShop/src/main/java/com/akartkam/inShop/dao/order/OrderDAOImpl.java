@@ -33,7 +33,7 @@ public class OrderDAOImpl extends AbstractGenericDAO<Order> implements OrderDAO 
 	}
 
 	@Override
-	public Object[] findOrdersForDataTable(DataTableForm dt) {
+	public Object[] findOrdersForDataTable(DataTableForm dt, String orderStatus) {
 		Object[] res = new Object[2];
 		StringBuilder s = null;
 		String cOrd = "select count(o.id) ", ord = "select o.*";
@@ -51,6 +51,10 @@ public class OrderDAOImpl extends AbstractGenericDAO<Order> implements OrderDAO 
                     " (coalesce(c.first_name,'')||' '||coalesce(c.last_name,'')||' '||coalesce(c.middle_name,'')) ilike '%1$s' or " +
 					" o.email_address ilike '%1$s' or trim(to_char(order_total, '999999999.99')) ilike '%1$s' or "+
                     " trim(to_char(order_total, '999999999D99')) ilike '%1$s' or s.short_name_r ilike '%1$s' ", s.toString()));
+		}
+		if(orderStatus != null && !"".equals(orderStatus)){
+			if (query.indexOf("where")>=0) query.append(" and o.order_status='"+orderStatus+"'");
+			else query.append(" where o.order_status='"+orderStatus+"'");
 		}
 		SQLQuery qcount = currentSession().createSQLQuery(query.toString()); 
 		res[0] = ((BigInteger) qcount.uniqueResult()).longValue();

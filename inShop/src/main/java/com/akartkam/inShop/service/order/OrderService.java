@@ -26,6 +26,7 @@ public interface OrderService {
 	void refresh(Order order);
 	Order placeBuy1click(Buy1clickForm buy1clickForm);
 	Object[] getProductsForDataTable(DataTableForm dt);
+	Object[] getProductsForDataTable(DataTableForm dt, String orderStatus);
 	long countTotalOrders();
 	List<Object[]> getOrdersByStatus();
 }

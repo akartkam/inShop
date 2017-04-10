@@ -199,9 +199,16 @@ public class AjaxController {
 
 	  @RequestMapping(value="/order-ajax-load", method= RequestMethod.GET, produces="application/json")
 	  @ResponseStatus(HttpStatus.OK)	  
-	  public @ResponseBody DataTableJSON orderDataTableJSON (@ModelAttribute DataTableForm dataTableForm,
-			  									               Model model) {
-		  Object[] dtArr = orderService.getProductsForDataTable(dataTableForm);
+	  public @ResponseBody DataTableJSON orderDataTableJSON (@RequestParam(value = "status", required = false) String orderStatus,
+			  												 @ModelAttribute DataTableForm dataTableForm,
+			  									             Model model) {
+		  Object[] dtArr;
+		  if (orderStatus != null && !"".equals(orderStatus)){
+			  dtArr = orderService.getProductsForDataTable(dataTableForm, orderStatus); 
+		  } else {
+			  dtArr = orderService.getProductsForDataTable(dataTableForm);  
+		  }
+		  
 		  Long countRecFiltered = (Long) dtArr[0]; 
 		  List<Order> retOrders = (List<Order>)dtArr[1];
 		  DataTableJSON items = new DataTableJSON();
