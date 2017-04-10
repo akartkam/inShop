@@ -46,23 +46,24 @@ import javax.validation.constraints.Past;
 @SqlResultSetMappings({
     @SqlResultSetMapping(name = "ordersByStatusRSM", columns = {
         @ColumnResult(name = "status"), @ColumnResult(name = "count_orders"),
-        @ColumnResult(name = "sum_order_total"), @ColumnResult(name = "sum_delivery")})        
+        @ColumnResult(name = "sum_order_total"), @ColumnResult(name = "sum_delivery"), 
+        @ColumnResult(name = "order_status")})        
 })
 
 @NamedNativeQueries({
 	@NamedNativeQuery(
 			name = "ordersByStatus",
-			query = "select 'Βρεγξ' status, count(o.id) count_orders, sum(o.order_total) sum_order_total, "+
-					" sum(f.delivery_price) sum_delivery"+
+			query = "select 'Π’ΡΠµΠ³ΠΎ' status, count(o.id) count_orders, sum(o.order_total) sum_order_total, "+
+					" sum(f.delivery_price) sum_delivery, '' as order_status"+
 					" from customer_order o "+
 					"      left join fulfillment f on f.order_id=o.id " +
 					" union all "+
 					"select s.short_name_r status, count(o.id) count_orders, sum(o.order_total) sum_order_total, "+
-					"sum(f.delivery_price) sum_delivery"+
+					"sum(f.delivery_price) sum_delivery, s.name as order_status"+
 					" from customer_order o "+
 					"      left join order_status s on s.name=o.order_status "+
 					"      left join fulfillment f on f.order_id=o.id "+
-					" group by 1",
+					" group by 1,5",
 			resultSetMapping = "ordersByStatusRSM")	
 })
 

@@ -36,7 +36,7 @@ public class OrderDAOImpl extends AbstractGenericDAO<Order> implements OrderDAO 
 	public Object[] findOrdersForDataTable(DataTableForm dt) {
 		Object[] res = new Object[2];
 		StringBuilder s = null;
-		String cOrd = "select count(o.id) ", ord = "select o.* ";
+		String cOrd = "select count(o.id) ", ord = "select o.*";
 		StringBuilder query = new StringBuilder();
 		query.append(cOrd);
 		query.append(" from customer_order o "+ 

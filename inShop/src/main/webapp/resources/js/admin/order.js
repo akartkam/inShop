@@ -25,6 +25,7 @@
 	}
   
 	$(function() {
+		var urlPar = $.urlParam("status");
 		$("#oDataTable").DataTable( {
 	     	"language": dataTableI18nObject,
 	     	"autoWidth": false,
@@ -32,10 +33,22 @@
 	    	"stateSave": true,
 	        "processing": true,
 	        "serverSide": true,
-	        "ajax": root+"order-ajax-load",
+	        "ajax": root+"order-ajax-load"+(urlPar != null && urlPar != "undefined"? "?status="+urlPar: ""),
 	        "order": [[ 1, "desc" ]],
 	        "columnDefs": [
-	         {
+			{
+			    "targets": 2,
+			    "className": "mightOverflow domain-col",
+			 },	                       
+			 {
+			    "targets": 3,
+			    "className": "mightOverflow domain-col",
+			 },	                       
+			 {
+			    "targets": 5,
+			    "className": "mightOverflow domain-col",
+			 },	                       
+			 {
 	            "targets": 6,
 	            "searchable": false,
 	            "orderable": false,
