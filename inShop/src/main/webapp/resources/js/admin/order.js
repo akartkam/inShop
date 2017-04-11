@@ -16,7 +16,7 @@
 		  	"<span class='order-status-"+obj.status.toLowerCase()+"'>"+obj.label+ 
 			"</span>"		  	  
 	    return ret;
-	  }
+  }
 
   /*function updateTotals() {
 		var $subTotal = 0;
@@ -145,21 +145,19 @@
         	   $("#dOrderItemTable").html(html);
            });
 	});	    			    		
-	$("body").on("input", ".row-total-changer", function (event) { 
-		    formatInputNumber(event.target);
-			var id = $(event.target).data("id");
-			if (typeof id == "undefined" || id == null) return;
-			
-			var $price = $("#price_"+id).val();
-			var $quant = $("#quantity_"+id).val();
-			$price = parseFloat($price);
-			$quant = parseInt($quant);
-			if (isNaN($price) || isNaN($quant)) {
-				$("#rowTotal_"+id).html("0");
-				return;
-			};
-			var $rowTotal = $price * $quant;
-			$("#rowTotal_"+id).html($rowTotal.toFixed(2));
-			updateTotals();
+	$("body").on("input", ".row-total-changer", function (event) {
+		var $val = $(this).val();
+		if ($val=="" || isNaN($val) || parseInt($val) <= 0) return;
+		var form = $("#oeform");
+		var formser;
+		if (typeof form != "undefined" && form != null) formser = form.serialize();
+           $.ajax({
+           	   type: "POST",
+               url: updateOrder,
+               data: formser,
+               cache: false
+           }).done(function (html) {
+        	   $("#dOrderItemTable").html(html);
+           });
 	});
 	

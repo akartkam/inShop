@@ -21,7 +21,6 @@ import com.akartkam.inShop.validator.HtmlSafe;
 
 @Entity
 @Table(name = "Page")
-@Cache(region = "page", usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Page extends AbstractWebDomainObject {
 
 

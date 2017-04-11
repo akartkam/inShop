@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
 
+import javax.validation.Valid;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -174,7 +176,7 @@ public class AdminOrderController {
 
 	   @RequestMapping(value="/edit", method = RequestMethod.POST )
 	   public String saveOrder(
-			                   @Validated Order order,
+			                   @Valid Order order,
 				   			   final BindingResult bindingResult,
 			                   final RedirectAttributes ra
 			                         ) throws InventoryUnavailableException {
@@ -217,6 +219,21 @@ public class AdminOrderController {
 	       return "/admin/order/orderEdit :: orderItemTable";
 	   }	
 	   
+	  @RequestMapping(value="/update", method = RequestMethod.POST )
+	  public String updateOrder(final @RequestHeader(value = "X-Requested-With", required = true) String requestedWith,
+			   				    final @ModelAttribute("order") Order order,
+			                    final BindingResult bindingResult,
+			                    final Model model
+			                         ) {
+		   if (!"XMLHttpRequest".equals(requestedWith)) throw new IllegalStateException("The addNewItem method can be called only via ajax!");
+		   order.setDeliveryTotal(order.calculateDelivaryTotal());
+		   order.setSubTotal(order.calculateSubTotal());
+		   order.setTotal(order.calculateTotal());
+		   model.addAttribute("ord", order);
+	       return "/admin/order/orderEdit :: orderItemTable";
+	   }	
+
+	  
 	  @RequestMapping(value="/del-item", method = RequestMethod.POST )
 	  public String delItem ( 
 							 final @RequestParam(value = "ID", required = true) String oiID,

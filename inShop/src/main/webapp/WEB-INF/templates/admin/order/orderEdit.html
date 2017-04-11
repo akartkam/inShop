@@ -166,12 +166,12 @@
 									  	       	     <input type="hidden" th:name="orderItems[__${oiStat.index}__].order" th:value="${ord.id}"/>
 									  	       	     <input type="hidden" th:name="orderItems[__${oiStat.index}__].sku" th:value="${ord.orderItems[__${oiStat.index}__].sku.id}"/>
 												     <div class="a-photo-out">
-		                                                <span class="photo-block">
+		                                               <!-- <span class="photo-block">
 		                                                   <span class="helper"></span>
 		                                                   <img th:src="@{${!#lists.isEmpty(oi.sku.lookupImages())? oi.sku.lookupImages()[0]: ''}}"  th:onerror="'this.src=\'' + @{/resources/img/noimage.png} + '\';'"/>
-		                                                </span>
+		                                                </span>-->
 												        <span th:text="${oi.sku.name}">name</span>
-												        <br/>
+												        <br/> 
 												        <span style="font-size: 9pt;" th:text="${oi.sku.code}">code</span>&nbsp;
 												        <span th:if="${oi.sku.code != null &amp;&amp; !''.equals(oi.sku.commaDelemitedPOVL)}" style='display: inline-block; color: #aaa; font-size: 11px;'>&#9679;</span>&nbsp;
 												        <span style="font-size: 9pt;" th:text="${oi.sku.commaDelemitedPOVL}">sku</span>
@@ -266,9 +266,12 @@
 		    		    backdrop: 'static',
 		    		    keyboard: false
 		    		});		
-	             /* $(".datetimepicker").datetimepicker({
-	                   format: /*[[${#strings.toUpperCase(#messages.msg('date.formatshort'))}]]*/''
-	             });*/
+                 $("#order-submit-date-input").pickmeup_twitter_bootstrap({
+               	 	locale		   : "ru",
+               	  	format         : 'd.m.Y',
+               	  	position       : "right",
+               	  	hide_on_select : true
+               	  });
 	             $(".selectpicker").selectpicker();
 	             makeSkuSelect2 ($("#slSearchSku"), /*[[@{/product-search}]]*/'');
 			});

@@ -185,10 +185,12 @@ public class OrderItem extends AbstractDomainObjectOrdering {
     @CurrencyFormat
     public BigDecimal getRowTotal() {
     	BigDecimal returnValue = BigDecimal.ZERO;
-    	BigDecimal quant = BigDecimal.valueOf(quantity);
-        if (price != null) {
-            returnValue = price.multiply(quant);
-        } 
+    	if (quantity != null) {
+        	BigDecimal quant = BigDecimal.valueOf(quantity);
+            if (price != null) {
+                returnValue = price.multiply(quant);
+            }    		
+    	} 
         return returnValue;
     }
 
