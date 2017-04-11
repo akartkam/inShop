@@ -23,6 +23,6 @@ public class AdminController {
 	  @RequestMapping(method=GET)
 	  public String admin(HttpSession  session) {
 		  session.setAttribute("isadmin", new Boolean(true));
-		  return "admin/admin"; 
+		  return "forward: admin/order"; 
 	  }
 }

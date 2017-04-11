@@ -10,8 +10,15 @@
 		"</div>"		  	  
     return ret;
   }
- 
-	function updateTotals() {
+  function renderStatus(data, type, full, meta){
+		var obj = $.parseJSON(data);
+		var ret =
+		  	"<span class='order-status-"+obj.status.toLowerCase()+"'>"+obj.label+ 
+			"</span>"		  	  
+	    return ret;
+	  }
+
+  /*function updateTotals() {
 		var $subTotal = 0;
 		var $total = 0;
 		var pn;
@@ -22,7 +29,7 @@
 		$total = $subTotal;
 		$("#subTotal").html($subTotal.toFixed(2));
 		$("#total").html($total.toFixed(2));
-	}
+	}*/
   
 	$(function() {
 		var urlPar = $.urlParam("status");
@@ -38,15 +45,16 @@
 	        "columnDefs": [
 			{
 			    "targets": 2,
-			    "className": "mightOverflow domain-col",
+			    "className": "mightOverflow domain-col"
 			 },	                       
 			 {
 			    "targets": 3,
-			    "className": "mightOverflow domain-col",
+			    "className": "mightOverflow domain-col"
 			 },	                       
 			 {
 			    "targets": 5,
 			    "className": "mightOverflow domain-col",
+			    "render": renderStatus
 			 },	                       
 			 {
 	            "targets": 6,
@@ -83,8 +91,13 @@
             cache: false
           }).done(function (html) {
                     $("#editModalContent").html(html);
-                    $(".selectpicker").selectpicker();
-                   makeSkuSelect2 ($("#slSearchSku"), /*[[@{/product-search}]]*/'');
+                    $("#order-submit-date-input").pickmeup_twitter_bootstrap({
+                    	  locale		 : "ru",
+                    	  format         : 'd.m.Y',
+                    	  position       : "right",
+                    	  hide_on_select : true
+                    	});
+                    makeSkuSelect2 ($("#slSearchSku"), ajaxProductSearch);
           });
     	});	    			
         //Открытие окна удаления
@@ -110,12 +123,11 @@
 		if (typeof form != "undefined" && form != null) formser = form.serialize();
            $.ajax({
            	   type: "POST",
-               url: /*[[@{/admin/order/add-item}]]*/'',
+               url: addSkuItem,
                data: formser+"&skuId="+id,
                cache: false
            }).done(function (html) {
         	   $("#dOrderItemTable").html(html);
-        	   updateTotals();
            });
 	});
 	$("body").on("click", ".open-deleteDialog-oi", function () { 
@@ -126,12 +138,11 @@
 		if (typeof form != "undefined" && form != null) formser = form.serialize();
            $.ajax({
            	   type: "POST",
-               url: /*[[@{/admin/order/del-item}]]*/'',
+               url: delSkuItem,
                data: formser+"&ID="+id,
                cache: false
            }).done(function (html) {
         	   $("#dOrderItemTable").html(html);
-        	   updateTotals();
            });
 	});	    			    		
 	$("body").on("input", ".row-total-changer", function (event) { 
@@ -145,7 +156,6 @@
 			$quant = parseInt($quant);
 			if (isNaN($price) || isNaN($quant)) {
 				$("#rowTotal_"+id).html("0");
-				updateTotals();
 				return;
 			};
 			var $rowTotal = $price * $quant;

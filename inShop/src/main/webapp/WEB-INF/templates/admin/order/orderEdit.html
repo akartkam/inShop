@@ -21,10 +21,9 @@
     	<link href="../../../../resources/css/admin/sb-admin-2.css" rel="stylesheet" th:href="@{/resources/css/admin/sb-admin-2.css}"/>
     	<!-- Select2 -->		 	
 		<link href="../../../../resources/css/lib/select2.min.css" rel="stylesheet" th:href="@{/resources/css/lib/select2.smin.css}"/>
-		<!-- bootstrap-datetimepicker 
-		<link href="../../../../resources/css/lib/bootstrap-datetimepicker.min.css" rel="stylesheet" th:href="@{/resources/css/lib/bootstrap-datetimepicker.min.css}"/> -->
 		<!-- bootstrap select -->
 		<link href="../../../../resources/css/lib/bootstrap-select.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/lib/bootstrap-select.min.css}"></link>
+		
 		<!-- admin-style.css -->
    		<link href="../../../../resources/css/admin/admin-style.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/admin/admin-style.css}"/>	    	
 		<style type="text/css">			
@@ -106,8 +105,8 @@
 					                <label>
 					    	   	        <span th:text="#{admin.order.date}">Submit date</span>			   		        
 					    	   	    </label>
-					                <div class="input-group date datetimepicker">
-					                    <input type="text" class="form-control datetimepicker-input" id="order-submit-date-input" 
+					                <div class="input-group date">
+					                    <input type="text" class="form-control" id="order-submit-date-input" 
 						                       name="submitDate" th:field="${{ord.submitDate}}"/>
 					                    <span class="input-group-addon">
 					                        <span class="fa fa-calendar"></span>
@@ -169,7 +168,7 @@
 												     <div class="a-photo-out">
 		                                                <span class="photo-block">
 		                                                   <span class="helper"></span>
-		                                                   <img th:src="@{${!#lists.isEmpty(oi.sku.getImages())? oi.sku.getImages()[0]: ''}}"  th:onerror="'this.src=\'' + @{/resources/img/noimage.png} + '\';'"/>
+		                                                   <img th:src="@{${!#lists.isEmpty(oi.sku.lookupImages())? oi.sku.lookupImages()[0]: ''}}"  th:onerror="'this.src=\'' + @{/resources/img/noimage.png} + '\';'"/>
 		                                                </span>
 												        <span th:text="${oi.sku.name}">name</span>
 												        <br/>
@@ -206,15 +205,19 @@
 									  	    </tbody>
 									  	    <tfoot>
 									  	    	<tr>
-									  	    		<td colspan="6">
+									  	    		<td colspan="5">
 											  	    	<div style="float: right;">
 											  	    	  <p><span th:text="#{admin.order.subTotal}"></span>: 
-											  	    	     <span style="font-weight: bold;" id="subTotal" th:text="${#numbers.formatDecimal(ord.subTotal == null? 0 : ord.subTotal,1,2)}"></span>
-											  	    	     <span style="font-weight: bold;" th:text="${T(java.util.Currency).getInstance(#locale.getDefault()).getSymbol()}">руб.</span>
+											  	    	     <span style="font-weight: bold;" id="subTotal" 
+											  	    	           th:text="${ord.subTotal != null? beans.currencyNumberFormatter.print(ord.subTotal, #locale.getDefault()): 0}"></span>
+											  	    	  </p>
+											  	    	  <p><span th:text="#{admin.order.deliveryCost}"></span>: 
+											  	    	     <span style="font-weight: bold;" id="deliveryTotal" 
+											  	    	           th:text="${ord.deliveryTotal != null? beans.currencyNumberFormatter.print(ord.deliveryTotal, #locale.getDefault()): 0}"></span>
 											  	    	  </p>
 											  	    	  <p><span th:text="#{admin.order.total}"></span>: 
-											  	    	     <span style="font-weight: bold;" id="total" th:text="${#numbers.formatDecimal(ord.total == null? 0 : ord.total,1,2)}"></span>
-											  	    	     <span style="font-weight: bold;" th:text="${T(java.util.Currency).getInstance(#locale.getDefault()).getSymbol()}">руб.</span>
+											  	    	     <span style="font-weight: bold;" id="total" 
+											  	    	           th:text="${ord.total != null? beans.currencyNumberFormatter.print(ord.total, #locale.getDefault()): 0}"></span>
 											  	    	  </p>
 											  	    	</div>
 									  	    		</td>
@@ -250,11 +253,7 @@
 	   <!-- Select2 -->
 	   <script src="../../../../resources/js/lib/select2.full.min.js" th:src="@{/resources/js/lib/select2.full.min.js}"></script>
 	   <script src="../../../../resources/js/lib/ru.js" th:src="@{/resources/js/lib/ru.js}"></script>   
-	   <!-- moment 		  
-	   <script src="../../../../resources/js/lib/moment-with-locales.min.js" th:src="@{/resources/js/lib/moment-with-locales.min.js}"></script> -->
-	   <!-- bootstrap-datetimepicker 		  
-	   <script src="../../../../resources/js/lib/bootstrap-datetimepicker.min.js" th:src="@{/resources/js/lib/bootstrap-datetimepicker.min.js}"></script> -->
-	   
+
        <script src="../../../../resources/js/sku-search.js" th:src="@{/resources/js/sku-search.js}"></script>
        <!-- bootstrap-select -->
 	   <script src="../../../../resources/js/lib/bootstrap-select.min.js" th:src="@{/resources/js/lib/bootstrap-select.min.js}"></script>

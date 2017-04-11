@@ -204,12 +204,15 @@ public class AdminOrderController {
 		   if (foi == null) {
 			   OrderItem oi=new OrderItem();
 			   oi.setSku(sku);
-			   oi.setPrice(sku.getSalePrice() != null ? sku.getSalePrice() : sku.getRetailPrice());
+			   oi.setPrice(sku.getPriceForPackage());
 			   oi.setQuantity(1);
 			   order.addOrderItem(oi);
 		   } else {
 			   foi.setQuantity(foi.getQuantity()+1);
 		   }
+		   order.setDeliveryTotal(order.calculateDelivaryTotal());
+		   order.setSubTotal(order.calculateSubTotal());
+		   order.setTotal(order.calculateTotal());
 		   model.addAttribute("ord", order);
 	       return "/admin/order/orderEdit :: orderItemTable";
 	   }	
@@ -223,6 +226,9 @@ public class AdminOrderController {
 					         final Model model ) {
 		   if (!"XMLHttpRequest".equals(requestedWith)) throw new IllegalStateException("The addNewItem method can be called only via ajax!");
 		   order.removeOrderItem(UUID.fromString(oiID));
+		   order.setDeliveryTotal(order.calculateDelivaryTotal());
+		   order.setSubTotal(order.calculateSubTotal());
+		   order.setTotal(order.calculateTotal());
 		   model.addAttribute("ord", order);
 		   return "/admin/order/orderEdit :: orderItemTable";
 	  }

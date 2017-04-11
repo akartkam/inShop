@@ -31,7 +31,7 @@
 			<!-- bootstrap select -->
 			<link href="../../../../resources/css/lib/bootstrap-select.min.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/lib/bootstrap-select.min.css}"></link>
 			<!-- admin-style.css -->
-	   		<link href="../../../../resources/css/admin/admin-style.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/admin/admin-style.css}"/>	    	
+	   		<link href="../../../../resources/css/admin/admin-style.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/admin/admin-style.css}"/>
 			<style type="text/css">			
 				body {
 				    margin:0;     /* This is used to reset any browser-default margins */
@@ -210,7 +210,8 @@
 	    <th:block th:include="/admin/order/orderEdit :: scriptEditModal">
         </th:block>	    
 	    <script th:inline="javascript" type="text/javascript">
-
+	    	var addSkuItem = /*[[@{/admin/order/add-item}]]*/;
+	    	var delSkuItem = /*[[@{/admin/order/del-item}]]*/;
 	     </script>
 	     <th:block layout:fragment="scriptEditModal">
 	     </th:block>

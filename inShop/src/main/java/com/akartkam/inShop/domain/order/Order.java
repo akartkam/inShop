@@ -78,6 +78,7 @@ public class Order extends AbstractDomainObjectOrdering {
 	private OrderStatus status = OrderStatus.NEW;
 	private BigDecimal subTotal;
     private BigDecimal total;
+    private BigDecimal deliveryTotal;    
     private Date submitDate;
     private String orderNumber;
     private String emailAddress;
@@ -106,8 +107,18 @@ public class Order extends AbstractDomainObjectOrdering {
 
     @Transient
     public BigDecimal calculateTotal() {
-    	//To-do Add discount e.t.c
-        return calculateSubTotal();
+    	BigDecimal res = calculateSubTotal();
+    	res.add(calculateDelivaryTotal());
+        return res;
+    }
+    
+    @Transient
+    public BigDecimal calculateDelivaryTotal() {
+    	BigDecimal res = BigDecimal.ZERO;
+    	for(Fulfillment fl :  getFulfillment()) {
+    		if (fl.isEnabled()) res.add(fl.getDeliveryPrice());
+    	}
+    	return res;
     }
    
     
@@ -274,5 +285,13 @@ public class Order extends AbstractDomainObjectOrdering {
     	}
     	return skus;
     }
+
+	public BigDecimal getDeliveryTotal() {
+		return deliveryTotal;
+	}
+
+	public void setDeliveryTotal(BigDecimal deliveryTotal) {
+		this.deliveryTotal = deliveryTotal;
+	}
 
 }

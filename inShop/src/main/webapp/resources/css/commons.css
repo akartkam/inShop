@@ -38,3 +38,7 @@
 .select2-result-repository__description { font-size: 11px; color: #777; margin-top: 4px; }
 .select2-results__option--highlighted .select2-result-repository__title { color: white; }
 .select2-results__option--highlighted .select2-result-repository__additional, .select2-results__option--highlighted, .select2-results__option--highlighted .select2-result-repository__description, .select2-results__option--highlighted  { color: #c6dcef; }
+
+.pickmeup, .pickmeup-twitter-bootstrap {
+    z-index: 1051;
+}

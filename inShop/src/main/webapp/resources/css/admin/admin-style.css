@@ -39,3 +39,11 @@ tfoot input {
    border-radius: 75px;
    border: 5px solid #F0F0F0;
 }
+
+.order-status-incomplete {background-color: yellow;}
+.order-status-new {background-color: blue; color: white;}
+.order-status-in_process {background-color: orange;}
+.order-status-complited {background-color: green; color: white;}
+.order-status-in_delivery {background-color: navy; color: white;}
+.order-status-cancelled {background-color: red; color: white;}
+.order-status-paid {background-color: teal; color: white;}

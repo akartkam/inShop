@@ -223,7 +223,8 @@ public class AjaxController {
 			  data[i][2] = o.getCustomer() != null? o.getCustomer().getFullName(): "";
 			  data[i][3] = o.getEmailAddress();
 			  data[i][4] = currencyNumberFormatter.print(o.getTotal(), Locale.getDefault());
-			  data[i][5] = messageSource.getMessage("order.status."+o.getStatus(), null, Locale.getDefault());
+			  data[i][5] = "{\"status\":\""+o.getStatus().toString() +"\", \"label\":\""+
+			                 messageSource.getMessage("order.status."+o.getStatus(), null, Locale.getDefault()) +"\"}";
 			  data[i][6] = "{\"id\":\""+o.getId()+"\"}";
 		  }
 		  items.setData(data);
