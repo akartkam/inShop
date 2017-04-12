@@ -163,13 +163,14 @@
 									  	       <tr th:each="oi, oiStat : *{orderItems}">
 									  	       	  <td>
 									  	       	     <input type="hidden" th:field="*{orderItems[__${oiStat.index}__].id}"/>
+									  	       	     <input type="hidden" th:field="*{orderItems[__${oiStat.index}__].image}"/>
 									  	       	     <input type="hidden" th:name="orderItems[__${oiStat.index}__].order" th:value="${ord.id}"/>
 									  	       	     <input type="hidden" th:name="orderItems[__${oiStat.index}__].sku" th:value="${ord.orderItems[__${oiStat.index}__].sku.id}"/>
 												     <div class="a-photo-out">
-		                                               <!-- <span class="photo-block">
+		                                                <span class="photo-block">
 		                                                   <span class="helper"></span>
-		                                                   <img th:src="@{${!#lists.isEmpty(oi.sku.lookupImages())? oi.sku.lookupImages()[0]: ''}}"  th:onerror="'this.src=\'' + @{/resources/img/noimage.png} + '\';'"/>
-		                                                </span>-->
+		                                                   <img th:src="@{${!#strings.isEmpty(oi.image)? oi.image: ''}}"  th:onerror="'this.src=\'' + @{/resources/img/noimage.png} + '\';'"/>
+		                                                </span>
 												        <span th:text="${oi.sku.name}">name</span>
 												        <br/> 
 												        <span style="font-size: 9pt;" th:text="${oi.sku.code}">code</span>&nbsp;

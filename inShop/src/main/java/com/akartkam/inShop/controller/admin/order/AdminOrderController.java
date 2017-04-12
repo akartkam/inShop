@@ -156,6 +156,9 @@ public class AdminOrderController {
 			   				  @RequestHeader(value = "X-Requested-With", required = false) String requestedWith) {
 		  if(!model.containsAttribute("ord")) {
 			 Order order = orderService.getOrderById(UUID.fromString(orderID));
+			 for (OrderItem oi: order.getOrderItems()) {
+				 oi.setImage(oi.getSku().lookupImages().size() > 0? oi.getSku().lookupImages().get(0): null);
+			 }
 		     model.addAttribute("ord", order);
 		  }
           if ("XMLHttpRequest".equals(requestedWith)) {
@@ -206,6 +209,7 @@ public class AdminOrderController {
 		   if (foi == null) {
 			   OrderItem oi=new OrderItem();
 			   oi.setSku(sku);
+			   oi.setImage(sku.lookupImages().size() > 0? sku.lookupImages().get(0): null);
 			   oi.setPrice(sku.getPriceForPackage());
 			   oi.setQuantity(1);
 			   order.addOrderItem(oi);

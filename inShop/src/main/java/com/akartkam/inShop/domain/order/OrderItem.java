@@ -66,6 +66,8 @@ public class OrderItem extends AbstractDomainObjectOrdering {
     private Sku sku;
     private Product product; 
     private Integer quantityPerPackage; 
+    //for form
+    private String image;
 
     @Column(name = "retail_price", precision=19, scale=5)
     @CurrencyFormat
@@ -221,6 +223,15 @@ public class OrderItem extends AbstractDomainObjectOrdering {
 
 	public void setQuantityPerPackage(Integer quantityPerPackage) {
 		this.quantityPerPackage = quantityPerPackage;
+	}
+
+	@Transient
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
 	}
 	
 	
