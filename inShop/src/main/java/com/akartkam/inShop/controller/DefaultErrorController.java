@@ -3,6 +3,7 @@ package com.akartkam.inShop.controller;
 import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -20,12 +21,12 @@ public class DefaultErrorController{
 	private String path = "/errors";
 
  @ExceptionHandler(Exception.class)
- @RequestMapping(value="/error-default")
- public ModelAndView error(HttpServletRequest req, Exception e){
-	 if (e != null ) LOG.error("",e);
-	 ModelAndView model = new ModelAndView();
-	 if (!model.getModel().containsKey("e")) {
-		 model.addObject("exception", e);		 
+ public ModelAndView errorHandler(HttpServletRequest req, Exception ex){
+	 LOG.error("Request: " + req.getRequestURL() , ex);
+	 
+	 ModelAndView model = new ModelAndView();	 
+	 if (!model.getModel().containsKey("exception")) {
+		 model.addObject("exception", ex);		 
 	 }
 	 model.addObject("url", req.getRequestURL());
 	 model.addObject("timestamp", new Date().toString());
@@ -33,6 +34,12 @@ public class DefaultErrorController{
 	 return model;
  }
 
-  
+ @RequestMapping(value="/error-default")
+ public ModelAndView errorDefault(HttpServletRequest req, HttpServletResponse res){
+	 ModelAndView model = new ModelAndView();	 
+	 model.setViewName(path+"/error-default");
+	 return model;
+ }
+ 
   
 }

@@ -83,6 +83,7 @@ public class CartController {
     public String addJson(HttpServletRequest request, HttpServletResponse response, final Model model,
     		                                         @ModelAttribute("cartItemForm") CartItemForm cartItemForm,
     		                                         final BindingResult bindingResult ) throws IOException {
+    	LOG.info("Adding to cart, skuId="+cartItemForm.getSkuId());
     	Map<String, Object> responseMap = new HashMap<String, Object>();
         Map<String, String> errorsMap = new HashMap<String, String>();
         String responseString = getCartView();
@@ -127,7 +128,7 @@ public class CartController {
         	model.addAttribute("ajaxExtraData", new ObjectMapper().writeValueAsString(responseMap));
         	responseString+=" :: ajax";
         }
-
+        if (errorsMap.size() == 0)  LOG.info("Add to cart complite");
         return responseString;
     }
     
@@ -135,6 +136,7 @@ public class CartController {
     public String remove(HttpServletRequest request, HttpServletResponse response, 
     		@ModelAttribute("cartItemForm") CartItemForm cartItemForm, Model model,
     		final BindingResult bindingResult) throws IOException  {
+    	LOG.info("Removing from cart, skuId="+cartItemForm.getSkuId());
     	String responseString = getCartView();
         Map<String, Object> responseMap = new HashMap<String, Object>();
     	Map<String, String> errorsMap = new HashMap<String, String>();
@@ -154,6 +156,7 @@ public class CartController {
             model.addAttribute("ajaxExtraData", new ObjectMapper().writeValueAsString(responseMap));
         	responseString+=" :: ajax";
         } 
+        if (errorsMap.size() == 0)  LOG.info("Remove from cart complite");
         return responseString;
     }
     
@@ -161,6 +164,7 @@ public class CartController {
     public String updateQuantity(HttpServletRequest request, HttpServletResponse response, Model model,
     							 @ModelAttribute("cartItemForm") CartItemForm cartItemForm,
     		                     final BindingResult bindingResult) throws IOException {
+    	LOG.info("Updating cart, skuId="+cartItemForm.getSkuId());
     	String responseString = getCartView();
     	Map<String, Object> responseMap = new HashMap<String, Object>();
         Map<String, String> errorsMap = new HashMap<String, String>();
@@ -200,6 +204,7 @@ public class CartController {
             model.addAttribute("ajaxExtraData", new ObjectMapper().writeValueAsString(responseMap));
             return responseString+=" :: ajax";
         }
+        if (errorsMap.size() == 0)  LOG.info("Updating cart complite");
         return responseString;
     }    
 	

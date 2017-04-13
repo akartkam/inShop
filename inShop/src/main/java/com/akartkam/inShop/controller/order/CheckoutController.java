@@ -157,6 +157,7 @@ public class CheckoutController {
 							  @Valid @ModelAttribute("checkoutForm") CheckoutForm checkoutForm, 
 			  				  final BindingResult bindingResult,
 			  				  final RedirectAttributes ra) {
+		LOG.info("Requesting for placing order, email="+checkoutForm.getEmail());
 		checkoutFormValidator.validate(checkoutForm, bindingResult);
 		if (bindingResult.hasErrors()) {
         	ra.addFlashAttribute("checkoutForm", checkoutForm);
@@ -179,13 +180,14 @@ public class CheckoutController {
 		EmailInfo ei = new EmailInfo();
 		ei.setEmailTemplate("order-confirmation");
 		ei.setFromAddress(mailFrom);
-		ei.setSubject("«‡Í‡Á π"+order.getOrderNumber());
+		ei.setSubject("–ó–∞–∫–∞–∑ ‚Ññ"+order.getOrderNumber());
 		Map<String, Object> vars = new HashMap<String, Object>();
 		vars.put("order", order);
 		emailService.sendSimpleMail(request, response, order.getEmailAddress() , ei, vars);
 		model.addAttribute("order", order);
 		List<Category> rootCategorys = categoryService.getRootCategories(false);
 		model.addAttribute("rootCategorys", rootCategorys);
+		LOG.info("Request for placing order complite");
 		return "/order/order-success";
 	}
 	
@@ -194,6 +196,7 @@ public class CheckoutController {
     						@ModelAttribute("cartItemForm") CartItemForm cartItemForm,				
     						final Model model,
     		                final BindingResult bindingResult ) throws IOException {
+		LOG.info("Requesting for placing buy1click, skuId="+cartItemForm.getSkuId());
     	Map<String, Object> responseMap = new HashMap<String, Object>();
     	Map<String, String> errorsMap = new HashMap<String, String>();
     	responseMap.put("type", "buy1click");
@@ -233,7 +236,7 @@ public class CheckoutController {
     		model.addAttribute("responseMap", responseMap);
     		model.addAttribute("ajaxExtraData", new ObjectMapper().writeValueAsString(responseMap));
     	}
-    	
+    	if (errorsMap.size() == 0) LOG.info("Request for placing buy1click complite");
     	return "/order/partials/buy1click";
 	}
 	

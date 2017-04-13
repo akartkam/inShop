@@ -97,6 +97,7 @@
                     	  position       : "right",
                     	  hide_on_select : true
                     	});
+                    $(".selectpicker").selectpicker();
                     makeSkuSelect2 ($("#slSearchSku"), ajaxProductSearch);
           });
     	});	    			

@@ -82,7 +82,7 @@
 							  <select class="form-control selectpicker" id="selCustomer" th:field="*{customer}" data-live-search="true">
 							        <option value="">&nbsp;</option>
 								    <option th:each="oc: ${allCustomers}" 
-								            th:text="${oc.fullName+'('+oc.email+')'}"
+								            th:text="${oc.fullName+' ('+oc.email+')'}"
 								            th:if="${oc.enabled}"
 								            th:selected="${ord.customer.equals(oc)}"
 								            th:value="${oc.id}">

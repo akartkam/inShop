@@ -116,7 +116,7 @@ public class Order extends AbstractDomainObjectOrdering {
     public BigDecimal calculateDelivaryTotal() {
     	BigDecimal res = BigDecimal.ZERO;
     	for(Fulfillment fl :  getFulfillment()) {
-    		if (fl.isEnabled()) res.add(fl.getDeliveryPrice());
+    		if (fl.isEnabled() && fl.getDeliveryPrice() != null) res.add(fl.getDeliveryPrice());
     	}
     	return res;
     }

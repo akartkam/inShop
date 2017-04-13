@@ -10,12 +10,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.akartkam.inShop.controller.DefaultErrorController;
 import com.akartkam.inShop.dao.order.OrderDAO;
 import com.akartkam.inShop.dao.order.OrderItemDAO;
 import com.akartkam.inShop.domain.customer.Customer;
@@ -38,6 +41,7 @@ import com.akartkam.inShop.util.OrderNumberGenerator;
 @Service("OrderService")
 @Transactional(readOnly = true)
 public class OrderServiceImpl implements OrderService{
+	private static final Log LOG = LogFactory.getLog(OrderServiceImpl.class);
 	
 	@Autowired
 	private ApplicationContext appContext;
@@ -84,6 +88,7 @@ public class OrderServiceImpl implements OrderService{
 	@Transactional(readOnly = false)
 	public void mergeWithExistingAndUpdateOrCreate(Order order) throws InventoryUnavailableException {
 		//This maps for adjusting the skus quantity
+		LOG.info("Saving order...");
 		Map<Sku, Integer> incrMapQuant = new HashMap<Sku, Integer>();
 		Map<Sku, Integer> decrMapQuant = new HashMap<Sku, Integer>();
 		if (order == null) return ;
@@ -122,6 +127,7 @@ public class OrderServiceImpl implements OrderService{
 				existingOrder.addOrderItem(oi1); 
 				decrMapQuant.put(oi1.getSku(), oi1.getQuantity());
 			}
+			if (existingOrder.calculateDelivaryTotal() != existingOrder.getDeliveryTotal()) existingOrder.setDeliveryTotal(existingOrder.calculateDelivaryTotal()); 
 			if (existingOrder.calculateSubTotal() != existingOrder.getSubTotal()) existingOrder.setSubTotal(existingOrder.calculateSubTotal());
 			if (existingOrder.calculateTotal() != existingOrder.getTotal()) existingOrder.setTotal(existingOrder.calculateTotal());
 			if (incrMapQuant.size() > 0) inventoryService.incrementInventory(incrMapQuant);
@@ -136,12 +142,13 @@ public class OrderServiceImpl implements OrderService{
 				oi.setOrder(order);
 				decrMapQuant.put(oi.getSku(), oi.getQuantity());
 			}
+			if (order.calculateDelivaryTotal() != order.getDeliveryTotal()) order.setDeliveryTotal(order.calculateDelivaryTotal());
 			if (order.calculateSubTotal() != order.getSubTotal()) order.setSubTotal(order.calculateSubTotal());
 			if (order.calculateTotal() != order.getTotal()) order.setTotal(order.calculateTotal());
 			createOrder(order);
 			if (decrMapQuant.size() > 0) inventoryService.decrementInventory(decrMapQuant);
 		}
-		
+		LOG.info("Save order complite (id="+order.getId().toString()+")");
 	}
 	
 	@Override
@@ -157,6 +164,7 @@ public class OrderServiceImpl implements OrderService{
 	@Override
 	@Transactional(readOnly = false)
 	public Order placeOrder(CheckoutForm checkoutForm, CartForm cartForm) {
+		LOG.info("Placing order...");
 		try {
 			if (checkoutForm == null)
 				 throw new IllegalArgumentException("checkoutForm is null");
@@ -206,19 +214,22 @@ public class OrderServiceImpl implements OrderService{
 			order.setSubmitDate(new Date());
 			order.addFulfillment(fulfil);
 			order.setCustomer(customer);
+			order.setDeliveryTotal(order.calculateDelivaryTotal());
 			order.setSubTotal(order.calculateSubTotal());
 			order.setTotal(order.calculateTotal());
-			return createOrder(order);		
+			order = createOrder(order);
+			LOG.info("Place order complite (id="+order.getId().toString()+")");
+			return order;
 		} catch (Exception e) {
 			throw new PlaceOrderException("Could not place order", e);
 		}
-
 		
 	}
 
 	@Override
 	@Transactional(readOnly = false)
 	public Order placeBuy1click(Buy1clickForm buy1clickForm) {
+		LOG.info("Placing buy1click...");
 		try {
 			if (buy1clickForm == null)
 				 throw new IllegalArgumentException("buy1clickForm is null");
@@ -241,9 +252,12 @@ public class OrderServiceImpl implements OrderService{
 			order.setStatus(OrderStatus.INCOMPLETE);
 			order.setSubmitDate(new Date());
 			order.addFulfillment(fulfil);
+			order.setDeliveryTotal(order.calculateDelivaryTotal());
 			order.setSubTotal(order.calculateSubTotal());
 			order.setTotal(order.calculateTotal());
-			return createOrder(order);
+			order = createOrder(order);
+			LOG.info("Place order complite (id="+order.getId().toString()+")");
+			return order;
 		} catch (Exception e) {
 			throw new PlaceOrderException("Could not place order", e);
 		}

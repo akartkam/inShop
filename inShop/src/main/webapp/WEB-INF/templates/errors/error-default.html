@@ -11,12 +11,14 @@
 	<p style="color: #999; font-size: 36pt;" align="center" th:utext="${errCode != null? errcode: '404'}">404</p>
     <p style="color: #999; font-size: 24pt;" align="center" th:utext="${errMessage != null? errMessage: 'Такой страницы не найдено!'}">Такой страницы не найдено!</p>
 	<div th:utext="'&lt;!--'" th:remove="tag"></div>
-	<div th:utext="'Failed URL: ' +  ${url}" th:remove="tag">${url}</div>
-	<div th:utext="'Exception: ' + ${exception.message}" th:remove="tag">${exception.message}</div>
-	<ul th:remove="tag">
-		<li th:each="ste : ${exception.stackTrace}" th:remove="tag"><span
-			th:utext="${ste}" th:remove="tag">${ste}</span></li>
-	</ul>
-	<div th:utext="'--&gt;'" th:remove="tag"></div>
+	<div th:if="${url != null}" th:utext="'Failed URL: ' +  ${url}" th:remove="tag">${url}</div>
+	<th:block th:if="${exception != null}">
+		<div th:utext="'Exception: ' + ${exception.message}" th:remove="tag">${exception.message}</div>
+		<ul th:remove="tag">
+			<li th:each="ste : ${exception.stackTrace}" th:remove="tag"><span
+				th:utext="${ste}" th:remove="tag">${ste}</span></li>
+		</ul>
+		<div th:utext="'--&gt;'" th:remove="tag"></div>
+	</th:block>
 </body>
 </html>
