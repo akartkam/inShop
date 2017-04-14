@@ -39,7 +39,7 @@
 	</head>
 <body>
   <div class="modal fade" id="editModal" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true" layout:fragment="editForm">
-    <div class="modal-dialog" style="width:75vw; overflow:auto">
+    <div class="modal-dialog" style="width:85vw; overflow:auto">
 	  <div class="modal-content" id="editModalContent" >
 	   <form method="post" class="form-horizontal" id="oeform" role="form" action="#" th:action="@{/admin/order/edit}" th:object="${ord}" th:fragment="editOrderForm">
 		   <div class="modal-header">
@@ -47,7 +47,7 @@
 				<h4 class="modal-title"  th:text="${!ord.new}? #{admin.order.edit.title.edit}: #{admin.order.edit.title.add}">Edit Order</h4>
 	 	   </div>
 		 <!-- /modal-header -->
-		   <div class="modal-body" style ="height:65vh; overflow:auto" id="editModalBody">
+		   <div class="modal-body" style ="height:75vh; overflow:auto" id="editModalBody">
 		          <div  th:if="${#fields.hasErrors('*')}" class="alert alert-danger alert-dismissable">
 		          	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                     <span th:text="#{admin.edit.existsErrors}">There is some errors in the form</span>
@@ -128,6 +128,18 @@
 						        </div>
 						      </div>
 					        </div> 
+					       	<div class="row clearfix">
+							   <div class="col-md-12 column" >
+							   	  <div class="panel-group" id="accordion-ff">
+							   	  	 <div class="panel panel-default" th:each="ff, ffStat: ${ord.fulfillment}">
+							   	  	   <div class="panel-heading">
+							   	  	      <h4 class="panel-title">
+							   	  	      </h4>
+							   	  	   </div>
+							   	  	 </div>
+							   	  </div>
+ 							   </div>
+						    </div>
 	             		</div>
 	                    <div class="tab-pane " th:classappend="${tabactive=='content'}? 'in active'" id="content">							
 					        <div class="container-fluid">
