@@ -293,5 +293,13 @@ public class Order extends AbstractDomainObjectOrdering {
 	public void setDeliveryTotal(BigDecimal deliveryTotal) {
 		this.deliveryTotal = deliveryTotal;
 	}
+	
+	@Transient
+	public Fulfillment getActualFulfillment() {
+		Fulfillment ret = null;
+		if (fulfillment.size()>0) ret = fulfillment.get(fulfillment.size()-1);
+		return ret;
+	}
+	
 
 }

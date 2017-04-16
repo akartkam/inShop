@@ -128,18 +128,6 @@
 						        </div>
 						      </div>
 					        </div> 
-					       	<div class="row clearfix">
-							   <div class="col-md-12 column" >
-							   	  <div class="panel-group" id="accordion-ff">
-							   	  	 <div class="panel panel-default" th:each="ff, ffStat: ${ord.fulfillment}">
-							   	  	   <div class="panel-heading">
-							   	  	      <h4 class="panel-title">
-							   	  	      </h4>
-							   	  	   </div>
-							   	  	 </div>
-							   	  </div>
- 							   </div>
-						    </div>
 	             		</div>
 	                    <div class="tab-pane " th:classappend="${tabactive=='content'}? 'in active'" id="content">							
 					        <div class="container-fluid">
@@ -239,6 +227,95 @@
 				                       	 </table>
 									  </div>
 								 </div>
+							     <div class="row" >
+							       <div class="col-md-4">
+									 <div class="field-box">
+			                           <label>
+								  	  	<span th:text="#{order.delivery}">Delivery</span>
+								       </label>
+									   <select class="form-control" id="sl-delivery-method" th:field="*{actualFormFulfillment.delivery}">
+										  <option value="">&nbsp;</option>
+										  <option th:each="sdelivery : ${allDeliverys}" 
+										          th:value="${sdelivery.id}"
+											      th:utext="${sdelivery.name}">Delivery 1</option>
+									   </select>
+								     </div>	
+								   </div>
+							       <div class="col-md-4">
+									 <div class="field-box">
+			                           <label>
+								  	  	<span th:text="#{order.store}">Store</span>
+								       </label>
+									   <select class="form-control" id="sl-store" th:field="*{actualFormFulfillment.store}">
+										  <option value="">&nbsp;</option>
+										  <option th:each="store : ${allStores}" 
+										          th:value="${store.id}"
+											      th:utext="${store.name}">Store1</option>
+									   </select>
+								     </div>	
+								   </div>						     								   						     
+							     </div>
+							     <div class="row" >
+							       <div class="col-md-3">
+									 <div class="field-box">
+			                           <label>
+								  	  	<span th:text="#{admin.order.buy1click.name}">Buy1click Name</span>
+								       </label>
+									   <input type="text" class="form-control" th:field="*{actualFormFulfillment.buy1clickName}"/>
+								     </div>								       
+							       </div>
+							       <div class="col-md-3">
+									 <div class="field-box">
+			                           <label>
+								  	  	<span th:text="#{person.lastName}">LastName</span>
+								       </label>
+									   <input type="text" class="form-control" th:field="*{actualFormFulfillment.lastName}"/>
+								     </div>								       
+							       </div>
+							       <div class="col-md-3">
+									 <div class="field-box">
+			                           <label>
+								  	  	<span th:text="#{person.firstName}">First Name</span>
+								       </label>
+									   <input type="text" class="form-control" th:field="*{actualFormFulfillment.firstName}"/>
+								     </div>								       
+							       </div>
+							       <div class="col-md-3">
+									 <div class="field-box">
+			                           <label>
+								  	  	<span th:text="#{person.middleName}">Middle Name</span>
+								       </label>
+									   <input type="text" class="form-control" th:field="*{actualFormFulfillment.middleName}"/>
+								     </div>								       
+							       </div>
+							     </div>
+							     <div class="row">
+							       <div class="col-md-2">
+									 <div class="field-box">
+			                           <label>
+								  	  	<span th:text="#{admin.order.delivery.price}">Price delivery</span>
+								       </label>
+									   <input type="text" class="form-control" th:field="*{actualFormFulfillment.deliveryPrice}"/>
+								     </div>								       
+							       </div>							     
+							       <div class="col-md-5">
+									 <div class="field-box">
+			                           <label>
+								  	  	<span th:text="#{address}">Address</span>
+								       </label>
+									   <textarea type="text" class="form-control" th:field="*{actualFormFulfillment.address}"/>
+								     </div>								       
+							       </div>							     
+							       <div class="col-md-5">
+									 <div class="field-box">
+			                           <label>
+								  	  	<span th:text="#{admin.order.customerComment}">Сustomer Comment</span>
+								       </label>
+									   <textarea type="text" class="form-control" th:field="*{actualFormFulfillment.customerMessage}"/>
+								     </div>								       
+							       </div>							     
+
+							     </div>
 		                     </div>       						  	   	
                        	  </div>  
  	                    </div> 

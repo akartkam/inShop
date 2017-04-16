@@ -33,6 +33,8 @@ import org.springframework.format.number.AbstractNumberFormatter;
 import org.springframework.http.HttpStatus;
 
 import com.akartkam.inShop.domain.customer.Customer;
+import com.akartkam.inShop.domain.order.Delivery;
+import com.akartkam.inShop.domain.order.Fulfillment;
 import com.akartkam.inShop.domain.order.Order;
 import com.akartkam.inShop.domain.order.OrderItem;
 import com.akartkam.inShop.domain.order.OrderStatus;
@@ -41,8 +43,10 @@ import com.akartkam.inShop.domain.product.Sku;
 import com.akartkam.inShop.exception.InventoryUnavailableException;
 import com.akartkam.inShop.exception.SkuNotFoundException;
 import com.akartkam.inShop.formbean.ItemsForJSON;
+import com.akartkam.inShop.formbean.OrderForm;
 import com.akartkam.inShop.formbean.SkuForJSON;
 import com.akartkam.inShop.service.customer.CustomerService;
+import com.akartkam.inShop.service.order.DeliveryService;
 import com.akartkam.inShop.service.order.OrderService;
 import com.akartkam.inShop.service.product.ProductService;
 import com.akartkam.inShop.validator.OrderValidator;
@@ -66,14 +70,20 @@ public class AdminOrderController {
 	  private OrderValidator orderValidator;
 	  
 	  @Autowired
+	  private DeliveryService deliveryService;	  
+	  
+	  @Autowired
 	  private AbstractNumberFormatter currencyNumberFormatter;
 		
-	  /*
-	  @ModelAttribute("allOrders")
-	  public List<Order> getAllOrders() {
-		  return orderService.getAllOrders();
+	  @ModelAttribute("allDeliverys")
+	  public List<Delivery> getAllDeliverys() {
+		      return deliveryService.getAllDeliverys();
 	  }
-	  */
+	  
+	  @ModelAttribute("allStores")
+	  public List<Store> getAllStores() {
+		      return deliveryService.getAllStores();
+	  }
 	  
 	  @ModelAttribute("ordersByStatus")
 	  public List<Object[]> getOrdersByStatus(){
@@ -105,7 +115,8 @@ public class AdminOrderController {
 	  @InitBinder()
 	  public void initBinder(WebDataBinder binder) {
 		    binder.setAllowedFields(new String[] {"id", "customer", "status", "submitDate", "orderNumber", "emailAddress", 
-		    		                              "orderItems*", "createdDate" });
+		    		                              "orderItems*", "createdDate", "actualFormFulfillment", "fulfillment", "actualFormFulfillment.delivery",
+		    		                              "actualFormFulfillment.store"});
 		    binder.registerCustomEditor(UUID.class, "id", new PropertyEditorSupport() {
 			    @Override
 			    public void setAsText(String text) {
@@ -143,6 +154,25 @@ public class AdminOrderController {
 			    	}			    
 			    }
 			    });
+			binder.registerCustomEditor(Delivery.class, "actualFormFulfillment.delivery", new PropertyEditorSupport() {
+			    @Override
+			    public void setAsText(String text) {
+			    	if (text != null && !"".equals(text)) {
+			    		Delivery cs = deliveryService.loadDeliveryById(UUID.fromString(text), false);
+			            setValue(cs);
+			    	}			    
+			    }
+			    });
+			binder.registerCustomEditor(Store.class, "actualFormFulfillment.store", new PropertyEditorSupport() {
+			    @Override
+			    public void setAsText(String text) {
+			    	if (text != null && !"".equals(text)) {
+			    		Store cs = deliveryService.loadStoreById(UUID.fromString(text), false);
+			            setValue(cs);
+			    	}			    
+			    }
+			    });
+			
 	  }
 	  
 	  @RequestMapping(method=GET)
@@ -159,7 +189,8 @@ public class AdminOrderController {
 			 for (OrderItem oi: order.getOrderItems()) {
 				 oi.setImage(oi.getSku().lookupImages().size() > 0? oi.getSku().lookupImages().get(0): null);
 			 }
-		     model.addAttribute("ord", order);
+		     model.addAttribute("ord", new OrderForm(order));
+
 		  }
           if ("XMLHttpRequest".equals(requestedWith)) {
               return "/admin/order/orderEdit :: editOrderForm";
@@ -169,8 +200,7 @@ public class AdminOrderController {
 	  
 	  @RequestMapping("/add")
 	  public String orderAdd(Model model, @RequestHeader(value = "X-Requested-With", required = false) String requestedWith) {
-		  Order order = new Order();
- 	      model.addAttribute("ord", order);
+ 	      model.addAttribute("ord", new OrderForm());
           if ("XMLHttpRequest".equals(requestedWith)) {
               return "/admin/order/orderEdit :: editOrderForm";
             } 	      
@@ -179,13 +209,13 @@ public class AdminOrderController {
 
 	   @RequestMapping(value="/edit", method = RequestMethod.POST )
 	   public String saveOrder(
-			                   @Valid Order order,
+			                   @Valid OrderForm order,
 				   			   final BindingResult bindingResult,
 			                   final RedirectAttributes ra
 			                         ) throws InventoryUnavailableException {
 		   orderValidator.validate(order, bindingResult);
 		   if (bindingResult.hasErrors()) {
-	        	ra.addFlashAttribute("ord", order);
+	        	ra.addFlashAttribute("ord", new OrderForm(order));
 	        	ra.addFlashAttribute("org.springframework.validation.BindingResult.ord", bindingResult);
 	            return "redirect:/admin/order/edit";
 	        }
@@ -198,7 +228,7 @@ public class AdminOrderController {
 	  public String addNewItem(
 			   				   final @RequestParam(value = "skuId", required = true) String skuID,
 			   				   final @RequestHeader(value = "X-Requested-With", required = true) String requestedWith,
-			   				   final @ModelAttribute("order") Order order,
+			   				   final @ModelAttribute("order") OrderForm order,
 			                   final BindingResult bindingResult,
 			                   final Model model
 			                         ) throws CloneNotSupportedException {
@@ -225,7 +255,7 @@ public class AdminOrderController {
 	   
 	  @RequestMapping(value="/update", method = RequestMethod.POST )
 	  public String updateOrder(final @RequestHeader(value = "X-Requested-With", required = true) String requestedWith,
-			   				    final @ModelAttribute("order") Order order,
+			   				    final @ModelAttribute("order") OrderForm order,
 			                    final BindingResult bindingResult,
 			                    final Model model
 			                         ) {
@@ -242,7 +272,7 @@ public class AdminOrderController {
 	  public String delItem ( 
 							 final @RequestParam(value = "ID", required = true) String oiID,
 							 final @RequestHeader(value = "X-Requested-With", required = true) String requestedWith,
-							 final @ModelAttribute("order") Order order,
+							 final @ModelAttribute("order") OrderForm order,
 					         final BindingResult bindingResult,
 					         final Model model ) {
 		   if (!"XMLHttpRequest".equals(requestedWith)) throw new IllegalStateException("The addNewItem method can be called only via ajax!");

@@ -37,6 +37,7 @@ import com.akartkam.inShop.service.order.DeliveryService;
 import com.akartkam.inShop.service.order.InventoryService;
 import com.akartkam.inShop.service.order.OrderService;
 import com.akartkam.inShop.service.product.ProductService;
+import com.fasterxml.jackson.core.io.JsonStringEncoder;
 
 
 @Controller
@@ -179,9 +180,13 @@ public class AjaxController {
 		  items.setRecordsTotal(productService.countTotalProducts());
 		  items.setRecordsFiltered(countRecFiltered);
 		  String[][] data = new String [retProducts.size()][9];
+		  JsonStringEncoder e = JsonStringEncoder.getInstance();
 		  for (int i=0; i <= retProducts.size()-1; i++){
 			  Product p = retProducts.get(i);
-			  data[i][0] = "{\"name\":\""+p.getDefaultSku().getName()+"\", \"codes\":\""+p.getSkuCodes().toString()+"\",\"image\":\""+
+			  StringBuilder sb = new StringBuilder();
+			  e.quoteAsString(p.getDefaultSku().getName(), sb);
+			  data[i][0] = "{\"name\":\""+sb.toString()+
+					         "\", \"codes\":\""+p.getSkuCodes().toString()+"\",\"image\":\""+
 					       (p.getAllImages().size()!=0 ? p.getAllImages().get(0):"") +"\"}";
 			  data[i][1] = p.getCategory().buildFullName();
 			  data[i][2] = p.getUrl();
@@ -190,7 +195,7 @@ public class AjaxController {
 			  data[i][5] = currencyNumberFormatter.print(p.getDefaultSku().getPrice(), Locale.getDefault());
 			  data[i][6] = p.getOrdering().toString();
 			  data[i][7] = p.isEnabled()? "y": "";
-			  data[i][8] = "{\"name\":\""+p.getDefaultSku().getName()+"\", \"id\":\""+p.getId()+"\"}";
+			  data[i][8] = "{\"name\":\""+sb.toString()+"\", \"id\":\""+p.getId()+"\"}";
 		  }
 		  items.setData(data);
 		  return items;

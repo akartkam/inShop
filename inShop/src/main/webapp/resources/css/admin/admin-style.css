@@ -47,3 +47,7 @@ tfoot input {
 .order-status-in_delivery {background-color: navy; color: white;}
 .order-status-cancelled {background-color: red; color: white;}
 .order-status-paid {background-color: teal; color: white;}
+
+.page-header{
+	margin: 20px 0 20px;
+}
