@@ -108,16 +108,15 @@ public class Order extends AbstractDomainObjectOrdering {
     @Transient
     public BigDecimal calculateTotal() {
     	BigDecimal res = calculateSubTotal();
-    	res.add(calculateDelivaryTotal());
+    	res = res.add(calculateDelivaryTotal());
         return res;
     }
     
     @Transient
     public BigDecimal calculateDelivaryTotal() {
     	BigDecimal res = BigDecimal.ZERO;
-    	for(Fulfillment fl :  getFulfillment()) {
-    		if (fl.isEnabled() && fl.getDeliveryPrice() != null) res.add(fl.getDeliveryPrice());
-    	}
+    	Fulfillment fl = getActualFulfillment();
+    	if (fl != null && fl.getDeliveryPrice() != null) res = res.add(fl.getDeliveryPrice());
     	return res;
     }
    

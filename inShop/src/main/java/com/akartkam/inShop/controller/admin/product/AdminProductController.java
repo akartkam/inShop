@@ -376,12 +376,14 @@ public class AdminProductController {
 		   if (!"XMLHttpRequest".equals(requestedWith)) throw new IllegalStateException("The addNewImage method can be called only via ajax!");
 	       String fileName="";
 	       String filePath="";
-	       imageUtil.validateImage(image, "images", bindingResult);
+	       imageUtil.validateImage(image, "defaultSku.images", bindingResult);
 	       if(!bindingResult.hasErrors()) {
 		        fileName = new File(image.getOriginalFilename()).getName(); 
 		        filePath = imagePath + fileName;
 	        	imageUtil.saveImage(filePath, image);	
 	        	product.getDefaultSku().getImages().add(imageUrl+fileName);
+	       } else {
+	    	   model.addAttribute("imagesAddError", new Boolean(true));
 	       }
 		   model.addAttribute("product", product);
 		   model.addAttribute("tabactive","images");

@@ -120,7 +120,7 @@ public abstract class AbstractAttribute extends AbstractDomainObjectOrdering {
 	
 	@AdminPresentation(tab=EditTab.ADDITIONAL)
 	@NotNull
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(nullable = false)
 	public AttributeCategory getAttributeCategory() {
 		return attributeCategory;

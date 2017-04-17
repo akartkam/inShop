@@ -295,7 +295,7 @@
 			                           <label>
 								  	  	<span th:text="#{admin.order.delivery.price}">Price delivery</span>
 								       </label>
-									   <input type="text" class="form-control" th:field="*{actualFormFulfillment.deliveryPrice}"/>
+									   <input type="text" class="form-control total-changer" th:field="*{actualFormFulfillment.deliveryPrice}"/>
 								     </div>								       
 							       </div>							     
 							       <div class="col-md-5">
@@ -303,7 +303,7 @@
 			                           <label>
 								  	  	<span th:text="#{address}">Address</span>
 								       </label>
-									   <textarea type="text" class="form-control" th:field="*{actualFormFulfillment.address}"/>
+									   <textarea  class="form-control" th:field="*{actualFormFulfillment.address}"></textarea>
 								     </div>								       
 							       </div>							     
 							       <div class="col-md-5">
@@ -311,7 +311,7 @@
 			                           <label>
 								  	  	<span th:text="#{admin.order.customerComment}">Сustomer Comment</span>
 								       </label>
-									   <textarea type="text" class="form-control" th:field="*{actualFormFulfillment.customerMessage}"/>
+									   <textarea  class="form-control" th:field="*{actualFormFulfillment.customerMessage}"></textarea>
 								     </div>								       
 							       </div>							     
 

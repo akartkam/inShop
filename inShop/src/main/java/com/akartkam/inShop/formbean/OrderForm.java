@@ -1,5 +1,6 @@
 package com.akartkam.inShop.formbean;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 import com.akartkam.inShop.domain.order.Fulfillment;
@@ -34,6 +35,16 @@ public class OrderForm extends Order {
 			this.setSubTotal(order.getSubTotal());
 			this.setTotal(order.getTotal());
 		}
+	}
+	
+	@Override
+	public BigDecimal calculateDelivaryTotal() {
+    	BigDecimal res = BigDecimal.ZERO;
+    	if (actualFormFulfillment.isEnabled() && actualFormFulfillment.getDeliveryPrice() != null){
+    	 	BigDecimal cur = actualFormFulfillment.getDeliveryPrice();
+  		    res = res.add(cur);
+    	}
+    	return res;		
 	}
 	
 	

@@ -46,7 +46,7 @@ public class AttributeCategory extends AbstractDomainObjectOrdering {
 		this.name = name;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "attributeCategory", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "attributeCategory", cascade = CascadeType.ALL)
 	@Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE, org.hibernate.annotations.CascadeType.DELETE})
 	@OrderBy("ordering")
 	@BatchSize(size = 20)

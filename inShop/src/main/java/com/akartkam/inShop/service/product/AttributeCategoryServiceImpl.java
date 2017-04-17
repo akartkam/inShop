@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import org.apache.commons.collections4.CollectionUtils;
@@ -17,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Errors;
 
 import com.akartkam.inShop.controller.admin.product.AdminProductController;
+import com.akartkam.inShop.dao.product.CategoryDAO;
 import com.akartkam.inShop.dao.product.attribute.AttributeCategoryDAO;
 import com.akartkam.inShop.dao.product.attribute.AttributeDAO;
 import com.akartkam.inShop.dao.product.attribute.AttributeValueDAO;
@@ -44,6 +46,9 @@ public class AttributeCategoryServiceImpl implements AttributeCategoryService {
 	
 	@Autowired
 	private AttributeValueDAO attributeValueDAO;
+	
+	@Autowired
+	private CategoryDAO categoryDAO;
 	
 
 	@Override
@@ -272,7 +277,14 @@ public class AttributeCategoryServiceImpl implements AttributeCategoryService {
 	@Transactional(readOnly = false)
 	public void deleteAttribute(AbstractAttribute attribute) {
 		attribute.getAttributeCategory().removeAttribute(attribute);
-		attributeCategoryDAO.update(attribute.getAttributeCategory());
+		Set<Category> cts = attribute.getCategory();
+		for (Category ct : cts) {
+			if (ct != null) {
+				categoryDAO.reattach(ct);
+				ct.getAttributes().remove(attribute);
+			}
+			
+		}
 		attributeDAO.delete(attribute);
 	}
 
@@ -304,7 +316,7 @@ public class AttributeCategoryServiceImpl implements AttributeCategoryService {
 	@Override
 	public boolean isExistsAttributeValue(AbstractAttribute at, Category category) {
 		if (category == null) return false;
-		LOG.info("Check for existance attribute values of category <"+category.getName()+">");
+		LOG.info("Check for existance attribute values of category <"+category.getId().toString()+">");
 		return attributeValueDAO.isExistsAttributeValues(at, category);
 	}
 	

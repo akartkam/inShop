@@ -150,6 +150,11 @@ $(function(){
     			    	    $("#editModalBody" ).scrollTop( s.top );
     			    	    //for clean the file input
     			    	    $("#inputSImg").replaceWith($("#inputSImg").clone(true));
+    			    	    var $imagesAddError = $("#pImagesTable tbody #images-add-error");
+    			    	    if ($imagesAddError && $imagesAddError.length) {
+    			    	    	alert("Ошибка добавления файла изображения. Неверный формат или размер файла.");
+    			    	    	$imagesAddError.remove();
+    			    	    }
     			    	    
                 });
     	 });

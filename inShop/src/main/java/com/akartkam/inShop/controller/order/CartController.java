@@ -83,7 +83,7 @@ public class CartController {
     public String addJson(HttpServletRequest request, HttpServletResponse response, final Model model,
     		                                         @ModelAttribute("cartItemForm") CartItemForm cartItemForm,
     		                                         final BindingResult bindingResult ) throws IOException {
-    	LOG.info("Adding to cart, skuId="+cartItemForm.getSkuId());
+    	LOG.info("Adding to cart...");
     	Map<String, Object> responseMap = new HashMap<String, Object>();
         Map<String, String> errorsMap = new HashMap<String, String>();
         String responseString = getCartView();
@@ -128,7 +128,7 @@ public class CartController {
         	model.addAttribute("ajaxExtraData", new ObjectMapper().writeValueAsString(responseMap));
         	responseString+=" :: ajax";
         }
-        if (errorsMap.size() == 0)  LOG.info("Add to cart complite");
+        if (errorsMap.size() == 0)  LOG.info("Add to cart complite, SkuId="+cartItemForm.getSkuId()); 
         return responseString;
     }
     

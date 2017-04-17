@@ -161,4 +161,19 @@
         	   $("#dOrderItemTable").html(html);
            });
 	});
+	$("body").on("input", ".total-changer", function (event) {
+		var $val = $(this).val();
+		if ($val=="" || isNaN($val) || parseInt($val) <= 0) $val="0";
+		var form = $("#oeform");
+		var formser;
+		if (typeof form != "undefined" && form != null) formser = form.serialize();
+           $.ajax({
+           	   type: "POST",
+               url: updateOrder,
+               data: formser,
+               cache: false
+           }).done(function (html) {
+        	   $("#dOrderItemTable").html(html);
+           });
+	});
 	

@@ -307,6 +307,7 @@
 												     <input class="checkCategory" type="checkbox" th:id="${'check-'+image}" th:value="${image}"/>
 											      </td>
 									  	       	  <td>
+									  	       	    <input type="hidden" th:if="${imagesAddError != null}" id="images-add-error" th:value="${imagesAddError}"/>
 									  	       	    <input type="hidden" class="image-url" th:field="*{defaultSku.images[__${imageStat.index}__]}"/>
 											        <div class="media" style="margin-top: 0;">
 													  <div class="media-left media-middle">
