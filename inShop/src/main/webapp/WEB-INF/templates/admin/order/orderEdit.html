@@ -52,7 +52,7 @@
 		          	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                     <span th:text="#{admin.edit.existsErrors}">There is some errors in the form</span>
 					<ul>
-					  <li th:each="err : ${#fields.errors('*')}" th:text="${err}">Input is incorrect</li>
+					  <li th:each="err : ${#fields.errors('*')}" th:text="${err}" th:if="${err != null &amp;&amp; err != ''}">Input is incorrect</li>
 					</ul>                                 
                   </div>
 	               <ul class="nav nav-tabs">
@@ -242,7 +242,7 @@
 								     </div>	
 								   </div>
 							       <div class="col-md-4">
-									 <div class="field-box">
+									 <div class="field-box" th:class="${#fields.hasErrors('actualFormFulfillment.store')}? has-error: field-box">
 			                           <label>
 								  	  	<span th:text="#{order.store}">Store</span>
 								       </label>
@@ -252,6 +252,7 @@
 										          th:value="${store.id}"
 											      th:utext="${store.name}">Store1</option>
 									   </select>
+									   <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('actualFormFulfillment.store')}" th:errors="*{actualFormFulfillment.store}">Empty store</p>									   
 								     </div>	
 								   </div>						     								   						     
 							     </div>
@@ -299,19 +300,20 @@
 								     </div>								       
 							       </div>							     
 							       <div class="col-md-5">
-									 <div class="field-box">
+									 <div class="field-box" th:class="${#fields.hasErrors('actualFormFulfillment.address')}? has-error: field-box">
 			                           <label>
 								  	  	<span th:text="#{address}">Address</span>
 								       </label>
 									   <textarea  class="form-control" th:field="*{actualFormFulfillment.address}"></textarea>
-								     </div>								       
+								     </div>	
+								     <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('actualFormFulfillment.address')}" th:errors="*{actualFormFulfillment.address}">Empty address</p>							       
 							       </div>							     
 							       <div class="col-md-5">
 									 <div class="field-box">
 			                           <label>
 								  	  	<span th:text="#{admin.order.customerComment}">Сustomer Comment</span>
 								       </label>
-									   <textarea  class="form-control" th:field="*{actualFormFulfillment.customerMessage}"></textarea>
+									   <textarea readonly="readonly" class="form-control" th:field="*{actualFormFulfillment.customerMessage}"></textarea>
 								     </div>								       
 							       </div>							     
 

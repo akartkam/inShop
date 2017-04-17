@@ -8,10 +8,12 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
+import com.akartkam.inShop.domain.order.DeliveryType;
 import com.akartkam.inShop.domain.order.Order;
 import com.akartkam.inShop.domain.order.OrderItem;
 import com.akartkam.inShop.domain.order.OrderStatus;
 import com.akartkam.inShop.domain.product.Sku;
+import com.akartkam.inShop.formbean.OrderForm;
 import com.akartkam.inShop.service.order.InventoryService;
 import com.akartkam.inShop.service.order.OrderService;
 import com.akartkam.inShop.util.CommonUtil;
@@ -27,12 +29,12 @@ public class OrderValidator implements Validator {
 
 	@Override
 	public boolean supports(Class<?> clazz) {
-		return Order.class.isAssignableFrom(clazz);
+		return OrderForm.class.isAssignableFrom(clazz);
 	}
 
 	@Override
 	public void validate(Object target, Errors errors) {
-		Order order = (Order) target;
+		OrderForm order = (OrderForm) target;
 		
 		if (order.getOrderItems().isEmpty()) return;
 	 	Map<Sku, Integer> mapOfQuants = inventoryService.retrieveQuantitiesAvailable(order.getSkusFromOrderItems());
@@ -57,6 +59,19 @@ public class OrderValidator implements Validator {
         }
         if (!OrderStatus.INCOMPLETE.equals(order.getStatus())){
         	ValidationUtils.rejectIfEmpty(errors, "customer", "error.empty.order.customer");        	
+        }
+        
+        if (order.getActualFormFulfillment() != null && order.getActualFormFulfillment().getDelivery() != null){
+            if (DeliveryType.SELF_DELIVERY.equals(order.getActualFormFulfillment().getDelivery().getDeliveryType() )){
+            	ValidationUtils.rejectIfEmpty(errors, "actualFormFulfillment.store", "error.empty.order.actualFormFulfillment.store");
+            	//for AdminPresentation
+            	errors.rejectValue("actualFormFulfillment", "error.actualFormFulfillment");
+            }              
+            if (DeliveryType.COURIER_DELIVERY.equals(order.getActualFormFulfillment().getDelivery().getDeliveryType() )){
+            	ValidationUtils.rejectIfEmpty(errors, "actualFormFulfillment.address", "error.empty.order.actualFormFulfillment.store");
+            	//for AdminPresentation
+            	errors.rejectValue("actualFormFulfillment", "error.actualFormFulfillment");
+            }              	
         }
 
 	}

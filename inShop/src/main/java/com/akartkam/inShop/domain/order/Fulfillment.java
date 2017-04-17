@@ -14,6 +14,8 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import com.akartkam.inShop.domain.AbstractDomainObject;
 import com.akartkam.inShop.formbean.CartItemForm;
+import com.akartkam.inShop.presentation.admin.AdminPresentation;
+import com.akartkam.inShop.presentation.admin.EditTab;
 
 @Entity
 @Table(name = "Fulfillment")

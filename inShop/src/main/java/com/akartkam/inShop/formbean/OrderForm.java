@@ -3,9 +3,13 @@ package com.akartkam.inShop.formbean;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
+import javax.validation.Valid;
+
 import com.akartkam.inShop.domain.order.Fulfillment;
 import com.akartkam.inShop.domain.order.Order;
 import com.akartkam.inShop.domain.order.OrderItem;
+import com.akartkam.inShop.presentation.admin.AdminPresentation;
+import com.akartkam.inShop.presentation.admin.EditTab;
 
 public class OrderForm extends Order {
 	/**
@@ -47,8 +51,7 @@ public class OrderForm extends Order {
     	return res;		
 	}
 	
-	
-	
+	@AdminPresentation(tab=EditTab.CONTENT)
 	public Fulfillment getActualFormFulfillment() {
 		return actualFormFulfillment;
 	}

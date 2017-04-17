@@ -214,7 +214,7 @@ public class AdminOrderController {
 			                         ) throws InventoryUnavailableException {
 		   orderValidator.validate(order, bindingResult);
 		   if (bindingResult.hasErrors()) {
-	        	ra.addFlashAttribute("ord", new OrderForm(order));
+	        	ra.addFlashAttribute("ord", order);
 	        	ra.addFlashAttribute("org.springframework.validation.BindingResult.ord", bindingResult);
 	            return "redirect:/admin/order/edit";
 	        }

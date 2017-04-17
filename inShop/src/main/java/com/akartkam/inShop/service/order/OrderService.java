@@ -13,13 +13,14 @@ import com.akartkam.inShop.formbean.Buy1clickForm;
 import com.akartkam.inShop.formbean.CartForm;
 import com.akartkam.inShop.formbean.CheckoutForm;
 import com.akartkam.inShop.formbean.DataTableForm;
+import com.akartkam.inShop.formbean.OrderForm;
 
 public interface OrderService {
 	OrderItem getOrderItemById(UUID id);
 	List<Order> getAllOrders();
 	Order createOrder(Order order);
 	Order getOrderById(UUID id);
-	void mergeWithExistingAndUpdateOrCreate(Order order) throws InventoryUnavailableException;
+	void mergeWithExistingAndUpdateOrCreate(OrderForm orderForm) throws InventoryUnavailableException;
 	Map<OrderItem, Integer> retrieveOrderItemQuantities(Collection<OrderItem> orderItems);
 	Order placeOrder(CheckoutForm checkoutForm, CartForm cartForm);
 	void reattache(Order order);

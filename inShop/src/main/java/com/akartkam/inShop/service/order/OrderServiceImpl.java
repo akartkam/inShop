@@ -35,6 +35,7 @@ import com.akartkam.inShop.formbean.CartForm;
 import com.akartkam.inShop.formbean.CartItemForm;
 import com.akartkam.inShop.formbean.CheckoutForm;
 import com.akartkam.inShop.formbean.DataTableForm;
+import com.akartkam.inShop.formbean.OrderForm;
 import com.akartkam.inShop.service.customer.CustomerService;
 import com.akartkam.inShop.util.OrderNumberGenerator;
 
@@ -86,19 +87,19 @@ public class OrderServiceImpl implements OrderService{
 
 	@Override
 	@Transactional(readOnly = false)
-	public void mergeWithExistingAndUpdateOrCreate(Order order) throws InventoryUnavailableException {
+	public void mergeWithExistingAndUpdateOrCreate(OrderForm orderForm) throws InventoryUnavailableException {
 		//This maps for adjusting the skus quantity
 		LOG.info("Saving order...");
 		Map<Sku, Integer> incrMapQuant = new HashMap<Sku, Integer>();
 		Map<Sku, Integer> decrMapQuant = new HashMap<Sku, Integer>();
-		if (order == null) return ;
-		Order existingOrder = getOrderById(order.getId());
+		if (orderForm == null) return ;
+		Order existingOrder = getOrderById(orderForm.getId());
 		if (existingOrder != null) {
-			existingOrder.setCustomer(order.getCustomer());
-			existingOrder.setEmailAddress(order.getEmailAddress());
-			existingOrder.setSubmitDate(order.getSubmitDate());
-			existingOrder.setStatus(order.getStatus());
-			List<OrderItem> loif = new ArrayList<OrderItem>(order.getOrderItems());
+			existingOrder.setCustomer(orderForm.getCustomer());
+			existingOrder.setEmailAddress(orderForm.getEmailAddress());
+			existingOrder.setSubmitDate(orderForm.getSubmitDate());
+			existingOrder.setStatus(orderForm.getStatus());
+			List<OrderItem> loif = new ArrayList<OrderItem>(orderForm.getOrderItems());
 			Iterator<OrderItem> ioi = existingOrder.getOrderItems().iterator();
 			while (ioi.hasNext()) {
 				OrderItem oi = ioi.next();
@@ -119,11 +120,12 @@ public class OrderServiceImpl implements OrderService{
 				}
 			}
 			for(OrderItem oi1: loif) {
-				Product p = oi1.getSku().getDefaultProduct() != null ? oi1.getSku().getDefaultProduct() : oi1.getSku().getProduct();
+				Product p = oi1.getSku().lookupProduct();
 				oi1.setProduct(p);
 				oi1.setCategory(p.getCategory());
 				oi1.setRetailPrice(oi1.getSku().getRetailPrice());
 				oi1.setSalePrice(oi1.getSku().getSalePrice());
+				oi1.setQuantityPerPackage(oi1.getSku().getQuantityPerPackage());
 				existingOrder.addOrderItem(oi1); 
 				decrMapQuant.put(oi1.getSku(), oi1.getQuantity());
 			}
@@ -133,22 +135,22 @@ public class OrderServiceImpl implements OrderService{
 			if (incrMapQuant.size() > 0) inventoryService.incrementInventory(incrMapQuant);
 			if (decrMapQuant.size() > 0) inventoryService.decrementInventory(decrMapQuant);
 		} else {
-			for (OrderItem oi : order.getOrderItems()) {
+			for (OrderItem oi : orderForm.getOrderItems()) {
 				Product p = oi.getSku().getDefaultProduct() != null ? oi.getSku().getDefaultProduct() : oi.getSku().getProduct();
 				oi.setProduct(p);
 				oi.setCategory(p.getCategory());
 				oi.setRetailPrice(oi.getSku().getRetailPrice());
 				oi.setSalePrice(oi.getSku().getSalePrice());
-				oi.setOrder(order);
+				oi.setOrder(orderForm);
 				decrMapQuant.put(oi.getSku(), oi.getQuantity());
 			}
-			if (order.calculateDelivaryTotal() != order.getDeliveryTotal()) order.setDeliveryTotal(order.calculateDelivaryTotal());
-			if (order.calculateSubTotal() != order.getSubTotal()) order.setSubTotal(order.calculateSubTotal());
-			if (order.calculateTotal() != order.getTotal()) order.setTotal(order.calculateTotal());
-			createOrder(order);
+			if (orderForm.calculateDelivaryTotal() != orderForm.getDeliveryTotal()) orderForm.setDeliveryTotal(orderForm.calculateDelivaryTotal());
+			if (orderForm.calculateSubTotal() != orderForm.getSubTotal()) orderForm.setSubTotal(orderForm.calculateSubTotal());
+			if (orderForm.calculateTotal() != orderForm.getTotal()) orderForm.setTotal(orderForm.calculateTotal());
+			createOrder(orderForm);
 			if (decrMapQuant.size() > 0) inventoryService.decrementInventory(decrMapQuant);
 		}
-		LOG.info("Save order complite (id="+order.getId().toString()+")");
+		LOG.info("Save order complite (id="+orderForm.getId().toString()+")");
 	}
 	
 	@Override
