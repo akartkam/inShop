@@ -136,9 +136,9 @@ public class OrderServiceImpl implements OrderService{
 			BigDecimal delivTotal = existingOrder.calculateDelivaryTotal();
 			BigDecimal subTotal = existingOrder.calculateSubTotal();
 			BigDecimal total = existingOrder.calculateTotal();
-			if (delivTotal.compareTo(existingOrder.getDeliveryTotal()) != 0) existingOrder.setDeliveryTotal(delivTotal); 
-			if (subTotal.compareTo(existingOrder.getSubTotal()) != 0) existingOrder.setSubTotal(subTotal);
-			if (total.compareTo(existingOrder.getTotal()) != 0) existingOrder.setTotal(total);
+			existingOrder.setDeliveryTotal(delivTotal); 
+			existingOrder.setSubTotal(subTotal);
+			existingOrder.setTotal(total);
 			if (incrMapQuant.size() > 0) inventoryService.incrementInventory(incrMapQuant);
 			if (decrMapQuant.size() > 0) inventoryService.decrementInventory(decrMapQuant);
 		} else {

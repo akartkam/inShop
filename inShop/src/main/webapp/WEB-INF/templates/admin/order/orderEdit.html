@@ -255,7 +255,16 @@
 									   </select>
 									   <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('actualFormFulfillment.store')}" th:errors="*{actualFormFulfillment.store}">Empty store</p>									   
 								     </div>	
-								   </div>						     								   						     
+								   </div>
+							       <div class="col-md-4">
+									 <div class="field-box" th:class="${#fields.hasErrors('actualFormFulfillment.deliveryPrice')}? has-error: field-box">
+			                           <label>
+								  	  	<span th:text="#{admin.order.delivery.price}">Price delivery</span>
+								       </label>
+									   <input type="text" class="form-control total-changer" th:field="*{actualFormFulfillment.deliveryPrice}"/>
+								       <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('actualFormFulfillment.deliveryPrice')}" th:errors="*{actualFormFulfillment.deliveryPrice}"></p>
+								     </div>								       
+							       </div>							     								   						     								   						     
 							     </div>
 							     <div class="row" >
 							       <div class="col-md-3">
@@ -295,11 +304,11 @@
 							       <div class="col-md-2">
 									 <div class="field-box">
 			                           <label>
-								  	  	<span th:text="#{admin.order.delivery.price}">Price delivery</span>
+								  	  	<span th:text="#{phone}">phone</span>
 								       </label>
-									   <input type="text" class="form-control total-changer" th:field="*{actualFormFulfillment.deliveryPrice}"/>
+									   <input type="text" class="form-control" th:field="*{actualFormFulfillment.phone}"/>
 								     </div>								       
-							       </div>							     
+							       </div>							     							     
 							       <div class="col-md-5">
 									 <div class="field-box" th:class="${#fields.hasErrors('actualFormFulfillment.address')}? has-error: field-box">
 			                           <label>
@@ -363,6 +372,7 @@
                	 	locale		   : "ru",
                	  	format         : 'd.m.Y',
                	  	position       : "right",
+               	 	date			 : $("#order-submit-date-input").val(),
                	  	hide_on_select : true
                	  });
 	             $(".selectpicker").selectpicker();
