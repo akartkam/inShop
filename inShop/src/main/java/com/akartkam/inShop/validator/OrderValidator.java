@@ -63,14 +63,18 @@ public class OrderValidator implements Validator {
         
         if (order.getActualFormFulfillment() != null && order.getActualFormFulfillment().getDelivery() != null){
             if (DeliveryType.SELF_DELIVERY.equals(order.getActualFormFulfillment().getDelivery().getDeliveryType() )){
-            	ValidationUtils.rejectIfEmpty(errors, "actualFormFulfillment.store", "error.empty.order.actualFormFulfillment.store");
-            	//for AdminPresentation
-            	errors.rejectValue("actualFormFulfillment", "error.actualFormFulfillment");
+            	if (order.getActualFormFulfillment().getStore() == null) {
+            		errors.rejectValue("actualFormFulfillment.store", "error.empty.order.actualFormFulfillment.store");
+                	//for AdminPresentation
+                	errors.rejectValue("actualFormFulfillment", "error.actualFormFulfillment");            		
+            	}
             }              
             if (DeliveryType.COURIER_DELIVERY.equals(order.getActualFormFulfillment().getDelivery().getDeliveryType() )){
-            	ValidationUtils.rejectIfEmpty(errors, "actualFormFulfillment.address", "error.empty.order.actualFormFulfillment.store");
-            	//for AdminPresentation
-            	errors.rejectValue("actualFormFulfillment", "error.actualFormFulfillment");
+            	if (order.getActualFormFulfillment().getAddress() == null || "".equals(order.getActualFormFulfillment().getAddress())) {
+            		errors.rejectValue("actualFormFulfillment.address", "error.empty.order.actualFormFulfillment.store");
+                	//for AdminPresentation
+                	errors.rejectValue("actualFormFulfillment", "error.actualFormFulfillment");            		
+            	}
             }              	
         }
 

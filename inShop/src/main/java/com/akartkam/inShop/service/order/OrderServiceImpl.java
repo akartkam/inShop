@@ -106,7 +106,7 @@ public class OrderServiceImpl implements OrderService{
 				int idx = loif.indexOf(oi);
 				if (idx != -1) {
 					OrderItem oif = loif.get(idx);
-					oi.setPrice(new BigDecimal(oif.getPrice().toPlainString()));
+					if (oi.getPrice().compareTo(oif.getPrice()) != 0) oi.setPrice(new BigDecimal(oif.getPrice().toPlainString()));
 					int diffQuant = oif.getQuantity() - oi.getQuantity();
 					if (diffQuant != 0) {
 						if (diffQuant < 0) incrMapQuant.put(oi.getSku(), Integer.valueOf(Math.abs(diffQuant)));
@@ -129,9 +129,16 @@ public class OrderServiceImpl implements OrderService{
 				existingOrder.addOrderItem(oi1); 
 				decrMapQuant.put(oi1.getSku(), oi1.getQuantity());
 			}
-			if (existingOrder.calculateDelivaryTotal() != existingOrder.getDeliveryTotal()) existingOrder.setDeliveryTotal(existingOrder.calculateDelivaryTotal()); 
-			if (existingOrder.calculateSubTotal() != existingOrder.getSubTotal()) existingOrder.setSubTotal(existingOrder.calculateSubTotal());
-			if (existingOrder.calculateTotal() != existingOrder.getTotal()) existingOrder.setTotal(existingOrder.calculateTotal());
+			Fulfillment exFul = existingOrder.getActualFulfillment();
+			if (!exFul.equals(orderForm.getActualFormFulfillment())) {
+				existingOrder.addFulfillment(orderForm.getActualFormFulfillment());
+			}
+			BigDecimal delivTotal = existingOrder.calculateDelivaryTotal();
+			BigDecimal subTotal = existingOrder.calculateSubTotal();
+			BigDecimal total = existingOrder.calculateTotal();
+			if (delivTotal.compareTo(existingOrder.getDeliveryTotal()) != 0) existingOrder.setDeliveryTotal(delivTotal); 
+			if (subTotal.compareTo(existingOrder.getSubTotal()) != 0) existingOrder.setSubTotal(subTotal);
+			if (total.compareTo(existingOrder.getTotal()) != 0) existingOrder.setTotal(total);
 			if (incrMapQuant.size() > 0) inventoryService.incrementInventory(incrMapQuant);
 			if (decrMapQuant.size() > 0) inventoryService.decrementInventory(decrMapQuant);
 		} else {
@@ -141,12 +148,14 @@ public class OrderServiceImpl implements OrderService{
 				oi.setCategory(p.getCategory());
 				oi.setRetailPrice(oi.getSku().getRetailPrice());
 				oi.setSalePrice(oi.getSku().getSalePrice());
+				oi.setQuantityPerPackage(oi.getSku().getQuantityPerPackage());
 				oi.setOrder(orderForm);
 				decrMapQuant.put(oi.getSku(), oi.getQuantity());
 			}
-			if (orderForm.calculateDelivaryTotal() != orderForm.getDeliveryTotal()) orderForm.setDeliveryTotal(orderForm.calculateDelivaryTotal());
-			if (orderForm.calculateSubTotal() != orderForm.getSubTotal()) orderForm.setSubTotal(orderForm.calculateSubTotal());
-			if (orderForm.calculateTotal() != orderForm.getTotal()) orderForm.setTotal(orderForm.calculateTotal());
+			orderForm.addFulfillment(orderForm.getActualFormFulfillment());
+			orderForm.setDeliveryTotal(orderForm.calculateDelivaryTotal());
+			orderForm.setSubTotal(orderForm.calculateSubTotal());
+			orderForm.setTotal(orderForm.calculateTotal());
 			createOrder(orderForm);
 			if (decrMapQuant.size() > 0) inventoryService.decrementInventory(decrMapQuant);
 		}

@@ -78,6 +78,7 @@
 						    <div class="field-box">
 				    		  <label>
 					    	  	 <span th:text="#{admin.customer.customer}">Customer</span>
+					    	  	 <a th:href="@{/admin/customer/customer/add}"><span th:utext="${'&nbsp;('+#messages.msg('button.add.caption')+')'}"></span></a>
 					   		  </label>
 							  <select class="form-control selectpicker" id="selCustomer" th:field="*{customer}" data-live-search="true">
 							        <option value="">&nbsp;</option>
