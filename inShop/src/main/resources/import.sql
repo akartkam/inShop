@@ -3,6 +3,10 @@ ALTER TABLE order_number_generator OWNER TO postgres;
 
 ALTER TABLE account ADD COLUMN password CHARACTER VARYING(255);
 
+-- 
+ALTER TABLE customer_order
+   ALTER COLUMN submit_date TYPE timestamp with time zone;
+
 -- Table: unit
 
 -- DROP TABLE unit;

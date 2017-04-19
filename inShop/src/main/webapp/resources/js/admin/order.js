@@ -30,6 +30,10 @@
 		$("#subTotal").html($subTotal.toFixed(2));
 		$("#total").html($total.toFixed(2));
 	}*/
+
+    function pmuDateChenged(e){
+       $(this).val(e.detail.formatted_date);
+    }
   
 	$(function() {
 		var urlPar = $.urlParam("status");
@@ -95,8 +99,11 @@
                     	  locale		 : "ru",
                     	  format         : 'd.m.Y',
                     	  position       : "right",
+                    	  date			 : $("#order-submit-date-input").val(),
                     	  hide_on_select : true
                     	});
+                    var dinp = document.getElementById("order-submit-date-input"); 
+                    dinp.addEventListener('pickmeup-change', pmuDateChenged);
                     $(".selectpicker").selectpicker();
                     makeSkuSelect2 ($("#slSearchSku"), ajaxProductSearch);
           });
@@ -176,4 +183,6 @@
         	   $("#dOrderItemTable").html(html);
            });
 	});
+	
+	
 	

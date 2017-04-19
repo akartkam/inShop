@@ -8,9 +8,11 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 
+import com.akartkam.inShop.domain.Unit;
 import com.akartkam.inShop.domain.product.Product;
 import com.akartkam.inShop.domain.product.Sku;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttributeValue;
+import com.akartkam.inShop.domain.product.option.ProductOptionValue;
 
 public class DefaultProductDisplayNameModificatorImpl implements
 		ProductDisplayNameModificator {
@@ -86,6 +88,24 @@ public class DefaultProductDisplayNameModificatorImpl implements
 				ret.append("<span class='unit'>").append(unit).append("</span>");
 			}
 			
+		}
+		Set<ProductOptionValue> spov = sku.getProductOptionValues();
+		if (spov.size()>0) {
+			for (ProductOptionValue pov : spov) {
+				if (pov.getOptionValue() != null && !"".equals(pov.getOptionValue())) {
+					ret.append(", <span class='product-header-attribute'>").append(pov.getOptionValue()).append("</span>");
+					if (pov.getProductOption().getUnit() != null) {
+						String unit;
+						if (messageSource != null) {
+							unit = messageSource.getMessage("unit."+pov.getProductOption().getUnit().name(), null, Locale.getDefault());
+						} else {
+							unit = pov.getProductOption().getUnit().getFullNameR();
+						}
+						ret.append("<span class='unit'>").append(unit).append("</span>");	
+					}
+					
+				}
+			}
 		}
 		return ret.toString();		
 	}

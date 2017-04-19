@@ -67,7 +67,13 @@
 						    <div class="field-box">
 							  <input type="hidden" th:field="*{id}"/>
 							  <input type="hidden" th:field="*{customer.id}"/>
-							  <input type="hidden" th:field="*{createdDate}"/>	                              
+							  <input type="hidden" th:field="*{createdDate}"/>
+							  <input type="hidden" id="customer-email" th:value="*{customer.email}"/>
+							  <input type="hidden" id="customer-phone" th:value="*{customer.phone}"/>							  	                              
+							  <input type="hidden" id="customer-address" th:value="*{customer.address}"/>
+							  <input type="hidden" id="customer-firstName" th:value="*{customer.firstName}"/>
+							  <input type="hidden" id="customer-lastName" th:value="*{customer.lastName}"/>
+							  <input type="hidden" id="customer-middleName" th:value="*{customer.middleName}"/>
 				    		  <label>
 					    	  	 <span th:text="#{admin.order.number}">Order number</span>
 					   		  </label>

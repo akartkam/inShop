@@ -3,7 +3,6 @@ package com.akartkam.inShop.domain.order;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -11,10 +10,8 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.NamedNativeQueries;
 import org.hibernate.annotations.NamedNativeQuery;
 import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotEmpty;
+import org.joda.time.DateTime;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.format.annotation.NumberFormat;
-import org.springframework.format.annotation.NumberFormat.Style;
 
 import com.akartkam.inShop.domain.AbstractDomainObjectOrdering;
 import com.akartkam.inShop.domain.customer.Customer;
@@ -38,7 +35,6 @@ import javax.persistence.SqlResultSetMappings;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.Valid;
-import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
@@ -79,7 +75,7 @@ public class Order extends AbstractDomainObjectOrdering {
 	private BigDecimal subTotal;
     private BigDecimal total;
     private BigDecimal deliveryTotal;    
-    private Date submitDate;
+    private DateTime submitDate;
     private String orderNumber;
     private String emailAddress;
     protected List<OrderItem> orderItems = new ArrayList<OrderItem>();
@@ -137,11 +133,11 @@ public class Order extends AbstractDomainObjectOrdering {
     @DateTimeFormat(pattern="${date.formatshort}")
     @Column(name = "submit_date")
     @Past
-	public Date getSubmitDate() {
+	public DateTime getSubmitDate() {
         return submitDate;
     }
 
-    public void setSubmitDate(Date submitDate) {
+    public void setSubmitDate(DateTime submitDate) {
         this.submitDate = submitDate;
     }
 

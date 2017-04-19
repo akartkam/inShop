@@ -124,7 +124,6 @@ public class Fulfillment extends AbstractDomainObject {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((order == null) ? 0 : order.hashCode());
 		result = prime * result + ((delivery == null) ? 0 : delivery.hashCode());
 		result = prime * result + ((store == null) ? 0 : store.hashCode());
 		result = prime * result + ((buy1clickName == null) ? 0 : buy1clickName.hashCode());
@@ -147,11 +146,6 @@ public class Fulfillment extends AbstractDomainObject {
 		if (getClass() != obj.getClass())
 			return false;
 		Fulfillment other = (Fulfillment) obj;
-		if (order == null) {
-			if (other.order != null)
-				return false;
-		} else if (!order.equals(other.order))
-			return false;
 		if (delivery == null) {
 			if (other.delivery != null)
 				return false;

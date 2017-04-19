@@ -23,6 +23,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
+import org.hibernate.annotations.Type;
 import org.springframework.format.annotation.NumberFormat;
 import org.springframework.format.annotation.NumberFormat.Style;
 
@@ -66,6 +67,7 @@ public class OrderItem extends AbstractDomainObjectOrdering {
     private Sku sku;
     private Product product; 
     private Integer quantityPerPackage; 
+    private String productName;
     //for form
     private String image;
 
@@ -225,6 +227,17 @@ public class OrderItem extends AbstractDomainObjectOrdering {
 		this.quantityPerPackage = quantityPerPackage;
 	}
 
+    @Type(type = "org.hibernate.type.TextType")
+    @Column(name = "product_name", length = Integer.MAX_VALUE - 1)
+	public String getProductName() {
+		return productName;
+	}
+
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
+	
+	
 	@Transient
 	public String getImage() {
 		return image;
@@ -233,6 +246,7 @@ public class OrderItem extends AbstractDomainObjectOrdering {
 	public void setImage(String image) {
 		this.image = image;
 	}
+
 	
 	
 

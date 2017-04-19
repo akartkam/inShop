@@ -113,9 +113,12 @@ public class Customer extends AbstractDomainObject {
 	}
 	
 	@Transient
-	public String getFullName() { return firstName != null ? firstName : "" + " " + 
-										 lastName != null ? lastName : "" + " " + 
-										 middleName != null ? middleName : ""  ;
+	public String getFullName() { 
+		StringBuilder sb = new StringBuilder();
+		if (firstName != null && !"".equals(firstName)) sb.append(firstName);
+		if (lastName != null && !"".equals(lastName)) sb.append(" ").append(lastName);
+		if (middleName != null && !"".equals(middleName)) sb.append(" ").append(middleName);
+		return sb.toString();
 	}	
 
 }

@@ -8,6 +8,7 @@ import java.util.UUID;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.SessionFactory;
+import org.joda.time.DateTime;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -44,7 +45,7 @@ public class OrderServiceTest extends AbstractTest {
 		cs.setEmail("qwer@qwer.com");
 		or.setCustomer(cs);
 		or.setEmailAddress(cs.getEmail());
-		or.setSubmitDate(new Date());
+		or.setSubmitDate(new DateTime());
 		or.setStatus(OrderStatus.NEW);
 		OrderItem oi = new OrderItem();
 		Sku sku = productService.getSkuById(UUID.fromString("4ea061cf-dbaf-485b-873d-c92924e3c4f2"));

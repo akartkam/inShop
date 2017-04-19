@@ -9,6 +9,8 @@ import java.util.UUID;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.format.number.AbstractNumberFormatter;
@@ -221,10 +223,13 @@ public class AjaxController {
 		  items.setRecordsTotal(orderService.countTotalOrders());
 		  items.setRecordsFiltered(countRecFiltered);
 		  String[][] data = new String [retOrders.size()][7];
+		  String datePattern = messageSource.getMessage("date.format", null, Locale.getDefault());
+		  if (datePattern == null || "".equals(datePattern)) datePattern = "dd.MM.yyyy";
+		  DateTimeFormatter dtfmt = DateTimeFormat.forPattern(datePattern);
 		  for (int i=0; i <= retOrders.size()-1; i++){
 			  Order o = retOrders.get(i);
 			  data[i][0] = o.getOrderNumber();
-			  data[i][1] = (new SimpleDateFormat("dd.MM.YYYY HH:mm")).format(o.getSubmitDate());
+			  data[i][1] = o.getSubmitDate().toString(dtfmt); //(new SimpleDateFormat("dd.MM.YYYY HH:mm")).format(o.getSubmitDate());
 			  data[i][2] = o.getCustomer() != null? o.getCustomer().getFullName(): "";
 			  data[i][3] = o.getEmailAddress();
 			  data[i][4] = currencyNumberFormatter.print(o.getTotal(), Locale.getDefault());

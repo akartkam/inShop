@@ -2,9 +2,13 @@ package com.akartkam.inShop.controller.admin.order;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
+import java.beans.PropertyEditor;
 import java.beans.PropertyEditorSupport;
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
@@ -14,6 +18,7 @@ import javax.validation.Valid;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -171,7 +176,7 @@ public class AdminOrderController {
 			    	}			
 			    }
 			    });
-			
+			binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
 	  }
 	  
 	  @RequestMapping(method=GET)

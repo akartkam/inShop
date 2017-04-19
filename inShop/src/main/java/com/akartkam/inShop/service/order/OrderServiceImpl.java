@@ -12,6 +12,7 @@ import java.util.UUID;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -202,6 +203,7 @@ public class OrderServiceImpl implements OrderService{
 			fulfil.setFirstName(checkoutForm.getFirstName());
 			fulfil.setLastName(checkoutForm.getLastName());
 			fulfil.setMiddleName(checkoutForm.getMiddleName());
+			fulfil.setPhone(checkoutForm.getPhone());
 			fulfil.setStore(checkoutForm.getStore());
 
 			Order order = new Order();
@@ -217,12 +219,13 @@ public class OrderServiceImpl implements OrderService{
 				oi.setRetailPrice(ci.getSku().getRetailPrice());
 				oi.setSalePrice(ci.getSku().getSalePrice());
 				oi.setQuantityPerPackage(ci.getSku().getQuantityPerPackage());
+				oi.setProductName(ci.getProductName());
 				ois.add(oi);
 				order.addOrderItem(oi);
 			}
 			
 			order.setEmailAddress(checkoutForm.getEmail());
-			order.setSubmitDate(new Date());
+			order.setSubmitDate(new DateTime());
 			order.addFulfillment(fulfil);
 			order.setCustomer(customer);
 			order.setDeliveryTotal(order.calculateDelivaryTotal());
@@ -261,7 +264,7 @@ public class OrderServiceImpl implements OrderService{
 			order.addOrderItem(oi);
 			
 			order.setStatus(OrderStatus.INCOMPLETE);
-			order.setSubmitDate(new Date());
+			order.setSubmitDate(new DateTime());
 			order.addFulfillment(fulfil);
 			order.setDeliveryTotal(order.calculateDelivaryTotal());
 			order.setSubTotal(order.calculateSubTotal());
