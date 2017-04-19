@@ -38,6 +38,7 @@ import com.akartkam.inShop.formbean.CheckoutForm;
 import com.akartkam.inShop.formbean.DataTableForm;
 import com.akartkam.inShop.formbean.OrderForm;
 import com.akartkam.inShop.service.customer.CustomerService;
+import com.akartkam.inShop.service.extension.ProductDisplayNameModificator;
 import com.akartkam.inShop.util.OrderNumberGenerator;
 
 @Service("OrderService")
@@ -57,7 +58,8 @@ public class OrderServiceImpl implements OrderService{
 	private InventoryService inventoryService;
 	@Autowired
 	private CustomerService customerService;
-	
+	@Autowired
+	private ProductDisplayNameModificator productDisplayNameModificator;	
 
 	
 	public OrderItem getOrderItemById(UUID id) {
@@ -261,6 +263,8 @@ public class OrderServiceImpl implements OrderService{
 			oi.setRetailPrice(buy1clickForm.getSku().getRetailPrice());
 			oi.setSalePrice(buy1clickForm.getSku().getSalePrice());
 			oi.setQuantityPerPackage(buy1clickForm.getSku().getQuantityPerPackage());
+		    productDisplayNameModificator.setSku(buy1clickForm.getSku());
+			oi.setProductName(productDisplayNameModificator.getModifyedDisplayName(buy1clickForm.getSku().lookupName()));
 			order.addOrderItem(oi);
 			
 			order.setStatus(OrderStatus.INCOMPLETE);

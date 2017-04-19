@@ -42,7 +42,6 @@
 	            <td th:utext="${oiStat.index+1}"></td>
 	            <td class="product-name" style="font-size: 8pt;">
                 	<span aid:product_modifyed_display_name_utext="${oi.sku}"></span>
-                 	<span th:if="${!#strings.isEmpty(oi.sku.commaDelemitedPOVL)}"  th:utext="${oi.sku.commaDelemitedPOVL}"></span>
 	            </td>
 	            <td class="product-price" align="center">
 	                <span class="amount" th:utext="${beans.currencyNumberFormatter.print(oi.price, #locale.getDefault())}">£15.00</span> 

@@ -51,6 +51,7 @@ import com.akartkam.inShop.formbean.ItemsForJSON;
 import com.akartkam.inShop.formbean.OrderForm;
 import com.akartkam.inShop.formbean.SkuForJSON;
 import com.akartkam.inShop.service.customer.CustomerService;
+import com.akartkam.inShop.service.extension.ProductDisplayNameModificator;
 import com.akartkam.inShop.service.order.DeliveryService;
 import com.akartkam.inShop.service.order.OrderService;
 import com.akartkam.inShop.service.product.ProductService;
@@ -79,6 +80,9 @@ public class AdminOrderController {
 	  
 	  @Autowired
 	  private AbstractNumberFormatter currencyNumberFormatter;
+	  
+	  @Autowired
+	  private ProductDisplayNameModificator productDisplayNameModificator;
 		
 	  @ModelAttribute("allDeliverys")
 	  public List<Delivery> getAllDeliverys() {
@@ -243,6 +247,8 @@ public class AdminOrderController {
 		   if (foi == null) {
 			   OrderItem oi=new OrderItem();
 			   oi.setSku(sku);
+			   productDisplayNameModificator.setSku(sku);
+			   oi.setProductName(productDisplayNameModificator.getModifyedDisplayName(sku.lookupName()));
 			   oi.setImage(sku.lookupImages().size() > 0? sku.lookupImages().get(0): null);
 			   oi.setPrice(sku.getPriceForPackage());
 			   oi.setQuantity(1);

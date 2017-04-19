@@ -89,8 +89,7 @@
 							  <select class="form-control selectpicker" id="selCustomer" th:field="*{customer}" data-live-search="true">
 							        <option value="">&nbsp;</option>
 								    <option th:each="oc: ${allCustomers}" 
-								            th:text="${oc.fullName+' ('+oc.email+')'}"
-								            th:if="${oc.enabled}"
+								            th:text="${oc.fullName+' ('+oc.email+', '+oc.phone+')'}"
 								            th:selected="${ord.customer.equals(oc)}"
 								            th:value="${oc.id}">
 								    </option>      
@@ -178,11 +177,14 @@
 		                                                   <span class="helper"></span>
 		                                                   <img th:src="@{${!#strings.isEmpty(oi.image)? oi.image: ''}}"  th:onerror="'this.src=\'' + @{/resources/img/noimage.png} + '\';'"/>
 		                                                </span>
-												        <span th:text="${oi.sku.name}">name</span>
-												        <br/> 
-												        <span style="font-size: 9pt;" th:text="${oi.sku.code}">code</span>&nbsp;
-												        <span th:if="${oi.sku.code != null &amp;&amp; !''.equals(oi.sku.commaDelemitedPOVL)}" style='display: inline-block; color: #aaa; font-size: 11px;'>&#9679;</span>&nbsp;
-												        <span style="font-size: 9pt;" th:text="${oi.sku.commaDelemitedPOVL}">sku</span>
+												        <div th:unless="${#strings.isEmpty(oi.productName)}" th:utext="${oi.productName}">name</div>
+												        <th:block th:if="${#strings.isEmpty(oi.productName)}">
+													        <span th:utext="${oi.sku.name}">name</span>
+													        <br/> 
+													        <span style="font-size: 9pt;" th:utext="${oi.sku.code}">code</span>&nbsp;
+													        <span th:if="${oi.sku.code != null &amp;&amp; !''.equals(oi.sku.commaDelemitedPOVL)}" style='display: inline-block; color: #aaa; font-size: 11px;'>&#9679;</span>&nbsp;
+													        <span style="font-size: 9pt;" th:utext="${oi.sku.commaDelemitedPOVL}">sku</span>
+												        </th:block>
 												     </div>																	  	       	      		  
 									  	       	  </td>
 												  <td class="domain-col">
