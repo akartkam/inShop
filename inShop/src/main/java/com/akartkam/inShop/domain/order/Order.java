@@ -296,5 +296,22 @@ public class Order extends AbstractDomainObjectOrdering {
 		return ret;
 	}
 	
+/*	
+	select 'Всего' status, count(o.id) count_orders, sum(o.order_total) sum_order_total, 
+	 sum(f.delivery_price) sum_delivery, '' as order_status
+	 from customer_order o 
+	      left join fulfillment f on f.order_id=o.id 
+	      left outer join fulfillment f1 on f1.order_id=f.order_id and f.fulfillment_order<f1.fulfillment_order 
+	  where f1.id is null 
+	 union all 
+	select s.short_name_r status, count(o.id) count_orders, sum(o.order_total) sum_order_total, 
+	sum(f.delivery_price) sum_delivery, s.name as order_status
+	 from customer_order o 
+	      left join order_status s on s.name=o.order_status 
+	      left join fulfillment f on f.order_id=o.id 
+	      left outer join fulfillment f1 on f1.order_id=f.order_id and f.fulfillment_order<f1.fulfillment_order 
+	  where f1.id is null 	      
+	  group by 1,5	
+*/	
 
 }

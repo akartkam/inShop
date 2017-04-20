@@ -34,7 +34,7 @@
     function pmuDateChenged(e){
        $(this).val(e.detail.formatted_date);
     }
-  
+    
 	$(function() {
 		var urlPar = $.urlParam("status");
 		$("#oDataTable").DataTable( {
@@ -183,6 +183,17 @@
         	   $("#dOrderItemTable").html(html);
            });
 	});
+	$("body").on("click", ".copy-data-from-customer", function(){
+		var cto = $(this).data("copy-to").replace(".","\\\.");
+		var cfrom = $(this).data("copy-from").replace(".","\\\.");;
+		$("#"+cto).val($("#"+cfrom).val());
+	});
+	$("body").on("click", ".copy-fio-from-customer", function(){
+		$("#actualFormFulfillment\\.lastName").val($("#customer-lastName").val());
+		$("#actualFormFulfillment\\.firstName").val($("#customer-firstName").val());
+		$("#actualFormFulfillment\\.middleName").val($("#customer-middleName").val());
+	});
+	
 	
 	
 	
