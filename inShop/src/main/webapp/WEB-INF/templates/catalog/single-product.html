@@ -83,7 +83,7 @@
 					               </tbody>
 					           </table>
 				           </div>
-				           <form method="POST" th:action="${'javascript: void'}" id="single-product-form"
+				           <form method="POST" th:action="${'javascript: void(0)'}" id="single-product-form"
 		           	             th:attr="data-add-to-cart-path=@{'/cart/add'}, data-buy1click-path=@{'/checkout/buy1click'}">
 				               <input type="hidden" name="productId" th:value="${product.id}" />
 					           <div class="product-inventory">

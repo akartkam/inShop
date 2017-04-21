@@ -97,7 +97,10 @@
 									    <option th:each="oc: ${allCustomers}" 
 									            th:text="${oc.fullName+' ('+oc.email+', '+oc.phone+')'}"
 									            th:selected="${ord.customer.equals(oc)}"
-									            th:value="${oc.id}">
+									            th:value="${oc.id}"
+									            th:attr="data-phone=${oc.phone}, data-email=${oc.email}, 
+									                    data-address=${oc.address}, data-firstName=${oc.firstName}, 
+									                    data-lastName=${oc.lastName}, data-middleName=${oc.middleName}">
 									    </option>      
 								  </select> 
 						   		  <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('customer')}" th:errors="*{customer}">Incorrect customer</p>

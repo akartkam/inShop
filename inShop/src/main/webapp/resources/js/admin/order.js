@@ -84,46 +84,47 @@
                
            });
        });*/
-	   
-       $(document).on("click", ".open-editDialog", function () {
-          var id = $(this).data("id");
-          var path = $(this).data("path");
-    	  if (typeof id == 'undefined') id=null;  
-          $("#editModalContent").html("");
-          $.ajax({
-            url: path+((id != null)?"?ID="+id:"") ,
-            cache: false
-          }).done(function (html) {
-                    $("#editModalContent").html(html);
-                    $("#order-submit-date-input").pickmeup_twitter_bootstrap({
-                    	  locale		 : "ru",
-                    	  format         : 'd.m.Y',
-                    	  position       : "right",
-                    	  date			 : $("#order-submit-date-input").val(),
-                    	  hide_on_select : true
-                    	});
-                    var dinp = document.getElementById("order-submit-date-input"); 
-                    dinp.addEventListener('pickmeup-change', pmuDateChenged);
-                    $(".selectpicker").selectpicker();
-                    makeSkuSelect2 ($("#slSearchSku"), ajaxProductSearch);
-          });
-    	});	    			
-        //Открытие окна удаления
-        $("body").on("click",".open-deleteDialog", function () {
-    	     var Id = $(this).data("id");
-    	     var poName = $(this).data("name");
-    	     if (typeof poName == "undefined" || poName ==null) poName = '';
-    	     var modalName = $(this).data("target");
-    	     $(modalName).find(".modal-footer .btn-primary").val(Id);
-    	     $(modalName).find(".modal-body .objname").html(poName);
-    	     if (modalName == "#deleteModalPov") {
-    	    	 var canRemove = $(this).data("canremove");
-    	    	 var checkRemove = $(modalName).find("#phisycalDeletePov")
-    	    	 if (typeof checkRemove != "undefined" && checkRemove !=null) checkRemove.attr("disabled", !canRemove);
-    	     }
-    	});
     });
-	$("body").on("click", ".add-new-sku", function () { 
+
+    $("body").on("click", ".open-editDialog", function () {
+        var id = $(this).data("id");
+        var path = $(this).data("path");
+  	  if (typeof id == 'undefined') id=null;  
+        $("#editModalContent").html("");
+        $.ajax({
+          url: path+((id != null)?"?ID="+id:"") ,
+          cache: false
+        }).done(function (html) {
+                  $("#editModalContent").html(html);
+                  $("#order-submit-date-input").pickmeup_twitter_bootstrap({
+                  	  locale		 : "ru",
+                  	  format         : 'd.m.Y',
+                  	  position       : "right",
+                  	  date			 : $("#order-submit-date-input").val(),
+                  	  hide_on_select : true
+                  	});
+                  var dinp = document.getElementById("order-submit-date-input"); 
+                  dinp.addEventListener('pickmeup-change', pmuDateChenged);
+                  $(".selectpicker").selectpicker();
+                  makeSkuSelect2 ($("#slSearchSku"), ajaxProductSearch);
+        });
+  	});	    			
+    //Открытие окна удаления
+    $("body").on("click",".open-deleteDialog", function () {
+  	     var Id = $(this).data("id");
+  	     var poName = $(this).data("name");
+  	     if (typeof poName == "undefined" || poName ==null) poName = '';
+  	     var modalName = $(this).data("target");
+  	     $(modalName).find(".modal-footer .btn-primary").val(Id);
+  	     $(modalName).find(".modal-body .objname").html(poName);
+  	     if (modalName == "#deleteModalPov") {
+  	    	 var canRemove = $(this).data("canremove");
+  	    	 var checkRemove = $(modalName).find("#phisycalDeletePov")
+  	    	 if (typeof checkRemove != "undefined" && checkRemove !=null) checkRemove.attr("disabled", !canRemove);
+  	     }
+  	});
+    
+    $("body").on("click", ".add-new-sku", function () { 
     	var id = $("#slSearchSku").val();
     	if (typeof id == "undefined") return;
 		var form = $("#oeform");
@@ -194,6 +195,14 @@
 		$("#actualFormFulfillment\\.middleName").val($("#customer-middleName").val());
 	});
 	
+	$("body").on("hidden.bs.select", "#selCustomer", function(e){
+		$("#customer-email").val($(e.currentTarget.selectedOptions).data("email"));
+		$("#customer-phone").val($(e.currentTarget.selectedOptions).data("phone"));
+		$("#customer-address").val($(e.currentTarget.selectedOptions).data("address"));
+		$("#customer-lastName").val($(e.currentTarget.selectedOptions).data("lastname"));
+		$("#customer-firstName").val($(e.currentTarget.selectedOptions).data("firstname"));
+		$("#customer-middleName").val($(e.currentTarget.selectedOptions).data("middlename"));		
+	})
 	
 	
 	

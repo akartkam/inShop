@@ -36,27 +36,31 @@ public class OrderValidator implements Validator {
 	public void validate(Object target, Errors errors) {
 		OrderForm order = (OrderForm) target;
 		
-		if (order.getOrderItems().isEmpty()) return;
-	 	Map<Sku, Integer> mapOfQuants = inventoryService.retrieveQuantitiesAvailable(order.getSkusFromOrderItems());
-	 	Map<OrderItem, Integer> mapOfOrderItemQuants = orderService.retrieveOrderItemQuantities(order.getOrderItems());
-	 	int oiQuant;
-	 	Integer currQuant, currOIQuant;
-	 	OrderItem orderItem;
-        for (int i = 0; i < order.getOrderItems().size(); i++) {
-        	orderItem = order.getOrderItems().get(i);
-            oiQuant = CommonUtil.nullSafeIntegerToPrimitive(orderItem.getQuantity());
-            currQuant = mapOfQuants.get(orderItem.getSku());
-            //if null, then sku is always available
-            if (currQuant != null) {
-                currOIQuant = mapOfOrderItemQuants.get(orderItem);
-                if (currOIQuant == null) currOIQuant = 0;
-                currQuant += currOIQuant;
-            	if(currQuant < oiQuant) {
-	                errors.rejectValue("orderItems[" + i + "].quantity", "error.insufficient.quantity", new String[] {currQuant.toString()}, null);
+		if (order.getOrderItems().isEmpty() && !OrderStatus.INCOMPLETE.equals(order.getStatus())) {
+			errors.reject("error.empty.order.orderItems");
+		} 
+		if (!order.getOrderItems().isEmpty()) {
+		 	Map<Sku, Integer> mapOfQuants = inventoryService.retrieveQuantitiesAvailable(order.getSkusFromOrderItems());
+		 	Map<OrderItem, Integer> mapOfOrderItemQuants = orderService.retrieveOrderItemQuantities(order.getOrderItems());
+		 	int oiQuant;
+		 	Integer currQuant, currOIQuant;
+		 	OrderItem orderItem;
+	        for (int i = 0; i < order.getOrderItems().size(); i++) {
+	        	orderItem = order.getOrderItems().get(i);
+	            oiQuant = CommonUtil.nullSafeIntegerToPrimitive(orderItem.getQuantity());
+	            currQuant = mapOfQuants.get(orderItem.getSku());
+	            //if null, then sku is always available
+	            if (currQuant != null) {
+	                currOIQuant = mapOfOrderItemQuants.get(orderItem);
+	                if (currOIQuant == null) currOIQuant = 0;
+	                currQuant += currOIQuant;
+	            	if(currQuant < oiQuant) {
+		                errors.rejectValue("orderItems[" + i + "].quantity", "error.insufficient.quantity", new String[] {currQuant.toString()}, null);
+		            }
 	            }
-            }
 
-        }
+	        }			
+		}
         if (!OrderStatus.INCOMPLETE.equals(order.getStatus())){
         	ValidationUtils.rejectIfEmpty(errors, "customer", "error.empty.order.customer");        	
         }

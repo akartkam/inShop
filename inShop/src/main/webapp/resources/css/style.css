@@ -1611,7 +1611,7 @@ div.product-options h3{
 span[class*="error"] {
     color: #e74c3e;
     font-weight: bold;
-    font-size: xx-small;
+    font-size: small;
     display: inline-block;
 }
 

@@ -152,6 +152,8 @@ public class OrderServiceImpl implements OrderService{
 			orderForm.setDeliveryTotal(orderForm.calculateDelivaryTotal());
 			orderForm.setSubTotal(orderForm.calculateSubTotal());
 			orderForm.setTotal(orderForm.calculateTotal());
+			List<OrderItem> orderItems = new ArrayList<OrderItem>(orderForm.getOrderItems());
+			orderForm.getOrderItems().clear();
 			Order order = new Order();
 			BeanUtilsBean bu = new NullAwareBeanUtilsBean();
 			try {
@@ -160,7 +162,7 @@ public class OrderServiceImpl implements OrderService{
 				LOG.error("",e);
 			}			
 			order.getOrderItems().clear();
-			for (OrderItem oi : orderForm.getOrderItems()) {
+			for (OrderItem oi : orderItems) {
 				Product p = oi.getSku().lookupProduct();
 				oi.setProduct(p);
 				oi.setCategory(p.getCategory());
@@ -218,6 +220,7 @@ public class OrderServiceImpl implements OrderService{
 			fulfil.setMiddleName(checkoutForm.getMiddleName());
 			fulfil.setPhone(checkoutForm.getPhone());
 			fulfil.setStore(checkoutForm.getStore());
+			fulfil.setCustomerMessage(checkoutForm.getCustomerComment());
 
 			Order order = new Order();
 			List<OrderItem> ois = new ArrayList<OrderItem>();

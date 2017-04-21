@@ -43,6 +43,8 @@ $(function(){
     	var modalClick = $(this).parents('.simplemodal-wrap').length > 0;
     	var $form = $(this).closest("form");
     	var $url = "";
+    	var $quantity = $form.find("[name='quantity']"); 
+    	if ($quantity.val() == "") $quantity.val("0");
     	var $existsProductOptions = $form.find("[name='hasProductOptions']") 
     	var $hasProductOptions = false;
     	if ($existsProductOptions.length) {

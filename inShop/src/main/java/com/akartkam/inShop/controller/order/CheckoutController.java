@@ -233,6 +233,7 @@ public class CheckoutController {
         }    
     	if (!errorsMap.isEmpty()){
     		responseMap.put("errors", errorsMap);
+    		model.addAttribute("errors", new Boolean(true));    		
     	}
     	if (!responseMap.isEmpty()){
     		model.addAttribute("responseMap", responseMap);
