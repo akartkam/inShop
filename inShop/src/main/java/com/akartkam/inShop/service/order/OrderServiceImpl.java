@@ -214,6 +214,7 @@ public class OrderServiceImpl implements OrderService{
 			
 			Fulfillment fulfil = new Fulfillment();
 			fulfil.setDelivery(checkoutForm.getDelivery());
+			fulfil.setCity(checkoutForm.getCity());
 			fulfil.setAddress(checkoutForm.getAddress());
 			fulfil.setFirstName(checkoutForm.getFirstName());
 			fulfil.setLastName(checkoutForm.getLastName());

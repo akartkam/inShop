@@ -28,7 +28,7 @@ public class Fulfillment extends AbstractDomainObject {
 	private Order order;
 	private Delivery delivery;
 	private Store store;
-	private String buy1clickName, lastName, firstName, middleName, phone, address;
+	private String buy1clickName, lastName, firstName, middleName, phone, city, address;
 	private BigDecimal deliveryPrice;
     private String customerMessage;
 
@@ -120,13 +120,22 @@ public class Fulfillment extends AbstractDomainObject {
 		this.address = address;
 	}
 	
+	@Column(name = "city")
+	public String getCity() {
+		return city;
+	}
+	public void setCity(String city) {
+		this.city = city;
+	}
+	
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((delivery == null) ? 0 : delivery.hashCode());
 		result = prime * result + ((store == null) ? 0 : store.hashCode());
-		result = prime * result + ((buy1clickName == null) ? 0 : buy1clickName.hashCode());
+		result = prime * result + ((city == null) ? 0 : city.hashCode());
 		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
 		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
 		result = prime * result + ((middleName == null) ? 0 : middleName.hashCode());
@@ -156,10 +165,10 @@ public class Fulfillment extends AbstractDomainObject {
 				return false;
 		} else if (!store.equals(other.store))
 			return false;
-		if (buy1clickName == null) {
-			if (other.buy1clickName != null)
+		if (city == null) {
+			if (other.city != null)
 				return false;
-		} else if (!buy1clickName.equals(other.buy1clickName))
+		} else if (!city.equals(other.city))
 			return false;		
 		if (lastName == null) {
 			if (other.lastName != null)

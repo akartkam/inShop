@@ -1,56 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.23" id="1">
     <property name="createdBy">Eclipse BIRT Designer Version 4.4.2.v201410272105 Build &lt;4.4.2.v20150217-1805></property>
-    <list-property name="propertyBindings">
-        <structure>
-            <property name="name">queryText</property>
-            <property name="id">8</property>
-        </structure>
-        <structure>
-            <property name="name">queryTimeOut</property>
-            <property name="id">8</property>
-        </structure>
-        <structure>
-            <property name="name">rowFetchSize</property>
-            <property name="id">8</property>
-        </structure>
-        <structure>
-            <property name="name">odaDriverClass</property>
-            <property name="id">7</property>
-        </structure>
-        <structure>
-            <property name="name">odaURL</property>
-            <property name="id">7</property>
-        </structure>
-        <structure>
-            <property name="name">odaUser</property>
-            <property name="id">7</property>
-        </structure>
-        <structure>
-            <property name="name">odaAutoCommit</property>
-            <property name="id">7</property>
-        </structure>
-        <structure>
-            <property name="name">odaIsolationMode</property>
-            <property name="id">7</property>
-        </structure>
-        <structure>
-            <property name="name">odaPassword</property>
-            <property name="id">7</property>
-        </structure>
-        <structure>
-            <property name="name">odaJndiName</property>
-            <property name="id">7</property>
-        </structure>
-        <structure>
-            <property name="name">OdaConnProfileName</property>
-            <property name="id">7</property>
-        </structure>
-        <structure>
-            <property name="name">OdaConnProfileStorePath</property>
-            <property name="id">7</property>
-        </structure>
-    </list-property>
     <property name="units">in</property>
     <property name="iconFile">/templates/blank_report.gif</property>
     <property name="bidiLayoutOrientation">ltr</property>
@@ -101,76 +51,10 @@
             <property name="nullsOrdering">nulls lowest</property>
             <list-property name="columnHints">
                 <structure>
-                    <property name="columnName">id</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">id</text-property>
-                    <text-property name="heading">id</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">createby</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">createby</text-property>
-                    <text-property name="heading">createby</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">createddate</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">createddate</text-property>
-                    <text-property name="heading">createddate</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">enabled</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">enabled</text-property>
-                    <text-property name="heading">enabled</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">updatedby</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">updatedby</text-property>
-                    <text-property name="heading">updatedby</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">updateddate</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">updateddate</text-property>
-                    <text-property name="heading">updateddate</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">version</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">version</text-property>
-                    <text-property name="heading">version</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">ordering</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">ordering</text-property>
-                    <text-property name="heading">ordering</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">email_address</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">email_address</text-property>
-                    <text-property name="heading">email_address</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">name</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">name</text-property>
-                    <text-property name="heading">name</text-property>
-                </structure>
-                <structure>
                     <property name="columnName">order_number</property>
                     <property name="analysis">dimension</property>
                     <text-property name="displayName">order_number</text-property>
                     <text-property name="heading">order_number</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">order_status</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">order_status</text-property>
-                    <text-property name="heading">order_status</text-property>
                 </structure>
                 <structure>
                     <property name="columnName">order_subtotal</property>
@@ -191,154 +75,28 @@
                     <text-property name="heading">order_total</text-property>
                 </structure>
                 <structure>
-                    <property name="columnName">customer_id</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">customer_id</text-property>
-                    <text-property name="heading">customer_id</text-property>
-                </structure>
-                <structure>
                     <property name="columnName">deliverytotal</property>
                     <property name="analysis">measure</property>
                     <text-property name="displayName">deliverytotal</text-property>
                     <text-property name="heading">deliverytotal</text-property>
                 </structure>
                 <structure>
-                    <property name="columnName">id_18</property>
+                    <property name="columnName">c_name</property>
                     <property name="analysis">dimension</property>
-                    <text-property name="displayName">id</text-property>
-                    <text-property name="heading">id</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">createby_19</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">createby</text-property>
-                    <text-property name="heading">createby</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">createddate_20</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">createddate</text-property>
-                    <text-property name="heading">createddate</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">enabled_21</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">enabled</text-property>
-                    <text-property name="heading">enabled</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">updatedby_22</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">updatedby</text-property>
-                    <text-property name="heading">updatedby</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">updateddate_23</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">updateddate</text-property>
-                    <text-property name="heading">updateddate</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">version_24</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">version</text-property>
-                    <text-property name="heading">version</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">address</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">address</text-property>
-                    <text-property name="heading">address</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">delivery_id</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">delivery_id</text-property>
-                    <text-property name="heading">delivery_id</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">order_id</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">order_id</text-property>
-                    <text-property name="heading">order_id</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">store_id</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">store_id</text-property>
-                    <text-property name="heading">store_id</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">cust_message</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">cust_message</text-property>
-                    <text-property name="heading">cust_message</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">delivery_price</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">delivery_price</text-property>
-                    <text-property name="heading">delivery_price</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">first_name</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">first_name</text-property>
-                    <text-property name="heading">first_name</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">last_name</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">last_name</text-property>
-                    <text-property name="heading">last_name</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">middle_name</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">middle_name</text-property>
-                    <text-property name="heading">middle_name</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">fulfillment_order</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">fulfillment_order</text-property>
-                    <text-property name="heading">fulfillment_order</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">phone</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">phone</text-property>
-                    <text-property name="heading">phone</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">buy1click_name</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">buy1click_name</text-property>
-                    <text-property name="heading">buy1click_name</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">c_first_name</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">c_first_name</text-property>
-                    <text-property name="heading">c_first_name</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">c_last_name</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">c_last_name</text-property>
-                    <text-property name="heading">c_last_name</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">c_middle_name</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">c_middle_name</text-property>
-                    <text-property name="heading">c_middle_name</text-property>
+                    <text-property name="displayName">c_name</text-property>
+                    <text-property name="heading">c_name</text-property>
                 </structure>
                 <structure>
                     <property name="columnName">c_phone</property>
                     <property name="analysis">dimension</property>
                     <text-property name="displayName">c_phone</text-property>
                     <text-property name="heading">c_phone</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">c_address</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">c_address</text-property>
+                    <text-property name="heading">c_address</text-property>
                 </structure>
                 <structure>
                     <property name="columnName">c_email</property>
@@ -388,226 +146,66 @@
                 <list-property name="resultSet">
                     <structure>
                         <property name="position">1</property>
-                        <property name="name">id</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">2</property>
-                        <property name="name">createby</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">3</property>
-                        <property name="name">createddate</property>
-                        <property name="dataType">date-time</property>
-                    </structure>
-                    <structure>
-                        <property name="position">4</property>
-                        <property name="name">enabled</property>
-                        <property name="dataType">integer</property>
-                    </structure>
-                    <structure>
-                        <property name="position">5</property>
-                        <property name="name">updatedby</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">6</property>
-                        <property name="name">updateddate</property>
-                        <property name="dataType">date-time</property>
-                    </structure>
-                    <structure>
-                        <property name="position">7</property>
-                        <property name="name">version</property>
-                        <property name="dataType">integer</property>
-                    </structure>
-                    <structure>
-                        <property name="position">8</property>
-                        <property name="name">ordering</property>
-                        <property name="dataType">integer</property>
-                    </structure>
-                    <structure>
-                        <property name="position">9</property>
-                        <property name="name">email_address</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">10</property>
-                        <property name="name">name</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">11</property>
                         <property name="name">order_number</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">12</property>
-                        <property name="name">order_status</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">13</property>
+                        <property name="position">2</property>
                         <property name="name">order_subtotal</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
-                        <property name="position">14</property>
+                        <property name="position">3</property>
                         <property name="name">submit_date</property>
                         <property name="dataType">date-time</property>
                     </structure>
                     <structure>
-                        <property name="position">15</property>
+                        <property name="position">4</property>
                         <property name="name">order_total</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
-                        <property name="position">16</property>
-                        <property name="name">customer_id</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">17</property>
+                        <property name="position">5</property>
                         <property name="name">deliverytotal</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
-                        <property name="position">18</property>
-                        <property name="name">id_18</property>
+                        <property name="position">6</property>
+                        <property name="name">c_name</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">19</property>
-                        <property name="name">createby_19</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">20</property>
-                        <property name="name">createddate_20</property>
-                        <property name="dataType">date-time</property>
-                    </structure>
-                    <structure>
-                        <property name="position">21</property>
-                        <property name="name">enabled_21</property>
-                        <property name="dataType">integer</property>
-                    </structure>
-                    <structure>
-                        <property name="position">22</property>
-                        <property name="name">updatedby_22</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">23</property>
-                        <property name="name">updateddate_23</property>
-                        <property name="dataType">date-time</property>
-                    </structure>
-                    <structure>
-                        <property name="position">24</property>
-                        <property name="name">version_24</property>
-                        <property name="dataType">integer</property>
-                    </structure>
-                    <structure>
-                        <property name="position">25</property>
-                        <property name="name">address</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">26</property>
-                        <property name="name">delivery_id</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">27</property>
-                        <property name="name">order_id</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">28</property>
-                        <property name="name">store_id</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">29</property>
-                        <property name="name">cust_message</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">30</property>
-                        <property name="name">delivery_price</property>
-                        <property name="dataType">decimal</property>
-                    </structure>
-                    <structure>
-                        <property name="position">31</property>
-                        <property name="name">first_name</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">32</property>
-                        <property name="name">last_name</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">33</property>
-                        <property name="name">middle_name</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">34</property>
-                        <property name="name">fulfillment_order</property>
-                        <property name="dataType">integer</property>
-                    </structure>
-                    <structure>
-                        <property name="position">35</property>
-                        <property name="name">phone</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">36</property>
-                        <property name="name">buy1click_name</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">37</property>
-                        <property name="name">c_first_name</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">38</property>
-                        <property name="name">c_last_name</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">39</property>
-                        <property name="name">c_middle_name</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">40</property>
+                        <property name="position">7</property>
                         <property name="name">c_phone</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">41</property>
+                        <property name="position">8</property>
+                        <property name="name">c_address</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">9</property>
                         <property name="name">c_email</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">42</property>
+                        <property name="position">10</property>
                         <property name="name">delivery_name</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">43</property>
+                        <property name="position">11</property>
                         <property name="name">delivery_type</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">44</property>
+                        <property name="position">12</property>
                         <property name="name">store_name</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">45</property>
+                        <property name="position">13</property>
                         <property name="name">store_addres</property>
                         <property name="dataType">string</property>
                     </structure>
@@ -617,327 +215,111 @@
             <list-property name="resultSet">
                 <structure>
                     <property name="position">1</property>
-                    <property name="name">id</property>
-                    <property name="nativeName">id</property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">1111</property>
-                </structure>
-                <structure>
-                    <property name="position">2</property>
-                    <property name="name">createby</property>
-                    <property name="nativeName">createby</property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
-                </structure>
-                <structure>
-                    <property name="position">3</property>
-                    <property name="name">createddate</property>
-                    <property name="nativeName">createddate</property>
-                    <property name="dataType">date-time</property>
-                    <property name="nativeDataType">93</property>
-                </structure>
-                <structure>
-                    <property name="position">4</property>
-                    <property name="name">enabled</property>
-                    <property name="nativeName">enabled</property>
-                    <property name="dataType">integer</property>
-                    <property name="nativeDataType">-7</property>
-                </structure>
-                <structure>
-                    <property name="position">5</property>
-                    <property name="name">updatedby</property>
-                    <property name="nativeName">updatedby</property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
-                </structure>
-                <structure>
-                    <property name="position">6</property>
-                    <property name="name">updateddate</property>
-                    <property name="nativeName">updateddate</property>
-                    <property name="dataType">date-time</property>
-                    <property name="nativeDataType">93</property>
-                </structure>
-                <structure>
-                    <property name="position">7</property>
-                    <property name="name">version</property>
-                    <property name="nativeName">version</property>
-                    <property name="dataType">integer</property>
-                    <property name="nativeDataType">4</property>
-                </structure>
-                <structure>
-                    <property name="position">8</property>
-                    <property name="name">ordering</property>
-                    <property name="nativeName">ordering</property>
-                    <property name="dataType">integer</property>
-                    <property name="nativeDataType">4</property>
-                </structure>
-                <structure>
-                    <property name="position">9</property>
-                    <property name="name">email_address</property>
-                    <property name="nativeName">email_address</property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
-                </structure>
-                <structure>
-                    <property name="position">10</property>
-                    <property name="name">name</property>
-                    <property name="nativeName">name</property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
-                </structure>
-                <structure>
-                    <property name="position">11</property>
                     <property name="name">order_number</property>
                     <property name="nativeName">order_number</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">12</property>
-                    <property name="name">order_status</property>
-                    <property name="nativeName">order_status</property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
-                </structure>
-                <structure>
-                    <property name="position">13</property>
+                    <property name="position">2</property>
                     <property name="name">order_subtotal</property>
                     <property name="nativeName">order_subtotal</property>
                     <property name="dataType">decimal</property>
                     <property name="nativeDataType">2</property>
                 </structure>
                 <structure>
-                    <property name="position">14</property>
+                    <property name="position">3</property>
                     <property name="name">submit_date</property>
                     <property name="nativeName">submit_date</property>
                     <property name="dataType">date-time</property>
                     <property name="nativeDataType">93</property>
                 </structure>
                 <structure>
-                    <property name="position">15</property>
+                    <property name="position">4</property>
                     <property name="name">order_total</property>
                     <property name="nativeName">order_total</property>
                     <property name="dataType">decimal</property>
                     <property name="nativeDataType">2</property>
                 </structure>
                 <structure>
-                    <property name="position">16</property>
-                    <property name="name">customer_id</property>
-                    <property name="nativeName">customer_id</property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">1111</property>
-                </structure>
-                <structure>
-                    <property name="position">17</property>
+                    <property name="position">5</property>
                     <property name="name">deliverytotal</property>
                     <property name="nativeName">deliverytotal</property>
                     <property name="dataType">decimal</property>
                     <property name="nativeDataType">2</property>
                 </structure>
                 <structure>
-                    <property name="position">18</property>
-                    <property name="name">id_18</property>
-                    <property name="nativeName">id</property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">1111</property>
-                </structure>
-                <structure>
-                    <property name="position">19</property>
-                    <property name="name">createby_19</property>
-                    <property name="nativeName">createby</property>
+                    <property name="position">6</property>
+                    <property name="name">c_name</property>
+                    <property name="nativeName">c_name</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">20</property>
-                    <property name="name">createddate_20</property>
-                    <property name="nativeName">createddate</property>
-                    <property name="dataType">date-time</property>
-                    <property name="nativeDataType">93</property>
-                </structure>
-                <structure>
-                    <property name="position">21</property>
-                    <property name="name">enabled_21</property>
-                    <property name="nativeName">enabled</property>
-                    <property name="dataType">integer</property>
-                    <property name="nativeDataType">-7</property>
-                </structure>
-                <structure>
-                    <property name="position">22</property>
-                    <property name="name">updatedby_22</property>
-                    <property name="nativeName">updatedby</property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
-                </structure>
-                <structure>
-                    <property name="position">23</property>
-                    <property name="name">updateddate_23</property>
-                    <property name="nativeName">updateddate</property>
-                    <property name="dataType">date-time</property>
-                    <property name="nativeDataType">93</property>
-                </structure>
-                <structure>
-                    <property name="position">24</property>
-                    <property name="name">version_24</property>
-                    <property name="nativeName">version</property>
-                    <property name="dataType">integer</property>
-                    <property name="nativeDataType">4</property>
-                </structure>
-                <structure>
-                    <property name="position">25</property>
-                    <property name="name">address</property>
-                    <property name="nativeName">address</property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
-                </structure>
-                <structure>
-                    <property name="position">26</property>
-                    <property name="name">delivery_id</property>
-                    <property name="nativeName">delivery_id</property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">1111</property>
-                </structure>
-                <structure>
-                    <property name="position">27</property>
-                    <property name="name">order_id</property>
-                    <property name="nativeName">order_id</property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">1111</property>
-                </structure>
-                <structure>
-                    <property name="position">28</property>
-                    <property name="name">store_id</property>
-                    <property name="nativeName">store_id</property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">1111</property>
-                </structure>
-                <structure>
-                    <property name="position">29</property>
-                    <property name="name">cust_message</property>
-                    <property name="nativeName">cust_message</property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
-                </structure>
-                <structure>
-                    <property name="position">30</property>
-                    <property name="name">delivery_price</property>
-                    <property name="nativeName">delivery_price</property>
-                    <property name="dataType">decimal</property>
-                    <property name="nativeDataType">2</property>
-                </structure>
-                <structure>
-                    <property name="position">31</property>
-                    <property name="name">first_name</property>
-                    <property name="nativeName">first_name</property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
-                </structure>
-                <structure>
-                    <property name="position">32</property>
-                    <property name="name">last_name</property>
-                    <property name="nativeName">last_name</property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
-                </structure>
-                <structure>
-                    <property name="position">33</property>
-                    <property name="name">middle_name</property>
-                    <property name="nativeName">middle_name</property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
-                </structure>
-                <structure>
-                    <property name="position">34</property>
-                    <property name="name">fulfillment_order</property>
-                    <property name="nativeName">fulfillment_order</property>
-                    <property name="dataType">integer</property>
-                    <property name="nativeDataType">4</property>
-                </structure>
-                <structure>
-                    <property name="position">35</property>
-                    <property name="name">phone</property>
-                    <property name="nativeName">phone</property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
-                </structure>
-                <structure>
-                    <property name="position">36</property>
-                    <property name="name">buy1click_name</property>
-                    <property name="nativeName">buy1click_name</property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
-                </structure>
-                <structure>
-                    <property name="position">37</property>
-                    <property name="name">c_first_name</property>
-                    <property name="nativeName">c_first_name</property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
-                </structure>
-                <structure>
-                    <property name="position">38</property>
-                    <property name="name">c_last_name</property>
-                    <property name="nativeName">c_last_name</property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
-                </structure>
-                <structure>
-                    <property name="position">39</property>
-                    <property name="name">c_middle_name</property>
-                    <property name="nativeName">c_middle_name</property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
-                </structure>
-                <structure>
-                    <property name="position">40</property>
+                    <property name="position">7</property>
                     <property name="name">c_phone</property>
                     <property name="nativeName">c_phone</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">41</property>
+                    <property name="position">8</property>
+                    <property name="name">c_address</property>
+                    <property name="nativeName">c_address</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">9</property>
                     <property name="name">c_email</property>
                     <property name="nativeName">c_email</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">42</property>
+                    <property name="position">10</property>
                     <property name="name">delivery_name</property>
                     <property name="nativeName">delivery_name</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">43</property>
+                    <property name="position">11</property>
                     <property name="name">delivery_type</property>
                     <property name="nativeName">delivery_type</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">44</property>
+                    <property name="position">12</property>
                     <property name="name">store_name</property>
                     <property name="nativeName">store_name</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">45</property>
+                    <property name="position">13</property>
                     <property name="name">store_addres</property>
                     <property name="nativeName">store_addres</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
             </list-property>
-            <xml-property name="queryText"><![CDATA[select o.*, f.*, c.first_name as c_first_name, c.last_name as c_last_name, c.middle_name as c_middle_name,
-       c.phone as c_phone, c.email as c_email, d.name as delivery_name, d.delivery_type , s.name as store_name, 
-       s.address as store_addres 
-  from Customer_order o, Customer c, Fulfillment f, Delivery d, Store s
-  where cast(o.id as varchar(36))=? and f.order_id=o.id and 
-      c.id=o.customer_id and  f.fulfillment_order = (select max(fulfillment_order) from Fulfillment where order_id=o.id) and
-      d.id=f.delivery_id and s.id=store_id]]></xml-property>
+            <xml-property name="queryText"><![CDATA[select o.order_number, o.order_subtotal, o.submit_date, o.order_total, o.deliverytotal,  
+       case when coalesce(f.first_name,'') <> '' then f.first_name||' '||coalesce(f.last_name,'')||' '||coalesce(f.middle_name,'')
+       else coalesce(c.first_name, '')||' '||coalesce(c.last_name,'')||' '||coalesce(c.middle_name,'') end as c_name,
+       case when coalesce(f.phone,'') <> '' then f.phone else c.phone end as c_phone, 
+       case when coalesce(f.address,'') <> '' then f.address else c.address end as c_address,
+       case when coalesce(o.email_address,'') <> '' then o.email_address else c.email end as c_email, 
+       d.name as delivery_name, d.delivery_type , s.name as store_name, s.address as store_addres 
+  from Customer_order o 
+       left join Customer c on c.id=o.customer_id
+       left join Fulfillment f on f.order_id=o.id
+       left outer join Fulfillment f1 on f1.order_id=f.order_id and f.fulfillment_order<f1.fulfillment_order
+       left join Delivery d on d.id=f.delivery_id
+       left join Store s on s.id=f.store_id
+  where cast(o.id as varchar(36))=? and f1.id is null
+]]></xml-property>
         </oda-data-set>
     </data-sets>
     <styles>
@@ -986,6 +368,7 @@
     </page-setup>
     <body>
         <data id="12">
+            <property name="fontFamily">"Arial"</property>
             <property name="fontSize">14pt</property>
             <property name="textAlign">center</property>
             <property name="dataSet">OrderMain</property>
@@ -1000,6 +383,133 @@
             </list-property>
             <property name="resultSetColumn">order_number</property>
         </data>
-        <text id="13"/>
+        <data id="16">
+            <property name="fontFamily">"Arial"</property>
+            <property name="fontSize">12pt</property>
+            <property name="marginTop">40pt</property>
+            <property name="paddingTop">1pt</property>
+            <structure name="dateTimeFormat">
+                <property name="category">Custom</property>
+                <property name="pattern">dd.MM.yyyy hh.mm</property>
+            </structure>
+            <property name="whiteSpace">pre</property>
+            <property name="display">block</property>
+            <property name="dataSet">OrderMain</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">submit_date</property>
+                    <text-property name="displayName">submit_date</text-property>
+                    <expression name="expression" type="javascript">"Дата и время заказа: "+Formatter.format(dataSetRow["submit_date"], "dd.MM.yyyy hh:mm")</expression>
+                    <property name="dataType">string</property>
+                    <property name="allowExport">true</property>
+                </structure>
+            </list-property>
+            <property name="resultSetColumn">submit_date</property>
+        </data>
+        <data id="21">
+            <property name="fontFamily">"Arial"</property>
+            <property name="fontSize">12pt</property>
+            <property name="dataSet">OrderMain</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">c_name</property>
+                    <text-property name="displayName">c_name</text-property>
+                    <expression name="expression" type="javascript">"Ф.И.О. клиента: " + dataSetRow["c_name"]</expression>
+                    <property name="dataType">string</property>
+                    <property name="allowExport">true</property>
+                </structure>
+            </list-property>
+            <property name="resultSetColumn">c_name</property>
+        </data>
+        <data id="22">
+            <property name="fontFamily">"Arial"</property>
+            <property name="fontSize">12pt</property>
+            <property name="dataSet">OrderMain</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">c_address</property>
+                    <text-property name="displayName">c_address</text-property>
+                    <expression name="expression" type="javascript">if (BirtStr.trim(dataSetRow["c_address"]) != "") "Адрес клиента: "+dataSetRow["c_address"]</expression>
+                    <property name="dataType">string</property>
+                    <property name="allowExport">true</property>
+                </structure>
+            </list-property>
+            <property name="resultSetColumn">c_address</property>
+        </data>
+        <data id="24">
+            <property name="fontFamily">"Arial"</property>
+            <property name="fontSize">12pt</property>
+            <property name="dataSet">OrderMain</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">c_phone</property>
+                    <text-property name="displayName">c_phone</text-property>
+                    <expression name="expression" type="javascript">"Телефон: " + dataSetRow["c_phone"]</expression>
+                    <property name="dataType">string</property>
+                    <property name="allowExport">true</property>
+                </structure>
+            </list-property>
+            <property name="resultSetColumn">c_phone</property>
+        </data>
+        <data id="23">
+            <property name="fontFamily">"Arial"</property>
+            <property name="fontSize">12pt</property>
+            <property name="dataSet">OrderMain</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">c_email</property>
+                    <text-property name="displayName">c_email</text-property>
+                    <expression name="expression" type="javascript">"Email: " + dataSetRow["c_email"]</expression>
+                    <property name="dataType">string</property>
+                    <property name="allowExport">true</property>
+                </structure>
+            </list-property>
+            <property name="resultSetColumn">c_email</property>
+        </data>
+        <data id="27">
+            <property name="fontFamily">"Arial"</property>
+            <property name="fontSize">12pt</property>
+            <property name="dataSet">OrderMain</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">delivery_name</property>
+                    <text-property name="displayName">delivery_name</text-property>
+                    <expression name="expression" type="javascript">"Способ доставки: " + dataSetRow["delivery_name"]</expression>
+                    <property name="dataType">string</property>
+                    <property name="allowExport">true</property>
+                </structure>
+            </list-property>
+            <property name="resultSetColumn">delivery_name</property>
+        </data>
+        <data id="28">
+            <property name="fontFamily">"Arial"</property>
+            <property name="fontSize">12pt</property>
+            <property name="dataSet">OrderMain</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">store_name</property>
+                    <text-property name="displayName">store_name</text-property>
+                    <expression name="expression" type="javascript">if(BirtStr.trim(dataSetRow["store_name"]) != "") "Пункт самовывоза: " + dataSetRow["store_name"]</expression>
+                    <property name="dataType">string</property>
+                    <property name="allowExport">true</property>
+                </structure>
+            </list-property>
+            <property name="resultSetColumn">store_name</property>
+        </data>
+        <data id="29">
+            <property name="fontFamily">"Arial"</property>
+            <property name="fontSize">12pt</property>
+            <property name="dataSet">OrderMain</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">store_addres</property>
+                    <text-property name="displayName">store_addres</text-property>
+                    <expression name="expression" type="javascript">if(BirtStr.trim(dataSetRow["store_addres"]) != "") "Адрес пункта самовывоза: " + dataSetRow["store_addres"]</expression>
+                    <property name="dataType">string</property>
+                    <property name="allowExport">true</property>
+                </structure>
+            </list-property>
+            <property name="resultSetColumn">store_addres</property>
+        </data>
     </body>
 </report>

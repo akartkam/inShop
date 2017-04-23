@@ -148,6 +148,25 @@
 						        </div>
 						      </div>
 					        </div> 
+					        <div class="row clearfix">
+							  <div class="col-md-12 column" id="ffHistoryTable">
+				               	<table class="table table-bordered table-hover" id="ffHistoryDT" th:object="${ord}" th:fragment="ffHistoryTable">
+          	    				  <thead >
+		                       	    <tr >
+						              <th class="col-md-5 text-center" th:text="#{order.delivery}">Delivery</th>
+						              <th class="col-md-2 text-center" th:text="#{order.store}">Store</th>
+						              <th class="col-md-2 text-center" th:text="#{person.fullName}">Name</th>
+						              <th class="col-md-2 text-center" th:text="#{city}">City</th>
+						              <th class="col-md-2 text-center" th:text="#{admin.address}">Address</th>
+						              <th class="col-md-2 text-center" th:text="#{admin.email}">Email</th>
+						              <th class="col-md-2 text-center" th:text="#{admin.phone}">Phone</th>
+						              <th class="col-md-1 text-center"></th>
+							  	    </tr>
+							  	  </thead >				               	
+				               	</table>
+				              </div>
+				            </div>
+					        
 	             		</div>
 	                    <div class="tab-pane " th:classappend="${tabactive=='content'}? 'in active'" id="content">							
 					        <div class="container-fluid">
@@ -294,7 +313,7 @@
 			                           <label>
 								  	  	<span th:text="#{admin.order.buy1click.name}">Buy1click Name</span>
 								       </label>
-									   <input type="text" class="form-control" th:field="*{actualFormFulfillment.buy1clickName}"/>
+									   <input type="text" readonly="readonly" class="form-control" th:text="${ord.actualFormFulfillment.buy1clickName}"/>
 								     </div>								       
 							       </div>
 							       <div class="col-md-3">
@@ -337,7 +356,15 @@
 									   <input type="text" class="form-control" th:field="*{actualFormFulfillment.phone}"/>
 								     </div>								       
 							       </div>							     							     
-							       <div class="col-md-5">
+							       <div class="col-md-2">
+									 <div class="field-box">
+			                           <label>
+								  	  	<span th:text="#{city}">City</span>
+								       </label>
+									   <input type="text" class="form-control" th:field="*{actualFormFulfillment.city}"/>
+								     </div>								       
+							       </div>							     							     
+							       <div class="col-md-4">
 									 <div class="field-box" th:class="${#fields.hasErrors('actualFormFulfillment.address')}? has-error: field-box">
 			                           <label>
 								  	  	<span th:text="#{address}">Address</span>
@@ -349,12 +376,12 @@
 								     </div>	
 								     <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('actualFormFulfillment.address')}" th:errors="*{actualFormFulfillment.address}">Empty address</p>							       
 							       </div>							     
-							       <div class="col-md-5">
+							       <div class="col-md-4">
 									 <div class="field-box">
 			                           <label>
 								  	  	<span th:text="#{admin.order.customerComment}">Сustomer Comment</span>
 								       </label>
-									   <textarea readonly="readonly" class="form-control" th:field="*{actualFormFulfillment.customerMessage}"></textarea>
+									   <textarea readonly="readonly" class="form-control" th:text="${ord.actualFormFulfillment.customerMessage}"></textarea>
 								     </div>								       
 							       </div>							     
 

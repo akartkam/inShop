@@ -124,7 +124,8 @@ public class AdminOrderController {
 	  @InitBinder()
 	  public void initBinder(WebDataBinder binder) {
 		    binder.setAllowedFields(new String[] {"id", "customer", "status", "submitDate", "orderNumber", "emailAddress", 
-		    		                              "orderItems*", "createdDate", "actualFormFulfillment", "fulfillment", "actualFormFulfillment*"});
+		    		                              "orderItems*", "createdDate", "actualFormFulfillment", "fulfillment", 
+		    		                              "actualFormFulfillment*"});
 		    binder.registerCustomEditor(UUID.class, "id", new PropertyEditorSupport() {
 			    @Override
 			    public void setAsText(String text) {
