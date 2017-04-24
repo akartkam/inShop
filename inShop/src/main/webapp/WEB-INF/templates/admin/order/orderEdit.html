@@ -153,16 +153,36 @@
 				               	<table class="table table-bordered table-hover" id="ffHistoryDT" th:object="${ord}" th:fragment="ffHistoryTable">
           	    				  <thead >
 		                       	    <tr >
-						              <th class="col-md-5 text-center" th:text="#{order.delivery}">Delivery</th>
+		                       	      <th class="col-md-1 text-center" th:text="#{admin.created}">Delivery</th>
+						              <th class="col-md-2 text-center" th:text="#{order.delivery}">Delivery</th>
 						              <th class="col-md-2 text-center" th:text="#{order.store}">Store</th>
 						              <th class="col-md-2 text-center" th:text="#{person.fullName}">Name</th>
-						              <th class="col-md-2 text-center" th:text="#{city}">City</th>
+						              <th class="col-md-1 text-center" th:text="#{city}">City</th>
 						              <th class="col-md-2 text-center" th:text="#{admin.address}">Address</th>
-						              <th class="col-md-2 text-center" th:text="#{admin.email}">Email</th>
-						              <th class="col-md-2 text-center" th:text="#{admin.phone}">Phone</th>
+						              <th class="col-md-1text-center" th:text="#{admin.phone}">Phone</th>
 						              <th class="col-md-1 text-center"></th>
 							  	    </tr>
-							  	  </thead >				               	
+							  	  </thead>	
+							  	  <tbody>
+							  	      <tr style="font-size: 8pt;" th:each="ff, ffStat : ${ord.fulfillment}" th:if="${ffStat.index &lt; #lists.size(ord.fulfillment)-1}">
+							  	        <td th:utext="${{ff.createdDate}}"></td>
+							  	      	<td th:utext="${ff.delivery != null? ff.delivery.name: ''}"></td>
+							  	      	<td th:utext="${ff.store != null? ff.store.name: ''}"></td>
+							  	      	<td th:utext="${ff.fullName}"></td>
+							  	      	<td th:utext="${ff.city}"></td>
+							  	      	<td th:utext="${ff.address}"></td>
+							  	      	<td th:utext="${ff.phone}"></td>
+						            	<td class="text-center">
+	  				            	  	   <div class="btn-group" role="group" > 
+				                             <button type="button" data-toggle="modal" data-target="#deleteModal" 
+				                                      class="open-deleteDialog btn btn-outline btn-default btn-xs"
+				                                      th:attr="data-id=${ff.id}"> 
+				                                <i class="fa fa-trash-o"></i>
+				                             </button>	
+			                               </div>  
+			                             </td>							  	      	
+							  	      </tr>
+							  	  </tbody>			               	
 				               	</table>
 				              </div>
 				            </div>

@@ -15,6 +15,7 @@ import org.apache.commons.beanutils.BeanUtilsBean;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -103,7 +104,9 @@ public class OrderServiceImpl implements OrderService{
 		if (existingOrder != null) {
 			existingOrder.setCustomer(orderForm.getCustomer());
 			existingOrder.setEmailAddress(orderForm.getEmailAddress());
-			existingOrder.setSubmitDate(orderForm.getSubmitDate());
+			LocalDate exSubmitDate = existingOrder.getSubmitDate().toLocalDate();
+			LocalDate submitDate = orderForm.getSubmitDate().toLocalDate();
+			if (exSubmitDate.compareTo(submitDate) != 0) existingOrder.setSubmitDate(orderForm.getSubmitDate());
 			existingOrder.setStatus(orderForm.getStatus());
 			List<OrderItem> loif = new ArrayList<OrderItem>(orderForm.getOrderItems());
 			Iterator<OrderItem> ioi = existingOrder.getOrderItems().iterator();

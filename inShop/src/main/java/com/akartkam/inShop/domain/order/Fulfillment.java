@@ -8,6 +8,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotEmpty;
@@ -127,6 +128,15 @@ public class Fulfillment extends AbstractDomainObject {
 	public void setCity(String city) {
 		this.city = city;
 	}
+	
+	@Transient
+	public String getFullName() { 
+		StringBuilder sb = new StringBuilder();
+		if (firstName != null && !"".equals(firstName)) sb.append(firstName);
+		if (lastName != null && !"".equals(lastName)) sb.append(" ").append(lastName);
+		if (middleName != null && !"".equals(middleName)) sb.append(" ").append(middleName);
+		return sb.toString();
+	}	
 	
 	
 	@Override
