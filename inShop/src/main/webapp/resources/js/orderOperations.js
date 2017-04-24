@@ -73,9 +73,10 @@ $(function(){
            
          });
 	
-	$(".place-order-button").one("click", function(form){
-	    $(this).attr("disabled","disabled");
-	    $(this).text("Отправка заказа...");
+	$(".place-order-button").one("click", function(event){
+		event.preventDefault();
+		$(this).text("ОТПРАВКА ЗАКАЗА...");
+		$(this).attr("disabled", "disabled");
 	    var $form = $(this).closest("form");
 	    $form.submit();
 	    return true;
