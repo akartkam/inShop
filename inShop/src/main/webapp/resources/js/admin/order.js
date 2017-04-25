@@ -112,16 +112,14 @@
     //Открытие окна удаления
     $("body").on("click",".open-deleteDialog", function () {
   	     var Id = $(this).data("id");
-  	     var poName = $(this).data("name");
-  	     if (typeof poName == "undefined" || poName ==null) poName = '';
+  	     var path = $(this).data("path");
+  	     var tableUpdated = $(this).data("table-update");
   	     var modalName = $(this).data("target");
-  	     $(modalName).find(".modal-footer .btn-primary").val(Id);
-  	     $(modalName).find(".modal-body .objname").html(poName);
-  	     if (modalName == "#deleteModalPov") {
-  	    	 var canRemove = $(this).data("canremove");
-  	    	 var checkRemove = $(modalName).find("#phisycalDeletePov")
-  	    	 if (typeof checkRemove != "undefined" && checkRemove !=null) checkRemove.attr("disabled", !canRemove);
-  	     }
+  	     var $btn = $(modalName).find(".modal-footer .accept-delete");
+  	     $btn.data("id",Id);
+  	     $btn.data("path",path);
+  	     $btn.data("table-update",tableUpdated);
+  	     
   	});
     
     $("body").on("click", ".add-new-sku", function () { 
@@ -139,19 +137,21 @@
         	   $("#dOrderItemTable").html(html);
            });
 	});
-	$("body").on("click", ".open-deleteDialog-oi", function () { 
+	$("body").on("click", ".modal-footer .accept-delete", function () { 
     	var id = $(this).data("id");
+    	var path = $(this).data("path");
+    	var tableUpdated = $(this).data("table-update");
     	if (typeof id == "undefined") return;
 		var form = $("#oeform");
 		var formser;
 		if (typeof form != "undefined" && form != null) formser = form.serialize();
            $.ajax({
            	   type: "POST",
-               url: delSkuItem,
+               url: path,
                data: formser+"&ID="+id,
                cache: false
            }).done(function (html) {
-        	   $("#dOrderItemTable").html(html);
+        	   $(tableUpdated).html(html);
            });
 	});	    			    		
 	$("body").on("input", ".row-total-changer", function (event) {

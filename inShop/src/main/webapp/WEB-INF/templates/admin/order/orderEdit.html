@@ -176,7 +176,8 @@
 	  				            	  	   <div class="btn-group" role="group" > 
 				                             <button type="button" data-toggle="modal" data-target="#deleteModal" 
 				                                      class="open-deleteDialog btn btn-outline btn-default btn-xs"
-				                                      th:attr="data-id=${ff.id}"> 
+				                                      th:attr="data-id=${ff.id}, data-path=@{/admin/order/del-ff}, data-table-update='#ffHistoryTable'"
+							                          data-backdrop="static" data-keyboard="false"> 
 				                                <i class="fa fa-trash-o"></i>
 				                             </button>	
 			                               </div>  
@@ -257,9 +258,10 @@
 									  	       	  </td>
 									  	       	  <td >
 			  				            	  		 <div class="btn-group" role="group" > 
-						                                  <button type="button" data-toggle="modal" data-target="#deleteOi" 
-							                                      class="open-deleteDialog-oi btn btn-outline btn-default btn-xs"
-							                                      th:attr="data-id=${oi.id}">
+						                                  <button type="button" data-toggle="modal" data-target="#deleteModal" 
+							                                      class="open-deleteDialog btn btn-outline btn-default btn-xs"
+							                                      th:attr="data-id=${oi.id}, data-path=@{/admin/order/del-item}, data-table-update='#dOrderItemTable'"
+							                                      data-backdrop="static" data-keyboard="false">
 							                                <i class="fa fa-trash-o"></i>
 							                              </button>	
 					                            	 </div>
