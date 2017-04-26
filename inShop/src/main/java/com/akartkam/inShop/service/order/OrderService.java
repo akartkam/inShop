@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import com.akartkam.inShop.domain.order.Fulfillment;
 import com.akartkam.inShop.domain.order.Order;
 import com.akartkam.inShop.domain.order.OrderItem;
 import com.akartkam.inShop.domain.order.Store;
@@ -30,4 +31,6 @@ public interface OrderService {
 	Object[] getProductsForDataTable(DataTableForm dt, String orderStatus);
 	long countTotalOrders();
 	List<Object[]> getOrdersByStatus();
+	Fulfillment loadFulfillmentById(UUID id, boolean lock );
+	Fulfillment getFulfillmentById(UUID id);
 }

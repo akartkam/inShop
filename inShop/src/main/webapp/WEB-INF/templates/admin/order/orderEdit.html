@@ -164,8 +164,11 @@
 							  	    </tr>
 							  	  </thead>	
 							  	  <tbody>
-							  	      <tr style="font-size: 8pt;" th:each="ff, ffStat : ${ord.fulfillment}" th:if="${ffStat.index &lt; #lists.size(ord.fulfillment)-1}">
-							  	        <td th:utext="${{ff.createdDate}}"></td>
+							  	      <tr style="font-size: 8pt;" th:each="ff, ffStat : ${ord.fulfillment}" th:if="${!ff.equals(ord.actualFormFulfillment)}">
+							  	        <td>
+							  	        	<input type="hidden" th:name="fulfillment[__${ffStat.index}__]" th:value="${ff.id}"/>
+							  	        	<span th:utext="${{ff.createdDate}}"></span>
+							  	        </td>
 							  	      	<td th:utext="${ff.delivery != null? ff.delivery.name: ''}"></td>
 							  	      	<td th:utext="${ff.store != null? ff.store.name: ''}"></td>
 							  	      	<td th:utext="${ff.fullName}"></td>

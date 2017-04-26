@@ -45,6 +45,7 @@ import com.akartkam.inShop.domain.order.OrderItem;
 import com.akartkam.inShop.domain.order.OrderStatus;
 import com.akartkam.inShop.domain.order.Store;
 import com.akartkam.inShop.domain.product.Sku;
+import com.akartkam.inShop.domain.product.option.ProductOption;
 import com.akartkam.inShop.exception.InventoryUnavailableException;
 import com.akartkam.inShop.exception.SkuNotFoundException;
 import com.akartkam.inShop.formbean.ItemsForJSON;
@@ -123,9 +124,9 @@ public class AdminOrderController {
 	  
 	  @InitBinder()
 	  public void initBinder(WebDataBinder binder) {
-		    binder.setAllowedFields(new String[] {"id", "customer", "status", "submitDate", "orderNumber", "emailAddress", 
+		    binder.setAllowedFields(new String[] {"*id", "customer", "status", "submitDate", "orderNumber", "emailAddress", 
 		    		                              "orderItems*", "createdDate", "actualFormFulfillment", "fulfillment", 
-		    		                              "actualFormFulfillment*"});
+		    		                              "*fulfillment*", "actualFormFulfillment*"});
 		    binder.registerCustomEditor(UUID.class, "id", new PropertyEditorSupport() {
 			    @Override
 			    public void setAsText(String text) {
@@ -181,6 +182,15 @@ public class AdminOrderController {
 			    	}			
 			    }
 			    });
+			binder.registerCustomEditor(Fulfillment.class,"fulfillment", new PropertyEditorSupport() {
+			    @Override
+			    public void setAsText(String text) {
+			    	if (!"".equals(text)) {
+			    		Fulfillment f = orderService.getFulfillmentById(UUID.fromString(text)); 
+			            setValue(f);
+			    	}			    
+			    }
+			    });			
 			binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
 	  }
 	  
@@ -303,12 +313,9 @@ public class AdminOrderController {
 					         final BindingResult bindingResult,
 					         final Model model ) {
 		   if (!"XMLHttpRequest".equals(requestedWith)) throw new IllegalStateException("The addNewItem method can be called only via ajax!");
-		   order.removeOrderItem(UUID.fromString(oiID));
-		   order.setDeliveryTotal(order.calculateDelivaryTotal());
-		   order.setSubTotal(order.calculateSubTotal());
-		   order.setTotal(order.calculateTotal());
+		   order.removeFulfillment(UUID.fromString(oiID));
 		   model.addAttribute("ord", order);
-		   return "/admin/order/orderEdit :: orderItemTable";
+		   return "/admin/order/orderEdit :: ffHistoryTable";
 	  }	  
           
 }

@@ -221,6 +221,12 @@ public class Order extends AbstractDomainObjectOrdering {
     	OrderItem oi = getOrderItem(id);    		
     	removeOrderItem(oi);
     }
+
+    public void removeFulfillment(UUID id) {
+    	Fulfillment ff = getFulfillment(id);    		
+    	removeFulfillment(ff);
+    }
+        
     
     @Transient
     public OrderItem getOrderItem (UUID id) {
@@ -230,6 +236,15 @@ public class Order extends AbstractDomainObjectOrdering {
     	}
     	return null;
     }
+    
+    @Transient
+    public Fulfillment getFulfillment (UUID id) {
+    	if (id == null) return null;
+    	for (Fulfillment ff : getFulfillment()) {
+    		if (id.equals(ff.getId())) return ff;
+    	}
+    	return null;
+    }   
 
 	@Column(name = "name")
     public String getName() {

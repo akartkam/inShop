@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.akartkam.inShop.controller.DefaultErrorController;
+import com.akartkam.inShop.dao.order.FulfillmentDAO;
 import com.akartkam.inShop.dao.order.OrderDAO;
 import com.akartkam.inShop.dao.order.OrderItemDAO;
 import com.akartkam.inShop.domain.customer.Customer;
@@ -63,7 +64,9 @@ public class OrderServiceImpl implements OrderService{
 	@Autowired
 	private CustomerService customerService;
 	@Autowired
-	private ProductDisplayNameModificator productDisplayNameModificator;	
+	private ProductDisplayNameModificator productDisplayNameModificator;
+	@Autowired
+	private FulfillmentDAO fulFillmentDAO;
 
 	
 	public OrderItem getOrderItemById(UUID id) {
@@ -329,6 +332,16 @@ public class OrderServiceImpl implements OrderService{
 	@Override
 	public List<Object[]> getOrdersByStatus() {
 		return orderDAO.findOrdersByStatus();
+	}
+
+	@Override
+	public Fulfillment loadFulfillmentById(UUID id, boolean lock) {		
+		return fulFillmentDAO.findById(id, lock);
+	}
+
+	@Override
+	public Fulfillment getFulfillmentById(UUID id) {
+		return fulFillmentDAO.get(id);
 	}
 
 
