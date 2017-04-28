@@ -9,13 +9,15 @@
         <scalar-parameter name="order_id" id="9">
             <text-property name="promptText">order_id</text-property>
             <property name="valueType">static</property>
+            <property name="isRequired">true</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
             <simple-property-list name="defaultValue">
-                <value type="constant">83761e90-222a-4300-9219-645d1b88a88b</value>
+                <value type="constant">0ad1ca81-5064-476f-8d8e-cd46fb9ff680</value>
             </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
+            <property name="concealValue">false</property>
             <property name="controlType">text-box</property>
             <structure name="format">
                 <property name="category">Unformatted</property>
@@ -111,10 +113,10 @@
                     <text-property name="heading">delivery_name</text-property>
                 </structure>
                 <structure>
-                    <property name="columnName">delivery_type</property>
+                    <property name="columnName">coalesce</property>
                     <property name="analysis">dimension</property>
-                    <text-property name="displayName">delivery_type</text-property>
-                    <text-property name="heading">delivery_type</text-property>
+                    <text-property name="displayName">coalesce</text-property>
+                    <text-property name="heading">coalesce</text-property>
                 </structure>
                 <structure>
                     <property name="columnName">store_name</property>
@@ -127,6 +129,11 @@
                     <property name="analysis">dimension</property>
                     <text-property name="displayName">store_addres</text-property>
                     <text-property name="heading">store_addres</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">city</property>
+                    <text-property name="displayName">city</text-property>
+                    <text-property name="heading">city</text-property>
                 </structure>
             </list-property>
             <list-property name="parameters">
@@ -196,7 +203,7 @@
                     </structure>
                     <structure>
                         <property name="position">11</property>
-                        <property name="name">delivery_type</property>
+                        <property name="name">coalesce</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
@@ -207,6 +214,11 @@
                     <structure>
                         <property name="position">13</property>
                         <property name="name">store_addres</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">14</property>
+                        <property name="name">city</property>
                         <property name="dataType">string</property>
                     </structure>
                 </list-property>
@@ -285,8 +297,8 @@
                 </structure>
                 <structure>
                     <property name="position">11</property>
-                    <property name="name">delivery_type</property>
-                    <property name="nativeName">delivery_type</property>
+                    <property name="name">coalesce</property>
+                    <property name="nativeName">coalesce</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
@@ -304,6 +316,13 @@
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
+                <structure>
+                    <property name="position">14</property>
+                    <property name="name">city</property>
+                    <property name="nativeName">city</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select o.order_number, o.order_subtotal, o.submit_date, o.order_total, o.deliverytotal,  
        case when coalesce(f.first_name,'') <> '' then f.first_name||' '||coalesce(f.last_name,'')||' '||coalesce(f.middle_name,'')
@@ -311,7 +330,8 @@
        case when coalesce(f.phone,'') <> '' then f.phone else c.phone end as c_phone, 
        case when coalesce(f.address,'') <> '' then f.address else c.address end as c_address,
        case when coalesce(o.email_address,'') <> '' then o.email_address else c.email end as c_email, 
-       d.name as delivery_name, d.delivery_type , s.name as store_name, s.address as store_addres 
+       coalesce(d.name,'') as delivery_name, coalesce(d.delivery_type, '') , coalesce(s.name, '') as store_name, 
+       coalesce(s.address, '') as store_addres, coalesce(f.city, '') as city 
   from Customer_order o 
        left join Customer c on c.id=o.customer_id
        left join Fulfillment f on f.order_id=o.id
@@ -320,6 +340,216 @@
        left join Store s on s.id=f.store_id
   where cast(o.id as varchar(36))=? and f1.id is null
 ]]></xml-property>
+        </oda-data-set>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="OrderItems" id="30">
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">product_name</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">product_name</text-property>
+                    <text-property name="heading">product_name</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">quantity</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">quantity</text-property>
+                    <text-property name="heading">quantity</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">price</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">price</text-property>
+                    <text-property name="heading">price</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">oi_total</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">oi_total</text-property>
+                    <text-property name="heading">oi_total</text-property>
+                </structure>
+            </list-property>
+            <list-property name="parameters">
+                <structure>
+                    <property name="name">order_id</property>
+                    <property name="paramName">order_id</property>
+                    <property name="nativeName"></property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                    <property name="position">1</property>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
+                </structure>
+            </list-property>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">product_name</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">quantity</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">price</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">oi_total</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">Data Source</property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">product_name</property>
+                    <property name="nativeName">product_name</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">quantity</property>
+                    <property name="nativeName">quantity</property>
+                    <property name="dataType">integer</property>
+                    <property name="nativeDataType">4</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">price</property>
+                    <property name="nativeName">price</property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">2</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">oi_total</property>
+                    <property name="nativeName">oi_total</property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">2</property>
+                </structure>
+            </list-property>
+            <xml-property name="queryText"><![CDATA[select oi.product_name, oi.quantity, oi.price, (oi.quantity * oi.price) as oi_total
+  from customer_order_item oi
+  where cast(oi.order_id as varchar(36))=?]]></xml-property>
+            <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
+  <Version>2.0</Version>
+  <DataSetParameters>
+    <parameter>
+      <design:ParameterDefinition>
+        <design:inOutMode>In</design:inOutMode>
+        <design:attributes>
+          <design:identifier>
+            <design:name></design:name>
+            <design:position>1</design:position>
+          </design:identifier>
+          <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+          <design:precision>0</design:precision>
+          <design:scale>0</design:scale>
+          <design:nullability>Unknown</design:nullability>
+        </design:attributes>
+      </design:ParameterDefinition>
+    </parameter>
+  </DataSetParameters>
+  <design:ResultSets derivedMetaData="true">
+    <design:resultSetDefinitions>
+      <design:resultSetColumns>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>product_name</design:name>
+              <design:position>1</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>2147483647</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>product_name</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>product_name</design:label>
+            <design:formattingHints>
+              <design:displaySize>2147483647</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>quantity</design:name>
+              <design:position>2</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>4</design:nativeDataTypeCode>
+            <design:precision>10</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>NotNullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>quantity</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>quantity</design:label>
+            <design:formattingHints>
+              <design:displaySize>11</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>price</design:name>
+              <design:position>3</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>2</design:nativeDataTypeCode>
+            <design:precision>19</design:precision>
+            <design:scale>5</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>price</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>price</design:label>
+            <design:formattingHints>
+              <design:displaySize>21</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>oi_total</design:name>
+              <design:position>4</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>2</design:nativeDataTypeCode>
+            <design:precision>0</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Unknown</design:nullability>
+            <design:uiHints>
+              <design:displayName>oi_total</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>oi_total</design:label>
+            <design:formattingHints>
+              <design:displaySize>131089</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+      </design:resultSetColumns>
+      <design:criteria/>
+    </design:resultSetDefinitions>
+  </design:ResultSets>
+</model:DesignValues>]]></xml-property>
         </oda-data-set>
     </data-sets>
     <styles>
@@ -360,8 +590,10 @@
         <simple-master-page name="Simple MasterPage" id="2">
             <page-footer>
                 <text id="3">
+                    <property name="fontFamily">"Arial"</property>
+                    <property name="fontSize">8pt</property>
                     <property name="contentType">html</property>
-                    <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
+                    <text-property name="content"><![CDATA[<value-of format="dd.MM.yyyy hh:mm">new Date()</value-of>]]></text-property>
                 </text>
             </page-footer>
         </simple-master-page>
@@ -386,8 +618,10 @@
         <data id="16">
             <property name="fontFamily">"Arial"</property>
             <property name="fontSize">12pt</property>
-            <property name="marginTop">40pt</property>
+            <property name="marginTop">50pt</property>
+            <property name="marginBottom">4pt</property>
             <property name="paddingTop">1pt</property>
+            <property name="paddingBottom">1pt</property>
             <structure name="dateTimeFormat">
                 <property name="category">Custom</property>
                 <property name="pattern">dd.MM.yyyy hh.mm</property>
@@ -409,6 +643,10 @@
         <data id="21">
             <property name="fontFamily">"Arial"</property>
             <property name="fontSize">12pt</property>
+            <property name="marginTop">4pt</property>
+            <property name="marginBottom">4pt</property>
+            <property name="paddingTop">1pt</property>
+            <property name="paddingBottom">1pt</property>
             <property name="dataSet">OrderMain</property>
             <list-property name="boundDataColumns">
                 <structure>
@@ -421,15 +659,34 @@
             </list-property>
             <property name="resultSetColumn">c_name</property>
         </data>
-        <data id="22">
+        <data id="154">
             <property name="fontFamily">"Arial"</property>
             <property name="fontSize">12pt</property>
             <property name="dataSet">OrderMain</property>
             <list-property name="boundDataColumns">
                 <structure>
+                    <property name="name">city</property>
+                    <text-property name="displayName">city</text-property>
+                    <expression name="expression" type="javascript">if (BirtStr.trim(dataSetRow["city"]) != "") "Город: "+dataSetRow["city"]</expression>
+                    <property name="dataType">string</property>
+                    <property name="allowExport">true</property>
+                </structure>
+            </list-property>
+            <property name="resultSetColumn">city</property>
+        </data>
+        <data id="22">
+            <property name="fontFamily">"Arial"</property>
+            <property name="fontSize">12pt</property>
+            <property name="marginTop">4pt</property>
+            <property name="marginBottom">4pt</property>
+            <property name="paddingTop">1pt</property>
+            <property name="paddingBottom">1pt</property>
+            <property name="dataSet">OrderMain</property>
+            <list-property name="boundDataColumns">
+                <structure>
                     <property name="name">c_address</property>
                     <text-property name="displayName">c_address</text-property>
-                    <expression name="expression" type="javascript">if (BirtStr.trim(dataSetRow["c_address"]) != "") "Адрес клиента: "+dataSetRow["c_address"]</expression>
+                    <expression name="expression" type="javascript">if (BirtStr.trim(dataSetRow["c_address"]) != "") "Адрес: "+dataSetRow["c_address"]</expression>
                     <property name="dataType">string</property>
                     <property name="allowExport">true</property>
                 </structure>
@@ -439,6 +696,10 @@
         <data id="24">
             <property name="fontFamily">"Arial"</property>
             <property name="fontSize">12pt</property>
+            <property name="marginTop">4pt</property>
+            <property name="marginBottom">4pt</property>
+            <property name="paddingTop">1pt</property>
+            <property name="paddingBottom">1pt</property>
             <property name="dataSet">OrderMain</property>
             <list-property name="boundDataColumns">
                 <structure>
@@ -454,6 +715,10 @@
         <data id="23">
             <property name="fontFamily">"Arial"</property>
             <property name="fontSize">12pt</property>
+            <property name="marginTop">4pt</property>
+            <property name="marginBottom">4pt</property>
+            <property name="paddingTop">1pt</property>
+            <property name="paddingBottom">1pt</property>
             <property name="dataSet">OrderMain</property>
             <list-property name="boundDataColumns">
                 <structure>
@@ -469,6 +734,10 @@
         <data id="27">
             <property name="fontFamily">"Arial"</property>
             <property name="fontSize">12pt</property>
+            <property name="marginTop">4pt</property>
+            <property name="marginBottom">4pt</property>
+            <property name="paddingTop">1pt</property>
+            <property name="paddingBottom">1pt</property>
             <property name="dataSet">OrderMain</property>
             <list-property name="boundDataColumns">
                 <structure>
@@ -484,6 +753,10 @@
         <data id="28">
             <property name="fontFamily">"Arial"</property>
             <property name="fontSize">12pt</property>
+            <property name="marginTop">4pt</property>
+            <property name="marginBottom">4pt</property>
+            <property name="paddingTop">1pt</property>
+            <property name="paddingBottom">1pt</property>
             <property name="dataSet">OrderMain</property>
             <list-property name="boundDataColumns">
                 <structure>
@@ -499,6 +772,10 @@
         <data id="29">
             <property name="fontFamily">"Arial"</property>
             <property name="fontSize">12pt</property>
+            <property name="marginTop">4pt</property>
+            <property name="marginBottom">4pt</property>
+            <property name="paddingTop">1pt</property>
+            <property name="paddingBottom">1pt</property>
             <property name="dataSet">OrderMain</property>
             <list-property name="boundDataColumns">
                 <structure>
@@ -510,6 +787,306 @@
                 </structure>
             </list-property>
             <property name="resultSetColumn">store_addres</property>
+        </data>
+        <table id="120">
+            <property name="borderBottomStyle">none</property>
+            <property name="borderLeftStyle">none</property>
+            <property name="borderRightStyle">none</property>
+            <property name="borderTopStyle">none</property>
+            <property name="marginTop">40pt</property>
+            <property name="width">7.958333333333333in</property>
+            <property name="dataSet">OrderItems</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">product_name</property>
+                    <text-property name="displayName">product_name</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["product_name"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">quantity</property>
+                    <text-property name="displayName">quantity</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["quantity"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">price</property>
+                    <text-property name="displayName">price</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["price"]</expression>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="name">oi_total</property>
+                    <text-property name="displayName">oi_total</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["oi_total"]</expression>
+                    <property name="dataType">decimal</property>
+                </structure>
+            </list-property>
+            <column id="160">
+                <property name="width">0.3416666666666667in</property>
+            </column>
+            <column id="144">
+                <property name="width">5.191666666666666in</property>
+            </column>
+            <column id="145">
+                <property name="width">0.5583333333333333in</property>
+            </column>
+            <column id="146">
+                <property name="width">0.875in</property>
+            </column>
+            <column id="147">
+                <property name="width">0.9916666666666667in</property>
+            </column>
+            <header>
+                <row id="121">
+                    <property name="borderBottomStyle">none</property>
+                    <property name="borderLeftStyle">none</property>
+                    <property name="borderRightStyle">none</property>
+                    <property name="borderTopStyle">none</property>
+                    <cell id="158">
+                        <property name="fontFamily">"Arial"</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <label id="161">
+                            <property name="fontWeight">bold</property>
+                            <text-property name="text">N</text-property>
+                        </label>
+                    </cell>
+                    <cell id="122">
+                        <property name="fontFamily">"Arial"</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <label id="123">
+                            <property name="fontWeight">bold</property>
+                            <text-property name="text">Наименование товара</text-property>
+                        </label>
+                    </cell>
+                    <cell id="124">
+                        <property name="fontFamily">"Arial"</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <label id="125">
+                            <property name="fontWeight">bold</property>
+                            <text-property name="text">Кол-во</text-property>
+                        </label>
+                    </cell>
+                    <cell id="126">
+                        <property name="fontFamily">"Arial"</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <label id="127">
+                            <property name="fontWeight">bold</property>
+                            <text-property name="text">Цена</text-property>
+                        </label>
+                    </cell>
+                    <cell id="128">
+                        <property name="fontFamily">"Arial"</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <label id="129">
+                            <property name="fontWeight">bold</property>
+                            <text-property name="text">Ст-ть</text-property>
+                        </label>
+                    </cell>
+                </row>
+            </header>
+            <detail>
+                <row id="130">
+                    <property name="borderBottomStyle">none</property>
+                    <property name="borderLeftStyle">none</property>
+                    <property name="borderRightStyle">none</property>
+                    <property name="borderTopStyle">none</property>
+                    <cell id="159">
+                        <property name="fontFamily">"Arial"</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <text-data id="163">
+                            <property name="textAlign">center</property>
+                            <property name="whiteSpace">nowrap</property>
+                            <property name="display">block</property>
+                            <expression name="valueExpr" type="javascript">row.__rownum+1</expression>
+                            <property name="contentType">plain</property>
+                        </text-data>
+                    </cell>
+                    <cell id="131">
+                        <property name="fontFamily">"Arial"</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <text-data id="165">
+                            <property name="fontSize">9pt</property>
+                            <property name="textAlign">center</property>
+                            <property name="dataSet">OrderItems</property>
+                            <list-property name="boundDataColumns">
+                                <structure>
+                                    <property name="name">product_name</property>
+                                    <text-property name="displayName">product_name</text-property>
+                                    <expression name="expression" type="javascript">dataSetRow["product_name"]</expression>
+                                    <property name="dataType">string</property>
+                                </structure>
+                            </list-property>
+                            <expression name="valueExpr">row._outer["product_name"]</expression>
+                            <property name="contentType">html</property>
+                        </text-data>
+                    </cell>
+                    <cell id="133">
+                        <property name="fontFamily">"Arial"</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <data id="134">
+                            <property name="fontSize">9pt</property>
+                            <property name="textAlign">center</property>
+                            <property name="resultSetColumn">quantity</property>
+                        </data>
+                    </cell>
+                    <cell id="135">
+                        <property name="fontFamily">"Arial"</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <data id="136">
+                            <property name="fontSize">9pt</property>
+                            <structure name="numberFormat">
+                                <property name="category">Custom</property>
+                                <property name="pattern">######,##0.00 р</property>
+                            </structure>
+                            <property name="textAlign">right</property>
+                            <property name="resultSetColumn">price</property>
+                        </data>
+                    </cell>
+                    <cell id="137">
+                        <property name="fontFamily">"Arial"</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <data id="138">
+                            <property name="fontSize">9pt</property>
+                            <structure name="numberFormat">
+                                <property name="category">Custom</property>
+                                <property name="pattern">######,##0.00 р</property>
+                                <property name="locale">ru</property>
+                            </structure>
+                            <structure name="stringFormat">
+                                <property name="category">Custom</property>
+                                <property name="pattern">^</property>
+                            </structure>
+                            <property name="textAlign">right</property>
+                            <property name="resultSetColumn">oi_total</property>
+                        </data>
+                    </cell>
+                </row>
+            </detail>
+        </table>
+        <data id="150">
+            <property name="fontFamily">"Arial"</property>
+            <property name="fontSize">12pt</property>
+            <property name="fontWeight">bold</property>
+            <property name="marginTop">20pt</property>
+            <property name="textAlign">right</property>
+            <property name="dataSet">OrderMain</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">order_subtotal</property>
+                    <text-property name="displayName">order_subtotal</text-property>
+                    <expression name="expression" type="javascript">"Стоимость: " + Formatter.format(dataSetRow["order_subtotal"], "######,##0.00 р")</expression>
+                    <property name="dataType">string</property>
+                    <property name="allowExport">true</property>
+                </structure>
+            </list-property>
+            <property name="resultSetColumn">order_subtotal</property>
+        </data>
+        <data id="152">
+            <property name="fontFamily">"Arial"</property>
+            <property name="fontSize">12pt</property>
+            <property name="fontWeight">bold</property>
+            <property name="marginTop">3pt</property>
+            <property name="textAlign">right</property>
+            <property name="dataSet">OrderMain</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">deliverytotal</property>
+                    <text-property name="displayName">deliverytotal</text-property>
+                    <expression name="expression" type="javascript">"Доставка: " + Formatter.format(dataSetRow["deliverytotal"], "######,##0.00 р")</expression>
+                    <property name="dataType">string</property>
+                    <property name="allowExport">true</property>
+                </structure>
+            </list-property>
+            <property name="resultSetColumn">deliverytotal</property>
+        </data>
+        <data id="153">
+            <property name="fontFamily">"Arial"</property>
+            <property name="fontSize">12pt</property>
+            <property name="fontWeight">bold</property>
+            <property name="marginTop">3pt</property>
+            <property name="textAlign">right</property>
+            <property name="dataSet">OrderMain</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">order_total</property>
+                    <text-property name="displayName">order_total</text-property>
+                    <expression name="expression" type="javascript">"Итого: " + Formatter.format(dataSetRow["order_total"], "######,##0.00 р")</expression>
+                    <property name="dataType">string</property>
+                    <property name="allowExport">true</property>
+                </structure>
+            </list-property>
+            <property name="resultSetColumn">order_total</property>
         </data>
     </body>
 </report>

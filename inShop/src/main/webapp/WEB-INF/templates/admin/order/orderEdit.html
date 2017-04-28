@@ -164,7 +164,7 @@
 							  	    </tr>
 							  	  </thead>	
 							  	  <tbody>
-							  	      <tr style="font-size: 8pt;" th:each="ff, ffStat : ${ord.fulfillment}" th:if="${!ff.equals(ord.actualFormFulfillment)}">
+							  	      <tr style="font-size: 8pt;" th:each="ff, ffStat : ${ord.fulfillment}" th:style="${ff.equals(ord.actualFormFulfillment)? 'display: none': ''}">
 							  	        <td>
 							  	        	<input type="hidden" th:name="fulfillment[__${ffStat.index}__]" th:value="${ff.id}"/>
 							  	        	<span th:utext="${{ff.createdDate}}"></span>
@@ -175,7 +175,7 @@
 							  	      	<td th:utext="${ff.city}"></td>
 							  	      	<td th:utext="${ff.address}"></td>
 							  	      	<td th:utext="${ff.phone}"></td>
-						            	<td class="text-center">
+						            	<td class="text-center" th:if="${!ff.equals(ord.actualFormFulfillment)}">
 	  				            	  	   <div class="btn-group" role="group" > 
 				                             <button type="button" data-toggle="modal" data-target="#deleteModal" 
 				                                      class="open-deleteDialog btn btn-outline btn-default btn-xs"
@@ -215,15 +215,17 @@
 				                       	 <table class="table table-bordered table-hover" id="orderItemsDT" data-checkid="" th:object="${ord}" th:fragment="orderItemTable">
 				                       	    <thead >
 					                       	   <tr >
+					                       	      <th class="col-md-1 text-center">N</th>
 									              <th class="col-md-5 text-center" th:text="#{admin.catalog.product}">Product</th>
 									              <th class="col-md-2 text-center" th:text="#{admin.catalog.price}">Price</th>
-									              <th class="col-md-2 text-center" th:text="#{admin.quantity}">Quantity</th>
+									              <th class="col-md-1 text-center" th:text="#{admin.quantity}">Quantity</th>
 									              <th class="col-md-2 text-center" th:text="#{admin.cost}">Cost</th>
 									              <th class="col-md-1 text-center"></th>
 										  	   </tr>
 									  	    </thead >
 									  	    <tbody>
 									  	       <tr th:each="oi, oiStat : *{orderItems}">
+									  	          <td class="text-center" th:utext="${oiStat.index+1}"></td>
 									  	       	  <td>
 									  	       	     <input type="hidden" th:field="*{orderItems[__${oiStat.index}__].id}"/>
 									  	       	     <input type="hidden" th:field="*{orderItems[__${oiStat.index}__].image}"/>
@@ -234,6 +236,7 @@
 		                                                   <span class="helper"></span>
 		                                                   <img th:src="@{${!#strings.isEmpty(oi.image)? oi.image: ''}}"  th:onerror="'this.src=\'' + @{/resources/img/noimage.png} + '\';'"/>
 		                                                </span>
+		                                                <input type="hidden" th:field="*{orderItems[__${oiStat.index}__].productName}"/>
 												        <div th:unless="${#strings.isEmpty(oi.productName)}" th:utext="${oi.productName}">name</div>
 												        <th:block th:if="${#strings.isEmpty(oi.productName)}">
 													        <span th:utext="${oi.sku.name}">name</span>
@@ -273,7 +276,7 @@
 									  	    </tbody>
 									  	    <tfoot>
 									  	    	<tr>
-									  	    		<td colspan="5">
+									  	    		<td colspan="6">
 											  	    	<div style="float: right;">
 											  	    	  <p><span th:text="#{admin.order.subTotal}"></span>: 
 											  	    	     <span style="font-weight: bold;" id="subTotal" 
@@ -296,7 +299,7 @@
 								 </div>
 							     <div class="row" >
 							       <div class="col-md-4">
-									 <div class="field-box">
+									 <div class="field-box" th:class="${#fields.hasErrors('actualFormFulfillment.delivery')}? has-error: field-box">
 			                           <label>
 								  	  	<span th:text="#{order.delivery}">Delivery</span>
 								       </label>
@@ -306,6 +309,7 @@
 										          th:value="${sdelivery.id}"
 											      th:utext="${sdelivery.name}">Delivery 1</option>
 									   </select>
+									   <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('actualFormFulfillment.delivery')}" th:errors="*{actualFormFulfillment.delivery}">Empty delivery</p>
 								     </div>	
 								   </div>
 							       <div class="col-md-4">

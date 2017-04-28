@@ -141,10 +141,20 @@ public class OrderServiceImpl implements OrderService{
 				existingOrder.addOrderItem(oi1); 
 				decrMapQuant.put(oi1.getSku(), oi1.getQuantity());
 			}
+			Iterator<Fulfillment> ffi = existingOrder.getFulfillment().iterator();
+			List<Fulfillment> lffForm = orderForm.getFulfillment();
+			while (ffi.hasNext()){
+				Fulfillment cff = ffi.next();
+				int idx = lffForm.indexOf(cff);
+				if(idx == -1 && !cff.equals(orderForm.getActualFormFulfillment()))  {
+					ffi.remove();
+				}
+			}
 			Fulfillment exFul = existingOrder.getActualFulfillment();
 			if (!exFul.equals(orderForm.getActualFormFulfillment())) {
 				existingOrder.addFulfillment(orderForm.getActualFormFulfillment());
 			}
+
 			BigDecimal delivTotal = existingOrder.calculateDelivaryTotal();
 			BigDecimal subTotal = existingOrder.calculateSubTotal();
 			BigDecimal total = existingOrder.calculateTotal();

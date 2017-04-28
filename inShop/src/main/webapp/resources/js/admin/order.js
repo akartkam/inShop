@@ -196,6 +196,7 @@
 	});
 	
 	$("body").on("hidden.bs.select", "#selCustomer", function(e){
+		$("#customer\\.id").val($(e.currentTarget.selectedOptions).val());
 		$("#customer-email").val($(e.currentTarget.selectedOptions).data("email"));
 		$("#customer-phone").val($(e.currentTarget.selectedOptions).data("phone"));
 		$("#customer-address").val($(e.currentTarget.selectedOptions).data("address"));

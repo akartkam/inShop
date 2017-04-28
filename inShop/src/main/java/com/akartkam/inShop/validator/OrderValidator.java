@@ -1,10 +1,12 @@
 package com.akartkam.inShop.validator;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
+import org.springframework.validation.FieldError;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
@@ -62,24 +64,29 @@ public class OrderValidator implements Validator {
 	        }			
 		}
         if (!OrderStatus.INCOMPLETE.equals(order.getStatus())){
-        	ValidationUtils.rejectIfEmpty(errors, "customer", "error.empty.order.customer");        	
+        	ValidationUtils.rejectIfEmpty(errors, "customer", "error.empty.order.customer"); 
+        	ValidationUtils.rejectIfEmpty(errors, "actualFormFulfillment.delivery", "error.empty.order.actualFormFulfillment.delivery");
         }
         
         if (order.getActualFormFulfillment() != null && order.getActualFormFulfillment().getDelivery() != null){
             if (DeliveryType.SELF_DELIVERY.equals(order.getActualFormFulfillment().getDelivery().getDeliveryType() )){
             	if (order.getActualFormFulfillment().getStore() == null) {
             		errors.rejectValue("actualFormFulfillment.store", "error.empty.order.actualFormFulfillment.store");
-                	//for AdminPresentation
-                	errors.rejectValue("actualFormFulfillment", "error.actualFormFulfillment");            		
             	}
             }              
             if (DeliveryType.COURIER_DELIVERY.equals(order.getActualFormFulfillment().getDelivery().getDeliveryType() )){
             	if (order.getActualFormFulfillment().getAddress() == null || "".equals(order.getActualFormFulfillment().getAddress())) {
             		errors.rejectValue("actualFormFulfillment.address", "error.empty.order.actualFormFulfillment.store");
-                	//for AdminPresentation
-                	errors.rejectValue("actualFormFulfillment", "error.actualFormFulfillment");            		
             	}
             }              	
+        }
+        List<FieldError> ferrors = errors.getFieldErrors();
+        for(FieldError fe : ferrors){
+        	if (fe.getField().contains("actualFormFulfillment")) {
+            	//for AdminPresentation
+            	errors.rejectValue("actualFormFulfillment", "error.actualFormFulfillment");            		
+        		break;
+        	}
         }
 
 	}
