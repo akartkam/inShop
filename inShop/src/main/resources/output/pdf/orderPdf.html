@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<style type="text/css">				
+		* { font-family: Arial; }
+	</style>	
+</head>
+<body>
+	<table style="empty-cells: show; border-collapse:collapse; width:7in; overflow: hidden; table-layout:fixed;">
+		<tbody>
+			<tr>
+				<td valign="top">
+					<h4 style="text-align: center;">
+						<strong th:utext="${'Заказ № '+order.orderNumber}">Заказ № 12376645454</strong>
+					</h4>
+				</td>
+			</tr>
+			<tr><td><br/></td></tr>
+			<tr>
+				<td><span>Дата и время заказа:&nbsp;</span><span th:utext="${{order.submitDate}}">23.04.2017 20:33</span>
+				</td>
+			</tr>
+			<tr>
+				<td th:utext="${'Ф.И.О. клиента: '}">
+					Иванов Иван Иванович 
+				</td>
+			</tr>
+		</tbody>
+	</table>
+    <table style="border-collapse: collapse; empty-cells: show; width: 7in; overflow:hidden; table-layout:fixed;">
+	    <thead style="font-size: 12pt;">
+	        <tr>
+	            <th width="5%" style="border: thin solid black;">N</th>
+	            <th width="50%" style="border: thin solid black;" class="product-name"><span th:utext="#{product.name}">Product</span></th>
+	            <th width="15%" style="border: thin solid black;" class="product-price"><span th:utext="#{sku.priceForPackageUnit}">Price</span></th>  
+	            <th width="10%" style="border: thin solid black;" class="product-quantity"><span th:utext="#{sku.quantity}">Quantity</span></th>
+	            <th width="20%" style="border: thin solid black;" class="product-subtotal"><span th:utext="#{cart.subTotal}">Sub Total</span></th>
+	        </tr>
+	    </thead>
+	    <tbody>
+	        <tr th:each="oi, oiStat : ${order.orderItems}" class="cart_item">
+	            <td style="border: thin solid black;" th:utext="${oiStat.index+1}"></td>
+	            <td class="product-name" style="font-size: 8pt; border: thin solid black;">
+                	<span aid:product_modifyed_display_name_utext="${oi.sku}"></span>
+	            </td>
+	            <td style="border: thin solid black;" class="product-price" align="center">
+	                <span class="amount" th:utext="${beans.currencyNumberFormatter.print(oi.price, #locale.getDefault())}">£15.00</span> 
+	            </td>
+	            <td style="border: thin solid black;" class="product-quantity" align="center">
+	                <span th:utext="${oi.quantity}"></span>
+	            </td>
+	            <td style="border: thin solid black;" class="product-subtotal" align="center">
+	                <span class="amount" th:text="${beans.currencyNumberFormatter.print(oi.rowTotal, #locale.getDefault())}">£15.00</span> 
+	            </td>
+	        </tr>
+	        <tr>
+	            <td style="border: thin solid black;" th:colspan="3">
+
+				</td>
+				<td style="border: thin solid black;" class="cart-total" colspan="2" align="right">
+	                <span th:utext="#{cart.total}">Total</span>
+	            	<span  th:text="${beans.currencyNumberFormatter.print(order.total, #locale.getDefault())}">£15.00</span> 
+	            </td>
+	        </tr>
+	    </tbody>
+	</table>
+	<p>&nbsp;</p>
+	<h3>Данные клиента:</h3>
+	<span th:utext="#{person.fullName}"></span>:&nbsp;<span th:utext="${order.customer.firstName}"></span>&nbsp;
+	<span th:utext="${order.customer.lastName}"></span>&nbsp;<span th:utext="${order.customer.middleName}"></span><br/> 
+	<span th:utext="#{city}"></span>:&nbsp;<span th:utext="${order.customer.city}"></span><br/>
+	<span th:utext="#{address}"></span>:&nbsp;<span th:utext="${order.customer.address}"></span><br/>
+	<span th:utext="#{phone}"></span>:&nbsp;<span th:utext="${order.customer.phone}"></span><br/>
+	<p>&nbsp;</p>
+	<h3>Способ доставки:</h3>
+	<span th:utext="${order.fulfillment.get(order.fulfillment.size() - 1).delivery.name}"></span>
+	<p th:utext="${order.fulfillment.get(order.fulfillment.size() - 1).delivery.longDescription}">
+	</p>
+	<th:block th:with="store = ${order.fulfillment.get(order.fulfillment.size() - 1).store}" 
+	          th:if="${order.fulfillment.get(order.fulfillment.size() - 1).store}">
+	    <p>&nbsp;</p>      
+		<h3>Пункт отпуска:</h3>
+		<p th:utext="${store.name}"></p>	
+		<p th:utext="${store.address}"></p>
+		<p th:utext="${store.phone}"></p>
+		<p th:if="${store.workSchedule}" th:utext="${store.workSchedule}"></p>
+		<p th:if="${store.longDescription}" th:utext="${store.longDescription}"></p>
+	</th:block>>
+</body>
+</html>

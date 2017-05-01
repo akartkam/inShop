@@ -151,7 +151,7 @@
     </bean>
 
     <bean id="emailTemplateResolver" class="org.thymeleaf.templateresolver.ClassLoaderTemplateResolver">
-      <property name="prefix" value="mail/" />
+      <property name="prefix" value="output/" />
       <property name="suffix" value=".html" />
       <property name="characterEncoding" value="UTF-8" />
       <property name="templateMode" value="HTML5" />

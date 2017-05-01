@@ -21,7 +21,7 @@
     <view-controller path="/" view-name="forward:/home.html" />
     <view-controller path="/index.html"/>
     <view-controller path="/favicon.png" view-name="forward:/resources/img/favicon.png" />
-    <view-controller path="/favicon.ico" view-name="forward:/resources/img/favicon.png" />
+    <view-controller path="favicon.ico" view-name="forward:/resources/img/favicon.png" />
 
 
 	<resources mapping="/resources/**" location="/resources/" />

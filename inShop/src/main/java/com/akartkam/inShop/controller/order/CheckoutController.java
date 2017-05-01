@@ -1,6 +1,7 @@
 package com.akartkam.inShop.controller.order;
 
 import java.beans.PropertyEditorSupport;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,6 +20,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.context.MessageSource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -46,6 +51,7 @@ import com.akartkam.inShop.formbean.CartItemForm;
 import com.akartkam.inShop.formbean.CheckoutForm;
 import com.akartkam.inShop.service.EmailInfo;
 import com.akartkam.inShop.service.EmailService;
+import com.akartkam.inShop.service.PdfService;
 import com.akartkam.inShop.service.order.DeliveryService;
 import com.akartkam.inShop.service.order.OrderService;
 import com.akartkam.inShop.service.product.CategoryService;
@@ -91,7 +97,11 @@ public class CheckoutController {
 	
 	@Value("#{appProperties['mail.smtp.from']}")
     private String mailFrom;	
-
+	
+	
+	@Autowired
+	private PdfService pdfService;
+   
 	private static String checkoutView = "order/checkout";
 
 	@ModelAttribute("AllDeliveries")
@@ -180,7 +190,7 @@ public class CheckoutController {
 		CartUtil.removeCartFromSession(request);
 		orderService.refresh(order);
 		EmailInfo ei = new EmailInfo();
-		ei.setEmailTemplate("order-confirmation");
+		ei.setEmailTemplate("mail/order-confirmation");
 		ei.setFromAddress(mailFrom);
 		ei.setSubject("Заказ №"+order.getOrderNumber());
 		Map<String, Object> vars = new HashMap<String, Object>();
@@ -268,7 +278,7 @@ public class CheckoutController {
 	
 	@RequestMapping(value="/test-order-confirm")
 	public String testOrderConfirm(HttpServletRequest request, HttpServletResponse response, Model model) throws MessagingException {
-		Order order = orderService.getOrderById(UUID.fromString("718ef466-d35a-400e-9ff1-ea7eb1165ac0"));
+		Order order = orderService.getOrderById(UUID.fromString("0ad1ca81-5064-476f-8d8e-cd46fb9ff680"));
 		model.addAttribute("order", order);
 		return "order-confirmation";
 	}
@@ -276,15 +286,32 @@ public class CheckoutController {
 	
 	@RequestMapping(value="/test-email")
 	public String testEmail(HttpServletRequest request, HttpServletResponse response) throws MessagingException {
-		Order order = orderService.getOrderById(UUID.fromString("718ef466-d35a-400e-9ff1-ea7eb1165ac0"));
+		Order order = orderService.getOrderById(UUID.fromString("0ad1ca81-5064-476f-8d8e-cd46fb9ff680"));
 		Map<String, Object> vars = new HashMap<String, Object>();
 		vars.put("order", order);
 		EmailInfo emailInfo = new EmailInfo();
 		emailInfo.setFromAddress(mailFrom);
 		emailInfo.setSubject("Test subject");
-		emailInfo.setEmailTemplate("order-confirmation");
-		emailService.sendSimpleMail(request, response, "forpost1998@mail.ru", emailInfo, vars);
+		emailInfo.setEmailTemplate("mail/order-confirmation");
+		emailService.sendSimpleMail(request, response, "akchurin_artur@mail.ru", emailInfo, vars);
 		return "redirect:/";
+	}
+	
+	
+	@RequestMapping(value="/test-pdf")
+	public ResponseEntity<byte[]> testPdf(HttpServletRequest request, HttpServletResponse response) throws MessagingException {
+		Order order = orderService.getOrderById(UUID.fromString("3cebe8c3-5348-4867-b131-f0b4a3ba319c"));
+		Map<String, Object> vars = new HashMap<String, Object>();
+		vars.put("order", order);	
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		pdfService.generatePdf(out, request, response, "pdf/orderPdf", vars);		
+	    HttpHeaders headers = new HttpHeaders();
+	    headers.setContentType(MediaType.parseMediaType("application/pdf"));
+	    String filename = "output.pdf";
+	    headers.setContentDispositionFormData(filename, filename);
+	    headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
+	    ResponseEntity<byte[]> resp = new ResponseEntity<byte[]>(out.toByteArray(), headers, HttpStatus.OK);
+	    return resp;
 	}
 	
 	public String getCheckoutView() {
