@@ -76,7 +76,7 @@ public class OrderValidator implements Validator {
             }              
             if (DeliveryType.COURIER_DELIVERY.equals(order.getActualFormFulfillment().getDelivery().getDeliveryType() )){
             	if (order.getActualFormFulfillment().getAddress() == null || "".equals(order.getActualFormFulfillment().getAddress())) {
-            		errors.rejectValue("actualFormFulfillment.address", "error.empty.order.actualFormFulfillment.store");
+            		errors.rejectValue("actualFormFulfillment.address", "error.empty.order.actualFormFulfillment.address");
             	}
             }              	
         }

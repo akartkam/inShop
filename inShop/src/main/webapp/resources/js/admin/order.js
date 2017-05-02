@@ -7,6 +7,13 @@
         "        data-path='"+root+"admin/order/edit' data-id="+obj.id+">"+ 
         "  <i class='fa fa-pencil'></i>"+
         "</button> "+
+        "<button class='btn btn-outline btn-default btn-xs' type='button' data-toggle='dropdown' aria-haspopup='true' "+ 
+        "    aria-expanded='false'> "+
+		"	<i class='fa fa-sort-down'></i> "+
+        "</button> "+
+        "<ul class='dropdown-menu'> "+
+	    "  <li><a target='_blank' href='"+root+"report/pdf/order-check/"+obj.id+"'>Распечатать заказ</a></li> "+
+        "</ul> "+							                              
 		"</div>"		  	  
     return ret;
   }

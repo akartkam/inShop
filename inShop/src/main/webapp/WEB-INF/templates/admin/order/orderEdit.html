@@ -385,7 +385,7 @@
 									   <input type="text" class="form-control" th:field="*{actualFormFulfillment.phone}"/>
 								     </div>								       
 							       </div>							     							     
-							       <div class="col-md-2">
+							       <div class="col-md-3">
 									 <div class="field-box">
 			                           <label>
 								  	  	<span th:text="#{city}">City</span>
@@ -404,7 +404,9 @@
 									   <textarea  class="form-control" th:field="*{actualFormFulfillment.address}"></textarea>
 								     </div>	
 								     <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('actualFormFulfillment.address')}" th:errors="*{actualFormFulfillment.address}">Empty address</p>							       
-							       </div>							     
+							       </div>
+							     </div>
+							     <div class="row">  							     
 							       <div class="col-md-4">
 									 <div class="field-box">
 			                           <label>
@@ -413,8 +415,7 @@
 									   <textarea readonly="readonly" class="form-control" th:text="${ord.actualFormFulfillment.customerMessage}"></textarea>
 								     </div>								       
 							       </div>							     
-
-							     </div>
+								 </div>
 		                     </div>       						  	   	
                        	  </div>  
  	                    </div> 

@@ -3,6 +3,7 @@ package com.akartkam.inShop.dao.order;
 import java.math.BigInteger;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.annotation.Resource;
 
@@ -90,4 +91,5 @@ public class OrderDAOImpl extends AbstractGenericDAO<Order> implements OrderDAO 
 		return ret;
 	}
 
+	
 }

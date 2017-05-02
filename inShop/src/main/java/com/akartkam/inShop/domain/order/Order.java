@@ -43,7 +43,19 @@ import javax.validation.constraints.Past;
     @SqlResultSetMapping(name = "ordersByStatusRSM", columns = {
         @ColumnResult(name = "status"), @ColumnResult(name = "count_orders"),
         @ColumnResult(name = "sum_order_total"), @ColumnResult(name = "sum_delivery"), 
-        @ColumnResult(name = "order_status")})        
+        @ColumnResult(name = "order_status")}),
+
+    @SqlResultSetMapping(name = "orderCheckQueryRSM", columns = {
+        @ColumnResult(name = "order_number"), @ColumnResult(name = "order_subtotal"), @ColumnResult(name = "submit_date"),
+        @ColumnResult(name = "order_total"), @ColumnResult(name = "deliverytotal"), 
+        @ColumnResult(name = "c_name"), @ColumnResult(name = "c_phone"), @ColumnResult(name = "c_address"), 
+        @ColumnResult(name = "c_email"), @ColumnResult(name = "delivery_name"), @ColumnResult(name = "store_name"), 
+        @ColumnResult(name = "store_addres"), @ColumnResult(name = "city"), @ColumnResult(name = "order_status")}),
+                
+    @SqlResultSetMapping(name = "orderItemCheckQueryRSM", columns = {
+        @ColumnResult(name = "product_name"), @ColumnResult(name = "quantity"),
+        @ColumnResult(name = "price"), @ColumnResult(name = "oi_total")})       
+        
 })
 
 @NamedNativeQueries({
@@ -64,7 +76,34 @@ import javax.validation.constraints.Past;
 				    "        left outer join fulfillment f1 on f1.order_id=f.order_id and f.fulfillment_order<f1.fulfillment_order "+ 
 					"   where f1.id is null "+ 					
 					" group by 1,5",
-			resultSetMapping = "ordersByStatusRSM")	
+			resultSetMapping = "ordersByStatusRSM"),	
+	
+	@NamedNativeQuery(
+			name = "orderCheckQuery",
+			query = "select o.order_number, o.order_subtotal, to_char(o.submit_date, 'dd.MM.yyyy hh:mm') submit_date, o.order_total, o.deliverytotal, "+  
+					"       case when coalesce(f.first_name,'') <> '' then f.first_name||' '||coalesce(f.last_name,'')||' '||coalesce(f.middle_name,'') "+
+					"		else coalesce(c.first_name, '')||' '||coalesce(c.last_name,'')||' '||coalesce(c.middle_name,'') end as c_name, "+
+					"		case when coalesce(f.phone,'') <> '' then f.phone else c.phone end as c_phone, "+ 
+					"		case when coalesce(f.address,'') <> '' then f.address else c.address end as c_address, "+
+					"		case when coalesce(o.email_address,'') <> '' then o.email_address else c.email end as c_email, "+ 
+					"		coalesce(d.name,'') as delivery_name, coalesce(d.delivery_type, '') , coalesce(s.name, '') as store_name, "+ 
+					"		coalesce(s.address, '') as store_addres, coalesce(f.city, '') as city, o.order_status "+ 
+					"   from Customer_order o "+ 
+					"		 left join Customer c on c.id=o.customer_id "+
+					"		 left join Fulfillment f on f.order_id=o.id "+
+					"		 left outer join Fulfillment f1 on f1.order_id=f.order_id and f.fulfillment_order<f1.fulfillment_order "+
+					"		 left join Delivery d on d.id=f.delivery_id "+
+					" 		 left join Store s on s.id=f.store_id "+
+					"	where cast(o.id as varchar(36))=? and f1.id is null ",
+			resultSetMapping = "orderCheckQueryRSM"),
+			
+	@NamedNativeQuery(
+					name = "orderItemCheckQuery",
+					query = "select oi.product_name, oi.quantity, oi.price, (oi.quantity * oi.price) as oi_total "+
+							"  from customer_order_item oi "+
+							"  where cast(oi.order_id as varchar(36))=? ",
+			resultSetMapping = "orderItemCheckQueryRSM")
+	
 })
 
 @Entity
