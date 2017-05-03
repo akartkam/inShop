@@ -219,7 +219,8 @@ public class AdminOrderController {
 	  
 	  @RequestMapping("/add")
 	  public String orderAdd(Model model, @RequestHeader(value = "X-Requested-With", required = false) String requestedWith) {
- 	      model.addAttribute("ord", new OrderForm());
+		  OrderForm ord = new OrderForm();
+ 	      model.addAttribute("ord", ord);
           if ("XMLHttpRequest".equals(requestedWith)) {
               return "/admin/order/orderEdit :: editOrderForm";
             } 	      

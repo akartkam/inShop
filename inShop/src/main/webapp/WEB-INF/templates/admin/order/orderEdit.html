@@ -68,14 +68,14 @@
 				   		      <div class="col-md-4">	                    
 							    <div class="field-box">
 								  <input type="hidden" th:field="*{id}"/>
-								  <input type="hidden" th:field="*{customer.id}"/>
+								  <input type="hidden" id="customer.id" th:value="${ord.customer != null? ord.customer.id: ''}"/>
 								  <input type="hidden" th:field="*{createdDate}"/>
-								  <input type="hidden" id="customer-email" th:value="*{customer.email}"/>
-								  <input type="hidden" id="customer-phone" th:value="*{customer.phone}"/>							  	                              
-								  <input type="hidden" id="customer-address" th:value="*{customer.address}"/>
-								  <input type="hidden" id="customer-firstName" th:value="*{customer.firstName}"/>
-								  <input type="hidden" id="customer-lastName" th:value="*{customer.lastName}"/>
-								  <input type="hidden" id="customer-middleName" th:value="*{customer.middleName}"/>
+								  <input type="hidden" id="customer-email" th:value="${ord.customer != null? ord.customer.email: ''}"/>
+								  <input type="hidden" id="customer-phone" th:value="${ord.customer != null? ord.customer.phone: ''}"/>							  	                              
+								  <input type="hidden" id="customer-address" th:value="${ord.customer != null? ord.customer.address: ''}"/>
+								  <input type="hidden" id="customer-firstName" th:value="${ord.customer != null? ord.customer.firstName: ''}"/>
+								  <input type="hidden" id="customer-lastName" th:value="${ord.customer != null? ord.customer.lastName: ''}"/>
+								  <input type="hidden" id="customer-middleName" th:value="${ord.customer != null? ord.customer.middleName: ''}"/>
 					    		  <label>
 						    	  	 <span th:text="#{admin.order.number}">Order number</span>
 						   		  </label>
@@ -96,7 +96,7 @@
 								        <option value="">&nbsp;</option>
 									    <option th:each="oc: ${allCustomers}" 
 									            th:text="${oc.fullName+' ('+oc.email+', '+oc.phone+')'}"
-									            th:selected="${ord.customer.equals(oc)}"
+									            th:selected="${ord.customer != null? ord.customer.equals(oc): false}"
 									            th:value="${oc.id}"
 									            th:attr="data-phone=${oc.phone}, data-email=${oc.email}, 
 									                    data-address=${oc.address}, data-firstName=${oc.firstName}, 
@@ -342,7 +342,7 @@
 			                           <label>
 								  	  	<span th:text="#{admin.order.buy1click.name}">Buy1click Name</span>
 								       </label>
-									   <input type="text" readonly="readonly" class="form-control" th:text="${ord.actualFormFulfillment.buy1clickName}"/>
+									   <input type="text" readonly="readonly" class="form-control" th:value="${ord.actualFormFulfillment.buy1clickName}"/>
 								     </div>								       
 							       </div>
 							       <div class="col-md-3">
@@ -465,6 +465,7 @@
                	  });
 	             $(".selectpicker").selectpicker();
 	             makeSkuSelect2 ($("#slSearchSku"), /*[[@{/product-search}]]*/'');
+	             $("input.total-changer").trigger("input");
 			});
 		// ]]>	  
 	   </script>

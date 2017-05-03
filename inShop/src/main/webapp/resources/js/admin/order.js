@@ -161,22 +161,7 @@
         	   $(tableUpdated).html(html);
            });
 	});	    			    		
-	$("body").on("input", ".row-total-changer", function (event) {
-		var $val = $(this).val();
-		if ($val=="" || isNaN($val) || parseInt($val) <= 0) return;
-		var form = $("#oeform");
-		var formser;
-		if (typeof form != "undefined" && form != null) formser = form.serialize();
-           $.ajax({
-           	   type: "POST",
-               url: updateOrder,
-               data: formser,
-               cache: false
-           }).done(function (html) {
-        	   $("#dOrderItemTable").html(html);
-           });
-	});
-	$("body").on("input", ".total-changer", function (event) {
+	$("body").on("input", ".row-total-changer, .total-changer", function (event) {
 		var $val = $(this).val();
 		if ($val=="" || isNaN($val) || parseInt($val) <= 0) $val="0";
 		var form = $("#oeform");
@@ -191,6 +176,21 @@
         	   $("#dOrderItemTable").html(html);
            });
 	});
+	/*$("body").on("input", ".total-changer", function (event) {
+		var $val = $(this).val();
+		if ($val=="" || isNaN($val) || parseInt($val) <= 0) $val="0";
+		var form = $("#oeform");
+		var formser;
+		if (typeof form != "undefined" && form != null) formser = form.serialize();
+           $.ajax({
+           	   type: "POST",
+               url: updateOrder,
+               data: formser,
+               cache: false
+           }).done(function (html) {
+        	   $("#dOrderItemTable").html(html);
+           });
+	});*/
 	$("body").on("click", ".copy-data-from-customer", function(){
 		var cto = $(this).data("copy-to").replace(".","\\\.");
 		var cfrom = $(this).data("copy-from").replace(".","\\\.");;

@@ -151,7 +151,7 @@ public class OrderServiceImpl implements OrderService{
 				}
 			}
 			Fulfillment exFul = existingOrder.getActualFulfillment();
-			if (!exFul.equals(orderForm.getActualFormFulfillment())) {
+			if (exFul != null && !exFul.equals(orderForm.getActualFormFulfillment())) {
 				existingOrder.addFulfillment(orderForm.getActualFormFulfillment());
 			}
 
