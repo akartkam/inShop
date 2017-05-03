@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.Valid;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.Index;
@@ -96,6 +97,7 @@ public class Customer extends AbstractDomainObject {
 	} 
 	
 	@OneToOne(optional = true)	
+	//@Valid
 	public Account getAccount() {
 		return account;
 	}

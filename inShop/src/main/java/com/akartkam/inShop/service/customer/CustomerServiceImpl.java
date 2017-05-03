@@ -69,14 +69,17 @@ public class CustomerServiceImpl implements CustomerService{
 	public Errors mergeWithExistingAndUpdateOrCreate(CustomerForm customerForm,
 			BindingResult errors , boolean createAccount) throws IllegalAccessException , InvocationTargetException {
 		if (customerForm == null) return errors;
+		/* Выключаю возможность создания аккаунта. Неправильно работает валидация при сохранении 03.05.17
+		 * 
 		BindingResult nerrors = new BeanPropertyBindingResult(errors.getTarget(), errors.getObjectName());
 		if (!createAccount) {
 			for (ObjectError oe: errors.getGlobalErrors()) nerrors.addError(oe);
 			for (FieldError fe: errors.getFieldErrors()) if (!"username".equals(fe.getField())) nerrors.addError(fe);			
 		}
+		*/
 		Customer customer = getCustomerById(customerForm.getId());
 		if (customer != null) {
-			if (!nerrors.hasErrors()) {
+			if (!errors.hasErrors()) {
 				customer.setAddress(customerForm.getAddress());
 				customer.setEmail(customerForm.getEmail());
 				customer.setEnabled(customerForm.isEnabled());
@@ -86,10 +89,10 @@ public class CustomerServiceImpl implements CustomerService{
 				customer.setPhone(customerForm.getPhone());
 				customer.setBirthdate(customerForm.getBirthdate());
 			}
-			return nerrors;
+			return errors;
 		} else {
 			BeanUtilsBean bu = new NullAwareBeanUtilsBean();
-			Account account = null;
+			/*Account account = null;
 			if (createAccount) {
 				if (accountService.checkAccountableForm(customerForm, nerrors)) {
 					account = new Account();
@@ -103,15 +106,15 @@ public class CustomerServiceImpl implements CustomerService{
 				} else {
 					return nerrors;
 				}
-			}
-			if (!nerrors.hasErrors()) { 
-				if (createAccount && account != null) accountService.registerAccount(account, customerForm.getPassword());
+			}*/
+			if (!errors.hasErrors()) { 
+				//if (createAccount && account != null) accountService.registerAccount(account, customerForm.getPassword());
 				customer = new Customer();
 				bu.copyProperties(customer, customerForm);
-				if (createAccount && account != null) customer.setAccount(account); 
+				//if (createAccount && account != null) customer.setAccount(account); 
 				createCustomer(customer);
 			}
-			return nerrors;
+			return errors;
 		}
 	}
 

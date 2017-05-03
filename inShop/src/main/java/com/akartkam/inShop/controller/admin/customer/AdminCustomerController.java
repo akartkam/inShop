@@ -119,7 +119,8 @@ public class AdminCustomerController {
 		  //if (copyID != null && !"".equals(copyID)) customer = customerService.cloneBrandById(UUID.fromString(copyID)); 
 		  //else brand = new Brand();
  	      model.addAttribute("customer", customer);
- 	      model.addAttribute("createAccount",new Boolean(true));
+ 	      //По умолчанию выключаю создание аккаунта. На данный момент не правильно работает валидация 03.05.17
+ 	      model.addAttribute("createAccount",new Boolean(false));
           if ("XMLHttpRequest".equals(requestedWith)) {
               return "/admin/customer/customerEdit :: editCustomerForm";
             } 	      
@@ -167,7 +168,7 @@ public class AdminCustomerController {
 		  } 
 	 
 	   @RequestMapping(value="/edit", method = RequestMethod.POST )
-	   public String customerSave( @RequestParam(value = "createAccount", required = false) boolean createAccount,
+	   public String customerSave( //@RequestParam(value = "createAccount", required = false) boolean createAccount,
 			                       final Model model,
 					               final RedirectAttributes ra,
 					               @ModelAttribute("customer") @Valid CustomerForm customer,
@@ -181,10 +182,11 @@ public class AdminCustomerController {
 		    if (model.containsAttribute("customerUsername")) {
 		    	customer.setUsername((String)model.asMap().get("customerUsername"));
 		    }
-		   Errors br = customerService.mergeWithExistingAndUpdateOrCreate(customer, bindingResult, createAccount);
+		    /*Выключаю создание аккаунта*/
+		   Errors br = customerService.mergeWithExistingAndUpdateOrCreate(customer, bindingResult, false);
 		   if (br.hasErrors()) {
 	        	ra.addFlashAttribute("customer", customer);
-	        	ra.addFlashAttribute("createAccount", new Boolean(createAccount));
+	        	ra.addFlashAttribute("createAccount", new Boolean(false));
 	        	ra.addFlashAttribute("org.springframework.validation.BindingResult.customer", br);
 	            return "redirect:/admin/customer/customer/edit";
 	        }

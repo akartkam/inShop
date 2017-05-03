@@ -228,13 +228,13 @@
 	    <script src="../../../../resources/js/lib/bootstrap-datetimepicker.min.js" th:src="@{/resources/js/lib/bootstrap-datetimepicker.min.js}"></script> -->					 			   
 	    <script type="text/javascript">
 	      //<![CDATA[
-	           function updateCollapseAccount() {
+	           /*function updateCollapseAccount() {
   			       	if ($("#cbCreateAccount").is(":checked")) {
    			    		$("#collapseAccount").collapse("show");
    			    	} else {
    			    		$("#collapseAccount").collapse("hide");
    			    	}
-	           };
+	           };*/
 	           $(document).ready(function() {
     		     var table = $("#customerDataTable").DataTable( {
 		            	"language": {
@@ -315,7 +315,7 @@
 	  	                        locale: "ru",
 	  	                        format: "DD.MM.YYYY"
 	  	                    });*/ 
-	  	                  updateCollapseAccount();  	                	    
+	  	                  //updateCollapseAccount();  	                	    
                   });
 		    	});  
 

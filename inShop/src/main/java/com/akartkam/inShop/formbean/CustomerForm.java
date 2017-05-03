@@ -1,9 +1,6 @@
 package com.akartkam.inShop.formbean;
 
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-
 import com.akartkam.inShop.domain.Account;
 import com.akartkam.inShop.domain.RoleType;
 import com.akartkam.inShop.domain.customer.Customer;
@@ -48,8 +45,6 @@ public class CustomerForm extends Customer implements AccountableForm {
 	}
 
 	@Override
-	@NotNull
-	@Size(min = 1, max = 20)
 	public String getUsername() {
 		return username;
 	}

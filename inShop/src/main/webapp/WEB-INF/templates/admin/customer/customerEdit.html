@@ -124,7 +124,7 @@
 								  	<span th:text="#{admin.enabled}">Active?</span>
 								 </label>
 						      </div>	 
-                              <div class="panel panel-default" th:if="${customer.new}">
+                              <div class="panel panel-default" th:if="${customer.new}" th:remove="all">
                                     <div class="panel-heading">
 				 					    	<input type="checkbox" name="createAccount" th:checked="${createAccount}" id="cbCreateAccount"/>
 										  	<label for="cbCreateAccount" ><span th:text="#{admin.customer.createAccount}">Create Account</span></label>
@@ -135,7 +135,8 @@
 			                                  <i class="fa fa-trash-o"></i> 
 			                                </button>
  -->                                </div>
-                                    <div id="collapseAccount" class="panel-collapse collapse in">
+ <!-- Отключаю возможность создания аккаунта. В настоящее время неправильно работает валидация при сохранении 03.05.17 -->
+                                    <div id="collapseAccount" class="panel-collapse collapse in" >
                                         <div class="panel-body">
 										   <div class="field-box">	                              
 								    		  <label>
@@ -206,7 +207,7 @@
                     locale: "ru",
                     format: "DD.MM.YYYY"
                  });*/
-                 updateCollapseAccount();
+                 //updateCollapseAccount();
              });
 		   </script>
 		 </th:block>  
