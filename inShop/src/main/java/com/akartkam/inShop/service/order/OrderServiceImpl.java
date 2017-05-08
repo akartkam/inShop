@@ -164,31 +164,29 @@ public class OrderServiceImpl implements OrderService{
 			if (incrMapQuant.size() > 0) inventoryService.incrementInventory(incrMapQuant);
 			if (decrMapQuant.size() > 0) inventoryService.decrementInventory(decrMapQuant);
 		} else {
-			orderForm.addFulfillment(orderForm.getActualFormFulfillment());
-			orderForm.setDeliveryTotal(orderForm.calculateDelivaryTotal());
-			orderForm.setSubTotal(orderForm.calculateSubTotal());
-			orderForm.setTotal(orderForm.calculateTotal());
-			List<OrderItem> orderItems = new ArrayList<OrderItem>(orderForm.getOrderItems());
-			orderForm.getOrderItems().clear();
-			Order order = new Order();
-			BeanUtilsBean bu = new NullAwareBeanUtilsBean();
-			try {
-				bu.copyProperties(order, orderForm);
-			} catch (IllegalAccessException | InvocationTargetException e) {
-				LOG.error("",e);
-			}			
-			order.getOrderItems().clear();
-			for (OrderItem oi : orderItems) {
-				Product p = oi.getSku().lookupProduct();
-				oi.setProduct(p);
-				oi.setCategory(p.getCategory());
-				oi.setRetailPrice(oi.getSku().getRetailPrice());
-				oi.setSalePrice(oi.getSku().getSalePrice());
-				oi.setQuantityPerPackage(oi.getSku().getQuantityPerPackage());
-				order.addOrderItem(oi);
-				decrMapQuant.put(oi.getSku(), oi.getQuantity());
-			}
-			createOrder(order);
+		      orderForm.setDeliveryTotal(orderForm.calculateDelivaryTotal());
+		      orderForm.setSubTotal(orderForm.calculateSubTotal());
+		      orderForm.setTotal(orderForm.calculateTotal());
+		      Order order = new Order();
+		      order.setCustomer(orderForm.getCustomer());
+		      order.setEmailAddress(orderForm.getEmailAddress());
+		      order.addFulfillment(orderForm.getActualFormFulfillment());
+		      order.setDeliveryTotal(orderForm.getDeliveryTotal());
+		      order.setStatus(orderForm.getStatus());
+		      order.setSubmitDate(orderForm.getSubmitDate());
+		      order.setSubTotal(orderForm.getSubTotal());
+		      order.setTotal(orderForm.getTotal());
+		      for (OrderItem oi : orderForm.getOrderItems()) {
+		        Product p = oi.getSku().lookupProduct();
+		        oi.setProduct(p);
+		        oi.setCategory(p.getCategory());
+		        oi.setRetailPrice(oi.getSku().getRetailPrice());
+		        oi.setSalePrice(oi.getSku().getSalePrice());
+		        oi.setQuantityPerPackage(oi.getSku().getQuantityPerPackage());
+		        order.addOrderItem(oi);
+		        decrMapQuant.put(oi.getSku(), oi.getQuantity());
+		      }
+		      createOrder(order);
 			if (decrMapQuant.size() > 0) inventoryService.decrementInventory(decrMapQuant);
 		}
 		LOG.info("Save order complite (id="+orderForm.getId().toString()+")");

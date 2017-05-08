@@ -1,10 +1,10 @@
 <th:block layout:decorator="layouts/productListFullPageLayout">
 	<head>
 		<th:block th:fragment="meta" th:remove="all">
-			<meta name="description" th:content="${#strings.isEmpty(category.metaDescription)? category.name: category.metaDescription}"/>
-			<meta name="keywords" th:content="${#strings.isEmpty(category.metaKeywords)? category.name: category.metaKeywords}"/>
+			<meta name="description" th:content="${#strings.isEmpty(category.metaDescription)? category.description: category.metaDescription}"/>
+			<meta name="keywords" th:content="${#strings.isEmpty(category.metaKeywords)? category.description: category.metaKeywords}"/>
 		</th:block>
-        <title th:utext="${category.name}"></title>
+        <title th:fragment="content-title" th:utext="${#strings.isEmpty(category.metaTitle)? category.name: category.metaTitle}"></title>
     </head>
     <div layout:fragment="content">
  		 <ol class="breadcrumb">

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ru">
   <head>
-	 <title>ООО Форпост - технические средства реабилитации, ортопедические изделия, изделия медицинского назначения</title>
+	 <title th:utext="#{head.home.title}">ООО Форпост - технические средства реабилитации, ортопедические изделия, изделия медицинского назначения</title>
 	 <th:block th:replace="/layouts/partials/head"></th:block>
  	 <th:block th:fragment="meta" th:remove="all">
 		<meta name="description" th:content="#{head.home.metaDescription}" />
@@ -18,7 +18,7 @@
 				    <div th:replace="layouts/partials/lsidenav" />
 				</div>
 				<div class="col-sm-12 col-md-9 col-lg-10 content">
-				<div class="slider-area">
+					<div class="slider-area hidden-xs">
 						<!-- Slider -->
 						<div class="block-slider block-slider4">
 							<ul class="" id="bxslider-home4">
@@ -35,9 +35,8 @@
 							</ul>
 						</div>
 						<!-- ./Slider -->
-				    </div> <!-- End slider area -->
-					
-					<div class="maincontent-area">
+					 </div> <!-- End slider area -->
+					 <div class="maincontent-area">
 						<div class="zigzag-bottom"></div>
 						<div class="container-fluid">
 							<div class="row">
@@ -83,8 +82,8 @@
 								</div>
 							</div>						
 						</div>
-					</div> <!-- End main content area -->
-				</div>
+					 </div> <!-- End main content area -->
+			   </div>
 			</div>
 	    </div>
 	</div>

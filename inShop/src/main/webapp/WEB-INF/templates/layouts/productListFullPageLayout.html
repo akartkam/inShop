@@ -1,4 +1,7 @@
 <th:block layout:decorator="layouts/fullPageLayout">
+    <head>
+         <title th:replace=" :: content-title"></title>
+    </head>
     <th:block layout:fragment="script">
         <script>	
 			$(function(){

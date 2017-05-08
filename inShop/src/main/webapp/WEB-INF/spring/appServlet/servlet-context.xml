@@ -20,6 +20,7 @@
  	<view-controller path="/login" view-name="authentication/login" />
     <view-controller path="/" view-name="forward:/home.html" />
     <view-controller path="/index.html"/>
+    <view-controller path="/google606b0339c8074488.html"/>
     <view-controller path="/favicon.png" view-name="forward:/resources/img/favicon.png" />
 
 

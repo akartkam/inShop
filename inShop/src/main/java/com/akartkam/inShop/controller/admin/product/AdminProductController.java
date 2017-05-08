@@ -171,7 +171,8 @@ public class AdminProductController {
 					 							   "*productOptions", "canSellWithoutOptions", "*images*", "enabled",
 					 							   "*retailPrice", "*salePrice", "*costPrice", "*value", "*productStatus*", 
 					 							   "*productOptionsForForm*","*activeStartDate", "*activeEndDate", "*quantityAvailable",
-					 							   "*inventoryType", "*quantityPerPackage", "createdDate", "instruction"});
+					 							   "*inventoryType", "*quantityPerPackage", "createdDate", "instruction",
+					 							   "h1", "metaTitle", "metaDescription", "metaKeywords"});
 			binder.registerCustomEditor(UUID.class, "id", new PropertyEditorSupport() {
 			    @Override
 			    public void setAsText(String text) {

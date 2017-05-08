@@ -144,4 +144,12 @@ public class ProductDAOImpl extends AbstractGenericDAO<Product> implements
 		res[1] =qquery.list();
 		return res;
 	}
+
+
+	@Override
+	public List<String> findAllProductUrls() {
+		Query query = currentSession().getNamedQuery("findAllProductUrls");
+		List<String> ret = (List<String>)query.list();
+		return ret;
+	}
 }

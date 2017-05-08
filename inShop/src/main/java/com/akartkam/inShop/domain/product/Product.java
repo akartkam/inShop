@@ -10,6 +10,7 @@ import java.util.UUID;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.ColumnResult;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -21,6 +22,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
+import javax.persistence.SqlResultSetMapping;
+import javax.persistence.SqlResultSetMappings;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.Valid;
@@ -34,6 +37,8 @@ import org.hibernate.annotations.ForeignKey;
 import org.hibernate.annotations.Index;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.NamedNativeQueries;
+import org.hibernate.annotations.NamedNativeQuery;
 
 import com.akartkam.inShop.domain.AbstractWebDomainObject;
 import com.akartkam.inShop.domain.Instruction;
@@ -46,6 +51,20 @@ import com.akartkam.inShop.domain.product.option.ProductOptionValue;
 import com.akartkam.inShop.formatter.CurrencyFormat;
 import com.akartkam.inShop.presentation.admin.AdminPresentation;
 import com.akartkam.inShop.presentation.admin.EditTab;
+
+
+@SqlResultSetMappings({
+    @SqlResultSetMapping(name = "findAllProductUrlsRSM", columns = {
+        @ColumnResult(name = "url")
+    })
+})
+    
+@NamedNativeQueries({
+	@NamedNativeQuery(
+			name = "findAllProductUrls",
+			query = "select url from product",
+			resultSetMapping = "findAllProductUrlsRSM")
+})
 
 @NamedQueries({
 @NamedQuery(

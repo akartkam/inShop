@@ -4,7 +4,7 @@
 			<meta name="description" th:content="${#strings.isEmpty(brand.metaDescription)? brand.name: brand.metaDescription}"/>
 			<meta name="keywords" th:content="${#strings.isEmpty(brand.metaKeywords)? brand.name: brand.metaKeywords}"/>
 		</th:block>
-        <title th:utext="${brand.name}"></title>
+		<title th:fragment="content-title" th:utext="${#strings.isEmpty(brand.metaTitle)? brand.name: brand.metaTitle}"></title>
     </head>
     <div layout:fragment="content">
  		<ol class="breadcrumb">

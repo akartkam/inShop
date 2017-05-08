@@ -16,13 +16,13 @@
 	  <!-- start sidebar nav -->
 	  <ul class="nav navbar-nav navbar-right sm-vertical" th:if="${not #lists.isEmpty(rootCategorys)}">
 	  	<li th:each="rootCategory : ${rootCategorys}">
-            <a aid:phref="${!rootCategory.hasSubCategory()? rootCategory: 'javascript:;'}" >
+            <a aid:phref="${!rootCategory.hasSubCategory()? rootCategory: 'javascript: void(0);'}" >
                 <span th:utext="${rootCategory.name}"></span>&nbsp;<!--  
                 --><span th:if="${rootCategory.hasSubCategory()}" class="caret-right"></span>
             </a>
             <ul th:if="${rootCategory.hasSubCategory()}" class="dropdown-menu">
             	<li th:each="subCategory : ${rootCategory.getSubCategory()}" th:if="${subCategory.enabled}">
-            	   <a aid:phref="${!subCategory.hasSubCategory()? subCategory: 'javascript:;'}" >
+            	   <a aid:phref="${!subCategory.hasSubCategory()? subCategory: 'javascript: void(0);'}" >
                      <span th:utext="${subCategory.name}"></span>&nbsp;<!--  
                 --><span th:if="${subCategory.hasSubCategory()}" class="caret-right"></span>
                    </a>

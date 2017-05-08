@@ -21,7 +21,7 @@
 				       </tr>
 				    </thead>
 				    <tbody>
-					    <tr th:each="brand: ${brands}">
+					    <tr th:each="brand: ${brands}" th:if="${brand.enabled}">
 					      <td> 
 							<div class="brand-list-item">
 								<div class="media">

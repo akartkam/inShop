@@ -37,6 +37,10 @@ public class CategoryForm extends Category {
 		this.setShowQuanPerPackOnProductHeader(category.getShowQuanPerPackOnProductHeader());
 		this.attributesForForm = new ArrayList<AbstractAttribute>(getAttributes());
 		this.setInstruction(category.getInstruction());
+		this.setH1(category.getH1());
+		this.setMetaTitle(category.getMetaTitle());
+		this.setMetaDescription(category.getMetaDescription());
+		this.setMetaKeywords(category.getMetaKeywords());
 		buildShortUrl();
 	}
 

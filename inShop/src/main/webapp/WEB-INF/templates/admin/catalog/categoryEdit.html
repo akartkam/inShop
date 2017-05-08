@@ -51,6 +51,8 @@
 	                    </li>
 	                    <li><a href="#links" data-toggle="tab" th:text="#{admin.edit.tab.links}">Связи</a>
 	                    </li>
+	                    <li><a href="#seo" data-toggle="tab" th:text="#{admin.edit.tab.seo}">SEO</a>
+	                    </li>	                    
 	                </ul>
 	                <!-- Tab panes -->
 	                <div class="tab-content">
@@ -160,6 +162,32 @@
 							 </select>
 						   </div>	                    	
 	                    </div>
+	                    <div class="tab-pane fade" id="seo">
+				   		   <div class="field-box">	                              
+				    		  <label>
+					    	  	 <span th:text="#{admin.seo.h1}">H1</span>
+					   		  </label>
+						      <input type="text" class="form-control" th:field="*{h1}"/>
+						   </div>
+				   		   <div class="field-box">	                              
+				    		  <label>
+					    	  	 <span th:text="#{admin.seo.metaTitle}">Title</span>
+					   		  </label>
+						      <textarea type="text" class="textarea form-control" placeholder="Введите текст..." th:field="*{metaTitle}"/>
+						   </div>
+				   		   <div class="field-box">	                              
+				    		  <label>
+					    	  	 <span th:text="#{admin.seo.metaDescription}">Description</span>
+					   		  </label>
+						      <textarea type="text" class="textarea form-control" placeholder="Введите текст..." th:field="*{metaDescription}"/>
+						   </div>
+				   		   <div class="field-box">	                              
+				    		  <label>
+					    	  	 <span th:text="#{admin.seo.metaKeywords}">Keywords</span>
+					   		  </label>
+							  <textarea type="text" class="textarea form-control" placeholder="Введите текст..." th:field="*{metaKeywords}"/>
+						   </div>						   
+	                    </div>	                    
 	                </div>
 		    </div>
 		 <!-- /modal-body -->
