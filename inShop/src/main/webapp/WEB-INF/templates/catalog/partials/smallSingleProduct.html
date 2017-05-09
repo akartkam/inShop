@@ -6,19 +6,19 @@
 		<img th:if="${pagination}" th:attr="data-original=@{${!#lists.isEmpty(product.defaultSku.images)? product.defaultSku.images[0]: ''}}" alt=""/>
 		<img th:unless="${pagination}" th:src="@{${!#lists.isEmpty(product.defaultSku.images)? product.defaultSku.images[0]: ''}}" alt=""/>
 		<div class="product-hover">
-			<form method="POST" th:action="${'javascript: void'}"
+			<form method="POST" th:action="${'javascript: void(0)'}"
 		           	            th:attr="data-add-to-cart-path=@{${product.hasAdditionalSkus()? '/ajax-product-options-modal?ID='+product.id: '/cart/add'}}, 
 		           	         		  data-buy1click-path=@{${product.hasAdditionalSkus()? '/ajax-product-options-modal?ID='+product.id: '/checkout/buy1click'}}">
 				<input type="hidden" name="productId" th:value="${product.id}" />
 				<input type="hidden" name="skuId" th:value="${product.defaultSku.id}" />
 				<input type="hidden" name="hasProductOptions" th:value="${product.hasAdditionalSkus()}" />
 	           	<input type="hidden" name="quantity" value="1" />
-				<a href="javascript:;" class="add-to-cart add-to-cart-link">
+				<a href="javascript: void(0)" class="add-to-cart add-to-cart-link">
 				   <i class="fa fa-shopping-cart"></i>  
 				   <span th:text="#{button.toCart}">В корзину</span>
 				</a>
 			</form>	
-			<a th:href="@{${'/ajax-quick-review-product?ID='+product.id}}" class="quick-review-product-link"><i class="fa fa-list-alt"></i> Параметры</a>
+			<a th:attr="data-path=@{${'/ajax-quick-review-product?ID='+product.id}}" class="quick-review-product-link"><i class="fa fa-list-alt"></i> Параметры</a>
 			<a aid:phref="${product}" class="view-details-link"><i class="fa fa-info"></i> Подробнее</a>
 		</div>
 	</div>
