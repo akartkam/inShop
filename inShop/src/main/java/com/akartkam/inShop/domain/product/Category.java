@@ -270,7 +270,11 @@ public class Category extends AbstractWebDomainObject {
 	
 	@Transient
 	public boolean hasSubCategory() {
-		return !subCategory.isEmpty(); 
+		boolean rez;
+		synchronized(subCategory){
+		   rez = !subCategory.isEmpty();  
+		}
+		return rez;
 	}
 	
 	@Transient

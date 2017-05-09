@@ -4,7 +4,8 @@ import java.io.File;
 import java.io.IOException;
 
 import org.apache.commons.io.FileUtils;
-import org.springframework.beans.factory.annotation.Value;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.validation.Errors;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -12,6 +13,8 @@ import com.akartkam.inShop.exception.ImageUploadException;
 
 
 public class ImageUtil {
+	
+	private static final Log LOG = LogFactory.getLog(ImageUtil.class);
 	
 	private String imagesMaxUploadSize;
 	
@@ -40,9 +43,10 @@ public class ImageUtil {
 		try {
 			
 			File file = new File(filePath);
+			file.setReadable(true, false);
 			FileUtils.writeByteArrayToFile(file, image.getBytes());
 		} catch (IOException e) {
-			throw new ImageUploadException("Unable to save image", e);
+			LOG.error("Error during put image "+filePath, e);
 		}
 	}	   
 

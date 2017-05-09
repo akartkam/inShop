@@ -28,6 +28,8 @@ public class ProductController extends WebEntityAbstractController {
 		if (product != null) {
 			model.addObject("product", product);
 			model.setViewName("/catalog/single-product");			
+		}else {
+			model.setViewName("redirect:/error-default");	
 		}
 		return model;
 	}

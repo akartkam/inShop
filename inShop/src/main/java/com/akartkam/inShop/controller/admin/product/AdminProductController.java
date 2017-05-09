@@ -7,6 +7,7 @@ import java.beans.PropertyEditorSupport;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -381,6 +382,11 @@ public class AdminProductController {
 	       if(!bindingResult.hasErrors()) {
 		        fileName = new File(image.getOriginalFilename()).getName(); 
 		        filePath = imagePath + fileName;
+		        /*try {
+					filePath = new String(filePath.getBytes(), "UTF-8");
+				} catch (UnsupportedEncodingException e) {
+					LOG.error("Can't convert file "+filePath+" to UTF8 format.");
+				}*/
 	        	imageUtil.saveImage(filePath, image);	
 	        	product.getDefaultSku().getImages().add(imageUrl+fileName);
 	       } else {

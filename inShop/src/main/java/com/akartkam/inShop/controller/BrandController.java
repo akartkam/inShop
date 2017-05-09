@@ -32,7 +32,7 @@ public class BrandController extends WebEntityAbstractController {
 			model.addObject("products", products);
 			model.setViewName("/catalog/brand-products");			
 		} else {
-			
+			model.setViewName("redirect:/error-default");	
 		}
 
 		return model;

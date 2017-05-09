@@ -1,5 +1,8 @@
 package com.akartkam.inShop.controller;
 
+import java.io.File;
+
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -20,6 +23,9 @@ public class PageController extends WebEntityAbstractController {
 	@Autowired
 	private ContentService contentService;
 	
+	@Autowired
+	private ServletContext servletContext;	
+	
 	@Override
 	protected ModelAndView handleRequestInternal(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
@@ -31,8 +37,19 @@ public class PageController extends WebEntityAbstractController {
 			model.addObject("page", page);
 			model.setViewName("/content/page");			
 		} else {
-			String viewName = pageUrl.substring(pageUrl.lastIndexOf("/"));
-			model.setViewName("/content"+viewName);	
+			if (pageUrl != null && !"".equals(pageUrl)){
+				String viewName = pageUrl.substring(pageUrl.lastIndexOf("/"));
+				String rPath = servletContext.getRealPath("/WEB-INF/templates/content"+viewName+".html");
+				File f = new File(rPath);
+				if(f.exists() && !f.isDirectory()) { 
+				   model.setViewName("/content"+viewName);
+				} else {
+					model.setViewName("redirect:/error-default");
+				}
+				
+			} else {
+			   model.setViewName("redirect:/error-default");
+			}
 		}
 		return model;
 	}

@@ -29,7 +29,7 @@ public class CategoryController extends WebEntityAbstractController {
 			model.addObject("category", category);
 			model.setViewName("/catalog/category");
 		} else {
-			
+			model.setViewName("redirect:/error-default");
 		}
 		/*LOG.info(request.getServletPath());
 		LOG.info(request.getContextPath());
