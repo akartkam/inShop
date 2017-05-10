@@ -41,8 +41,8 @@ public class ImageUtil {
 	public void saveImage(String filePath, MultipartFile image)
 			throws ImageUploadException {
 		try {
-			
-			File file = new File(filePath);
+			String newFName = new String(filePath.getBytes(), "UTF-8");
+			File file = new File(newFName);
 			FileUtils.writeByteArrayToFile(file, image.getBytes());
 			file.setReadable(true, false);
 		} catch (IOException e) {
