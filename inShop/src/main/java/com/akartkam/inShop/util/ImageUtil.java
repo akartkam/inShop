@@ -43,8 +43,8 @@ public class ImageUtil {
 		try {
 			
 			File file = new File(filePath);
-			file.setReadable(true, false);
 			FileUtils.writeByteArrayToFile(file, image.getBytes());
+			file.setReadable(true, false);
 		} catch (IOException e) {
 			LOG.error("Error during put image "+filePath, e);
 		}
