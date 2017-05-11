@@ -2,6 +2,9 @@ package com.akartkam.inShop.util;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.logging.Log;
@@ -41,11 +44,15 @@ public class ImageUtil {
 	public void saveImage(String filePath, MultipartFile image)
 			throws ImageUploadException {
 		try {
-			String newFName = new String(filePath.getBytes(), "UTF-8");
+			Path fPath = Paths.get(filePath);
+			Files.write(fPath, image.getBytes());
+
+/*			String newFName = new String(filePath.getBytes(), "ISO-8859-2");
 			File file = new File(newFName);
-			FileUtils.writeByteArrayToFile(file, image.getBytes());
+			FileUtils.writeByteArrayToFile(file, );
 			file.setReadable(true, false);
-		} catch (IOException e) {
+*/
+		} catch (Exception e) {
 			LOG.error("Error during put image "+filePath, e);
 		}
 	}	   
