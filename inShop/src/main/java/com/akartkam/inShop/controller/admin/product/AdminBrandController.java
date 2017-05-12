@@ -157,10 +157,10 @@ public class AdminBrandController {
 	        String filePath="";
 	        imageUtil.validateImage(image, "logoUrl", bindingResult);
 	        if(!bindingResult.hasErrors()) {
-		        fileName = new File(image.getOriginalFilename()).getName();
-		        filePath = imagePath + fileName;
+		        //fileName = new File(image.getOriginalFilename()).getName();
+		        filePath = imagePath + image.getOriginalFilename();
 	        	imageUtil.saveImage(filePath, image);		        
-		        brand.setLogoUrl(imageUrl+fileName);
+		        brand.setLogoUrl(imageUrl+image.getOriginalFilename());
 	        }
  
 	        brandService.mergeWithExistingAndUpdateOrCreate(brand);	        

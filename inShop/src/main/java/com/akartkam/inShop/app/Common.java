@@ -1,5 +1,6 @@
 package com.akartkam.inShop.app;
 
+import java.nio.charset.Charset;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.text.DecimalFormat;
@@ -14,6 +15,7 @@ import org.apache.commons.lang3.StringUtils;
 public class Common {
 
 	public static void main(String[] args) {
+		    System.out.println(Charset.defaultCharset().name());
 			System.out.println(Currency.getInstance(Locale.getDefault()).getDisplayName());
 			System.out.println(Currency.getInstance(Locale.getDefault()).getCurrencyCode());
 			System.out.println(Currency.getInstance(Locale.getDefault()).getSymbol());

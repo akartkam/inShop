@@ -380,15 +380,15 @@ public class AdminProductController {
 	       String filePath="";
 	       imageUtil.validateImage(image, "defaultSku.images", bindingResult);
 	       if(!bindingResult.hasErrors()) {
-		        fileName = new File(image.getOriginalFilename()).getName(); 
-		        filePath = imagePath + fileName;
+		        //fileName = new File(image.getOriginalFilename()).getName(); 
+		        filePath = imagePath + image.getOriginalFilename();
 		        /*try {
 					filePath = new String(filePath.getBytes(), "UTF-8");
 				} catch (UnsupportedEncodingException e) {
 					LOG.error("Can't convert file "+filePath+" to UTF8 format.");
 				}*/
 	        	imageUtil.saveImage(filePath, image);	
-	        	product.getDefaultSku().getImages().add(imageUrl+fileName);
+	        	product.getDefaultSku().getImages().add(imageUrl+image.getOriginalFilename());
 	       } else {
 	    	   model.addAttribute("imagesAddError", new Boolean(true));
 	       }
