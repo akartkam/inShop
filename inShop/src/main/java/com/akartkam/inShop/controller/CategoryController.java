@@ -6,10 +6,14 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.akartkam.inShop.domain.product.Category;
+import com.akartkam.inShop.exception.ResourceNotFoundException;
 
 @Controller
 public class CategoryController extends WebEntityAbstractController {
@@ -29,7 +33,8 @@ public class CategoryController extends WebEntityAbstractController {
 			model.addObject("category", category);
 			model.setViewName("/catalog/category");
 		} else {
-			model.setViewName("redirect:/error-default");
+			response.setStatus(404);
+			model.setViewName("/errors/error-default");
 		}
 		/*LOG.info(request.getServletPath());
 		LOG.info(request.getContextPath());

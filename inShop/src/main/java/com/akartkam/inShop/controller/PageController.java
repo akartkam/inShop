@@ -44,12 +44,12 @@ public class PageController extends WebEntityAbstractController {
 				if(f.exists() && !f.isDirectory()) { 
 				   model.setViewName("/content"+viewName);
 				} else {
-					model.setViewName("redirect:/error-default");
-				}
+					response.setStatus(404);
+					model.setViewName("/errors/error-default");				}
 				
 			} else {
-			   model.setViewName("redirect:/error-default");
-			}
+				response.setStatus(404);
+				model.setViewName("/errors/error-default");			}
 		}
 		return model;
 	}
