@@ -44,15 +44,14 @@ public class ImageUtil {
 	public void saveImage(String filePath, MultipartFile image)
 			throws ImageUploadException {
 		try {
-			Path fPath = Paths.get(filePath);
-			Files.write(fPath, image.getBytes());
+//			Path fPath = Paths.get(filePath);
+//			Files.write(fPath, image.getBytes());
 
-/*			String newFName = new String(filePath.getBytes(), "ISO-8859-2");
-			File file = new File(newFName);
-			FileUtils.writeByteArrayToFile(file, );
+			File file = new File(filePath);
+			FileUtils.writeByteArrayToFile(file, image.getBytes());
 			file.setReadable(true, false);
-*/
-		} catch (Exception e) {
+
+		} catch (IOException e) {
 			LOG.error("Error during put image "+filePath, e);
 		}
 	}	   
