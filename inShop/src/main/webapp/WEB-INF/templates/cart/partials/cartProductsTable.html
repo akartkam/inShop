@@ -37,7 +37,7 @@
 							    <div class="a-photo-out">
 				                   <span class="photo-block">
 				                     <span class="helper"></span>
-				                     <img th:src="@{${ci.imageUrl}}"  th:onerror="'this.src=\'' + @{/resources/img/noimage.png} + '\';'"/>
+				                     <img th:src="@{${ci.imageUrl}}"  th:alt="${ci.productName}" th:onerror="'this.src=\'' + @{/resources/img/noimage.png} + '\';'"/>
 				                   </span>
 							    </div>            
 				            </td>

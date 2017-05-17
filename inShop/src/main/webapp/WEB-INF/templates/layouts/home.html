@@ -71,7 +71,7 @@
 													<div class="brand-wrapper">
 														<div class="brand-list">
 															<a th:each="brand : ${brands}" aid:phref="${brand}"> 
-																<img th:src="@{${brand.logoUrl}}" alt=""/>
+																<img th:src="@{${brand.logoUrl}}" th:alt="${brand.name}"/>
 															</a> 
 														</div>
 													</div>

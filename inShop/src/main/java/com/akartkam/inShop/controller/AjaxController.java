@@ -193,7 +193,7 @@ public class AjaxController {
 			  data[i][2] = p.getUrl();
 			  data[i][3] = p.getBrand().getName();
 			  data[i][4] = p.getModel();
-			  data[i][5] = currencyNumberFormatter.print(p.getDefaultSku().getPrice(), Locale.getDefault());
+			  data[i][5] = p.getDefaultSku().getPrice() != null?  currencyNumberFormatter.print(p.getDefaultSku().getPrice(), Locale.getDefault()): "";
 			  data[i][6] = p.getOrdering() != null? p.getOrdering().toString(): "";
 			  data[i][7] = p.isEnabled()? "y": "";
 			  data[i][8] = "{\"name\":\""+sb.toString()+"\", \"id\":\""+p.getId()+"\"}";

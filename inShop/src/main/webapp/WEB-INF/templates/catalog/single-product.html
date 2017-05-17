@@ -25,13 +25,13 @@
      							th:style="${psStatus.index == 0?'top: -10px;': psStatus.index == 1? 'top: 33px;': 'top: 66px;'}">		
 							</div>
 							<div class="media-object">
-								<img style="border:1px solid #e8e8e6;" class="quick-review-product-zoom"  
+								<img style="border:1px solid #e8e8e6;" class="quick-review-product-zoom" th:alt="${product.name}" 
 									 th:src="@{${!#lists.isEmpty(product.allImages)? product.allImages[0]: ''}}"  th:onerror="'this.src=\'' + @{/resources/img/noimage.png} + '\';'"
 									 th:attr="data-large=@{${!#lists.isEmpty(product.allImages)? product.allImages[0]: ''}}" width="300" height="400"
 									 data-help="Используйте колесико мыши для Zoom +/-"/>	
 								<div id="quick-review-product-gallery" class="gallery" style="width:330px;">
 								    <img th:each="image, imageStat: ${product.allImages}" class="imzoom-gallery" th:classappend="${imageStat.index == 0}? 'active'" width="75"
-									     th:src="@{${image}}"
+									     th:src="@{${image}}" th:alt="${product.name}"
 									     th:attr="data-large=@{${image}}"/>		
 								</div>
 							</div>
@@ -177,7 +177,7 @@
                                     <fieldset>
                                        <label>Код:</label>
    									   <div><input type="text" id="capthaCode" /></div>
-  									   <img height="28px" id="captchaImage" border="0" width="95px"  th:src="@{/captcha.jpg?height=28&amp;width=95}" /> 
+  									   <img height="28px" alt="captcha" id="captchaImage" border="0" width="95px"  th:src="@{/captcha.jpg?height=28&amp;width=95}" /> 
    									   <a id="reloadCaptcha" href="javascript:void(0);"><i class="fa fa-refresh"></i></a>
                                     </fieldset>
                                 </div>

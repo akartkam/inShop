@@ -27,7 +27,7 @@
 								<div class="media">
 								  <div class="media-left">
 								    <a aid:phref="${brand}">
-								      <img class="media-object" th:src="@{${brand.logoUrl}}" width="250" th:onerror="'this.src=\'' + @{/resources/img/noimage.png} + '\';'"/>
+								      <img class="media-object" th:alt="${brand.name}" th:src="@{${brand.logoUrl}}" width="250" th:onerror="'this.src=\'' + @{/resources/img/noimage.png} + '\';'"/>
 								    </a>
 								  </div>
 								  <div class="media-body media-middle" style="width:auto !important;">
