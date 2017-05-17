@@ -37,8 +37,8 @@ public class OrderValidator implements Validator {
 	@Override
 	public void validate(Object target, Errors errors) {
 		OrderForm order = (OrderForm) target;
-		
-		if (order.getOrderItems().isEmpty() && !OrderStatus.INCOMPLETE.equals(order.getStatus())) {
+		if (OrderStatus.CANCELLED.equals(order.getStatus())) return ;		
+		if (!OrderStatus.INCOMPLETE.equals(order.getStatus()) && order.getOrderItems().isEmpty()) {
 			errors.reject("error.empty.order.orderItems");
 		} 
 		if (!order.getOrderItems().isEmpty()) {

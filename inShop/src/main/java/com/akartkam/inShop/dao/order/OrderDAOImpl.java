@@ -57,6 +57,11 @@ public class OrderDAOImpl extends AbstractGenericDAO<Order> implements OrderDAO 
 			if (query.indexOf("where")>=0) query.append(" and o.order_status='"+orderStatus+"'");
 			else query.append(" where o.order_status='"+orderStatus+"'");
 		}
+		if (!"CANCELLED".equals(orderStatus)) {
+			if (query.indexOf("where")>=0) query.append(" and o.order_status<>'CANCELLED'");
+			else query.append(" where o.order_status<>'CANCELLED'");			
+		}
+		
 		SQLQuery qcount = currentSession().createSQLQuery(query.toString()); 
 		res[0] = ((BigInteger) qcount.uniqueResult()).longValue();
 		

@@ -61,8 +61,9 @@ import javax.validation.constraints.Past;
 @NamedNativeQueries({
 	@NamedNativeQuery(
 			name = "ordersByStatus",
-			query = "select 'Всего' status, count(o.id) count_orders, sum(o.order_total) sum_order_total, "+
-					"   sum(f.delivery_price) sum_delivery, '' as order_status"+
+			query = "select 'Всего' status, count(case when order_status <> 'CANCELLED' then o.id else null end) count_orders, "+
+					"   sum(case when order_status <> 'CANCELLED' then o.order_total else 0 end) sum_order_total, "+
+					"   sum(case when order_status <> 'CANCELLED' then f.delivery_price else 0 end) sum_delivery, '' as order_status"+
 					"   from customer_order o "+
 					"        left join fulfillment f on f.order_id=o.id " +
 				    "        left outer join fulfillment f1 on f1.order_id=f.order_id and f.fulfillment_order<f1.fulfillment_order "+ 
