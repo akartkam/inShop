@@ -30,7 +30,7 @@
 								<form method="POST" th:action="@{/cart/remove}">
 									<input type="hidden" name="productId" th:value="${ci.productId}" />
 					            	<input type="hidden" name="skuId" th:value="${ci.skuId}" />
-					                <a title="Удалить строку" class="remove-from-cart" href="javascript:;" >x</a> 
+					                <a title="Удалить строку" class="remove-from-cart" href="javascript: void(0);" >x</a> 
 								</form>				            
 				            </td>
 				            <td class="product-thumbnail">
