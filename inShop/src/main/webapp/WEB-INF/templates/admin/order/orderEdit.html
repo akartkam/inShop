@@ -216,8 +216,9 @@
 				                       	    <thead >
 					                       	   <tr >
 					                       	      <th class="col-md-1 text-center">N</th>
-									              <th class="col-md-5 text-center" th:text="#{admin.catalog.product}">Product</th>
-									              <th class="col-md-2 text-center" th:text="#{admin.catalog.price}">Price</th>
+									              <th class="col-md-4 text-center" th:text="#{admin.catalog.product}">Product</th>
+									              <th class="col-md-1 text-center" th:text="#{sku.priceForUnit}">Price for unit</th>
+									              <th class="col-md-2 text-center" th:text="#{sku.priceForPackageUnit}">Price for package</th>
 									              <th class="col-md-1 text-center" th:text="#{admin.quantity}">Quantity</th>
 									              <th class="col-md-2 text-center" th:text="#{admin.cost}">Cost</th>
 									              <th class="col-md-1 text-center"></th>
@@ -246,6 +247,9 @@
 													        <span style="font-size: 9pt;" th:utext="${oi.sku.commaDelemitedPOVL}">sku</span>
 												        </th:block>
 												     </div>																	  	       	      		  
+									  	       	  </td>
+									  	       	  <td>
+									  	       	     <span th:utext="${{oi.isOnSale? oi.salePrice: oi.retailPrice}}"></span>
 									  	       	  </td>
 												  <td class="domain-col">
  									  	       	      <input type="text" class="form-control input-md price-val row-total-changer" th:attr="data-id=${oi.id}" data-oldtext="" 
