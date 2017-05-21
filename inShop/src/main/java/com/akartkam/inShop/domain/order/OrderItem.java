@@ -247,7 +247,11 @@ public class OrderItem extends AbstractDomainObjectOrdering {
 		this.image = image;
 	}
 
-	
+	@Transient
+	public BigDecimal getPriceForUnit() {
+		return getSalePrice() != null ? getSalePrice(): getRetailPrice();
+
+	}
 	
 
 }

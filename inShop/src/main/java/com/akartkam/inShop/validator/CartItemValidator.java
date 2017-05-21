@@ -85,6 +85,7 @@ public class CartItemValidator implements Validator {
 	        	cartItem.setProductUrl(entityUrlModificator.getPrefixedUrl(product.getUrl()));
 	        	productDisplayNameModificator.setSku(sku);
 	        	cartItem.setProductName(productDisplayNameModificator.getModifyedDisplayName(sku.lookupName()));
+	        	cartItem.setPriceForUnit(sku.getPrice());
 	        	cartItem.setPrice(sku.getPriceForPackage());
 	        	cartItem.setImageUrl(!sku.getImages().isEmpty()? sku.getImages().get(0): !product.getAllImages().isEmpty()? product.getAllImages().get(0): null);
 	        	cartItem.setSku(sku);

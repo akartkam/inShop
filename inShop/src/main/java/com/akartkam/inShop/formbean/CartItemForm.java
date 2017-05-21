@@ -25,6 +25,7 @@ public class CartItemForm implements Serializable  {
 	private Sku sku;
 	private int quantity;
 	private int fullQuantityOnCart;
+	private BigDecimal priceForUnit;
 	private BigDecimal price;
 	private Map<String,String> itemAttributes = new HashMap<String,String>();
 	private String productName;
@@ -142,6 +143,13 @@ public class CartItemForm implements Serializable  {
 		} else if (!skuId.equals(other.skuId))
 			return false;
 		return true;
+	}
+	@CurrencyFormat
+	public BigDecimal getPriceForUnit() {
+		return priceForUnit;
+	}
+	public void setPriceForUnit(BigDecimal priceForUnit) {
+		this.priceForUnit = priceForUnit;
 	}
 	
 }

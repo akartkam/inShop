@@ -5,7 +5,7 @@
 </head>
 <body>
 	<p>&nbsp;</p>
-	<table  width="521">
+	<table  width="600">
 		<tbody>
 			<tr>
 				<td style="text-align: center;" bgcolor="#5a88ca">
@@ -27,11 +27,12 @@
 			</tr>
 		</tbody>
 	</table>
-    <table cellspacing="0" width="521" border="1" style="font-size: 10pt;">
+    <table cellspacing="0" width="600" border="1" style="font-size: 9pt;">
 	    <thead>
 	        <tr>
 	            <th>N</th>
 	            <th class="product-name"><span th:utext="#{product.name}">Product</span></th>
+	            <th class="product-price"><span th:utext="#{sku.priceForUnit}">Price</span></th>  
 	            <th class="product-price"><span th:utext="#{sku.priceForPackageUnit}">Price</span></th>  
 	            <th class="product-quantity"><span th:utext="#{sku.quantity}">Quantity</span></th>
 	            <th class="product-subtotal"><span th:utext="#{cart.subTotal}">Sub Total</span></th>
@@ -42,6 +43,9 @@
 	            <td th:utext="${oiStat.index+1}"></td>
 	            <td class="product-name" style="font-size: 8pt;">
                 	<span aid:product_modifyed_display_name_utext="${oi.sku}"></span>
+	            </td>
+	            <td class="product-price" align="center">
+	                <span class="amount" th:utext="${beans.currencyNumberFormatter.print(oi.priceForUnit, #locale.getDefault())}">£15.00</span> 
 	            </td>
 	            <td class="product-price" align="center">
 	                <span class="amount" th:utext="${beans.currencyNumberFormatter.print(oi.price, #locale.getDefault())}">£15.00</span> 
@@ -57,7 +61,7 @@
 	            <td th:colspan="3">
 
 				</td>
-				<td class="cart-total" colspan="2" align="right">
+				<td class="cart-total" colspan="3" align="right">
 	                <span th:utext="#{cart.total}">Total</span>
 	            	<span  th:text="${beans.currencyNumberFormatter.print(order.total, #locale.getDefault())}">£15.00</span> 
 	            </td>

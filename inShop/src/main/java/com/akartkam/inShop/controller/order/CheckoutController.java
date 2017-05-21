@@ -278,7 +278,7 @@ public class CheckoutController {
 	
 	@RequestMapping(value="/test-order-confirm")
 	public String testOrderConfirm(HttpServletRequest request, HttpServletResponse response, Model model) throws MessagingException {
-		Order order = orderService.getOrderById(UUID.fromString("0ad1ca81-5064-476f-8d8e-cd46fb9ff680"));
+		Order order = orderService.getOrderById(UUID.fromString("9e7484b6-929b-4a66-bd37-426be3fb8261"));
 		model.addAttribute("order", order);
 		return "order-confirmation";
 	}
@@ -286,7 +286,7 @@ public class CheckoutController {
 	
 	@RequestMapping(value="/test-email")
 	public String testEmail(HttpServletRequest request, HttpServletResponse response) throws MessagingException {
-		Order order = orderService.getOrderById(UUID.fromString("0ad1ca81-5064-476f-8d8e-cd46fb9ff680"));
+		Order order = orderService.getOrderById(UUID.fromString("9e7484b6-929b-4a66-bd37-426be3fb8261"));
 		Map<String, Object> vars = new HashMap<String, Object>();
 		vars.put("order", order);
 		EmailInfo emailInfo = new EmailInfo();
@@ -300,7 +300,7 @@ public class CheckoutController {
 	
 	@RequestMapping(value="/test-pdf")
 	public ResponseEntity<byte[]> testPdf(HttpServletRequest request, HttpServletResponse response) throws MessagingException {
-		Order order = orderService.getOrderById(UUID.fromString("3cebe8c3-5348-4867-b131-f0b4a3ba319c"));
+		Order order = orderService.getOrderById(UUID.fromString("9e7484b6-929b-4a66-bd37-426be3fb8261"));
 		Map<String, Object> vars = new HashMap<String, Object>();
 		vars.put("order", order);	
 		ByteArrayOutputStream out = new ByteArrayOutputStream();

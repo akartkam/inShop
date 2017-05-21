@@ -54,7 +54,7 @@ import javax.validation.constraints.Past;
                 
     @SqlResultSetMapping(name = "orderItemCheckQueryRSM", columns = {
         @ColumnResult(name = "product_name"), @ColumnResult(name = "quantity"),
-        @ColumnResult(name = "price"), @ColumnResult(name = "oi_total")})       
+        @ColumnResult(name = "price"), @ColumnResult(name = "oi_total"), @ColumnResult(name = "price_for_unit")})       
         
 })
 
@@ -100,7 +100,8 @@ import javax.validation.constraints.Past;
 			
 	@NamedNativeQuery(
 					name = "orderItemCheckQuery",
-					query = "select oi.product_name, oi.quantity, oi.price, (oi.quantity * oi.price) as oi_total "+
+					query = "select oi.product_name, oi.price, (oi.quantity * oi.price) as oi_total, oi.quantity, "+
+							"       case when sale_price is not null and sale_price <> 0 then sale_price else retail_price end as price_for_unit "+
 							"  from customer_order_item oi "+
 							"  where cast(oi.order_id as varchar(36))=? ",
 			resultSetMapping = "orderItemCheckQueryRSM")

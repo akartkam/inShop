@@ -1208,7 +1208,7 @@ td.product-thumbnail img {
     width: 70px;
 }
 td.product-name, td.product-price, td.product-subtotal {
-    font-size: 12px;
+    font-size: 11px;
 }
 
 td.cart-total {
@@ -1689,4 +1689,8 @@ attr.required, span.required {
 
 #buy1click-form label {
 	font-size: 9pt;
+}
+
+span.amount{
+	white-space: nowrap;
 }

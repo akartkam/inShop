@@ -77,11 +77,11 @@
 	    <thead>
 	        <tr>
 	            <th width="5%">N</th>
-	            <th width="40%"><span th:utext="#{product.name}">Product</span></th>
+	            <th width="45%"><span th:utext="#{product.name}">Product</span></th>
 	            <th width="15%"><span th:utext="#{sku.priceForUnit}">Price</span></th>  
 	            <th width="15%"><span th:utext="#{sku.priceForPackageUnit}">Price</span></th>  
 	            <th width="10%"><span th:utext="#{sku.quantity}">Quantity</span></th>
-	            <th width="20%"><span th:utext="#{cart.subTotal}">Sub Total</span></th>
+	            <th width="15%"><span th:utext="#{cart.subTotal}">Sub Total</span></th>
 	        </tr>
 	    </thead>
 	    <tbody>
@@ -91,7 +91,7 @@
                 	<span th:utext="${oi[0]}"></span>
 	            </td>
 	            <td style="border: thin solid black;" class="product-price" align="center">
-	                <span class="amount" th:utext="${beans.currencyNumberFormatter.print(oi[2], #locale.getDefault())}">£15.00</span> 
+	                <span class="amount" th:utext="${beans.currencyNumberFormatter.print(oi[4], #locale.getDefault())}">£15.00</span> 
 	            </td>
 	            <td style="border: thin solid black;" class="product-price" align="center">
 	                <span class="amount" th:utext="${beans.currencyNumberFormatter.print(oi[2], #locale.getDefault())}">£15.00</span> 

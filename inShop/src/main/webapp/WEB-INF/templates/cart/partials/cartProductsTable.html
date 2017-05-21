@@ -18,6 +18,7 @@
 				            <th th:unless="${isShortMode}"  class="product-remove">&nbsp;</th>
 				            <th class="product-thumbnail">&nbsp;</th>
 				            <th class="product-name"><span th:utext="#{product.name}">Product</span></th>
+				            <th class="product-price"><span th:utext="#{sku.priceForUnit}">Price</span></th>  
 				            <th class="product-price"><span th:utext="#{sku.priceForPackageUnit}">Price</span></th>  
 				            <th class="product-quantity"><span th:utext="#{sku.quantity}">Quantity</span></th>
 				            <th class="product-subtotal"><span th:utext="#{cart.subTotal}">Sub Total</span></th>
@@ -47,6 +48,9 @@
 				                </a> 
 				            </td>
 				            <td class="product-price">
+				                <span class="amount" th:utext="${{ci.priceForUnit}}">£15.00</span> 
+				            </td>
+				            <td class="product-price">
 				                <span class="amount" th:utext="${{ci.price}}">£15.00</span> 
 				            </td>
 				            <td class="product-quantity">
@@ -70,13 +74,13 @@
 				        	<td th:colspan="${isShortMode}? '4': '5'">
 								<span class="cart-error" style="display: none;" th:utext="#{error.productOptions}">All options required!</span>
 				        	</td>
-   				            <td class="cart-total" colspan="2">
+   				            <td class="cart-total" colspan="3">
 				                <span th:utext="#{cart.total}">Total</span>
 				            	<span  th:text="${{cart.total}}">£15.00</span> 
 				            </td>
 				        </tr>
 				        <tr th:unless="${isShortMode}">
-				            <td class="actions" colspan="7">
+				            <td class="actions" colspan="8">
 				                <button type="button" class="simplemodal-close" th:utext="#{button.continueBuying}">Продолжить покупки</button>
 				                <button type="button" class="checkout" th:utext="#{button.checkout}">Оформить заказ</button>
 				                
