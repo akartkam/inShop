@@ -18,7 +18,7 @@
 				   <span th:text="#{button.toCart}">В корзину</span>
 				</a>
 			</form>	
-			<a th:attr="data-path=@{${'/ajax-quick-review-product?ID='+product.id}}" class="quick-review-product-link"><i class="fa fa-list-alt"></i> Параметры</a>
+			<a href="javascript: void(0)" th:attr="data-path=@{${'/ajax-quick-review-product?ID='+product.id}}" class="quick-review-product-link"><i class="fa fa-list-alt"></i> Параметры</a>
 			<a aid:phref="${product}" class="view-details-link"><i class="fa fa-info"></i> Подробнее</a>
 		</div>
 	</div>

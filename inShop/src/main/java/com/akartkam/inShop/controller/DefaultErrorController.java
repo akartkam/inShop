@@ -21,7 +21,7 @@ public class DefaultErrorController{
 	private String path = "/errors";
 
  @ExceptionHandler(Exception.class)
- public ModelAndView errorHandler(HttpServletRequest req, Exception ex){
+ public ModelAndView errorHandler(HttpServletRequest req, HttpServletResponse res, Exception ex){
 	 LOG.error("Request: " + req.getRequestURL() , ex);
 	 
 	 ModelAndView model = new ModelAndView();	 
@@ -31,6 +31,7 @@ public class DefaultErrorController{
 	 model.addObject("url", req.getRequestURL());
 	 model.addObject("timestamp", new Date().toString());
 	 model.setViewName(path+"/error-default");
+	 res.setStatus(404);
 	 return model;
  }
 

@@ -62,7 +62,7 @@ import com.akartkam.inShop.presentation.admin.EditTab;
 @NamedNativeQueries({
 	@NamedNativeQuery(
 			name = "findAllProductUrls",
-			query = "select url from product",
+			query = "select url from product where enabled=true",
 			resultSetMapping = "findAllProductUrlsRSM")
 })
 
