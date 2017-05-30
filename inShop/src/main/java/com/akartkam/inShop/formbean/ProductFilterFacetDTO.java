@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.UUID;
 
 
-public class FilterFacetDTO implements Serializable {
+public class ProductFilterFacetDTO implements Serializable {
 	/**
 	 * 
 	 */
@@ -51,9 +51,9 @@ public class FilterFacetDTO implements Serializable {
 	public boolean equals(Object o) {
         if (this == o) return true;
         if (id == null) return false;
-		if (!(o instanceof FilterFacetDTO))
+		if (!(o instanceof ProductFilterFacetDTO))
 		      return false;        
-		FilterFacetDTO other = (FilterFacetDTO) o;
+		ProductFilterFacetDTO other = (ProductFilterFacetDTO) o;
         return id.equals(other.getId());
     }	
 	
