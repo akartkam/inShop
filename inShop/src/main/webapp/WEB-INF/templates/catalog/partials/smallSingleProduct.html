@@ -26,7 +26,7 @@
 	<div class="product-carousel-price">
 		<th:block th:unless="${product.hasAdditionalSkus()}">
 			<ins th:unless="${#bools.isTrue(product.isNotShowPriceForUnit)}" th:attr="data-sort-value=${product.defaultSku.price}" th:utext="${{product.defaultSku.price}}">$700.00</ins>
-			<ins th:if="${#bools.isTrue(product.isNotShowPriceForUnit)}" th:attr="data-sort-value=${product.defaultSku.price}" th:utext="${{product.defaultSku.priceForPackage}}">$700.00</ins>
+			<ins th:if="${#bools.isTrue(product.isNotShowPriceForUnit)}" th:attr="data-sort-value=${product.defaultSku.priceForPackage}" th:utext="${{product.defaultSku.priceForPackage}}">$700.00</ins>
 		</th:block>
 		<th:block th:if="${product.hasAdditionalSkus()}" 
 		          th:with="minMaxPrices=${#bools.isTrue(product.isNotShowPriceForUnit)? product.minMaxPriceForPackage:  product.minMaxPrice},
