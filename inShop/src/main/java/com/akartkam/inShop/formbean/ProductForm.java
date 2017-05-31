@@ -48,6 +48,7 @@ public class ProductForm extends Product {
 			this.setMetaTitle(product.getMetaTitle());
 			this.setMetaDescription(product.getMetaDescription());
 			this.setMetaKeywords(product.getMetaKeywords());
+			this.setIsNotShowPriceForUnit(product.getIsNotShowPriceForUnit());
 			productStatus = new ArrayList<ProductStatus>(product.getDefaultSku().getProductStatus());
 			productOptionsForForm = new ArrayList<ProductOption>(product.getProductOptions());
 			buildShortUrl();

@@ -25,10 +25,11 @@
 	<h2><a aid:phref="${product}"><span class="sort-by-name" th:utext="${product.name}">Samsung Galaxy s5- 2015</span></a></h2>
 	<div class="product-carousel-price">
 		<th:block th:unless="${product.hasAdditionalSkus()}">
-			<ins th:attr="data-sort-value=${product.defaultSku.price}" th:utext="${{product.defaultSku.price}}">$700.00</ins>
+			<ins th:unless="${#bools.isTrue(product.isNotShowPriceForUnit)}" th:attr="data-sort-value=${product.defaultSku.price}" th:utext="${{product.defaultSku.price}}">$700.00</ins>
+			<ins th:if="${#bools.isTrue(product.isNotShowPriceForUnit)}" th:attr="data-sort-value=${product.defaultSku.price}" th:utext="${{product.defaultSku.priceForPackage}}">$700.00</ins>
 		</th:block>
 		<th:block th:if="${product.hasAdditionalSkus()}" 
-		          th:with="minMaxPrices=${product.minMaxPrice},
+		          th:with="minMaxPrices=${#bools.isTrue(product.isNotShowPriceForUnit)? product.minMaxPriceForPackage:  product.minMaxPrice},
                            minPrice=${minMaxPrices[0] != null? beans.currencyNumberFormatter.print(minMaxPrices[0], #locale.getDefault()): 0}, 
                            maxPrice=${minMaxPrices[1] != null?beans.currencyNumberFormatter.print(minMaxPrices[1], #locale.getDefault()): 0 }					                                
                            ">
@@ -42,7 +43,8 @@
 			</th:block>
 		</th:block>
 		<span class="price-piece-unit-delemiter" th:utext="#{product.default.pricePieceUnitDelemiter}"></span>
-		<span class="price-piece-unit" th:utext="#{product.default.pricePieceUnit}"></span> 
+		<span class="price-piece-unit" th:unless="${#bools.isTrue(product.isNotShowPriceForUnit)}" th:utext="#{product.default.pricePieceUnit}"></span>
+		<span class="price-piece-unit" th:if="${#bools.isTrue(product.isNotShowPriceForUnit)}" th:utext="#{product.default.pricePackageUnit}"></span> 
 		<del th:if="${product.defaultSku.isOnSale()}" th:utext="${{product.defaultSku.retailPrice}}">$100.00</del>
 	</div> 
 	<div class="product-header-info">

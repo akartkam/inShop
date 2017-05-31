@@ -332,6 +332,7 @@ public class ProductServiceImpl implements ProductService {
 			existingProduct.setMetaTitle(productFromPost.getMetaTitle());
 			existingProduct.setMetaDescription(productFromPost.getMetaDescription());
 			existingProduct.setMetaKeywords(productFromPost.getMetaKeywords());
+			existingProduct.setIsNotShowPriceForUnit(productFromPost.getIsNotShowPriceForUnit() );
 
 			if (!existingProduct.getCategory().equals(productFromPost.getCategory())) {
 				//Check attributes for choosed category

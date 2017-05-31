@@ -1,29 +1,21 @@
 package com.akartkam.inShop.formbean;
 
 import java.io.Serializable;
-import java.util.UUID;
-
 
 public class ProductFilterFacetDTO implements Serializable {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 4526974203562147450L;
-	private UUID id;
-	private String name;
+	private String id;
 	private boolean active;
 	private Integer quantity;
-	public UUID getId() {
+
+	public String getId() {
 		return id;
 	}
-	public void setId(UUID id) {
+	public void setId(String id) {
 		this.id = id;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
 	}
 	public boolean isActive() {
 		return active;

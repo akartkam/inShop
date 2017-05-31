@@ -14,22 +14,20 @@ public class ProductFilterDTO implements Serializable {
 	 */
 	private static final long serialVersionUID = -1609658387265588577L;
 	private List<ProductFilterFacetDTO> brandFacets = new ArrayList<ProductFilterFacetDTO>();
-	private List<String> modelFacets = new ArrayList<String>();
+	private List<ProductFilterFacetDTO> modelFacets = new ArrayList<ProductFilterFacetDTO>();
 	private BigDecimal minPrice = new BigDecimal(0);
 	private BigDecimal maxPrice = new BigDecimal(0);
-	private Map<ProductFilterFacetDTO, List<ProductFilterFacetDTO>> prodAttrsFacets = new HashMap<ProductFilterFacetDTO, List<ProductFilterFacetDTO>>();
-	private Map<ProductFilterFacetDTO, List<ProductFilterFacetDTO>> skuAttrsFacets = new HashMap<ProductFilterFacetDTO, List<ProductFilterFacetDTO>>();
-
+	private Map<String, List<ProductFilterFacetDTO>> attributesFacets = new HashMap<String, List<ProductFilterFacetDTO>>();
 	public List<ProductFilterFacetDTO> getBrandFacets() {
 		return brandFacets;
 	}
 	public void setBrandFacets(List<ProductFilterFacetDTO> brandFacets) {
 		this.brandFacets = brandFacets;
 	}
-	public List<String> getModelFacets() {
+	public List<ProductFilterFacetDTO> getModelFacets() {
 		return modelFacets;
 	}
-	public void setModelFacets(List<String> modelFacets) {
+	public void setModelFacets(List<ProductFilterFacetDTO> modelFacets) {
 		this.modelFacets = modelFacets;
 	}
 	public BigDecimal getMinPrice() {
@@ -44,19 +42,12 @@ public class ProductFilterDTO implements Serializable {
 	public void setMaxPrice(BigDecimal maxPrice) {
 		this.maxPrice = maxPrice;
 	}
-	public Map<ProductFilterFacetDTO, List<ProductFilterFacetDTO>> getProdAttrsFacets() {
-		return prodAttrsFacets;
+	public Map<String, List<ProductFilterFacetDTO>> getAttributesFacets() {
+		return attributesFacets;
 	}
-	public void setProdAttrsFacets(
-			Map<ProductFilterFacetDTO, List<ProductFilterFacetDTO>> prodAttrsFacets) {
-		this.prodAttrsFacets = prodAttrsFacets;
-	}
-	public Map<ProductFilterFacetDTO, List<ProductFilterFacetDTO>> getSkuAttrsFacets() {
-		return skuAttrsFacets;
-	}
-	public void setSkuAttrsFacets(
-			Map<ProductFilterFacetDTO, List<ProductFilterFacetDTO>> skuAttrsFacets) {
-		this.skuAttrsFacets = skuAttrsFacets;
+	public void setAttributesFacets(
+			Map<String, List<ProductFilterFacetDTO>> attributesFacets) {
+		this.attributesFacets = attributesFacets;
 	}
 
 	

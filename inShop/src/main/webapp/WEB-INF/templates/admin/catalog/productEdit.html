@@ -273,23 +273,19 @@
 						                </div>
 						           </div>
                 				</div>
-						   		<div class="col-md-2">
-								   <div class="field-box">
-			                         <label>
-			 					    	<input type="checkbox" th:field="*{enabled}"/>
-									  	<span th:text="#{admin.catalog.category.enabled}">Active?</span>
-									 </label>
-								   </div>
-								</div>
-<!-- 								<div class="col-md-2">   	  -->
-<!-- 								   <div class="field-box"> -->
-<!-- 			                         <label> -->
-<!-- 			 					    	<input type="checkbox" th:field="*{canSellWithoutOptions}"/> -->
-<!-- 									  	<span th:text="#{admin.catalog.product.canSellWithoutOptions}">canSWO?</span> -->
-<!-- 									 </label> -->
-<!-- 								   </div> -->
-<!-- 								</div>	 -->
-					   		</div>
+					   		</div>                				
+						   <div class="field-box">
+	                         <label>
+	 					    	<input type="checkbox" th:field="*{enabled}"/>
+							  	<span th:text="#{admin.catalog.category.enabled}">Active?</span>
+							 </label>
+						   </div>
+						   <div class="field-box">
+	                         <label>
+	 					    	<input type="checkbox" th:field="*{isNotShowPriceForUnit}"/>
+							  	<span th:text="#{admin.catalog.product.isNotShowPriceForUnit}">isNSPFU?</span>
+							 </label>
+						   </div>
 	                    </div>
  	                    <div class="tab-pane fade" th:classappend="${tabactive=='images'}? 'in active'" id="images"> 
 							<div class="container-fluid">	                    

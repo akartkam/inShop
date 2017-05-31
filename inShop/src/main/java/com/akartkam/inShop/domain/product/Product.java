@@ -96,15 +96,23 @@ public class Product extends AbstractWebDomainObject {
 	private Sku defaultSku;
     private List<Sku> additionalSku = new ArrayList<Sku>();	
     private Set<ProductOption> productOptions = new HashSet<ProductOption>();
-    private boolean canSellWithoutOptions = true;
+    private Boolean canSellWithoutOptions = true;
     private Instruction instruction;
+    private Boolean isNotShowPriceForUnit = false;
 
+    @Column(name = "is_not_show_price_for_unit")
+	public Boolean getIsNotShowPriceForUnit() {
+		return isNotShowPriceForUnit;
+	}
+	public void setIsNotShowPriceForUnit(Boolean isNotShowPriceForUnit) {
+		this.isNotShowPriceForUnit = isNotShowPriceForUnit;
+	}
     
 	@Column(name = "can_sell_without_options")
-	public boolean isCanSellWithoutOptions() {
+	public Boolean isCanSellWithoutOptions() {
 		return canSellWithoutOptions;
 	}
-	public void setCanSellWithoutOptions(boolean canSellWithoutOptions) {
+	public void setCanSellWithoutOptions(Boolean canSellWithoutOptions) {
 		this.canSellWithoutOptions = canSellWithoutOptions;
 	}
 	
