@@ -129,6 +129,7 @@ public class OrderServiceImpl implements OrderService{
 			for(OrderItem oi1: loif) {
 				Product p = oi1.getSku().lookupProduct();
 				oi1.setProduct(p);
+				oi1.setIsNotShowPriceForUnit(p.getIsNotShowPriceForUnit());
 				oi1.setCategory(p.getCategory());
 				oi1.setRetailPrice(oi1.getSku().getRetailPrice());
 				oi1.setSalePrice(oi1.getSku().getSalePrice());
@@ -174,6 +175,7 @@ public class OrderServiceImpl implements OrderService{
 		      for (OrderItem oi : orderForm.getOrderItems()) {
 		        Product p = oi.getSku().lookupProduct();
 		        oi.setProduct(p);
+		        oi.setIsNotShowPriceForUnit(p.getIsNotShowPriceForUnit());
 		        oi.setCategory(p.getCategory());
 		        oi.setRetailPrice(oi.getSku().getRetailPrice());
 		        oi.setSalePrice(oi.getSku().getSalePrice());
@@ -239,6 +241,7 @@ public class OrderServiceImpl implements OrderService{
 				oi.setSku(ci.getSku());
 				Product p = ci.getSku().lookupProduct();
 				oi.setProduct(p);
+				oi.setIsNotShowPriceForUnit(p.getIsNotShowPriceForUnit());
 				oi.setCategory(p.getCategory());
 				oi.setQuantity(ci.getQuantity());
 				oi.setPrice(ci.getPrice());
@@ -281,6 +284,7 @@ public class OrderServiceImpl implements OrderService{
 			oi.setSku(buy1clickForm.getSku());
 			Product p = buy1clickForm.getSku().lookupProduct();
 			oi.setProduct(p);
+			oi.setIsNotShowPriceForUnit(p.getIsNotShowPriceForUnit());
 			oi.setCategory(p.getCategory());
 			oi.setQuantity(1);
 			oi.setPrice(buy1clickForm.getSku().getPriceForPackage());

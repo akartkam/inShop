@@ -91,7 +91,7 @@
                 	<span th:utext="${oi[0]}"></span>
 	            </td>
 	            <td style="border: thin solid black;" class="product-price" align="center">
-	                <span class="amount" th:utext="${beans.currencyNumberFormatter.print(oi[4], #locale.getDefault())}">£15.00</span> 
+	                <span th:unless="${#bools.isTrue(oi[5])}" class="amount" th:utext="${beans.currencyNumberFormatter.print(oi[4], #locale.getDefault())}">£15.00</span> 
 	            </td>
 	            <td style="border: thin solid black;" class="product-price" align="center">
 	                <span class="amount" th:utext="${beans.currencyNumberFormatter.print(oi[2], #locale.getDefault())}">£15.00</span> 

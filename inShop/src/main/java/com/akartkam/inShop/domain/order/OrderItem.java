@@ -68,9 +68,19 @@ public class OrderItem extends AbstractDomainObjectOrdering {
     private Product product; 
     private Integer quantityPerPackage; 
     private String productName;
+    private Boolean isNotShowPriceForUnit = false;
+
     //for form
     private String image;
 
+    @Column(name = "is_not_show_price_for_unit")
+	public Boolean getIsNotShowPriceForUnit() {
+		return isNotShowPriceForUnit;
+	}
+	public void setIsNotShowPriceForUnit(Boolean isNotShowPriceForUnit) {
+		this.isNotShowPriceForUnit = isNotShowPriceForUnit;
+	} 
+    
     @Column(name = "retail_price", precision=19, scale=5)
     @CurrencyFormat
 	@DecimalMin("0.01")	

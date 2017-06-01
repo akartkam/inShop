@@ -89,6 +89,7 @@ public class CartItemValidator implements Validator {
 	        	cartItem.setPrice(sku.getPriceForPackage());
 	        	cartItem.setImageUrl(!sku.getImages().isEmpty()? sku.getImages().get(0): !product.getAllImages().isEmpty()? product.getAllImages().get(0): null);
 	        	cartItem.setSku(sku);
+	        	cartItem.setIsNotShowPriceForUnit(product.getIsNotShowPriceForUnit());
 	        	
 			} else if (product == null) {
 				throw new ProductNotFoundException("The referenced Product "+producrId+" could not found.");

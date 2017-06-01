@@ -40,8 +40,11 @@ public class PageController extends WebEntityAbstractController {
 			if (pageUrl != null && !"".equals(pageUrl)){
 				String viewName = pageUrl.substring(pageUrl.lastIndexOf("/"));
 				String rPath = servletContext.getRealPath("/WEB-INF/templates/content"+viewName+".html");
-				File f = new File(rPath);
-				if(f.exists() && !f.isDirectory()) { 
+				File f = null;
+				if (rPath != null && !"".equals(rPath)) {
+					f = new File(rPath);	
+				}
+				if(f != null && f.exists() && !f.isDirectory()) { 
 				   model.setViewName("/content"+viewName);
 				} else {
 					response.setStatus(404);

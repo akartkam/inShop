@@ -47,8 +47,8 @@
 				                	<span th:utext="${ci.productName}"></span>
 				                </a> 
 				            </td>
-				            <td class="product-price">
-				                <span class="amount" th:utext="${{ci.priceForUnit}}">£15.00</span> 
+				            <td class="product-price" >
+				                <span th:unless="${#bools.isTrue(ci.isNotShowPriceForUnit)}" class="amount" th:utext="${{ci.priceForUnit}}">£15.00</span> 
 				            </td>
 				            <td class="product-price">
 				                <span class="amount" th:utext="${{ci.price}}">£15.00</span> 

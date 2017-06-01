@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.persistence.Column;
+
 import org.springframework.format.annotation.NumberFormat;
 import org.springframework.format.annotation.NumberFormat.Style;
 
@@ -29,6 +31,14 @@ public class CartItemForm implements Serializable  {
 	private BigDecimal price;
 	private Map<String,String> itemAttributes = new HashMap<String,String>();
 	private String productName;
+	private Boolean isNotShowPriceForUnit = false;
+	
+	public Boolean getIsNotShowPriceForUnit() {
+		return isNotShowPriceForUnit;
+	}
+	public void setIsNotShowPriceForUnit(Boolean isNotShowPriceForUnit) {
+		this.isNotShowPriceForUnit = isNotShowPriceForUnit;
+	}	
 
 	public int getQuantity() {
 		return quantity;

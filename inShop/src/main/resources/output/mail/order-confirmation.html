@@ -45,7 +45,7 @@
                 	<span aid:product_modifyed_display_name_utext="${oi.sku}"></span>
 	            </td>
 	            <td class="product-price" align="center">
-	                <span class="amount" th:utext="${beans.currencyNumberFormatter.print(oi.priceForUnit, #locale.getDefault())}">£15.00</span> 
+	                <span th:unless="${#bools.isTrue(oi.isNotShowPriceForUnit)}" class="amount" th:utext="${beans.currencyNumberFormatter.print(oi.priceForUnit, #locale.getDefault())}">£15.00</span> 
 	            </td>
 	            <td class="product-price" align="center">
 	                <span class="amount" th:utext="${beans.currencyNumberFormatter.print(oi.price, #locale.getDefault())}">£15.00</span> 

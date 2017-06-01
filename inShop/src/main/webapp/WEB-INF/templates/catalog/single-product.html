@@ -96,7 +96,7 @@
 										          </div>
 						                   	   </td>
 						                   </tr>
-										   <tr>
+										   <tr th:unless="${#bools.isTrue(product.isNotShowPriceForUnit)}">
 										   	   <th><span th:utext="#{sku.priceForUnit}"></span></th>
 										   	   <td></td>
 										   	   <td>
@@ -104,7 +104,7 @@
 										   	      <del id="priceForUnitOld" th:utext="${{product.defaultSku.isOnSale()? product.defaultSku.retailPrice: '' }}">$100.00</del>
 										   	   </td>
 										   </tr>
-										   <tr th:if="${product.defaultSku.quantityPerPackage != 1}">
+										   <tr th:if="${product.defaultSku.quantityPerPackage != 1 || #bools.isTrue(product.isNotShowPriceForUnit)}">
 										   	   <th><span th:utext="#{sku.priceForPackageUnit}"></span></th>
 										   	   <td></td>
 										   	   <td><ins id="priceForPkg" th:utext="${{product.defaultSku.priceForPackage}}">$700.00</ins></td>
