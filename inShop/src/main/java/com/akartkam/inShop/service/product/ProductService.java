@@ -58,4 +58,5 @@ public interface ProductService {
 	boolean canDeleteSku(UUID id);
 	Object[] getProductsForDataTable(DataTableForm dt);
 	long countTotalProducts();
+	List<Sku> getActiveSkuList();
 }

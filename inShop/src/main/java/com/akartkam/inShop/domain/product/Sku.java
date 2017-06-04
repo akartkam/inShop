@@ -75,6 +75,13 @@ import com.akartkam.inShop.presentation.admin.EditTab;
 
 @NamedNativeQueries({
 	@NamedNativeQuery(
+			name = "activeSkuList",
+			query = "select s.* from sku s"+
+					"       inner join Product p on (p.id=s.product_id or p.default_sku_id=s.id) "+
+					"  where s.enabled and p.enabled ",
+			resultClass = Sku.class
+			),
+	@NamedNativeQuery(
 			name = "canDeleteSku",
 			query = "select 1 can_delete from sku s where cast(s.id as character varying) = :id and not exists(select 1 from customer_order_item oi where oi.sku_id=s.id )",
 			resultSetMapping = "canDeleteSkuRSM"),

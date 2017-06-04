@@ -100,6 +100,12 @@ public class SkuDAOImpl extends AbstractGenericDAO<Sku> implements SkuDAO {
 		Query query = currentSession().getNamedQuery("canDeleteSku").setString("id", id.toString());
 		return query.uniqueResult() != null;
 	}
+
+	@Override
+	public List<Sku> findActiveSkuList() {
+		Query query = currentSession().getNamedQuery("activeSkuList");
+		return query.list();
+	}
 	
 
 }

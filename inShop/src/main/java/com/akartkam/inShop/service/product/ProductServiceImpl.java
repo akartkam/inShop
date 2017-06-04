@@ -795,6 +795,11 @@ public class ProductServiceImpl implements ProductService {
 		return productDAO.countTotalProducts();
 	}
 
+	@Override
+	public List<Sku> getActiveSkuList() {
+		return skuDAO.findActiveSkuList();
+	}
+
 }
 
 //}

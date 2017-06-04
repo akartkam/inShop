@@ -13,4 +13,5 @@ public interface SkuDAO extends GenericDAO<Sku, UUID> {
 	Object[] findSkusByCodeOrNameForPaging(String s, int rowPerPage, int pageNumber);
 	Map<UUID, Integer> findMapSkuIdQuantityAvailable(Collection<Sku> skus);
 	boolean canDeleteSku (UUID id);
+	List<Sku> findActiveSkuList();
 }

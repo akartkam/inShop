@@ -36,23 +36,22 @@ public class CategoryController extends WebEntityAbstractController {
 			response.setStatus(404);
 			model.setViewName("/errors/error-default");
 		}
-		/*LOG.info(request.getServletPath());
-		LOG.info(request.getContextPath());
-		LOG.info(request.getLocalAddr());
-		LOG.info(request.getLocalName());
-		LOG.info(request.getLocalPort());
-		LOG.info(request.getMethod());
-		LOG.info(request.getPathInfo());
-		LOG.info(request.getProtocol());
-		LOG.info(request.getQueryString());
-		LOG.info(request.getRequestedSessionId());
-		LOG.info(request.getRequestURI());
-		LOG.info(request.getRequestURL());
-		LOG.info(request.getScheme());
-		LOG.info(request.getServerName());
-		LOG.info(request.getServerPort());
-		LOG.info(request.getServletPath());
-		LOG.info(request.getParameterNames());*/
+		LOG.info("getServletPath() - "+request.getServletPath());
+		LOG.info("getContextPath() - "+request.getContextPath());
+		LOG.info("getLocalAddr() - "+request.getLocalAddr());
+		LOG.info("getLocalName() - "+request.getLocalName());
+		LOG.info("getLocalPort() - "+request.getLocalPort());
+		LOG.info("getMethod() - "+request.getMethod());
+		LOG.info("getPathInfo() - "+request.getPathInfo());
+		LOG.info("getProtocol() - "+request.getProtocol());
+		LOG.info("getQueryString() - "+request.getQueryString());
+		LOG.info("getRequestedSessionId() - "+request.getRequestedSessionId());
+		LOG.info("getRequestURI() - "+request.getRequestURI());
+		LOG.info("getRequestURL() - "+request.getRequestURL());
+		LOG.info("getScheme() - "+request.getScheme());
+		LOG.info("getServerName() - "+request.getServerName());
+		LOG.info("getServerPort() - "+request.getServerPort());
+		LOG.info("getParameterNames() - "+request.getParameterNames());
 		return model;
 	}
 
