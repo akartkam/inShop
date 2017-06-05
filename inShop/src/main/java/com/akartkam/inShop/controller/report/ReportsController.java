@@ -3,6 +3,7 @@ package com.akartkam.inShop.controller.report;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -27,13 +29,18 @@ import org.supercsv.io.ICsvBeanWriter;
 import org.supercsv.prefs.CsvPreference;
 
 import com.akartkam.inShop.dao.ReportsDAO;
+import com.akartkam.inShop.domain.product.Product;
 import com.akartkam.inShop.domain.product.Sku;
 import com.akartkam.inShop.service.PdfService;
+import com.akartkam.inShop.service.extension.ProductDisplayNameModificator;
 import com.akartkam.inShop.service.product.ProductService;
 
 @Controller
 @RequestMapping("/report")
 public class ReportsController {
+	
+	@Value("#{entityUrlPrefixes.getProperty(T(com.akartkam.inShop.util.Constants).PRODUCT_CLASS)}")
+	private String productPrefix;
 	
 	@Autowired
 	private ProductService productService;
@@ -43,6 +50,9 @@ public class ReportsController {
 	
 	@Autowired
 	private PdfService pdfService;
+	
+	@Autowired
+	private ProductDisplayNameModificator productDisplayNameModificator;	
 	
 	@RequestMapping(value="/pdf/order-check/{orderId}")
 	public ResponseEntity<byte[]> orderCheckPdf(@PathVariable("orderId") String orderId , HttpServletRequest request, 
@@ -73,7 +83,7 @@ public class ReportsController {
         String headerValue = String.format("attachment; filename=\"%s\"", csvFileName);
         response.setHeader(headerKey, headerValue);	
         
-        String[] header = { "id", "available", "url", "price", "currencyId", "category", "picture",
+        String[] header = { "id", "url", "price", "currencyId", "category", "picture",
         		            "name", "description"};
         
         ICsvBeanWriter csvWriter = new CsvBeanWriter(response.getWriter(), CsvPreference.TAB_PREFERENCE);
@@ -84,16 +94,29 @@ public class ReportsController {
         String sbBaseUrl = request.getRequestURL().substring(0, request.getRequestURL().indexOf(request.getServletPath()));
         for (Sku sku : skus) {
         	List<String> lImgs = sku.lookupImages();
-            String imgUrl = !lImgs.isEmpty() ? lImgs.get(0): "";
-            String skuUrl = sku.lookupProduct().getUrl();
-            if (!StringUtils.isBlank(sku.getCode()) && !StringUtils.isBlank(imgUrl) && !StringUtils.isBlank(sku.getLongDescription())) {          	  
+            String imgUrl = !lImgs.isEmpty()? lImgs.get(0): "";
+            Product product = sku.lookupProduct();
+            String skuUrl = product != null? product.getUrl(): "";
+            if (!StringUtils.isBlank(sku.getCode()) && !StringUtils.isBlank(imgUrl) && 
+                !StringUtils.isBlank(sku.getLongDescription())) {
+            	
         	    StringBuilder sbSkuUrl = new StringBuilder(sbBaseUrl);
             	YmPriceCSV csv = new YmPriceCSV();
                 csv.setId(sku.getCode());
-                csv.setAvailable(true);
-        	    csv.setUrl(sbSkuUrl.append(skuUrl).toString());
-        	    csv.setPrice(sku.getPriceForPackage());
+                //csv.setAvailable(true);
+        	    csv.setUrl(sbSkuUrl.append("/").append(productPrefix).append(skuUrl).toString());
+        	    csv.setPrice(sku.getPriceForPackage().setScale(2, RoundingMode.HALF_UP));
         	    csv.setCurrencyId("RUR");
+        	    csv.setCategory(product.getCategory().getName());
+        	    sbSkuUrl = new StringBuilder(sbBaseUrl);
+        	    csv.setPicture(sbSkuUrl.append(imgUrl).toString());
+	        	productDisplayNameModificator.setSku(sku);
+	        	String name = productDisplayNameModificator.getModifyedDisplayName(sku.lookupName());
+	        	StringBuilder sbName = new StringBuilder(name);
+	        	//name.re
+	        	//sbName.
+        	    //csv.setName();
+        	    csv.setDescription(sku.getDescription());
         	    csvWriter.write(csv, header);
             }
         	
