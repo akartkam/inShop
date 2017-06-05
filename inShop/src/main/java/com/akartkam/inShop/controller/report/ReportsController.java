@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,6 +39,7 @@ import com.akartkam.inShop.service.product.ProductService;
 @Controller
 @RequestMapping("/report")
 public class ReportsController {
+	
 	
 	@Value("#{entityUrlPrefixes.getProperty(T(com.akartkam.inShop.util.Constants).PRODUCT_CLASS)}")
 	private String productPrefix;
@@ -102,8 +104,9 @@ public class ReportsController {
             	
         	    StringBuilder sbSkuUrl = new StringBuilder(sbBaseUrl);
             	YmPriceCSV csv = new YmPriceCSV();
-                csv.setId(sku.getCode());
+                //csv.setId(Long.toString(sku.getId().getMostSignificantBits(), Character.MAX_RADIX));
                 //csv.setAvailable(true);
+            	csv.setId(Base64.getEncoder().encodeToString(Long.toString(sku.getId().getMostSignificantBits(), Character.MAX_RADIX).getBytes()));
         	    csv.setUrl(sbSkuUrl.append("/").append(productPrefix).append(skuUrl).toString());
         	    csv.setPrice(sku.getPriceForPackage().setScale(2, RoundingMode.HALF_UP));
         	    csv.setCurrencyId("RUR");
@@ -113,9 +116,11 @@ public class ReportsController {
 	        	productDisplayNameModificator.setSku(sku);
 	        	String name = productDisplayNameModificator.getModifyedDisplayName(sku.lookupName());
 	        	StringBuilder sbName = new StringBuilder(name);
-	        	//name.re
-	        	//sbName.
-        	    //csv.setName();
+	        	removeStringFromSB(sbName , "<span class='product-header-attribute'>");
+	        	removeStringFromSB(sbName , "<span class='unit'>");
+	        	removeStringFromSB(sbName , "</span>");
+	        	removeStringFromSB(sbName , "&nbsp;");
+        	    csv.setName(sbName.toString());
         	    csv.setDescription(sku.getDescription());
         	    csvWriter.write(csv, header);
             }
@@ -123,6 +128,14 @@ public class ReportsController {
         }
         csvWriter.close();
 	
+	}
+	
+	private void removeStringFromSB(StringBuilder sb, String str) {
+		int i = sb.indexOf(str);
+		while (i!=-1) {
+			sb.delete(i, i+str.length());
+			i = sb.indexOf(str);
+		}
 	}
 	
 	public static class YmPriceCSV {
