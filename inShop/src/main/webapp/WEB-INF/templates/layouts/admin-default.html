@@ -143,6 +143,14 @@
                             </li>
                         </ul>
                     </li>
+                    <li class="dropdown">
+                    	<a href="#" class="dropdown-toggle" data-toggle="dropdown" ><span th:text= "#{admin.reports}">Reports</span><span class="caret"></span></a> 
+                        <ul class="dropdown-menu" role="menu">
+                            <li>
+                                <a href="#" th:href="@{/report/csv/ym-price}"><i class="fa  fa-file-text-o fa-fw">&nbsp;</i><span th:text= "#{admin.reports.prices.ym.csv}">YM-price</span></a>
+                            </li>
+                        </ul>
+                    </li>
                 </ul>
                 <ul class="nav navbar-top-links navbar-right">
 	               <li class="dropdown">

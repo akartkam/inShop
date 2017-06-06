@@ -99,14 +99,14 @@ public class ReportsController {
             String imgUrl = !lImgs.isEmpty()? lImgs.get(0): "";
             Product product = sku.lookupProduct();
             String skuUrl = product != null? product.getUrl(): "";
+            String descr = sku.lookupSkuDescription();
             if (!StringUtils.isBlank(sku.getCode()) && !StringUtils.isBlank(imgUrl) && 
-                !StringUtils.isBlank(sku.getLongDescription())) {
+                !StringUtils.isBlank(descr)) {
             	
         	    StringBuilder sbSkuUrl = new StringBuilder(sbBaseUrl);
             	YmPriceCSV csv = new YmPriceCSV();
-                //csv.setId(Long.toString(sku.getId().getMostSignificantBits(), Character.MAX_RADIX));
                 //csv.setAvailable(true);
-            	csv.setId(Base64.getEncoder().encodeToString(Long.toString(sku.getId().getMostSignificantBits(), Character.MAX_RADIX).getBytes()));
+            	csv.setId(Base64.getEncoder().encodeToString(Long.toString(sku.getId().getMostSignificantBits(), Character.MAX_RADIX).getBytes()).replaceAll("=", ""));
         	    csv.setUrl(sbSkuUrl.append("/").append(productPrefix).append(skuUrl).toString());
         	    csv.setPrice(sku.getPriceForPackage().setScale(2, RoundingMode.HALF_UP));
         	    csv.setCurrencyId("RUR");
@@ -121,7 +121,7 @@ public class ReportsController {
 	        	removeStringFromSB(sbName , "</span>");
 	        	removeStringFromSB(sbName , "&nbsp;");
         	    csv.setName(sbName.toString());
-        	    csv.setDescription(sku.getDescription());
+        	    csv.setDescription(descr);
         	    csvWriter.write(csv, header);
             }
         	
