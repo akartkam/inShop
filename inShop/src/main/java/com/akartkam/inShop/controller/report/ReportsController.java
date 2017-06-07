@@ -40,6 +40,8 @@ import com.akartkam.inShop.service.product.ProductService;
 @RequestMapping("/report")
 public class ReportsController {
 	
+    @Value("#{appProperties['inShop.baseUrl']}")
+	private String baseUrl;
 	
 	@Value("#{entityUrlPrefixes.getProperty(T(com.akartkam.inShop.util.Constants).PRODUCT_CLASS)}")
 	private String productPrefix;
@@ -93,7 +95,6 @@ public class ReportsController {
 
         List<Sku> skus = productService.getActiveSkuList();
         List<YmPriceCSV> csvs = new ArrayList<YmPriceCSV>();
-        String sbBaseUrl = request.getRequestURL().substring(0, request.getRequestURL().indexOf(request.getServletPath()));
         for (Sku sku : skus) {
         	List<String> lImgs = sku.lookupImages();
             String imgUrl = !lImgs.isEmpty()? lImgs.get(0): "";
@@ -103,7 +104,7 @@ public class ReportsController {
             if (!StringUtils.isBlank(sku.getCode()) && !StringUtils.isBlank(imgUrl) && 
                 !StringUtils.isBlank(descr)) {
             	
-        	    StringBuilder sbSkuUrl = new StringBuilder(sbBaseUrl);
+        	    StringBuilder sbSkuUrl = new StringBuilder(baseUrl);
             	YmPriceCSV csv = new YmPriceCSV();
                 //csv.setAvailable(true);
             	csv.setId(Base64.getEncoder().encodeToString(Long.toString(sku.getId().getMostSignificantBits(), Character.MAX_RADIX).getBytes()).replaceAll("=", ""));
@@ -111,7 +112,7 @@ public class ReportsController {
         	    csv.setPrice(sku.getPriceForPackage().setScale(2, RoundingMode.HALF_UP));
         	    csv.setCurrencyId("RUR");
         	    csv.setCategory(product.getCategory().getName());
-        	    sbSkuUrl = new StringBuilder(sbBaseUrl);
+        	    sbSkuUrl = new StringBuilder(baseUrl);
         	    csv.setPicture(sbSkuUrl.append(imgUrl).toString());
 	        	productDisplayNameModificator.setSku(sku);
 	        	String name = productDisplayNameModificator.getModifyedDisplayName(sku.lookupName());
