@@ -44,7 +44,6 @@ import com.akartkam.inShop.domain.AbstractWebDomainObject;
 import com.akartkam.inShop.domain.Instruction;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttribute;
 import com.akartkam.inShop.domain.product.attribute.AbstractAttributeValue;
-import com.akartkam.inShop.domain.product.attribute.AttributeValue;
 import com.akartkam.inShop.domain.product.attribute.SimpleAttributeFactory;
 import com.akartkam.inShop.domain.product.option.ProductOption;
 import com.akartkam.inShop.domain.product.option.ProductOptionValue;
@@ -56,21 +55,23 @@ import com.akartkam.inShop.presentation.admin.EditTab;
 @SqlResultSetMappings({
     @SqlResultSetMapping(name = "findAllProductUrlsRSM", columns = {
         @ColumnResult(name = "url")
-    })
+    }),
+    @SqlResultSetMapping(name = "findFilteredProductByCategoryRSM", columns = {
+            @ColumnResult(name = "type"), @ColumnResult(name = "f1"), @ColumnResult(name = "f2") 
+        })    
 })
     
 @NamedNativeQueries({
 	@NamedNativeQuery(
 			name = "findAllProductUrls",
 			query = "select url from product where enabled=true",
-			resultSetMapping = "findAllProductUrlsRSM"),
-	
+			resultSetMapping = "findAllProductUrlsRSM"),	
     @NamedNativeQuery(
-			name = "findFilteredProductBuCategory",
+			name = "findFilteredProductByCategory",
 			query = "WITH RECURSIVE r AS ( "+
 			"	select id "+
 			"	  from category "+  
-			"	  where id=:c "+
+			"	  where cast(id as varchar) = :c "+
 			"	union all "+
 			"	select c.id "+
 			"	  from category c "+
@@ -120,7 +121,7 @@ import com.akartkam.inShop.presentation.admin.EditTab;
 			"	) q1 "+
 			" where q1.c > 1 "+
 			" order by 1, 2, 3",
-		   resultSetMapping = "findFilteredProductBuCategoryRSM")			
+		   resultSetMapping = "findFilteredProductByCategoryRSM")			
 })
 
 @NamedQueries({

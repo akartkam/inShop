@@ -41,6 +41,7 @@ import com.akartkam.inShop.domain.product.option.ProductOption;
 import com.akartkam.inShop.domain.product.option.ProductOptionValue;
 import com.akartkam.inShop.exception.ProductNotFoundException;
 import com.akartkam.inShop.formbean.DataTableForm;
+import com.akartkam.inShop.formbean.ProductFilterDTO;
 import com.akartkam.inShop.formbean.ProductForm;
 import com.akartkam.inShop.formbean.SkuForJSON;
 import com.akartkam.inShop.formbean.SkuForm;
@@ -798,6 +799,12 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public List<Sku> getActiveSkuList() {
 		return skuDAO.findActiveSkuList();
+	}
+
+	@Override
+	public ProductFilterDTO getFilteredProductByCategory(UUID categoryId) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

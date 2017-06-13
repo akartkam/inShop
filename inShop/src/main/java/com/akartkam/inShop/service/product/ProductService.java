@@ -12,6 +12,7 @@ import com.akartkam.inShop.domain.product.Sku;
 import com.akartkam.inShop.domain.product.option.ProductOption;
 import com.akartkam.inShop.domain.product.option.ProductOptionValue;
 import com.akartkam.inShop.formbean.DataTableForm;
+import com.akartkam.inShop.formbean.ProductFilterDTO;
 import com.akartkam.inShop.formbean.ProductForm;
 import com.akartkam.inShop.formbean.SkuForm;
 
@@ -59,4 +60,5 @@ public interface ProductService {
 	Object[] getProductsForDataTable(DataTableForm dt);
 	long countTotalProducts();
 	List<Sku> getActiveSkuList();
+	ProductFilterDTO getFilteredProductByCategory(UUID categoryId);
 }

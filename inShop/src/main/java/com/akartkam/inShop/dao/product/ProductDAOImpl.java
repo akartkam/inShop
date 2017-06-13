@@ -3,6 +3,7 @@ package com.akartkam.inShop.dao.product;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.annotation.Resource;
 
@@ -150,6 +151,14 @@ public class ProductDAOImpl extends AbstractGenericDAO<Product> implements
 	public List<String> findAllProductUrls() {
 		Query query = currentSession().getNamedQuery("findAllProductUrls");
 		List<String> ret = (List<String>)query.list();
+		return ret;
+	}
+
+
+	@Override
+	public List<Object[]> findFilteredProductByCategory(UUID categoryId) {
+		Query query = currentSession().getNamedQuery("findFilteredProductByCategory").setString("c", categoryId.toString());
+		List<Object[]> ret = (List<Object[]>)query.list();
 		return ret;
 	}
 }
