@@ -4,10 +4,12 @@ import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.UUID;
 
 import org.apache.commons.beanutils.BeanUtilsBean;
@@ -42,6 +44,7 @@ import com.akartkam.inShop.domain.product.option.ProductOptionValue;
 import com.akartkam.inShop.exception.ProductNotFoundException;
 import com.akartkam.inShop.formbean.DataTableForm;
 import com.akartkam.inShop.formbean.ProductFilterDTO;
+import com.akartkam.inShop.formbean.ProductFilterFacetDTO;
 import com.akartkam.inShop.formbean.ProductForm;
 import com.akartkam.inShop.formbean.SkuForJSON;
 import com.akartkam.inShop.formbean.SkuForm;
@@ -803,8 +806,39 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public ProductFilterDTO getFilteredProductByCategory(UUID categoryId) {
-		// TODO Auto-generated method stub
-		return null;
+		List<Object[]> fProd = productDAO.findFilteredProductByCategory(categoryId);
+		ProductFilterDTO res = new ProductFilterDTO();
+		List<ProductFilterFacetDTO> lpfBrands = new ArrayList<ProductFilterFacetDTO>();
+		List<ProductFilterFacetDTO> lpfModels = new ArrayList<ProductFilterFacetDTO>();
+		Map<String, List<ProductFilterFacetDTO>> mpfAttributes = new HashMap<String, List<ProductFilterFacetDTO>>();
+		for (Object[] fProdRow : fProd) {
+			if ((Integer)fProdRow[0] == 0) {
+				ProductFilterFacetDTO pfPrand = new ProductFilterFacetDTO();
+				pfPrand.setId((String)fProdRow[2]);
+				lpfBrands.add(pfPrand);
+			} else 
+			if ((Integer)fProdRow[0] == 1) {
+				ProductFilterFacetDTO pfModel = new ProductFilterFacetDTO();
+				pfModel.setId((String)fProdRow[2]);
+				lpfModels.add(pfModel);		
+			} else
+			if ((Integer)fProdRow[0] == 2) {
+				String key = (String)fProdRow[1];
+				ProductFilterFacetDTO pfAttr = new ProductFilterFacetDTO();
+				pfAttr.setId((String)fProdRow[2]);
+				if (mpfAttributes.containsKey(key)) {
+					mpfAttributes.get(key).add(pfAttr);
+				} else {
+					List<ProductFilterFacetDTO> lt = new ArrayList<ProductFilterFacetDTO>();
+					lt.add(pfAttr);
+					mpfAttributes.put(key, lt);
+				}
+			}
+		}
+		res.setBrandFacets(lpfBrands);
+		res.setModelFacets(lpfModels);
+		res.setAttributesFacets(mpfAttributes);
+		return res;
 	}
 
 }

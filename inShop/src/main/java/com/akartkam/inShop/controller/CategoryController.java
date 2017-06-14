@@ -5,15 +5,14 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.akartkam.inShop.domain.product.Category;
-import com.akartkam.inShop.exception.ResourceNotFoundException;
+import com.akartkam.inShop.formbean.ProductFilterDTO;
+import com.akartkam.inShop.service.product.ProductService;
 
 @Controller
 public class CategoryController extends WebEntityAbstractController {
@@ -23,6 +22,9 @@ public class CategoryController extends WebEntityAbstractController {
 	@Value("#{entityUrlPrefixes.getProperty(T(com.akartkam.inShop.util.Constants).CATEGORY_CLASS)}")
 	private String categoryPrefix;
 
+	@Autowired
+	private ProductService productService;
+	
 	@Override
 	protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		super.handleRequestInternal(request, response);
@@ -30,13 +32,15 @@ public class CategoryController extends WebEntityAbstractController {
 		categoryUrl = categoryUrl.replace("/"+categoryPrefix, "");
 		Category category = categoryService.getCategoryByUrl(categoryUrl);
 		if (category != null) {
+			ProductFilterDTO pd =  productService.getFilteredProductByCategory(category.getId());
+			model.addObject("filter", pd);
 			model.addObject("category", category);
 			model.setViewName("/catalog/category");
 		} else {
 			response.setStatus(404);
 			model.setViewName("/errors/error-default");
 		}
-		LOG.info("getServletPath() - "+request.getServletPath());
+		/*LOG.info("getServletPath() - "+request.getServletPath());
 		LOG.info("getContextPath() - "+request.getContextPath());
 		LOG.info("getLocalAddr() - "+request.getLocalAddr());
 		LOG.info("getLocalName() - "+request.getLocalName());
@@ -51,7 +55,7 @@ public class CategoryController extends WebEntityAbstractController {
 		LOG.info("getScheme() - "+request.getScheme());
 		LOG.info("getServerName() - "+request.getServerName());
 		LOG.info("getServerPort() - "+request.getServerPort());
-		LOG.info("getParameterNames() - "+request.getParameterNames());
+		LOG.info("getParameterNames() - "+request.getParameterNames());*/
 		return model;
 	}
 
