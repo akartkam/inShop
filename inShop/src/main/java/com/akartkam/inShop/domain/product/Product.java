@@ -120,6 +120,12 @@ import com.akartkam.inShop.presentation.admin.EditTab;
 			"			) q "+   
 			"	) q1 "+
 			" where q1.c > 1 "+
+			" union "+
+			" select distinct 3 as type, "+ 
+			"       cast(min(s.quant_per_package*case when s.sale_price is not null then s.sale_price else s.retail_price end) as varchar) f1, "+  
+			"       cast(max(s.quant_per_package*case when s.sale_price is not null then s.sale_price else s.retail_price end) as varchar) f2  "+
+			"   from product p, sku s, r "+
+			"   where p.category_id=r.id and (s.product_id=p.id or p.default_sku_id=s.id) "+			
 			" order by 1, 2, 3",
 		   resultSetMapping = "findFilteredProductByCategoryRSM")			
 })

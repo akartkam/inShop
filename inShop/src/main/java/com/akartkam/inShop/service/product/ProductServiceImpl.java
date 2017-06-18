@@ -833,6 +833,18 @@ public class ProductServiceImpl implements ProductService {
 					lt.add(pfAttr);
 					mpfAttributes.put(key, lt);
 				}
+			} else 
+			if ((Integer)fProdRow[0] == 3) {
+				String sMinP = (String)fProdRow[1];
+				String sMaxP = (String)fProdRow[2];
+				BigDecimal minPrice = null;
+				if (sMinP != null && !"".equals(sMinP)) minPrice = new BigDecimal(sMinP);
+				BigDecimal maxPrice = null;
+				if (sMaxP != null && !"".equals(sMaxP)) maxPrice = new BigDecimal(sMaxP);
+				if (minPrice != null && maxPrice != null && minPrice.compareTo(maxPrice) != 0) {
+					res.setMinPrice(minPrice);
+					res.setMaxPrice(maxPrice);
+				}
 			}
 		}
 		res.setBrandFacets(lpfBrands);
