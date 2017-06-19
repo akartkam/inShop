@@ -27,8 +27,12 @@
     float: left;
 }
 
+.sort-container, .page-description, .promo-area, .filter-item   
+{
+	background: #fbfbfb;
+}
+
 .sort-container{
-	background: #fbfbfb;	
 	padding-top: 5px;
 	padding-bottom: 5px;
 	margin-bottom: 15px;
@@ -78,7 +82,6 @@
 
 .page-description{
 	position: relative;
-	background: #fbfbfb;
 	border-top: 1px solid #e5e5e5;;
 	padding: 0px 15px 40px 15px;
 }
@@ -524,7 +527,6 @@ position: relative
 }
 
 .promo-area {
-  background:#fbfbfb;
   color: #fff;
   padding: 40px 0 40px;
 }
@@ -1693,4 +1695,39 @@ attr.required, span.required {
 
 span.amount{
 	white-space: nowrap;
+}
+
+.filter, .filter__title {
+    font-size: .9rem;
+}
+
+.filter-item {
+    border-top: 0;
+    padding: 14px 20px;
+    margin-bottom: 3px;	
+}
+
+.filter-head{
+    display: table;
+    width: 100%	
+}
+
+.filter-title{
+    font-weight: 700;
+    text-transform: uppercase;	
+}
+
+.filter-content {
+    margin-top: .8em;
+}
+
+.filter-checkgroup {
+    display: table;
+}
+
+.filter-checkbox {
+    display: table-cell;
+    vertical-align: top;
+    position: relative;
+    top: -2px;
 }
