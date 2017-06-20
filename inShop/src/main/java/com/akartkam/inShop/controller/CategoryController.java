@@ -33,7 +33,7 @@ public class CategoryController extends WebEntityAbstractController {
 		Category category = categoryService.getCategoryByUrl(categoryUrl);
 		if (category != null) {
 			ProductFilterDTO pd =  productService.getFilteredProductByCategory(category.getId());
-			model.addObject("filter", pd);
+			model.addObject("filterDTO", pd);
 			model.addObject("category", category);
 			model.setViewName("/catalog/category");
 		} else {

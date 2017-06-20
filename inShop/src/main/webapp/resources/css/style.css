@@ -1698,7 +1698,7 @@ span.amount{
 }
 
 .filter, .filter__title {
-    font-size: .9rem;
+    font-size: 1.1rem;
 }
 
 .filter-item {
@@ -1730,4 +1730,19 @@ span.amount{
     vertical-align: top;
     position: relative;
     top: -2px;
+}
+
+.filter-checkgroup > label {
+    font-weight: 400;
+    display: block;
+    margin-bottom: 0px;
+}
+
+.filter-checkgroup > label > a {
+    display: table-cell;
+    vertical-align: top;
+    padding-right: 4px;
+    padding-left: 4px;
+    color: inherit;
+    text-decoration: none;
 }

@@ -4,6 +4,14 @@
           <div class="filter-title"><span th:utext="#{brand.name}"></span></div>
         </div>
         <div class="filter-content">
+        	<div class="filter-checkgroup" th:each="fbr : ${filterDTO.brandFacets}">
+        		<div class="filter-checkbox">
+        			<input type="checkbox" th:value="${fbr.id}" th:id="${'chk-'+fbr.id}"/> 
+        		</div>
+      			<label th:for="${'chk-'+fbr.id}">
+       				<a href="javascript: void(0)" th:utext="${fbr.id}"></a>
+      			</label>
+        	</div>
         </div>	
 	</div>
 </div>
