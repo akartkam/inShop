@@ -1,4 +1,7 @@
 <div class="filter">
+	<div class="filter-block-title">
+		<h2 class="default-head-title"><i class="fa fa-filter"></i>&nbsp;<span th:utext="#{product.filter}"></span></h2>
+	</div>
 	<div class="filter-item">
 		<div class="filter-head">
           <div class="filter-title"><span th:utext="#{brand.name}"></span></div>
@@ -12,6 +15,21 @@
        				<a href="javascript: void(0)" th:utext="${fbr.id}"></a>
       			</label>
         	</div>
-        </div>	
-	</div>
+        </div>
+    </div>	
+	<div class="filter-item">
+		<div class="filter-head">
+          <div class="filter-title"><span th:utext="#{product.model}"></span></div>
+        </div>
+        <div class="filter-content">
+        	<div class="filter-checkgroup" th:each="fmodel : ${filterDTO.modelFacets}">
+        		<div class="filter-checkbox">
+        			<input type="checkbox" th:value="${fmodel.id}" th:id="${'chk-'+fmodel.id}"/> 
+        		</div>
+      			<label th:for="${'chk-'+fmodel.id}">
+       				<a href="javascript: void(0)" th:utext="${fmodel.id}"></a>
+      			</label>
+        	</div>
+        </div>
+    </div>	
 </div>

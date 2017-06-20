@@ -159,13 +159,14 @@
   border-left: 4px dashed;
 }
 
-.navbar-sidebar-title {
+.default-head-title {
     color: #fead53;
     font-size: 12pt;
     margin-bottom: 5px;
     margin-top: 5px;
     margin-left: 10px;
     text-align: left;
+    text-transform: uppercase;
 }
 
 .floatleft { float: left }
@@ -1345,11 +1346,7 @@ div.cart-collaterals ul.products li.product .price ins {
     margin-bottom: 50px;
     padding: 15px;
 }
-#order_review_heading {
-    color: #fead53;
-    font-size: 20px;
-    text-transform: uppercase;
-}
+
 #payment ul.payment_methods {
     list-style: outside none none;
     margin: 0 0 30px;
@@ -1699,6 +1696,13 @@ span.amount{
 
 .filter, .filter__title {
     font-size: 1.1rem;
+}
+
+.filter-block-title {
+    border-top: 0;
+    padding: 0 0 10px 0;
+    margin-bottom: 3px;
+    background: #fbfbfb;	
 }
 
 .filter-item {
