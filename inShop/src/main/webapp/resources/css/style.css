@@ -1749,4 +1749,5 @@ span.amount{
     padding-left: 4px;
     color: inherit;
     text-decoration: none;
+    cursor: pointer;
 }

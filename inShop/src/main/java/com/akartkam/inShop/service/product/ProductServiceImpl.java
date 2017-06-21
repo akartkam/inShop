@@ -850,6 +850,7 @@ public class ProductServiceImpl implements ProductService {
 		res.setBrandFacets(lpfBrands);
 		res.setModelFacets(lpfModels);
 		res.setAttributesFacets(mpfAttributes);
+		res.setCategoryId(categoryId);
 		return res;
 	}
 

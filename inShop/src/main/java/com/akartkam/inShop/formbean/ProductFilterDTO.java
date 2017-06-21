@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 public class ProductFilterDTO implements Serializable {
 
@@ -18,6 +19,9 @@ public class ProductFilterDTO implements Serializable {
 	private BigDecimal minPrice = new BigDecimal(0);
 	private BigDecimal maxPrice = new BigDecimal(0);
 	private Map<String, List<ProductFilterFacetDTO>> attributesFacets = new HashMap<String, List<ProductFilterFacetDTO>>();
+	private UUID categoryId;
+	private UUID brandId;
+	
 	public List<ProductFilterFacetDTO> getBrandFacets() {
 		return brandFacets;
 	}
@@ -48,6 +52,18 @@ public class ProductFilterDTO implements Serializable {
 	public void setAttributesFacets(
 			Map<String, List<ProductFilterFacetDTO>> attributesFacets) {
 		this.attributesFacets = attributesFacets;
+	}
+	public UUID getCategoryId() {
+		return categoryId;
+	}
+	public void setCategoryId(UUID categoryId) {
+		this.categoryId = categoryId;
+	}
+	public UUID getBrandId() {
+		return brandId;
+	}
+	public void setBrandId(UUID brandId) {
+		this.brandId = brandId;
 	}
 
 	
