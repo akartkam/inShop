@@ -1742,7 +1742,7 @@ span.amount{
     margin-bottom: 0px;
 }
 
-.filter-checkgroup > label > a {
+.filter-checkgroup > label > a, .filter-checkgroup > label > span {
     display: table-cell;
     vertical-align: top;
     padding-right: 4px;
