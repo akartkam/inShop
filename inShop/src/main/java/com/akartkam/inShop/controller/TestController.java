@@ -1,6 +1,7 @@
 package com.akartkam.inShop.controller;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 import java.net.MalformedURLException;
 
@@ -13,9 +14,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.akartkam.inShop.formbean.ProductFilterDTO;
 import com.akartkam.inShop.service.SitemapService;
 
 @Controller
@@ -38,6 +41,12 @@ public class TestController {
 		  String res = sitemapService.createSitemap(baseUrl);
 		  return res; 
 		  }	
+	  @RequestMapping(value="/test-product-filter", method=POST)
+	  public String testProductFilter(final @ModelAttribute ProductFilterDTO productFilterDTO, Model model) {
+		  model.addAttribute("filterDTO", productFilterDTO);
+		  return "/catalog/category";
+		  
+	  }
 
 	  
 }
