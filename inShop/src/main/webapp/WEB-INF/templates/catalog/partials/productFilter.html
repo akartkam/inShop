@@ -1,53 +1,60 @@
 <div class="filter" th:if="${!#lists.isEmpty(filterDTO.brandFacets) || !#lists.isEmpty(filterDTO.modelFacets) || !#maps.isEmpty(filterDTO.attributesFacets)}">
-	<input type="hidden" th:field="${filterDTO.categoryId}"/>
-	<input type="hidden" th:field="${filterDTO.brandId}"/>
-	<div class="filter-block-title">
-		<h2 class="default-head-title"><i class="fa fa-filter"></i>&nbsp;<span th:utext="#{product.filter}"></span></h2>
-	</div>
-	<div class="filter-item" th:unless="${#lists.isEmpty(filterDTO.brandFacets)}">
-		<div class="filter-head">
-          <div class="filter-title"><span th:utext="#{brand.name}"></span></div>
-        </div>
-        <div class="filter-content">
-        	<div class="filter-checkgroup" th:each="fbr : ${filterDTO.brandFacets}">
-        		<div class="filter-checkbox">
-        			<input type="checkbox" th:value="${fbr.id}" th:id="${'chk-'+fbr.id}"/> 
-        		</div>
-      			<label th:for="${'chk-'+fbr.id}">
-       				<span th:utext="${fbr.id}"></span>
-      			</label>
-        	</div>
-        </div>
-    </div>	
-	<div class="filter-item" th:unless="${#lists.isEmpty(filterDTO.modelFacets)}">
-		<div class="filter-head">
-          <div class="filter-title"><span th:utext="#{product.model}"></span></div>
-        </div>
-        <div class="filter-content">
-        	<div class="filter-checkgroup" th:each="fmodel : ${filterDTO.modelFacets}">
-        		<div class="filter-checkbox">
-        			<input type="checkbox" th:value="${fmodel.id}" th:id="${'chk-'+fmodel.id}"/> 
-        		</div>
-      			<label th:for="${'chk-'+fmodel.id}">
-       				<a href="javascript: void(0)" th:utext="${fmodel.id}"></a>
-      			</label>
-        	</div>
-        </div>
-    </div>
-	<div class="filter-item" th:each="fattr : ${filterDTO.attributesFacets}">
-		<div class="filter-head">
-          <div class="filter-title"><span th:utext="${fattr.key}"></span></div>
-        </div>
-        <div class="filter-content">
-        	<div class="filter-checkgroup" th:each="fattrv : ${fattr.value}">
-        		<div class="filter-checkbox">
-        			<input type="checkbox" th:value="${fattrv.id}" th:id="${'chk-'+fattrv.id}"/> 
-        		</div>
-      			<label th:for="${'chk-'+fattrv.id}">
-       				<a href="javascript: void(0)" th:utext="${fattrv.id}"></a>
-      			</label>
-        	</div>        
-		</div>        
-	</div>	
-    	
+	<form action="#" th:action="@{/test-product-filter}" th:object="${filterDTO}" method="post">
+		<input type="hidden" th:field="${filterDTO.categoryId}"/>
+		<input type="hidden" th:field="${filterDTO.brandId}"/>
+		<div class="filter-block-title">
+			<h2 class="default-head-title"><i class="fa fa-filter"></i>&nbsp;<span th:utext="#{product.filter}"></span></h2>
+		</div>
+		<div class="filter-item" th:unless="${#lists.isEmpty(filterDTO.brandFacets)}">
+			<div class="filter-head">
+	          <div class="filter-title"><span th:utext="#{brand.name}"></span></div>
+	        </div>
+	        <div class="filter-content">
+	        	<div class="filter-checkgroup" th:each="fbr, fbrStat : ${filterDTO.brandFacets}">
+	        		<div class="filter-checkbox">
+	        			<input type="hidden" th:field="${filterDTO.brandFacets[__${fbrStat.index}__].id}"/>
+	        			<input type="checkbox" th:field="${filterDTO.brandFacets[__${fbrStat.index}__].active}"/> 
+	        		</div>
+	      			<label th:for="brandFacets__${fbrStat.index}__.active1">
+	       				<span th:utext="${fbr.id}"></span>
+	      			</label>
+	        	</div>
+	        </div>
+	    </div>	
+		<div class="filter-item" th:unless="${#lists.isEmpty(filterDTO.modelFacets)}">
+			<div class="filter-head">
+	          <div class="filter-title"><span th:utext="#{product.model}"></span></div>
+	        </div>
+	        <div class="filter-content">
+	        	<div class="filter-checkgroup" th:each="fmodel, fmodelStat : ${filterDTO.modelFacets}">
+	        		<div class="filter-checkbox">
+	        			<input type="hidden" th:field="${filterDTO.modelFacets[__${fmodelStat.index}__].id}"/>
+	        			<input type="checkbox" th:field="${filterDTO.modelFacets[__${fmodelStat.index}__].active}"/>
+	        		</div>
+	      			<label th:for="modelFacets__${fmodelStat.index}__.active1">
+	       				<span th:utext="${fmodel.id}"></span>
+	      			</label>
+	        	</div>
+	        </div>
+	    </div>
+		<div class="filter-item" th:each="fattr : ${filterDTO.attributesFacets}" >
+	<!-- 	    <input type="hidden" th:field="${filterDTO.attributesFacets[__${fattr.key}__]}" th:value="${fattr.value}" />   -->
+			<div class="filter-head">
+	          <div class="filter-title"><span th:utext="${fattr.key}"></span></div>
+	        </div>
+	        <div class="filter-content">
+	        	<div class="filter-checkgroup" th:each="fattrv : ${fattr.value}">
+	        		<div class="filter-checkbox">
+	        			<input type="checkbox" th:value="${fattrv.id}" th:id="${'chk-'+fattrv.id}"/> 
+	        		</div>
+	      			<label th:for="${'chk-'+fattrv.id}">
+	       				<a href="javascript: void(0)" th:utext="${fattrv.id}"></a>
+	      			</label>
+	        	</div>        
+			</div>        
+		</div>	
+		<div class="filter-item">
+			<input type="submit" value="Применить" class="button-primary float-none" />
+		</div>
+    </form>	
 </div>
