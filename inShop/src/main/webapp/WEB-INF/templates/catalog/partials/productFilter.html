@@ -43,7 +43,7 @@
 	        </div>
 	        <div class="filter-content">
 	        	<div class="filter-checkgroup" th:each="fattrv, fattrvStat : ${fattr.value}">
-			<input type="hidden" th:name="${'attributesFacets['+'''__${fattr.key}__'''+'].[__${fattrvStat.index}__].id'}" th:value="${fattrv.id}" />
+					<input type="hidden" th:field="*{attributesFacets['__${fattr.key}__'][__${fattrvStat.index}__].id}" th:value="${fattrv.id}" />
 	        		<div class="filter-checkbox">
 <!-- 	        			<input type="checkbox" th:field="${filterDTO.attributesFacets[&quot;__${fattr.key}__&quot;][__${fattrvStat.index}__].active}"/>  -->
 						<input type="checkbox" th:id="${'chk-'+fattrv.id}"/> 

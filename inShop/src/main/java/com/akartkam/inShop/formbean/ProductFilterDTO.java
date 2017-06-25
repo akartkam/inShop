@@ -18,7 +18,7 @@ public class ProductFilterDTO implements Serializable {
 	private List<ProductFilterFacetDTO> modelFacets = new ArrayList<ProductFilterFacetDTO>();
 	private BigDecimal minPrice = new BigDecimal(0);
 	private BigDecimal maxPrice = new BigDecimal(0);
-	private Map<String, List<ProductFilterFacetDTO>> attributesFacets = new HashMap<String, List<ProductFilterFacetDTO>>();
+	private List<ProductFilterFacetDTO> attributesFacets = new ArrayList<ProductFilterFacetDTO>();
 	private UUID categoryId;
 	private UUID brandId;
 	
@@ -46,13 +46,6 @@ public class ProductFilterDTO implements Serializable {
 	public void setMaxPrice(BigDecimal maxPrice) {
 		this.maxPrice = maxPrice;
 	}
-	public Map<String, List<ProductFilterFacetDTO>> getAttributesFacets() {
-		return attributesFacets;
-	}
-	public void setAttributesFacets(
-			Map<String, List<ProductFilterFacetDTO>> attributesFacets) {
-		this.attributesFacets = attributesFacets;
-	}
 	public UUID getCategoryId() {
 		return categoryId;
 	}
@@ -64,6 +57,12 @@ public class ProductFilterDTO implements Serializable {
 	}
 	public void setBrandId(UUID brandId) {
 		this.brandId = brandId;
+	}
+	public List<ProductFilterFacetDTO> getAttributesFacets() {
+		return attributesFacets;
+	}
+	public void setAttributesFacets(List<ProductFilterFacetDTO> attributesFacets) {
+		this.attributesFacets = attributesFacets;
 	}
 
 	

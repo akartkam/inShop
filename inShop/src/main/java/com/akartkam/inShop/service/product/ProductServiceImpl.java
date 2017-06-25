@@ -810,7 +810,7 @@ public class ProductServiceImpl implements ProductService {
 		ProductFilterDTO res = new ProductFilterDTO();
 		List<ProductFilterFacetDTO> lpfBrands = new ArrayList<ProductFilterFacetDTO>();
 		List<ProductFilterFacetDTO> lpfModels = new ArrayList<ProductFilterFacetDTO>();
-		Map<String, List<ProductFilterFacetDTO>> mpfAttributes = new HashMap<String, List<ProductFilterFacetDTO>>();
+		List<ProductFilterFacetDTO> mpfAttributes = new ArrayList<ProductFilterFacetDTO>();
 		for (Object[] fProdRow : fProd) {
 			if ((Integer)fProdRow[0] == 0) {
 				ProductFilterFacetDTO pfPrand = new ProductFilterFacetDTO();
@@ -823,16 +823,10 @@ public class ProductServiceImpl implements ProductService {
 				lpfModels.add(pfModel);		
 			} else
 			if ((Integer)fProdRow[0] == 2) {
-				String key = (String)fProdRow[1];
 				ProductFilterFacetDTO pfAttr = new ProductFilterFacetDTO();
+				pfAttr.setFacet((String)fProdRow[1]);
 				pfAttr.setId((String)fProdRow[2]);
-				if (mpfAttributes.containsKey(key)) {
-					mpfAttributes.get(key).add(pfAttr);
-				} else {
-					List<ProductFilterFacetDTO> lt = new ArrayList<ProductFilterFacetDTO>();
-					lt.add(pfAttr);
-					mpfAttributes.put(key, lt);
-				}
+				mpfAttributes.add(pfAttr);
 			} else 
 			if ((Integer)fProdRow[0] == 3) {
 				String sMinP = (String)fProdRow[1];

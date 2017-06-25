@@ -7,6 +7,7 @@ public class ProductFilterFacetDTO implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 4526974203562147450L;
+	private String facet;
 	private String id;
 	private boolean active;
 	private Integer quantity;
@@ -32,21 +33,42 @@ public class ProductFilterFacetDTO implements Serializable {
 	
 	@Override
     public int hashCode() {
-        if (id != null) {
-            return id.hashCode();
-        } else {
-            return super.hashCode();
-        }
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((facet == null) ? 0 : facet.hashCode());
+		return result;		
     }
 	
 	@Override
 	public boolean equals(Object o) {
-        if (this == o) return true;
-        if (id == null) return false;
+		if (this == o)
+			return true;
+		if (o == null)
+			return false;
 		if (!(o instanceof ProductFilterFacetDTO))
-		      return false;        
+		      return false;		
+		if (getClass() != o.getClass())
+			return false;		
 		ProductFilterFacetDTO other = (ProductFilterFacetDTO) o;
-        return id.equals(other.getId());
-    }	
+		if (id == null) {
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (facet == null) {
+			if (other.facet != null)
+				return false;
+		} else if (!facet.equals(other.facet))
+			return false;
+		return true;
+    }
+	
+	public String getFacet() {
+		return facet;
+	}
+	public void setFacet(String facet) {
+		this.facet = facet;
+	}	
 	
 }
