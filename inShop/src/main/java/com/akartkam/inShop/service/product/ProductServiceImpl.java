@@ -826,6 +826,7 @@ public class ProductServiceImpl implements ProductService {
 				ProductFilterFacetDTO pfAttr = new ProductFilterFacetDTO();
 				pfAttr.setFacet((String)fProdRow[1]);
 				pfAttr.setId((String)fProdRow[2]);
+				pfAttr.setIndex(mpfAttributes.size());
 				mpfAttributes.add(pfAttr);
 			} else 
 			if ((Integer)fProdRow[0] == 3) {

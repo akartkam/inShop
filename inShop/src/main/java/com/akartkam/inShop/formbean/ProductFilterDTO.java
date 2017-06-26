@@ -64,7 +64,19 @@ public class ProductFilterDTO implements Serializable {
 	public void setAttributesFacets(List<ProductFilterFacetDTO> attributesFacets) {
 		this.attributesFacets = attributesFacets;
 	}
-
+	public Map<String, List<ProductFilterFacetDTO>> getMapAttributesFacets(){
+		Map<String, List<ProductFilterFacetDTO>> map = new HashMap<String, List<ProductFilterFacetDTO>>();
+		for (ProductFilterFacetDTO attr : attributesFacets) {
+			if (!map.containsKey(attr.getFacet())){
+				List<ProductFilterFacetDTO> l = new ArrayList<ProductFilterFacetDTO>();
+				l.add(attr);
+				map.put(attr.getFacet(), l);
+			} else {
+				map.get(attr.getFacet()).add(attr);
+			}
+		}
+		return map;
+	}
 	
 
 }

@@ -11,6 +11,7 @@ public class ProductFilterFacetDTO implements Serializable {
 	private String id;
 	private boolean active;
 	private Integer quantity;
+	private Integer index; //for form bean
 
 	public String getId() {
 		return id;
@@ -69,6 +70,12 @@ public class ProductFilterFacetDTO implements Serializable {
 	}
 	public void setFacet(String facet) {
 		this.facet = facet;
+	}
+	public Integer getIndex() {
+		return index;
+	}
+	public void setIndex(Integer index) {
+		this.index = index;
 	}	
 	
 }

@@ -37,19 +37,20 @@
 	        	</div>
 	        </div>
 	    </div>
-		<div class="filter-item" th:each="fattr : ${filterDTO.attributesFacets}" >
+		<div class="filter-item" th:each="fattr : ${filterDTO.mapAttributesFacets}" >
 			<div class="filter-head">
 	          <div class="filter-title"><span th:utext="${fattr.key}"></span></div>
 	        </div>
 	        <div class="filter-content">
-	        	<div class="filter-checkgroup" th:each="fattrv, fattrvStat : ${fattr.value}">
-					<input type="hidden" th:field="*{attributesFacets['__${fattr.key}__'][__${fattrvStat.index}__].id}" th:value="${fattrv.id}" />
+	        	<div class="filter-checkgroup" th:each="fattrv : ${fattr.value}">
+	        		<input type="hidden" th:field="*{attributesFacets[__${fattrv.index}__].facet}" th:value="${fattr.key}" />
+	        	    <input type="hidden" th:field="*{attributesFacets[__${fattrv.index}__].index}"/>
+					<input type="hidden" th:field="*{attributesFacets[__${fattrv.index}__].id}"/>
 	        		<div class="filter-checkbox">
-<!-- 	        			<input type="checkbox" th:field="${filterDTO.attributesFacets[&quot;__${fattr.key}__&quot;][__${fattrvStat.index}__].active}"/>  -->
-						<input type="checkbox" th:id="${'chk-'+fattrv.id}"/> 
+						<input type="checkbox" th:field="*{attributesFacets[__${fattrv.index}__].active}"/> 
 	        		</div>
-	      			<label th:for="${'chk-'+fattrv.id}">
-	       				<a href="javascript: void(0)" th:utext="${fattrv.id}"></a>
+	      			<label th:for="attributesFacets__${fattrv.index}__.active1">
+	       				<span th:utext="${fattrv.id}"></span>
 	      			</label>
 	        	</div>        
 			</div>        
