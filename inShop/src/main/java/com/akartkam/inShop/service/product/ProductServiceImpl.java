@@ -805,8 +805,8 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public ProductFilterDTO getFilteredProductByCategory(UUID categoryId) {
-		List<Object[]> fProd = productDAO.findFilteredProductByCategory(categoryId);
+	public ProductFilterDTO getProductFilterDTOByCategory(UUID categoryId) {
+		List<Object[]> fProd = productDAO.findProductFilterDTOByCategory(categoryId);
 		ProductFilterDTO res = new ProductFilterDTO();
 		List<ProductFilterFacetDTO> lpfBrands = new ArrayList<ProductFilterFacetDTO>();
 		List<ProductFilterFacetDTO> lpfModels = new ArrayList<ProductFilterFacetDTO>();

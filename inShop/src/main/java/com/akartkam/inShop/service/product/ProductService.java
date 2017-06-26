@@ -60,5 +60,5 @@ public interface ProductService {
 	Object[] getProductsForDataTable(DataTableForm dt);
 	long countTotalProducts();
 	List<Sku> getActiveSkuList();
-	ProductFilterDTO getFilteredProductByCategory(UUID categoryId);
+	ProductFilterDTO getProductFilterDTOByCategory(UUID categoryId);
 }

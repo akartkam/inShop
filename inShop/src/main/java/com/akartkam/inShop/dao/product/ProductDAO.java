@@ -8,6 +8,7 @@ import com.akartkam.inShop.dao.GenericDAO;
 import com.akartkam.inShop.domain.product.Product;
 import com.akartkam.inShop.domain.product.ProductStatus;
 import com.akartkam.inShop.formbean.DataTableForm;
+import com.akartkam.inShop.formbean.ProductFilterDTO;
 
 public interface ProductDAO extends GenericDAO<Product, UUID> {
 	List<Product> findAllProducts();
@@ -16,5 +17,6 @@ public interface ProductDAO extends GenericDAO<Product, UUID> {
 	long countTotalProducts();
 	Object[] findProductsForDataTable(DataTableForm dt);
 	List<String> findAllProductUrls();
-	List<Object[]> findFilteredProductByCategory(UUID categoryId);
+	List<Object[]> findProductFilterDTOByCategory(UUID categoryId);
+	List<Product> findProductsFiltered(ProductFilterDTO productFilterDTO);
 }

@@ -24,10 +24,10 @@ import com.akartkam.inShop.domain.product.Product;
 import com.akartkam.inShop.domain.product.ProductStatus;
 import com.akartkam.inShop.domain.product.Sku;
 import com.akartkam.inShop.formbean.DataTableForm;
+import com.akartkam.inShop.formbean.ProductFilterDTO;
 
 @Repository
-public class ProductDAOImpl extends AbstractGenericDAO<Product> implements 
-                             ProductDAO {
+public class ProductDAOImpl extends AbstractGenericDAO<Product> implements ProductDAO {
 	
 	@Autowired
 	private SkuDAO skuDAO;
@@ -156,9 +156,20 @@ public class ProductDAOImpl extends AbstractGenericDAO<Product> implements
 
 
 	@Override
-	public List<Object[]> findFilteredProductByCategory(UUID categoryId) {
+	public List<Object[]> findProductFilterDTOByCategory(UUID categoryId) {
 		Query query = currentSession().getNamedQuery("findFilteredProductByCategory").setString("c", categoryId.toString());
 		List<Object[]> ret = (List<Object[]>)query.list();
 		return ret;
+	}
+
+
+	@Override
+	public List<Product> findProductsFiltered(ProductFilterDTO productFilterDTO) {
+		StringBuilder query = new StringBuilder();
+		query.append("select p.* "+
+					 "  from Product p "+ 
+					 "       left join Sku s on s.product_id=p.id or p.default_sku_id=s.id "+ 
+					 "       left join Brand b on p.brand_id=b.id ");
+		return null;
 	}
 }
