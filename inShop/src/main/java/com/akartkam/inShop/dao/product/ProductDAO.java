@@ -18,5 +18,5 @@ public interface ProductDAO extends GenericDAO<Product, UUID> {
 	Object[] findProductsForDataTable(DataTableForm dt);
 	List<String> findAllProductUrls();
 	List<Object[]> findProductFilterDTOByCategory(UUID categoryId);
-	List<Product> findProductsFiltered(ProductFilterDTO productFilterDTO);
+	List<Product> findProductsFilteredByCategory(ProductFilterDTO productFilterDTO, UUID categoryId);
 }

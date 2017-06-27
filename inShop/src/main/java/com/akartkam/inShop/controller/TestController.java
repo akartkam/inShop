@@ -16,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.akartkam.inShop.formbean.ProductFilterDTO;
@@ -42,7 +43,8 @@ public class TestController {
 		  return res; 
 		  }	
 	  @RequestMapping(value="/test-product-filter", method=POST)
-	  public String testProductFilter(final @ModelAttribute ProductFilterDTO productFilterDTO, Model model) {
+	  public String testProductFilter(final @RequestParam(value = "categoryId", required = true) String categoryId, 
+			                          final @ModelAttribute ProductFilterDTO productFilterDTO, Model model) {
 		  model.addAttribute("filterDTO", productFilterDTO);
 		  return "/catalog/category";
 		  

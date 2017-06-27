@@ -20,11 +20,13 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import com.akartkam.inShop.dao.AbstractGenericDAO;
+import com.akartkam.inShop.domain.product.Brand;
 import com.akartkam.inShop.domain.product.Product;
 import com.akartkam.inShop.domain.product.ProductStatus;
 import com.akartkam.inShop.domain.product.Sku;
 import com.akartkam.inShop.formbean.DataTableForm;
 import com.akartkam.inShop.formbean.ProductFilterDTO;
+import com.akartkam.inShop.formbean.ProductFilterFacetDTO;
 
 @Repository
 public class ProductDAOImpl extends AbstractGenericDAO<Product> implements ProductDAO {
@@ -164,12 +166,26 @@ public class ProductDAOImpl extends AbstractGenericDAO<Product> implements Produ
 
 
 	@Override
-	public List<Product> findProductsFiltered(ProductFilterDTO productFilterDTO) {
+	public List<Product> findProductsFilteredByCategory(ProductFilterDTO productFilterDTO, UUID categoryId) {
 		StringBuilder query = new StringBuilder();
-		query.append("select p.* "+
-					 "  from Product p "+ 
-					 "       left join Sku s on s.product_id=p.id or p.default_sku_id=s.id "+ 
-					 "       left join Brand b on p.brand_id=b.id ");
+		query.append(
+				"WITH RECURSIVE r AS ( "+
+						"	select id "+
+						"	  from category "+  
+						"	  where cast(id as varchar) = :c "+
+						"	union all "+
+						"	select c.id "+
+						"	  from category c "+
+						"	       join r on parent_id=r.id "+
+						" ) "+				
+						"select p.* "+
+							 "  from Product p, r "+
+							 "	where p.enabled=true and p.category_id=r.id");
+		for (ProductFilterFacetDTO brandFacet : productFilterDTO.getBrandFacets()) {
+			
+		}
+					 //"       left join Sku s on s.product_id=p.id or p.default_sku_id=s.id "+ 
+					 //"       left join Brand b on p.brand_id=b.id ");
 		return null;
 	}
 }
