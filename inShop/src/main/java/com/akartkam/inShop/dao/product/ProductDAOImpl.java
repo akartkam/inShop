@@ -168,6 +168,7 @@ public class ProductDAOImpl extends AbstractGenericDAO<Product> implements Produ
 	@Override
 	public List<Product> findProductsFilteredByCategory(ProductFilterDTO productFilterDTO, UUID categoryId) {
 		StringBuilder query = new StringBuilder();
+		
 		query.append(
 				"WITH RECURSIVE r AS ( "+
 						"	select id "+
@@ -181,11 +182,30 @@ public class ProductDAOImpl extends AbstractGenericDAO<Product> implements Produ
 						"select p.* "+
 							 "  from Product p, r "+
 							 "	where p.enabled=true and p.category_id=r.id");
+		StringBuilder brandClaus = new StringBuilder(); 
 		for (ProductFilterFacetDTO brandFacet : productFilterDTO.getBrandFacets()) {
-			
+			if (brandFacet.isActive()) {
+				if (brandClaus.length() == 0) brandClaus.append("('").append(brandFacet.getId()).append("'"); 
+				else brandClaus.append(", '").append(brandFacet.getId()).append("'");
+			}
 		}
-					 //"       left join Sku s on s.product_id=p.id or p.default_sku_id=s.id "+ 
-					 //"       left join Brand b on p.brand_id=b.id ");
+		if (brandClaus.length() > 0) {
+			brandClaus.append(")");
+			brandClaus.insert(0, " and exists(select 1 from brand where name in ").append(" and p.brand_id=id)");
+			query.append(brandClaus);
+		}
+		StringBuilder modelClaus = new StringBuilder();
+		for (ProductFilterFacetDTO modelFacet : productFilterDTO.getModelFacets()) {
+			if (modelFacet.isActive()) {
+				if (modelClaus.length() == 0) modelClaus.append("('").append(modelFacet.getId()).append("'");
+				else modelClaus.append(", '").append(modelFacet.getId()).append("'");
+			}
+		}
+		if (modelClaus.length() > 0) {
+			modelClaus.append(")");
+			modelClaus.insert(0, " and p.model in ");
+			query.append(modelClaus);
+		}
 		return null;
 	}
 }

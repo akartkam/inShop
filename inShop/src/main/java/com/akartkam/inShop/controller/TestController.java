@@ -4,6 +4,8 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 import java.net.MalformedURLException;
+import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.akartkam.inShop.dao.product.ProductDAO;
+import com.akartkam.inShop.domain.product.Product;
 import com.akartkam.inShop.formbean.ProductFilterDTO;
 import com.akartkam.inShop.service.SitemapService;
 
@@ -32,6 +36,9 @@ public class TestController {
 
       @Value("#{appProperties['inShop.baseUrl']}")
 	  private String baseUrl;
+      
+      @Autowired
+      private ProductDAO productDAO;
 	  
 	  @RequestMapping(value="/product-ajax-test", method=GET)
 	  public String test() {
@@ -45,6 +52,7 @@ public class TestController {
 	  @RequestMapping(value="/test-product-filter", method=POST)
 	  public String testProductFilter(final @RequestParam(value = "categoryId", required = true) String categoryId, 
 			                          final @ModelAttribute ProductFilterDTO productFilterDTO, Model model) {
+		  List<Product> filteredProducts = productDAO.findProductsFilteredByCategory(productFilterDTO, UUID.fromString(categoryId));
 		  model.addAttribute("filterDTO", productFilterDTO);
 		  return "/catalog/category";
 		  
