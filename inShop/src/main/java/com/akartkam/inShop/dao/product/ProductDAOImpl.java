@@ -167,8 +167,7 @@ public class ProductDAOImpl extends AbstractGenericDAO<Product> implements Produ
 
 	@Override
 	public List<Product> findProductsFilteredByCategory(ProductFilterDTO productFilterDTO, UUID categoryId) {
-		StringBuilder query = new StringBuilder();
-		
+		StringBuilder query = new StringBuilder();		
 		query.append(
 				"WITH RECURSIVE r AS ( "+
 						"	select id "+
@@ -177,7 +176,7 @@ public class ProductDAOImpl extends AbstractGenericDAO<Product> implements Produ
 						"	union all "+
 						"	select c.id "+
 						"	  from category c "+
-						"	       join r on parent_id=r.id "+
+						"	       join r on parent_id=r.id  "+
 						" ) "+				
 						"select p.* "+
 							 "  from Product p, r "+
@@ -206,6 +205,44 @@ public class ProductDAOImpl extends AbstractGenericDAO<Product> implements Produ
 			modelClaus.insert(0, " and p.model in ");
 			query.append(modelClaus);
 		}
-		return null;
+		/*attributes and options*/
+		StringBuilder attributeClaus = new StringBuilder();
+		for(ProductFilterFacetDTO attributeFacet : productFilterDTO.getAttributesFacets()){
+			if (attributeFacet.isActive()) {
+				if (attributeClaus.length() == 0) attributeClaus.append("('").append(attributeFacet.getId()).append("'"); 
+				else attributeClaus.append(", '").append(attributeFacet.getId()).append("'");
+			}
+		}
+		if (attributeClaus.length() > 0) {
+			attributeClaus.append(")");
+			StringBuilder attributeClausFull = new StringBuilder();
+			attributeClausFull.append(" and exists(select 1 from sku s ").
+				append(" left join attribute_value av on (av.product_id=p.id or av.sku_id=s.id) ").
+				append(" left join attribute_decimal_value adv on adv.id=av.id ").
+			    append(" left join attribute_int_value aiv on aiv.id=av.id ").
+			    append(" left join attribute_slist_value alv on alv.id=av.id ").
+			    append(" left join attribute_string_value asv on asv.id=av.id ").
+			    append(" left join attribute a on a.id=av.attribute_id ").
+			    append(" left join lnk_sku_option_value lsov on lsov.sku_id=s.id ").
+			    append(" left join product_option_value pov on pov.id=lsov.product_option_value_id ").
+			    append(" left join product_option po on po.id=pov.productoption_id ").			
+			    append("    where (s.product_id=p.id or p.default_sku_id=s.id) and s.enabled=true and (").
+			    append(" cast(round(cast(adv.attributevalue as numeric), 2) as varchar) in ").
+			    append(attributeClaus).
+			    append(" or cast(aiv.attributevalue as varchar) in ").
+			    append(attributeClaus).
+			    append(" or trim(alv.attributevalue) in ").
+			    append(attributeClaus).
+			    append(" or trim(asv.attributevalue) in ").
+			    append(attributeClaus).
+			    append(" or (").
+			    append(" trim(pov.option_value) in ").
+			    append(attributeClaus).
+			    append(" )))");
+			query.append(attributeClausFull);	
+		}
+		SQLQuery qquery = currentSession().createSQLQuery(query.toString());
+		qquery.addEntity(Product.class);
+		return qquery.list();
 	}
 }
