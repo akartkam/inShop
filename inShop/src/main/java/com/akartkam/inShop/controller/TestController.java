@@ -22,9 +22,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.akartkam.inShop.dao.product.ProductDAO;
+import com.akartkam.inShop.domain.product.Category;
 import com.akartkam.inShop.domain.product.Product;
 import com.akartkam.inShop.formbean.ProductFilterDTO;
 import com.akartkam.inShop.service.SitemapService;
+import com.akartkam.inShop.service.product.CategoryService;
+import com.akartkam.inShop.service.product.ProductService;
 
 @Controller
 @RequestMapping("/admin/catalog/test")
@@ -38,7 +41,10 @@ public class TestController {
 	  private String baseUrl;
       
       @Autowired
-      private ProductDAO productDAO;
+      private ProductService productService;
+      
+      @Autowired
+      private CategoryService categoryService;      
 	  
 	  @RequestMapping(value="/product-ajax-test", method=GET)
 	  public String test() {
@@ -52,8 +58,13 @@ public class TestController {
 	  @RequestMapping(value="/test-product-filter", method=POST)
 	  public String testProductFilter(final @RequestParam(value = "categoryId", required = true) String categoryId, 
 			                          final @ModelAttribute ProductFilterDTO productFilterDTO, Model model) {
-		  List<Product> filteredProducts = productDAO.findProductsFilteredByCategory(productFilterDTO, UUID.fromString(categoryId));
+		  Category category = categoryService.getCategoryById(UUID.fromString(categoryId));
+		  List<Product> filteredProducts = productService.getProductsFilteredByCategory(productFilterDTO, UUID.fromString(categoryId));
+		  List<Category> rootCategorys = categoryService.getRootCategories(false);
 		  model.addAttribute("filterDTO", productFilterDTO);
+		  model.addAttribute("category", category);
+		  model.addAttribute("filteredProducts", filteredProducts);
+		  model.addAttribute("rootCategorys", rootCategorys);		  
 		  return "/catalog/category";
 		  
 	  }

@@ -849,4 +849,9 @@ public class ProductServiceImpl implements ProductService {
 		return res;
 	}
 
+	@Override
+	public List<Product> getProductsFilteredByCategory(ProductFilterDTO productFilterDTO, UUID categoryId) {
+		return productDAO.findProductsFilteredByCategory(productFilterDTO, categoryId);
+	}
+
 }

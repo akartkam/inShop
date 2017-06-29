@@ -61,4 +61,5 @@ public interface ProductService {
 	long countTotalProducts();
 	List<Sku> getActiveSkuList();
 	ProductFilterDTO getProductFilterDTOByCategory(UUID categoryId);
+	List<Product> getProductsFilteredByCategory(ProductFilterDTO productFilterDTO, UUID categoryId);
 }

@@ -168,19 +168,18 @@ public class ProductDAOImpl extends AbstractGenericDAO<Product> implements Produ
 	@Override
 	public List<Product> findProductsFilteredByCategory(ProductFilterDTO productFilterDTO, UUID categoryId) {
 		StringBuilder query = new StringBuilder();		
-		query.append(
-				"WITH RECURSIVE r AS ( "+
-						"	select id "+
-						"	  from category "+  
-						"	  where cast(id as varchar) = :c "+
-						"	union all "+
-						"	select c.id "+
-						"	  from category c "+
-						"	       join r on parent_id=r.id  "+
-						" ) "+				
-						"select p.* "+
-							 "  from Product p, r "+
-							 "	where p.enabled=true and p.category_id=r.id");
+		query.append("WITH RECURSIVE r AS ( ").
+			  append("	select id ").
+			  append("	  from category ").  
+			  append("	  where cast(id as varchar) = '").append(categoryId.toString()).append("'").
+			  append("	union all ").
+			  append("	select c.id ").
+			  append("	  from category c ").
+			  append("	       join r on parent_id=r.id  ").
+			  append(" ) ").				
+			  append(" select p.* ").
+			  append("  from Product p, r ").
+			  append("  where p.enabled=true and p.category_id=r.id");
 		StringBuilder brandClaus = new StringBuilder(); 
 		for (ProductFilterFacetDTO brandFacet : productFilterDTO.getBrandFacets()) {
 			if (brandFacet.isActive()) {
