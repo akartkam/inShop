@@ -234,7 +234,7 @@ public class ProductDAOImpl extends AbstractGenericDAO<Product> implements Produ
 			    append(attributeClaus).
 			    append(" or trim(asv.attributevalue) in ").
 			    append(attributeClaus).
-			    append(" or (").
+			    append(" and (").
 			    append(" trim(pov.option_value) in ").
 			    append(attributeClaus).
 			    append(" )))");
@@ -245,3 +245,33 @@ public class ProductDAOImpl extends AbstractGenericDAO<Product> implements Produ
 		return qquery.list();
 	}
 }
+
+/*
+WITH RECURSIVE r AS ( 	
+  select id 	  
+    from category 	  
+    where cast(id as varchar) = 'd7cc11da-c38e-4858-a48d-e9cb4c20148b'	
+  union all 	
+  select c.id 	  
+    from category c 	       
+         join r on parent_id=r.id   )  
+select p.*   
+  from Product p, r   
+  where p.enabled=true and 
+        p.category_id=r.id and 
+        exists(select 1 from sku s  
+                 left join attribute_value av on (av.product_id=p.id or av.sku_id=s.id)  
+                 left join attribute_decimal_value adv on adv.id=av.id
+                 left join attribute_int_value aiv on aiv.id=av.id
+                 left join attribute_slist_value alv on alv.id=av.id
+                 left join attribute_string_value asv on asv.id=av.id
+                 left join attribute a on a.id=av.attribute_id  
+                 left join lnk_sku_option_value lsov on lsov.sku_id=s.id
+                 left join product_option_value pov on pov.id=lsov.product_option_value_id  
+                 left join product_option po on po.id=pov.productoption_id
+                where (s.product_id=p.id or p.default_sku_id=s.id) and s.enabled=true and 
+                      ( cast(round(cast(adv.attributevalue as numeric), 2) as varchar) in ('Конвексная', 'Нет') or 
+                        cast(aiv.attributevalue as varchar) in ('Конвексная', 'Нет') or 
+                        trim(alv.attributevalue) in ('Конвексная', 'Нет') or 
+                        trim(asv.attributevalue) in ('Конвексная', 'Нет') and ( trim(pov.option_value) in ('Конвексная', 'Нет') )))
+ */
