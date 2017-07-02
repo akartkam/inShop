@@ -208,38 +208,11 @@ public class ProductDAOImpl extends AbstractGenericDAO<Product> implements Produ
 		StringBuilder attributeClaus = new StringBuilder();
 		for(ProductFilterFacetDTO attributeFacet : productFilterDTO.getAttributesFacets()){
 			if (attributeFacet.isActive()) {
-				if (attributeClaus.length() == 0) attributeClaus.append("('").append(attributeFacet.getId()).append("'"); 
-				else attributeClaus.append(", '").append(attributeFacet.getId()).append("'");
+				attributeClaus.append(" and check_attribute_product_according('").append(attributeFacet.getFacet())
+				              .append("', '").append(attributeFacet.getId()).append("', p.id, p.default_sku_id) ");
 			}
 		}
-		if (attributeClaus.length() > 0) {
-			attributeClaus.append(")");
-			StringBuilder attributeClausFull = new StringBuilder();
-			attributeClausFull.append(" and exists(select 1 from sku s ").
-				append(" left join attribute_value av on (av.product_id=p.id or av.sku_id=s.id) ").
-				append(" left join attribute_decimal_value adv on adv.id=av.id ").
-			    append(" left join attribute_int_value aiv on aiv.id=av.id ").
-			    append(" left join attribute_slist_value alv on alv.id=av.id ").
-			    append(" left join attribute_string_value asv on asv.id=av.id ").
-			    append(" left join attribute a on a.id=av.attribute_id ").
-			    append(" left join lnk_sku_option_value lsov on lsov.sku_id=s.id ").
-			    append(" left join product_option_value pov on pov.id=lsov.product_option_value_id ").
-			    append(" left join product_option po on po.id=pov.productoption_id ").			
-			    append("    where (s.product_id=p.id or p.default_sku_id=s.id) and s.enabled=true and (").
-			    append(" cast(round(cast(adv.attributevalue as numeric), 2) as varchar) in ").
-			    append(attributeClaus).
-			    append(" or cast(aiv.attributevalue as varchar) in ").
-			    append(attributeClaus).
-			    append(" or trim(alv.attributevalue) in ").
-			    append(attributeClaus).
-			    append(" or trim(asv.attributevalue) in ").
-			    append(attributeClaus).
-			    append(" and (").
-			    append(" trim(pov.option_value) in ").
-			    append(attributeClaus).
-			    append(" )))");
-			query.append(attributeClausFull);	
-		}
+		if (attributeClaus.length() > 0) query.append(attributeClaus);	
 		SQLQuery qquery = currentSession().createSQLQuery(query.toString());
 		qquery.addEntity(Product.class);
 		return qquery.list();
@@ -275,3 +248,21 @@ select p.*
                         trim(alv.attributevalue) in ('Конвексная', 'Нет') or 
                         trim(asv.attributevalue) in ('Конвексная', 'Нет') and ( trim(pov.option_value) in ('Конвексная', 'Нет') )))
  */
+
+/*
+ * WITH RECURSIVE r AS ( 	
+  select id 	  
+    from category 	  
+    where cast(id as varchar) = 'c3d4bf27-3c10-4e7c-8576-5a0bc5ebc482'	
+  union all 	
+  select c.id 	  
+    from category c 	       
+         join r on parent_id=r.id   )  
+select p.*   
+  from Product p, r   
+  where p.enabled=true and 
+        p.category_id=r.id and
+        (check_attribute_product_according('Размер', '15х15', p.id, p.default_sku_id) or check_attribute_product_according('Размер', '17.5х17.5', p.id, p.default_sku_id)) 
+        --check_attribute_product_according('Фильтр', 'Есть', p.id, p.default_sku_id) and
+        --check_attribute_product_according('Тип пластины', 'Плоская', p.id, p.default_sku_id)
+        */
