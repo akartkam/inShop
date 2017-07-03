@@ -303,7 +303,25 @@ jQuery(document).ready(function($){
     
     $("body").on("click", ".apply-filter", function(){
     	var $form = $(this).closest("form");
-    	if ($form != null && $form != "undefined") $form.submit();
+    	if ($form.length) $form = $form.serialize();
+    	if (token.length) token = token.val();
+    	var header = $('#_csrf_header').attr('content');
+    	$.ajax({
+            url: $url,
+            type: "POST",
+            data: $form,
+            cache: false,
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader(header, token);
+            }           
+          }).done(function (data){
+        	  $("#filtered-content").html(data);
+          }).fail(function() {
+      	    alert(defaultClientnErrorMessage);
+          });
+    	};
+    	return false;    	
+    	
     });
 
 
