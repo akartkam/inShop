@@ -296,5 +296,14 @@ jQuery(document).ready(function($){
         return $("#po-data").data("po-pricing");
     };
     
+    $("body").on("click", ".drop-filter", function(){
+    	var url = $(this).data("path");
+    	if (url != null && url != "undefined") window.location=url;
+    });
+    
+    $("body").on("click", ".apply-filter", function(){
+    	var $form = $(this).closest("form");
+    	if ($form != null && $form != "undefined") $form.submit();
+    });
 
 

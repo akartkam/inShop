@@ -84,13 +84,15 @@ CREATE TRIGGER before_del
 -- Function: check_attribute_product_according(character varying, character varying, uuid, uuid)
 
 -- DROP FUNCTION check_attribute_product_according(character varying, character varying, uuid, uuid);
--- Функция проверяет , имеет ли товар определенные атрибуты или опции
+
 CREATE OR REPLACE FUNCTION check_attribute_product_according(attr_name character varying, attr_value character varying, prod_id uuid, def_sku_id uuid)
   RETURNS boolean AS
 $BODY$
   DECLARE res boolean;
+  DECLARE arrValues varchar[];
 BEGIN
   res = False;
+  arrValues = string_to_array(attr_value,',');
   SELECT True INTO res FROM sku s  
                  left join attribute_value av on (av.product_id=prod_id or av.sku_id=s.id)  
                  left join attribute_decimal_value adv on adv.id=av.id
@@ -102,11 +104,11 @@ BEGIN
                  left join product_option_value pov on pov.id=lsov.product_option_value_id  
                  left join product_option po on po.id=pov.productoption_id
                 where (s.product_id=prod_id or s.id=def_sku_id) and s.enabled=true and (((trim(a.name) = attr_name and
-			(cast(round(cast(adv.attributevalue as numeric), 2) as varchar) = attr_value or 
-                        cast(aiv.attributevalue as varchar) = attr_value or 
-                        trim(alv.attributevalue) = attr_value or 
-                        trim(asv.attributevalue) = attr_value)                       
-                        )) or (trim(po.label)=attr_name and trim(pov.option_value) = attr_value ));
+			(cast(round(cast(adv.attributevalue as numeric), 2) as varchar) = ANY(arrValues) or 
+                        cast(aiv.attributevalue as varchar) = ANY(arrValues) or 
+                        trim(alv.attributevalue) = ANY(arrValues) or 
+                        trim(asv.attributevalue) = ANY(arrValues))                       
+                        )) or (trim(po.label)=attr_name and trim(pov.option_value) = ANY(arrValues) ));
   RETURN res;
 END
 $BODY$
@@ -114,4 +116,5 @@ $BODY$
   COST 100;
 ALTER FUNCTION check_attribute_product_according(character varying, character varying, uuid, uuid)
   OWNER TO postgres;
+
   

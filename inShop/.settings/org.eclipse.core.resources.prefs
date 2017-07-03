@@ -14,6 +14,7 @@ encoding//src/main/java/com/akartkam/inShop/domain/product/Sku.java=UTF-8
 encoding//src/main/java/com/akartkam/inShop/service/aop/AdminRequestMappingAspect.java=UTF-8
 encoding//src/main/resources/META-INF/services/org.hibernate.integrator.spi.Integrator=UTF-8
 encoding//src/main/resources/ValidationMessages.properties=UTF-8
+encoding//src/main/resources/create-functions.sql=UTF-8
 encoding//src/main/resources/import.sql=UTF-8
 encoding//src/main/resources/messages.properties=UTF-8
 encoding//src/main/resources/output/pdf/orderPdf.html=UTF-8

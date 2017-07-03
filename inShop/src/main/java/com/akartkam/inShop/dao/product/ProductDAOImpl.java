@@ -1,9 +1,11 @@
 package com.akartkam.inShop.dao.product;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.UUID;
+import java.util.Map.Entry;
 
 import javax.annotation.Resource;
 
@@ -205,14 +207,30 @@ public class ProductDAOImpl extends AbstractGenericDAO<Product> implements Produ
 			query.append(modelClaus);
 		}
 		/*attributes and options*/
-		StringBuilder attributeClaus = new StringBuilder();
+		Map<String, List<String>> mapAttrVals = new HashMap<String, List<String>>();
 		for(ProductFilterFacetDTO attributeFacet : productFilterDTO.getAttributesFacets()){
 			if (attributeFacet.isActive()) {
-				attributeClaus.append(" and check_attribute_product_according('").append(attributeFacet.getFacet())
-				              .append("', '").append(attributeFacet.getId()).append("', p.id, p.default_sku_id) ");
+				if (!mapAttrVals.containsKey(attributeFacet.getFacet())){
+					List<String> listVals = new ArrayList<String>();
+					listVals.add(attributeFacet.getId());
+					mapAttrVals.put(attributeFacet.getFacet(), listVals);
+				} else {
+					mapAttrVals.get(attributeFacet.getFacet()).add(attributeFacet.getId());
+				}
 			}
 		}
-		if (attributeClaus.length() > 0) query.append(attributeClaus);	
+
+		if (mapAttrVals.size() > 0) {
+			StringBuilder attributeClaus = new StringBuilder();
+			for (Entry<String, List<String>> entry : mapAttrVals.entrySet()) {
+				attributeClaus.append(" and check_attribute_product_according('")
+				              .append(entry.getKey())
+				              .append("', '")
+				              .append(StringUtils.join(entry.getValue(),","))
+				              .append("', p.id, p.default_sku_id)");
+			}
+			query.append(attributeClaus);				
+		}
 		SQLQuery qquery = currentSession().createSQLQuery(query.toString());
 		qquery.addEntity(Product.class);
 		return qquery.list();

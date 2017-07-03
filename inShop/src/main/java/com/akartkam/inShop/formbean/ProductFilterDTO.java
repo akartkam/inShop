@@ -21,6 +21,7 @@ public class ProductFilterDTO implements Serializable {
 	private List<ProductFilterFacetDTO> attributesFacets = new ArrayList<ProductFilterFacetDTO>();
 	private UUID categoryId;
 	private UUID brandId;
+	private String dropFilterUrl;
 	
 	public List<ProductFilterFacetDTO> getBrandFacets() {
 		return brandFacets;
@@ -76,6 +77,12 @@ public class ProductFilterDTO implements Serializable {
 			}
 		}
 		return map;
+	}
+	public String getDropFilterUrl() {
+		return dropFilterUrl;
+	}
+	public void setDropFilterUrl(String dropFilterUrl) {
+		this.dropFilterUrl = dropFilterUrl;
 	}
 	
 
