@@ -1,16 +1,21 @@
 package com.akartkam.inShop.controller;
 
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.format.number.AbstractNumberFormatter;
 import org.springframework.http.HttpStatus;
@@ -24,19 +29,23 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.akartkam.inShop.domain.order.Delivery;
 import com.akartkam.inShop.domain.order.Order;
+import com.akartkam.inShop.domain.product.Category;
 import com.akartkam.inShop.domain.product.Product;
 import com.akartkam.inShop.domain.product.Sku;
 import com.akartkam.inShop.formbean.DataTableForm;
 import com.akartkam.inShop.formbean.DataTableJSON;
 import com.akartkam.inShop.formbean.ItemsForJSON;
+import com.akartkam.inShop.formbean.ProductFilterDTO;
 import com.akartkam.inShop.formbean.SkuForJSON;
 import com.akartkam.inShop.service.extension.EntityUrlModificator;
 import com.akartkam.inShop.service.order.DeliveryService;
 import com.akartkam.inShop.service.order.InventoryService;
 import com.akartkam.inShop.service.order.OrderService;
+import com.akartkam.inShop.service.product.CategoryService;
 import com.akartkam.inShop.service.product.ProductService;
 import com.fasterxml.jackson.core.io.JsonStringEncoder;
 
@@ -69,6 +78,13 @@ public class AjaxController {
 	
 	@Autowired
 	private MessageSource messageSource;
+	
+	@Autowired
+	private CategoryService categoryService;
+	
+
+	@Value("#{entityUrlPrefixes.getProperty(T(com.akartkam.inShop.util.Constants).CATEGORY_CLASS)}")
+	private String categoryPrefix;	
 
 	@RequestMapping("/ajax-quick-review-product")
 	public String qRevProdAjax(@RequestParam(value = "ID", required = true) String productID, Model model,
@@ -93,7 +109,7 @@ public class AjaxController {
 			  return "/admin/Error";	   
 		  }
 		  return "/catalog/partials/quickReviewProduct";
-		}
+		}		
 		return "/admin/Error";
 	}
 	
@@ -241,6 +257,24 @@ public class AjaxController {
 		  return items;
 		  
 	  }
+	  
+	  @RequestMapping(value="/apply-filter", method=POST)
+	  public String applyFilter(final @ModelAttribute ProductFilterDTO productFilterDTO, final HttpServletResponse response, 
+			                    Model model, final RedirectAttributes ra) {
+		  UUID categoryId = productFilterDTO.getCategoryId();
+		  if (categoryId != null){
+			  Category category = categoryService.getCategoryById(categoryId);
+			  List<Product> filteredProducts = productService.getProductsFilteredByCategory(productFilterDTO, categoryId);
+			  ra.addFlashAttribute("filterDTO", productFilterDTO);
+			  ra.addFlashAttribute("category", category);
+			  ra.addFlashAttribute("filteredProducts", filteredProducts);
+			  return "redirect:/"+categoryPrefix+category.getUrl();
+		  } else {
+				response.setStatus(404);
+				return "redirect:/errors/error-default";
+		  }
+		  
+	  }	
 	  
 	  
 }
