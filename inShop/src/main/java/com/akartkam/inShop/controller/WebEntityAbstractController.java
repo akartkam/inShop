@@ -24,13 +24,12 @@ public abstract class WebEntityAbstractController extends AbstractController {
 	@Autowired
 	protected BrandService brandService;
 	
-	protected ModelAndView model;
+	protected ModelAndView model = new ModelAndView();
 	
 	protected List<Category> rootCategorys;
 	
 	public void initDefault() {
 		rootCategorys = categoryService.getRootCategories(false);
-		if (model == null) model = new ModelAndView();
 		model.addObject("rootCategorys", rootCategorys);
 	}
 	
