@@ -30,20 +30,14 @@ public class CategoryController extends WebEntityAbstractController {
 	@Override
 	protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		super.handleRequestInternal(request, response);
-		Map<String, Object> modelMap = model.getModel();
-		Category category = (Category) modelMap.get("category");
-		if (category == null) {
-			String categoryUrl = request.getServletPath();
-			categoryUrl = categoryUrl.replace("/"+categoryPrefix, "");
-			category = categoryService.getCategoryByUrl(categoryUrl);
-			model.addObject("category", category);
-		}
+		String categoryUrl = request.getServletPath();
+		categoryUrl = categoryUrl.replace("/"+categoryPrefix, "");
+		Category category = categoryService.getCategoryByUrl(categoryUrl);
 		if (category != null) {
-			if (!modelMap.containsKey("filterDTO")) {
-				ProductFilterDTO pd =  productService.getProductFilterDTOByCategory(category.getId());
-				pd.setDropFilterUrl(categoryPrefix+category.getUrl());
-				model.addObject("filterDTO", pd);				
-			}
+			ProductFilterDTO pd =  productService.getProductFilterDTOByCategory(category.getId());
+			pd.setDropFilterUrl(categoryPrefix+category.getUrl());
+			model.addObject("filterDTO", pd);
+			model.addObject("category", category);
 			model.setViewName("/catalog/category");
 		} else {
 			response.setStatus(404);
@@ -65,6 +59,7 @@ public class CategoryController extends WebEntityAbstractController {
 		LOG.info("getServerName() - "+request.getServerName());
 		LOG.info("getServerPort() - "+request.getServerPort());
 		LOG.info("getParameterNames() - "+request.getParameterNames());*/
+		
 		return model;
 	}
 

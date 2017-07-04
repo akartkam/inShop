@@ -296,13 +296,52 @@ jQuery(document).ready(function($){
         return $("#po-data").data("po-pricing");
     };
     
+    function initProductPageContent(){
+		  $(".product-f-image img").lazyload({
+		        event : "turnPage",
+		        effect : "fadeIn"
+		  });				
+			
+		  var intemPerPage=4;
+		  if(window.innerWidth > 600) { 
+			  intemPerPage = 8;
+		  }; 
+		  if (window.innerWidth > 1200) { 		  
+			  intemPerPage = 12;
+		  }; 
+		  if (window.innerWidth > 1500) {
+			  intemPerPage = 15;
+		  };					
+		  $("div.pagination-holder").jPages({
+		    containerID : "pagination-container",
+		    perPage     : intemPerPage,
+		    previous	: "«",
+		    next		: "»",
+		    callback    : function( pages, items ){
+				            items.showing.find("img").trigger("turnPage");
+				            /*items.oncoming.find("img").trigger("turnPage");*/
+				          }			    
+		  });
+		  $("body").on("sort-have-performed", function(){
+			  $(".product-f-image img").trigger("turnPage");  
+		  });
+		  /* To correct display single product after sort*/
+		  setTimeout(function(){$(".product-list-container>div.product-col").equalHeights()}, 800);
+    	
+    };
+    
     $("body").on("click", ".drop-filter", function(){
     	var url = $(this).data("path");
     	if (url != null && url != "undefined") window.location=url;
     });
     
+    
+    
+    
     $("body").on("click", ".apply-filter", function(){
     	var $form = $(this).closest("form");
+    	var $url = $form.attr("action");
+    	var token = $form.find("input[name=_csrf]");
     	if ($form.length) $form = $form.serialize();
     	if (token.length) token = token.val();
     	var header = $('#_csrf_header').attr('content');
@@ -316,12 +355,10 @@ jQuery(document).ready(function($){
             }           
           }).done(function (data){
         	  $("#filtered-content").html(data);
+        	  initProductPageContent();
           }).fail(function() {
       	    alert(defaultClientnErrorMessage);
           });
-    	};
-    	return false;    	
-    	
-    });
-
+      return false;    	
+   	});
 

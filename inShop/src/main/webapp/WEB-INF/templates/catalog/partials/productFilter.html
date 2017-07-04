@@ -1,4 +1,4 @@
-<div class="filter" th:if="${!#lists.isEmpty(filterDTO.brandFacets) || !#lists.isEmpty(filterDTO.modelFacets) || !#maps.isEmpty(filterDTO.attributesFacets)}">
+<div class="filter" th:if="${!#lists.isEmpty(filterDTO.brandFacets) || !#lists.isEmpty(filterDTO.modelFacets) || !#lists.isEmpty(filterDTO.attributesFacets)}">
 	<form action="#" th:action="@{/apply-filter}" th:object="${filterDTO}" method="post">
 		<input type="hidden" th:field="${filterDTO.categoryId}"/>
 		<input type="hidden" th:field="${filterDTO.brandId}"/>

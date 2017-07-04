@@ -260,15 +260,16 @@ public class AjaxController {
 	  
 	  @RequestMapping(value="/apply-filter", method=POST)
 	  public String applyFilter(final @ModelAttribute ProductFilterDTO productFilterDTO, final HttpServletResponse response, 
-			                    Model model, final RedirectAttributes ra) {
+			                    Model model) {
 		  UUID categoryId = productFilterDTO.getCategoryId();
 		  if (categoryId != null){
 			  Category category = categoryService.getCategoryById(categoryId);
 			  List<Product> filteredProducts = productService.getProductsFilteredByCategory(productFilterDTO, categoryId);
-			  ra.addFlashAttribute("filterDTO", productFilterDTO);
-			  ra.addFlashAttribute("category", category);
-			  ra.addFlashAttribute("filteredProducts", filteredProducts);
-			  return "redirect:/"+categoryPrefix+category.getUrl();
+			  productFilterDTO.setDropFilterUrl(categoryPrefix+category.getUrl());
+			  model.addAttribute("filterDTO", productFilterDTO);
+			  model.addAttribute("category", category);
+			  model.addAttribute("filteredProducts", filteredProducts);
+			  return "catalog/category :: filtered-content";
 		  } else {
 				response.setStatus(404);
 				return "redirect:/errors/error-default";
