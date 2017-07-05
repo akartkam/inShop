@@ -235,6 +235,56 @@ public class ProductDAOImpl extends AbstractGenericDAO<Product> implements Produ
 		qquery.addEntity(Product.class);
 		return qquery.list();
 	}
+
+
+	@Override
+	public List<Product> findProductsFilteredByBrand(ProductFilterDTO productFilterDTO, UUID brandId) {
+		StringBuilder query = new StringBuilder();
+		query.append(" select p.* ").
+		  append("  from Product p, r ").
+		  append("  where p.enabled=true and cast(brand_id as varchar)='").append(brandId).append("'");
+		StringBuilder modelClaus = new StringBuilder();
+		for (ProductFilterFacetDTO modelFacet : productFilterDTO.getModelFacets()) {
+			if (modelFacet.isActive()) {
+				if (modelClaus.length() == 0) modelClaus.append("('").append(modelFacet.getId()).append("'");
+				else modelClaus.append(", '").append(modelFacet.getId()).append("'");
+			}
+		}
+		if (modelClaus.length() > 0) {
+			modelClaus.append(")");
+			modelClaus.insert(0, " and p.model in ");
+			query.append(modelClaus);
+		}
+		/*attributes and options*/
+		Map<String, List<String>> mapAttrVals = new HashMap<String, List<String>>();
+		for(ProductFilterFacetDTO attributeFacet : productFilterDTO.getAttributesFacets()){
+			if (attributeFacet.isActive()) {
+				if (!mapAttrVals.containsKey(attributeFacet.getFacet())){
+					List<String> listVals = new ArrayList<String>();
+					listVals.add(attributeFacet.getId());
+					mapAttrVals.put(attributeFacet.getFacet(), listVals);
+				} else {
+					mapAttrVals.get(attributeFacet.getFacet()).add(attributeFacet.getId());
+				}
+			}
+		}
+
+		if (mapAttrVals.size() > 0) {
+			StringBuilder attributeClaus = new StringBuilder();
+			for (Entry<String, List<String>> entry : mapAttrVals.entrySet()) {
+				attributeClaus.append(" and check_attribute_product_according('")
+				              .append(entry.getKey())
+				              .append("', '")
+				              .append(StringUtils.join(entry.getValue(),","))
+				              .append("', p.id, p.default_sku_id)");
+			}
+			query.append(attributeClaus);				
+		}
+		SQLQuery qquery = currentSession().createSQLQuery(query.toString());
+		qquery.addEntity(Product.class);
+		return qquery.list();
+
+	}
 }
 
 /*
@@ -283,4 +333,14 @@ select p.*
         (check_attribute_product_according('Размер', '15х15', p.id, p.default_sku_id) or check_attribute_product_according('Размер', '17.5х17.5', p.id, p.default_sku_id)) 
         --check_attribute_product_according('Фильтр', 'Есть', p.id, p.default_sku_id) and
         --check_attribute_product_according('Тип пластины', 'Плоская', p.id, p.default_sku_id)
+        */
+/*
+ * 
+select p.*   
+  from Product p
+  where p.enabled=true and 
+        brand_id='457e6d7e-eedd-4b1c-b3c7-fb0c09d64fc0' and
+        --(check_attribute_product_according('Размер', '15х15', p.id, p.default_sku_id) or check_attribute_product_according('Размер', '17.5х17.5', p.id, p.default_sku_id)) 
+        check_attribute_product_according('Фильтр', 'Есть', p.id, p.default_sku_id) and
+        check_attribute_product_according('Тип пластины', 'Плоская', p.id, p.default_sku_id)
         */
