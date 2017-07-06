@@ -56,7 +56,7 @@ import com.akartkam.inShop.presentation.admin.EditTab;
     @SqlResultSetMapping(name = "findAllProductUrlsRSM", columns = {
         @ColumnResult(name = "url")
     }),
-    @SqlResultSetMapping(name = "findFilteredProductByCategoryRSM", columns = {
+    @SqlResultSetMapping(name = "findFilteredProductRSM", columns = {
             @ColumnResult(name = "type"), @ColumnResult(name = "f1"), @ColumnResult(name = "f2") 
         })    
 })
@@ -127,7 +127,55 @@ import com.akartkam.inShop.presentation.admin.EditTab;
 			"   from product p, sku s, r "+
 			"   where p.category_id=r.id and (s.product_id=p.id or p.default_sku_id=s.id) "+			
 			" order by 1, 2, 3",
-		   resultSetMapping = "findFilteredProductByCategoryRSM")			
+		   resultSetMapping = "findFilteredProductRSM"),
+    @NamedNativeQuery(
+			name = "findFilteredProductByBrand",
+			query = "select distinct 1 as type, cast(null as varchar),  trim(p.model) from product p "+ 
+			"   where cast(p.brand_id as varchar)=:b and coalesce(trim(p.model),'') != ''  and p.enabled = true and "+
+			"   (select count(distinct trim(p.model)) from product p "+
+			"      where cast(p.brand_id as varchar)=:b and coalesce(trim(p.model),'') != ''  and p.enabled = true) > 1 "+
+			" union "+
+			" select q1.type, q1.f1, q1.f2 "+ 
+			"   from "+
+			"	( "+
+			"		select 2 as type, f1, f2, count(f1) over (partition by f1) c "+
+			"		  from	"+
+			"			(select distinct trim(a.name) f1, "+  
+			"			         case when coalesce(round(cast(adv.attributevalue as numeric), 2),0) != 0 then "+ 
+			"			                   cast(round(cast(adv.attributevalue as numeric), 2) as varchar) "+
+			"			              when coalesce(aiv.attributevalue,0) != 0 then cast(aiv.attributevalue as varchar) "+    
+			"			              when coalesce(trim(alv.attributevalue),'') != '' then trim(alv.attributevalue) "+
+			"			              when coalesce(trim(asv.attributevalue),'') != '' then trim(asv.attributevalue) end f2 "+ 
+			"			     from product p "+
+			"			          left join sku s on s.product_id=p.id and s.enabled=true "+ 
+			"			          left join attribute_value av on (av.product_id=p.id or av.sku_id=s.id) "+
+			"			          left join attribute_decimal_value adv on adv.id=av.id "+
+			"			          left join attribute_int_value aiv on aiv.id=av.id "+
+			"			          left join attribute_slist_value alv on alv.id=av.id "+
+			"			          left join attribute_string_value asv on asv.id=av.id "+
+			"			          left join attribute a on a.id=av.attribute_id "+         
+			"				where p.enabled = true and cast(p.brand_id as varchar)=:b and coalesce(trim(a.name),'') != '' "+
+			"			union "+
+			"		     select distinct trim(po.label) f1, trim(pov.option_value) f2 "+
+			"			     from product p "+
+			"			          inner join r on p.category_id=r.id "+
+			"			          inner join sku s on s.product_id=p.id and s.enabled=true "+ 
+			"			          inner join lnk_sku_option_value lsov on lsov.sku_id=s.id "+
+			"			          inner join product_option_value pov on pov.id=lsov.product_option_value_id "+
+			"			          inner join product_option po on po.id=pov.productoption_id "+
+			"				where p.enabled = true and cast(p.brand_id as varchar)=:b and coalesce(trim(po.label), '') != '' "+
+			"			) q "+   
+			"	) q1 "+
+			" where q1.c > 1 "+
+			" union "+
+			" select distinct 3 as type, "+ 
+			"       cast(min(s.quant_per_package*case when s.sale_price is not null then s.sale_price else s.retail_price end) as varchar) f1, "+  
+			"       cast(max(s.quant_per_package*case when s.sale_price is not null then s.sale_price else s.retail_price end) as varchar) f2  "+
+			"   from product p, sku s, r "+
+			"   where p.category_id=r.id and (s.product_id=p.id or p.default_sku_id=s.id) "+			
+			" order by 1, 2, 3",
+		   resultSetMapping = "findFilteredProductRSM")			
+		   
 })
 
 @NamedQueries({
