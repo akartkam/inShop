@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+import com.akartkam.inShop.common.filter.ProductFilterConditionHolder;
 import com.akartkam.inShop.dao.GenericDAO;
 import com.akartkam.inShop.domain.product.Product;
 import com.akartkam.inShop.domain.product.ProductStatus;
@@ -17,7 +18,7 @@ public interface ProductDAO extends GenericDAO<Product, UUID> {
 	long countTotalProducts();
 	Object[] findProductsForDataTable(DataTableForm dt);
 	List<String> findAllProductUrls();
-	List<Object[]> findProductFilterDTOByCategory(UUID categoryId);
+	List<Object[]> findProductFilterDTO(ProductFilterConditionHolder filterCondHolder);
 	List<Product> findProductsFilteredByCategory(ProductFilterDTO productFilterDTO, UUID categoryId);
 	List<Product> findProductsFilteredByBrand(ProductFilterDTO productFilterDTO, UUID brandId);
 }

@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
+import com.akartkam.inShop.common.filter.ProductFilterConditionHolder;
 import com.akartkam.inShop.dao.AbstractGenericDAO;
 import com.akartkam.inShop.domain.product.Brand;
 import com.akartkam.inShop.domain.product.Product;
@@ -154,8 +155,8 @@ public class ProductDAOImpl extends AbstractGenericDAO<Product> implements Produ
 
 
 	@Override
-	public List<Object[]> findProductFilterDTOByCategory(UUID categoryId) {
-		Query query = currentSession().getNamedQuery("findFilteredProductByCategory").setString("c", categoryId.toString());
+	public List<Object[]> findProductFilterDTO(ProductFilterConditionHolder filterCondHolder) {
+		Query query = filterCondHolder.getInitializedQueryForFilterDTO(currentSession());
 		List<Object[]> ret = (List<Object[]>)query.list();
 		return ret;
 	}

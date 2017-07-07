@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.akartkam.inShop.common.filter.ProductFilterCategoryConditionHolder;
 import com.akartkam.inShop.domain.product.Category;
 import com.akartkam.inShop.formbean.ProductFilterDTO;
 import com.akartkam.inShop.service.product.ProductService;
@@ -32,7 +33,7 @@ public class CategoryController extends WebEntityAbstractController {
 		categoryUrl = categoryUrl.replace("/"+categoryPrefix, "");
 		Category category = categoryService.getCategoryByUrl(categoryUrl);
 		if (category != null) {
-			ProductFilterDTO pd =  productService.getProductFilterDTOByCategory(category.getId());
+			ProductFilterDTO pd =  productService.getProductFilterDTO(new ProductFilterCategoryConditionHolder(category));
 			pd.setDropFilterUrl(categoryPrefix+category.getUrl());
 			model.addObject("filterDTO", pd);
 			model.addObject("category", category);

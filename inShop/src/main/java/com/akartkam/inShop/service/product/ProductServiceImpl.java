@@ -25,6 +25,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Errors;
 
+import com.akartkam.inShop.common.filter.ProductFilterConditionHolder;
 import com.akartkam.inShop.dao.InstructionDAO;
 import com.akartkam.inShop.dao.product.BrandDAO;
 import com.akartkam.inShop.dao.product.CategoryDAO;
@@ -805,8 +806,8 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public ProductFilterDTO getProductFilterDTOByCategory(UUID categoryId) {
-		List<Object[]> fProd = productDAO.findProductFilterDTOByCategory(categoryId);
+	public ProductFilterDTO getProductFilterDTO(ProductFilterConditionHolder filterConditionHolder) {
+		List<Object[]> fProd = productDAO.findProductFilterDTO(filterConditionHolder);
 		ProductFilterDTO res = new ProductFilterDTO();
 		List<ProductFilterFacetDTO> lpfBrands = new ArrayList<ProductFilterFacetDTO>();
 		List<ProductFilterFacetDTO> lpfModels = new ArrayList<ProductFilterFacetDTO>();
@@ -845,7 +846,7 @@ public class ProductServiceImpl implements ProductService {
 		res.setBrandFacets(lpfBrands);
 		res.setModelFacets(lpfModels);
 		res.setAttributesFacets(mpfAttributes);
-		res.setCategoryId(categoryId);
+		filterConditionHolder.adjustFilterDTO(res);
 		return res;
 	}
 

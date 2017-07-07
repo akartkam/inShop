@@ -1,4 +1,4 @@
-package com.akartkam.inShop.filter;
+package com.akartkam.inShop.common.secure;
 
 import java.util.Collection;
 import java.util.regex.Pattern;
@@ -71,7 +71,7 @@ public class XSSRequestWrapper extends HttpServletRequestWrapper {
             // avoid encoded attacks.
             // value = ESAPI.encoder().canonicalize(value);
 
-        	//Лучше конечно юзать jsoup, но пока лень.
+        	//пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ jsoup, пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ.
         	
             // Avoid null characters
             value = value.replaceAll("", "");

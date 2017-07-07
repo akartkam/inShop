@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import org.springframework.validation.Errors;
 
+import com.akartkam.inShop.common.filter.ProductFilterConditionHolder;
 import com.akartkam.inShop.domain.product.Product;
 import com.akartkam.inShop.domain.product.ProductStatus;
 import com.akartkam.inShop.domain.product.Sku;
@@ -60,6 +61,6 @@ public interface ProductService {
 	Object[] getProductsForDataTable(DataTableForm dt);
 	long countTotalProducts();
 	List<Sku> getActiveSkuList();
-	ProductFilterDTO getProductFilterDTOByCategory(UUID categoryId);
+	ProductFilterDTO getProductFilterDTO(ProductFilterConditionHolder filterConditionHolder);
 	List<Product> getProductsFilteredByCategory(ProductFilterDTO productFilterDTO, UUID categoryId);
 }

@@ -1,4 +1,4 @@
-package com.akartkam.inShop.filter;
+package com.akartkam.inShop.common.secure;
 
 import java.io.IOException;
 
