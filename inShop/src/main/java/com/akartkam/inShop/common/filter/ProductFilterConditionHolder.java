@@ -7,7 +7,7 @@ import com.akartkam.inShop.formbean.ProductFilterDTO;
 
 public interface ProductFilterConditionHolder {
 	Query getInitializedQueryForFilterDTO(Session session);
-	Query getInitializedQueryForFilteredProduct(Session session);
+	Query getInitializedQueryForFilteredProduct(ProductFilterDTO productFilterDTO, Session session);
 	void adjustFilterDTO(ProductFilterDTO filterDTO);
 
 }

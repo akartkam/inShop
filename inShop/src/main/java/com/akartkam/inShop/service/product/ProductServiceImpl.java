@@ -851,8 +851,8 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public List<Product> getProductsFilteredByCategory(ProductFilterDTO productFilterDTO, UUID categoryId) {
-		return productDAO.findProductsFilteredByCategory(productFilterDTO, categoryId);
+	public List<Product> getProductsFiltered(ProductFilterDTO productFilterDTO, ProductFilterConditionHolder filterCondHolder) {
+		return productDAO.findProductsFiltered(productFilterDTO, filterCondHolder);
 	}
 
 }

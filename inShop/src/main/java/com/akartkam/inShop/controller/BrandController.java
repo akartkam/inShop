@@ -9,8 +9,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.akartkam.inShop.common.filter.ProductFilterBrandConditionHolder;
+import com.akartkam.inShop.common.filter.ProductFilterCategoryConditionHolder;
 import com.akartkam.inShop.domain.product.Brand;
 import com.akartkam.inShop.domain.product.Product;
+import com.akartkam.inShop.formbean.ProductFilterDTO;
 
 @Controller
 public class BrandController extends WebEntityAbstractController {
@@ -27,6 +30,9 @@ public class BrandController extends WebEntityAbstractController {
 		brandUrl = brandUrl.replace("/"+brandPrefix, "");
 		Brand brand = brandService.getBrandByUrl(brandUrl);
 		if (brand != null) {
+			ProductFilterDTO pd =  productService.getProductFilterDTO(new ProductFilterBrandConditionHolder(brand));
+			pd.setDropFilterUrl(brandPrefix+brand.getUrl());
+			model.addObject("filterDTO", pd);
 			List<Product> products = brandService.getProductsByBrand(brand);	
 			model.addObject("brand", brand);
 			model.addObject("products", products);

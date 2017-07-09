@@ -31,8 +31,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.akartkam.inShop.common.filter.ProductFilterBrandConditionHolder;
+import com.akartkam.inShop.common.filter.ProductFilterCategoryConditionHolder;
 import com.akartkam.inShop.domain.order.Delivery;
 import com.akartkam.inShop.domain.order.Order;
+import com.akartkam.inShop.domain.product.Brand;
 import com.akartkam.inShop.domain.product.Category;
 import com.akartkam.inShop.domain.product.Product;
 import com.akartkam.inShop.domain.product.Sku;
@@ -45,6 +48,7 @@ import com.akartkam.inShop.service.extension.EntityUrlModificator;
 import com.akartkam.inShop.service.order.DeliveryService;
 import com.akartkam.inShop.service.order.InventoryService;
 import com.akartkam.inShop.service.order.OrderService;
+import com.akartkam.inShop.service.product.BrandService;
 import com.akartkam.inShop.service.product.CategoryService;
 import com.akartkam.inShop.service.product.ProductService;
 import com.fasterxml.jackson.core.io.JsonStringEncoder;
@@ -82,9 +86,15 @@ public class AjaxController {
 	@Autowired
 	private CategoryService categoryService;
 	
+	@Autowired
+	private BrandService brandService;
+	
 
 	@Value("#{entityUrlPrefixes.getProperty(T(com.akartkam.inShop.util.Constants).CATEGORY_CLASS)}")
 	private String categoryPrefix;	
+	
+	@Value("#{entityUrlPrefixes.getProperty(T(com.akartkam.inShop.util.Constants).BRAND_CLASS)}")
+	private String brandPrefix;		
 
 	@RequestMapping("/ajax-quick-review-product")
 	public String qRevProdAjax(@RequestParam(value = "ID", required = true) String productID, Model model,
@@ -262,14 +272,25 @@ public class AjaxController {
 	  public String applyFilter(final @ModelAttribute ProductFilterDTO productFilterDTO, final HttpServletResponse response, 
 			                    Model model) {
 		  UUID categoryId = productFilterDTO.getCategoryId();
+		  UUID brandId = productFilterDTO.getBrandId();
 		  if (categoryId != null){
 			  Category category = categoryService.getCategoryById(categoryId);
-			  List<Product> filteredProducts = productService.getProductsFilteredByCategory(productFilterDTO, categoryId);
+			  List<Product> filteredProducts = productService.getProductsFiltered(productFilterDTO, 
+					                           new ProductFilterCategoryConditionHolder(category));
 			  productFilterDTO.setDropFilterUrl(categoryPrefix+category.getUrl());
 			  model.addAttribute("filterDTO", productFilterDTO);
 			  model.addAttribute("category", category);
 			  model.addAttribute("filteredProducts", filteredProducts);
 			  return "catalog/category :: filtered-content";
+		  } else if (brandId != null) {
+			  Brand brand = brandService.getBrandById(brandId);
+			  List<Product> filteredProducts = productService.getProductsFiltered(productFilterDTO, 
+                      new ProductFilterBrandConditionHolder(brand));
+			  productFilterDTO.setDropFilterUrl(brandPrefix+brand.getUrl());
+			  model.addAttribute("filterDTO", productFilterDTO);
+			  model.addAttribute("brand", brand);
+			  model.addAttribute("filteredProducts", filteredProducts);
+			  return "/catalog/brand-products :: filtered-content";
 		  } else {
 				response.setStatus(404);
 				return "redirect:/errors/error-default";

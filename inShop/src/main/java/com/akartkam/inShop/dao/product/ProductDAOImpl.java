@@ -163,123 +163,12 @@ public class ProductDAOImpl extends AbstractGenericDAO<Product> implements Produ
 
 
 	@Override
-	public List<Product> findProductsFilteredByCategory(ProductFilterDTO productFilterDTO, UUID categoryId) {
-		StringBuilder query = new StringBuilder();		
-		query.append("WITH RECURSIVE r AS ( ").
-			  append("	select id ").
-			  append("	  from category ").  
-			  append("	  where cast(id as varchar) = '").append(categoryId.toString()).append("'").
-			  append("	union all ").
-			  append("	select c.id ").
-			  append("	  from category c ").
-			  append("	       join r on parent_id=r.id  ").
-			  append(" ) ").				
-			  append(" select p.* ").
-			  append("  from Product p, r ").
-			  append("  where p.enabled=true and p.category_id=r.id");
-		StringBuilder brandClaus = new StringBuilder(); 
-		for (ProductFilterFacetDTO brandFacet : productFilterDTO.getBrandFacets()) {
-			if (brandFacet.isActive()) {
-				if (brandClaus.length() == 0) brandClaus.append("('").append(brandFacet.getId()).append("'"); 
-				else brandClaus.append(", '").append(brandFacet.getId()).append("'");
-			}
-		}
-		if (brandClaus.length() > 0) {
-			brandClaus.append(")");
-			brandClaus.insert(0, " and exists(select 1 from brand where name in ").append(" and p.brand_id=id)");
-			query.append(brandClaus);
-		}
-		StringBuilder modelClaus = new StringBuilder();
-		for (ProductFilterFacetDTO modelFacet : productFilterDTO.getModelFacets()) {
-			if (modelFacet.isActive()) {
-				if (modelClaus.length() == 0) modelClaus.append("('").append(modelFacet.getId()).append("'");
-				else modelClaus.append(", '").append(modelFacet.getId()).append("'");
-			}
-		}
-		if (modelClaus.length() > 0) {
-			modelClaus.append(")");
-			modelClaus.insert(0, " and p.model in ");
-			query.append(modelClaus);
-		}
-		/*attributes and options*/
-		Map<String, List<String>> mapAttrVals = new HashMap<String, List<String>>();
-		for(ProductFilterFacetDTO attributeFacet : productFilterDTO.getAttributesFacets()){
-			if (attributeFacet.isActive()) {
-				if (!mapAttrVals.containsKey(attributeFacet.getFacet())){
-					List<String> listVals = new ArrayList<String>();
-					listVals.add(attributeFacet.getId());
-					mapAttrVals.put(attributeFacet.getFacet(), listVals);
-				} else {
-					mapAttrVals.get(attributeFacet.getFacet()).add(attributeFacet.getId());
-				}
-			}
-		}
-
-		if (mapAttrVals.size() > 0) {
-			StringBuilder attributeClaus = new StringBuilder();
-			for (Entry<String, List<String>> entry : mapAttrVals.entrySet()) {
-				attributeClaus.append(" and check_attribute_product_according('")
-				              .append(entry.getKey())
-				              .append("', '")
-				              .append(StringUtils.join(entry.getValue(),","))
-				              .append("', p.id, p.default_sku_id)");
-			}
-			query.append(attributeClaus);				
-		}
-		SQLQuery qquery = currentSession().createSQLQuery(query.toString());
-		qquery.addEntity(Product.class);
-		return qquery.list();
+	public List<Product> findProductsFiltered(ProductFilterDTO productFilterDTO, ProductFilterConditionHolder filterCondHolder) {
+		Query query = filterCondHolder.getInitializedQueryForFilteredProduct(productFilterDTO, currentSession());
+		return query.list();
 	}
 
 
-	@Override
-	public List<Product> findProductsFilteredByBrand(ProductFilterDTO productFilterDTO, UUID brandId) {
-		StringBuilder query = new StringBuilder();
-		query.append(" select p.* ").
-		  append("  from Product p, r ").
-		  append("  where p.enabled=true and cast(brand_id as varchar)='").append(brandId).append("'");
-		StringBuilder modelClaus = new StringBuilder();
-		for (ProductFilterFacetDTO modelFacet : productFilterDTO.getModelFacets()) {
-			if (modelFacet.isActive()) {
-				if (modelClaus.length() == 0) modelClaus.append("('").append(modelFacet.getId()).append("'");
-				else modelClaus.append(", '").append(modelFacet.getId()).append("'");
-			}
-		}
-		if (modelClaus.length() > 0) {
-			modelClaus.append(")");
-			modelClaus.insert(0, " and p.model in ");
-			query.append(modelClaus);
-		}
-		/*attributes and options*/
-		Map<String, List<String>> mapAttrVals = new HashMap<String, List<String>>();
-		for(ProductFilterFacetDTO attributeFacet : productFilterDTO.getAttributesFacets()){
-			if (attributeFacet.isActive()) {
-				if (!mapAttrVals.containsKey(attributeFacet.getFacet())){
-					List<String> listVals = new ArrayList<String>();
-					listVals.add(attributeFacet.getId());
-					mapAttrVals.put(attributeFacet.getFacet(), listVals);
-				} else {
-					mapAttrVals.get(attributeFacet.getFacet()).add(attributeFacet.getId());
-				}
-			}
-		}
-
-		if (mapAttrVals.size() > 0) {
-			StringBuilder attributeClaus = new StringBuilder();
-			for (Entry<String, List<String>> entry : mapAttrVals.entrySet()) {
-				attributeClaus.append(" and check_attribute_product_according('")
-				              .append(entry.getKey())
-				              .append("', '")
-				              .append(StringUtils.join(entry.getValue(),","))
-				              .append("', p.id, p.default_sku_id)");
-			}
-			query.append(attributeClaus);				
-		}
-		SQLQuery qquery = currentSession().createSQLQuery(query.toString());
-		qquery.addEntity(Product.class);
-		return qquery.list();
-
-	}
 }
 
 /*

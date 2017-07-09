@@ -55,19 +55,5 @@ public class TestController {
 		  String res = sitemapService.createSitemap(baseUrl);
 		  return res; 
 		  }	
-	  @RequestMapping(value="/test-product-filter", method=POST)
-	  public String testProductFilter(final @RequestParam(value = "categoryId", required = true) String categoryId, 
-			                          final @ModelAttribute ProductFilterDTO productFilterDTO, Model model) {
-		  Category category = categoryService.getCategoryById(UUID.fromString(categoryId));
-		  List<Product> filteredProducts = productService.getProductsFilteredByCategory(productFilterDTO, UUID.fromString(categoryId));
-		  List<Category> rootCategorys = categoryService.getRootCategories(false);
-		  model.addAttribute("filterDTO", productFilterDTO);
-		  model.addAttribute("category", category);
-		  model.addAttribute("filteredProducts", filteredProducts);
-		  model.addAttribute("rootCategorys", rootCategorys);		  
-		  return "/catalog/category";
-		  
-	  }
-
-	  
+  
 }

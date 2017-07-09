@@ -130,7 +130,7 @@ import com.akartkam.inShop.presentation.admin.EditTab;
 		   resultSetMapping = "findFilteredProductRSM"),
     @NamedNativeQuery(
 			name = "findFilteredProductByBrand",
-			query = "select distinct 1 as type, cast(null as varchar),  trim(p.model) from product p "+ 
+			query = "select distinct 1 as type, cast(null as varchar) f1,  trim(p.model) f2 from product p "+ 
 			"   where cast(p.brand_id as varchar)=:b and coalesce(trim(p.model),'') != ''  and p.enabled = true and "+
 			"   (select count(distinct trim(p.model)) from product p "+
 			"      where cast(p.brand_id as varchar)=:b and coalesce(trim(p.model),'') != ''  and p.enabled = true) > 1 "+
@@ -158,7 +158,6 @@ import com.akartkam.inShop.presentation.admin.EditTab;
 			"			union "+
 			"		     select distinct trim(po.label) f1, trim(pov.option_value) f2 "+
 			"			     from product p "+
-			"			          inner join r on p.category_id=r.id "+
 			"			          inner join sku s on s.product_id=p.id and s.enabled=true "+ 
 			"			          inner join lnk_sku_option_value lsov on lsov.sku_id=s.id "+
 			"			          inner join product_option_value pov on pov.id=lsov.product_option_value_id "+
@@ -171,8 +170,8 @@ import com.akartkam.inShop.presentation.admin.EditTab;
 			" select distinct 3 as type, "+ 
 			"       cast(min(s.quant_per_package*case when s.sale_price is not null then s.sale_price else s.retail_price end) as varchar) f1, "+  
 			"       cast(max(s.quant_per_package*case when s.sale_price is not null then s.sale_price else s.retail_price end) as varchar) f2  "+
-			"   from product p, sku s, r "+
-			"   where p.category_id=r.id and (s.product_id=p.id or p.default_sku_id=s.id) "+			
+			"   from product p, sku s "+
+			"   where cast(p.brand_id as varchar)=:b and (s.product_id=p.id or p.default_sku_id=s.id) "+			
 			" order by 1, 2, 3",
 		   resultSetMapping = "findFilteredProductRSM")			
 		   
