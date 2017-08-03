@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.akartkam.inShop.dao.content.PageDAO;
+import com.akartkam.inShop.domain.content.AbstractContent;
 import com.akartkam.inShop.domain.content.Page;
 
 @Service("ContentService")
