@@ -102,25 +102,26 @@
 					  	       </tr>
 					 	    </thead>
 						 	    <tbody>      
-							        <tr th:each="pg : ${AllPages}">
+							        <tr th:each="pg : ${AllNewsPages}">
 							            <td class="text-center">						
 										    <input class="checkPage" type="checkbox" th:id="${'check-'+pg.id}" th:value="${pg.id}"/>
 									    </td>
 										<td class="mightOverflow domain-col"><span th:text="${pg.name}">Name</span></td>
 										<td><span th:text="${pg.url}">URL</span></td>
+										<td><span th:text="${{pg.submitDate}}">Date</span></td>
 						            	<td class="text-center"><i th:class="${pg.enabled} ? 'fa fa-check-circle'"></i></td>
 						            	<td class="text-center">
 							                <div class="row">
 		  				            	  		 <div class="btn-group" role="group" > 
 					                                  <button type="button" class="open-editDialog btn btn-outline btn-default btn-xs" 
 					                                          data-toggle="modal" data-target="#editModal" data-operation="edit" 
-					                                          th:attr="data-id=${pg.id}, data-path=@{/admin/content/page/edit}"
+					                                          th:attr="data-id=${pg.id}, data-path=@{/admin/content/news-page/edit}"
 					                                          data-backdrop="static" data-keyboard="false"> 
 					                                    <i class="fa fa-pencil"></i>
 					                                  </button>	
 					                                  <button type="button" class="open-editDialog btn btn-outline btn-default btn-xs" 
 					                                          data-toggle="modal" data-target="#editModal" data-operation="add"
-					                                          th:attr="data-id=${pg.id}, data-path=@{/admin/content/page/add}"
+					                                          th:attr="data-id=${pg.id}, data-path=@{/admin/content/news-page/add}"
 					                                          data-backdrop="static" data-keyboard="false">
 					                                    <i class="fa fa-copy"></i>
 					                                  </button>
@@ -144,7 +145,7 @@
 					   		 <div class="btn-group" role="group" aria-label="..."> 
                                 <button type="button" class="open-editDialog btn btn-outline btn-default btn-sm" 
                                         data-toggle="modal" data-target="#editModal" data-operation="add"
-                                        th:attr="data-path=@{/admin/content/page/add}"
+                                        th:attr="data-path=@{/admin/content/news-page/add}"
                                         data-backdrop="static" data-keyboard="false">
                                   <i class="fa fa-plus-circle"></i>
                                   <span> </span>
@@ -171,28 +172,7 @@
 	      //<![CDATA[
 	           $(document).ready(function() {
     		     $("#pageDataTable").dataTable( {
-		            	"language": {
-		                   	"processing": "Подождите...",
-		                   	  "search": "Поиск:",
-		                   	  "lengthMenu": "Показать _MENU_ записей",
-		                   	  "info": "Записи с _START_ до _END_ из _TOTAL_ записей",
-		                   	  "infoEmpty": "Записи с 0 до 0 из 0 записей",
-		                   	  "infoFiltered": "(отфильтровано из _MAX_ записей)",
-		                   	  "infoPostFix": "",
-		                   	  "loadingRecords": "Загрузка записей...",
-		                   	  "zeroRecords": "Записи отсутствуют.",
-		                   	  "emptyTable:": "В таблице отсутствуют данные",
-		                   	  "paginate": {
-		                   	    "first": "Первая",
-		                   	    "previous": "Предыдущая",
-		                   	    "next": "Следующая",
-		                   	    "last": "Последняя"
-		                   	  },
-		                   	  "aria": {
-		                   	    "sortAscending": ": активировать для сортировки столбца по возрастанию",
-		                   	    "sortDescending": ": активировать для сортировки столбца по убыванию"
-		                   	  }
-		                  },
+		            	"language": dataTableI18nObject,
 		                responsive: true,
 		                ordering:  false
     				} );
@@ -238,7 +218,7 @@
 			});	            	            
 		   // ]]>
 	     </script>
-	     <th:block th:include="/admin/content/pageEdit :: scriptEditModal"></th:block>
+	     <th:block th:include="/admin/content/newsPageEdit :: scriptEditModal"></th:block>
 	     <th:block layout:fragment="scriptEditModal">
 	     </th:block>
     </th:block>

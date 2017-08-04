@@ -28,10 +28,10 @@ public abstract class AbstractGenericDAO<T extends DomainObject<UUID>> implement
 
 
     public AbstractGenericDAO() {
-        this.domainClass = (Class<T>) ((ParameterizedType) getClass()
-                                .getGenericSuperclass()).getActualTypeArguments()[0];
-      }
-	
+    	Object o = ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+        if (o instanceof Class) this.domainClass = (Class<T>) o; 
+    }
+    
      private Class<T> getDomainClass() {
 		return domainClass;
 	}
@@ -42,6 +42,10 @@ public abstract class AbstractGenericDAO<T extends DomainObject<UUID>> implement
      
 	public SessionFactory getSessionFactory() {
 		return sessionFactory;
+	}
+	
+	public void setClaszz (Class< T > clazzToSet) {
+		this.domainClass = clazzToSet;
 	}
 
 	@Override

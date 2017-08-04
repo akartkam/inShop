@@ -3,6 +3,7 @@ package com.akartkam.inShop.service.content;
 import java.util.List;
 import java.util.UUID;
 
+import com.akartkam.inShop.domain.content.NewsPage;
 import com.akartkam.inShop.domain.content.Page;
 
 public interface ContentService {
@@ -16,5 +17,6 @@ public interface ContentService {
 	void mergeWithExistingAndUpdateOrCreate(final Page page);
 	Page clonePageById(UUID id) throws CloneNotSupportedException;
 	Page loadPageById(UUID id, Boolean lock);
-
+	List<NewsPage> getAllNewsPages();
+	NewsPage getNewsPageById(UUID id);
 }

@@ -7,16 +7,29 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.akartkam.inShop.dao.content.PageDAO;
-import com.akartkam.inShop.domain.content.AbstractContent;
+import com.akartkam.inShop.dao.content.ContentDAO;
+import com.akartkam.inShop.domain.content.NewsPage;
 import com.akartkam.inShop.domain.content.Page;
 
 @Service("ContentService")
 @Transactional(readOnly = true)
 public class ContentServiceImpl implements ContentService {
 
+	private ContentDAO<Page> pageDAO;
+	private ContentDAO<NewsPage> newsPageDAO;
+	
+	
 	@Autowired
-	private PageDAO pageDAO;
+	public void setPageDAO (ContentDAO<Page> pageDAO) {
+		this.pageDAO = pageDAO;
+		this.pageDAO.setClaszz(Page.class);
+	}
+
+	@Autowired
+	public void setNewsPageDAO(ContentDAO<NewsPage> pageDAO) {
+		this.newsPageDAO = pageDAO;
+		this.newsPageDAO.setClaszz(NewsPage.class);
+	}	
 	
 	@Override
 	public Page getPageById(UUID id) {
@@ -90,6 +103,16 @@ public class ContentServiceImpl implements ContentService {
 	@Override
 	public Page loadPageById(UUID id, Boolean lock) {
 		return pageDAO.findById(id, lock);
+	}
+
+	@Override
+	public List<NewsPage> getAllNewsPages() {
+		return newsPageDAO.list();
+	}
+
+	@Override
+	public NewsPage getNewsPageById(UUID id) {
+		return newsPageDAO.get(id);
 	}	
 
 }

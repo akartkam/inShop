@@ -1,8 +1,5 @@
 package com.akartkam.inShop.controller.admin.content;
 
-import static org.springframework.web.bind.annotation.RequestMethod.GET;
-
-import java.io.File;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
@@ -22,15 +19,14 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.akartkam.inShop.domain.content.NewsPage;
 import com.akartkam.inShop.domain.content.Page;
-import com.akartkam.inShop.domain.product.Brand;
 import com.akartkam.inShop.service.content.ContentService;
 
 @Controller
-@RequestMapping("/admin/content/page")
+@RequestMapping("/admin/content")
 public class AdminContentController {
 	
 	@Autowired
@@ -45,12 +41,22 @@ public class AdminContentController {
 		return contentService.getAllPages();
 	}
 	
-	@RequestMapping(method=GET)
+	@ModelAttribute("AllNewsPages")
+	public List<NewsPage> getAllNewsPages(){
+		return contentService.getAllNewsPages();
+	}	
+	
+	@RequestMapping("/page")
 	public String page() {
 		  return "/admin/content/page"; 
 	}
 	
-    @RequestMapping("/edit")
+	@RequestMapping("/news-page")
+	public String newsPage() {
+		  return "/admin/content/newsPage"; 
+	}	
+	
+    @RequestMapping("/page/edit")
     public String pageEdit(@RequestParam(value = "ID", required = false) String pageID, Model model,
 		   				  @RequestHeader(value = "X-Requested-With", required = false) String requestedWith) {
 		if(!model.containsAttribute("page")) {
@@ -64,7 +70,21 @@ public class AdminContentController {
 	    return "/admin/content/pageEdit";		  
 	}
     
-    @RequestMapping("/add")
+    @RequestMapping("/news-page/edit")
+    public String newsPageEdit(@RequestParam(value = "ID", required = false) String pageID, Model model,
+		   				  @RequestHeader(value = "X-Requested-With", required = false) String requestedWith) {
+		if(!model.containsAttribute("page")) {
+			 if (pageID == null || "".equals(pageID)) throw new IllegalStateException("pageID in newsPageEdit was null" );
+			 NewsPage page = contentService.getNewsPageById(UUID.fromString(pageID));
+		     model.addAttribute("page", page);
+		}
+	    if ("XMLHttpRequest".equals(requestedWith)) {
+	        return "/admin/content/pageEdit :: editPageForm";
+	      }		  
+	    return "/admin/content/newsPageEdit";		  
+	}    
+    
+    @RequestMapping("/page/add")
     public String pageAdd(@RequestParam(value = "ID", required = false) String copyID, Model model,
 			                @RequestHeader(value = "X-Requested-With", required = false) String requestedWith) throws CloneNotSupportedException {
 	    Page page = null;
@@ -75,9 +95,22 @@ public class AdminContentController {
 	        return "/admin/content/pageEdit :: editPageForm";
 	      } 	      
 	    return "/admin/content/pageEdit";		  
-	}	
+	}
+    
+    @RequestMapping("/news-page/add")
+    public String newsPageAdd(@RequestParam(value = "ID", required = false) String copyID, Model model,
+			                @RequestHeader(value = "X-Requested-With", required = false) String requestedWith) throws CloneNotSupportedException {
+	    Page page = null;
+	    if (copyID != null && !"".equals(copyID)) page = contentService.clonePageById(UUID.fromString(copyID)); 
+	    else page = new Page();
+        model.addAttribute("page", page);
+	    if ("XMLHttpRequest".equals(requestedWith)) {
+	        return "/admin/content/pageEdit :: editPageForm";
+	      } 	      
+	    return "/admin/content/pageEdit";		  
+	}    
 
-    @RequestMapping(value="/delete", method = RequestMethod.POST)
+    @RequestMapping(value="/page/delete", method = RequestMethod.POST)
 	public String pageDelete(@RequestParam(value = "ID", required = false) String ID, 
 	                          @RequestParam(value = "phisycalDelete", required = false) Boolean phisycalDelete,
 				              final RedirectAttributes ra) {
@@ -97,7 +130,7 @@ public class AdminContentController {
         return "redirect:/admin/content/page";		  
 	}    
 
-    @RequestMapping(value="/edit", method = RequestMethod.POST )
+    @RequestMapping(value="/page/edit", method = RequestMethod.POST )
     public String pageBrand(@ModelAttribute @Valid Page page,
 		                   final BindingResult bindingResult,
 		                   final RedirectAttributes ra
