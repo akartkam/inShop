@@ -19,4 +19,6 @@ public interface ContentService {
 	Page loadPageById(UUID id, Boolean lock);
 	List<NewsPage> getAllNewsPages();
 	NewsPage getNewsPageById(UUID id);
+	NewsPage cloneNewsPageById(UUID id) throws CloneNotSupportedException;
+
 }

@@ -2,6 +2,7 @@ eclipse.preferences.version=1
 encoding//src/main/java/com/akartkam/inShop/app/Common.java=UTF-8
 encoding//src/main/java/com/akartkam/inShop/app/DiffSums.java=UTF-8
 encoding//src/main/java/com/akartkam/inShop/controller/admin/InstructionController.java=UTF-8
+encoding//src/main/java/com/akartkam/inShop/controller/admin/content/AdminContentController.java=UTF-8
 encoding//src/main/java/com/akartkam/inShop/controller/admin/product/AdminCategoryController.java=UTF-8
 encoding//src/main/java/com/akartkam/inShop/controller/admin/product/AdminProductController.java=UTF-8
 encoding//src/main/java/com/akartkam/inShop/controller/admin/product/attribute/AdminAttributeCategoryController.java=UTF-8

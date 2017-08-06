@@ -87,14 +87,14 @@ public class AdminContentController {
     @RequestMapping("/page/add")
     public String pageAdd(@RequestParam(value = "ID", required = false) String copyID, Model model,
 			                @RequestHeader(value = "X-Requested-With", required = false) String requestedWith) throws CloneNotSupportedException {
-	    Page page = null;
-	    if (copyID != null && !"".equals(copyID)) page = contentService.clonePageById(UUID.fromString(copyID)); 
-	    else page = new Page();
+	    NewsPage page = null;
+	    if (copyID != null && !"".equals(copyID)) page = contentService.cloneNewsPageById(UUID.fromString(copyID)); 
+	    else page = new NewsPage();
         model.addAttribute("page", page);
 	    if ("XMLHttpRequest".equals(requestedWith)) {
 	        return "/admin/content/pageEdit :: editPageForm";
 	      } 	      
-	    return "/admin/content/pageEdit";		  
+	    return "/admin/content/newsPageEdit";		  
 	}
     
     @RequestMapping("/news-page/add")

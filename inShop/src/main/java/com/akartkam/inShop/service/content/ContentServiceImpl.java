@@ -113,6 +113,13 @@ public class ContentServiceImpl implements ContentService {
 	@Override
 	public NewsPage getNewsPageById(UUID id) {
 		return newsPageDAO.get(id);
+	}
+
+	@Override
+	public NewsPage cloneNewsPageById(UUID id) throws CloneNotSupportedException {
+		NewsPage clonedPage = getNewsPageById(id);
+		if (clonedPage == null) return null;
+		return clonedPage.clone();
 	}	
 
 }
