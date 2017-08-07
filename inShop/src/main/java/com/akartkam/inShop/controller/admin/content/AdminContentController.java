@@ -1,6 +1,8 @@
 package com.akartkam.inShop.controller.admin.content;
 
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -87,20 +89,7 @@ public class AdminContentController {
     @RequestMapping("/page/add")
     public String pageAdd(@RequestParam(value = "ID", required = false) String copyID, Model model,
 			                @RequestHeader(value = "X-Requested-With", required = false) String requestedWith) throws CloneNotSupportedException {
-	    NewsPage page = null;
-	    if (copyID != null && !"".equals(copyID)) page = contentService.cloneNewsPageById(UUID.fromString(copyID)); 
-	    else page = new NewsPage();
-        model.addAttribute("page", page);
-	    if ("XMLHttpRequest".equals(requestedWith)) {
-	        return "/admin/content/pageEdit :: editPageForm";
-	      } 	      
-	    return "/admin/content/newsPageEdit";		  
-	}
-    
-    @RequestMapping("/news-page/add")
-    public String newsPageAdd(@RequestParam(value = "ID", required = false) String copyID, Model model,
-			                @RequestHeader(value = "X-Requested-With", required = false) String requestedWith) throws CloneNotSupportedException {
-	    Page page = null;
+    	Page page = null;
 	    if (copyID != null && !"".equals(copyID)) page = contentService.clonePageById(UUID.fromString(copyID)); 
 	    else page = new Page();
         model.addAttribute("page", page);
@@ -108,6 +97,19 @@ public class AdminContentController {
 	        return "/admin/content/pageEdit :: editPageForm";
 	      } 	      
 	    return "/admin/content/pageEdit";		  
+	}
+    
+    @RequestMapping("/news-page/add")
+    public String newsPageAdd(@RequestParam(value = "ID", required = false) String copyID, Model model,
+			                @RequestHeader(value = "X-Requested-With", required = false) String requestedWith) throws CloneNotSupportedException {
+    	NewsPage page = null;
+	    if (copyID != null && !"".equals(copyID)) page = contentService.cloneNewsPageById(UUID.fromString(copyID)); 
+	    else page = new NewsPage();
+        model.addAttribute("page", page);
+	    if ("XMLHttpRequest".equals(requestedWith)) {
+	        return "/admin/content/pageEdit :: editPageForm";
+	      } 	      
+	    return "/admin/content/newsPageEdit";		  
 	}    
 
     @RequestMapping(value="/page/delete", method = RequestMethod.POST)
@@ -117,7 +119,7 @@ public class AdminContentController {
 		  Collection<? extends GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
 		  if (phisycalDelete != null && phisycalDelete)  {
 			  Page page = contentService.loadPageById(UUID.fromString(ID), false);
-			  if(page.canRemove() && authorities.contains(new SimpleGrantedAuthority("ADMIN"))) {
+			  if(page.canRemove() && !Collections.disjoint(authorities, Arrays.asList(new SimpleGrantedAuthority("ADMIN"), new SimpleGrantedAuthority("MANAGER")))) {
 				  contentService.deletePage(page);   
 			  } else {
 				  ra.addFlashAttribute("errormessage", this.messageSource.getMessage("admin.error.cannotdelete.message", new String[] {"страницу"} , null));
@@ -130,6 +132,27 @@ public class AdminContentController {
         return "redirect:/admin/content/page";		  
 	}    
 
+    @RequestMapping(value="/news-page/delete", method = RequestMethod.POST)
+	public String newsPageDelete(@RequestParam(value = "ID", required = false) String ID, 
+	                          @RequestParam(value = "phisycalDelete", required = false) Boolean phisycalDelete,
+				              final RedirectAttributes ra) {
+		  Collection<? extends GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+		  if (phisycalDelete != null && phisycalDelete)  {
+			  NewsPage page = contentService.loadNewsPageById(UUID.fromString(ID), false);
+			  if(page.canRemove() && authorities.contains(new SimpleGrantedAuthority("ADMIN"))) {
+				  contentService.deleteNewsPage(page);   
+			  } else {
+				  ra.addFlashAttribute("errormessage", this.messageSource.getMessage("admin.error.cannotdelete.message", new String[] {"страницу"} , null));
+				  ra.addAttribute("error", true);
+			  }
+
+		  } else {
+			  contentService.softDeleteNewsPageById(UUID.fromString(ID));
+		  }
+        return "redirect:/admin/content/news-page";		  
+	}    
+
+    
     @RequestMapping(value="/page/edit", method = RequestMethod.POST )
     public String pageBrand(@ModelAttribute @Valid Page page,
 		                   final BindingResult bindingResult,

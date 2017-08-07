@@ -4,9 +4,12 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name = "News_page")
@@ -27,7 +30,11 @@ public class NewsPage extends AbstractContent {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	@Column(name = "submit_date")
+
+	@NotNull
+    @DateTimeFormat(pattern="${date.formatshort}")
+    @Column(name = "submit_date")
+    @Past	
 	public DateTime getSubmitDate() {
 		return submitDate;
 	}

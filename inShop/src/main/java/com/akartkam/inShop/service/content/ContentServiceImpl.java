@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.akartkam.inShop.dao.content.ContentDAO;
+import com.akartkam.inShop.domain.content.AbstractContent;
 import com.akartkam.inShop.domain.content.NewsPage;
 import com.akartkam.inShop.domain.content.Page;
 
@@ -37,8 +38,10 @@ public class ContentServiceImpl implements ContentService {
 	}
 	
 	@Override
-	public Page createPage(Page page) {
-		return pageDAO.create(page);
+	public AbstractContent createPage(AbstractContent page) {
+		if (page instanceof Page) return pageDAO.create((Page)page);
+		if (page instanceof NewsPage) return newsPageDAO.create((NewsPage)page);
+		throw new IllegalArgumentException("Bad argument in createPage");
 	}
 
 	@Override
@@ -74,9 +77,9 @@ public class ContentServiceImpl implements ContentService {
 
 	@Override
 	@Transactional(readOnly = false)
-	public void mergeWithExistingAndUpdateOrCreate(Page page) {
+	public void mergeWithExistingAndUpdateOrCreate(AbstractContent page) {
 		if (page == null) return;
-		Page exPage = getPageById(page.getId());
+		AbstractContent exPage = getPageById(page);
 		page.buildFullLink(page.getUrlForForm());
 		if (exPage != null) {
 			exPage.setName(page.getName());
@@ -87,10 +90,18 @@ public class ContentServiceImpl implements ContentService {
 			exPage.setMetaDescription(page.getMetaDescription());
 			exPage.setMetaKeywords(page.getMetaKeywords());
 			exPage.setMetaTitle(page.getMetaTitle());
+			setPageProps(page, exPage);
 		} else {
 			createPage(page);
 		}
 
+	}
+	
+	private void setPageProps(AbstractContent page, AbstractContent exPage) {
+		if (page instanceof NewsPage && exPage instanceof NewsPage) {
+			((NewsPage)exPage).setDescription(((NewsPage)page).getDescription());
+			((NewsPage)exPage).setSubmitDate(((NewsPage)page).getSubmitDate());
+		}
 	}
 	
 	@Override
@@ -120,6 +131,34 @@ public class ContentServiceImpl implements ContentService {
 		NewsPage clonedPage = getNewsPageById(id);
 		if (clonedPage == null) return null;
 		return clonedPage.clone();
+	}
+
+	@Override
+	public NewsPage loadNewsPageById(UUID id, Boolean lock) {
+		return newsPageDAO.findById(id, lock);
+	}
+
+	@Override
+	@Transactional(readOnly = false)
+	public void deleteNewsPage(NewsPage page) {
+		newsPageDAO.delete(page);
+	}
+
+	@Override
+	@Transactional(readOnly = false)
+	public void softDeleteNewsPageById(UUID id) {
+		NewsPage page = loadNewsPageById(id, false);
+		if (page != null) {
+			page.setEnabled(false);
+		}
+		
+	}
+
+	@Override
+	public AbstractContent getPageById(AbstractContent page) {
+		if (page instanceof Page) return pageDAO.get(page.getId());
+		if (page instanceof NewsPage) return newsPageDAO.get(page.getId());
+		return null;
 	}	
 
 }
