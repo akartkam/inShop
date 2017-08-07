@@ -195,7 +195,14 @@
 	                    }).done(function (html) {
 	                                $("#editModalContent").append(html);
 	                                $("#editModal").data("allowed","false");
-	                                $('#summernote').summernote(summernoteObject);
+	                                $('.summernote').summernote(summernoteObject);
+	                                $("#page-submit-date-input").pickmeup_twitter_bootstrap({
+	                            	 	locale		   : "ru",
+	                            	  	format         : 'd.m.Y',
+	                            	  	position       : "right",
+	                            	 	date			 : $("#page-submit-date-input").val(),
+	                            	  	hide_on_select : true
+	                            	  });	                                
 	        	                    $("#name").focus();
 	                    });
 					}  

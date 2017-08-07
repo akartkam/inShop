@@ -81,7 +81,7 @@ public class AdminContentController {
 		     model.addAttribute("page", page);
 		}
 	    if ("XMLHttpRequest".equals(requestedWith)) {
-	        return "/admin/content/pageEdit :: editPageForm";
+	        return "/admin/content/newsPageEdit :: editPageForm";
 	      }		  
 	    return "/admin/content/newsPageEdit";		  
 	}    
@@ -107,7 +107,7 @@ public class AdminContentController {
 	    else page = new NewsPage();
         model.addAttribute("page", page);
 	    if ("XMLHttpRequest".equals(requestedWith)) {
-	        return "/admin/content/pageEdit :: editPageForm";
+	        return "/admin/content/newsPageEdit :: editPageForm";
 	      } 	      
 	    return "/admin/content/newsPageEdit";		  
 	}    
@@ -166,5 +166,19 @@ public class AdminContentController {
         contentService.mergeWithExistingAndUpdateOrCreate(page);	        
         return "redirect:/admin/content/page";
      }
+    
+    @RequestMapping(value="/news-page/edit", method = RequestMethod.POST )
+    public String newsPageBrand(@ModelAttribute @Valid NewsPage page,
+		                   final BindingResult bindingResult,
+		                   final RedirectAttributes ra
+		                         ) {
+        if (bindingResult.hasErrors()) {
+        	ra.addFlashAttribute("page", page);
+        	ra.addFlashAttribute("org.springframework.validation.BindingResult.page", bindingResult);
+            return "redirect:/admin/content/news-page/edit";
+        }
+        contentService.mergeWithExistingAndUpdateOrCreate(page);	        
+        return "redirect:/admin/content/news-page";
+     }    
     
 }

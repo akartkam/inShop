@@ -77,22 +77,27 @@
 				    		  <label>
 					    	  	 <span th:text="#{admin.date.submit}">Date</span>
 					   		  </label>
-						      <div class="input-group">                              
-						   		  <input type="text" class="form-control" th:field="*{pg.submitDate}"/>
-						   		  <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('submitDate')}" th:errors="*{submitDate}">Incorrect Date</p>
+						      <div class="input-group">
+					      		 <div class="input-group date">
+				                    <input type="text" class="form-control" id="page-submit-date-input" name="submitDate" th:field="*{{submitDate}}"/>
+				                    <span class="input-group-addon">
+				                        <span class="fa fa-calendar"></span>
+				                    </span>						                
+				                 </div>                              
+						   		 <p class="text-danger" style="font-size: 8pt;" th:if="${#fields.hasErrors('submitDate')}" th:errors="*{submitDate}">Incorrect Date</p>
 						      </div>
 				   		   </div>
   						   <div class="field-box">
 	 			    		   <label>
 					    	  	<span th:text="#{admin.content.page.precontent}">Pre Description Page1</span>
 					   		   </label>
-						       <textarea id="summernote" class="textarea form-control" placeholder="Введите предварительный контент страницы..." th:field="*{description}"></textarea>
+						       <textarea class="textarea form-control summernote" placeholder="Введите предварительный контент страницы..." th:field="*{description}"></textarea>
   						   </div>
   						   <div class="field-box">
 	 			    		   <label>
 					    	  	<span th:text="#{admin.content.page.content}">Long Description Page1</span>
 					   		   </label>
-						       <textarea id="summernote" class="textarea form-control" placeholder="Введите контент страницы..." th:field="*{longDescription}"></textarea>
+						       <textarea class="textarea form-control summernote" placeholder="Введите контент страницы..." th:field="*{longDescription}"></textarea>
   						   </div>
 	             		</div>
 	                    <div class="tab-pane fade" id="additional">
@@ -167,7 +172,14 @@
 		    		    backdrop: 'static',
 		    		    keyboard: false
 		    		});
-		    	 $('#summernote').summernote(summernoteObject);
+                 $("#page-submit-date-input").pickmeup_twitter_bootstrap({
+                	 	locale		   : "ru",
+                	  	format         : 'd.m.Y',
+                	  	position       : "right",
+                	 	date			 : $("#page-submit-date-input").val(),
+                	  	hide_on_select : true
+                	  });		    	 
+		    	 $('.summernote').summernote(summernoteObject);
 			 });
 		   </script>
 		 </th:block>  
