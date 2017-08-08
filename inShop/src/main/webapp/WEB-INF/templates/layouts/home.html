@@ -41,7 +41,7 @@
 						<div class="container-fluid">
 							<div class="row">
 								<div class="col-md-12">
-									<div class="main-page-product">
+									<div class="main-page-carusel">
 										<h2 class="section-title" th:utext="#{product.status.hits}">Лидеры продаж!</h2>
 										<div class="product-carousel">
 										  <th:block th:each="product : ${hitProducts}" th:object="${product}" th:include="catalog/partials/smallSingleProduct">
@@ -52,7 +52,7 @@
 							</div>
 							<div class="row">
 								<div class="col-md-12">
-									<div class="main-page-product">
+									<div class="main-page-carusel">
 										<h2 class="section-title">Акции!</h2>
 										<div class="product-carousel">
 										  <th:block th:each="product : ${actionProducts}" th:object="${product}" th:include="catalog/partials/smallSingleProduct">
@@ -63,7 +63,7 @@
 							</div>	
 							<div class="row" th:if="${!#lists.isEmpty(news)}">
 							    <div class="col-md-12">
-							        <div class="main-page-small-blog">
+							        <div class="main-page-carusel">
 										<h2 class="section-title">Новости</h2>
 										<div class="blog-carousel">
 										  <th:block th:each="newsBlock : ${news}" th:object="${newsBlock}" th:include="content/partials/newsSmallblock">
@@ -75,16 +75,13 @@
 							<div class="row">
 								<div class="col-md-12">
 									<div class="brands-area">
-										<div class="zigzag-bottom"></div>
-										<div class="container-fluid">
-											<div class="row">
-												<div class="col-md-12">
-													<div class="brand-wrapper">
-														<div class="brand-list">
-															<a th:each="brand : ${brands}" aid:phref="${brand}"> 
-																<img th:src="@{${brand.logoUrl}}" th:alt="${brand.name}"/>
-															</a> 
-														</div>
+										<div class="row">
+											<div class="col-md-12">
+												<div class="main-page-carusel">
+													<div class="brand-list">
+														<a th:each="brand : ${brands}" aid:phref="${brand}"> 
+															<img th:src="@{${brand.logoUrl}}" th:alt="${brand.name}"/>
+														</a> 
 													</div>
 												</div>
 											</div>
