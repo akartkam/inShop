@@ -1,14 +1,8 @@
 package com.akartkam.inShop.controller;
 
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-import java.text.NumberFormat;
-import java.util.Currency;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
-import java.util.UUID;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -20,15 +14,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.AbstractController;
 
 import com.akartkam.inShop.domain.product.Brand;
-import com.akartkam.inShop.domain.product.Category;
 import com.akartkam.inShop.domain.product.Product;
 import com.akartkam.inShop.domain.product.ProductStatus;
-import com.akartkam.inShop.service.product.BrandService;
-import com.akartkam.inShop.service.product.CategoryService;
-import com.akartkam.inShop.service.product.ProductService;
+import com.akartkam.inShop.service.content.ContentService;
 import com.akartkam.inShop.util.CartUtil;
 
 
@@ -37,7 +27,9 @@ public class MainController extends WebEntityAbstractController {
 	
 	private static final Log LOG = LogFactory.getLog(MainController.class);
 
-
+	@Autowired
+	private ContentService contentService;
+	
 	@Resource
 	@Qualifier("mainSliderBanner")
 	private Map<String, Properties> mainSliderBanner;
@@ -58,6 +50,7 @@ public class MainController extends WebEntityAbstractController {
 		model.addObject("actionProducts", actionProducts);
 		model.addObject("brands", brands);
 		model.addObject("mainSliderBanner", mainSliderBanner);
+		model.addObject("news", contentService.getActualNewsPages());
 		CartUtil.getCartFromSession(request);
 		
 		return model;

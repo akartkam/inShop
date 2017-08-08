@@ -1,0 +1,12 @@
+<article class="small-blog">
+		<time class="small-blog-date" th:datetime="${newsBlock.submitDate}" th:text="${{newsBlock.submitDate}}"></time>
+		<div class="small-blog-title">
+	        <a class="small-blog-title-ref" th:href="@{${newsBlock.url}}"><span th:text="${newsBlock.name}"></span></a>
+	    </div>
+	    <div class="small-blog-desc" th:if="${!#strings.isEmpty(newsBlock.description)}">
+	        <span th:utext="${newsBlock.description}"></span>
+	    </div>
+	    <div class="small-blog-readmore"> 
+	    	<a th:href="@{${newsBlock.url}}" th:text="#{blog.readmore}"></a>
+	    </div>
+</article>

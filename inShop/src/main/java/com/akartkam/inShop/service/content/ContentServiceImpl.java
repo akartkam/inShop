@@ -3,6 +3,8 @@ package com.akartkam.inShop.service.content;
 import java.util.List;
 import java.util.UUID;
 
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.Predicate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -159,6 +161,17 @@ public class ContentServiceImpl implements ContentService {
 		if (page instanceof Page) return pageDAO.get(page.getId());
 		if (page instanceof NewsPage) return newsPageDAO.get(page.getId());
 		return null;
+	}
+
+	@Override
+	public List<NewsPage> getActualNewsPages() {
+		List<NewsPage> all = getAllNewsPages();
+		CollectionUtils.filter(all, new Predicate<NewsPage>() {
+			public boolean evaluate(NewsPage object){
+				return object.isEnabled(); 
+			}
+		} );
+		return all;
 	}	
 
 }

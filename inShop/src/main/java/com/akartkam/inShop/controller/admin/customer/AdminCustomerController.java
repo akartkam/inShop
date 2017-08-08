@@ -9,11 +9,13 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import java.util.UUID;
+
 
 
 
@@ -154,7 +156,7 @@ public class AdminCustomerController {
 		  Collection<? extends GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
 		  if (phisycalDelete != null && phisycalDelete)  {
 			  Customer customer = customerService.loadCustomerById(UUID.fromString(ID), false);
-			  if(customer.canRemove() && authorities.containsAll(Arrays.asList(new SimpleGrantedAuthority("ADMIN"), new SimpleGrantedAuthority("MANAGER")))) {
+			  if(customer.canRemove() && !Collections.disjoint(authorities, Arrays.asList(new SimpleGrantedAuthority("ADMIN"), new SimpleGrantedAuthority("MANAGER")))) {
 				  customerService.deleteCustomer(customer);   
 			  } else {
 				  ra.addFlashAttribute("errormessage", this.messageSource.getMessage("admin.error.cannotdelete.message", new String[] {"����������"} , null));

@@ -750,7 +750,7 @@ position: relative
 	height: auto;
 }
 
-.main-page-product .owl-nav {
+.main-page-product .owl-nav, .main-page-small-blog .owl-nav{
   position: absolute;
   right: 0;
   top: 0;
@@ -1750,4 +1750,34 @@ span.amount{
     color: inherit;
     text-decoration: none;
     cursor: pointer;
+}
+
+.small-blog-date {
+    display: block;
+    color: #9aa1a9;
+    padding-bottom: 3px;
+}
+
+.small-blog-title {
+    font-size: 1.3em;
+}
+
+.small-blog-desc {
+	line-height: 1.5;
+    padding-top: 5px;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;    
+}
+
+.small-blog-readmore {
+    margin-top: 5px;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.small-blog-readmore:after {
+    content: '...';
+    /*margin-left: 5px;*/
 }
