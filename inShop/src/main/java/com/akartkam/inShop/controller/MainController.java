@@ -1,5 +1,7 @@
 package com.akartkam.inShop.controller;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -15,6 +17,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.akartkam.inShop.domain.content.NewsPage;
 import com.akartkam.inShop.domain.product.Brand;
 import com.akartkam.inShop.domain.product.Product;
 import com.akartkam.inShop.domain.product.ProductStatus;
@@ -50,7 +53,14 @@ public class MainController extends WebEntityAbstractController {
 		model.addObject("actionProducts", actionProducts);
 		model.addObject("brands", brands);
 		model.addObject("mainSliderBanner", mainSliderBanner);
-		model.addObject("news", contentService.getActualNewsPages());
+		List <NewsPage> ln = contentService.getActualNewsPages();
+		Collections.sort(ln, new Comparator<NewsPage>(){
+			@Override
+			public int compare(NewsPage o1, NewsPage o2) {
+				return o2.getSubmitDate().compareTo(o1.getSubmitDate());
+			}			
+		});
+		model.addObject("news", ln);
 		CartUtil.getCartFromSession(request);
 		
 		return model;

@@ -2,6 +2,7 @@ package com.akartkam.inShop.domain.content;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;

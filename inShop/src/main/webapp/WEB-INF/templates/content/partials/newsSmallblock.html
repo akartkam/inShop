@@ -3,10 +3,10 @@
 		<div class="small-blog-title">
 	        <a class="small-blog-title-ref" th:href="@{${newsBlock.url}}"><span th:text="${newsBlock.name}"></span></a>
 	    </div>
-	    <th:block th:if="${!#strings.isEmpty(newsBlock.description)"}>
+	    <th:block th:if="${!#strings.isEmpty(newsBlock.description)}">
 		    <div class="small-blog-desc">
 		        <span th:utext="${newsBlock.description}"></span>
 		    </div>
-		    <a class="small-blog-readmore" th:href="@{${newsBlock.url}}" th:text="#{blog.readmore}"></a>
+		    <a th:if="${false}" class="small-blog-readmore" th:href="@{${newsBlock.url}}" th:text="#{blog.readmore}"></a>
 	    </th:block>
 </article>
