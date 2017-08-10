@@ -20,8 +20,6 @@ public class PageController extends WebEntityAbstractController {
 	@Value("#{entityUrlPrefixes.getProperty(T(com.akartkam.inShop.util.Constants).PAGE_CLASS)}")
 	private String pagePrefix;
 	
-	@Autowired
-	private ContentService contentService;
 	
 	@Autowired
 	private ServletContext servletContext;	

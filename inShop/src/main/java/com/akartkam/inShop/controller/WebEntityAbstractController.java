@@ -10,6 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
 
 import com.akartkam.inShop.domain.product.Category;
+import com.akartkam.inShop.service.content.ContentService;
 import com.akartkam.inShop.service.product.BrandService;
 import com.akartkam.inShop.service.product.CategoryService;
 import com.akartkam.inShop.service.product.ProductService;
@@ -23,6 +24,9 @@ public abstract class WebEntityAbstractController extends AbstractController {
 	
 	@Autowired
 	protected BrandService brandService;
+	
+	@Autowired
+	protected ContentService contentService;
 	
 	protected ModelAndView model = new ModelAndView();
 	

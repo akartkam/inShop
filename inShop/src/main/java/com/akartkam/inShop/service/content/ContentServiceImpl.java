@@ -1,5 +1,7 @@
 package com.akartkam.inShop.service.content;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 
@@ -171,6 +173,12 @@ public class ContentServiceImpl implements ContentService {
 				return object.isEnabled(); 
 			}
 		} );
+		Collections.sort(all, new Comparator<NewsPage>(){
+			@Override
+			public int compare(NewsPage o1, NewsPage o2) {
+				return o2.getSubmitDate().compareTo(o1.getSubmitDate());
+			}			
+		});		
 		return all;
 	}	
 

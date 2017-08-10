@@ -30,9 +30,7 @@ public class MainController extends WebEntityAbstractController {
 	
 	private static final Log LOG = LogFactory.getLog(MainController.class);
 
-	@Autowired
-	private ContentService contentService;
-	
+
 	@Resource
 	@Qualifier("mainSliderBanner")
 	private Map<String, Properties> mainSliderBanner;
@@ -54,12 +52,6 @@ public class MainController extends WebEntityAbstractController {
 		model.addObject("brands", brands);
 		model.addObject("mainSliderBanner", mainSliderBanner);
 		List <NewsPage> ln = contentService.getActualNewsPages();
-		Collections.sort(ln, new Comparator<NewsPage>(){
-			@Override
-			public int compare(NewsPage o1, NewsPage o2) {
-				return o2.getSubmitDate().compareTo(o1.getSubmitDate());
-			}			
-		});
 		model.addObject("news", ln);
 		CartUtil.getCartFromSession(request);
 		

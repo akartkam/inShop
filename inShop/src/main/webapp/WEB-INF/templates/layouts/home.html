@@ -64,7 +64,7 @@
 							<div class="row" th:if="${!#lists.isEmpty(news)}">
 							    <div class="col-md-12">
 							        <div class="main-page-carusel">
-										<h2 class="section-title">Новости</h2>
+										<h2 class="section-title"><span>Новости</span><a class="main-page-view-all-link" th:href="@{/news-list}">Смотреть все</a></h2>
 										<div class="blog-carousel">
 										  <th:block th:each="newsBlock : ${news}" th:object="${newsBlock}" th:include="content/partials/newsSmallblock">
 										  </th:block >										
