@@ -1778,3 +1778,16 @@ span.amount{
 	font-size: 1.4rem;
 	padding-left: 10px;
 }
+
+.blog-page-title {
+    font-size: 2rem;
+    line-height: 1.1;
+    color: black;
+	display: inline-block;
+    padding-bottom: 8px;
+    padding-right: 6px;
+}
+
+.blog-page-content {
+	padding-bottom: 50px;
+}

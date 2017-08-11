@@ -114,6 +114,7 @@
  				<prop key="#{T(com.akartkam.inShop.util.Constants).CATEGORY_CLASS}">category</prop>
  				<prop key="#{T(com.akartkam.inShop.util.Constants).BRAND_CLASS}">brand</prop>
  				<prop key="#{T(com.akartkam.inShop.util.Constants).PAGE_CLASS}">page</prop>
+ 				<prop key="#{T(com.akartkam.inShop.util.Constants).NEWS_CLASS}">news-page</prop>
  			</props>
  		</constructor-arg>
  	</bean>

@@ -26,4 +26,5 @@ public interface ContentService {
 	void deleteNewsPage(NewsPage page);
 	void softDeleteNewsPageById(UUID id);
 	AbstractContent getPageById(AbstractContent page);
+	NewsPage getNewsPageByUrl(String url);
 }

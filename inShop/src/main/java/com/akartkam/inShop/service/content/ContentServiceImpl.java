@@ -180,6 +180,11 @@ public class ContentServiceImpl implements ContentService {
 			}			
 		});		
 		return all;
+	}
+
+	@Override
+	public NewsPage getNewsPageByUrl(String url) {
+		return newsPageDAO.findByUrl(url);
 	}	
 
 }

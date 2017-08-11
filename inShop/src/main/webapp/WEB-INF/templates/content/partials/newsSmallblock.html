@@ -1,7 +1,9 @@
 <article class="small-blog">
 		<time class="small-blog-date" th:datetime="${newsBlock.submitDate}" th:text="${{newsBlock.submitDate}}"></time>
 		<div class="small-blog-title">
-	        <a class="small-blog-title-ref" th:href="@{${newsBlock.url}}"><span th:text="${newsBlock.name}"></span></a>
+	        <a class="small-blog-title-ref" 
+	           th:href="@{${'/'+beans.entityUrlPrefixes.getProperty('__${T(com.akartkam.inShop.util.Constants).NEWS_CLASS}__')+newsBlock.url}}">
+	        <span th:text="${newsBlock.name}"></span></a>
 	    </div>
 	    <th:block th:if="${!#strings.isEmpty(newsBlock.description)}">
 		    <div class="small-blog-desc">

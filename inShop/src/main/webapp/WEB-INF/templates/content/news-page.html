@@ -1,0 +1,23 @@
+<th:block layout:decorator="layouts/fullPageLayout">
+	<head>
+		<th:block th:fragment="meta" th:remove="all">
+			<meta name="description" th:if="${!#strings.isEmpty(page.metaDescription)}" th:content="${page.metaDescription}"/>
+			<meta name="keywords" th:if="${!#strings.isEmpty(page.metaKeywords)}" th:content="${page.metaKeywords}"/>
+		</th:block>
+        <title th:utext="${page.name}"></title>
+    </head>
+    <div layout:fragment="content">
+ 		 <ol class="breadcrumb">
+  			<li><a th:href="@{/}"><span th:utext="#{mainMenu.main}">Главная</span></a></li>
+  			<li><a th:href="@{/news-list}"><span th:utext="#{content.newsPages}">Новости</span></a></li>
+  			<li class="active">
+  				<span  th:utext="${page.name}"></span>
+  			</li>
+		</ol> 
+		<div calss="blog-page-header">
+			<h1 class="blog-page-title" th:text="${page.name}"></h1>
+		</div>
+		<div class="blog-page-content" th:utext="${page.longDescription}">
+		</div>
+    </div>
+</th:block>    
