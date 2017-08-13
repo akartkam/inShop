@@ -82,6 +82,7 @@
 
 .page-description{
 	position: relative;
+	background: #fbfbfb;
 	border-top: 1px solid #e5e5e5;;
 	padding: 0px 15px 40px 15px;
 }
@@ -198,7 +199,7 @@ h6 {
     margin: 0 0 15px;
 }
 /*body { font-family:Arial, Helvetica, sans-serif; }*/
-body { font-family: Open Sans, Arial, Helvetica, sans-serif;}
+body { font-family: Open Sans, Arial, Helvetica, sans-serif; color: #000 !important;}
 
 position: relative
 .header-area {
@@ -528,6 +529,7 @@ position: relative
 }
 
 .promo-area {
+  background:#fbfbfb;	
   color: #fff;
   padding: 40px 0 40px;
 }
@@ -673,7 +675,7 @@ position: relative
 
 
 .single-product h2 a {
-    color: #222;
+    color: #000;
 }
 .single-product p {
     color: #5a88ca;
@@ -1332,7 +1334,11 @@ div.cart-collaterals ul.products li.product .price ins {
     margin-bottom: 50px;
     padding: 15px;
 }
-
+#order_review_heading {
+    color: #fead53;
+    font-size: 20px;
+    text-transform: uppercase;
+}
 #payment ul.payment_methods {
     list-style: outside none none;
     margin: 0 0 30px;
@@ -1596,7 +1602,7 @@ div.product-options h3{
 span[class*="error"] {
     color: #e74c3e;
     font-weight: bold;
-    font-size: small;
+    font-size: xx-small;
     display: inline-block;
 }
 
