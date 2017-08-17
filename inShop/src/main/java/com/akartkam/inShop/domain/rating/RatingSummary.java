@@ -18,7 +18,6 @@ import com.akartkam.inShop.domain.AbstractDomainObject;
 
 @Entity
 @Table(name = "Rating_summary")
-//@Cache(region = "Rating_summary", usage = CacheConcurrencyStrategy.READ_WRITE)
 public class RatingSummary extends AbstractDomainObject {
 
 	/**
