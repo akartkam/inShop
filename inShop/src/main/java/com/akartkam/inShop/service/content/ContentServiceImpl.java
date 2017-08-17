@@ -173,12 +173,13 @@ public class ContentServiceImpl implements ContentService {
 				return object.isEnabled(); 
 			}
 		} );
-		Collections.sort(all, new Comparator<NewsPage>(){
+		/*Collections.sort(all, new Comparator<NewsPage>(){
 			@Override
 			public int compare(NewsPage o1, NewsPage o2) {
 				return o2.getSubmitDate().compareTo(o1.getSubmitDate());
 			}			
-		});		
+		});*/
+		Collections.sort(all);
 		return all;
 	}
 

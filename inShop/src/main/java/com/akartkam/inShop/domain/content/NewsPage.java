@@ -12,6 +12,8 @@ import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.akartkam.inShop.domain.AbstractDomainObjectOrdering;
+
 @Entity
 @Table(name = "News_page")
 public class NewsPage extends AbstractContent {
@@ -49,5 +51,15 @@ public class NewsPage extends AbstractContent {
 		NewsPage page = (NewsPage) super.clone();
 		return page;
 	}
+	
+	@Override
+	public int compareTo(AbstractDomainObjectOrdering obj) {
+		if (obj instanceof NewsPage) {
+			NewsPage npObj =  (NewsPage) obj;
+			return npObj.getSubmitDate().compareTo(this.getSubmitDate());
+		} else {
+			return super.compareTo(obj); 
+		}
+	}	
 	
 }
