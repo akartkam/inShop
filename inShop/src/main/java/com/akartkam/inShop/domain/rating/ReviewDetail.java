@@ -9,11 +9,24 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Index;
+import org.hibernate.annotations.NamedNativeQueries;
+import org.hibernate.annotations.NamedNativeQuery;
 import org.hibernate.validator.constraints.Email;
 import org.joda.time.DateTime;
 
 import com.akartkam.inShop.domain.AbstractDomainObject;
+import com.akartkam.inShop.domain.Instruction;
 import com.akartkam.inShop.domain.customer.Customer;
+
+@NamedNativeQueries({
+@NamedNativeQuery(
+		name = "findCommonReviewDetails",
+		query = "select rd.* from review_detail rd, rating_summary rs " + 
+				" where rs.rating_type='COMMON' and " +
+				" rs.id=rd.rating_summary_id and " +
+                " rd.review_status='APPROVED' ", resultClass=ReviewDetail.class),  
+})
+
 
 @Entity
 @Table(name = "Review_detail")
@@ -117,7 +130,7 @@ public class ReviewDetail extends AbstractDomainObject {
 	}
 
 	public void setName(String name) {
-		name = name;
+		this.name = name;
 	}
 
 	@Email
