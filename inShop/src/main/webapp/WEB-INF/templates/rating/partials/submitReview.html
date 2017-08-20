@@ -1,0 +1,41 @@
+<div class="submit-review-block">
+	<h2 th:text="#{raiting.submitReview}"></h2>
+	<div class="submit-review">
+	   <form th:action="@{/submit-review}" class="form-horizontal" th:object="${reviewDetail}">
+	       <div class="form-group">
+	       		<label class="col-sm-1 required" th:text="#{order.buy1click.name}" for="name">Name</label> 
+	       		<input class="col-sm-11" name="name" type="text"/>
+	       </div>
+	       <div class="form-group">
+	       		<label class="col-sm-1" th:text="#{admin.email}" for="email">Email</label> 
+	       		<input class="col-sm-11" name="email" type="email"/>
+	       </div>
+	       <div class="form-group">
+	       	   <label class="col-sm-1" th:text="#{rating.rating}">Rating</label>
+			   <div class="stars">
+			      <input class="star star-5" id="star-5" type="radio" value="5" name="rating"/>
+			      <label class="star star-5" for="star-5"></label>
+			      <input class="star star-4" id="star-4" type="radio" value="4" name="rating"/>
+			      <label class="star star-4" for="star-4"></label>
+			      <input class="star star-3" id="star-3" type="radio" value="3" name="rating"/>
+			      <label class="star star-3" for="star-3"></label>
+			      <input class="star star-2" id="star-2" type="radio" value="2" name="rating"/>
+			      <label class="star star-2" for="star-2"></label>
+			      <input class="star star-1" id="star-1" type="radio" value="1" name="rating"/>
+			      <label class="star star-1" for="star-1"></label>
+			   </div>	
+		   </div>
+	       <div class="form-group">
+	       		<label class="col-sm-1" for="review" th:text="#{raiting.review}"></label> 
+	       		<textarea class="col-sm-11" name="reviewText" cols="30" rows="10"></textarea>
+	       </div>
+	       <div><button type="button" th:text="#{order.buy1click.send}"/></div>	
+           <fieldset th:if="${false}">
+               <label>Код:</label>
+			   <div><input type="text" id="capthaCode" /></div>
+   			   <img height="28px" alt="captcha" id="captchaImage" border="0" width="95px"  th:src="@{/captcha.jpg?height=28&amp;width=95}" /> 
+	   		   <a id="reloadCaptcha" href="javascript:void(0);"><i class="fa fa-refresh"></i></a>
+           </fieldset>	       	   
+	   </form>
+	</div>
+</div>

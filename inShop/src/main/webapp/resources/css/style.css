@@ -1145,7 +1145,7 @@ form.cart {
 }
 .submit-review input[type="text"], .submit-review input[type="email"], .submit-review textarea {
     margin-bottom: 20px;
-    width: 100%;
+    /*width: 100%;*/
 }
 .rating-chooser {
     margin-bottom: 30px;
@@ -1651,6 +1651,12 @@ attr.required, span.required {
 	color: #c12222;
 }
 
+
+label.required:after {
+	content: '*';
+	color: #c12222;
+}
+
 .co-delivery-description {
     background: none repeat scroll 0 0 #f4f4f4;
     font-size: 12pt;
@@ -1796,4 +1802,9 @@ span.amount{
 
 .blog-page-content {
 	padding-bottom: 50px;
+}
+
+.submit-review-block h2 {
+    font-size: 14px;
+    margin-bottom: 40px;
 }

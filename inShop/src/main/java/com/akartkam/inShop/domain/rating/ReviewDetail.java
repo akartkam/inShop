@@ -7,6 +7,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 
 import org.hibernate.annotations.Index;
 import org.hibernate.annotations.NamedNativeQueries;
@@ -22,9 +24,10 @@ import com.akartkam.inShop.domain.customer.Customer;
 @NamedNativeQuery(
 		name = "findCommonReviewDetails",
 		query = "select rd.* from review_detail rd, rating_summary rs " + 
-				" where rs.rating_type='COMMON' and " +
-				" rs.id=rd.rating_summary_id and " +
-                " rd.review_status='APPROVED' ", resultClass=ReviewDetail.class),  
+				"   where rs.rating_type='COMMON' and " +
+				"         rs.id=rd.rating_summary_id and " +
+                "         rd.review_status='APPROVED' " +
+                "   order by reivewSubmittedDate desc ", resultClass=ReviewDetail.class),  
 })
 
 
@@ -47,6 +50,8 @@ public class ReviewDetail extends AbstractDomainObject {
     private RatingSummary ratingSummary;
 
     @Column(name = "RATING")
+    @Min(1)
+    @Max(5)
     public Double getRating() {
 		return rating;
 	}
