@@ -13,8 +13,19 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.Index;
+import org.hibernate.annotations.NamedNativeQueries;
+import org.hibernate.annotations.NamedNativeQuery;
 
 import com.akartkam.inShop.domain.AbstractDomainObject;
+
+@NamedNativeQueries({
+@NamedNativeQuery(
+		name = "findRatingSummary",
+		query = "SELECT rs.* "+ 
+				"  FROM rating_summary rs "+
+				"  WHERE rs.rating_type = :ratingType " +
+				"        AND (coalesce(rs.item_id,'') = '' or  rs.item_id = :itemId) ", resultClass=RatingSummary.class)  
+})
 
 @Entity
 @Table(name = "Rating_summary")
