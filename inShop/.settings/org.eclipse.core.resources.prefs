@@ -8,6 +8,7 @@ encoding//src/main/java/com/akartkam/inShop/controller/admin/product/AdminCatego
 encoding//src/main/java/com/akartkam/inShop/controller/admin/product/AdminProductController.java=UTF-8
 encoding//src/main/java/com/akartkam/inShop/controller/admin/product/attribute/AdminAttributeCategoryController.java=UTF-8
 encoding//src/main/java/com/akartkam/inShop/controller/order/CheckoutController.java=UTF-8
+encoding//src/main/java/com/akartkam/inShop/controller/rating/RatingReviewController.java=UTF-8
 encoding//src/main/java/com/akartkam/inShop/dao/product/ProductDAOImpl.java=UTF-8
 encoding//src/main/java/com/akartkam/inShop/domain/Unit.java=UTF-8
 encoding//src/main/java/com/akartkam/inShop/domain/order/Order.java=UTF-8

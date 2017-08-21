@@ -17,7 +17,6 @@ import org.hibernate.validator.constraints.Email;
 import org.joda.time.DateTime;
 
 import com.akartkam.inShop.domain.AbstractDomainObject;
-import com.akartkam.inShop.domain.Instruction;
 import com.akartkam.inShop.domain.customer.Customer;
 
 @NamedNativeQueries({

@@ -157,9 +157,7 @@
                             </div>
                             <div role="tabpanel" class="tab-pane fade" id="prod-instr" th:utext="${product.instructionContent}">
                             </div>
-                            <div role="tabpanel" class="tab-pane fade" id="feedback">
-                            	<th:block th:include="rating/partials/submitReview">
-                            	</th:block>
+                            <div role="tabpanel" class="tab-pane fade" id="feedback" th:include="rating/partials/submitReview(itemId=${product.id}, ratingType='PRODUCT')">
                             </div>
                         </div>
                     </div>

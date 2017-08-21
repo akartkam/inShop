@@ -1,4 +1,5 @@
 @CHARSET "UTF-8";
+
 div.stars {
   display: inline-block;
 }
@@ -7,7 +8,7 @@ input.star { display: none; }
 
 label.star {
   float: right;
-  padding: 5px 5px 5px 0;
+  padding: 0 5px 0 0;
   font-size: 16px;
   color: #444;
   transition: all .2s;

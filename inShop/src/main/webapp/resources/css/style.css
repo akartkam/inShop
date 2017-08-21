@@ -1805,6 +1805,7 @@ span.amount{
 }
 
 .submit-review-block h2 {
-    font-size: 14px;
+    font-size: 16px;
+    font-style: italic;
     margin-bottom: 40px;
 }
