@@ -29,9 +29,11 @@ public class RatingReviewServiceImpl implements RatingReviewService {
 			rs = new RatingSummary();
 			rs.setItemId(itemId);
 			rs.setRatingType(ratingType);
-			ratingSummaryDAO.create(rs);
+			rs = ratingSummaryDAO.create(rs);
 		}
-		 
+		reviewDetail.setRatingSummary(rs);
+		rs.getReviews().add(reviewDetail);
+		reviewDetailDAO.create(reviewDetail);
 	}
 
 

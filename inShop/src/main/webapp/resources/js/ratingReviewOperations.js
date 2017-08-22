@@ -57,7 +57,6 @@ $(function(){
           }).fail(function() {
       	    alert(defaultClientnErrorMessage);
           });
-    	};
     	return false;
     });
     
@@ -79,7 +78,7 @@ $(function(){
           }           
         }).done(function (data){
           	  if (modalClick) $.modal.close();
-      		  $.modal(data, modalBuy1clickOptions);  
+      		  $.modal(data, modalReviewOptions);  
           	  $("#simplemodal-container").css("height", "auto");
           	  $.modal.update();        	          		  
         }).fail(function() {
