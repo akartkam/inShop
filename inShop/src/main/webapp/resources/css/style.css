@@ -1145,7 +1145,7 @@ form.cart {
 }
 .submit-review input[type="text"], .submit-review input[type="email"], .submit-review textarea {
     margin-bottom: 20px;
-    /*width: 100%;*/
+    width: 100%;
 }
 .rating-chooser {
     margin-bottom: 30px;
@@ -1158,7 +1158,7 @@ form.cart {
 }
 
 .submit-review textarea {
-    height: 105px;
+   /* height: 105px; */
 }
 
 .related-products-wrapper {
@@ -1804,6 +1804,9 @@ span.amount{
 	padding-bottom: 50px;
 }
 
+.submit-review-block {
+    padding: 15px 15px 15px 15px;	
+}
 .submit-review-block h2 {
     font-size: 16px;
     font-style: italic;

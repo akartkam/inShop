@@ -2,10 +2,10 @@
 $(function(){
 	
     var modalReviewOptions = {
-            minWidth	: 400,
+            minWidth	: 500,
     		maxWidth    : 750,
             minHeight   : 100,
-            maxHeight   : 500
+            maxHeight   : 600
         };
 
     $("body").on("click", ".modal-submit-review", function() {
@@ -25,7 +25,7 @@ $(function(){
             }
         }).done(function (data){
             	  if (modalClick) $.modal.close();
-               	  $.modal(data, modalCartOptions);
+               	  $.modal(data, modalReviewOptions);
                	  $("#simplemodal-container").css("height", "auto");
             	  $.modal.update();        	          		  
           }).fail(function() {

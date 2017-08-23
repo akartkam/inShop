@@ -38,7 +38,7 @@ public class RatingReviewController {
     							@RequestParam(value = "rating-type") String ratingType,
     						final Model model) throws IOException {
 		model.addAttribute("reviewDetail", new ReviewDetail());
-    	return "rating/partials/submitReview (itemId='"+itemId+"', ratingType='"+ratingType+"')";
+    	return "/rating/partials/submitReview :: submitReviewBlock (itemId='"+itemId+"', ratingType='"+ratingType+"')";
 	}
 		
 	@RequestMapping(value = "/submit-review")
@@ -54,9 +54,9 @@ public class RatingReviewController {
     			//orderService.placeBuy1click(buy1clickForm);
     		} catch (Exception e) {
     			LOG.error("",e);
-    			return "order/partials/buy1click-fail";
+    			return "/order/partials/buy1click-fail";
     		}
-    		return "order/partials/buy1click-success";
+    		return "/order/partials/buy1click-success";
     	}
 	    	
 	}

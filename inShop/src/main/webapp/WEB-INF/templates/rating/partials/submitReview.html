@@ -1,17 +1,17 @@
-<div class="submit-review-block">
+<div class="submit-review-block" th:fragment="submitReviewBlock">
 	<h2 th:text="#{raiting.submitReview}"></h2>
 	<div class="submit-review">
-	   <form th:action="@{/submit-review}" class="form-horizontal" th:object="${reviewDetail}">
-	       <div class="form-group">
-	       		<label class="col-sm-2 required" th:text="#{order.buy1click.name}" for="name">Name</label> 
-	       		<input class="col-sm-10" name="name" type="text"/>
-	       </div>
-	       <div class="form-group">
-	       		<label class="col-sm-2" th:text="#{admin.email}" for="email">Email</label> 
-	       		<input class="col-sm-10" name="email" type="email"/>
-	       </div>
-	       <div class="form-group">
-	       	   <label class="col-sm-2" th:text="#{rating.rating}">Rating</label>
+	   <form th:action="@{/submit-review}" th:object="${reviewDetail}">
+	       <p>
+	       		<label class="required" th:text="#{order.buy1click.name}" for="name">Name</label> 
+	       		<input name="name" type="text"/>
+	       </p>
+	       <p>
+	       		<label th:text="#{admin.email}" for="email">Email</label> 
+	       		<input name="email" type="email"/>
+	       </p>
+	       <p>
+	       	   <label th:text="#{rating.rating}">Rating</label>
 			   <div class="stars">
 			      <input class="star star-5" id="star-5" type="radio" value="5" name="rating"/>
 			      <label class="star star-5" for="star-5"></label>
@@ -24,16 +24,16 @@
 			      <input class="star star-1" id="star-1" type="radio" value="1" name="rating"/>
 			      <label class="star star-1" for="star-1"></label>
 			   </div>	
-		   </div>
-	       <div class="form-group">
-	       		<label class="col-sm-2 required" for="review" th:text="#{raiting.review}"></label> 
-	       		<textarea class="col-sm-10" name="reviewText" cols="30" rows="10"></textarea>
-	       </div>
-		   <div class="form-group">
-		     <div class="col-sm-offset-2 col-sm-10">
+		   </p>
+	       <p>
+	       		<label class="required" for="review" th:text="#{raiting.review}"></label> 
+	       		<textarea  name="reviewText" cols="30" rows="3"></textarea>
+	       </p>
+		   <p>
+		     <div>
 		       <button type="button" class="do-submit-review" th:attr="data-item-id=${itemId}, data-rating-type=${ratingType}" th:text="#{order.buy1click.send}"/>
 		     </div>
-		   </div>	       
+		   </p>	       
            <fieldset th:if="${false}">
                <label>Код:</label>
 			   <div><input type="text" id="capthaCode" /></div>
