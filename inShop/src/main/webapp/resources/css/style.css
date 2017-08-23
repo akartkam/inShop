@@ -1812,3 +1812,10 @@ span.amount{
     font-style: italic;
     margin-bottom: 40px;
 }
+.review-list-container{
+    border-top: 1px solid #e5e5e5;
+    margin-top: 20px;	
+}
+.review-list-container p {
+	margin-top: 10px;
+}

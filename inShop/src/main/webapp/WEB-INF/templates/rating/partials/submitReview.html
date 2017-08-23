@@ -1,7 +1,7 @@
 <div class="submit-review-block" th:fragment="submitReviewBlock">
 	<h2 th:text="#{raiting.submitReview}"></h2>
 	<div class="submit-review">
-	   <form th:action="@{/submit-review}" th:object="${reviewDetail}">
+	   <form th:action="@{${'/rating/submit-review?item-id='+itemId+'&amp;rating-type='+ratingType}}" th:object="${reviewDetail}">
 	       <p>
 	       		<label class="required" th:text="#{order.buy1click.name}" for="name">Name</label> 
 	       		<input name="name" type="text"/>
@@ -31,7 +31,7 @@
 	       </p>
 		   <p>
 		     <div>
-		       <button type="button" class="do-submit-review" th:attr="data-item-id=${itemId}, data-rating-type=${ratingType}" th:text="#{order.buy1click.send}"/>
+		       <button type="button" class="do-submit-review" th:text="#{order.buy1click.send}"/>
 		     </div>
 		   </p>	       
            <fieldset th:if="${false}">

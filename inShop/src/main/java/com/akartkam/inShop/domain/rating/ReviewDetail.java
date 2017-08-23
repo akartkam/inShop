@@ -14,6 +14,7 @@ import org.hibernate.annotations.Index;
 import org.hibernate.annotations.NamedNativeQueries;
 import org.hibernate.annotations.NamedNativeQuery;
 import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.joda.time.DateTime;
 
 import com.akartkam.inShop.domain.AbstractDomainObject;
@@ -80,6 +81,7 @@ public class ReviewDetail extends AbstractDomainObject {
 	}
 
     @Column(name = "REVIEW_TEXT", nullable = false)
+    @NotEmpty
 	public String getReviewText() {
 		return reviewText;
 	}
@@ -129,6 +131,7 @@ public class ReviewDetail extends AbstractDomainObject {
 	}
 
 	@Column(name = "NAME", nullable = false)
+	@NotEmpty
 	public String getName() {
 		return name;
 	}
