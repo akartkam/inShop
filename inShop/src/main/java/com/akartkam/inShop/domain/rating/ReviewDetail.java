@@ -16,18 +16,27 @@ import org.hibernate.annotations.NamedNativeQuery;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.joda.time.DateTime;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import com.akartkam.inShop.domain.AbstractDomainObject;
 import com.akartkam.inShop.domain.customer.Customer;
 
 @NamedNativeQueries({
-@NamedNativeQuery(
+  @NamedNativeQuery(
 		name = "findCommonReviewDetails",
 		query = "select rd.* from review_detail rd, rating_summary rs " + 
 				"   where rs.rating_type='COMMON' and " +
 				"         rs.id=rd.rating_summary_id and " +
                 "         rd.review_status='APPROVED' " +
-                "   order by reivewSubmittedDate desc ", resultClass=ReviewDetail.class),  
+                "   order by review_submitted_date desc ", resultClass=ReviewDetail.class), 
+  @NamedNativeQuery(
+		name = "findReviewDetails",
+		query = "select rd.* from review_detail rd, rating_summary rs " + 
+				"   where rs.rating_type=:rating_type and " +
+				"         rs.item_id=:item_id and " +
+				"         rs.id=rd.rating_summary_id and " +
+                "         rd.review_status='APPROVED' " +
+                "   order by review_submitted_date desc ", resultClass=ReviewDetail.class)                
 })
 
 
@@ -72,6 +81,7 @@ public class ReviewDetail extends AbstractDomainObject {
 	}
 
     @Column(name = "REVIEW_SUBMITTED_DATE", nullable = false)
+    @DateTimeFormat(pattern="${date.format}")
 	public DateTime getReivewSubmittedDate() {
 		return reivewSubmittedDate;
 	}

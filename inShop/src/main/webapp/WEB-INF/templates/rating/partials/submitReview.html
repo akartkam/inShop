@@ -2,15 +2,16 @@
 	<h2 th:text="#{raiting.submitReview}"></h2>
 	<div class="submit-review">
 	   <form th:action="@{${'/rating/submit-review?item-id='+itemId+'&amp;rating-type='+ratingType}}" th:object="${reviewDetail}">
-	       <p>
-	       		<label class="required" th:text="#{order.buy1click.name}" for="name">Name</label> 
-	       		<input name="name" type="text"/>
-	       </p>
-	       <p>
+	       <div class="field-box" th:class="${#fields.hasErrors('name')}? has-error: field-box">
+	       	  <label class="required" th:text="#{order.buy1click.name}" for="name">Name</label> 
+	       	  <input name="name" type="text"/>
+	       	  <p class="text-danger" style="font-size: 10px;" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Bad name</p>
+	       </div>
+	       <div class="field-box">
 	       		<label th:text="#{admin.email}" for="email">Email</label> 
 	       		<input name="email" type="email"/>
-	       </p>
-	       <p>
+	       </div>
+	       <div class="field-box">
 	       	   <label th:text="#{rating.rating}">Rating</label>
 			   <div class="stars">
 			      <input class="star star-5" id="star-5" type="radio" value="5" name="rating"/>
@@ -24,16 +25,17 @@
 			      <input class="star star-1" id="star-1" type="radio" value="1" name="rating"/>
 			      <label class="star star-1" for="star-1"></label>
 			   </div>	
-		   </p>
-	       <p>
+		   </div>
+	       <div class="field-box" th:class="${#fields.hasErrors('name')}? has-error: field-box">
 	       		<label class="required" for="review" th:text="#{raiting.review}"></label> 
 	       		<textarea  name="reviewText" cols="30" rows="3"></textarea>
-	       </p>
-		   <p>
+	       		<p class="text-danger" style="font-size: 10px;" th:if="${#fields.hasErrors('reviewText')}" th:errors="*{reviewText}">Bad text</p>
+	       </div>
+		   <div class="field-box">
 		     <div>
 		       <button type="button" class="do-submit-review" th:text="#{order.buy1click.send}"/>
 		     </div>
-		   </p>	       
+		   </div>	       
            <fieldset th:if="${false}">
                <label>Код:</label>
 			   <div><input type="text" id="capthaCode" /></div>

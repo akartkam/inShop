@@ -1,5 +1,8 @@
 package com.akartkam.inShop.service.rating;
 
+import java.util.List;
+
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,7 +35,8 @@ public class RatingReviewServiceImpl implements RatingReviewService {
 			rs = ratingSummaryDAO.create(rs);
 		}
 		reviewDetail.setRatingSummary(rs);
-		rs.getReviews().add(reviewDetail);
+		reviewDetail.setReivewSubmittedDate(new DateTime());
+		rs.getReviews().add(reviewDetail);	
 		reviewDetailDAO.create(reviewDetail);
 	}
 
@@ -40,6 +44,18 @@ public class RatingReviewServiceImpl implements RatingReviewService {
 	@Override
 	public RatingSummary readRatingSummary(String itemId, RatingType type) {
 		return ratingSummaryDAO.readRatingSummary(itemId, type) ;
+	}
+
+
+	@Override
+	public List<ReviewDetail> readReviewDetails(String itemId, RatingType ratingType) {
+		return reviewDetailDAO.findReviewDetails(itemId, ratingType);
+	}
+
+
+	@Override
+	public List<ReviewDetail> readCommonReviewDetails() {
+		return reviewDetailDAO.findCommonReviewDetails();
 	}
 
 }

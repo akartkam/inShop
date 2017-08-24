@@ -7,20 +7,7 @@
   			<li><a th:href="@{/}"><span th:utext="#{mainMenu.main}">Главная</span></a></li>
   			<li class="active"><span th:utext="#{raiting.reviews}">Отзывы</span></li>
 		</ol>
-		<div class="container-fluid">
-			<div class="row">
-				<div class="col-lg-12">
-		           <form method="POST" th:action="@{/rating/add-review?item-id=&amp;rating-type=COMMON}"  >
-					   <button type="button" class="modal-submit-review" th:text="#{raiting.submitReview}"/>
-				   </form>
-				</div>
-		    </div>
-		    <div class="row">
-				<div class="col-lg-12 review-list-container">
-					<p th:if="${#lists.isEmpty(reviewList)}" th:text="#{raiting.noReviews}">
-					</p>
-				</div>						    	
-		    </div>
+		<div th:object="${reviewList}" th:replace="rating/partials/reviewListBlock(itemId='', ratingType='COMMON')">
 		</div>
 	</div>
 </th:block>
