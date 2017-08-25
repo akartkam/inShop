@@ -27,7 +27,8 @@ $(function(){
             	  if (modalClick) $.modal.close();
                	  $.modal(data, modalReviewOptions);
                	  $("#simplemodal-container").css("height", "auto");
-            	  $.modal.update();        	          		  
+            	  $.modal.update(); 
+   				  $("#rating-input").rating({showCaption: false, showClear: false});
           }).fail(function() {
       	    alert(defaultClientnErrorMessage);
           });
@@ -54,7 +55,8 @@ $(function(){
           	  if (modalClick) $.modal.close();
       		  $.modal(data, modalReviewOptions);  
           	  $("#simplemodal-container").css("height", "auto");
-          	  $.modal.update();        	          		  
+          	  $.modal.update();
+          	  $("#rating-input").rating({showCaption: false, showClear: false});
         }).fail(function() {
     	    alert(defaultClientnErrorMessage);
        });

@@ -1811,7 +1811,10 @@ span.amount{
 .submit-review-block {
     padding: 15px 15px 15px 15px;	
 }
-.submit-review-block h2 {
+.review-list-block h2{
+	margin-top: 20px;
+}
+.submit-review-block h2, .review-list-block h2 {
     font-size: 16px;
     font-style: italic;
     margin-bottom: 40px;
@@ -1831,12 +1834,11 @@ span.amount{
 .rating-review-block{
 	margin-top: 30px;
 	margin-bottom: 30px;
-	border-bottom: 1px solid #dce3ea;
 	padding-bottom: 15px;
+	background:  none repeat scroll 0 0 #fbfbfb;
 }
 .review-block-date{
 	display: inline-block;	
-	float: right;
 }
 .review-block-date time{
     right: 0;
@@ -1849,9 +1851,16 @@ span.amount{
     font-size: 1.1em;
     font-weight: 700;
     color: #000;
-    float: left;
+}
+.rating-stars{
+	display: inline-block;
+	margin-right: 5px;	
+}
+.rating-review-block-text{
+	font-style: italic;
+	word-wrap: break-word;
 }
 
-.rating-review-block-text{
-	
+.rating-review-block-header{
+	margin-bottom: 20px;
 }

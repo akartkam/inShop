@@ -10,4 +10,11 @@
 		<div th:object="${reviewList}" th:replace="rating/partials/reviewListBlock(itemId='', ratingType='COMMON')">
 		</div>
 	</div>
+    <th:block layout:fragment="script">
+        <script>	
+			$(function(){
+				$(".rating-input-ro").rating({showCaption: false, showClear: false, displayOnly: true});
+			});			
+		</script>
+    </th:block>    	
 </th:block>

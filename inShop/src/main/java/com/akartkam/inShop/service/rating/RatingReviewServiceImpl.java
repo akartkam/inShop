@@ -12,6 +12,7 @@ import com.akartkam.inShop.dao.rating.ReviewDetailDAO;
 import com.akartkam.inShop.domain.rating.RatingSummary;
 import com.akartkam.inShop.domain.rating.RatingType;
 import com.akartkam.inShop.domain.rating.ReviewDetail;
+import com.akartkam.inShop.domain.rating.ReviewStatusType;
 
 @Service("RatingReviewService")
 @Transactional(readOnly = true)
@@ -36,6 +37,7 @@ public class RatingReviewServiceImpl implements RatingReviewService {
 		}
 		reviewDetail.setRatingSummary(rs);
 		reviewDetail.setReivewSubmittedDate(new DateTime());
+		reviewDetail.setReviewStatus(ReviewStatusType.PENDING);
 		rs.getReviews().add(reviewDetail);	
 		reviewDetailDAO.create(reviewDetail);
 	}
