@@ -5,11 +5,14 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.akartkam.inShop.domain.product.Product;
+import com.akartkam.inShop.domain.rating.RatingType;
+import com.akartkam.inShop.service.rating.RatingReviewService;
 
 @Controller
 public class ProductController extends WebEntityAbstractController {
@@ -17,6 +20,9 @@ public class ProductController extends WebEntityAbstractController {
 	
 	@Value("#{entityUrlPrefixes.getProperty(T(com.akartkam.inShop.util.Constants).PRODUCT_CLASS)}")
 	private String productPrefix;
+	
+	@Autowired
+	private RatingReviewService ratingReviewService;
 	
 	@Override
 	protected ModelAndView handleRequestInternal(HttpServletRequest request,
@@ -27,6 +33,8 @@ public class ProductController extends WebEntityAbstractController {
 		Product product = productService.getProductByUrl(productUrl);
 		if (product != null) {
 			model.addObject("product", product);
+			model.addObject("ratingSummary", ratingReviewService
+					          .readRatingSummary(product.getId().toString(), RatingType.forName("PRODUCT")));
 			model.setViewName("/catalog/single-product");			
 		}else {
 			response.setStatus(404);

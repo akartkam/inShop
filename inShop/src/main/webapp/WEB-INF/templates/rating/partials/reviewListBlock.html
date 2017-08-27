@@ -10,7 +10,7 @@
 		<div class="col-lg-12 review-list-container">
 			<p th:if="${#lists.isEmpty(reviewList)}" th:text="#{raiting.noReviews}">
 			</p>
-			<div class="review-list-block">  
+			<div class="review-list-block" th:unless="${#lists.isEmpty(reviewList)}">  
 				<h2 th:text="#{raiting.reviews}"></h2>
 			    <th:block th:unless="${#lists.isEmpty(reviewList)}" th:each="reviewDetail: ${reviewList}" 
 			          th:object="${reviewDetail}" th:include="rating/partials/reviewBlock">

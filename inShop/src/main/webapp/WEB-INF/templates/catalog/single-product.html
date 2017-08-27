@@ -39,6 +39,12 @@
 						<div class="media-body single-product-info">
 						   <h1 class="media-heading" th:utext="${product.longDisplayName}"></h1>
 				           <div class="product-attributes">
+				           	   <div class="rating-summary-block">
+				               	  <input th:value="${ratingSummary != null? ratingSummary.averageRating: 0}" class="rating-input-ro" data-size="xxs"/>
+						   	      <a th:href="@{${#httpServletRequest.requestURL+'#feedback'}}" class="feedback-open" 
+						   	         th:text="${#messages.msg('raiting.reviewsCount.Caption')+' '+(ratingSummary != null? #lists.size(ratingSummary.reviews): '0')}"></a>
+<!-- 						   	         th:onclick="${'window.location.href='''+#httpServletRequest.requestURL+'#feedback''; location.reload();'}" -->
+						   	   </div>
 				           	   <aid:addtitional_sku_attr_values product="${product}" />
 							   <div id="sku-attr-data" hidden="hidden" th:attr="data-sku-attr=${additSkuAttrValues}" />				               
 					           <table cellspacing="0">
@@ -157,7 +163,7 @@
                             </div>
                             <div role="tabpanel" class="tab-pane fade" id="prod-instr" th:utext="${product.instructionContent}">
                             </div>
-                            <div role="tabpanel" class="tab-pane fade" id="feedback" th:include="rating/partials/reviewListBlock(itemId=${product.id}, ratingType='PRODUCT')">
+                            <div role="tabpanel" class="tab-pane fade" id="feedback" th:with="reviewList = ${ratingSummary.reviews}" th:include="rating/partials/reviewListBlock(itemId=${product.id}, ratingType='PRODUCT')">
                             </div>
                         </div>
                     </div>
@@ -168,6 +174,7 @@
     </div>
     <th:block layout:fragment="script">
         <script>	
+        //<![CDATA[
 			$(function(){
 	        	$(".quick-review-product-zoom").imagezoomsl({ 
         			//magnifiersize: [200, 250],
@@ -177,8 +184,15 @@
                     magnifierborder: "none"
         		});
 				changeProductOption();
+				$(".rating-input-ro").rating({showCaption: false, showClear: false, displayOnly: true});
+				$(".feedback-open").on("click", function(){
+					var activeTab = $('[href=#feedback]');
+					activeTab && activeTab.tab('show');
+					return true;
+				});
+				
 			});
-			
+		//]]>	
 		</script>
     </th:block>
 </th:block>    

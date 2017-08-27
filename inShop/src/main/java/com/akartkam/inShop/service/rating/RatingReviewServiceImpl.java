@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +25,8 @@ public class RatingReviewServiceImpl implements RatingReviewService {
 	@Autowired
 	private ReviewDetailDAO reviewDetailDAO;
 
+	@Value("#{shopProperties['usePremoderateReview']}")
+    private Boolean usePremoderateReview;
 
 	@Override
 	@Transactional(readOnly = false)
@@ -37,7 +40,8 @@ public class RatingReviewServiceImpl implements RatingReviewService {
 		}
 		reviewDetail.setRatingSummary(rs);
 		reviewDetail.setReivewSubmittedDate(new DateTime());
-		reviewDetail.setReviewStatus(ReviewStatusType.PENDING);
+		if (usePremoderateReview) reviewDetail.setReviewStatus(ReviewStatusType.PENDING);
+		else reviewDetail.setReviewStatus(ReviewStatusType.APPROVED);
 		rs.getReviews().add(reviewDetail);	
 		reviewDetailDAO.create(reviewDetail);
 	}

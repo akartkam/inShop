@@ -6,7 +6,7 @@ public enum ReviewStatusType {
 	REJECT("REJECT");
 
     
-    public static final ReviewStatusType[] ALL = { PENDING, APPROVED, REJECT};
+    public static final ReviewStatusType[] ALL = {PENDING, APPROVED, REJECT};
     
     
     private final String name;

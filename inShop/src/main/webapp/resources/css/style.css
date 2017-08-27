@@ -1443,6 +1443,17 @@ div.cart-collaterals ul.products li.product:hover .add_to_cart_button{background
 .gallery img.active {border:1px solid #333 !important;}
 
 /* Single product info*/ 
+
+.single-product-info .rating-summary-block div.rating-container {
+	display: inline-block;
+}
+.single-product-info .rating-summary-block a{ 
+	display: inline-block;
+	text-decoration: none;
+    color: #9aa1ab;
+    font-size: 12px;
+}
+
 .single-product-info .product-attributes table{
 	margin-top: 30px;
     font-size: 12px;

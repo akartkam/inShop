@@ -2,7 +2,7 @@
 	<div class="rating-review-block-header">
 		<div class="review-block-author" th:utext="${reviewDetail.name}"></div>
 	    <div class="rating-stars">
-			<input th:value="${#numbers.formatInteger(reviewDetail.rating,1)}" class="rating-input-ro" data-size="xxs"/>	    
+			<input th:value="${reviewDetail.rating}" class="rating-input-ro" data-size="xxs"/>	    
 		</div>		
 	    <div class="review-block-date">
 			<time th:datetime="${reviewDetail.reivewSubmittedDate}" th:text="${{reviewDetail.reivewSubmittedDate}}"></time>
