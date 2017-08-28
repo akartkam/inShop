@@ -1,6 +1,7 @@
 package com.akartkam.inShop.service.rating;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,6 +64,24 @@ public class RatingReviewServiceImpl implements RatingReviewService {
 	@Override
 	public List<ReviewDetail> readCommonReviewDetails() {
 		return reviewDetailDAO.findCommonReviewDetails();
+	}
+
+
+	@Override
+	@Transactional(readOnly = false)
+	public boolean changeReviewDetailStatus(UUID id, ReviewStatusType status) {
+		ReviewDetail rd = reviewDetailDAO.get(id);
+		if (rd != null) {
+			rd.setReviewStatus(status);
+			return true;
+		}
+		return false;
+	}
+
+
+	@Override
+	public List<ReviewDetail> getAllReviewDetail() {
+		return reviewDetailDAO.list();
 	}
 
 }
