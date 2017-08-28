@@ -269,9 +269,9 @@ public class CheckoutController {
     			orderService.placeBuy1click(buy1clickForm);
     		} catch (Exception e) {
     			LOG.error("",e);
-    			return "/order/partials/buy1click-fail";
+    			return "/common/modal-msg :: modal-msg(msg='"+messageSource.getMessage("error.default.clientMessage", null, null)+"')";
     		}
-    		return "/order/partials/buy1click-success";
+    		return "/common/modal-msg :: modal-msg(msg='"+messageSource.getMessage("order.buy1click.success.message", null, null)+"')";  		
     	}
 	    	
 	}

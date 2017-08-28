@@ -163,7 +163,7 @@
                             </div>
                             <div role="tabpanel" class="tab-pane fade" id="prod-instr" th:utext="${product.instructionContent}">
                             </div>
-                            <div role="tabpanel" class="tab-pane fade" id="feedback" th:with="reviewList = ${ratingSummary.reviews}" th:include="rating/partials/reviewListBlock(itemId=${product.id}, ratingType='PRODUCT')">
+                            <div role="tabpanel" class="tab-pane fade" id="feedback" th:with="reviewList = ${ratingSummary != null? ratingSummary.reviews: null}" th:include="rating/partials/reviewListBlock(itemId=${product.id}, ratingType='PRODUCT')">
                             </div>
                         </div>
                     </div>

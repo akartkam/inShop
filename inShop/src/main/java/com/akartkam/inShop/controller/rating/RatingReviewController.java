@@ -12,6 +12,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -42,6 +43,9 @@ public class RatingReviewController {
 	@Autowired
 	private RatingReviewService ratingReviewService;
 	
+	@Autowired
+	private MessageSource messageSource;
+	
 	@InitBinder()
 	public void initBinder(WebDataBinder binder) {
 		binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));	  
@@ -71,9 +75,9 @@ public class RatingReviewController {
     			ratingReviewService.createRatingReview(reviewDetail, itemId, RatingType.forName(ratingType));
     		} catch (Exception e) {
     			LOG.error("",e);
-    			return "/order/partials/buy1click-fail";
+    			return "/common/modal-msg :: modal-msg(msg='"+messageSource.getMessage("error.default.clientMessage", null, null)+"')";
     		}
-    		return "/order/partials/buy1click-success";
+    		return "/common/modal-msg :: modal-msg(msg='"+messageSource.getMessage("rating.submitReview.success.message", null, null)+"')";
     	}
 	    	
 	}

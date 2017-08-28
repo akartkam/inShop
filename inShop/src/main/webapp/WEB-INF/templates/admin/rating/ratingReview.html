@@ -68,8 +68,9 @@
 						        <thead >
 							      <tr >
 							          <th class="col-md-1"></th>
-						              <th class="col-md-8 text-center" th:text="#{raiting.review}">Review</th>
-						              <th class="col-md-2 text-center" th:text="#{rating.reviewStatus}">Status</th>
+							          <th class="col-md-2 text-center" th:text="#{email}">Email</th>
+						              <th class="col-md-7 text-center" th:text="#{raiting.review}">Review</th>
+						              <th class="col-md-1 text-center" th:text="#{rating.reviewStatus}">Status</th>
 						              <th class="col-md-1 text-center"></th>
 						  	      </tr>
 						 	    </thead>
@@ -77,6 +78,9 @@
 							        <tr th:each="rv : ${allReviews}">
 							            <td class="text-center">						
 										    <input class="checkCategory" type="checkbox" th:id="${'check-'+rv.id}" th:value="${rv.id}"/>
+									    </td>
+									    <td>
+									    	<span th:text="${rv.email}"></span>
 									    </td>
 										<td th:object="${reviewDetail}" th:include="rating/partials/reviewBlock">
 										</td>
@@ -87,11 +91,11 @@
 		  				            	  		 <div class="btn-group" role="group" > 
 					                                  <button type="button" class="btn btn-outline btn-default btn-xs" 
 					                                          th:attr="data-id=${br.id}, data-path=@{/admin/catalog/brand/edit}"> 
-					                                    <i class="fa fa-pencil"></i>
+					                                    <i class="fa fa-check"></i>
 					                                  </button>	
 					                                  <button type="button" class="btn btn-outline btn-default btn-xs"
 					                                          th:attr="data-id=${br.id}, data-path=@{/admin/catalog/brand/add}">
-					                                    <i class="fa fa-copy"></i>
+					                                    <i class="fa fa-times"></i>
 					                                  </button>
 						                              <button th:disabled="${!br.enabled}" type="button" data-toggle="modal" data-target="#deleteModal" 
 						                                      class="open-deleteDialog btn btn-outline btn-default btn-xs"
