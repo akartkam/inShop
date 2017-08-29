@@ -22,6 +22,7 @@ encoding//src/main/resources/import.sql=UTF-8
 encoding//src/main/resources/messages.properties=UTF-8
 encoding//src/main/resources/output/pdf/orderPdf.html=UTF-8
 encoding//src/main/webapp/WEB-INF/templates/admin/catalog/instruction.html=UTF-8
+encoding//src/main/webapp/WEB-INF/templates/admin/rating/ratingReview.html=UTF-8
 encoding//src/main/webapp/WEB-INF/templates/cart/cart.html=UTF-8
 encoding//src/main/webapp/WEB-INF/templates/cart/partials/cartProductsTable.html=UTF-8
 encoding//src/main/webapp/WEB-INF/templates/catalog/brand-list.html=UTF-8

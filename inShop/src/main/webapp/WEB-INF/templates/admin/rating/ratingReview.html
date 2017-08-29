@@ -36,15 +36,14 @@
    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true" layout:fragment="deleteForm">
 	  <div class="modal-dialog">
 	    <div class="modal-content" id="deleteModalContent">
- 	        <form method="post" action="#" th:action="@{/admin/rating/rating-review/delete}" id="deleteForm">
+ 	        <form method="post" action="#" th:action="@{/admin/rating/reviews/delete}" id="deleteForm">
 	            <div class="modal-header">
 	              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 	              <h4 class="modal-title" id="deleteModalLabel"><span th:text="#{admin.catalog.category.delete.modalcaption}">Удаление</span></h4>
 	            </div>
 	            <div class="modal-body" id = "delete-modal-body">
 	              <div class="field-box">
-	                <span th:text="#{admin.catalog.category.delete.modalmessage}">Подтвердите удаление отзыва клиента: </span>
-	                <span style="font-weight:bold" id="brName"> Отзыв клиента </span>
+	                <span th:text="#{admin.delete.modalmessage}">Подтвердите удаление отзыва клиента: </span>
 				  </div>	                
 	            </div> 
 	            <div class="modal-footer" id = "delete-modal-footer">
@@ -130,24 +129,20 @@
 		            	"language": dataTableI18nObject,
 		                responsive: true,
 		                ordering:  false
-    				} );
-    		     
+    				});    		     
     		       $(".rating-input-ro").rating({showCaption: false, showClear: false, displayOnly: true});
 	            });
 	            //Открытие окна удаления
 		        $(document).on("click", ".open-deleteDialog", function () {
 		    	     var Id = $(this).data("id");
-		    	     var brName = $(this).data("name");
-		    	     var action;
 		    	     $("#delete-modal-footer #ID").val(Id);
-		    	     $("#delete-modal-body #brName").html(brName);
 		    	});
   		        //Открытие окна редактированя
 	    		$(".change-status").on("click", function (e) {
 	    			var id = $(this).data("id");
 	    			var status = $(this).data("status");
                     $.ajax({
-                        url: root+"?id="+id+"&status="+status ,
+                        url: root+"admin/rating/change-status?id="+id+"&status="+status ,
                         cache: false
                     }).done(function (html) {
                     	if (html != "error") {

@@ -42,3 +42,37 @@
 .pickmeup, .pickmeup-twitter-bootstrap {
     z-index: 1051;
 }
+
+.rating-review-block{
+	margin-top: 30px;
+	margin-bottom: 30px;
+	padding-bottom: 15px;
+	background:  none repeat scroll 0 0 #fbfbfb;
+}
+.review-block-date{
+	display: inline-block;	
+}
+.review-block-date time{
+    right: 0;
+    color: #adadad;	
+}
+
+.review-block-author{
+	display: inline-block;
+    margin-right: 15px;
+    font-size: 1.1em;
+    font-weight: 700;
+    color: #000;
+}
+.rating-stars{
+	display: inline-block;
+	margin-right: 5px;	
+}
+.rating-review-block-text{
+	font-style: italic;
+	word-wrap: break-word;
+}
+
+.rating-review-block-header{
+	margin-bottom: 20px;
+}

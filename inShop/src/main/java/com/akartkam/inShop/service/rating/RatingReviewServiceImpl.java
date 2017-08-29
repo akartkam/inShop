@@ -84,4 +84,11 @@ public class RatingReviewServiceImpl implements RatingReviewService {
 		return reviewDetailDAO.list();
 	}
 
+
+	@Override
+	public void deleteReviewDetailById(UUID id) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

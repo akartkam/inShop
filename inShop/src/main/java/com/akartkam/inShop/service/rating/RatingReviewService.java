@@ -15,5 +15,6 @@ public interface RatingReviewService {
 	List<ReviewDetail> readReviewDetails(String itemId, RatingType ratingType);
 	boolean changeReviewDetailStatus(UUID id, ReviewStatusType status);
 	List<ReviewDetail> getAllReviewDetail();
+	void deleteReviewDetailById(UUID id);
 
 }
