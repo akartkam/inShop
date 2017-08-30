@@ -10,4 +10,5 @@ import com.akartkam.inShop.domain.rating.ReviewDetail;
 public interface ReviewDetailDAO extends GenericDAO<ReviewDetail, UUID> {
 	List<ReviewDetail> findCommonReviewDetails();
 	List<ReviewDetail> findReviewDetails(String itemId, RatingType ratingType);
+	List<ReviewDetail> findReviewDetailsForAdmin();
 }

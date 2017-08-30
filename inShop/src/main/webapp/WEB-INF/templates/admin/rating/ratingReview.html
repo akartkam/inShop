@@ -125,10 +125,12 @@
 	    <script type="text/javascript">
 	      //<![CDATA[
 	           $(document).ready(function() {
-    		     $("#brandDataTable").dataTable( {
+    		     $("#reviewDataTable").dataTable( {
 		            	"language": dataTableI18nObject,
 		                responsive: true,
-		                ordering:  false
+		                ordering:  false,
+		            	stateSave: true
+		                
     				});    		     
     		       $(".rating-input-ro").rating({showCaption: false, showClear: false, displayOnly: true});
 	            });

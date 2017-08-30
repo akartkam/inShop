@@ -59,7 +59,7 @@ public class RatingSummary extends AbstractDomainObject {
 		this.averageRating = averageRating;
 	}
 
-	@OneToMany(mappedBy = "ratingSummary", cascade = {CascadeType.ALL})
+	@OneToMany(mappedBy = "ratingSummary", cascade = {CascadeType.ALL}, orphanRemoval=true)
 	@Cascade({org.hibernate.annotations.CascadeType.ALL})    
 	public List<ReviewDetail> getReviews() {
 		return reviews;

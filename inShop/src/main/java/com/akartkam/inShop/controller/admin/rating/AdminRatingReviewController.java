@@ -42,8 +42,8 @@ public class AdminRatingReviewController {
 	
 	
 	@RequestMapping(value = "/reviews/delete", method = RequestMethod.POST)
-	public String removeReview(@RequestParam(value = "id", required = true) String id) {
-
+	public String removeReview(@RequestParam(value = "ID", required = true) String id) {
+		ratingReviewService.deleteReviewDetailById(UUID.fromString(id));
 		return "redirect:/admin/rating/reviews";
 	}	
 	

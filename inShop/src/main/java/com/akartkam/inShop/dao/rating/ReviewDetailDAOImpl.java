@@ -26,4 +26,10 @@ public class ReviewDetailDAOImpl extends AbstractGenericDAO<ReviewDetail> implem
 		return (List<ReviewDetail>) q.list();
 	}
 
+	@Override
+	public List<ReviewDetail> findReviewDetailsForAdmin() {
+		Query q = currentSession().getNamedQuery("findReviewDetailsForAdmin");
+		return (List<ReviewDetail>) q.list();
+	}
+
 }

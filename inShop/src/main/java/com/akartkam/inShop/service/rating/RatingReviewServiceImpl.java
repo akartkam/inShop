@@ -86,9 +86,21 @@ public class RatingReviewServiceImpl implements RatingReviewService {
 
 
 	@Override
+	@Transactional(readOnly = false)
 	public void deleteReviewDetailById(UUID id) {
-		// TODO Auto-generated method stub
+		ReviewDetail rd = reviewDetailDAO.get(id);
+		if (rd != null){
+			RatingSummary rs = rd.getRatingSummary();
+			ratingSummaryDAO.reattach(rs);
+			rs.getReviews().remove(rd);
+		}
 		
+	}
+
+
+	@Override
+	public List<ReviewDetail> getAllReviewDetailForAdmin() {
+		return reviewDetailDAO.findReviewDetailsForAdmin();
 	}
 
 }
