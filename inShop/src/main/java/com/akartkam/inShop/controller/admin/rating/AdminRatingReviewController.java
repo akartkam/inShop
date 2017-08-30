@@ -31,8 +31,8 @@ public class AdminRatingReviewController {
 	private MessageSource messageSource;
 	
     @ModelAttribute("allReviews")
-    public List<ReviewDetail> getAllReviews() {
-	      return ratingReviewService.getAllReviewDetail();
+    public List<Object[]> getAllReviews() {
+	      return ratingReviewService.getAllReviewDetailForAdmin();
     }	
     
 	@RequestMapping("/reviews")

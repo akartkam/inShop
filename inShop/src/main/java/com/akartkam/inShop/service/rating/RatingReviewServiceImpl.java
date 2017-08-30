@@ -99,7 +99,7 @@ public class RatingReviewServiceImpl implements RatingReviewService {
 
 
 	@Override
-	public List<ReviewDetail> getAllReviewDetailForAdmin() {
+	public List<Object[]> getAllReviewDetailForAdmin() {
 		return reviewDetailDAO.findReviewDetailsForAdmin();
 	}
 

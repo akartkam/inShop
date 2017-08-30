@@ -36,19 +36,7 @@ import com.akartkam.inShop.domain.customer.Customer;
 				"         rs.item_id=:item_id and " +
 				"         rs.id=rd.rating_summary_id and " +
                 "         rd.review_status='APPROVED' " +
-                "   order by review_submitted_date desc ", resultClass=ReviewDetail.class),
-  @NamedNativeQuery(
-		name = "findReviewDetailsForAdmin",
-		query = "select rd.*, "+
-	  			"       case when rs.rating_type='PRODUCT' then s.name else null end as product_name, "+
-	  			"       case when rs.rating_type='PRODUCT' then s.code else null end as product_code, "+
-	  			"       case when rs.rating_type='PRODUCT' then p.url else null end as product_url "+
-	  			"  from review_detail rd "+
-	  			"       left join rating_summary rs on rs.id=rd.rating_summary_id "+
-	  			"       left join product p on p.id=rs.item_id::uuid "+
-	  			"       left join sku s on s.id=p.default_sku_id "+
-	  			"  order by rd.review_submitted_date desc ", resultClass=ReviewDetail.class)                
-                
+                "   order by review_submitted_date desc ", resultClass=ReviewDetail.class)
 })
 
 
