@@ -708,7 +708,7 @@ position: relative
 .new_badge {
     width: 60px;
     height: 60px;
-    background: url(../img/3новинка.png) no-repeat;
+    background: url(../img/3new.png) no-repeat;
     background-size: contain;
     text-indent: -9999px;
     position: absolute;
