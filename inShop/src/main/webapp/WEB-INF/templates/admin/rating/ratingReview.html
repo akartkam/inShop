@@ -78,8 +78,7 @@
 							        <tr th:each="rv : ${allReviews}">
 							            <td>						
 										    <span th:text="${rv[2]}"></span><br/>
-										    <span th:text="${rv[1]}"></span><br/>
-										    <a th:href="@{${rv[3]}}" th:text="@{${rv[3]}}"></a>
+										    <a th:href="@{${'/'+beans.entityUrlPrefixes.getProperty('__${T(com.akartkam.inShop.util.Constants).PRODUCT_CLASS}__')+rv[3]}}" th:text="${rv[1]}"></a>
 									    </td>
 									    <td>
 									    	<span th:text="${rv[0].email}"></span>
