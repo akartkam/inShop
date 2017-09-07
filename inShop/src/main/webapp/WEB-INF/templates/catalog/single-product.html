@@ -41,7 +41,7 @@
 				           <div class="product-attributes">
 				           	   <div class="rating-summary-block">
 				               	  <input th:value="${ratingSummary != null? ratingSummary.averageRating: 0}" class="rating-input-ro" data-size="xxs"/>
-						   	      <a th:href="@{${#httpServletRequest.requestURI+'#feedback'}}" class="feedback-open" 
+						   	      <a th:href="${#httpServletRequest.requestURI+'#feedback'}" class="feedback-open" 
 						   	         th:text="${#messages.msg('raiting.reviewsCount.Caption')+' '+(ratingSummary != null? #lists.size(ratingSummary.reviews): '0')}"></a>
 <!-- 						   	         th:onclick="${'window.location.href='''+#httpServletRequest.requestURL+'#feedback''; location.reload();'}" -->
 						   	   </div>
