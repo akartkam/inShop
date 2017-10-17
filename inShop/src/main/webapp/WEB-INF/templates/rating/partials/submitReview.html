@@ -4,20 +4,22 @@
 	   <form th:action="@{${'/rating/submit-review?item-id='+itemId+'&amp;rating-type='+ratingType}}" th:object="${reviewDetail}">
 	       <div class="field-box" th:class="${#fields.hasErrors('name')}? has-error: field-box">
 	       	  <label class="required" th:text="#{order.buy1click.name}" for="name">Name</label> 
-	       	  <input name="name" type="text"/>
+	       	  <input name="name" type="text" th:value="*{name}"/>
 	       	  <p class="text-danger" style="font-size: 10px;" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Bad name</p>
 	       </div>
-	       <div class="field-box">
+	       <div class="field-box" th:class="${#fields.hasErrors('email')}? has-error: field-box">
 	       		<label th:text="#{admin.email}" for="email">Email</label> 
-	       		<input name="email" type="email"/>
+	       		<input name="email" type="email" th:value="*{email}"/>
+	       		<p class="text-danger" style="font-size: 10px;" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Bad email</p>
 	       </div>
 	       <div class="field-box" style="margin-bottom: 20px;">
 	       	   <label th:text="#{rating.rating}">Rating</label>
-			   <input id="rating-input" name="rating" class="rating" data-min="0" data-max="5" data-step="1" data-size="xxs"/>
+			   <input id="rating-input" name="rating" th:value="*{rating}" class="rating" data-min="0" data-max="5" data-step="1" data-size="xxs"/>
+			   <p class="text-danger" style="font-size: 10px;" th:if="${#fields.hasErrors('rating')}" th:errors="*{rating}">Bad rating</p>
 		   </div>
 	       <div class="field-box" th:class="${#fields.hasErrors('name')}? has-error: field-box">
 	       		<label class="required" for="review" th:text="#{raiting.review}"></label> 
-	       		<textarea  name="reviewText" cols="30" rows="3"></textarea>
+	       		<textarea  name="reviewText" cols="30" rows="3" th:value="*{reviewText}"></textarea>
 	       		<p class="text-danger" style="font-size: 10px;" th:if="${#fields.hasErrors('reviewText')}" th:errors="*{reviewText}">Bad text</p>
 	       </div>
 		   <div class="field-box">

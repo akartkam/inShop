@@ -9,6 +9,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.Index;
 import org.hibernate.annotations.NamedNativeQueries;
@@ -61,6 +62,7 @@ public class ReviewDetail extends AbstractDomainObject {
     @Column(name = "RATING")
     @Min(1)
     @Max(5)
+    @NotNull
     public Double getRating() {
 		return rating;
 	}
@@ -152,6 +154,7 @@ public class ReviewDetail extends AbstractDomainObject {
 
 	@Email
 	@Column(name = "EMAIL")
+	@NotEmpty
 	public String getEmail() {
 		return email;
 	}

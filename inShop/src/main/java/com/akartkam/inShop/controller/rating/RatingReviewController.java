@@ -69,6 +69,7 @@ public class RatingReviewController {
     		                 ) throws IOException {
 		if (bindingResult.hasErrors()) {
 			model.addAttribute("org.springframework.validation.BindingResult.ReviewDetail", bindingResult);
+			model.addAttribute("reviewDetail", reviewDetail);
 			return "/rating/partials/submitReview :: submitReviewBlock (itemId='"+itemId+"', ratingType='"+ratingType+"')";
     	} else {
     		try {
