@@ -4,7 +4,7 @@
 	<label th:utext="#{order.store}"></label>
 	<select  name="store" id="sl-stores">
 	    <option value="">&nbsp;</option>
-		<option th:each="st : ${dv.stores}" th:value="${st.id}"
+		<option th:each="st : ${dv.stores}" th:value="${st.id}" th:if="${st.enabled}"
 			th:text="${st.name+'|'+#strings.defaultString(st.address,'')}"
 			th:attr="data-store-address=${st.address}, data-store-phone=${st.phone}, data-store-map=${st.mapScript},
 			data-store-wschedule=${st.workSchedule}, data-store-description=${st.longDescription}">

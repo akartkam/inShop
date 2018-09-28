@@ -17,7 +17,7 @@
 				       </tr>
 				    </thead>
 				    <tbody>
-					    <tr th:each="store: ${beans.DeliveryService.allStores}">
+					    <tr th:each="store: ${beans.DeliveryService.allStores}" th:if="${store.enabled}">
 					      <td> 
 							<div class="store-list-item">
 								<div class="media">
